@@ -1,0 +1,126 @@
+<div class="panel-body prompt-container">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">决策会表决</span>
+	</div>
+	<div class="prompt" ng-if="isLoad && decision == null && historyDecisions == null">
+	     暂无表决项目
+	     <div class="button-group">
+				<div class="row">
+					<div class="option txl">
+						<a class="btn btn-info" href="#/DecisionOverview"><i class="fa fa-reply"></i>返回</a>
+					</div>
+				</div>
+			</div>
+	</div>
+	<form class="form-horizontal ng-pristine ng-valid">
+		<div class="panel" ng-if="decision == null && historyDecisions != null">
+			<div class="panel-heading">
+				<div class="panel-hd-cont"><span class="panel-title">已决策项目<i class="i-triangle"></i></span></div>
+			</div>
+			<div class="panel-body">
+				<ul class="vote-project-list">
+					<li>
+						<div class="row" style="font-weight: bold;">
+							<div class="col-sm-8">项目名称</div>
+							<div class="col-sm-2">最终结果</div>
+							<div class="col-sm-2">我的意见</div>
+						</div>
+					</li>
+					<li ng-repeat="d in historyDecisions">
+						<div class="row">
+							<div class="col-sm-8">
+								<a style="color:blue;" href="#/MeetingVoteResult/{{d.ID}}/{{myCurrUrl|encodeURI}}">{{d.project_name}}</a>
+							</div>
+							<div class="col-sm-2">
+								<span ng-if="1 == d.DECISION_RESULT" style="color:green;">同意</span>
+								<span ng-if="2 == d.DECISION_RESULT" style="color:red;">不同意</span>
+								<span ng-if="3 == d.DECISION_RESULT" style="color:orange;">有条件同意</span>
+								<span ng-if="4 == d.DECISION_RESULT" style="color:purple;">择期决议</span>
+							</div>
+							<div class="col-sm-2">
+								<span ng-if="1 == d.aagreeOrDisagree" style="color:green;">同意</span>
+								<span ng-if="2 == d.aagreeOrDisagree" style="color:red;">不同意</span>
+								<span ng-if="3 == d.aagreeOrDisagree" style="color:orange;">有条件同意</span>
+								<span ng-if="4 == d.aagreeOrDisagree" style="color:purple;">择期决议</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="button-group">
+				<div class="row">
+					<div class="option txl">
+						<a class="btn btn-info" href="#/DecisionOverview"><i class="fa fa-reply"></i>返回</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel" ng-if="historyDecisions == null && decision != null">
+			<div class="panel-heading">
+				<div class="panel-hd-cont"><span class="panel-title">意见表决<i class="i-triangle"></i></span></div>
+			</div>
+			<div class="panel-body">
+				<div class="row vote-tit"><div class="">{{decision.project_name}}</div></div>
+				<div class="row vote-cont">
+					<div class="col-sm-3 vote-opinion">
+						<a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal" data-target="#submitModal"><i class="fa fa-check"></i><span class="text">同意</span></a>
+						<input type="hidden" name="" class="opinion-content" value="1"/>
+					</div>
+					<div class="col-sm-3 vote-opinion">
+						<a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal" data-target="#submitModal"><i class="fa fa-times"></i><span class="text">不同意</span></a>
+						<input type="hidden" name="" class="opinion-content" value="2"/>
+					</div>
+					<div class="col-sm-3 vote-opinion">
+						<a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal" data-target="#submitModal"><i class="fa fa-clipboard"></i><span class="text">有条件同意</span></a>
+						<input type="hidden" name="" class="opinion-content" value="3"/>
+					</div>
+					<div class="col-sm-3 vote-opinion">
+						<a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal" data-target="#submitModal"><i class="fa fa-forward"></i><span class="text">择期决议</span></a>
+						<input type="hidden" name="" class="opinion-content" value="4"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div  id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+			<input type="hidden" name="aagreeOrDisagree"/>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">已选意见</h4>
+					</div>
+					<div class="modal-body">
+						<div class="opinion-cont">您的意见是：<span class="text"></span> </div>
+					</div>
+					<div class="modal-footer txc">
+						<button type="button" class="btn btn-lg btn-default" data-dismiss="modal">取消</button>
+						<a href="javascript:void(0);" type="button" class="btn btn-lg btn-primary" data-dismiss="modal" ng-click="enterDecisionOpinion()">确定</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+//用户设置意见
+function decisionOpinion(thiz) {
+	var opinionText = $(thiz).find(".text").text();
+	var opinionValue =$(thiz).next().val();
+	$("#submitModal .opinion-cont .text").text(opinionText);
+	$("#submitModal input[name='aagreeOrDisagree']").val(opinionValue);
+}
+
+$(function(){
+	var winHeight=$(window).height();
+	var banHeight=$(".navbar-inner").height();
+	var centHeight=winHeight-banHeight;
+	$(".panel-body.prompt-container").css({"min-height":centHeight});
+	$(window).resize(function(){
+		var winHeight=$(window).height();
+		var banHeight=$(".navbar-inner").height();
+		var centHeight=winHeight-banHeight;
+		$(".panel-body.prompt-container").css({"min-height":centHeight});
+	});
+});
+</script>

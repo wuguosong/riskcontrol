@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.meeting.dao.IMeetingMapper">
+
+	<select id="queryCanArrangeProjectListByPage" parameterType="map" resultType="hashmap">
+		 select *
+		  from rcm_v_project_info p
+		 where ((p.project_type = 'bulletin' and p.stage = 2)
+		    or (p.project_type != 'bulletin' and p.stage = 4))
+		 and p.business_id not in
+		       (select dr.FORMAL_ID from rcm_decision_resolution dr)
+		<if test="projectName!=null and projectName!=''"> 
+		 and project_name like '%${projectName}%'
+		</if>
+		 order by NVL(p.APPLY_DATE, p.create_date) desc
+	</select>
+	
+	<select id="queryNotSubmitProjectList" parameterType="map" resultType="hashmap">
+		<![CDATA[
+			select p.* 
+			 from rcm_v_project_info p 
+			 where p.ARRANGE_STATUS <> 2 
+			 order by p.decision_order_index asc
+		]]>
+	</select>
+	
+	<select id="getLastNotSubmitProjectIndex" resultType="int">
+		<![CDATA[
+		  select nvl(max(dr.order_index),0)+1 
+	      from rcm_decision_resolution dr 
+	      where dr.ARRANGE_STATUS <> 2 
+		]]>
+	</select>
+	
+	<insert id="addNotSubmitProject" parameterType="map">
+		insert all
+		<foreach collection="decisions" item="d">
+			into RCM_DECISION_RESOLUTION(ID, ORDER_INDEX, FORMAL_ID, FORMAL_TYPE, ARRANGE_STATUS) 
+			values(#{d.id}, #{d.order_index},#{d.formal_id}, #{d.formal_type,javaType=int,jdbcType=INTEGER}, #{d.arrange_status})
+		</foreach>
+		select 1 from dual
+	</insert>
+	
+	<update id="updateNotSubmitProject" parameterType="map">
+		update RCM_DECISION_RESOLUTION
+		set ARRANGE_STATUS = #{arrangeStatus},
+		MEETING_ISSUE_ID = #{meetingIssueId},
+		ORDER_INDEX = #{projectIndex,javaType=int,jdbcType=INTEGER},
+		OPEN_MEETING_PERSON = #{openMeetingPerson,javaType=java.lang.String,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime}
+		where FORMAL_ID = #{businessid}
+	</update>
+	
+	<update id="updateMeetingStatus" parameterType="map">
+		update RCM_MEETING_ISSUE
+		set STATUS = #{status}
+		where ID = #{id}
+	</update>
+	
+	<insert id="addNotSubmitMeetingIssue" parameterType="map">
+		insert into RCM_MEETING_ISSUE(ID, MEETING_ISSUE, MEETING_ISSUE_NUMBER, MEETING_LEADERS,MEETING_CHAIRMANS,MEETING_TIME,MEETING_TYPE,STATUS) 
+		values(#{mi.ID,javaType=java.lang.String,jdbcType=VARCHAR}, 
+		#{mi.MEETING_ISSUE,javaType=java.lang.String,jdbcType=VARCHAR}, 
+		#{mi.MEETING_ISSUE_NUMBER,javaType=int,jdbcType=INTEGER}, 
+		#{mi.MEETING_LEADERS,javaType=java.lang.String,jdbcType=VARCHAR}, 
+		#{mi.MEETING_CHAIRMANS,javaType=java.lang.String,jdbcType=VARCHAR}, 
+		#{mi.MEETING_TIME,javaType=java.util.Date,jdbcType=DATE}, 
+		#{mi.MEETING_TYPE,javaType=java.lang.String,jdbcType=VARCHAR}, 
+		#{mi.STATUS,javaType=java.lang.String,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateNotSubmitMeetingIssue" parameterType="map">
+		update RCM_MEETING_ISSUE 
+		set MEETING_ISSUE = #{mi.MEETING_ISSUE,javaType=java.lang.String,jdbcType=VARCHAR},
+		MEETING_ISSUE_NUMBER = #{mi.MEETING_ISSUE_NUMBER,javaType=int,jdbcType=INTEGER},
+		MEETING_LEADERS = #{mi.MEETING_LEADERS,javaType=java.lang.String,jdbcType=VARCHAR},
+		MEETING_CHAIRMANS = #{mi.MEETING_CHAIRMANS,javaType=java.lang.String,jdbcType=VARCHAR},
+		MEETING_TIME = #{mi.MEETING_TIME,javaType=java.util.Date,jdbcType=DATE},
+		MEETING_TYPE = #{mi.MEETING_TYPE,javaType=java.lang.String,jdbcType=VARCHAR},
+		STATUS = #{mi.STATUS,javaType=java.lang.String,jdbcType=VARCHAR} 
+		where ID = #{mi.ID}
+	</update>
+	
+	<update id="updateNotSubmitMeetingIssueStatus" parameterType="map">
+		update RCM_MEETING_ISSUE
+		set STATUS = #{status,javaType=java.lang.String,jdbcType=VARCHAR}
+		where ID = #{id}
+	</update>
+	
+	<delete id="removeNotSubmitProject" parameterType="map">
+		delete from RCM_DECISION_RESOLUTION
+		where ID = #{project.DECISION_ID}
+	</delete>
+	
+	<select id="countProject" resultType="int" parameterType="map">
+		select count(1)
+		from rcm_decision_resolution r
+		where r.meeting_issue_id = #{meetingIssueId}
+	</select>
+	
+	<select id="queryProjectInfoByMeetingId" parameterType="map" resultType="map">
+		select * from rcm_v_project_info p 
+		where p.meeting_issue_id = #{meetingIssueId}
+		order by p.decision_order_index
+	</select>
+	
+	<delete id="removeMeetingProject" parameterType="map">
+		delete from RCM_DECISION_RESOLUTION 
+		where ID = #{id} and VOTE_STATUS = 0
+	</delete>
+	
+	<update id="updateSubmitMeetingInfo" parameterType="map">
+		update RCM_MEETING_ISSUE 
+		set MEETING_LEADERS = #{mi.MEETING_LEADERS,javaType=java.lang.String,jdbcType=VARCHAR},
+		MEETING_CHAIRMANS = #{mi.MEETING_CHAIRMANS,javaType=java.lang.String,jdbcType=VARCHAR},
+		MEETING_TIME = #{mi.MEETING_TIME,javaType=java.util.Date,jdbcType=DATE},
+		MEETING_TYPE = #{mi.MEETING_TYPE,javaType=java.lang.String,jdbcType=VARCHAR}
+		where ID = #{mi.ID}
+	</update>
+	
+	<update id="updateSubmitMeetingProjectInfo" parameterType="map">
+		update RCM_DECISION_RESOLUTION
+		set ORDER_INDEX = #{p.DECISION_ORDER_INDEX}
+		where ID = #{p.DECISION_ID}
+	</update>
+	
+	<select id="queryContainTodayDate" parameterType="map" resultType="map">
+		<![CDATA[
+		select mi.* from rcm_meeting_issue mi
+		where #{todayDate,jdbcType=DATE} <= mi.meeting_time 
+		]]>
+	</select>
+	
+	<select id="getLastProjIndeByMeetId" resultType="int">
+		<![CDATA[
+		  select nvl(max(dr.order_index),0)+1 
+	      from rcm_decision_resolution dr 
+	      where dr.ARRANGE_STATUS = 2 and dr.meeting_issue_id = #{meetId,jdbcType=VARCHAR}
+		]]>
+	</select>
+</mapper>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="gt-ie8 gt-ie9 not-ie">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>盈合同管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<link href="assets/stylesheets/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="assets/stylesheets/pixel-admin.css" rel="stylesheet" type="text/css" />
+<link href="assets/stylesheets/widgets.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/stylesheets/rtl.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/stylesheets/themes.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="assets/javascripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="assets/javascripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular.js"></script>
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-cookies.js"></script>
+<script type="text/javascript" src="assets/javascripts/tree-grid-directive.js"></script>
+<link href="assets/javascripts/treeGrid.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="theme-adminflare main-menu-animated main-navbar-fixed main-menu-fixed ng-scope dont-animate-mm-content-sm animate-mm-md animate-mm-lg mmc" ng-app="ctmApp">
+
+<script>var init = [];</script>
+
+<div id="main-wrapper"  ng-controller="SysControl" >
+	<div id="main-navbar" class="navbar navbar-inverse" role="navigation">
+		<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>
+
+		<div class="navbar-inner">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">
+					<div><img alt="Pixel Admin" src="assets/images/pixel-admin/main-navbar-logo.png"></div><span class="text">北控水务后台管理系统</span>
+				</a>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
+			</div>
+
+			<div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
+				<div>
+					<div class="right clearfix">
+						<ul class="nav navbar-nav pull-right right-navbar-nav">
+							<li>
+								<form class="navbar-form pull-left">
+									<input type="text" class="form-control" placeholder="请输入关键字...">
+								</form>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
+									<img src="assets/demo/avatars/1.jpg" alt="">
+									<span>{{credentials.userID}}</span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#"><span class="label label-warning pull-right">New</span>个人资料</a></li>
+									<li><a href="#"><span class="badge badge-primary pull-right">New</span>账户</a></li>
+									<li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;设置</a></li>
+									<li class="divider"></li>
+									<li><a href="signin.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;退出</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="main-menu" role="navigation">
+		<div id="main-menu-inner">
+			<ul class="navigation">
+				<li>
+					<a href="index.html"><i class="menu-icon fa fa-tasks"></i><span class="mm-text">菜单管理</span></a>
+				</li>
+				<li>
+					<a href="organize-manage.html"><i class="menu-icon fa fa-sitemap"></i><span class="mm-text">组织管理</span></a>
+				</li>
+				<li>
+					<a href="user-manage.html"><i class="menu-icon fa fa-user"></i><span class="mm-text">用户管理</span></a>
+				</li>
+				<li>
+					<a href="role-manage.html"><i class="menu-icon fa fa-user-md"></i><span class="mm-text">角色管理</span></a>
+				</li>
+				<li>
+					<a href="authority-manage.html"><i class="menu-icon fa fa-gears"></i><span class="mm-text">权限管理</span></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="content-wrapper" class="wrapper no-menu">
+		<div class="wrap-info">
+			<form method="post" action="" class="form-horizontal ng-pristine ng-valid">
+				<div class="panel-body">
+					<div class="panel">
+						<div class="panel-heading"><span class="panel-title">新增角色基本信息</span></div>
+						<div class="panel-body">
+							<div class="form-group row">
+								<label class="col-sm-2 control-label">用户编码：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+								<label class="col-sm-2 control-label">用户名：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 control-label">角色：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+								<label class="col-sm-2 control-label">组织：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 control-label">手机号码：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+								<label class="col-sm-2 control-label">邮箱地址：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 control-label">密码：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+								<label class="col-sm-2 control-label">确认密码：</label>
+								<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							</div>
+							<div class="form-group row last-group">
+								<div class="txc">
+									<button class="btn">取消</button>
+									<button class="btn btn-success">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="main-menu-bg"></div>
+</div>
+<script type="text/javascript"> window.jQuery || document.write('<script src="assets/javascripts/jquery-1.8.3.min.js">'+"<"+"/script>"); </script>
+<script src="assets/javascripts/bootstrap.min.js"></script>
+<script src="assets/javascripts/pixel-admin.min.js"></script>
+
+<script type="text/javascript">
+	init.push(function () {
+		// Javascript code here
+	})
+	window.PixelAdmin.start(init);
+</script>
+
+
+
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>
+<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="appRoute.js"></script>
+<script src="assets/javascripts/popWindow.js"></script>
+<script type="text/javascript" src="assets/javascripts/dialog.js"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		//查询关闭&展示
+		$(".panel-heading").find(".ico-dorp").click(function(){
+			$(this).toggleClass("fa-plus");
+			$(this).toggleClass("fa-minus");
+			$(this).parents(".panel-heading").siblings(".panel-body").stop().slideToggle(300);
+		});
+		//菜单关闭&展示
+		$(".wrap-info .menuico").toggle(function(){
+			$(this).addClass("glyphicon-menu-right").removeClass("glyphicon-menu-left");
+			$(this).parents(".wrapper").stop().animate({"margin-left":"-150px"},300);
+		},function(){
+			$(this).addClass("glyphicon-menu-left").removeClass("glyphicon-menu-right");
+			$(this).parents(".wrapper").stop().animate({"margin-left":"0"},300);
+		});
+		//二级菜单关闭&展示
+		$(".menu-bd .list").children("li").click(function(){
+			var dropDown = $(this).find(".sub-list");
+			var togClass=$(this).find(".ico");
+			$(".menu-bd .list li .sub-list").not(dropDown).slideUp(300);
+			$(".menu-bd .list li .ico").not(togClass).removeClass("fa-minus");
+			dropDown.slideToggle(300);
+			togClass.toggleClass("fa-minus");
+		});
+		//收藏
+		$(".ico-wrap .fa-star").click(function(){
+			$(this).toggleClass("red-star");
+		});
+		//分配角色弹层
+		$(".allot").click(function(){
+			Visa.NoticePopup.show();
+		});
+		$("#pub-notice .ico-x").click(function(){
+			$("#js-index-popup").hide(300);
+			$("#_Dialog_maskwrap").hide(100);
+		});
+	});
+//-->
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+.widget-followers .follower-avatar {
+  float: right;
+  margin-left: 10px;
+  margin-right: 0;
+}
+.widget-followers .follower-controls {
+  float: left;
+}

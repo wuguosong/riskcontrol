@@ -1,0 +1,3246 @@
+<div class="panel-body">
+	<form name="FormalReviewReport" id="FormalReviewReport" class="form-horizontal ng-pristing ng-valid">
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{title}}</span>
+			</div>
+			<div class="panel-group">
+				<div class="panel">
+					<input type="hidden" ng-model="formalReport.controllerVal">
+					<input type="hidden" ng-model="formalReport.projectFormalId">
+					<input type="hidden" ng-model="formalReport.projectName">
+					<input type="hidden" ng-model="formalReport.reportingUnit">
+					<div id="flag1-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPub">
+							<span class="text">1.项目概况<i class="i-triangle"></i></span>
+						</a>
+					</div> <!-- / .panel-heading -->
+					<div id="projectOverviewPub" class="panel-collapse collapse projectOverviewPub">
+						<div class="panel-body ">
+							<div class="special-form">
+								<div class="row">
+									<textarea name="" ng-model="formalReport.projectOverview" rows="1" cols="1" class="form-control"  placeholder="例如：项目由XX事业部通过XX途径获得，我方接手后由XX事业部负责运营，本项目的盈利模式为XX。"></textarea>
+								</div>
+								<div class="row">
+									<div class="row-tit">项目背景信息</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-2 control-label">项目名称</label>
+									<div class="col-sm-10">
+										<input type="text" readonly ng-model="formalReport.projectName" class="form-control" id="projectName" name="projectName"/>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>项目来源</label>
+									<div class="col-sm-10">
+										<textarea name="projectSource" id="projectSource" ng-model="formalReport.projectSource" rows="" cols="" class="form-control" placeholder="公开招投标/协议谈判/已有项目扩建等。以下可填写详细描述"></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-2 control-label">项目模式</label>
+									<div class="col-sm-10">
+										<label class="checkbox-inline num-box">
+											<input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.projectTypeBT" ng-change="changePr('BT')" id="projectTypeBT" name="projectType" value="1"/>
+											<span class="lbl">BT(开发类PPP)</span>
+											<input type="text" id="BTnum" ng-change="oneNumChage('BT')" ng-model="formalReport.BTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+										</label>
+										<label class="checkbox-inline num-box">
+											<input ng-disabled="actionparm== 'View'" type="checkbox" class="px" id="projectTypeGSBOT" ng-model="formalReport.projectTypeGSBOT" ng-change="changePr('GSBOT')"  name="projectType" value="2"/>
+											<span class="lbl">供水BOT</span>
+											<input type="text" name="num" id="GSBOTnum" ng-model="formalReport.GSBOTnum" ng-change="oneNumChage('GSBOT')" class="form-control num" maxlength="3"/><span class="unit">个</span>
+										</label>
+										<label class="checkbox-inline num-box">
+											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeGSTOT" ng-model="formalReport.projectTypeGSTOT" ng-change="changePr('GSTOT')"  class="px" name="projectType" value="3"/>
+											<span class="lbl">供水TOT</span>
+											<input type="text" id="GSTOTnum" ng-change="oneNumChage('GSTOT')" ng-model="formalReport.GSTOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+										</label>
+										<label class="checkbox-inline num-box">
+											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeSanitation" ng-model="formalReport.projectTypeSanitation" ng-change="changePr('Sanitation')"  class="px" name="projectType" value="4"/>
+											<span class="lbl">环卫</span>
+											<input type="text" id="Sanitationnum" ng-change="oneNumChage('Sanitation')" ng-model="formalReport.Sanitationnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-2 control-label regionalContext"></label>
+									<div class="col-sm-10">
+										<label class="checkbox-inline num-box">
+											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeCommissionedOperation" ng-model="formalReport.projectTypeCommissionedOperation" ng-change="changePr('CommissionedOperation')"  class="px" name="projectType" value="5"/>
+											<span class="lbl">委托运营</span>
+											<input type="text" id="CommissionedOperationnum" ng-change="oneNumChage('CommissionedOperation')" ng-model="formalReport.CommissionedOperationnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+										</label>
+										<label class="checkbox-inline num-box">
+											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeWSBOT" ng-model="formalReport.projectTypeWSBOT" ng-change="changePr('WSBOT')"  class="px" name="projectType" value="6"/>
+											<span class="lbl">污水BOT</span>
+											<input type="text" id="WSBOTnum" ng-change="oneNumChage('WSBOT')" ng-model="formalReport.WSBOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+										</label>
+										<label class="checkbox-inline num-box">
+											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeWSTOT" ng-model="formalReport.projectTypeWSTOT" ng-change="changePr('WSTOT')"  class="px" name="projectType" value="7"/>
+											<span class="lbl">污水TOT</span>
+											<input type="text" id="WSTOTnum" ng-change="oneNumChage('WSTOT')" ng-model="formalReport.WSTOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>区域背景</label>
+									<div class="col-sm-10">
+										<textarea name="regionalBackground" id="regionalBackground" ng-model="formalReport.regionalBackground" rows="" cols="" class="form-control" placeholder="XX市XX年（最近年份）财政可支配财政收入、全省排行、人口等"></textarea>
+									</div>
+								</div>
+								<div class="row" id="regionalBackground2">
+									<label class="col-sm-2 control-label regionalContext"></label>
+									<div class="col-sm-10">
+										<textarea name="" ng-model="formalReport.regionalBackground2" rows="" cols="" class="form-control" placeholder="项目所在地我方已有项目，或者是当地是否有其他污水处理项目"></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>业主情况</label>
+									<div class="col-sm-10">
+										<textarea name="ownerSituation" id="ownerSituation" ng-model="formalReport.ownerSituation" rows="" cols="" class="form-control" placeholder="据实填写（业主是企业的应含企业性质、经营状况、业务范围等）"></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>投资单位</label>
+									<div class="col-sm-4">
+										<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('invertmentUnit','','')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="invertmentUnitName" name="invertmentUnitName" ng-model="formalReport.invertmentUnit.name" value="{{formalReport.invertmentUnit.name}}"  >
+										<input type="hidden" class="form-control"  id="invertmentUnitValue" name="invertmentUnitValue"  ng-model="formalReport.invertmentUnit.value"/>
+										
+									</div>
+									<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>运营单位</label>
+									<div class="col-sm-4">
+										<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('operationsUnit','','')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="operationsUnitName" name="operationsUnitName" ng-model="formalReport.operationsUnit.name" value="{{formalReport.operationsUnit.name}}"  >
+										<input type="hidden"  class="form-control" id="operationsUnitValue" name="operationsUnitValue"  ng-model="formalReport.operationsUnit.value"/>
+									</div>
+								</div>
+							</div>
+						</div> <!-- / .panel-body -->
+					</div> <!-- / .collapse -->
+				</div> <!-- / .panel -->
+
+				<div class="mixed-mode">
+					<div class="mixed-template">
+						<ul class="nav nav-tabs bs-tabdrop">
+						   <li id="bt" name="bt" ng-style="myObjone" ng-repeat="btppone in formalReport.BTPPP track by $index"  on-repeat-tabdrop>
+							   <a href="/#tabdrop-bt{{$index}}" data-toggle="tab">BT(开发类PPP) {{btppone.title}}</a></li>
+
+							<li id="supply-bot" name="supply-bot" ng-style="myObjtwo" ng-repeat="btpptwo in formalReport.WATERSUPPLYBOT track by $index">
+								<a href="/#tabdrop-supply-bot{{$index}}" data-toggle="tab">供水BOT {{btpptwo.title}}</a></li>
+
+							<li id="supply-tot" name="supply-tot" ng-style="myObjthree" ng-repeat="gstotss in formalReport.WATERSUPPLYTOT track by $index">
+								<a href="/#tabdrop-supply-tot{{$index}}" data-toggle="tab">供水TOT {{gstotss.title}}</a></li>
+
+							<li id="sanitation" name="sanitation" ng-style="myObjfour" ng-repeat="gshw in formalReport.HW track by $index">
+								<a href="/#tabdrop-sanitation{{$index}}" data-toggle="tab">环卫 {{gshw.title}}</a></li>
+
+							<li id="entru-oper" name="entru-oper" ng-style="myObjfive" ng-repeat="wtyyss in formalReport.WTYY track by $index">
+								<a href="/#tabdrop-entru-oper{{$index}}" data-toggle="tab">委托运营 {{wtyyss.title}}</a></li>
+
+							<li id="slops-bot" name="slops-bot" ng-style="myObjsix" ng-repeat="wsbotss in formalReport.WSBOT track by $index">
+								<a href="/#tabdrop-slops-bot{{$index}}" data-toggle="tab">污水BOT {{wsbotss.title}}</a></li>
+
+							<li id="slops-tot" name="slops-tot"  ng-style="myObjseven" ng-repeat="wstotss in formalReport.WSTOT track by $index">
+								<a href="/#tabdrop-slops-tot{{$index}}" data-toggle="tab">污水TOT {{wstotss.title}}</a></li>
+						</ul>
+						<div class="tab-content tab-content-bordered">
+							<!--第一个循环开始 <div>-->
+							<div class="tab-pane"  ng-repeat="btpp in formalReport.BTPPP track by $index" id="tabdrop-bt{{$index}}">
+								<div class="panel">
+									<div class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPriBT"><span class="text">1.项目概况<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="projectOverviewPriBT" class="panel-collapse collapse"  on-repeat-render-business-unit>
+										<div class="panel-body special-form">
+											<div class="row">
+												<div class="row-tit">项目投资信息</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">子项目简称</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="btpp.title"  class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">投资主体</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">公司名称</label>
+													<div class="col-sm-4">
+														<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('tenderCompany','btpp',$index)" name="tenderCompany" ng-model="btpp.tenderCompany.name" data-toggle="modal" data-target="#companyUnit-modal"  class="form-control"/>
+														<input type="hidden" class="form-control"  id="tenderCompanyValue" name="tenderCompanyValue"  ng-model="btpp.tenderCompany.value"/>
+													</div>
+													<label class="col-sm-2 control-label">北控水务集团持股</label>
+													<div class="col-sm-4">
+														<input type="text" name="shareholding"  ng-model="btpp.shareholding" class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">资金来源</label>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">银行贷款</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="bankLoan" ng-model="btpp.bankLoan"  class="form-control"/><span class="unit-n">%</span>
+													</div>
+													<label class="col-sm-2 control-label">年利率</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" ng-model="btpp.annualInterestRate"  class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">自有资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="privateCapital" ng-model="btpp.privateCapital"  class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">建设内容</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="btpp.constructionContent" rows="" cols="" class="form-control"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">投资总额</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name=""  ng-model="btpp.totalInvestment" class="form-control"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">具体投资构成</label>
+													<div class="col-sm-4">
+														<textarea name="" rows="" cols=""  ng-model="btpp.investmentComposition" class="form-control"></textarea>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">工程利润</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" ng-model="btpp.engineeringProfit" class="form-control" />
+													<span class="unit-n">%</span>
+												</div>
+												<label class="col-sm-2 control-label">工程款支付进度</label>
+												<div class="col-sm-4">
+													<textarea name="" rows="" ng-model="btpp.paymentSchedule" cols="" class="form-control"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">代建管理费</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" ng-model="btpp.managementExpense" class="form-control" />
+													<span class="unit-s">万元/年</span>
+												</div>
+												<label class="col-sm-2 control-label">各项税费</label>
+												<div class="col-sm-4">
+													<textarea name="" rows="" ng-model="btpp.variousTaxesFees" cols="" class="form-control" placeholder="据实填写，包括但不限于增值税税率、营业税率、所得税税率等" ></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">项目建设期</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" ng-model="btpp.constructionPeriod" class="form-control"/>
+													<span class="unit-n">年</span>
+												</div>
+												<label class="col-sm-2 control-label">回购期</label>
+												<div class="col-sm-4 ">
+													<div class="col-sm-6 has-feedback noleft-pad noright-pad">
+														<input type="text" ng-disabled="actionparm== 'View'" id="" name="" ng-model="btpp.buyBackDate" class="form-control loadtime" placeholder="从XX时间开始回购"/>
+														<i class="fa fa-calendar form-control-feedback" style="right:0;"></i>
+													</div>
+													<div class="col-sm-6 has-feedback noright-pad input-min">
+														<input type="text" name="" ng-model="btpp.buyBackPeriod" class="form-control"/>
+														<span class="unit-m">年</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">回购方式</label>
+												<div class="col-sm-4">
+													<textarea name="" rows="" ng-model="btpp.buyBack"  cols="" class="form-control"></textarea>
+												</div>
+												<label class="col-sm-2 control-label">回购保障</label>
+												<div class="col-sm-4">
+													<textarea name="" rows="" ng-model="btpp.buyBackGuarantee" cols="" class="form-control"></textarea>
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+								<div class="panel">
+									<div id="flag2-c" class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluationBT"><span class="text">2.收益评估<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="incomeEvaluationBT" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row">
+												<textarea name="" rows="1" cols="1" ng-model="btpp.incomeEvaluation" class="form-control">基于水环境开发事业部提供的边界条件、成本费用和建管中心确认的投资及工程利润，经风险控制中心调整后，测算本项目回购期内的重要财务指标如下表所示：</textarea>
+											</div>
+											<div class="row">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目运营期内关键财务指标汇总表（单位：人民币万元）</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center">
+															<thead>
+																<tr>
+																	<th colspan="2">分类</th>
+																	<th>财务指标</th>
+																	<th>第一年</th>
+																	<th>第二年</th>
+																	<th>第三年</th>
+																	<th>第四年</th>
+																	<th>第五年</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="2">正常回购</td>
+																	<td class="min-input">
+																		<span class="text">全投资IRR=</span>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="btpp.normalFullInvestmentIRR" class="form-control" name=""/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackProfitOne" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackProfitTwo" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackProfitThree" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackProfitFour" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackProfitFive" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td class="min-input">
+																		<span class="text">平均ROI=</span>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="btpp.normalAverageROI" class="form-control" name=""/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>净现金流</td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackCashFlowOne" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackCashFlowTwo" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackCashFlowThree" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackCashFlowFour" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.buyBackCashFlowFive" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td rowspan="2">其他方式</td>
+																	<td class="min-input">
+																		<span class="text">全投资IRR=</span>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="btpp.otherFullInvestmentIRR" class="form-control" name=""/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeProfitOne" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeProfitTwo" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeProfitThree" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeProfitFour" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeProfitFive" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td class="min-input">
+																		<span class="text">平均ROI=</span>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="btpp.otherAverageROI" class="form-control" name=""/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>净现金流</td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeCashOne" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeCashTwo" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeCashThree" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeCashFour" class="form-control" /></td>
+																	<td><input type="text" name="" ng-model="btpp.otherModeCashFive" class="form-control" /></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="stated">
+													注：表2 数据应统一保留两位小数，并将负数标注红色；
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--第一个循环结束</div>-->
+							<!--第一个循环开始-->
+							<div class="tab-pane"  ng-repeat="gsbot in formalReport.WATERSUPPLYBOT track by $index" id="tabdrop-supply-bot{{$index}}">
+								<div class="panel">
+									<div class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPriDB"><span class="text">1.项目概况<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="projectOverviewPriDB" class="panel-collapse collapse">
+										<div class="panel-body special-form">
+											<div class="row">
+												<div class="row-tit">项目基础信息</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">子项目简称</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="gsbot.title"  class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">服务范围</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="gsbot.scopeOfService" rows="" cols="" class="form-control" placeholder="请填写管网建设信息，是否建设完成，是否需要我方建设"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">取水水源</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="gsbot.waterIntake" rows="" cols="" class="form-control"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">自来水价格</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="gsbot.runningWaterPrice" rows="" cols="" class="form-control" placeholder="本项目的价格构成"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">收入构成及预测</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="gsbot.incomeCompositionAndForecast" rows="" cols="" class="form-control" placeholder="主要是指项目的利润来源主要包括哪几块，若自来水供水、安装业务、水表业务等。据实填写，具体项目的售水量预测（收入预测）详见附件1"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">特许经营期</label>
+												<div class="col-sm-2">
+													<label class="checkbox-inline">
+														<input class="px" type="checkbox" ng-disabled="actionparm== 'View'" ng-model="gsbot.containConstructionPeriod" ng-change="changeInvestmentModel()" id="containConstructionPeriod" name="containConstructionPeriod">
+														<span class="lbl">含建设期</span>
+													</label>
+												</div>
+												<div class="col-sm-2 noleft-pad has-feedback left-mar10">
+													<input type="text" ng-model="gsbot.franchisePeriod" name="" class="form-control" /><span class="unit-n">年</span>
+												</div>
+												<label class="col-sm-2 control-label">建设期</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.constructionPeriod" name="" class="form-control" /><span class="unit-n">年</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">产销差率</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.salesSlip" name="" class="form-control" />
+													<span class="unit-n">%</span>
+												</div>
+												<label class="col-sm-2 control-label">水费回收率</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.waterRateRecovery" name="" class="form-control" />
+													<span class="unit-n">%</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">合同规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.contractScale" name="" class="form-control" /><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">评审规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.evaluationScale" name="" class="form-control" /><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="row-tit">项目投资信息</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">投资主体</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">公司名称</label>
+													<div class="col-sm-4">
+														<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('tenderCompany','gsbot',$index)"  ng-model="gsbot.tenderCompany.name" name="tenderCompany" data-toggle="modal" data-target="#companyUnit-modal" class="form-control"/>
+														<input type="hidden" class="form-control" ng-model="gsbot.tenderCompany.value"/>
+													</div>
+													<label class="col-sm-2 control-label">北控水务集团持股</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.investmentSubjectPercentage" name="shareholding" class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">资金来源</label>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">银行贷款</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.sourcesOfFunds" name="bankLoan" class="form-control"/><span class="unit-n">%</span>
+													</div>
+													<label class="col-sm-2 control-label">年利率</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.annualInterestRate" name="" class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">自有资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.sourcesOfFundsPercentage" name="privateCapital" class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">项目总投资</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">投资总额</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.totalInvestment" name="" class="form-control" />
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">一类费用</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.oneKindOfCost" name="" class="form-control" />
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">二类费用</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.twoKindOfCost" name="" class="form-control" />
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">补充调试费</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.supplementaryCommissioningFee" name="" class="form-control" />
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">辅底流动资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.secondaryFloorLiquidity" name="" class="form-control" />
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">其他</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" ng-model="gsbot.other" name="" class="form-control" />
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">人员安置方案</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="gsbot.personnelPlacementProgram" rows="" cols="" class="form-control" placeholder="根据人力资源尽调据实填写，请重点关注"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水经营成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.operatingCostOfWater" name="" class="form-control" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水总成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.totalWaterCost" name="" class="form-control" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水管理费用</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.waterManagementFee" name="" class="form-control" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水利润</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.profitOfWater" name="" class="form-control" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水人工成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.waterLaborCost" name="" class="form-control" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">年度人均创利</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="gsbot.theAverageProfit" name="" class="form-control" />
+													<span class="unit-mpy">万元/人/年</span>
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+								<div class="panel">
+									<div id="flag2-c" class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluationDB"><span class="text">2.收益评估<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="incomeEvaluationDB" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row">
+												<textarea name="" ng-model="gsbot.incomeEvaluation" rows="1" cols="1" class="form-control">基于XX事业部提供的边界条件和技术中心确认的成本及投资，经风险控制中心调整，考虑总投资额XX.XX万元，水价XX.XX元/吨，本项目各项财务指标如下：</textarea>
+											</div>
+											<div class="row">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目各项财务指标表</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center">
+															<thead>
+																<tr>
+																	<th>指标分类</th>
+																	<th>指标名称</th>
+																	<th>本项目指标</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="3">投资指标</td>
+																	<td>全投资内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.allInternalRateOfReturn" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>自有资金内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.haveInternalRateOfReturn" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>全投资静态回收期</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.staticPaybackPeriod" name="" class="form-control" />
+																			<span class="percent">年</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td rowspan="2">财务指标</td>
+																	<td>运营期平均ROE</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.averageROE" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>运营期平均ROI</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.averageROI" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>现金流指标</td>
+																	<td>自有资金前五年现金净流量</td>
+																	<td><input type="text" ng-model="gsbot.netCashFlow" name="" class="form-control" /></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="row nobottom-mar">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目运营前5年关键财务指标汇总表（单位：人民币万元）</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+															<thead>
+																<tr>
+																	<th>分类</th>
+																	<th>财务指标</th>
+																	<th>投资期</th>
+																	<th>第一年</th>
+																	<th>第二年</th>
+																	<th>第三年</th>
+																	<th>第四年</th>
+																	<th>第五年</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="4">全投资</td>
+																	<td>净利润</td>
+																	<td><input type="text" ng-model="gsbot.netProfitAll" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitAllOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitAllTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitAllThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitAllFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitAllFive" name="" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td>ROI</td>
+																	<td><input type="text" ng-model="gsbot.ROI" name="" class="form-control" /></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROIOne" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROITwo" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROIThree" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROIFour" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROIFive" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>投资活动现金流</td>
+																	<td><input type="text" ng-model="gsbot.activeCashFlow" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.activeCashFlowOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.activeCashFlowTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.activeCashFlowThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.activeCashFlowFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.activeCashFlowFive" name="" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td>经营活动现金净流</td>
+																	<td><input type="text" ng-model="gsbot.operatingCashFlow" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.operatingCashFlowOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.operatingCashFlowTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.operatingCashFlowThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.operatingCashFlowFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.operatingCashFlowFive" name="" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td rowspan="4">自有资金</td>
+																	<td colspan="7" class="tr-max"><textarea name="" ng-model="gsbot.ownFunds" rows="1" cols="1" class="form-control">融资边界条件：XX万元贷款，利率为XX%（当前人行基准利率上浮5%）</textarea></td>
+																</tr>
+																<tr>
+																	<td>净利润</td>
+																	<td><input type="text" ng-model="gsbot.netProfit" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.netProfitFive" name="" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td>ROE</td>
+																	<td><input type="text" ng-model="gsbot.ROE" name="" class="form-control" /></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROEOne" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROETwo" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROEThree" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROEFour" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" ng-model="gsbot.ROEFive" name="" class="form-control" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>自有资金现金净流</td>
+																	<td><input type="text" ng-model="gsbot.itsNetCashFlow" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.itsNetCashFlowOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.itsNetCashFlowTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.itsNetCashFlowThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.itsNetCashFlowFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.itsNetCashFlowFive" name="" class="form-control" /></td>
+																</tr>
+																<tr>
+																	<td colspan="2">北控水务分红现金流</td>
+																	<td><input type="text" ng-model="gsbot.dividendCashFlow" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.dividendCashFlowOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.dividendCashFlowTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.dividendCashFlowThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.dividendCashFlowFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gsbot.dividendCashFlowFive" name="" class="form-control" /></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-1 control-label">备注</label>
+												<div class="col-sm-11 noright-pad">
+													<textarea class="form-control" ng-model="gsbot.content" cols="" rows="" name=""></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="stated">
+													注：1）如果不适用项目借款，自有资金部分划横线，并在表下加注说明；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2）表2 数据应统一保留两位小数，并将负数标注红色；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3）若前三年自有现金流为负，提示项目初期财务生存能力差，可能需集团提供流动资金。<br>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--第二个循环结束-->
+							<div class="tab-pane" ng-repeat="gstot in formalReport.WATERSUPPLYTOT track by $index" id="tabdrop-supply-tot{{$index}}">
+								<div class="panel">
+									<div class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPriDT"><span class="text">1.项目概况<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="projectOverviewPriDT" class="panel-collapse collapse">
+										<div class="panel-body special-form">
+											<div class="row">
+												<div class="row-tit">项目基础信息</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">子项目简称</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="gstot.title"  class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">服务范围</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gstot.scopeOfService" placeholder="请填写管网建设信息，是否建设完成，是否需要我方建设"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">项目运营状况</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gstot.operationStatus" placeholder="项目已运营XX年，现有运行状况如何，是否能够稳定供水"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">取水水源</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gstot.waterIntake"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">自来水价格</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gstot.runningWaterPrice" placeholder="本项目的价格构成"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">收入构成及预测</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols=""  ng-model="gstot.incomeComposition" class="form-control" placeholder="主要是指项目的利润来源主要包括哪几块，若自来水供水、安装业务、水表业务等。据实填写，具体项目的售水量预测（收入预测）详见附件1"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">特许经营期</label>
+												<div class="col-sm-2">
+													<label class="checkbox-inline">
+														<input class="px" type="checkbox" ng-disabled="actionparm== 'View'" ng-model="gstot.containConstructionPeriod" ng-change="changeInvestmentModel()">
+														<span class="lbl">含建设期</span>
+													</label>
+												</div>
+												<div class="col-sm-2 noleft-pad has-feedback left-mar10">
+													<input type="text" name="" class="form-control" ng-model="gstot.operatingPeriod" /><span class="unit-n">年</span>
+												</div>
+												<label class="col-sm-2 control-label">建设期</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.constructionPeriod" /><span class="unit-n">年</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">产销差率</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.salesSlip"/>
+													<span class="unit-n">%</span>
+												</div>
+												<label class="col-sm-2 control-label">水费回收率</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.waterRateRecovery"/>
+													<span class="unit-n">%</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">合同规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.contractScale"/><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">评审规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.evaluationScale"/><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="row-tit">项目投资信息</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">投资主体</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">公司名称</label>
+													<div class="col-sm-4">
+														<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('tenderCompany','gstot',$index)" name="tenderCompany" class="form-control" ng-model="gstot.tenderCompany.name" data-toggle="modal" data-target="#companyUnit-modal" />
+														<input type="hidden" class="form-control" ng-model="gstot.tenderCompany.value"/>
+													</div>
+													<label class="col-sm-2 control-label">北控水务集团持股</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="shareholding" ng-model="gstot.shareholding" class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">资金来源</label>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">银行贷款</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="bankLoan" class="form-control" ng-model="gstot.bankLoan"/><span class="unit-n">%</span>
+													</div>
+													<label class="col-sm-2 control-label">年利率</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gstot.annualInterestRate"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">自有资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="privateCapital" class="form-control" ng-model="gstot.privateCapital"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label" >项目总投资</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label" >投资总额</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" ng-model="gstot.totalInvestment" class="form-control" />
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">一类费用</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gstot.oneKindOfCost"/>
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">二类费用</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gstot.twoKindOfCost"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">补充调试费</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gstot.debuggingCost"/>
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">辅底流动资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gstot.workingCapital"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">其他</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gstot.other" />
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">人员安置方案</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gstot.personnelPlacementProgram"  placeholder="">根据人力资源尽调据实填写，请重点关注</textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水经营成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.operatingCostOfWater" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水总成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.totalWaterCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水管理费用</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.waterManagementFee" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水利润</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.profitOfWater"  />
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水人工成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.waterLaborCost"  />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">年度人均创利</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gstot.theAverageProfit" />
+													<span class="unit-mpy">万元/人/年</span>
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+								<div class="panel">
+									<div id="flag2-c" class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluationDT"><span class="text">2.收益评估<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="incomeEvaluationDT" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row">
+												<textarea name="" rows="1" cols="1" class="form-control" ng-model="gstot.incomeEvaluation">基于XX事业部提供的边界条件和技术中心确认的成本及投资，经风险控制中心调整，考虑总投资额XX.XX万元，水价XX.XX元/吨，本项目各项财务指标如下：</textarea>
+											</div>
+											<div class="row">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目各项财务指标表</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+															<thead>
+																<tr>
+																	<th>指标分类</th>
+																	<th>指标名称</th>
+																	<th>本项目指标</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="3">投资指标</td>
+																	<td>全投资内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.allInternalRateOfReturn"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>自有资金内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.haveInternalRateOfReturn" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>全投资静态回收期</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.staticPaybackPeriod"/>
+																			<span class="percent">年</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td rowspan="2">财务指标</td>
+																	<td>运营期平均ROE</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.averageROE" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>运营期平均ROI</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.averageROI"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>现金流指标</td>
+																	<td>自有资金前五年现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netCashFlow"/></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="row nobottom-mar">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目运营前5年关键财务指标汇总表（单位：人民币万元）</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+															<thead>
+																<tr>
+																	<th>分类</th>
+																	<th>财务指标</th>
+																	<th>投资期</th>
+																	<th>第一年</th>
+																	<th>第二年</th>
+																	<th>第三年</th>
+																	<th>第四年</th>
+																	<th>第五年</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="4">全投资</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitAll"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitAllOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitAllTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitAllThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitAllFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitAllFive"/></td>
+																</tr>
+																<tr>
+																	<td>ROI</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.ROI"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROIOne" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROITwo"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROIThree" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROIFour" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROIFive"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>投资活动现金流</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.activeCashFlow"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.activeCashFlowOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.activeCashFlowTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.activeCashFlowThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.activeCashFlowFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.activeCashFlowFive"/></td>
+																</tr>
+																<tr>
+																	<td>经营活动现金净流</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.operatingCashFlow"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.operatingCashFlowOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.operatingCashFlowTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.operatingCashFlowThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.operatingCashFlowFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.operatingCashFlowFive"/></td>
+																</tr>
+																<tr>
+																	<td rowspan="4">自有资金</td>
+																	<td colspan="7" class="tr-max"><textarea name="" ng-model="gstot.ownFunds" rows="1" cols="1" class="form-control">融资边界条件：XX万元贷款，利率为XX%（当前人行基准利率上浮5%）</textarea></td>
+																</tr>
+																<tr>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfit"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.netProfitFive"/></td>
+																</tr>
+																<tr>
+																	<td>ROE</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.ROE"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROEOne"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROETwo"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROEThree" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROEFour"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gstot.ROEFive" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>自有资金现金净流</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.itsNetCashFlow" /></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.itsNetCashFlowOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.itsNetCashFlowTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.itsNetCashFlowThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.itsNetCashFlowFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gstot.itsNetCashFlowFive"/></td>
+																</tr>
+																<tr>
+																	<td colspan="2">北控水务分红现金流</td>
+																	<td><input type="text" ng-model="gstot.dividendCashFlow" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gstot.dividendCashFlowOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gstot.dividendCashFlowTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gstot.dividendCashFlowThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gstot.dividendCashFlowFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="gstot.dividendCashFlowFive" name="" class="form-control" /></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+
+											</div>
+											<div class="row">
+												<label class="col-sm-1 control-label">备注</label>
+												<div class="col-sm-11 noright-pad">
+													<textarea class="form-control" ng-model="gstot.content" cols="" rows="" name=""></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="stated">
+													注：1）如果不适用项目借款，自有资金部分划横线，并在表下加注说明；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2）表2 数据应统一保留两位小数，并将负数标注红色；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3）若前三年自有现金流为负，提示项目初期财务生存能力差，可能需集团提供流动资金。<br>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" ng-repeat="gshw in formalReport.HW track by $index" id="tabdrop-sanitation{{$index}}">
+								<div class="panel">
+									<div class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPriSA"><span class="text">1.项目概况<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="projectOverviewPriSA" class="panel-collapse collapse">
+										<div class="panel-body special-form">
+											<div class="row">
+												<div class="row-tit">项目基础信息</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">子项目简称</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="gshw.title"  class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">服务范围</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gshw.scopeOfService" placeholder="如实填写"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">服务费</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gshw.serviceFee"/><span class="unit-my">万元</span>
+												</div>
+												<label class="col-sm-2 control-label">付费方式</label>
+												<div class="col-sm-4 has-feedback">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gshw.payMethod" placeholder="根据考核成绩月付，具体如下：XX"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">合同规模</label>
+												<div class="col-sm-4">
+													<textarea name="" rows="" cols="" class="form-control"   ng-model="gshw.contractSize" placeholder="据实描述"></textarea>
+												</div>
+												<label class="col-sm-2 control-label">评审规模</label>
+												<div class="col-sm-4">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gshw.reviewSize" placeholder="据实描述"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="row-tit">项目投资信息</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">投资主体</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">公司名称</label>
+													<div class="col-sm-4">
+														<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('tenderCompany','gshw',$index)" name="tenderCompany" class="form-control" ng-model="gshw.tenderCompany.name" data-toggle="modal" data-target="#companyUnit-modal" />
+														<input type="hidden" class="form-control" ng-model="gshw.tenderCompany.value"/>
+													</div>
+													<label class="col-sm-2 control-label">北控水务集团持股</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="shareholding" class="form-control" ng-model="gshw.bewg"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">资金来源</label>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">银行贷款</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="bankLoan" class="form-control" ng-model="gshw.bankLoan"/><span class="unit-n">%</span>
+													</div>
+													<label class="col-sm-2 control-label">年利率</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gshw.annualInterestRate"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">自有资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="privateCapital" class="form-control" ng-model="gshw.ownMoney"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">项目总投资</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">投资总额</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gshw.aggregateInvestment"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">设备新设</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gshw.equipmentNew"/>
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">辅底流动资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="gshw.takingLowLiquidity"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">其他</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control"ng-model="gshw.other"/>
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">租赁费用</label>
+												<div class="col-sm-4">
+													<input type="text" name="" class="form-control" ng-model="gshw.rentalFees"/>
+												</div>
+												<label class="col-sm-2 control-label">人员安置方案</label>
+												<div class="col-sm-4">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="gshw.personnelPlacementProgram" placeholder="根据人力资源尽调如实填写"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水经营成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gshw.operatingCostOfWater"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水总成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gshw.totalWaterCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水管理费用</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gshw.waterManagementFee"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水利润</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gshw.profitOfWater"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水人工成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gshw.waterLaborCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">年度人均创利</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gshw.theAverageProfit"/>
+													<span class="unit-mpy">万元/人/年</span>
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+								<div class="panel">
+									<div id="flag2-c" class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluationSA"><span class="text">2.收益评估<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="incomeEvaluationSA" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row">
+												<textarea name="" rows="1" cols="1" class="form-control" ng-model="gshw.baseMoney">基于初期总投资XX.XX万元，每年XX.XX万元环卫服务收入，项目全投资内部收益率XX.XX%（暂不考虑借款），项目平均净利润率XX.XX%。</textarea>
+											</div>
+											<div class="row">		
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目运营期内关键财务指标汇总表（单位：人民币万元）</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+															<thead>
+																<tr>
+																	<th>财务指标</th>
+																	<th>投资期</th>
+																	<th>第一年</th>
+																	<th>第二年</th>
+																	<th>第三年</th>
+																	<th>第四年</th>
+																	<th>第五年</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td>净利润A</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.netProfit"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.netProfitOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.netProfitTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.netProfitThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.netProfitFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.netProfitFive"/></td>
+																</tr>
+																<tr>
+																	<td>投资额基数B</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentBase"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentBaseOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentBaseTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentBaseThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentBaseFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentBaseFive"/></td>
+																</tr>
+																<tr>
+																	<td>ROI(A/B)</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.ROI"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gshw.ROIOne"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gshw.ROITwo"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gshw.ROIThree"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gshw.ROIFour"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gshw.ROIFive"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>投资活动现金流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentActivity"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentActivityOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentActivityTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentActivityThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentActivityFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.investmentActivityFive"/></td>
+																</tr>
+																<tr>
+																	<td>经营活动现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.itsNetCashFlow"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.itsNetCashFlowOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.itsNetCashFlowTwo" /></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.itsNetCashFlowThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.itsNetCashFlowFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gshw.itsNetCashFlowFive"/></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" ng-repeat="gswtyy in formalReport.WTYY track by $index" id="tabdrop-entru-oper{{$index}}">
+								<div class="panel">
+									<div class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPriEO"><span class="text">1.项目概况<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="projectOverviewPriEO" class="panel-collapse collapse">
+										<div class="panel-body special-form">
+											<div class="row">
+												<div class="row-tit">项目基础信息</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">子项目简称</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="gswtyy.title"  class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">委托运营期</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.entrustedOperatingPeriod"/><span class="unit-n">年</span>
+												</div>
+												<label class="col-sm-2 control-label">付费方式</label>
+												<div class="col-sm-4 has-feedback">
+													<select ng-model="gswtyy.paymentMethod" ng-options="ot.ITEM_NAME for  ot in payTypeList track by ot.ITEM_CODE"  class="form-control">
+													</select>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">项目工艺</label>
+												<div class="col-sm-4">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.projectCraft" />
+												</div>
+												<label class="col-sm-2 control-label">出水标准</label>
+												<div class="col-sm-4">
+													<select ng-model="gswtyy.waterStandard" ng-options="ot.ITEM_NAME for  ot in csTypeList track by ot.ITEM_CODE"  class="form-control">
+													</select>
+
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">协议水价</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.agreementWaterprice" /><span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">调价周期</label>
+												<div class="col-sm-4">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.priceCicle" />
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">保底水量</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.guaranteedWater"/><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">测算水量</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.measuringWater" /><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">合同规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.projectScale"/><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">评审规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.reviewScale"/><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水经营成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.operatingCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水总成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.totalCost"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水管理费用</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control"ng-model="gswtyy.managementFees" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水利润</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.profits"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水人工成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.laborCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">年度人均创利</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="gswtyy.laborCreate"/>
+													<span class="unit-mpy">万元/人/年</span>
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+								<div class="panel">
+									<div id="flag2-c" class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluationEO"><span class="text">2.收益评估<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="incomeEvaluationEO" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row">
+												<textarea name="" rows="1" cols="1" class="form-control"  ng-model="gswtyy.all">基于上表的主要边界条件，运营期内关键财务指标如下表所示：</textarea>
+											</div>
+											<div class="row">		
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目运营期内关键财务指标汇总表（单位：人民币万元）</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+															<thead>
+																<tr>
+																	<th>NPV(10.00%)</th>
+																	<th>平均收入净利润</th>
+																	<th>财务指标</th>
+																	<th>第一年</th>
+																	<th>第二年</th>
+																	<th>第三年</th>
+																	<th>第四年</th>
+																	<th>第五年</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td><input type="text" name="" class="form-control" ng-model="gswtyy.NPV"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="gswtyy.netProfit"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>现金流</td>
+																	<td><input type="text" name="" class="form-control" ng-model="gswtyy.netProfitOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gswtyy.netProfitTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gswtyy.netProfitThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gswtyy.netProfitFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="gswtyy.netProfitFive"/></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="stated">
+													注：1）表2 数据应统一保留两位小数，并将负数标注红色；<br>
+															&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2）针对前几年现金流有负值的项目，应具体给出说明。<br>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" ng-repeat="wsbot in formalReport.WSBOT track by $index" id="tabdrop-slops-bot{{$index}}">
+								<div class="panel">
+									<div class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPriSB"><span class="text">1.项目概况<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="projectOverviewPriSB" class="panel-collapse collapse">
+										<div class="panel-body special-form">
+											<div class="row">
+												<div class="row-tit">项目基础信息</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">子项目简称</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="wsbot.title"  class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">服务范围</label>
+												<div class="col-sm-10">
+													<textarea name="" rows="" cols="" class="form-control" ng-model="wsbot.serviceArea" placeholder="请填写管网建设信息，是否建设完成，是否需要我方建设"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">特许经营期</label>
+												<div class="col-sm-2">
+													<label class="checkbox-inline">
+														<input class="px" type="checkbox" ng-disabled="actionparm== 'View'" ng-model="wsbot.containConstructionPeriod" ng-change="changeInvestmentModel()"/>
+														<span class="lbl">含建设期</span>
+													</label>
+												</div>
+												<div class="col-sm-2 noleft-pad has-feedback left-mar10">
+													<input type="text" name="" class="form-control" ng-model="wsbot.concessionaryTime"/><span class="unit-n">年</span>
+												</div>
+												<label class="col-sm-2 control-label">建设期</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.construction"/><span class="unit-n">年</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">项目工艺</label>
+												<div class="col-sm-4">
+													<input type="text" name="" class="form-control" ng-model="wsbot.projectCraft"/>
+												</div>
+												<label class="col-sm-2 control-label">出水标准</label>
+												<div class="col-sm-4">
+														<select ng-model="wsbot.waterStandard" ng-options="ot.ITEM_NAME for  ot in csTypeList track by ot.ITEM_CODE"  class="form-control">
+														</select>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">协议水价</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.agreementWaterprice"/><span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">调价周期</label>
+												<div class="col-sm-4">
+													<input type="text" name="" class="form-control" ng-model="wsbot.priceCicle"/>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">保底水量</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.guaranteedWater"/><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">测算水量</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control"  ng-model="wsbot.measuringWater"/><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">合同规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.projectScale" /><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">评审规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control"  ng-model="wsbot.reviewScale"/><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="row-tit">项目投资信息</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">投资主体</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">公司名称</label>
+													<div class="col-sm-4">
+														<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('tenderCompany','wsbot',$index)" name="tenderCompany" ng-model="wsbot.tenderCompany.name" class="form-control" data-toggle="modal" data-target="#companyUnit-modal" />
+														<input type="hidden" class="form-control" ng-model="wsbot.tenderCompany.value"/>
+													</div>
+													<label class="col-sm-2 control-label">北控水务集团持股</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="shareholding" ng-model="wsbot.bewg" class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">资金来源</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">银行贷款</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="bankLoan" class="form-control" ng-model="wsbot.bankLoan"/><span class="unit-n">%</span>
+													</div>
+													<label class="col-sm-2 control-label">年利率</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wsbot.annualInterestRate"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">自有资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="privateCapital" class="form-control" ng-model="wsbot.oweMoney"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label" >项目总投资</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label" >投资总额</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wsbot.totalInvestment"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">一类费用</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wsbot.oneKindOfCost"/>
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">二类费用</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wsbot.twoKindOfCost"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">补充调试费</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wsbot.supplementaryCommissioningFee"/>
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">辅底流动资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wsbot.secondaryFloorLiquidity"/>
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">其他</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wsbot.other" />
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水经营成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.operatingCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水总成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.totalCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水管理费用</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.managementFees" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水利润</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control"  ng-model="wsbot.profits"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水人工成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.laborCost"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">年度人均创利</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wsbot.laborCreate" />
+													<span class="unit-mpy">万元/人/年</span>
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+								<div class="panel">
+									<div id="flag2-c" class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluationSB"><span class="text">2.收益评估<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="incomeEvaluationSB" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row">
+												<textarea name="" rows="1" cols="1" class="form-control" ng-model="wsbot.incomeEvaluation">基于XX事业部提供的边界条件和技术中心确认的成本及投资，经风险控制中心调整后，在总投资额XX.XX万元（应明确是否为内控价），协议水价XX.XX元/吨，本项目各项关键财务如下：</textarea>
+											</div>
+											<div class="row">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目各项关键财务指标表</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+															<thead>
+																<tr>
+																	<th>指标分类</th>
+																	<th>指标名称</th>
+																	<th>本项目指标</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="3">投资指标</td>
+																	<td>全投资内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.investmentProfitIRR"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>自有资金内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.owninvestmentProfitIRR"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>全投资静态回收期</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.staticInvestmentProfit"/>
+																			<span class="percent">年</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td rowspan="2">财务指标</td>
+																	<td>运营期平均ROE</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.averageROE"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>运营期平均ROI</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.averageROI"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>现金流指标</td>
+																	<td>自有资金前五年现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.profitsOne"/></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="row nobottom-mar">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目运营前5年关键财务指标汇总表（单位：人民币万元）</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+															<thead>
+																<tr>
+																	<th colspan="2">分类</th>
+																	<th>财务指标</th>
+																	<th>投资期</th>
+																	<th>第一年</th>
+																	<th>第二年</th>
+																	<th>第三年</th>
+																	<th>第四年</th>
+																	<th>第五年</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="5">全投资</td>
+																	<td>旧准则</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investment"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentFive"/></td>
+																</tr>
+																<tr>
+																	<td rowspan="2">二号解释</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentAll"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentAllOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentAllTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentAllThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentAllFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentAllFive"/></td>
+																</tr>
+																<tr>
+																	<td>ROI</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ROI"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROIOne"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROITwo"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROIThree"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROIFour"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROIFive"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td colspan="2">投资活动现金流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesFlow"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesFlowOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesFlowTwo" /></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesFlowThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesFlowFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesFlowFive"/></td>
+																</tr>
+																<tr>
+																	<td colspan="2">经营活动现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesCleanFlow"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesCleanFlowOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesCleanFlowTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesCleanFlowThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesCleanFlowFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.investmentActivitesCleanFlowFive" /></td>
+																</tr>
+																<tr>
+																	<td rowspan="5">自有资金</td>
+																	<td colspan="8" class="tr-max"><textarea name="" ng-model="wsbot.ownFounds" rows="1" cols="1" class="form-control">融资边界条件：XX万元贷款，利率为XX%，还款期XX年，宽限期XX年（人行基准利率）</textarea></td>
+																</tr>
+																<tr>
+																	<td>旧准则</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.cleanIncome"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.cleanIncomeOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.cleanIncomeTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.cleanIncomeThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.cleanIncomeFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.cleanIncomeFive"/></td>
+																</tr>
+																<tr>
+																	<td rowspan="2">二号解释</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.othercleanIncome"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.othercleanIncomeOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.othercleanIncomeTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.othercleanIncomeThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.othercleanIncomeFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.othercleanIncomeFive"/></td>
+																</tr>
+																<tr>
+																	<td>ROE</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ROE"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROEOne" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROETwo"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROEThree"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROEFour"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wsbot.ROEFive"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td colspan="2">自有资金现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ownFundsInCashFlows"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ownFundsInCashFlowsOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ownFundsInCashFlowsTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ownFundsInCashFlowsThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ownFundsInCashFlowsFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wsbot.ownFundsInCashFlowsFive"/></td>
+																</tr>
+																<tr>
+																	<td colspan="3">北控水务分红现金流</td>
+																	<td><input type="text" ng-model="wsbot.dividendCashFlow" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wsbot.dividendCashFlowOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wsbot.dividendCashFlowTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wsbot.dividendCashFlowThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wsbot.dividendCashFlowFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wsbot.dividendCashFlowFive" name="" class="form-control" /></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-1 control-label">备注</label>
+												<div class="col-sm-11 noright-pad">
+													<textarea class="form-control" ng-model="wsbot.content" cols="" rows="" name=""></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="stated">
+													注：1）如果不适用项目借款，自有资金部分划横线，并在表下加注说明；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2）表2 数据应统一保留两位小数，并将负数标注红色；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3）若前三年自有现金流为负，提示项目初期财务生存能力差，可能需集团提供流动资金。<br>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" ng-repeat="wstot in formalReport.WSTOT track by $index" id="tabdrop-slops-tot{{$index}}" >
+								<div class="panel">
+									<div class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPriST"><span class="text">1.项目概况<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="projectOverviewPriST" class="panel-collapse collapse">
+										<div class="panel-body special-form">
+											<div class="row">
+												<div class="row-tit">项目基础信息</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">子项目简称</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="wstot.title"  class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">服务范围</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="wstot.serviceArea" rows="" cols="" class="form-control" placeholder="请填写管网建设信息，是否建设完成，是否需要我方建设"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">项目运营状况</label>
+												<div class="col-sm-10">
+													<textarea name="" ng-model="wstot.projectRunState"rows="" cols="" class="form-control" placeholder="项目已运营XX年，现有运行状况如何，是否能够稳定达标"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">特许经营期</label>
+												<!--<div class="col-sm-2">
+													<label class="checkbox-inline">
+														<input class="px" type="checkbox" ng-model="wstot.containConstructionPeriod" ng-change="changeInvestmentModel()" />
+														<span class="lbl">含建设期</span>
+													</label>
+												</div>
+												<div class="col-sm-2 noleft-pad has-feedback">
+													<input type="text" ng-model="wstot.concessionaryTime" name="" class="form-control" /><span class="unit-n">年</span>
+												</div>
+												<label class="col-sm-2 control-label">建设期</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" ng-model="wstot.construction" class="form-control" /><span class="unit-n">年</span>
+												</div>-->
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="wstot.concessionaryTime" name="" class="form-control" /><span class="unit-n">年</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">项目工艺</label>
+												<div class="col-sm-4">
+													<input type="text" ng-model="wstot.projectCraft"name="" class="form-control" />
+												</div>
+												<label class="col-sm-2 control-label">出水标准</label>
+												<div class="col-sm-4">
+													<select ng-model="wstot.waterStandard" ng-options="ot.ITEM_NAME for  ot in csTypeList track by ot.ITEM_CODE"  class="form-control">
+													</select>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">协议水价</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" ng-model="wstot.agreementWaterprice" name="" class="form-control" /><span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">调价周期</label>
+												<div class="col-sm-4">
+													<input type="text"ng-model="wstot.priceCicle" name="" class="form-control" />
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">保底水量</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" ng-model="wstot.guaranteedWater" class="form-control" /><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">测算水量</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" ng-model="wstot.measuringWater" class="form-control" /><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">合同规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wstot.projectScale" /><span class="unit-s">万吨/日</span>
+												</div>
+												<label class="col-sm-2 control-label">评审规模</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control"  ng-model="wstot.reviewScale" /><span class="unit-s">万吨/日</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="row-tit">项目投资信息</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">投资主体</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">公司名称</label>
+													<div class="col-sm-4">
+														<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('tenderCompany','wstot',$index)"  name="tenderCompany" ng-model="wstot.tenderCompany.name" data-toggle="modal" data-target="#companyUnit-modal"  class="form-control"/>
+														<input type="hidden" class="form-control" ng-model="wstot.tenderCompany.value"/>
+													</div>
+													<label class="col-sm-2 control-label">北控水务集团持股</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="shareholding"  ng-model="wstot.bewg" class="form-control"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">资金来源</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">银行贷款</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="bankLoan" class="form-control" ng-model="wstot.bankLoan"/><span class="unit-n">%</span>
+													</div>
+													<label class="col-sm-2 control-label">年利率</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wstot.annualInterestRate"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">自有资金</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="privateCapital" class="form-control" ng-model="wstot.oweMoney"/><span class="unit-n">%</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">项目总投资</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">投资总额</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wstot.totleMoney" />
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">TOT转让款</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wstot.totMoney" />
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group tenderInfo">
+													<label class="col-sm-2 control-label">改造费用</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control" ng-model="wstot.modificationCost" />
+														<span class="unit-my">万元</span>
+													</div>
+													<label class="col-sm-2 control-label">其他</label>
+													<div class="col-sm-4 has-feedback">
+														<input type="text" name="" class="form-control"  ng-model="wstot.other"/>
+														<span class="unit-my">万元</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+													<label class="col-sm-2 control-label">人员安置方案</label>
+													<div class="col-sm-10 has-feedback">
+														<textarea name="" rows="" cols="" class="form-control" ng-model="wstot.personnelPlacement"></textarea>
+													</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水经营成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wstot.operatingCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水总成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wstot.totalCost" />
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水管理费用</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wstot.managementFees"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">吨水利润</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wstot.profits"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-2 control-label">吨水人工成本</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control"  ng-model="wstot.laborCost"/>
+													<span class="unit-yd">元/吨</span>
+												</div>
+												<label class="col-sm-2 control-label">年度人均创利</label>
+												<div class="col-sm-4 has-feedback">
+													<input type="text" name="" class="form-control" ng-model="wstot.laborCreate"/>
+													<span class="unit-mpy">万元/人/年</span>
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+								<div class="panel">
+									<div id="flag2-c" class="panel-heading">
+										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluationST"><span class="text">2.收益评估<i class="i-triangle"></i></span></a>
+									</div>
+									<div id="incomeEvaluationST" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="row">
+												<textarea name="" rows="1" cols="1" class="form-control" ng-model="wstot.all">基于XX事业部提供的边界条件和技术中心确认的成本及投资，经风险控制中心调整后，在总投资额XX.XX万元（应明确是否为内控价），协议水价XX.XX元/吨，本项目各项关键财务如下：</textarea>
+											</div>
+											<div class="row">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目各项关键财务指标表</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+															<thead>
+																<tr>
+																	<th>指标分类</th>
+																	<th>指标名称</th>
+																	<th>本项目指标</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="3">投资指标</td>
+																	<td>全投资内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.investmentProfitIRR"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>自有资金内部收益率IRR</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.owninvestmentProfitIRR"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>全投资静态回收期</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.staticInvestmentProfit"/>
+																			<span class="percent">年</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td rowspan="2">财务指标</td>
+																	<td>运营期平均ROE</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.averageROE"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>运营期平均ROI</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.averageROI"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td>现金流指标</td>
+																	<td>自有资金前五年现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.profitsOne"/></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="row nobottom-mar">
+												<div class="table-light">
+													<div class="table-header">
+														<div class="table-caption">项目运营前5年关键财务指标汇总表（单位：人民币万元）</div>
+													</div>
+													<div class="table-responsive">
+														<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+															<thead>
+																<tr>
+																	<th colspan="2">分类</th>
+																	<th>财务指标</th>
+																	<th>投资期</th>
+																	<th>第一年</th>
+																	<th>第二年</th>
+																	<th>第三年</th>
+																	<th>第四年</th>
+																	<th>第五年</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td rowspan="5">全投资</td>
+																	<td>旧准则</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investment"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentFive"/></td>
+																</tr>
+																<tr>
+																	<td rowspan="2">二号解释</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentAll"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentAllOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentAllTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentAllThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentAllFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.investmentAllFive"/></td>
+																</tr>
+																<tr>
+																	<td>ROI</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ROI"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROIOne"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROITwo"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROIThree"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROIFour"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROIFive"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td colspan="2">投资活动现金流量</td>
+																	<td><input type="text" name="" class="form-control"  ng-model="wstot.investmentActivitesCleanFlow"/></td>
+																	<td><input type="text" name="" class="form-control"  ng-model="wstot.investmentActivitesCleanFlowOne" /></td>
+																	<td><input type="text" name="" class="form-control"  ng-model="wstot.investmentActivitesCleanFlowTwo"/></td>
+																	<td><input type="text" name="" class="form-control"  ng-model="wstot.investmentActivitesCleanFlowThree"/></td>
+																	<td><input type="text" name="" class="form-control"  ng-model="wstot.investmentActivitesCleanFlowFour"/></td>
+																	<td><input type="text" name="" class="form-control"  ng-model="wstot.investmentActivitesCleanFlowFive"/></td>
+
+																</tr>
+																<tr>
+																	<td colspan="2">经营活动现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.cleanIncome"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.cleanIncomeOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.cleanIncomeTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.cleanIncomeThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.cleanIncomeFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.cleanIncomeFive"/></td>
+																</tr>
+																<tr>
+																	<td rowspan="5">自有资金</td>
+																	<td colspan="8" class="tr-max"><textarea name="" ng-model="wstot.ownFounds" rows="1" cols="1" class="form-control">融资边界条件：XX万元贷款，利率为XX%，还款期XX年，宽限期XX年（人行基准利率）</textarea></td>
+																</tr>
+																<tr>
+																	<td>旧准则</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownCleanIncome"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownCleanIncomeOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownCleanIncomeTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownCleanIncomeThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownCleanIncomeFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownCleanIncomeFive"/></td>
+																</tr>
+																<tr>
+																	<td rowspan="2">二号解释</td>
+																	<td>净利润</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.twoOwnCleanIncome"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.twoOwnCleanIncomeOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.twoOwnCleanIncomeTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.twoOwnCleanIncomeThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.twoOwnCleanIncomeFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.twoOwnCleanIncomeFive"/></td>
+																</tr>
+																<tr>
+																	<td>ROE</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ROE"/></td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROEOne" />
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROETwo"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROEThree"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROEFour"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="has-feedback">
+																			<input type="text" name="" class="form-control" ng-model="wstot.ROEFive"/>
+																			<span class="percent">%</span>
+																		</div>
+																	</td>
+																</tr>
+																<tr>
+																	<td colspan="2">自有资金现金净流量</td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownFundsInCashFlows"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownFundsInCashFlowsOne"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownFundsInCashFlowsTwo"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownFundsInCashFlowsThree"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownFundsInCashFlowsFour"/></td>
+																	<td><input type="text" name="" class="form-control" ng-model="wstot.ownFundsInCashFlowsFive"/></td>
+
+																</tr>
+																<tr>
+																	<td colspan="3">北控水务分红现金流</td>
+																	<td><input type="text" ng-model="wstot.dividendCashFlow" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wstot.dividendCashFlowOne" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wstot.dividendCashFlowTwo" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wstot.dividendCashFlowThree" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wstot.dividendCashFlowFour" name="" class="form-control" /></td>
+																	<td><input type="text" ng-model="wstot.dividendCashFlowFive" name="" class="form-control" /></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<label class="col-sm-1 control-label">备注</label>
+												<div class="col-sm-11 noright-pad">
+													<textarea class="form-control" ng-model="wstot.content" cols="" rows="" name=""></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="stated">
+													注：1）如果不适用项目借款，自有资金部分划横线，并在表下加注说明；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2）表2 数据应统一保留两位小数，并将负数标注红色；<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3）若前三年自有现金流为负，提示项目初期财务生存能力差，可能需集团提供流动资金。<br>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel">
+					<div id="flag3-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#issuesSummary">
+							<span class="text">3.风险及问题总结<i class="i-triangle"></i></span>
+						</a>
+					</div> <!-- / .panel-heading -->
+					<directive-formal-report-fxjwtzj></directive-formal-report-fxjwtzj> <!-- / .collapse -->
+				</div> <!-- / .panel -->
+				<div class="panel">
+					<div id="flag4-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#potentialSpace">
+							<span class="text">4.挖潜空间<i class="i-triangle"></i></span>
+						</a>
+					</div> <!-- / .panel-heading -->
+					<div id="potentialSpace" class="panel-collapse collapse followPoints">
+						<div class="panel-body">
+							<div class="row">
+								<textarea name="" ng-model="formalReport.potentialSpace" rows="" cols="" class="form-control" placeholder="内容说明：此处应填写可量化的挖潜空间"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<div id="flag5-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#conclusionSuggest">
+							<span class="text">5.结论与建议<i class="i-triangle"></i></span>
+						</a>
+					</div> <!-- / .panel-heading -->
+					<directive-formal-report-jlyjy></directive-formal-report-jlyjy>
+				</div>
+				<div class="panel">
+					<div id="flag6-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#followRequire">
+							<span class="text">6.后续执行要求<i class="i-triangle"></i></span>
+						</a>
+					</div> <!-- / .panel-heading -->
+					<directive-formal-report-hxzxyq></directive-formal-report-hxzxyq>
+				</div>
+				<div class="panel">
+					<div id="flag7-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#preSaleWater">
+							<span class="text">附件1：售水量预测（各业务收入预测）<i class="i-triangle"></i></span>
+						</a>
+					</div> <!-- / .panel-heading -->
+					<div id="preSaleWater" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="row">
+								<label class="col-sm-2 control-label">附件上传</label>
+								<div class="col-sm-10"   ng-repeat="item in formalReport.attachment track by $index">
+									<div class="col-sm-2">
+										<button type="button" ng-disabled="actionparm=='View'" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadfformal($file,$invalidFiles, $index)">浏览</button>
+									</div>
+									<div class="col-sm-10 noleft-pad">
+										<span ng-bind="progress$index"></span>
+										<!--<span style="">{{errorAttach[$index].msg}}</span>-->
+										<a href="javascript:void(0);" ng-click="downLoadFile(formalReport.attachment[0])" style="line-height: 27px;">{{formalReport.attachment[0].fileName}}</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<div id="flag8-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#proReviewCom">
+							<span class="text">附件1：专业评审意见<i class="i-triangle"></i></span>
+						</a>
+					</div> <!-- / .panel-heading -->
+					<directive-formal-report-zypsyj></directive-formal-report-zypsyj>
+				</div>
+				<div class="panel">
+					<div id="flag9-c" class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#estimatedCost">
+							<span class="text">附件2：评审用成本及费用<i class="i-triangle"></i></span>
+						</a>
+						<!--<i class="blue-block"></i>-->
+					</div>
+					<div id="estimatedCost" class="panel-collapse collapse">
+						<div class="panel-body">
+							<directive-formal-report-cbfy></directive-formal-report-cbfy>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="btn-group-gap">
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+					<!-- <a class="btn btn-info" ng-if="flag=='1'" href="#/ProjectFormalReviewView/Approve/{{reportReturnId}}"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-info" ng-if="flag=='2'" href="#/FormalReportList_new/0"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-info" ng-if="flag=='3'" href="#/FormalBiddingInfoList/0"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-info" ng-if="flag=='4'" href="#/FormalBiddingInfoList/1"><i class="fa fa-reply"></i>返回</a> -->
+					<button type="button" ng-click="saveReport()" class="btn btn-info" id="savebtn"><i class="fa fa-save"></i>保存</button>
+					<div class="inline-div">
+						<button type="button" ng-if="tabIndex=='0'" class="btn btn-info"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+						<div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+							<directive-need-meeting></directive-need-meeting>
+						</div>
+					</div>
+					<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<directive-org-list></directive-org-list>
+<script type="text/javascript">
+<!--
+	$(function(){
+		//二级菜单关闭&展示
+		$(".dropdown-list").children("li").click(function(){
+			var dropDown = $(this).find(".sub-list");
+			var togClass=$(this).find(".ico");
+			$(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+			$(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+			dropDown.slideToggle(300);
+			togClass.toggleClass("fa-minus");
+		});
+		$('#projectOverviewPub').collapse('show');
+		$('#projectOverviewPriBT').collapse('show');
+		$('#incomeEvaluationBT').collapse('show');
+		$('#projectOverviewPriSA').collapse('show');
+		$('#incomeEvaluationSA').collapse('show');
+		$('#projectOverviewPriSB').collapse('show');
+		$('#projectOverviewPriEO').collapse('show');
+		$('#incomeEvaluationEO').collapse('show');
+		$('#projectOverviewPriSB').collapse('show');
+		$('#incomeEvaluationSB').collapse('show');
+		$('#projectOverviewPriST').collapse('show');
+		$('#incomeEvaluationST').collapse('show');
+		$('#projectOverviewPriDB').collapse('show');
+		$('#incomeEvaluationDB').collapse('show');
+		$('#projectOverviewPriDT').collapse('show');
+		$('#incomeEvaluationDT').collapse('show');
+		$('#issuesSummary').collapse('show');
+		$('#potentialSpace').collapse('show');
+		$('#conclusionSuggest').collapse('show');
+		$('#followRequire').collapse('show');
+		$('#estimatedCost').collapse('show');
+		$('#preSaleWater').collapse('show');
+		$('#proReviewCom').collapse('show');
+		$('#followPoints').collapse({toggle: false});
+		//模拟select功能
+		$(".full-drop").click(function(){
+			$(this).find(".drop-menu").fadeIn(300);
+			$(".drop-menu").not($(this).children('.drop-menu')).fadeOut(300);
+			$(".drop-menu .sub-list li").find("a").click(function(){
+				var inputVaule=$(this).parents(".drop-menu").siblings(".form-control");
+				var aTxet=$(this).children("a").text();
+				var likeSelect=$(this).parents(".drop-menu");
+				if (likeSelect.hasClass("choice-more")){
+						return false;
+				}else{
+					inputVaule.attr("value",aTxet)
+					likeSelect.fadeOut(300);
+					return false;
+				}		
+			});
+			return false;
+		});
+		$(".drop-menu .sub-list li").find("a").click(function(){
+			$(this).toggleClass("cur");
+		});
+		$("body").click(function(){
+			$(".full-drop").find(".drop-menu").fadeOut(300);
+		});
+
+		$("input[name='input-way']").click(function(){
+			var wayValue=$("input[name='input-way']:checked").val();
+			if(wayValue==1){
+				$("input[name='preAssessmentScale']").css({"display":"block"});
+				$("#unit").css({"display":"block"});
+				$("textarea[name='preAssessmentScale']").css({"display":"none"});
+			}else{
+				$("#unit").parent().removeClass("has-feedback");
+				$("input[name='preAssessmentScale']").css({"display":"none"});
+				$("#unit").css({"display":"none"});
+				$("textarea[name='preAssessmentScale']").css({"display":"block"});
+			}
+		});
+
+		$(".mixed-template").css({"display":"none"});
+		$(".mixed-mode .nav-tabs li").css({"display":"none"});
+		$("input[name='projectType']").click(function(){
+			//判断项目类型是否为空
+			var typeChooseCount=0;
+			$("input[name='projectType']").each(function(){
+				if($(this).attr("checked")){
+					typeChooseCount++;
+				}
+			});
+			if(typeChooseCount==0){
+				$(".mixed-template").css({"display":"none"});
+				$(".mixed-mode .nav-tabs li").css({"display":"none"});
+				$(".num-box .num").val("");
+			}else if(typeChooseCount>0){
+				var pt=$(this).val();
+				if($(this).attr("checked")){
+					$(this).siblings(".num").val("1");
+					if(pt==1){
+						$(".mixed-template").css({"display":"block"});
+						$(".mixed-mode li[name='bt']").css({"display":"block"});
+						return;
+					}
+					if(pt==2){
+						$(".mixed-template").css({"display":"block"});
+						$(".mixed-mode li[name='supply-bot']").css({"display":"block"});
+						return;
+					}
+					if(pt==3){
+						$(".mixed-template").css({"display":"block"});
+						$(".mixed-mode li[name='supply-tot']").css({"display":"block"});
+						return;
+					}
+					if(pt==4){
+						$(".mixed-template").css({"display":"block"});
+						$(".mixed-mode li[name='sanitation']").css({"display":"block"});
+						return;
+					}
+					if(pt==5){
+						$(".mixed-template").css({"display":"block"});
+						$(".mixed-mode li[name='entru-oper']").css({"display":"block"});
+						return;
+					}
+					if(pt==6){
+						$(".mixed-template").css({"display":"block"});
+						$(".mixed-mode li[name='slops-bot']").css({"display":"block"});
+						return;
+					}
+					if(pt==7){
+						$(".mixed-template").css({"display":"block"});
+						$(".mixed-mode li[name='slops-tot']").css({"display":"block"});
+						return;
+					}
+				}else{
+					/*$(this).siblings(".num").val("");
+					if(pt==1){
+						$(".mixed-mode li[name='bt']").css({"display":"none"});
+						return;
+					}
+					if(pt==2){
+						$(".mixed-mode li[name='supply-bot']").css({"display":"none"});
+						return;
+					}
+					if(pt==3){
+						$(".mixed-mode li[name='supply-tot']").css({"display":"none"});
+						return;
+					}
+					if(pt==4){
+						$(".mixed-mode li[name='sanitation']").css({"display":"none"});
+						return;
+					}
+					if(pt==5){
+						$(".mixed-mode li[name='entru-oper']").css({"display":"none"});
+						return;
+					}
+					if(pt==6){
+						$(".mixed-mode li[name='slops-bot']").css({"display":"none"});
+						return;
+					}
+					if(pt==7){
+						$(".mixed-mode li[name='slops-tot']").css({"display":"none"});
+						return;
+					}*/
+				}
+			}
+		});
+
+	/*	$("input[name='num']").change(function(){
+			if($(this).siblings(".px").attr("checked")){
+				var pt=$(this).sibling(".px").val();
+				var num=$(this).val();
+				if(pt==1){
+					for(var i=1;i<num;i++){
+						
+					}
+				}
+			}
+		});*/
+		
+		$("#switcher-left").click(function(){
+			//$(".switcher-left").children(".switcher").toggleClass("checked");
+			$(".switcher-right").children(".switcher").toggleClass("checked");
+		});
+		$("#switcher-right").click(function(){
+			//$(".switcher-right").children(".switcher").toggleClass("checked");
+			$(".switcher-left").children(".switcher").toggleClass("checked");
+		});
+	});
+
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#tenderTime').datepicker(options);
+		$('#paymentTime').datepicker(options);
+		
+
+		$('#switcher-left').switcher({
+			theme: 'square',
+			on_state_content: '<span class="fa fa-check"></span>',
+			off_state_content: '<span class="fa fa-times"></span>'
+		});
+		$('#switcher-right').switcher({
+			theme: 'square',
+			on_state_content: '<span class="fa fa-check"></span>',
+			off_state_content: '<span class="fa fa-times"></span>'
+		});
+	});
+
+	$().ready(function() {
+		// validate signup form on keyup and submit
+		$("#FormalReviewReport").validate({
+			rules: {
+				//	personLiable:"required",
+				ownerSituation:"required",
+				regionalBackground:"required",
+				projectSource:"required",
+				invertmentUnitName:"required",
+				operationsUnitName:"required"
+			},
+			messages: {
+				//	personLiable:"此项必填",
+				ownerSituation:"此项必填",
+				regionalBackground:"此项必填",
+				projectSource:"此项必填",
+				invertmentUnitName:"此项必填",
+				operationsUnitName:"此项必填"
+			}
+		});
+	});
+//-->
+
+</script>
+
+<div class="side-catalog">
+	<div class="side-bar">
+		<i class="circle start"></i>
+		<i class="circle end"></i>
+	</div>
+	<div class="catalog-scroller">
+		<ul class="catalog-list">
+			<li id="flag1" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">1</span>
+						<span class="title-link">项目概况</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag2" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">2</span>
+						<span class="title-link">收益评估</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag3" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">3</span>
+						<span class="title-link">风险及问题总结</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag4" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">4</span>
+						<span class="title-link">挖潜空间</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag5" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">5</span>
+						<span class="title-link">结论与建议</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag6" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">6</span>
+						<span class="title-link">后续执行要求</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag7" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">7</span>
+						<span class="title-link">附件1：售水量预测</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag8" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">8</span>
+						<span class="title-link">附件1：专业评审意见</span>
+					</span>
+				</a>
+			</li>
+			<li id="flag9" class="catalog-title">
+				<i class="pointer"></i>
+				<a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">9</span>
+						<span class="title-link">附件2：评审用成本及费用</span>
+					</span>
+				</a>
+			</li>
+		</ul>
+		<!--<a class="arrow" href="javascript:void(0);"><img alt="arrow" width="21" height="15" src="assets/images/icons/arrow.png"/></a>-->
+	</div>
+	<div class="bottom-wrap">
+		<a class="toggle-button" href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
+		<a class="gotop-button" href="javascript:window.scrollTo( 0, 0 );"><i class="fa fa-chevron-up"></i></a>
+	</div>
+</div>
+<script>
+	$(function(){
+		//侧边目录
+		$(window).scroll(function(){
+			var menuBottom = $(".offset-flag").offset().top;
+			if($(window).scrollTop()>=menuBottom){
+				$(".side-catalog").css("display","block");
+			}
+			else{
+				$(".side-catalog").css("display","none");
+			};
+		});
+		//显示隐藏侧边目录
+		$(".toggle-button").click(function(){
+			$(".side-catalog").toggleClass("collapse");
+		});
+		//点击目录跳到相应模块
+		$(".catalog-list li").click(function(){
+			$(this).addClass("cur").siblings("li").removeClass("cur");
+			var _id = $(this).attr("id");
+			if(typeof $('#'+_id+'-c').offset() !== 'undefined'){
+				var _idTop = $("#"+_id+"-c").offset().top-10;
+				$("html,body").animate({"scrollTop":_idTop},300);
+			}
+		});
+		/*$(".catalog-list").find("li").click(function(){
+			var i=$(this).index();
+			var moveWidth=38*i+46;
+			$(this).parents(".catalog-list").siblings(".arrow").animate({"top":moveWidth});
+		});*/
+		//滚动响应
+		if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
+			var SideCatalog= {};
+		};
+		SideCatalog.catalogDetail = (function(){
+			// scroll to tab content
+			var _gotoTab = function(){
+				window.onscroll= function(){
+					SideCatalog.ids = [];
+					$('.catalog-list li').each(function(){
+						var id = $(this).attr('id');
+						if(typeof $('#'+id+'-c').offset() !== 'undefined')
+						{
+							SideCatalog[id] = $('#'+id+'-c').offset().top-11;
+						}
+						SideCatalog.ids.push(id);
+					});
+					var _top = $(document).scrollTop();
+					//循环ID处理屏幕滚动情况
+					$.each(SideCatalog.ids,function(key,id){
+						var next_id = key+1;
+						var next_tab = SideCatalog.ids[next_id];
+						if(( _top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id])
+						{
+							$('#'+id).addClass('cur').siblings("li").removeClass("cur");
+							/*var i = $(".catalog-list li").index(document.getElementById(id));
+							var moveWidth=38*i+46;
+							//alert("i="+i+",moveWidth="+moveWidth);
+							$('#'+id).parents(".catalog-list").siblings(".arrow").animate({"top":moveWidth});*/
+						}
+					});
+				};
+			};
+			function _init(){
+				_gotoTab();
+			}
+			return {
+				init: _init
+			}
+		})();
+		$(document).ready(function() {
+			SideCatalog.catalogDetail.init();
+		});
+		//查看页面不可编辑
+		var href=window.location.href;
+		if(href.indexOf("/View/")>0){
+			$('#content-wrapper input').attr("readonly","readonly");
+			$('textarea').attr("readonly","readonly");
+			$('select').attr("disabled","disabled");
+		}
+	});
+
+</script>

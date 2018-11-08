@@ -1,0 +1,220 @@
+<div class="panel-body">
+	<form class="form-horizontal ng-pristine ng-valid" >	
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">提交决策委员会材料</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">决策委员会材料<i class="i-triangle"></i></span></div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="row-tit">1.其他需决策事项意见汇总表</div>
+							<div class="table-responsive">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+									<tbody>
+									<tr>
+										<td class="title-column">提交申请时间</td>
+										<td>{{bulletinOracle.APPLYTIME | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">所属大区</td>
+										<td>{{bulletinOracle.APPLYUNITNAME}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">事项类型</td>
+										<td>{{bulletinOracle.BULLETINTYPENAME}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">申报事项</td>
+										<td>{{bulletinOracle.BULLETINNAME}}</td>
+									</tr>
+									<tr ng-if="null != bulletin.taskallocation.riskLeader && null != bulletin.taskallocation.riskLeader.NAME">
+										<td class="title-column">专业评审负责人</td>
+										<td>{{bulletin.taskallocation.riskLeader.NAME}}</td>
+									</tr>
+									<tr ng-if="null != bulletin.taskallocation.legalLeader && null != bulletin.taskallocation.legalLeader.NAME">
+										<td class="title-column">法律评审负责人</td>
+										<td>{{bulletin.taskallocation.legalLeader.NAME}}</td>
+									</tr>
+<!-- 									<tr> -->
+<!-- 										<td rowspan="2" class="title-column">事项说明</td> -->
+<!-- 										<td><span class="title-column">事项原因：</span>{{bulletin.reason}}</td> -->
+<!-- 									</tr> -->
+<!-- 									<tr> -->
+<!-- 										<td><span class="title-column">申请需求：</span>{{bulletin.applyRequirement}}</td> -->
+<!-- 									</tr> -->
+									</tbody>
+								</table>
+							</div>
+					</div>
+					
+					
+					<div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !='' 
+										|| bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''
+										|| bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''
+										|| bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment != ''
+										|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment != ''
+										|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment != ''
+										">
+						<div class="row-tit">2.风控意见及附件</div>
+							<div class="row" ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
+								<label class="col-sm-2 control-label"><span class="required">*</span>评审负责人意见：</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" readonly rows="" cols="" ng-model="bulletin.reviewLeaderOpinion" auto-height></textarea>
+								</div>
+							</div>
+							<div class="row" ng-show="bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''">
+								<label class="col-sm-2 control-label"><span class="required">*</span>法律负责人意见：</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" readonly rows="" cols="" ng-model="bulletin.legalLeaderOpinion" auto-height></textarea>
+								</div>
+							</div>
+							<div class="row" ng-show="bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''">
+								<label class="col-sm-2 control-label"><span class="required">*</span>风控负责人 意见：</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" readonly rows="" cols="" ng-model="bulletin.riskLeaderOpinion" auto-height></textarea>
+								</div>
+							</div>
+							<div class="row" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0 
+							|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length
+							|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment.length ">
+								<div class="row-tit">风控附件列表</div>
+								<button type="button" class="btn btn-info" ng-click="addFileList1()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+								<button type="button" class="btn btn-info" ng-click="deleteFileList()"><i class="glyphicon glyphicon-plus"></i>删除</button>
+							</div>
+							<div class="row" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0 
+							|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length
+							|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment.length ">
+								<div class="table-responsive">
+									<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+										<thead>
+										<tr>
+											<th>选择</th>
+											<th>附件</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in bulletin.legalLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" name="choose" ng-model="item.selected"  class="px">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+												</td>
+												<td>
+													<button type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadLegalLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+												</td>
+											</tr>
+											<tr ng-repeat="item in bulletin.reviewLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" name="choose" ng-model="item.selected"  class="px">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+												</td>
+												<td>
+													<button type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadReviewLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+												</td>
+											</tr>
+											<tr ng-repeat="item in bulletin.riskLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" name="choose" ng-model="item.selected"  class="px">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+												</td>
+												<td>
+													<button type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadRiskLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+					</div>
+					
+					
+					<div class="row" ng-if="bulletin.fileList != null && bulletin.fileList.length > 0">
+						<div class="row-tit">3.相关附件</div>
+						<div class="row">
+							<button  type="button" class="btn btn-info" ng-click="addFileList()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button  type="button" class="btn btn-info" ng-click="commonDdelete()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+						</div>
+						<div class="row table-responsive">
+							<table class="table table-bordered table-hover datatable table-text-mid table-light">
+								<thead>
+									<tr>
+										<th width="5%">选择
+										</th>
+										<th width="30%">附件名称</th>
+										<th>上传附件</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in bulletin.fileList track by $index">
+										<td class="txc">
+											<label class="checkbox-inline">
+												<input type="checkbox" name="choose" ng-model="item.selected" filename="{{item.files.fileName}}" filepath="{{item.files.filePath}}" class="px">
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td><input type="text"  ng-model="item.file_content"  class="form-control"></td>
+										<td>
+											<div class="col-sm-10 noleft-pad noright-pad">
+												<a href="javascript:void(0);" ng-click="downLoadFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
+											</div>
+										</td>
+										<td>
+											<button type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index,item.filePath)">替换</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option">
+					<!-- <a class="btn btn-info" href="#/BulletinReview/{{tabIndex}}"><i class="fa fa-reply"></i>返回</a> -->
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+					<button type="button" ng-click="saveFile()" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+<!-- 					<button ng-click="showSubmitModal()" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交</button> -->
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+	angular.element(document).ready(function() {
+		$("#fixed-member-box select").select2();
+   });
+</script>

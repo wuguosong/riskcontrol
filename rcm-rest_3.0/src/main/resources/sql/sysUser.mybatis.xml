@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="sysUser">
+
+	<select id="selectAUser" resultType="map">
+		select u.UUID, u.ACCOUNT, u.NAME, u.ORGPKVALUE, u.DEPTPKVALUE, 
+			u.POSTPKVALUE, u.POSITIONNAME, u.PSNPKVALUE from sys_user u 
+			where 1=1 
+			<if test="userID!=null and userID!='' "> and u.ACCOUNT=#{userID} </if> 
+			<if test="UUID!=null and UUID!='' "> and u.UUID=#{UUID} </if>
+			 and  rownum &lt;=1
+	</select>
+	<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
+	<select id="selectUser" resultType="map" useCache="false">
+		 select u.*  from sys_user u where 1=1
+            <if test="ORGID!=null and ORGID!='' "> 
+            	<choose>
+            		<when test="categoryCode != null and categoryCode != ''">
+            			and u.DEPTPKVALUE in (
+						       select o.ORGPKVALUE from sys_org o where o.CATEGORYCODE = 'Dept'
+						       start with o.PARENTPKVALUE='${ORGID}' connect by prior o.ORGPKVALUE=o.PARENTPKVALUE
+						       union select '${ORGID}' from dual
+						)
+            		</when>
+            		<otherwise>
+            			and u.orgpkvalue='${ORGID}'
+            		</otherwise>
+            	</choose>
+             </if> 
+			<if test="ACCOUNT!=null and ACCOUNT!='' "> and u.account like '%${ACCOUNT}%' </if>
+			<if test="NAME!=null and NAME!='' "> and u.name like '%${NAME}%' </if>
+			<if test="STATE!=null and STATE!='' "> and u.state=${STATE} </if>
+			 order by u.code asc
+	</select>
+	
+	<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
+	<select id="DirectiveUser" resultType="map" useCache="false">
+		 select u.*, up.JOBNAME as job_name from sys_user u, sys_user_position up where u.PSNPKVALUE = up.PSNPKVALUE(+) and u.ACCOUNT is not null and u.state='2' 
+            <if test="ORGID!=null and ORGID!='' "> 
+            	<choose>
+            		<when test="categoryCode != null and categoryCode != ''">
+            			and u.DEPTPKVALUE in (
+						       select o.ORGPKVALUE from sys_org o where o.CATEGORYCODE = 'Dept'
+						       start with o.PARENTPKVALUE='${ORGID}' connect by prior o.ORGPKVALUE=o.PARENTPKVALUE
+						       union select '${ORGID}' from dual
+						)
+            		</when>
+            		<otherwise>
+            			and u.orgpkvalue='${ORGID}'
+            		</otherwise>
+            	</choose>
+             </if>
+             <if test="ORGIDRADIO!=null and ORGIDRADIO!='' "> 
+            	<choose>
+            		<when test="categoryCode != null and categoryCode != ''">
+            			and u.DEPTPKVALUE in (
+						       select o.ORGPKVALUE from sys_org o where o.CATEGORYCODE = 'Dept'
+						       start with o.PARENTPKVALUE='${ORGIDRADIO}' connect by prior o.ORGPKVALUE=o.PARENTPKVALUE
+						       union select '${ORGIDRADIO}' from dual
+						)
+            		</when>
+            		<otherwise>
+            			and u.orgpkvalue='${ORGIDRADIO}'
+            		</otherwise>
+            	</choose>
+             </if> 
+			<if test="code!=null and code!='' "> and u.code like '%${code}%' </if>
+			<if test="name!=null and name!='' "> and u.name like '%${name}%' </if>
+			<if test="state!=null and state!='' "> and u.state=${state} </if>
+			 order by u.code asc
+	</select>
+		<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
+	<select id="selectAllCount" resultType="String"  useCache="false">
+		 select count(*) from sys_user u where 1=1 
+			<if test="org_code!=null and org_code!='' "> and u.org_code=${org_code} </if> 
+			<if test="code!=null and code!='' "> and u.code like '%${code}%' </if>
+			<if test="name!=null and name!='' "> and u.name like '%${name}%' </if>
+			<if test="state!=null and state!='' "> and state=${state} </if>
+			 order by code 
+	</select>
+	<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
+	<select id="selectOneUser" resultType="map"  useCache="false">
+		select distinct(u.UUID),u.*,up.jobname from sys_user u,sys_user_position up where u.code=up.jobcode(+) and u.uuid=#{uuid}
+	</select>
+	<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
+	<select id="selectUserPosition" resultType="map" useCache="false">
+		select up.* from sys_user_position up where up.jobcode=#{jobcode}
+	</select>
+	
+	<!-- 新增，parameterType参数类型，可以是java基本对象，可以是对象，#{}表示取对应的参数 -->
+	<insert id="insertUser" parameterType="map">
+		insert into sys_user(uuid,code, name, sex_code,type_code,dept_code,account,email,org_code,state,id_card) values(#{uuid,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{sex_code,jdbcType=VARCHAR},#{type_code,jdbcType=VARCHAR},#{dept_code,jdbcType=VARCHAR},#{account,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{org_code,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{id_card,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="updateUser" parameterType="map">
+	 	update sys_user set code=#{code,jdbcType=VARCHAR},name=#{name,jdbcType=VARCHAR},sex_code=#{sex_code,jdbcType=VARCHAR},type_code=#{type_code,jdbcType=VARCHAR},dept_code=#{dept_code,jdbcType=VARCHAR},account=#{account,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR},state=#{state,jdbcType=VARCHAR},id_card=#{id_card,jdbcType=VARCHAR} where uuid = #{uuid}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteUser" parameterType="String">
+		delete from sys_user where uuid in(#{uuid})
+	</delete>
+	<!-- 删除 -->
+	<delete id="updateUserState" parameterType="String">
+		update sys_user set state=#{state} where uuid in(#{uuid})
+	</delete>
+	
+	<select id="selectUserExt" resultType="map">
+		select u.account, u.name as userName, 
+			   o.name as companyName, d.name as deptName
+		  from sys_user u, sys_org o, sys_org d
+		 where u.org_code = o.code
+		   and u.dept_code = d.code
+		   and u.state='1'
+		   <if test="userName!=null and userName!=''">and u.name like '%${userName}%'</if>
+	</select>
+	
+	<select id="selectIsAdmin" parameterType="string" resultType="int">
+		select count(*) num from sys_user_role ur where ur.user_id=#{userId} and ur.role_id in
+		(select role_id from sys_role r where r.code='1')
+	</select>
+	
+	<select id="queryRoleByUser" resultType="map" parameterType="map">
+		select sr.code,sr.role_name 
+		from sys_role sr 
+		left join sys_user_role ur  
+		on sr.role_id = ur.role_id 
+		where ur.user_id  = #{userId} 
+	</select>
+</mapper>

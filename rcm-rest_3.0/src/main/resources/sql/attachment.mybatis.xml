@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="attachment">
+<select id="selectAttachment" resultType="map" useCache="false">
+		select * from sys_dictionary_item i  where exists
+            (select *  from sys_dictionary t where 1 = 1 and dictionary_name = '附件' and i.fk_dictionary_uuid = t.uuid)
+		    <if test="ITEM_NAME!=null and ITEM_NAME!='' "> and item_name like '%${ITEM_NAME}%' </if>
+			<if test="ITEM_CODE!=null and ITEM_CODE!='' "> and item_code = #{ITEM_CODE} </if> 
+			 order by i.item_code
+	</select>
+	
+<select id="selectDictionaryName" resultType="String"  useCache="false">
+        select t.item_name from sys_dictionary_item t where t.uuid=#{attachment_uuid}
+</select>
+<!-- <select id="selectBusinessCode" resultType="String"  useCache="false">
+        select t.item_code from sys_dictionary_item t where t.item_code=#{business_code}
+</select> -->
+<select id="selectCountAttachment" resultType="String"  useCache="false">
+        
+ select count(*)  from sys_business_attachment t
+       where t.business_id= #{business_id}
+       and t.fuctiontype=#{fuctiontype}
+       and t.attachment_name=#{attachment_name}
+</select> 
+
+<select id="ListBusinessAndAttachment" resultType="map"  useCache="false">
+	 select t.bu_atta_uuid,t.business_name,t.attachment_name,t.fuctiontype,t.describe,b.dic_type from
+     sys_business_attachment t,sync_business_model b where 1=1 
+     <if test="attachment_name!=null and attachment_name!='' ">and t.attachment_name like '%${attachment_name}%'</if> 
+     and t.business_id=b.id and t.business_name='${business_name}' and b.dic_type='${business_type}'
+     order by t.fuctiontype
+</select>
+<!-- 查询附件前查询功能类型 -->
+ <select id="selecFunctionType" resultType="map"  useCache="false">
+      <!--  select i.uuid,i.item_name,i.item_code  from sys_dictionary t ,
+       sys_dictionary_item i where 1 = 1 and dictionary_code = #{code} and i.fk_dictionary_uuid = t.uuid order by i.item_code -->
+
+       select i.uuid,i.item_name,i.item_code  from sys_dictionary t ,
+       sys_dictionary_item i where 1 = 1 and t.dictionary_code = #{code} and i.fk_dictionary_uuid = t.uuid order by i.item_code
+</select> 
+
+<select id="listBusiness" resultType="String"  useCache="false">
+        select t.item_name from sys_dictionary_item t where t.uuid=#{attachment_uuid}
+</select>
+
+<insert id="insertAttachmentToBusiness" parameterType="map" >
+		insert into sys_business_attachment(bu_atta_uuid, business_id, 
+		attachment_uuid,business_name,attachment_name,state,fuctiontype,describe) values
+		(#{bu_atta_uuid,jdbcType=VARCHAR}, #{business_id,jdbcType=VARCHAR},
+		#{attachment_uuid,jdbcType=VARCHAR}, #{business_name,jdbcType=VARCHAR},
+		#{attachment_name,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},
+		#{fuctiontype,jdbcType=VARCHAR},#{describe,jdbcType=VARCHAR})
+</insert>
+	<delete id="deleteAll" parameterType="map">
+		delete from sys_business_attachment t where t.bu_atta_uuid =#{uuid}
+	</delete>
+	
+	<!-- 查找预评审或正式评审的附件列表 -->
+	<select id="findAttachmentList" resultType="map">
+           select i.uuid, i.item_name from sys_dictionary_item i where i.item_code like '03%' and i.is_enabled = '1'
+			   and exists(
+			       select * from sys_business_attachment r where i.uuid = r.attachment_uuid and r.state='1'
+			              and r.fuctiontype='${fuctionType}' and exists(
+			                  select * from sync_business_model b where r.business_id=b.id
+			                        and b.key in (${projectTypes}) and b.dic_type='${dicTypes}' and b.state='1'
+			              )
+			   )
+        <!-- select i.uuid, i.item_name from sys_dictionary_item i where i.item_code like '03%' and i.is_enabled = '1' and exists(
+		       select * from sys_business_attachment r where r.state='1' and r.fuctiontype='${fuctionType}' and r.attachment_uuid =
+		        i.uuid and exists(
+		              select * from sys_dictionary_item b where r.business_name = b.item_name and b.is_enabled='1'
+		                     and b.item_code in (${projectTypes})
+		       )      
+		) -->
+	</select>
+</mapper>

@@ -1,0 +1,6 @@
+.list-group {
+  padding: 0;
+}
+.list-group-item > .badge {
+  float: left;
+}

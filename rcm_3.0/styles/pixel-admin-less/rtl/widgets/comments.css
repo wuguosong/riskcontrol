@@ -1,0 +1,15 @@
+.widget-comments .comment-avatar {
+  float: right;
+}
+.widget-comments .comment-body {
+  margin-left: 0;
+  margin-right: 45px;
+}
+.widget-comments .comment-actions i {
+  margin-left: 5px;
+  margin-right: 0;
+}
+.widget-comments .comment-actions a {
+  margin-left: 10px;
+  margin-right: 0;
+}

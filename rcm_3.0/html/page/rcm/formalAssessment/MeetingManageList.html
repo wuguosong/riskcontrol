@@ -1,0 +1,75 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">决策会管理</span>
+	</div>
+	<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目列表<i class="i-triangle"></i></span></div></div>
+			<div class="panel-body">
+				<div class="row">
+					<button type="button" ng-click="entryDecision()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>开始表决</button>
+					<button type="button" ng-click="cancelDecision()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>撤消表决</button>
+					<button type="button" ng-click="completeDecisionNotice()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>完成决策通知书</button>
+					<button type="button" ng-click="resetDecision()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>重新表决</button>
+				</div>
+				<div class="row nobottom-mar">
+					<div class="table-responsive table-list">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+							<thead>
+							<tr>
+								<th>选择</th>
+								<th>序号</th>
+								<th>项目名称</th>
+								<th>项目类型</th>
+								<th>表决状态</th>
+								<th>表决时间</th>
+								<th>表决结果</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="p in projects">
+								<td>
+									<label class="checkbox-inline">
+										<input type="radio" name="radio" class="px" value="{{p.DECISION_ID}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td>{{$index+1}}</td>
+								<td>
+								<a ng-if="'pfr' == p.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{p.BUSINESS_ID}}/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+								<a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetail/{{p.BUSINESS_ID}}_0/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+								<a ng-if="'pre' == p.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{p.BUSINESS_ID}}/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+								</td>
+								<td>
+									<font ng-if="'pfr' == p.PROJECT_TYPE">正式评审</font>
+									<font ng-if="'bulletin' == p.PROJECT_TYPE">其他评审</font>
+									<font ng-if="'pre' == p.PROJECT_TYPE">投标评审</font>
+								</td>
+								<td><font ng-if="0 == p.VOTE_STATUS" style="color:blue;">待表决</font>
+									<a ng-if="1 == p.VOTE_STATUS" href="#/MeetingVoteWait/{{p.DECISION_ID}}/{{'#/MeetingManageList'|encodeURI}}/1" style="color:red;">表决中</a>
+									<font ng-if="2 == p.VOTE_STATUS" style="color:green;">已表决</font>
+								</td>
+								<td>{{p.DECISION_DATE}}</td>
+								<td>
+									<font ng-if="0 == p.DECISION_RESULT">未处理</font>
+									<a ng-if="2 == p.VOTE_STATUS" href="#/MeetingVoteResult/{{p.DECISION_ID}}/{{'#/MeetingManageList'|encodeURI}}">
+									<font ng-if="1 == p.DECISION_RESULT">同意</font>
+									<font ng-if="2 == p.DECISION_RESULT">不同意</font>
+									<font ng-if="3 == p.DECISION_RESULT">有条件同意</font>
+									<font ng-if="4 == p.DECISION_RESULT">择期决议</font>
+									</a>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="confirmMeetingLeaderModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+  	<direct-leader-dialog id="{{'confirmMeetingLeaderModal'}}" title="{{'请确认表决委员'}}" url="{{'meetingIssue/queryMeetingLeadersByMeetingIssueId.do'}}" query-params="meetingLeaderQueryParams" 
+	callback="confirmMeetingLeaderCallBack" mapped-key-value="mappedKeyValue"></direct-leader-dialog>
+</div>

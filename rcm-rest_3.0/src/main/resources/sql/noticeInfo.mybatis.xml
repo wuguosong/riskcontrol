@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="noticeInfo">	
+	<!-- 新增 -->
+	<insert id="insertNoticeInfo" parameterType="map">
+		insert into notice_info (id, info_subject, process_instance_id, task_id, 
+			business_id, remark, form_key,create_by,reader, reader_name,
+			create_time, state, type, cust_text01, cust_text02,cust_text03,cust_text04)
+			values(#{id},#{infoSubject},#{processInstanceId},#{taskId},
+			#{businessId},#{remark},#{formKey},#{createBy},#{reader},#{readerName},
+			sysdate,#{state},#{type},#{custText01},#{custText02},#{custText03},#{custText04})
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="updateNoticeInfo" parameterType="map">
+	 	update notice_info set state=#{state} where id = #{id}
+	</update>
+	
+	<select id="selectNoticeInfo" resultType="map" useCache="false" >
+		select t.id,t.info_subject,t.process_instance_id,
+	       t.task_id,t.business_id,t.remark,t.form_key,t.type,
+	       to_char(t.create_time, 'yyyy-mm-dd hh24:mi') as create_time
+	       from notice_info t where 1=1 and t.state='1'
+			<if test="type != null and type != '' "> and t.type='${type}'</if>
+			<if test="id != null and id != '' "> and t.id='${id}'</if>
+			order by t.create_time desc
+	</select>
+	
+	<select id="selectWarningInfo" resultType="map" >
+		select k.proc_inst_id_ as processInstanceId, k.task_id as taskId, k.business_id as businessId,k.proc_name as custText01,
+           '2' as type, k.SUBJECT as infoSubject, k.FORM_KEY as formKey,
+           k.ASSIGNEE_ as reader, k.READER_NAME as readerName, to_char(k.CREATE_TIME_,'yyyy-mm-dd hh24:mi:ss') as custText02,
+           k.task_name as custText03,k.bet_days - k.due_days as custText04
+         from view_time_out_task k
+	</select>
+	
+	<!-- 查询通知-未读，用于同步给门户系统 -->
+	<select id="selectForPortalToRead" resultType="map">
+		select t.id as uniid,
+             t.info_subject as title,
+             '/toReadRedirect/'||t.id||'/'||replace(t.form_key,'/','!') as url,
+             to_char(t.create_time, 'yyyy-mm-dd hh24:mi:ss') as created,
+             t.reader as owner,
+             '3' as type,
+             '3' as status,
+             '1' as record_status,
+             '1' as priority,
+             nvl(d.NAME,'') as sender,
+             nvl(d.depart,'') as depart
+        from notice_info t, act_hi_procinst p, view_user_dep d
+       where t.type = '1' and t.state='1'
+       and t.business_id = p.business_key_(+)
+       and p.start_user_id_=d.UUID(+)
+	   <if test="taskId != null and taskId !='' "> and t.task_id = #{taskId}</if>
+	   <if test="businessId != null and businessId!='' "> and t.business_id=#{businessId}</if>
+	</select>
+	<!-- 查询通知-已读，用于同步给门户系统 -->
+	<select id="selectForPortalRead" resultType="map">
+		select t.id as uniid,
+		       t.info_subject as title,
+		       t.form_key as url,
+		       to_char(t.create_time, 'yyyy-mm-dd hh24:mi:ss') as created,
+		       t.reader as owner,
+		       '3' as type,
+		       '4' as status,
+		       '2' as record_status,
+		       '1' as priority,
+		       nvl(d.NAME, '') as sender,
+		       nvl(d.depart, '') as depart
+		  from notice_info t, act_hi_procinst p, view_user_dep d
+		 where t.type = '1'
+		   and t.state = '2'
+		   and t.business_id = p.business_key_(+)
+		   and p.start_user_id_ = d.UUID(+)
+		   and t.id=#{id}
+	</select>
+</mapper>

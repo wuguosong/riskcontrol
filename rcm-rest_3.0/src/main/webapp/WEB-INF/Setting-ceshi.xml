@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<!-- 1 -->
+  	<!--数据库连接 -->
+	<!-- SSO测试环境 -->
+	<!--<ConnectionString
+		dataSource="10.2.60.65"
+		dbName="SSODB"
+		userID="4FORu8ZYnZU="		
+		password="CQdW/coNUVfq0/wUDdTD/Q=="
+		providerName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+	/> -->
+
+	
+	<!-- 2 -->
+	<!--活动目录连接设置-->
+	<!-- SSO测试环境 -->
+	<ActiveDirectoryConfiguration
+		server="bewg.net"
+		domain="bewg.net"
+		directoryPath="DC=bewg,DC=cn"
+		groupName="administrators"
+		filter="(and(objectCategory=person)(objectClass=user)(samaccountname=usertosearch))"
+		filterReplace="usertosearch"
+		userName="ewfYTlqs52fNtKkWcnhstw=="
+		password="XsuqxkJ8zR0="
+		expirationTime="60"
+		passwordWarnExpireDays="30"
+	/>
+
+	
+	<!-- 3 -->
+	<!--当前站点的设置-->
+	<!-- SSO测试环境 -->
+	<CurrentSite
+		systemCode="BEWG310"
+		key="UC7MNSXB9RBL88T2CU72"
+		dateTimeFormat="yyyy-MM-dd HH:mm:ss"
+		sessionIdName="JSESSIONID"
+		IsForbidden="false"
+	/>
+
+	
+	<!-- 4 -->
+	<!--Cookie的设置-->
+	<!-- SSO测试环境 -->
+	<CookieDomains path="/">
+	<domain name=".bewg-dev.net"
+			regex=".*(.bewg-dev.net)"
+			myHost="sso.bewg-dev.net"			
+			crossdomainUrl="http://sso.bewg-dev.net/Crossdomain.aspx"
+			loginUrl="http://sso.bewg-dev.net/LoginLight.aspx"
+			defaultSite="http://rcm.bewg-dev.net">
+	</domain>
+    </CookieDomains>
+
+	
+	<!-- 5 -->
+  	<!--本地登录URL设置-->
+	<!-- SSO测试环境 -->
+	<Urls loginUrl="/LocalModelPage/html/login.html" errorUrl="/error_sso.jsp"	defaulteurl="/index.jsp" />
+	<!-- SSO生产环境 
+	<Urls loginUrl="/LocalModelPage/html/login.html" errorUrl="/error_sso.jsp"	defaulteurl="/index.jsp" />
+	-->
+		
+	<!-- 6 -->
+	<!--用户信息设置 用户验证方式,值为 SSO、AD，SSO为单点登录服务器验证，AD为本地AD验证 -->
+  	<UserConfiguration value="SSO" />
+  	
+	<!-- 7 -->
+  	<!-- 标识凭证存储对象，head:在request.header中，attr:在request.attribute中 -->
+  	<TookenSaveModel value="attr" />
+	<!-- cookies检测job，将指定cookies值进行删除、置空、授权（赋值为用户标识）  
+		checkpoint:success|for_value|false; 	验权成功、失败(可多值，正则表达式)
+		operator:delete、clear、assign; 
+		UserConfig:AD|SSO; 
+		domain:; 
+		cookies:（正则表达式）;	-->
+	<CookieCheckJobs>
+	</CookieCheckJobs>
+	
+	<!-- 8 -->
+	<!--免除单点登录验证的文件-->
+	<IncludeFileExtension 
+    	ext_value=".*(\.ico$|\.gif$|\.jpg$|\.png$|\.bmp$|\.css$|\.js$|\.jsx$|\.axd|/sys/webservice/.*|/resource/.*|/bpm/WorkFlow/deploy|/WebService/.*)"
+    	content_value=".*(/wd_sso_logout$)"
+    	for_value=".*(/VerifyCodeAndRememberPwd$|/cfld_sso_localmodel_login|/ssoLoginServlet$|/cfld_sso_localmodel_exit.axd|/cfld_sso_Quartz_KeyUpdate.axd|/cfld_sso_Quartz_FileUpdate.axd|/updateIsForbidden.axd|/wd_sso_logout$|/error_sso.jsp$|/clientGetCookiesServlet$|/LocalModelPage/html/login.html/cfld_sso_client_exit.axd)"/>
+
+</SettingConfig>

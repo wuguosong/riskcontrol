@@ -1,0 +1,12 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">是否上投资评审会？</h4>
+        </div>
+        <div class="modal-footer txc">
+        	<a href="#/MeetingInfoDetail/Create/{{formalReport._id}}@{{pageFlag}}"  class="btn btn-primary btn-confirm" data-dismiss="modal">是</a>
+            <a href="javascript:void(0);" ng-click="confirmMeeting('#/FormalBiddingInfo/{{formalReport._id}}@{{pageFlag}}')" class="btn btn-primary btn-confirm" data-dismiss="modal">否</a>
+        </div>
+    </div>
+</div>

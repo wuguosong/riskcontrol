@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.project.dao.IUpdateProjectNameMapper">
+	<select id="queryAllProject" resultType="map" parameterType="hashmap">
+		select t.* from rcm_v_project t where 1=1 
+    	<if test="name != null and name != ''"> and	t.name like '%${name}%' </if>
+	</select>
+	<update id="updateBulletin"  parameterType="hashmap">
+		update rcm_bulletin_info set bulletinName=#{bulletinName} 
+		where businessid=#{businessId}
+	</update>
+	<update id="updateFormal"  parameterType="hashmap">
+		update rcm_formalassessment_info set projectName=#{projectName} 
+		where businessid=#{businessId}
+	</update>
+	<update id="updatePre"  parameterType="hashmap">
+		update rcm_pre_info set projectName=#{projectName} 
+		where businessid=#{businessId}
+	</update>
+</mapper>

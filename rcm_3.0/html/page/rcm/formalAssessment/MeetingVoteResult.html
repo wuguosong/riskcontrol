@@ -1,0 +1,53 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">决策会表决</span>
+	</div>
+	<form class="form-horizontal ng-pristine ng-valid" >	
+		<div class="panel">
+			<div class="panel-heading">
+				<div class="panel-hd-cont"><span class="panel-title">表决结果<i class="i-triangle"></i></span></div>
+			</div>
+			<div class="panel-body">
+				<div class="row vote-tit"><div class="">{{decision.project_name}}</div></div>
+				<div class="row vote-tit"><div class="">决策人数：<span>{{decision.zongRenShu}}人</span></div></div>
+				<div class="row vote-cont vote-result">
+					<div class="col-sm-3 vote-opinion orange">
+						<a href="javascript:void(0);" title="" class=""><i class="fa">{{decision.tongYiCount}}</i><span class="text">同意</span></a>
+					</div>
+					<div class="col-sm-3 vote-opinion purple">
+						<a href="javascript:void(0);" title="" class=""><i class="fa">{{decision.buTongYiCount}}</i><span class="text">不同意</span></a>
+					</div>
+					<div class="col-sm-3 vote-opinion blue">
+						<a href="javascript:void(0);" title="" class=""><i class="fa">{{decision.tiaoJianTongYiCount}}</i><span class="text">有条件同意</span></a>
+					</div>
+					<div class="col-sm-3 vote-opinion green">
+						<a href="javascript:void(0);" title="" class=""><i class="fa">{{decision.zeQiShangHuiCount}}</i><span class="text">择期决议</span></a>
+					</div>
+				</div>
+				<div class="row vote-result-bottom"><div class="">决策结果：
+				<span ng-if="1 == decision.decisionResult">同意</span>
+				<span ng-if="2 == decision.decisionResult">不同意</span>
+				<span ng-if="3 == decision.decisionResult">有条件同意</span>
+				<span ng-if="4 == decision.decisionResult">择期决议</span>
+				</div>
+				<div class="row vote-result-bottom" style="font-size: 18px;" ng-if="null != decision.isShiYongFouJueQuan && 1 == decision.isShiYongFouJueQuan">
+					会议主席选择了
+					<span ng-if="1 == decision.huiYiZhuXi">同意</span>
+					<span ng-if="2 == decision.huiYiZhuXi">不同意</span>
+					<span ng-if="3 == decision.huiYiZhuXi">有条件同意</span>
+					<span ng-if="4 == decision.huiYiZhuXi">择期决议</span>
+				</div>
+				<div class="row vote-result-bottom" style="font-size: 18px;" ng-if="null != decision.isLiChangGanRaoQuan && 1 == decision.isLiChangGanRaoQuan">
+					表决人数{{decision.meetingLeaderCount}},离场人数{{decision.meetingLeaderCount - decision.zongRenShu}}
+				</div>
+			</div>
+			</div>
+			<div class="vote-btn">
+				<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+</script>

@@ -1,0 +1,11 @@
+.page-404 .search-form .search-input,
+.page-500 .search-form .search-input,
+.page-404 .search-form .search-btn,
+.page-500 .search-form .search-btn {
+  float: right;
+}
+.page-404 .search-form .search-btn,
+.page-500 .search-form .search-btn {
+  margin-left: 0;
+  margin-right: 10px;
+}

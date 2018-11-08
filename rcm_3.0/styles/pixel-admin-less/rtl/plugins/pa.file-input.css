@@ -1,0 +1,10 @@
+.pfi-actions {
+  right: auto;
+  left: 0;
+  padding-right: 10px;
+  padding-left: 5px;
+}
+.pfi-actions > * + * {
+  margin-left: 0;
+  margin-right: 4px;
+}

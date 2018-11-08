@@ -1,0 +1,172 @@
+<div class="panel-body">
+	<form class="form-horizontal ng-pristine ng-valid" >	
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">决策意见汇总</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">决策委员会材料<i class="i-triangle"></i></span></div>
+				</div>
+				<div class="panel-body">
+					<directive-formal-jcwyh></directive-formal-jcwyh>
+					<div class="row">
+						<div class="row-tit">2.项目基本信息补充</div>
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+							<tbody>
+							<tr>
+								<td class="title-column">项目规模</td>
+								<td><div class="has-feedback">
+									<input type="text" class="form-control" disabled id="jprojectSize" ng-model="formalReport.policyDecision.projectSize" placeholder="0">	<span class="unit-ton">单位(吨)</span></div></td>
+								<td class="title-column">投资金额</td>
+								<td><div class="has-feedback">
+									<input type="text" class="form-control" disabled id="jinvestmentAmount" ng-model="formalReport.policyDecision.investmentAmount" placeholder="0.0"><span class="unit-million">单位(万元)</span></div></td>
+							</tr>
+							<tr>
+								<td class="title-column">项目类型</td>
+								<td><div id="regional-division">
+									<div class="select2-success">
+										<select  class="form-control" disabled id="jprojectType" name="jprojectType" ng-model="formalReport.policyDecision.projectType" ng-options="listtype.ITEM_NAME for listtype in projectlisttype track by listtype.ITEM_CODE">
+											<option value="">-- 请选择 --</option>
+										</select>
+									</div>
+								</div></td>
+								<td class="title-column">投资收益率</td>
+								<td>
+									<div class="has-feedback">
+										<input type="text" class="form-control" disabled id="rateOfReturn" name="rateOfReturn" ng-model="formalReport.policyDecision.rateOfReturn" placeholder="0" /><span class="percent">%</span>
+									</div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="row-tit">3.投资正式评审报告_风控部门提供</div>
+						<div class="col-sm-10">
+							<a ng-click="downLoadFileReport(formalReport.filePath)" style="cursor: pointer" title="">正式评审报告.docx</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">附件列表</div>
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+								<thead>
+								<tr>
+									<th width="5%">选择</th>
+									<th width="30%">附件名称</th>
+									<th>上传附件</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="item in formalReport.policyDecision.fileList track by $index">
+									<td class="txc">
+										<label class="checkbox-inline">
+											<input type="checkbox" class="px" disabled ng-model="item.selected">
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td><input type="text" disabled ng-model="item.file_content"  class="form-control"></td>
+									<td>
+										<div class="col-sm-12 noleft-pad noright-pad">
+											<span ng-bind="progress$index"></span>
+											<span style="">{{errorAttach[$index].msg}}</span>
+											<a href="javascript:void(0);" ng-click="downLoadFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
+										</div>
+										<!--<div class="col-sm-3 noright-pad txr">
+											<button type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
+										</div>-->
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">4.相关附件_投资部门提供</div>
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover datatable table-text-mid table-light">
+								<thead>
+								<tr>
+									<th>序号</th>
+									<th>资源名称</th>
+									<th>附件内容</th>
+									<th>编制人</th>
+									<th>审核人</th>
+									<th>创建时间</th>
+									<th>版本号</th>
+								</tr>
+								</thead>
+								<tr ng-repeat="item in formalReport.policyDecision.decisionMakingCommitteeStaffFiles " >
+									<td>{{$index+1}}</td>
+									<td>{{item.ITEM_NAME}}</td>
+									<td> <a href="javascript:void(0);" ng-click="downLoadFile(item)">{{item.fileName}}</a> </td>
+									<td>{{item.programmed}}</td>
+									<td>{{item.approved}}</td>
+									<td>{{item.upload_date}}</td>
+									<td>{{item.version}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel" ng-if="isshow">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">决策委员会意见<i class="i-triangle"></i></span></div>
+				</div>
+				<div class="panel-body">
+					<div class="row table-responsive">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+							<tbody ng-repeat="m in Onemeeting.decisionOpinionList" >
+							<tr>
+								<td>决策人</td>
+								<td style="text-align: left">{{m.userName}}</td>
+							</tr>
+							<tr>
+								<input type="hidden" ng-model="m.userId">
+								<td>决策意见</td>
+								<td class="txl">
+									<label class="checkbox-inline">
+										<input type="radio" disabled ng-model="m.aagreeOrDisagree"  class="px"  value="1"/>
+										<span class="lbl">同意投资</span>
+									</label>
+									<label class="checkbox-inline">
+										<input type="radio" disabled ng-model="m.aagreeOrDisagree"  class="px" value="2"/>
+										<span class="lbl">不同意投资</span>
+									</label>
+									<label class="checkbox-inline">
+										<input type="radio" disabled ng-model="m.aagreeOrDisagree"  class="px"  value="3"/>
+										<span class="lbl">同意有条件投资</span>
+									</label>
+									<label class="checkbox-inline">
+										<input type="radio" disabled ng-model="m.aagreeOrDisagree"  class="px"  value="4"/>
+										<span class="lbl">择期决议</span>
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<td>具体意见</td>
+								<td><textarea name="" disabled ng-model="m.particularView" rows="" cols="" class="form-control"></textarea></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<a href="#/DecisionViewsList" type="button"  class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+	angular.element(document).ready(function() {
+		$("#fixed-member-box select").select2();
+   });
+</script>

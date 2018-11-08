@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.formalAssessment.dao.IProfessionMapper">
+
+	<select id="queryAllTeams" resultType="map" parameterType="hashmap">
+		select t.* from rcm_profession_team t where 1=1
+    	<if test="review_type!=null and review_type!='' ">and t.review_type like '%${review_type}%'</if>
+		<if test="review_leader!=null and review_leader!='' ">and t.review_leader like '%${review_leader}%'</if>
+	</select>
+	<insert id="insertProfessionTeam" parameterType="hashmap">
+		insert into rcm_profession_team
+		(uuid,review_leader,review_leader_id, review_type,status,ordernum) values
+		(#{uuid,jdbcType=VARCHAR},
+		#{review_leader,jdbcType=VARCHAR},
+		#{review_leader_id,jdbcType=VARCHAR},
+		#{review_type,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{ordernum,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertAll" parameterType="hashmap">
+		insert into
+		rcm_profession_item(uuid, review_team_id,
+		review_type,review_team_membername,review_team_memberid,status,ordernum) values
+		(#{uuid,jdbcType=VARCHAR}, 
+		#{review_team_id,jdbcType=VARCHAR}, 
+		#{review_type,jdbcType=VARCHAR}, 
+		#{review_team_membername,jdbcType=VARCHAR},
+		#{review_team_memberid,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{ordernum,jdbcType=INTEGER})
+	</insert>
+	<select id="queryMembersByTeamId" resultType="map" parameterType="hashmap">
+		select t.review_team_membername from rcm_profession_item t where 1=1 and t.review_team_id=#{uuid}
+	</select>
+	<select id="selectOneTeam" resultType="hashmap">
+		select *
+		from rcm_profession_team where uuid=#{uuid}
+	</select>
+	<select id="selectTeamItem" resultType="hashmap">
+		select * from rcm_profession_item where review_team_id=#{uuid}
+	</select>
+	<update id="updateTeam" parameterType="hashmap">
+		update rcm_profession_team set review_leader=#{review_leader,jdbcType=VARCHAR},
+		review_leader_id=#{review_leader_id,jdbcType=VARCHAR},
+		review_type=#{review_type,jdbcType=VARCHAR},
+		status=#{status,jdbcType=VARCHAR},
+		ordernum=#{ordernum,jdbcType=INTEGER} 
+		where uuid = #{uuid,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteItem" parameterType="hashmap">
+		delete from rcm_profession_item 
+		i where review_team_id=#{uuid}
+	</delete>
+	<delete id="deleteTeam" parameterType="hashmap">
+		delete from rcm_profession_team 
+		i where uuid=#{uuid}
+	</delete>
+	<delete id="updateTeamSatusById" parameterType="hashmap">
+		update rcm_profession_team set status=#{status}
+		where uuid = #{uuid,jdbcType=VARCHAR}
+	</delete>
+	<select id="queryProfessionReview" resultType="hashmap">
+			 select * from ( 
+		    select t.review_type name ,
+		     t.uuid value ,'' pid,
+		     '1' isgroup , 
+		     '' isLeader ,
+		     t.ordernum,
+		     1 seq ,
+		     status
+		     from rcm_profession_team t 
+		    union 
+		    select tt.review_leader name , 
+		    tt.review_leader_id value,
+		    tt.uuid pid ,
+		    '0' isgroup , 
+		    '1' isLeader ,
+		    tt.ordernum,
+		    2 seq ,
+		    status
+		    from rcm_profession_team tt 
+		    union 
+		    select it.review_team_membername name, 
+		       it.review_team_memberid value,
+		       it.review_team_id pid,
+		       '0' isgroup,
+		       '0' isLeader,
+		       rownum ordernum,
+		       3 seq,
+		       status
+		  from rcm_profession_item it 
+		 where it.review_team_memberid not in (select a.review_leader_id from RCM_PROFESSION_TEAM a )
+           ) ta  where ta.status='1'
+        order by ta.seq, isgroup desc, isleader desc, ordernum
+	</select>
+</mapper>

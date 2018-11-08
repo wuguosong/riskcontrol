@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.project.dao.IPersonnelWorkMapper">
+	<!-- 正式评审跟进中 -->
+	<select id="queryFormalGoingList" parameterType="map" resultType="map">
+		select * from (
+		  select r.user_name as review_leader_name,r.user_id as review_leader_id,p.project_name,p.business_id,p.reporting_unit_name as reporting_unit_name,
+		         decode(p.type,'preAssessment','预评审','formalAssessment','正式评审','') as project_type,
+		         to_char(r.create_time,'yyyy-mm-dd') as start_time, 
+		         to_char(p.complete_date,'yyyy-mm-dd')  as end_time,
+		         p.meeting_date  as meeting_date,
+		         fun_get_workdays(r.create_time, nvl(p.complete_date, sysdate)) as use_days,
+		         decode(p.wf_state, '1','跟进中', '2','已完成','3','已终止','') as project_state,
+		         NVL( p.need_meeting , 1) as need_meeting
+		   from rcm_project_info p, rcm_project_relation r
+		   where p.business_id = r.business_id 
+		     and r.relation_type in('0706','0710')
+		) ta where 1=1 
+		<!-- and ta.review_leader_id is not null --> 
+		and ta.project_state is not null 
+		and ta.review_leader_id='${review_leader_id}'
+		<if test="reviewLeaderId != null and reviewLeaderId !=''"> and ta.review_leader_id = '${reviewLeaderId}'</if>
+		<if test="startTime!=null and startTime!='' ">and to_char(ta.start_time,'yyyy-mm-dd') = '${startTime}'</if>
+		<if test="projectName!=null and projectName!='' ">and ta.project_name like '%${projectName}%'</if>
+		<if test="projectState!=null and projectState!='' ">and ta.project_state = '${projectState}'</if>
+		<if test="reportingUnitName!=null and reportingUnitName!='' ">and ta.reporting_unit_name like '%${reportingUnitName}%'</if>
+		and ta.project_type = '正式评审'
+		and ta.project_state in ('跟进中','已完成')
+		and ( ta.meeting_date &gt; sysdate<!-- 未上会 -->
+		or ta.meeting_date is null)
+		order by ta.start_time desc
+	</select>
+    <!-- 正式评审已上会 -->
+    <select id="queryFormalDealedList" parameterType="map" resultType="map">
+		select * from (
+		  select r.user_name as review_leader_name,r.user_id as review_leader_id,p.project_name,p.business_id,p.reporting_unit_name as reporting_unit_name,
+		         decode(p.type,'preAssessment','预评审','formalAssessment','正式评审','') as project_type,
+		         to_char(r.create_time,'yyyy-mm-dd') as start_time, 
+		         to_char(p.complete_date,'yyyy-mm-dd')  as end_time,
+		         p.meeting_date  as meeting_date,
+		         fun_get_workdays(r.create_time, nvl(p.complete_date, sysdate)) as use_days,
+		         decode(p.wf_state, '1','跟进中', '2','已完成','3','已终止','') as project_state,
+		         
+		         NVL( p.need_meeting , 1) as need_meeting
+		         
+		    from rcm_project_info p, rcm_project_relation r
+		   where p.business_id = r.business_id 
+		   	 <!-- and p.need_meeting = 0 -->
+		     and r.relation_type in('0706','0710')
+		) ta where 1=1 and ta.project_state is not null and ta.review_leader_id='${review_leader_id}'
+		<if test="reviewLeaderId != null and reviewLeaderId !=''"> and ta.review_leader_id = '${reviewLeaderId}'</if>
+		<if test="startTime!=null and startTime!='' ">and to_char(ta.start_time,'yyyy-mm-dd') = '${startTime}'</if>
+		<if test="projectName!=null and projectName!='' ">and ta.project_name like '%${projectName}%'</if>
+		<if test="projectState!=null and projectState!='' ">and ta.project_state = '${projectState}'</if>
+		<if test="reportingUnitName!=null and reportingUnitName!='' ">and ta.reporting_unit_name like '%${reportingUnitName}%'</if>
+			and ta.project_type = '正式评审'
+			and ta.meeting_date &lt;= sysdate<!-- 已上会 -->
+			and ta.need_meeting = 0
+		order by ta.start_time desc
+	</select>
+	<!-- 预评审跟进中 -->
+	<select id="queryPreGoingList" parameterType="map" resultType="map">
+		select * from (
+		  select r.user_name as review_leader_name,r.user_id as review_leader_id,p.project_name,p.business_id,p.reporting_unit_name as reporting_unit_name,
+		         decode(p.type,'preAssessment','预评审','formalAssessment','正式评审','') as project_type,
+		         to_char(r.create_time,'yyyy-mm-dd') as start_time, 
+		         to_char(p.complete_date,'yyyy-mm-dd')  as end_time,
+		         p.meeting_date  as meeting_date,
+		         fun_get_workdays(r.create_time, nvl(p.complete_date, sysdate)) as use_days,
+		         decode(p.wf_state, '1','跟进中', '2','已完成','3','已终止','') as project_state,
+		         NVL( p.need_meeting , 1) as need_meeting
+		    from rcm_project_info p, rcm_project_relation r
+		   where p.business_id = r.business_id 
+		   	 <!-- and p.need_meeting = 0 -->
+		     and r.relation_type in('0706','0710')
+		) ta where 1=1 and ta.project_state is not null and ta.review_leader_id='${review_leader_id}'
+		<if test="reviewLeaderId != null and reviewLeaderId !=''"> and ta.review_leader_id = '${reviewLeaderId}'</if>
+		<if test="startTime!=null and startTime!='' ">and to_char(ta.start_time,'yyyy-mm-dd') = '${startTime}'</if>
+		<if test="projectName!=null and projectName!='' ">and ta.project_name like '%${projectName}%'</if>
+		<if test="projectState!=null and projectState!='' ">and ta.project_state = '${projectState}'</if>
+		<if test="reportingUnitName!=null and reportingUnitName!='' ">and ta.reporting_unit_name like '%${reportingUnitName}%'</if>
+		and ta.project_type = '预评审'
+		and ta.project_state = '跟进中'
+		order by ta.start_time desc
+	</select>    
+	<!-- 预评审已完成 -->
+	<select id="queryPreDealedList" parameterType="map" resultType="map">
+		select * from (
+		  select r.user_name as review_leader_name,r.user_id as review_leader_id,p.project_name,p.business_id,p.reporting_unit_name as reporting_unit_name,
+		         decode(p.type,'preAssessment','预评审','formalAssessment','正式评审','') as project_type,
+		         to_char(r.create_time,'yyyy-mm-dd') as start_time, 
+		         to_char(p.complete_date,'yyyy-mm-dd')  as end_time,
+		         p.meeting_date  as meeting_date,
+		         fun_get_workdays(r.create_time, nvl(p.complete_date, sysdate)) as use_days,
+		         decode(p.wf_state, '1','跟进中', '2','已完成','3','已终止','') as project_state,
+		         NVL( p.need_meeting , 1) as need_meeting
+		    from rcm_project_info p, rcm_project_relation r
+		   where p.business_id = r.business_id 
+		   	 <!-- and p.need_meeting = 0 -->
+		     and r.relation_type in('0706','0710')
+		) ta where 1=1 and ta.project_state is not null and ta.review_leader_id='${review_leader_id}'
+		<if test="reviewLeaderId != null and reviewLeaderId !=''"> and ta.review_leader_id = '${reviewLeaderId}'</if>
+		<if test="startTime!=null and startTime!='' ">and to_char(ta.start_time,'yyyy-mm-dd') = '${startTime}'</if>
+		<if test="projectName!=null and projectName!='' ">and ta.project_name like '%${projectName}%'</if>
+		<if test="projectState!=null and projectState!='' ">and ta.project_state = '${projectState}'</if>
+		<if test="reportingUnitName!=null and reportingUnitName!='' ">and ta.reporting_unit_name like '%${reportingUnitName}%'</if>
+		and ta.project_type = '预评审' 
+		and ta.project_state = '已完成'
+		order by ta.start_time desc
+	</select>
+</mapper>

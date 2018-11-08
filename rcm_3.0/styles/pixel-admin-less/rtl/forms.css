@@ -1,0 +1,93 @@
+.form-horizontal .form-group label {
+  text-align: left;
+}
+.radio,
+.checkbox {
+  padding-left: 0;
+  padding-right: 20px;
+}
+.radio label,
+.radio-inline label,
+.checkbox label,
+.checkbox-inline label {
+  text-align: right !important;
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  float: right;
+  margin-left: 0;
+  margin-right: -20px;
+}
+.radio-inline,
+.checkbox-inline {
+  padding-left: 0;
+  padding-right: 20px;
+}
+.has-warning .help-block:before,
+.has-error .help-block:before,
+.has-success .help-block:before {
+  left: auto;
+  right: 16px;
+}
+.has-warning .help-block:after,
+.has-error .help-block:after,
+.has-success .help-block:after {
+  left: auto;
+  right: 17px;
+}
+.radio-inline + .radio-inline,
+.checkbox-inline + .checkbox-inline {
+  margin-left: 0;
+  margin-right: 10px;
+}
+.form-control-feedback {
+  left: 0;
+  right: auto;
+}
+.has-feedback .form-control {
+  padding-left: 32px;
+  padding-right: 12px;
+}
+.gt-ie8  input.px {
+  left: auto !important;
+  right: -1000000px !important;
+}
+.gt-ie8  input.px + .lbl {
+  padding-left: 0;
+  padding-right: 1px;
+  margin-left: 0;
+}
+.gt-ie8  input.px + .lbl:before {
+  left: auto;
+  right: 0;
+}
+.gt-ie8  input.px + .lbl:before,
+.gt-ie8  input.px + .lbl:after {
+  margin: 2px -20px -3px 3px !important;
+}
+.gt-ie8  input[type="checkbox"].px + .lbl:after {
+  left: auto;
+  right: 1px;
+}
+.gt-ie8  input[type="radio"].px + .lbl:after {
+  left: auto;
+  right: 5px;
+}
+@media (min-width: 768px) {
+  .gt-ie8  .form-inline .radio input.px + .lbl,
+  .gt-ie8  .form-inline .checkbox input.px + .lbl {
+    margin-left: 0;
+  }
+}
+.px-single input.px {
+  margin: 0 !important;
+}
+.px-single input.px + .lbl:before,
+.px-single input.px + .lbl:after {
+  margin: 0 !important;
+}
+.px-single input.px + .lbl {
+  padding: 0 !important;
+}

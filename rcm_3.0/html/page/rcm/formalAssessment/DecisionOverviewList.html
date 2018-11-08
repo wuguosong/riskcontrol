@@ -1,0 +1,58 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">{{areaName}}
+			<span ng-if="state=='0'"> ━ 跟进中</span>
+			<span ng-if="state=='1'"> ━ 已过会 ━ 同意投资</span>
+			<span ng-if="state=='2'"> ━ 已过会 ━ 不同意投资</span>
+			<span ng-if="state=='3'"> ━ 已过会 ━ 有条件投资</span>
+			<span ng-if="state=='4'"> ━ 已过会 ━ 择期决议</span>
+			<span ng-if="state=='all'"> ━ 全部</span>
+		</span>
+	</div>
+	<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目列表<i class="i-triangle"></i></span></div></div>
+			<div class="panel-body">
+				<div class="row nobottom-mar">
+					<div class="table-responsive table-list">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+							<thead>
+							<tr>
+								<th>序号</th>
+								<th>项目名称</th>
+								<th>所属大区</th>
+								<th>创建时间</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="p in projects">
+								<td>{{$index+1}}</td>
+								<td>
+									<a href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/DecisionOverviewList/'+pertainareaId+'/'+state | encodeURI}}">{{p.PROJECT_NAME}}<a>
+								</td>
+								<td>{{p.AREANAME}}</td>
+								<td>{{p.CREATE_DATEA}}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="table-footer clearfix">
+				<tm-pagination conf="paginationConf"></tm-pagination>
+			</div>
+		</div>
+		<div class="button-group">
+				<div class="row">
+					<div class="option">
+						<a class="btn btn-info" href="#/DecisionOverview"><i class="fa fa-reply"></i>返回</a>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>
+<script>
+	angular.element(document).ready(function() {
+	});
+</script>

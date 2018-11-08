@@ -1,0 +1,103 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">我的项目</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading search-box">
+				<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
+			</div>
+			<div id="searchbox" class="panel-collapse collapse">
+				<div class="panel-body search-body">
+					<div class="form-group row sm-row">
+						<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+						<div class="col-sm-4 col-md-3 sm-col"><input type="text" ng-model="paginationConf.queryObj.publicProjectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+						<label class="col-sm-2 col-md-1 control-label">项目类型</label>
+						<div class="col-sm-4 col-md-2">
+							<select class="form-control" ng-model="paginationConf.queryObj.projectType">
+								<option value="">请选择...</option>
+								<option value="pfr">正式评审</option>
+								<option value="pre">投标评审</option>
+								<option value="bulletin">其他评审</option>
+							</select>
+						</div>
+						<label class="col-sm-2 col-md-1 control-label">项目阶段</label>
+						<div class="col-sm-4 col-md-2">
+							<select class="form-control" ng-model="paginationConf.queryObj.projectStage">
+								<option value="">请选择...</option>
+								<option value="1">申请阶段</option>
+								<option value="2">任务分配</option>
+								<option value="3">风控处理</option>
+								<option value="4">准备上会</option>
+								<option value="5">已决策</option>
+								<option value="9">已终止</option>
+							</select>
+						</div>
+						<div class="col-sm-1 col-md-2">
+							<div class="col-sm-1 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="executeQueryProjectReviewListByPage()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">数据列表<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+                <div class="">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                               	<th>序号</th>
+								<th>项目名称</th>
+								<th>项目类型</th>
+								<th>项目环节</th>
+								<th>所属单位</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="p in myProjectList">
+                                    <td>{{$index+1}}</td>
+									<td><a href="#/myProjectInfo/{{p.BUSINESS_ID}}/{{('#/myProjectList/' + returnUrl) | encodeURI}}">{{p.PROJECT_NAME}}</a></td>
+									<td>
+										<font ng-if="'pfr' == p.PROJECT_TYPE">正式评审</font>
+										<font ng-if="'bulletin' == p.PROJECT_TYPE">其他评审</font>
+										<font ng-if="'pre' == p.PROJECT_TYPE">投标评审</font>
+									</td>
+									<td>
+									{{p.STAGE}}
+<!-- 										<font ng-if="'1' == p.STAGE">申请中</font> -->
+<!-- 										<font ng-if="'2' == p.STAGE || '3' == p.STAGE">流程审批阶段</font> -->
+<!-- 										<font ng-if="'3.5' == p.STAGE">出报告阶段</font> -->
+<!-- 										<font ng-if="'4' == p.STAGE">出报告阶段</font> -->
+									</td>
+									<td>{{p.PERTAINAREA_NAME}}</td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+              <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+            	<div class="option">
+            		<directive-return-btn url="{{returnUrl}}"></directive-return-btn>
+            	</div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#meetingTime').datepicker(options);
+    });
+</script>

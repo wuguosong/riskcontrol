@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../assets/javascripts/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="../../assets/stylesheets/bootstrap.min.css">
+    <script src="../../assets/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../assets/angularjs/angular-1.4.0/angular.js"></script>
+    <script type="text/javascript" src="../../assets/javascripts/popWindow.js"></script>
+    <link href="../../assets/stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/widgets.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/rtl.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/themes.min.css" rel="stylesheet" type="text/css">
+
+</head>
+<script type="text/javascript">
+
+
+    //--------控制器代码------------//
+    var projectShow = angular.module('projectShow', []);
+    projectShow.directive('onFinishRenderFilters', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout(function() {
+                        scope.$emit('ngRepeatFinished');
+                    });
+                }
+            }
+        };
+    });
+    projectShow.controller('projectShowControl', function ($scope, $http) {
+        $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+            window.parent.window.iFrameHeight();
+        });
+        //查询所有的
+        $scope.ListAll = function () {
+
+            var aUrl = 'http://127.0.0.1:8080/ctm-rest/ctm/FileList/GetAll';
+            $http.get(aUrl)
+                    .success(
+                    function (data, status, headers, config) {
+                        $scope.contracts = data.result_data;
+                        //  alert( data.result_name);
+
+                    }
+            ).error(function (data, status, headers, config) {
+                        alert(status);
+
+                    });
+
+        };
+    });
+
+</script>
+<body ng-app="projectShow">
+<script>var init = [];</script>
+<!-- Demo script --> <script src="../../assets/demo/demo.js"></script> <!-- / Demo script -->
+<div   ng-controller="projectShowControl" class="theme-default">
+    <div class="panel" style="border: none">
+        <div class="panel-heading" style="height: 35px; padding-top: 2px; padding-bottom: 4px">
+            <ol class="breadcrumb">
+                <li><a href="#">首页</a></li>
+                <li class="active">项目预览</li>
+            </ol>
+        </div>
+            <div style="float:left;padding-left: 19px;padding-top: 9px">
+                <img src="../../assets/images/icon/1.png">
+            </div>
+            <div class="row">
+                <span style="padding-top: 20px;padding-left: 11px;position: absolute;font-weight: 500;font-size: large">项目预览</span>
+            </div>
+            <hr class="panel-wide" style="margin-bottom: 0px">
+        <div class="panel-body">
+            <div class="row pull-right">
+                <i class="fa  fa-circle-o" style="color: slategray">未完成</i>&nbsp;&nbsp;&nbsp;<i class="fa  fa-check-circle-o" style="color: green">已完成</i>
+                &nbsp;&nbsp;&nbsp;<i class="fa  fa-clock-o" style="color: darkorange">进行中</i>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="note note-success col-sm-1" style="background:green;font-weight: 700;color: white">
+                    项目预评审
+                </div>
+                <div class="note note-success col-sm-2" style="background:#c2e2f6">
+                    <i class="fa  fa-check-circle-o" style="font-size: 18px;color:green;" >&nbsp; </i>1、投资预评审申请
+                </div>
+
+                <div class="note note-success col-sm-2" style="background:#c2e2f6">
+                    <i class="fa  fa-check-circle-o" style="font-size: 18px;color:green;" >&nbsp; </i>2、项目任务分配
+                </div>
+                <div class="note note-success col-sm-2" style="background:#c2e2f6">
+                    <i class="fa  fa-check-circle-o" style="font-size: 18px;color:green;" >&nbsp; </i>3、评审组内部分配<span style="color: red">（超1天）</span>
+                </div>
+                <div class="note note-success col-sm-2" style="background:#c2e2f6">
+                    <i class="fa  fa-check-circle-o" style="font-size: 18px;color:green;" >&nbsp; </i>4、初步预评审意见
+                </div>
+                <div class="note note-success col-sm-2" style="background:#c2e2f6">
+                    <i class="fa  fa-check-circle-o" style="font-size: 18px;color:green;" >&nbsp; </i>5、专业评审意见<span style="color: red">（超2天）</span>）
+                </div>
+                <div class="note note-success col-sm-2 col-md-offset-1" style="background:#c2e2f6">
+                    <i class="fa  fa-check-circle-o" style="font-size: 18px;color:green;" >&nbsp; </i>6、预评审报告
+                </div>
+                <div class="note note-warning col-sm-2">
+                    <i class="fa  fa-clock-o" style="font-size: 18px;color:#ed9c28;" >&nbsp; </i>7、决策委员会决策<span style="color: red">（剩1天）</span>
+                </div>
+                <div class="note col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>8、更新投标项目状态
+                </div>
+            </div>
+            <div class="row">
+                <div class="note note-success col-sm-1" style="background:green;font-weight: 700;color: white">
+                    正式投资评审
+                </div>
+                <div class="note col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>1、项目正式评审申请
+                </div>
+
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>2、项目任务分配
+                </div>
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>3、审组及法律组内部项目分配
+                </div>
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>4、初步预评审意见
+                </div>
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>5、专业评审意见
+                </div>
+                <div class="note  col-sm-2 col-md-offset-1" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>6、正式评审报告
+                </div>
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>7、投资决策委员会决策
+                </div>
+                <div class="note col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>8、项目指导意见录入
+                </div>
+            </div>
+            <div class="row">
+                <div class="note note-success col-sm-1" style="background:green;font-weight: 700;color: white">
+                    合同正式评审
+                </div>
+                <div class="note col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>1、合同评审申请表及合同
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="note note-success col-sm-1" style="background:green;font-weight: 700;color: white">
+                    法律尽调
+                </div>
+                <div class="note col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>1、法律尽职调查审核申请
+                </div>
+
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>2、项目任务分配
+                </div>
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>3、法律组内部项目分配
+                </div>
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>4、初步预评审意见
+                </div>
+                <div class="note  col-sm-2" style="background:lightgray">
+                    <i class="fa fa-circle-o" style="font-size: 18px" >&nbsp; </i>5、最终审核意见
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

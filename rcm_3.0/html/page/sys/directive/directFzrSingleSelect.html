@@ -1,0 +1,34 @@
+<div class="row nobottom-mar">
+	<div  class="col-sm-12 noleft-pad noright-pad">
+		<div id="{{id}}">
+			<div id="model1"  data-toggle="modal" data-target="#fzrSinDialog_{{id}}"  class="select2-success">
+				<div id="s2id_projectModel2" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+					<ul ng-if="isMultiSelect=='false'" class="select2-choices">
+						<li class="select2-search-choice" ng-if="null != checkedUser[mappedKeyValue.nameField]">
+							<div>{{checkedUser[mappedKeyValue.nameField]}}</div>
+							<a  ng-if="isEditable=='true'" class="select2-search-choice-close" tabindex="-1" ng-click="removeSelectedUser()"></a>
+							<div  ng-if="isEditable=='true'" class="full-drop"></div>
+						</li>
+						<li style="height:29px;"></li>
+					</ul>
+					<ul ng-if="isMultiSelect=='true'" class="select2-choices">
+						<li class="select2-search-choice" ng-repeat="user in checkedUser">
+							<div>{{user[mappedKeyValue.nameField]}}</div>
+							<a  ng-if="isEditable=='true'" class="select2-search-choice-close" tabindex="-1" ng-click="removeSelectedUser(user)"></a>
+							<div  ng-if="isEditable=='true'" class="full-drop"></div>
+						</li>
+						<li style="height:29px;"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div  ng-if="isEditable=='true'" id="fzrSinDialog_{{id}}"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+		<direct-fzr-single-dialog id="{{id}}" title="{{title}}" url="{{url}}" checked-user="checkedUser" 
+		remove-selected-user="removeSelectedUser()" callback="callback" 
+		mapped-key-value="mappedKeyValue" is-group="{{isGroup}}" is-multi-select="{{isMultiSelect}}"></direct-fzr-single-dialog>
+	</div>
+</div>
+
+
+

@@ -1,0 +1,20 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">我的项目</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+        <div class="panel">
+        	<span ng-click="tag = '2'">参会信息</span>
+        	<span ng-click="tag = '3'">提交决策委员会材料</span>
+           	<formal-bidding-info-test ng-if="tag =='3'"></formal-bidding-info-test>
+        </div>
+        <div class="button-group">
+            <div class="row">
+            	<div class="option">
+            		<directive-return-btn url="{{returnUrl}}"></directive-return-btn>
+            	</div>
+            </div>
+        </div>
+    </form>
+</div>

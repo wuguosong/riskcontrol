@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.decision.dao.IMeetingIssueMapper">
+
+	<select id="getMaxMeetingIssue" resultType="int">
+		select NVL(max(mi.MEETING_ISSUE_NUMBER)+1,1) 
+		from rcm_meeting_issue mi 
+		<![CDATA[
+ 		where mi.meeting_time < #{todayDate,jdbcType=DATE}  and mi.status = '1' and TO_CHAR(mi.meeting_time, 'yyyy') = TO_CHAR(#{meetingTime,jdbcType=DATE}, 'yyyy') 
+		]]>
+	</select>
+	
+	<insert id="add" parameterType="map">
+		insert into RCM_MEETING_ISSUE(ID, MEETING_ISSUE, MEETING_ISSUE_NUMBER, MEETING_LEADERS,MEETING_TIME,MEETING_TYPE) 
+		values(#{mi.id,javaType=java.lang.String,jdbcType=VARCHAR}, #{mi.meeting_issue,javaType=java.lang.String,jdbcType=VARCHAR}, #{mi.meeting_issue_number,javaType=int,jdbcType=INTEGER}, #{mi.meeting_leaders,javaType=java.lang.String,jdbcType=VARCHAR}, #{mi.meeting_time}, #{mi.meeting_type,javaType=java.lang.String,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="queryMeetingLeadersByMeetingIssueId" resultType="hashmap" parameterType="map">
+		 select u.VALUE, u.NAME NAME
+		  from (select distinct u.UUID VALUE, u.NAME NAME
+		          from rcm_meeting_issue mi, sys_user u
+		         where INSTR(mi.meeting_leaders, u.UUID) > 0
+		           and mi.ID = #{meetingIssueId}) u,
+		       sys_user_role ur
+		 where u.VALUE = ur.user_id and ur.code = #{role_code}
+		 order by ur.order_by
+	</select>
+	
+	<select id="queryByMeetingTime" resultType="hashmap" parameterType="map">
+		select * 
+		from RCM_MEETING_ISSUE 
+		where to_char(MEETING_TIME,'YYYY-MM-DD') = #{meetingTime} 
+	</select>
+	
+	<select id="queryById" resultType="hashmap" parameterType="map">
+		select mi.*
+		from RCM_MEETING_ISSUE mi
+		where mi.ID = #{id} 
+	</select>
+	
+	<insert id="deleteById" parameterType="map">
+		delete from RCM_MEETING_ISSUE
+		where id = #{id}
+	</insert>
+	
+	<select id="queryByMeetingIssue" resultType="hashmap" parameterType="map">
+		select mi.*
+		from rcm_meeting_issue mi
+		where mi.meeting_issue_number = #{meetingIssue} and mi.status = '1' and TO_CHAR(mi.meeting_time, 'yyyy') = TO_CHAR(#{meetingTime,jdbcType=DATE}, 'yyyy')
+	</select>
+	
+	<select id="queryListByPage" resultType="hashmap" parameterType="map">
+		select mi.*,(select count(1) from rcm_decision_resolution dr where dr.meeting_issue_id = mi.id) PROJECT_COUNT,DECODE(sign(mi.meeting_time - #{todayDate,jdbcType=DATE}),-1,1,0) usedTag 
+		from rcm_meeting_issue mi 
+		where mi.status = '1'
+		<if test="meetingIssue != null and meetingIssue != ''">
+			and to_char(mi.meeting_issue_number) = '${meetingIssue}' 
+		</if> 
+		<if test="meetingTime != null and meetingTime != ''">
+			and mi.meeting_time = to_date('${meetingTime}', 'YYYY-MM-DD')
+		</if>
+		order by mi.meeting_time desc,mi.meeting_issue_number desc
+	</select>
+	
+	<select id="queryMeetingProjectListByPage" resultType="hashmap" parameterType="map">
+		select p.* 
+		from rcm_v_project_info p
+		where p.meeting_issue_id = #{meetingId} 
+		<if test="meetingProjectReviewProjectName != null and meetingProjectReviewProjectName != ''">
+	   		and p.PROJECT_NAME like '%${meetingProjectReviewProjectName}%' 
+	   	</if>
+		order by p.decision_order_index
+	</select>
+	
+	<select id="ifTeamContainUser" parameterType="map" resultType="int">
+		select count(1) 
+		from team_item ti 
+		left join team t on ti.team_id = t.uuid 
+		where t.type = #{type} and ti.team_member_id = #{userId}
+	</select>
+	
+	<select id="ifTeamsContainUser" parameterType="map" resultType="int">
+		select count(1) 
+		from team_item ti 
+		left join team t on ti.team_id = t.uuid 
+		where t.type in 
+		<foreach collection="types" item="type" open="(" close=")" separator=",">
+			#{type}
+		</foreach>
+		 and ti.team_member_id = #{userId}
+	</select>
+	
+	<select id="countProjectReviewListByPage" resultType="int" parameterType="map">
+		select count(1) from rcm_v_project_info p 
+		where 1=1 
+		<if test="createby != null and createby != ''">
+			and p.CREATEBY = #{createby} 
+		</if>
+		<if test="publicProjectName != null and publicProjectName != ''">
+	   		and p.PROJECT_NAME like '%'||#{publicProjectName}||'%' 
+	   	</if>
+	   	<if test="projectType != null and projectType != ''">
+	   		and p.PROJECT_TYPE = #{projectType} 
+	   	</if>
+	   	<if test="projectStage != null and projectStage != ''">
+	   		and p.PROJECT_STAGE = #{projectStage} 
+	   	</if>
+		order by nvl(p.APPLY_DATE,p.CREATE_DATE) desc
+	</select>
+	
+	<select id="queryProjectReviewListByPage" resultType="hashmap" parameterType="map">
+		select * from (
+			select * from (select row_number() OVER(ORDER BY null) AS "row_number",p.*,
+                 (select u.name from sys_user u where u.UUID = p.CREATEBY) create_name,
+                 (select o.name from sys_org o where o.ORGPKVALUE = p.pertainarea_id) pertainarea_name,
+                 (select u.name from sys_user u where u.UUID = p.REVIEWPERSON_ID) reviewperson_name,
+                 (select u.name from sys_user u where u.UUID = p.LARGEAREAPERSON_ID) largeareaperson_name,
+                 rownum rn
+                from rcm_v_project_info p
+               where 1 = 1
+			<if test="createby != null and createby != ''">
+				and p.CREATEBY = #{createby} 
+			</if>
+			<if test="publicProjectName != null and publicProjectName != ''">
+		   		and p.PROJECT_NAME like 
+		   		'%'||#{publicProjectName}||'%' 
+		   	</if>
+		   	<if test="projectType != null and projectType != ''">
+		   		and p.PROJECT_TYPE = #{projectType} 
+		   	</if>
+		   	<if test="projectStage != null and projectStage != ''">
+		   		and p.PROJECT_STAGE = #{projectStage} 
+		   	</if>
+			 order by p.PROJECT_TYPE,TO_NUMBER(p.STAGE) desc,nvl(p.APPLY_DATE, p.CREATE_DATE) desc) p
+         where p."row_number" > ${offsetRow}) q
+		<![CDATA[
+ 			where rownum <= ${pageSize}
+		]]>
+	</select>
+	
+	<select id="queryAll" resultType="hashmap" parameterType="map">
+		select mi.* from RCM_MEETING_ISSUE mi 
+	</select>
+	
+	<update id="updateMeetChai" parameterType="map">
+		update RCM_MEETING_ISSUE
+		set MEETING_CHAIRMANS = #{MEETING_CHAIRMANS,jdbcType=VARCHAR}
+		where ID = #{ID,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="isShowPublicSearch" resultType="int" parameterType="map">
+		select count(1) 
+		from sys_role r 
+		left join sys_user_role ur  
+		on r.role_id = ur.role_id 
+		where ur.user_id = #{userId,jdbcType=VARCHAR} and r.last_update_by = '1' 
+	</select>
+</mapper>

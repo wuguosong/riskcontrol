@@ -1,0 +1,43 @@
+<html ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="http://apps.bdimg.com/libs/angular.js/1.2.16/angular.min.js"></script>
+</head>
+<body>
+<div ng-controller="myctrl">
+    {{test}}
+</div>
+<script type="text/javascript">
+    var myAppModule = angular.module("myApp",[]);
+    myAppModule.controller("myctrl",["$scope","$q",function($scope, $q ){
+        $scope.test = 1;//这个只是用来测试angularjs是否正常的，没其他的作用
+
+        var defer1 = $q.defer();
+        var promise1 = defer1.promise;
+
+        promise1
+                .then(function(value){
+                    console.log("in promise1 ---- success");
+                    console.log(value);
+                },function(value){
+                    console.log("in promise1 ---- error");
+                    console.log(value);
+                },function(value){
+                    console.log("in promise1 ---- notify");
+                    console.log(value);
+                })
+                .catch(function(e){
+                    console.log("in promise1 ---- catch");
+                    console.log(e);
+                })
+                .finally(function(value){
+                    console.log('in promise1 ---- finally');
+                    console.log(value);
+                });
+
+        defer1.resolve("hello");
+        // defer1.reject("sorry,reject");
+    }]);
+</script>
+</body>
+</html>

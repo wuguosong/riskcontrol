@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID">
+	
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>rcm.webroot</param-value>
+	</context-param>
+	<listener>
+		<listener-class>util.WebAppRootListener</listener-class>
+	</listener>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:config/applicationContext.xml</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:/log4j.properties</param-value>
+	</context-param>
+	
+	<listener>
+	   <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+	
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	<filter>
+		<filter-name>crossDomain</filter-name>
+		<filter-class>sys.filter.CrossDomainFilter</filter-class>
+		<init-param>
+			<param-name>crossDomainFile</param-name>
+			<param-value>crossDomain.properties</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>crossDomain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--SSO 过滤器 配置开始 -->
+	<!-- <filter>
+		<filter-name>checkLoginFilter</filter-name>
+		<filter-class>com.sso.client.servlet.CheckLoginFilter</filter-class>
+		<init-param>
+			<param-name>containerType</param-name>
+			<param-value>Tomcat</param-value>
+		</init-param>
+		<init-param>
+			<param-name>configLocation</param-name>
+			<param-value>/WEB-INF/Setting.xml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>checkLoginFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> -->
+	<!--SSO 过滤器 配置结束 -->
+	<filter>
+		<filter-name>commonFilter</filter-name>
+		<filter-class>sys.filter.CharacterFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>commonFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>dispatcher</filter-name>
+		<filter-class>sys.filter.DispatcherFilter</filter-class>
+		<init-param>
+			<param-name>excluded</param-name>
+			<param-value>index.jsp$|/WebService/.*</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>dispatcher</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!--SSO 监听器 配置开始 -->
+	<!-- <servlet>
+		<servlet-name>verifyImageServlet</servlet-name>
+		<servlet-class>com.sso.client.servlet.SsoLocalModelCodeAndPwdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>verifyImageServlet</servlet-name>
+		<url-pattern>/VerifyCodeAndRememberPwd</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ssoLoginServlet</servlet-name>
+		<servlet-class>com.sso.client.servlet.SsoLocalModelLoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ssoLoginServlet</servlet-name>
+		<url-pattern>/bewg_sso_localmodel_login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ssoLogoutServlet</servlet-name>
+		<servlet-class>com.sso.client.servlet.SsoLocalModelLogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ssoLogoutServlet</servlet-name>
+		<url-pattern>/bewg_sso_localmodel_exit.axd</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>clientGetCookiesServlet</servlet-name>
+		<servlet-class>com.sso.client.servlet.ClientGetCookiesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>clientGetCookiesServlet</servlet-name>
+		<url-pattern>/clientGetCookiesServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ssoSecurityKeyUpdateServlet</servlet-name>
+		<servlet-class>com.sso.client.servlet.SsoSecurityKeyUpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ssoSecurityKeyUpdateServlet</servlet-name>
+		<url-pattern>/bewg_sso_Quartz_KeyUpdate.axd</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ssoSecurityFileUpdateServlet</servlet-name>
+		<servlet-class>com.sso.client.servlet.SsoSecurityFileUpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ssoSecurityFileUpdateServlet</servlet-name>
+		<url-pattern>/bewg_sso_Quartz_FileUpdate.axd</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ssoForbiddenSystemServlet</servlet-name>
+		<servlet-class>com.sso.client.servlet.SsoForbiddenSystemServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ssoForbiddenSystemServlet</servlet-name>
+		<url-pattern>/updateIsForbidden.axd</url-pattern>
+	</servlet-mapping> -->
+	<!--SSO 监听器 配置结束 -->
+	<servlet>
+		<servlet-name>WebServiceForTZ</servlet-name>
+		<servlet-class>ws.service.WebServiceForTZ</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WebServiceForTZ</servlet-name>
+		<url-pattern>/WebService/WebServiceForTZ</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+        <servlet-name>springMVC</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+        	<param-name>contextConfigLocation</param-name>
+        	<param-value>classpath:config/springMVC.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springMVC</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+	
+</web-app>

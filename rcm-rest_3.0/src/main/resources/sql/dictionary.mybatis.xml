@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="dictionary">
+
+<!-- 	删除前查询-->
+	<select id="selectByDelete" resultType="String" useCache="false">
+		select count(*) from sys_dictionary_item t where 1=1 
+		and t.fk_dictionary_uuid = #{uuid} 
+	</select>
+	
+	<select id="selectPkDictionary" resultType="String" useCache="false"> 
+		select count(*) from sys_dictionary t where 1=1
+		and t.dictionary_code = #{dictionary_code} 
+		<if test="uuid!=null and uuid!='' "> and t.uuid != #{uuid} </if>
+	</select>
+	<select id="selectDidCode" resultType="String" useCache="false"> 
+		select count(*) from sys_dictionary_item t where 1=1 and t.fk_dictionary_uuid=#{uuid}
+	</select>
+	<!--查询getall if判断 可按条件查询   -->
+	<select id="selectDictionary" resultType="map" useCache="false">
+		select * from sys_dictionary t where 1=1 
+			<if test="DICTIONARY_NAME!=null and DICTIONARY_NAME!='' "> and dictionary_name like '%${DICTIONARY_NAME}%' </if>
+			<if test="DICTIONARY_CODE!=null and DICTIONARY_CODE!='' "> and dictionary_code like '%${DICTIONARY_CODE}%' </if>
+			 order by t.dictionary_code
+	</select>
+	<insert id="insertDictionary" parameterType="map">
+		insert into sys_dictionary
+		(uuid,dictionary_code, dictionary_name, dictionary_desc) values
+		(#{uuid,jdbcType=VARCHAR},#{dictionary_code,jdbcType=VARCHAR},
+		#{dictionary_name,jdbcType=VARCHAR},#{dictionary_desc,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateDictionary" parameterType="map" >
+	 	update sys_dictionary set dictionary_code=#{dictionary_code,jdbcType=VARCHAR},
+	 	dictionary_name=#{dictionary_name,jdbcType=VARCHAR},
+	 	dictionary_desc=#{dictionary_desc,jdbcType=VARCHAR}
+	 	where uuid = #{uuid}
+	</update>  
+<!-- 	得到UUID -->
+	<select id="selectOneDictionary" resultType="map" useCache="false">
+		select * from sys_dictionary where uuid=#{uuid}
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteDictionary" parameterType="String">
+		delete from sys_dictionary where uuid in(#{uuid})
+	</delete>
+	
+	<select id="selectByKind" parameterType="map" resultType="map">
+		select t.item_name as name, t.item_code as value from SYS_DICTIONARY_ITEM t where 1=1
+		 and t.item_code like '${itemKind}%'
+	</select>
+</mapper>

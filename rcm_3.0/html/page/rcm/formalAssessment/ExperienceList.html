@@ -1,0 +1,193 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">项目经验总结</span>
+	</div>
+	<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div id="report" class="panel-group">
+		<ul class="nav nav-tabs bs-tabdrop-example">
+			<li class="active"><a href="/#bs-tabdrop-tab1" data-toggle="tab">本人项目</a></li>
+			<li class=""><a href="/#bs-tabdrop-tab2" data-toggle="tab">所有项目</a></li>
+		</ul>
+		<div class="tab-content tab-content-bordered">
+			<div class="tab-pane active" id="bs-tabdrop-tab1">
+				<div class="panel">
+					<div class="panel-heading search-box">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#report" href="/#searchbox">查询</a>
+					</div>
+					<div id="searchbox" class="panel-collapse collapse">
+						<div class="panel-body search-body">
+							<div class="row nobottom-mar sm-row">
+								<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+								<div class="col-sm-4 col-md-2 sm-col">
+									<input type="text" name="projectName" id="projectName" ng-model="paginationConf.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
+								</div>
+								<label for="" class="col-sm-2 col-md-1 control-label">创建日期</label>
+								<div class="col-sm-4 col-md-2 has-feedback sm-col">
+									<input type="text" id="create_date" name="create_date" ng-model="paginationConf.queryObj.create_date" class="form-control"/>
+									<i class="fa fa-calendar form-control-feedback"></i>
+								</div>
+								<label for="" class="col-sm-2 col-md-1 control-label">状态</label>
+								<div class="col-sm-4 col-md-2 has-feedback sm-col">
+									<select type="text" id="state" name="state" ng-model="paginationConf.queryObj.state" class="form-control">
+										<option value="" >请选择...</option>
+										<option value="1" >起草中</option>
+										<option value="2" >已提交</option>
+									</select>
+								</div>
+								<div class="col-sm-12 col-md-2 search">
+									<button class="btn btn-info" type="button" ng-click="ListAll()"><i class="glyphicon glyphicon-search"></i>查询</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目经验总结<i class="i-triangle"></i></span></div></div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="full-drop inline-div">
+								<button type="button" data-toggle="modal" data-target="#addModal" ng-click="listExperience()" id="compareBtn" class="btn btn-info" title=""><i class="glyphicon glyphicon-plus"></i>新增</button>
+								<div  id="addModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="myModalLabel">已通过项目</h4>
+											</div>
+											<div class="modal-body">
+												<div class="row">
+													<div class="col-md-12" id="porjectName" >
+														<select class="form-control" ng-model="x.UUID">
+															<option ng-repeat="x in pprs" value="{{x._id}}">{{x.projectName}}</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+												<a href="#/Experience/Create/{{x.UUID}}/{{'#/ExperienceList'|encodeURI}}" type="button" class="btn btn-primary btn-confirm" data-dismiss="modal">确定</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<button  type="button" ng-click="update()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
+							<button  type="button" ng-click="Delete()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>删除</button>
+<!-- 							<button  type="button" ng-click="import()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>导出</button> -->
+						</div>
+						<div class="row nobottom-mar">
+							<div class="table-responsive table-list">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+									<thead>
+									<tr>
+										<th>选择</th>
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>创建人</th>
+										<th>创建日期</th>
+										<th>状态</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="p in ppr">
+										<td>
+											<label class="checkbox-inline">
+												<input type="checkbox" name="checkbox" class="px" value="{{p._id}}"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>{{$index+1}}</td>
+										<td><a href="#/Experience/View/{{p._id}}/{{'#/ExperienceList'|encodeURI}}" title="">{{p.projectName}}</a></td>
+										<td>{{p.create_Name}}</td>
+										<td>{{p.create_date}}</td>
+										<td>{{p.state==2?'已提交':'起草中'}}</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="bs-tabdrop-tab2">
+				<div class="panel">
+					<div class="panel-heading search-box">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#report" href="/#searchbox2">查询</a>
+					</div>
+					<div id="searchbox2" class="panel-collapse collapse">
+						<div class="panel-body search-body">
+							<div class="row nobottom-mar sm-row">
+								<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+								<div class="col-sm-4 col-md-2 sm-col">
+									<input type="text" name="projectName" id="projectName" ng-model="paginationConfes.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
+								</div>
+								<label for="" class="col-sm-2 col-md-1 control-label">创建人</label>
+								<div class="col-sm-4 col-md-2 has-feedback sm-col">
+									<input type="text" name="projectSize" id="projectSize" ng-model="paginationConfes.queryObj.createName" class="form-control" />
+								</div>
+								<label for="" class="col-sm-2 col-md-1 control-label">创建日期</label>
+								<div class="col-sm-4 col-md-2 has-feedback sm-col">
+									<input type="text" id="create_date" name="create_date" ng-model="paginationConfes.queryObj.create_date" class="form-control"/>
+									<i class="fa fa-calendar form-control-feedback"></i>
+								</div>
+								<div class="col-sm-12 col-md-2 search">
+									<button class="btn btn-info" type="button" ng-click="ListAll2()"><i class="glyphicon glyphicon-search"></i>查询</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目经验总结<i class="i-triangle"></i></span></div></div>
+					<div class="panel-body">
+					<button  type="button" ng-click="import()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>导出</button>
+						<div class="row nobottom-mar">
+							<div class="table-responsive table-list">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+									<thead>
+									<tr>
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>创建人</th>
+										<th>创建日期</th>
+										<th>状态</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="p in pprAll">
+										<td>{{$index+1}}</td>
+										<td><a href="#/Experience/View/{{p._id}}/{{'#/ExperienceList'|encodeURI}}" title="">{{p.projectName}}</a></td>
+										<td>{{p.create_Name}}</td>
+										<td>{{p.create_date}}</td>
+										<td>{{p.state==2?'已提交':'起草中'}}</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="paginationConfes"></tm-pagination>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</form>
+</div>
+
+
+<script>
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#create_date').datepicker(options);
+		$("#porjectName select").select2({ placeholder: '项目名称' });
+	});
+</script>

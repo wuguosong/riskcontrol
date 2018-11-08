@@ -1,0 +1,9 @@
+.editable-address label span,
+.editable-address input {
+  float: right;
+}
+.editable-address label span {
+  padding-right: 0;
+  padding-left: 10px;
+  text-align: left;
+}

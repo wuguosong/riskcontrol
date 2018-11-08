@@ -1,0 +1,44 @@
+ <div class="panel-body">
+    <input type="hidden" id="RoleId">
+    <input type="hidden" id="code">
+    <form  name="myForm" class="form-horizontal ng-pristine ng-valid" ng-submit="save()" novalidate>
+        <div class="panel-body">
+            <div class="header">
+                <img src="assets/images/icons/sysUser.png" width="41" height="41" alt="" title="" />
+                <span class="hd-title">角色分配菜单</span>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-hd-cont"><span class="panel-title">角色分配菜单<i class="i-triangle"></i></span></div>
+                </div>
+                <div class="panel-body" style="min-height: 450px;">
+                    <div class="form-group row last-group role-allot">
+                        <div id="treeID3">
+                            <div class="dtree"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+				<div class="btn-group-gap txl">
+                    <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                    <button class="btn btn-info" type="submit" id="savebtn"><i class="fa fa-save"></i>确定</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(function(){
+        var wrapInfoHeight=$(".wrap-info").height();
+        //菜单关闭&展示
+        $(".wrap-info .menuico").toggle(function(){
+            $(this).addClass("glyphicon-menu-right").removeClass("glyphicon-menu-left");
+            $(this).parents(".wrapper").stop().animate({"margin-left":"-320px"},300);
+        },function(){
+            $(this).addClass("glyphicon-menu-left").removeClass("glyphicon-menu-right");
+            $(this).parents(".wrapper").stop().animate({"margin-left":"0"},300);
+        });
+    });
+
+</script>

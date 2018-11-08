@@ -1,0 +1,116 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/business.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">商业模式</span>
+    </div>
+    <form ng-submit="ListAll()" class="form-horizontal ng-pristine ng-valid">
+        <div id="dataDictionary" class="panel-group">
+            <div class="panel">
+                <div class="panel-heading search-box">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="dataDictionary" href="/#searchbox">查询</a>
+                </div>
+                <div id="searchbox" class="panel-collapse in">
+                    <div class="panel-body search-body">
+                        <div class="row nobottom-mar sm-row">
+                            <input type="hidden" name="uuid"  ng-model="item.UUID" value="{{item.UUID}}">
+                            <input type="hidden" name="item_name"  ng-model="item.ITEM_NAME" value="{{item.ITEM_NAME}}">
+                            <input type="hidden" name="business_type"  ng-model="item.BUSINESS_TYPE" value="{{item.BUSINESS_TYPE}}">
+                            <label class="col-sm-2 col-md-2 control-label">项目模式名称</label>
+                            <div class="col-sm-4 col-md-2 sm-col"><input type="text" name="VALUE" id="VALUE" ng-model="VALUE" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+                            <label class="col-sm-2 col-md-2 control-label">项目模式编码</label>
+                            <div class="col-sm-4 col-md-2 sm-col"><input type="text" name="KEY" id="KEY" ng-model="KEY" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+                            <div class="col-sm-12 col-md-2 search">
+                                <button class="btn btn-info" type="submit" ><i class="glyphicon glyphicon-search"></i>查询</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目模式管理<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+                <!--<div class="row">
+                    <a href="#/DataDictionaryList" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+                </div>-->
+                <div class="row nobottom-mar">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>项目模式名称</th>
+                                <th>项目模式编码</th>
+                                <!--<th>dic类型</th>-->
+                                <th>类型</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="t in item" on-finish-render-filters >
+                                <td>{{$index+1}}</td>
+                                <td>{{t.VALUE}}</td>
+                                <td>{{t.KEY}}</td>
+                                <td><span ng-if="t.DIC_TYPE==1">PPP</span></td>
+                                <td><a href="#/ListBusiness/{{t.ID}}/{{t.VALUE}}/{{t.DIC_TYPE}}" title="" class="btn btn-sm btn-info">管理</a></td>
+                                <!--{{t.UUID}}-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+                <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    <!--
+    $(function(){
+        //查询关闭&展示
+        $(".panel-heading").find(".ico-dorp").click(function(){
+            $(this).toggleClass("fa-plus");
+            $(this).toggleClass("fa-minus");
+            $(this).parents(".panel-heading").siblings(".panel-body").stop().slideToggle(300);
+        });
+        //菜单关闭&展示
+        $(".wrap-info .menuico").toggle(function(){
+            $(this).addClass("glyphicon-menu-right").removeClass("glyphicon-menu-left");
+            $(this).parents(".wrapper").stop().animate({"margin-left":"-150px"},300);
+        },function(){
+            $(this).addClass("glyphicon-menu-left").removeClass("glyphicon-menu-right");
+            $(this).parents(".wrapper").stop().animate({"margin-left":"0"},300);
+        });
+        //二级菜单关闭&展示
+        $(".menu-bd .list").children("li").click(function(){
+            var dropDown = $(this).find(".sub-list");
+            var togClass=$(this).find(".ico");
+            $(".menu-bd .list li .sub-list").not(dropDown).slideUp(300);
+            $(".menu-bd .list li .ico").not(togClass).removeClass("fa-minus");
+            dropDown.slideToggle(300);
+            togClass.toggleClass("fa-minus");
+        });
+        //收藏
+        $(".ico-wrap .fa-star").click(function(){
+            $(this).toggleClass("red-star");
+        });
+        //分配角色弹层
+        $(".allot").click(function(){
+            Visa.NoticePopup.show();
+        });
+        $("#pub-notice .ico-x").click(function(){
+            $("#js-index-popup").hide(300);
+            $("#_Dialog_maskwrap").hide(100);
+        });
+    });
+    var name,value;
+    var str=location.href; //取得整个地址栏
+    var num=str.lastIndexOf("/");
+    str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+    $("#createbtn").attr('ng-click',"Create("+str+")");
+    //-->
+</script>

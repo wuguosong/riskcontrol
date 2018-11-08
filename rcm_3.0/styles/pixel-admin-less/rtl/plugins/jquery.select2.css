@@ -1,0 +1,78 @@
+.select2-container .select2-choice > .select2-chosen {
+  margin-left: 26px;
+  margin-right: 0;
+}
+.select2-container .select2-choice .select2-search-choice-close {
+  left: 18px;
+  right: auto;
+}
+.select2-container .select2-choice .select2-arrow {
+  left: 0;
+  right: auto;
+}
+.select2-container.select2-allowclear .select2-choice .select2-chosen {
+  margin-left: 42px;
+  margin-right: 0;
+}
+.select2-search:after {
+  left: 9px;
+  right: auto;
+}
+.select2-search input {
+  padding-left: 30px;
+  padding-right: 9px;
+}
+.select2-results ul.select2-result-sub {
+  padding-left: 0;
+  padding-right: 0;
+}
+.select2-results ul.select2-result-sub > li .select2-result-label {
+  padding-left: 0;
+  padding-right: 20px;
+}
+.select2-results ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
+  padding-left: 0;
+  padding-right: 40px;
+}
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
+  padding-left: 0;
+  padding-right: 60px;
+}
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
+  padding-left: 0;
+  padding-right: 80px;
+}
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
+  padding-left: 0;
+  padding-right: 100px;
+}
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
+  padding-left: 0;
+  padding-right: 110px;
+}
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
+  padding-left: 0;
+  padding-right: 120px;
+}
+.select2-container-multi .select2-choices {
+  padding-right: 0 !important;
+  text-align: right;
+}
+.select2-container-multi .select2-choices li {
+  float: right;
+}
+.select2-container-multi .select2-choices .select2-search-choice {
+  margin: 0 5px 5px 0;
+  padding: 0 6px 0 20px;
+}
+.select2-container-multi .select2-choices .select2-search-choice + .select2-search-field input {
+  padding-left: 12px;
+  padding-right: 6px;
+}
+.select2-search-choice-close {
+  left: 3px;
+  right: auto;
+}
+.select2-search-choice-close:before {
+  content: "\f00d";
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="common">
+
+	<!--公共方法使用 查询附件前查询功能类型  根据字典编码查询对应子字典 -->
+	 <select id="selecFunctionType" resultType="map"  useCache="false">
+	       select i.item_name,i.item_code  from sys_dictionary t ,sys_dictionary_item i where 1 = 1 and t.dictionary_code = #{code} and i.fk_dictionary_uuid = t.uuid order by i.cust_number01 ,i.item_code
+	</select> 
+	<!-- 公共方法使用 -->
+	<select id="selectRoleUserByRoleID" resultType="map" useCache="false">
+		select u.uuid as value,u.name from sys_user u,sys_user_role ur where 1=1 and ur.user_id=u.uuid and ur.role_id= #{roleId} and u.state='2'
+	</select>
+	<!-- 根据role code查询角色用户 -->
+	<select id="selectRoleUserByRoleCode" resultType="map">
+		select u.uuid as value,u.name from sys_user u,sys_user_role ur where 1=1 and ur.user_id=u.uuid and ur.code= #{code} and u.state='2'
+	</select>
+	<!-- 公共方法使用 根据子编码查询对应name -->
+	<select id="selectSubDataDictionaryByCode" resultType="String" useCache="false">
+		select item_name from sys_dictionary_item where 1=1  and item_code= #{code}
+	</select>
+	
+	<!-- 公共方法使用 -->
+	<select id="selectsyncbusinessmodel" resultType="map" useCache="false">
+		select key,value from sync_business_model where 1=1 and state='1' and parent_id is null
+		<if test="dic_type!=null and dic_type!='' "> and dic_type = #{dic_type} </if>
+	</select>
+	<select id="selectsyncbusinessmodelBykey" resultType="map" useCache="false">
+		select key,value from sync_business_model where 1=1 and state='1'
+		<if test="parent_id!=null and parent_id!='' "> and parent_id in (${parent_id}) </if>
+	</select>
+	<!-- 查询投资单位 -->
+	<select id="selectsCommonOrg" resultType="map" useCache="false">
+		select o.ORGPKVALUE as id, o.PARENTPKVALUE as pid, o.NAME, o.ISPARENT, o.CATEGORYCODE from sys_org_ext o where 1=1 and o.CATEGORYCODE='Org' 
+		<choose>
+			<when test="parentId!=null and parentId != ''">
+				and o.PARENTPKVALUE = #{parentId} 
+			</when>
+			<otherwise>
+				and o.PARENTPKVALUE is null
+			</otherwise>
+		</choose>
+			order by o.CATEGORYCODE, o.CODE
+	</select>
+	
+	<select id="selectCompanyList" resultType="map" useCache="false">
+		 select * from zsj.mdm_investproj where 1=1
+			<if test="projectname!=null and projectname!='' "> and projectname like '%${projectname}%' </if>
+		 order by projectcode asc
+	</select>
+	<!-- 查询菜单使用 -->
+	<select id="selectSysFunction" resultType="map" useCache="false">
+		select sf.* from sys_func sf where sf.func_pid=#{func_pid, jdbcType=VARCHAR} and sf.state='1' 
+		and sf.func_id in
+		(select srf.func_id from sys_role_func srf where srf.role_id in(
+		select role_id from sys_user_role where user_id=#{user_id}
+		)) order by to_number(sf.sort) asc
+	</select>
+	
+	<select id="findAttachmentList" resultType="map">
+           select i.uuid, i.item_name from sys_dictionary_item i where i.item_code like '03%' and i.is_enabled = '1'
+			   and exists(
+			       select * from sys_business_attachment r where i.uuid = r.attachment_uuid and r.state='1'
+			              and r.fuctiontype='${fuctionType}' and exists(
+			                  select * from sync_business_model b where r.business_id=b.id
+			                        and b.key in (${projectTypes}) and b.dic_type='${dicTypes}' and b.state='1'
+			              )
+			   )
+	</select>
+	
+	<!-- 查询所有的二级业务类型 -->
+	<select id="queryAllProjectTypes" resultType="map" useCache="false">
+		select * from sync_business_model b where state='1' and parent_id in
+		(select id from sync_business_model where type_id='1')
+	</select>
+</mapper>

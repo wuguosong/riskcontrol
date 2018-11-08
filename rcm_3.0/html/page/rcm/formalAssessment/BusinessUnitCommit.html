@@ -1,0 +1,99 @@
+<div class="panel-body" >
+	<!--form表单开始-->
+	<form class="form-horizontal" name="Business" id="Business" >
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{titleName}}</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">业务单位承诺事务清单<i class="i-triangle"></i></span></div></div>
+				<div class="panel-body">
+					<fieldset>
+						<div class="row">
+							<div class="txl">
+								<button  type="button" id="addbtn" class="btn btn-info" ng-click="addProfit()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+								<button  type="button" id="delbtn" class="btn btn-info" ng-click="deleteProfit()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="table-responsive">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+									<thead>
+									<tr>
+										<th>选择</th>
+										<th>序号</th>
+										<th>具体承诺事项</th>
+										<th>执行节点</th>
+										<th>责任单位</th>
+									</tr>
+									</thead>
+									<tbody id="profitList">
+									<tr ng-repeat="m in pfr.pfrBusinessUnitCommit" on-repeat-render-business-unit>
+										<td class="txc">
+											<label class="checkbox-inline">
+												<input type="checkbox" class="px" ng-if="actionpam!='View'"  ng-model="m.selected"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td class="txc">{{$index+1}}</td>
+										<td>
+											<textarea rows="" cols="" ng-disabled="actionpam=='View'" ng-model="m.specificCommitments"  name="specificCommitment" class="form-control" auto-height></textarea>
+											<!--<div class="row nobottom-mar">
+												<div class="col-sm-12 noleft-pad noright-pad">
+													<span></span>
+													<span style=""></span>
+													<input type="hidden" ng-model="m.files.filePath" />
+													<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{"fileName"}}</a>
+													<button class="btn btn-info attachmentBtn" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles, $index)">浏览</button>
+												</div>
+											</div>-->
+										</td>
+										<td><div class="has-feedback"><input type="text" id="executionNode" ng-disabled="actionpam=='View'" ng-model="m.executionNode" name="executionNode" class="form-control loadtime" /><i class="fa fa-calendar form-control-feedback date-form"></i></div></td>
+										<td>
+											<input name="responsibilityDept" type="text"  ng-click="setDirectiveParamTwo($index)" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="responsibilityDept{{$index}}" ng-disabled="actionpam=='View'" ng-model="m.responsibilityDept.name"  />
+											<input type="hidden"  ng-model="m.responsibilityDept.value"  />
+										</td>
+
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</fieldset>
+
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+				<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+<!-- 					<a href="#/BusinessUnitCommitList" type="button"  class="btn btn-info"><i class="fa fa-reply"></i>返回</a> -->
+					<button type="button" id="savebtn" ng-click="saveBusinessUnitCommit()" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+					<button type="button" id="submitbtn" ng-click="suubmitBusinessUnitCommit()" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$().ready(function() {
+		$("#Business").validate({
+			rules: {
+				specificCommitment:"required",
+				executionNode:{
+					required:true,
+					date:true
+				},
+				responsibilityDept:"required"
+			},
+			messages: {
+				specificCommitment:"此项必填",
+				executionNode:"此项必填",
+				responsibilityDept:"此项必填"
+			}
+		});
+	});
+</script>
+<directive-org-list></directive-org-list>
+

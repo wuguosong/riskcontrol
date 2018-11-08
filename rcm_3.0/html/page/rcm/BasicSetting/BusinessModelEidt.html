@@ -1,0 +1,57 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">商业模式管理</span>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="panel-title">商业模式管理</span>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal ng-pristine ng-valid" name="myForm" ng-submit="save()" novalidate>
+                <div class="row">
+                    <!--<input type="hidden" name="UUID"  ng-model="dictionary.UUID" value="{{dictionary.UUID}}">-->
+                    <label  class="col-sm-2 control-label">商业模式名称名称</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="DICTIONARY_NAME" id="DICTIONARY_NAME" required ng-model="dictionary.DICTIONARY_NAME" class="form-control" />
+						<span style="color:red" ng-show="myForm.DICTIONARY_NAME.$dirty && myForm.DICTIONARY_NAME.$invalid">
+                            <p ng-show="myForm.DICTIONARY_NAME.$error.required" class="help-block">名称必填</p>
+						</span>
+                    </div>
+                    <label for="" class="col-sm-2 control-label">商业名称编码</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="DICTIONARY_CODE"  required  id="DICTIONARY_CODE"    ng-model="dictionary.DICTIONARY_CODE" class="form-control ng-pristine ng-untouched ng-valid" />
+						  <span style="color:red" ng-show="myForm.DICTIONARY_CODE.$dirty && myForm.DICTIONARY_CODE.$invalid">
+                            <p ng-show="myForm.DICTIONARY_CODE.$error.required" class="help-block">编码必填</p>
+						  </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-sm-2 control-label">描述</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="DICTIONARY_DESC" required id="DICTIONARY_DESC" ng-model="dictionary.DICTIONARY_DESC" class="form-control" />
+						<span style="color:red" ng-show="myForm.DICTIONARY_DESC.$dirty && myForm.DICTIONARY_DESC.$invalid">
+                            <p ng-show="myForm.DICTIONARY_DESC.$error.required" class="help-block">描述必填</p>
+						  </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group-gap txl">
+                        <a href="#/BusinessModelList" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+                        <button type="submit" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#bidOpenTime').datepicker(options);
+    });
+</script>

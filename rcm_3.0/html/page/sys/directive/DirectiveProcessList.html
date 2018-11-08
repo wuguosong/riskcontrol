@@ -1,0 +1,44 @@
+<div>
+    <div class="">
+    	<div class="row"></div>
+    	<div ng-if="proj.emergencyLevel!=null && proj.emergencyLevel!=''" class="row nobottom-mar">
+            <div class="row-tit">项目紧急程度</div>
+            <div style="color:{{proj.emergencyLevel=='一般'?'green':(proj.emergencyLevel=='紧急'?'orange':'red')}};font-size:26px;text-align:center;">{{proj.emergencyLevel}}</div>
+        </div>
+        <div class="row"></div>
+        <div class="row nobottom-mar">
+            <div class="row-tit">审批意见</div>
+        </div>
+        <div class="fade widget-followers in active" id="approvalinfo">
+            <ul class="apply-list">
+                <li>
+                    <div class="row" style="font-weight: bold;">
+                        <div class="col-md-1">处理人</div>
+                        <div class="col-md-2">审批环节</div>
+                        <div class="col-md-5">审批意见</div>
+                        <div class="col-md-2">开始时间</div>
+                        <div class="col-md-2">结束时间</div>
+<!--                         <div class="col-md-1">紧急程度</div> -->
+                    </div>
+                </li>
+                <li ng-repeat="hi in wf.historyList">
+                    <div class="row">
+                        <div class="col-md-1">{{hi.approver}}</div>
+                        <div class="col-md-2">{{hi.taskName}}</div>
+                        <div class="col-md-5">{{hi.opinion}}</div>
+                        <div class="col-md-2">{{hi.beginDate}}</div>
+                        <div class="col-md-2">{{hi.endDate}}</div>
+<!--                         <div class="col-md-1">{{hi.emergencyLevel}}</div> -->
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="row nobottom-mar">
+            <div class="row-tit"><a href="javaScript:void(0)" ng-click="showImg != null&&showImg == true?showImg = false:showImg = true">显示流程图</a></div>
+        </div>
+        <div class="bpm-img" style="position:relative" ng-show="showImg">
+	        <img  ng-src="{{srvInfo.srvUrl}}bpm/WorkFlow/getBpmImg?processDefinitionId={{wf.processDefinitionId}}">
+	        <div ng-repeat="node in wf.currentNodes" ng-style="{position:'absolute',border:'2px solid','border-color':'red',width:node.width+1,height:node.height,left:node.left-1,top:node.top}"></div>
+	    </div>
+    </div>
+</div>

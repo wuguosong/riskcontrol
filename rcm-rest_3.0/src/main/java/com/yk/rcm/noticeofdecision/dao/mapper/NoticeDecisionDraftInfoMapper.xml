@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.noticeofdecision.dao.INoticeDecisionDraftInfoMapper">
+	
+	<select id="queryById" parameterType="string" resultType="map">
+		select * from rcm_noticedecision_info i where i.businessid = #{businessId}
+	</select>
+	<!-- 根据businessId删除决策通知书 -->
+	<delete id="deleteByFormalIds"  parameterType="map">
+		delete from rcm_noticedecision_info where projectformalid in
+		<foreach collection="formalIds" item="formalId" open="(" close=")" separator=",">
+			#{formalId}
+		</foreach>
+	</delete>
+	<!-- 修改决策通知书信息 -->
+	<update id="update"  parameterType="map">
+		update rcm_noticedecision_info set 
+		contractScale = #{contractScale,jdbcType=VARCHAR},
+		evaluationScale = #{evaluationScale,jdbcType=VARCHAR},
+		reviewOfTotalInvestment = trunc(to_number(#{reviewOfTotalInvestment,jdbcType=VARCHAR}),4),
+		decisionStage = #{decisionStage,jdbcType=VARCHAR},
+		dateOfMeeting = to_date(#{dateOfMeeting,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+		consentToInvestment = #{consentToInvestment,jdbcType=VARCHAR},
+		reportingUnitId = #{reportingUnitId,jdbcType=VARCHAR},
+		last_update_date = to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+		responsibilityUnitValue = #{responsibilityUnitValue,jdbcType=VARCHAR},
+		oldData = #{oldData,jdbcType=VARCHAR}
+		where businessId = #{businessId}
+	</update>
+	<!-- 新增决策通知书信息 -->
+	<insert id="save" parameterType="map">
+		insert into rcm_noticedecision_info ninfo ( 
+			 businessid,
+			 contractscale, 
+			 evaluationscale,
+			reviewoftotalinvestment,
+			decisionstage, 
+			responsibilityunitvalue,  
+			wf_state, 
+			apply_date,
+			last_update_date, 
+			projectformalid,  
+			reportingunitid,
+			dateOfMeeting,
+	        consenttoinvestment ,
+	        create_date,
+	        createBy,
+	        oldData
+        ) values (
+	        #{businessId},
+	        #{contractScale,jdbcType=VARCHAR},
+	        #{evaluationScale,jdbcType=VARCHAR},
+	        trunc(to_number(#{reviewOfTotalInvestment,jdbcType=VARCHAR}),4),
+	        #{decisionStage,jdbcType=VARCHAR},
+	        #{responsibilityUnitValue,jdbcType=VARCHAR},
+	        #{wf_State,jdbcType=VARCHAR},
+	        to_date(#{appyly_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+	        to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'), 
+	        #{projectFormalid},
+	        #{reportingUnitId,jdbcType=VARCHAR},
+	        to_date(#{dateOfMeeting,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+	        #{consentToInvestment,jdbcType=VARCHAR},
+	        to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss') ,
+	        #{createBy,jdbcType=VARCHAR},
+	        #{oldData,jdbcType=VARCHAR}                                 
+        )
+	</insert>
+	<!-- 待提交 -->
+	<select id="queryStartByPage" resultType="map" parameterType="map" useCache="false">
+		select f.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=f.pertainareaid) pertainareaName ,
+	      	(select u.NAME from sys_user u where u.uuid=f.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=f.reviewpersonid) reviewpersonName ,
+	       	(select u.NAME from sys_user u where u.uuid=f.legalreviewpersonid) legalreviewpersonName ,
+			(select create_date from rcm_noticedecision_info where projectformalid=f.businessid) notice_create_time 
+			from rcm_formalassessment_info f where f.stage='3.5' and f.businessid in 
+			(select projectformalid from rcm_noticedecision_info where 1=1 
+		<if test="createBy!=null and createBy!=''"> and reviewpersonid=#{createBy}</if>)
+		<if test="projectUnitName != null and projectUnitName != ''"> and f.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+		<if test="projectName != null and projectName != ''"> and f.projectName like '%${projectName}%'</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	<!-- 未上会 -->
+	<select id="notMeetingList" resultType="map" parameterType="map" useCache="false">
+		select f.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=f.pertainareaid) pertainareaName ,
+	      	(select u.NAME from sys_user u where u.uuid=f.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=f.reviewpersonid) reviewpersonName ,
+	       	(select u.NAME from sys_user u where u.uuid=f.legalreviewpersonid) legalreviewpersonName ,
+			(select create_date from rcm_noticedecision_info w where w.projectformalid=f.businessid) notice_create_time 
+			from rcm_formalassessment_info f where f.stage in ('3.9','4','5') and f.businessid in 
+			(select projectformalid from rcm_noticedecision_info where 1=1 
+		<if test="createBy!=null and createBy!=''"> and reviewpersonid=#{createBy}</if>)
+		<if test="projectUnitName != null and projectUnitName != ''"> and f.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+		<if test="projectName != null and projectName != ''"> and f.projectName like '%${projectName}%'</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	<!-- 已上会 -->
+	<select id="queryOverByPage" resultType="map" parameterType="map" useCache="false">
+		select f.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=f.pertainareaid) pertainareaName ,
+	      	(select u.NAME from sys_user u where u.uuid=f.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=f.reviewpersonid) reviewpersonName ,
+	       	(select u.NAME from sys_user u where u.uuid=f.legalreviewpersonid) legalreviewpersonName ,
+			(select w.consentToInvestment from rcm_noticedecision_info w where w.projectformalid=f.businessid) consentToInvestment 
+			from rcm_formalassessment_info f where f.stage in('6','7') and f.businessid in 
+			(select projectformalid from rcm_noticedecision_info w where 1=1 
+			<if test="createBy!=null and createBy!=''"> and reviewpersonid=#{createBy}</if>
+			<if test="consentToInvestment != null and consentToInvestment != ''"> and w.consentToInvestment  like '%${consentToInvestment}%'</if> )
+			<if test="projectUnitName != null and projectUnitName != ''"> and f.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+			<if test="projectName != null and projectName != ''"> and f.projectName like '%${projectName}%'</if> 
+		order by NOTICE_DRAFT_TIME desc
+	</select>
+	<!-- 查询可以起草的决策通知书 -->
+	<select id="queryFormalForCreate" parameterType="map" resultType="hashmap">
+		select r.* from rcm_formalassessment_info r 
+		where ( <if test="userId!=null and userId!=''">r.reviewpersonid=#{userId} and</if> r.stage='3.5' or r.stage='6') and not exists(select 1 from rcm_noticedecision_info 
+		 where projectformalid=r.businessid)
+	</select>
+	<update id="updateStageByBusinessId" parameterType="hashmap">
+		update rcm_formalAssessment_info set stage=#{stage},notice_draft_time= to_date(#{notice_draft_time,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss') 
+		where businessid in (#{businessId,jdbcType=VARCHAR})
+	</update>
+</mapper>

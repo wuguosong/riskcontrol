@@ -1,0 +1,156 @@
+<div class="wrap-menu">
+	<div class="menu-hd"><h3 class="title">菜单管理</h3></div>
+	<div class="menu-search"><input type="text" name="" class="in-t" placeholder="请输入关键字..." /></div>
+	<div class="menu-bd">
+		<ul class="list">
+			<li class="">
+				<a href="javascript:;" title=""><span class="text" title="首页首页首页首页首页首页首页">首页首页首页首页首页首页首页</span><i class="ico fa fa-plus"></i></a>
+				<ul class="sub-list">
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;" title=""><span class="text">个人工作台</span><i class="ico fa fa-plus"></i></a>
+				<ul class="sub-list">
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+					<li><a href="#" title="" tabindex="-1">三级菜单</a></li>
+				</ul>
+			</li>
+			<li><a href="javascript:;" title=""><span class="text">计划管理</span></a></li>
+			<li><a href="javascript:;" title=""><span class="text">需求申请</span></a></li>
+			<li><a href="javascript:;" title=""><span class="text">立项管理</span></a></li>
+		</ul>
+	</div>
+</div>
+<div class="wrap-info">
+	<form method="post" action="" class="form-horizontal ng-pristine ng-valid">
+		<div class="panel-body">
+			<div class="panel">
+				<div class="panel-heading"><span class="panel-title">查询</span><div class="ico-wrap"><i class="ico ico-dorp fa fa-minus" title="收起"></i></div></div>
+				<div class="panel-body">
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">菜单名称：</label>
+						<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+						<label class="col-sm-2 control-label">链接：</label>
+						<div class="col-sm-4"><input type="text" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">状态：</label>
+						<div class="col-sm-4">
+							<select  class="form-control ng-pristine ng-valid ng-touched">
+								<option>无状态</option>
+								<option>无状态</option>   
+								<option>无状态</option>
+								<option>无状态</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row last-group">
+						<div class="txc"><button class="btn btn-success"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+					</div>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title">查询结果</span>
+					<div class="ico-wrap">
+						<div class="dropdown">
+							<i class="ico fa fa-list" data-toggle="dropdown"></i>
+							<ul class="dropdown-menu">
+								<li><a href="#"  onClick ="$('#tableExport').tableExport({type:'json',escape:'false'});">导入表格</a></li>
+								<li><a href="javascript:;"  onClick ="$('#tableExport').tableExport({type:'json',escape:'false'});">导入表格</a></li>
+								<li><a href="javascript:;"  onClick ="$('#tableExport').tableExport({type:'json',escape:'false'});">导入表格</a></li>
+							</ul>
+						</div>
+						<i class="ico fa fa-star"></i>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="form-group row">
+						<div class="txl">
+							<button class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>修改</button>
+							<button class="btn btn-success"><i class="glyphicon glyphicon-trash"></i>删除</button>
+							<button class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>启用</button>
+							<button class="btn btn-success"><i class="glyphicon glyphicon-ban-circle"></i>停用</button>
+							<button class="btn btn-success"><i class="glyphicon glyphicon-export"></i>导出</button>
+						</div>
+					</div>
+					<div class="form-group row">
+						<table border="0" cellspacing="0" cellpadding="0" class="table  table-hover datatable" width="100%"id="tableExport">
+							<thead>
+								<tr>
+									<th>选择</th>
+									<th>序号<i class="icofunc fa fa-caret-up"></i><i class="icofunc cur fa fa-caret-down"></i></th>
+									<th>菜单名称<i class="icofunc fa fa-caret-up"></i><i class="icofunc cur fa fa-caret-down"></i></th>
+									<th>链接</th>
+									<th>描述</th>
+									<th>状态</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input type="checkbox" class="ng-pristine ng-untouched ng-valid" /></td>
+									<td>1</td>
+									<td>首页</td>
+									<td>www.baidu.com</td>
+									<td>暂无描述</td>
+									<td><i class="glyphicon glyphicon-ok-circle"></i></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" class="ng-pristine ng-untouched ng-valid" /></td>
+									<td>1</td>
+									<td>首页</td>
+									<td>www.baidu.com</td>
+									<td>暂无描述</td>
+									<td><i class="glyphicon glyphicon-ok-circle"></i></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" class="ng-pristine ng-untouched ng-valid" /></td>
+									<td>1</td>
+									<td>首页</td>
+									<td>www.baidu.com</td>
+									<td>暂无描述</td>
+									<td><i class="glyphicon glyphicon-ok-circle"></i></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" class="ng-pristine ng-untouched ng-valid" /></td>
+									<td>1</td>
+									<td>首页</td>
+									<td>www.baidu.com</td>
+									<td>暂无描述</td>
+									<td><i class="glyphicon glyphicon-ban-circle"></i></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" class="ng-pristine ng-untouched ng-valid" /></td>
+									<td>1</td>
+									<td>首页</td>
+									<td>www.baidu.com</td>
+									<td>暂无描述</td>
+									<td><i class="glyphicon glyphicon-ban-circle"></i></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" class="ng-pristine ng-untouched ng-valid" /></td>
+									<td>1</td>
+									<td>首页</td>
+									<td>www.baidu.com</td>
+									<td>暂无描述</td>
+									<td><i class="glyphicon glyphicon-ban-circle"></i></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="table-footer clearfix"><div class="DT-label"><div class="dataTables_info" id="jq-datatables-example_info" role="alert" aria-live="polite" aria-relevant="all">显示 1 至 10 条，共 57条</div></div><div class="DT-pagination"><div class="dataTables_paginate paging_simple_numbers" id="jq-datatables-example_paginate"><ul class="pagination"><li class="paginate_button previous disabled" aria-controls="jq-datatables-example" tabindex="0" id="jq-datatables-example_previous"><a href="#">当前页</a></li><li class="paginate_button active" aria-controls="jq-datatables-example" tabindex="0"><a href="#">1</a></li><li class="paginate_button " aria-controls="jq-datatables-example" tabindex="0"><a href="#">2</a></li><li class="paginate_button " aria-controls="jq-datatables-example" tabindex="0"><a href="#">3</a></li><li class="paginate_button " aria-controls="jq-datatables-example" tabindex="0"><a href="#">4</a></li><li class="paginate_button " aria-controls="jq-datatables-example" tabindex="0"><a href="#">5</a></li><li class="paginate_button " aria-controls="jq-datatables-example" tabindex="0"><a href="#">6</a></li><li class="paginate_button next" aria-controls="jq-datatables-example" tabindex="0" id="jq-datatables-example_next"><a href="#">下一页</a></li></ul></div></div></div>
+			</div>
+		</div>
+	</form>
+	<i class="menuico glyphicon glyphicon-menu-left"></i>
+</div>

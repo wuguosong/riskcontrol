@@ -1,0 +1,11 @@
+.tabdrop {
+  margin: 0 6px -1px 0;
+}
+.tabdrop > .dropdown-toggle {
+  margin-left: 0;
+  margin-right: 6px;
+}
+.tabdrop > .dropdown-toggle > .caret {
+  margin-left: 0;
+  margin-right: 5px;
+}

@@ -1,0 +1,499 @@
+<div class="panel-body">
+	<!--form表单开始-->
+	<form class="form-horizontal">
+		<div class="">
+			<div class="header">
+				<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+				<span class="hd-title">法律尽职调查审核申请</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">法律尽职调查审核申请<i class="i-triangle"></i></span></div></div>
+				<div class="panel-body">
+					<div id="myTab" class="myTab">
+						<ul class="nav nav-tabs bs-tabdrop-example">
+							<li class="active">
+								<a href="javascript:;" data-toggle="tab">流程表单</a>
+							</li>
+							<li >
+								<a href="javascript:;" data-toggle="tab">相关资源</a>
+							</li>
+							<li>
+								<a href="javascript:;" data-toggle="tab">流程图</a>
+							</li>
+						</ul>
+					</div>
+					<div class="tab-content tab-content-bordered">
+						<div class="tab-pane in active special-form" id="contracts_file_info">
+							<div class="row">
+								<label for="" class="col-sm-2 control-label">所属大区</label>
+								<div class="col-sm-4 has-feedback">
+									<div class="full-drop">
+										<input type="text" class="form-control" id="reportingUnitName" placeholder="" name="reportingUnitName" ng-model="pre.apply.reportingUnit.name">
+										<input type="hidden" class="form-control" id="reportingUnitValue" name="reportingUnitValue" ng-model="pre.apply.reportingUnit.value">
+										<button class="sapmle-but"  data-toggle="modal" data-target="#myModal" ></button>
+										<div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+														<h4 class="modal-title">所属大区选择</h4>
+													</div>
+													<div class="modal-body">
+														<div class="drop-menu one-choice">
+															<div class="search-input has-feedback">
+																<input type="text" name="" class="in-t" placeholder="请输入负责人姓名" />
+																<i class="fa fa-search form-control-feedback"></i>
+															</div>
+															<div id="treeIDorg">
+																<div class="dtree"></div>
+															</div>
+														</div>	
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+														<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<label for="" class="col-sm-2 control-label">项目编号</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="projectNumber" ng-model="pre.apply.projectNumber" placeholder="" readonly>
+								</div>
+							</div>
+							<div class="row">
+								<label for="companyCategory" class="col-sm-2 control-label">单位类别</label>
+								<div class="col-sm-4">
+									<select  class="form-control" ng-model="pre.apply.companyCategory" ng-options="cat.name for cat in dic.companyCategorys track by $index" ></select>
+								</div>
+								<label for="" class="col-sm-2 control-label">单位负责人</label>
+								<div class="col-sm-4">
+									<div class="full-drop">
+										<input type="text" class="form-control" ng-model="pre.apply.companyHeader.userName" name="companyHeader" placeholder=""   data-toggle="modal" data-target="#company-modal" >
+										<input type="hidden" ng-model="pre.apply.companyHeader.userId">
+										<div  id="company-modal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+														<h4 class="modal-title">申报负责人选择(多选)</h4>
+													</div>
+													<div class="modal-body">
+														<div class="drop-menu">
+															<div class="search-input has-feedback">
+																<input type="text" name="" class="in-t" placeholder="请输入负责人姓名" />
+																<i class="fa fa-search form-control-feedback"></i>
+															</div>
+															<ul class="dropdown-list more-choice">
+																<li class="">
+																	<a title="" href="javascript:;"><span title="北控水务集团" class="text">北控水务集团</span><i class="ico fa fa-plus"></i></a>
+																	<ul class="sub-list">
+																		<li><a tabindex="-1" title="" href="/#"><input type="checkbox" name="" class=""/><span class="pop-text">三级菜单</span></a>
+																		</li>
+																		<li><a tabindex="-1" title="" href="/#"><input type="checkbox" name="" class="" /><span class="pop-text">三级菜单</span></a>
+																		</li>
+																		<li><a tabindex="-1" title="" href="/#"><input type="checkbox" name="" class="" /><span class="pop-text">三级菜单</span></a>
+																		</li>
+																		<li><a tabindex="-1" title="" href="/#"><input type="checkbox" name="" class="" /><span class="pop-text">三级菜单</span></a>
+																		</li>
+																		<li><a tabindex="-1" title="" href="/#"><input type="checkbox" name="" class="" /><span class="pop-text">三级菜单</span></a>
+																		</li>
+																	</ul>
+																</li>
+																<li>
+																	<a title="" href="javascript:;"><span class="text">一级事业部</span><i class="ico fa fa-plus"></i></a>
+																	<ul class="sub-list">
+																		<li><a tabindex="-1" title="" href="#">二级事业部</a></li>
+																		<li><a tabindex="-1" title="" href="#">二级事业部</a></li>
+																		<li><a tabindex="-1" title="" href="#">二级事业部</a></li>
+																		<li><a tabindex="-1" title="" href="#">二级事业部</a></li>
+																		<li><a tabindex="-1" title="" href="#">二级事业部</a></li>
+																	</ul>
+																</li>
+																<li><a title="" href="javascript:;"><span class="text">XX事业部</span></a></li>
+																<li><a title="" href="javascript:;"><span class="text">XX事业部</span></a></li>
+																<li><a title="" href="javascript:;"><span class="text">XX事业部</span></a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+														<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<label for="" class="col-sm-2 control-label">投资经理</label>
+								<div class="col-sm-4">
+									<div class="full-drop">
+										<input type="text" class="form-control"  ng-model="pre.apply.investmentManager.userId" name="investmentManager"  placeholder="">
+										<input type="hidden" ng-model="pre.apply.investmentManager.userName" />
+									</div>
+								</div>
+								<label for="" class="col-sm-2 control-label">基层法务人员</label>
+								<div class="col-sm-4">
+									<div class="full-drop">
+										<input type="text" class="form-control" ng-model="pre.apply.grassrootsLegalStaff.userId" name="grassrootsLegalStaff" placeholder="">
+										<input type="hidden" ng-model="pre.apply.grassrootsLegalStaff.userName" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<label for="" class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="projectName" ng-model="pre.apply.projectName" />
+								</div>
+								<label for="" class="col-sm-2  control-label">项目所在地</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="projectAddress" ng-model="pre.apply.projectAddress" placeholder="">
+								</div>
+							</div>
+							<div class="row">
+								<label for="projectType" class="col-sm-2 control-label">项目类型</label>
+								<div id="project-type-box" class="col-sm-4">
+									<div class="select2-success">
+										<select  multiple="multiple" class="form-control" name="projectType" ng-model="pre.apply.projectType">
+											<option value="1">污水</option>
+											<option value="2">自来水</option>
+											<option value="3">固废</option>
+											<option value="4">环卫</option>
+											<option value="5">其他</option>
+										</select>
+									</div>
+								</div>
+								<label for="projectModel" class="col-sm-2 control-label">项目模式</label>
+								<div id="project-mode-box" class="col-sm-4">
+									<div class="select2-success">
+										<select multiple="multiple" class="form-control" id="projectModel" name="projectModel" ng-model="pre.apply.projectModel">
+											<option value="1">BOT</option>
+											<option value="2">TOT</option>
+											<option value="3">股权收购</option>
+											<option value="4">PPPPP</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<label for="projectSize" class="col-sm-2 control-label">项目规模</label>
+								<div class="col-sm-4 has-feedback">
+										<input type="text" class="form-control" name="projectSize" ng-model="pre.apply.projectSize" placeholder="">
+										<span id="unit" class="unit-s">万吨/日</span>
+								</div>
+								<label for="projectNum" class="col-sm-2 control-label">单体项目数</label>
+								<div class="col-sm-4 has-feedback">
+									<input type="text" class="form-control" name="projectNum" ng-model="pre.apply.projectNum" placeholder="">
+									<span class="unit-n">个</span>
+								</div>
+							</div>
+							<div class="row">
+								<label for="" class="col-sm-2 control-label">现场尽调时间</label>
+								<div class="col-sm-4 has-feedback">
+									<input type="text" id="dueDiligenceTime" name="" class="form-control" />
+									<i class="fa fa-calendar form-control-feedback"></i>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="contracts_resources">
+							<div class="row">
+								<div class="full-drop">
+									<button data-toggle="modal" data-target="#compareModal" id="compareBtn" class="btn btn-info" title=""><i class="fa fa-arrows-h"></i>对比</button>
+									<div  id="compareModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h4 class="modal-title" id="myModalLabel">文件对比</h4>
+												</div>
+												<div class="modal-body">
+													<div class="row">
+														<div class="input-group">
+															<span class="input-group-addon">已选文件</span>
+															<input type="text" class="form-control" disabled="disabled">
+														</div>
+													</div>
+													<div class="row">
+														<div class="input-group">
+															<span class="input-group-addon">目标文件</span>
+															<select name="" id="" class="form-control">
+																<option value="">请选择...</option>
+																<option value="">项目投资测算.doc&nbsp;版本号：1.0</option>
+																<option value="">项目投资测算.doc&nbsp;版本号：2.0</option>
+																<option value="">项目投资测算.doc&nbsp;版本号：3.0</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+													<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row table-responsive">
+								<table class="table table-bordered table-hover datatable table-text-mid table-light">
+									<thead>
+										<tr>
+											<th>选择</th>
+											<th>序号</th>
+											<th>资源名称</th>
+											<th>附件内容</th>
+											<th>编制人</th>
+											<th>审核人</th>
+											<th>创建时间</th>
+											<th>版本号</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td>
+											<label class="checkbox-inline">
+												<input type="checkbox" name="choose" class="px"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>1</td>
+										<td>投资分析报告</td>
+										<td> <a href="#">投资分析报告.doc  投资分析报告-附件1.doc</a></td>
+										<td>张三</td>
+										<td>审核人</td>
+										<td>2016-06-01</td>
+										<td>1.0</td>
+									</tr>
+									<tr>
+										<td>
+											<label class="checkbox-inline">
+												<input type="checkbox" name="choose" class="px"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>2</td>
+										<td>项目投资测算</td>
+										<td><a href="#">项目投资测算.doc</a></td>
+										<td>李四</td>
+										<td>审核人</td>
+										<td>2016-06-01</td>
+										<td>1.0</td>
+									</tr>
+									<tr>
+										<td>
+											<label class="checkbox-inline">
+												<input type="checkbox" name="choose" class="px"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>3</td>
+										<td>合同偏差表</td>
+										<td><a href="#">合同偏差表.doc</a></td>
+										<td>王五</td>
+										<td>审核人</td>
+										<td>2016-06-01</td>
+										<td>1.0</td>
+									</tr>
+									<tr>
+										<td>
+											<label class="checkbox-inline">
+												<input type="checkbox" name="choose" class="px"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>4</td>
+										<td>投资协议</td>
+										<td><a href="#">投资协议.doc</a></td>
+										<td>王五</td>
+										<td>审核人</td>
+										<td>2016-06-01</td>
+										<td>1.0</td>
+									</tr>
+									<tr>
+										<td>
+											<label class="checkbox-inline">
+												<input type="checkbox" name="choose" class="px"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>5</td>
+										<td>技术专业尽职调查意见</td>
+										<td><a href="#">技术专业尽职调查意见.doc</a></td>
+										<td>王五</td>
+										<td>审核人</td>
+										<td>2016-06-01</td>
+										<td>1.0</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="row">
+								<div class="table-footer clearfix">
+									<tm-pagination conf="paginationConf"></tm-pagination>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="flow_chart">
+							<div class="row"><a href="#" title="">流程图嵌套</a></div>
+							<div class="row">
+								<div class="row-tit">审批意见</div>
+								<ul class="apply-list">
+									<li>
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="col-sm-3">
+												<img src="assets/demo/avatars/1.jpg" alt="" title=""/></div>
+												<div class="col-sm-9">
+													<div class="name">张三</div>
+													<div class="group">财务部</div>
+												</div>
+											</div>
+											<div class="col-sm-3">
+											</div>
+											<div class="col-sm-3">
+											</div>
+											<div class="col-sm-3 txr">
+												<button class="btn btn-sm btn-info" type="button" title=""><i class="fa fa-spinner"></i>审批中</button>
+											</div>
+										</div>
+									</li>
+									<li>
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="col-sm-3">
+												<img src="assets/demo/avatars/3.jpg" alt="" title=""/></div>
+												<div class="col-sm-9">
+													<div class="name">李四</div>
+													<div class="group">财务部</div>
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="">审批意见：<span class="opinion">同意</span></div>
+											</div>
+											<div class="col-sm-3">
+												<div>审批时间：<span class="apply-time">2016-09-07 18:00</span></div>
+											</div>
+											<div class="col-sm-3 txr">
+												<button class="btn btn-sm" type="button" title=""><i class="fa fa-check-square"></i>已审批</button>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<button type="submit" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+					<a href="#/UploadReport" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交（风控中心法律尽调负责人）</a>
+					<a href="#/GrassrootsUploadReport" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交（基层法务人员）</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		$('#porjectPreReview').collapse('show');
+		$('#taskAssignment').collapse({toggle: 'show'});
+		//二级菜单关闭&展示
+		$(".dropdown-list").children("li").click(function(){
+			var dropDown = $(this).find(".sub-list");
+			var togClass=$(this).find(".ico");
+			$(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+			$(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+			dropDown.slideToggle(300);
+			togClass.toggleClass("fa-minus");
+		});
+		//tabs切换
+		$(".nav-tabs").children("li:not('.navbar-right')").click(function(){
+			var liIndex=$(this).index();
+			var tabCont=$(this).parents(".myTab").siblings(".tab-content").find(".tab-pane");
+			$(this).addClass("active").siblings("li").removeClass("active");
+			tabCont.eq(liIndex).fadeIn(300).siblings(".tab-pane").fadeOut(0);
+		});
+		//单选
+		$(".one-choice .sub-list li").click(function(){
+			$(this).children("a").addClass("cur");
+			$(this).parents(".dropdown-list").find(".sub-list li a").not($(this).children()).removeClass("cur");
+			return false;
+		});
+		//多选
+		$(".more-choice .sub-list li").click(function(){
+			$(this).children("a").toggleClass("cur");
+			if($(this).children("a").children("input").attr("checked")=="checked"){
+				$(this).children("a").children("input").removeAttr("checked");
+			}else{
+				$(this).children("a").children("input").attr({checked:"checked"});
+			}
+			return false;
+		});
+		//多选
+		$(".more-choice .sub-list li input").click(function(){
+			if($(this).attr("checked")=="checked"){
+				$(this).removeAttr("checked");
+				$(this).parent("a").toggleClass("cur");
+			}else{
+				$(this).attr({checked:"checked"});
+				$(this).parent("a").toggleClass("cur");
+			}
+		});
+	});
+
+	$("#compareBtn").click(function(){
+		var chooseCount=0;
+		$("input[name='choose']").each(function(){
+			if($(this).attr("checked")){
+				chooseCount++;
+			}
+		});
+		if(chooseCount==0){
+			alert("请选择要对比的数据！");
+			return;
+		}else if(chooseCount>1){
+			alert("只能选择一条数据！");
+			return;
+		}
+	});
+//-->
+</script>
+<script  type="text/javascript">
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#dueDiligenceTime').datepicker(options);
+
+		$("#project-type-box select").select2();
+		$("#project-mode-box select").select2();
+   });
+	function callbackV(pkvalue,name){
+		$("#reportingUnitName").val(name);
+		$("#reportingUnitValue").val(pkvalue);
+		var dataV={'ORG_PK_VALUE':pkvalue};
+		$.ajax({
+			url:'http://localhost:8080/rcm-rest/fnd/Group/getGroupBypkValue',
+			type: "POST",
+            data:dataV,
+			dataType:'json',
+			cache:false,
+			async:true,
+			success: function(data){
+				alert(data.result_data.NAME);
+			}
+		});
+	}
+
+</script>

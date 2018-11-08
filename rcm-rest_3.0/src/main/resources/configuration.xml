@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="db.properties" />
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+				<property name="poolMaximumActiveConnections" value="${jdbc.maxPoolSize}" />
+				<property name="poolMaximumIdleConnections" value="${jdbc.minPoolSize}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="sql/role.mybatis.xml"/>
+		<mapper resource="sql/sysUser.mybatis.xml"/>
+		<mapper resource="sql/group.mybatis.xml"/>
+		<mapper resource="sql/sysFun.mybatis.xml"/>
+		<mapper resource="sql/roleAndUser.mybatis.xml"/>
+		<mapper resource="sql/dictionary.mybatis.xml"/>
+		<mapper resource="sql/item.mybatis.xml"/>
+		<mapper resource="sql/warning.mybatis.xml"/>
+		<mapper resource="sql/attachment.mybatis.xml"/>
+		<mapper resource="sql/business.mybatis.xml"/>
+		<mapper resource="sql/team.mybatis.xml"/>
+		<mapper resource="sql/commonCode.mybatis.xml"/>
+		<mapper resource="sql/noticeInfo.mybatis.xml"/>
+		<mapper resource="sql/taskWarningConf.mybatis.xml"/>
+		<mapper resource="sql/listNotice.mybatis.xml"/>
+		<mapper resource="sql/projectRelation.mybatis.xml"/>
+		<mapper resource="sql/projectInfo.mybatis.xml"/>
+		<mapper resource="sql/workflowAccess.mybatis.xml"/>
+		<mapper resource="sql/noticeOfDecisionInfo.mybatis.xml"/>
+		<mapper resource="sql/webserviceLog.mybatis.xml"/>
+		<mapper resource="sql/contractSysResendRecord.mybatis.xml"/>
+		<mapper resource="sql/wscall.mybatis.xml"/>
+	</mappers>
+</configuration>

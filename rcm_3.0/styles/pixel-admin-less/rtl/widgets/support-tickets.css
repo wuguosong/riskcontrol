@@ -1,0 +1,13 @@
+.widget-support-tickets a.ticket-title {
+  padding: 0 0 0 90px;
+}
+.widget-support-tickets a.ticket-title i {
+  margin: 0 0 0 5px;
+}
+.widget-support-tickets a.ticket-title span {
+  padding-left: 0;
+  padding-right: 4px;
+}
+.widget-support-tickets .ticket-label {
+  float: left;
+}

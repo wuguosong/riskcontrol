@@ -1,0 +1,105 @@
+<div class="panel-body">
+	<form id="TemalateFile" class="form-horizontal" name="TemalateFile">
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt=""
+					title="" /><span class="hd-title">{{titleName}}</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont">
+						<span class="panel-title">模板文件<i class="i-triangle"></i></span>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="special-form">
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required" ng-if="templateFlieInfo.STATUS != '2'">*</span>模板名称</label>
+							<div class="col-sm-4">
+								<input type="text" id="title"  data-toggle="modal" required class="form-control" name="name" id="name" ng-model="templateFlieInfo.NAME"/>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required" ng-if="templateFlieInfo.STATUS != '2'">*</span>描述</label>
+							<div class="col-sm-10 has-feedback">
+								<textarea id="desc" rows="6%" cols="100%" ng-keyup="keyUp($event)"  auto-height data-toggle="modal" required class="form-control" name="content" id="content" ng-model="templateFlieInfo.CONTENT" ></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div id="attachmentFile">
+								<label for="" class="col-sm-2 control-label">附件</label>
+								<div class="col-sm-1 txl" id="fileSelectDiv">
+									<button class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadNotificationAttachment($file,$invalidFiles, $index)">浏览</button>
+								</div>
+								<div class="col-sm-9">
+									<div class="row nobottom-mar">
+										<div class="col-sm-10 noleft-pad noright-pad">
+											<span ng-bind="progress$index"></span>
+											<span style="">{{errorAttach[$index].msg}}</span>
+											<a  href="javascript:void(0);" ng-click="downLoadFile(templateFlieInfo.FILE_PATH,templateFlieInfo.FILE_NAME)" style="line-height: 27px;" >{{templateFlieInfo.FILE_NAME}}</a>
+											<input type="text" hidden="hidden" id="attachmentFile" name="attachmentFile" ng-model="templateFlieInfo.FILE_NAME">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+					<button type="button" id="savebtn" class="btn btn-info" 
+						onclick="saveTemalateFile()" >
+						<i class="fa fa-save"></i>保存
+					</button>
+					<button type="button" id="submitbtn" class="btn btn-info"
+						onclick="submitTemalateFile()" ng-if="templateFlieInfo.STATUS != '2'">
+						<i class="fa fa-cloud-upload"></i>提交
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script  type="text/javascript">
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#expire_date').datepicker(options);
+
+	});
+	$().ready(function() {
+		// validate signup form on keyup and submit
+		$("#TemalateFile").validate({
+			rules: {
+				name:"required",
+				content:"required"
+			},
+			messages: {
+				name:"请填写名称",
+				content:"请填写内容"
+			}
+		});
+	});
+	function saveTemalateFile(){
+		if($("#TemalateFile").valid()){
+			accessScope("#TemalateFile", function(scope){
+				scope.saveTemalateFile();
+			});
+		}
+	}
+	
+	function submitTemalateFile(){
+		if($("#TemalateFile").valid()){
+			accessScope("#TemalateFile", function(scope){
+				scope.submitTemalateFile();
+			});
+		}
+	}
+	</script>

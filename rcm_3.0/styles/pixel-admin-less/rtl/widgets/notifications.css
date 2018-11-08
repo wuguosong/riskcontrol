@@ -1,0 +1,12 @@
+.widget-notifications .notification-title,
+.widget-notifications .notification-description,
+.widget-notifications .notification-ago {
+  margin-left: 35px;
+  margin-right: 0;
+}
+.widget-notifications .notification-icon {
+  left: 0;
+  right: auto;
+  margin-left: 12px;
+  margin-right: 0;
+}

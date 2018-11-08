@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="warning">
+	<select id="selectWarning"  resultType="map" useCache="false">
+		select * from sys_warning t where 1=1 
+			 order by t.model_code
+	</select>
+
+	<delete id="deleteWarning" parameterType="String">
+		delete from sys_warning where uuid in(#{uuid})
+	</delete>  
+
+    <select id="selectOneWarning" resultType="map" useCache="false">
+		select * from sys_warning where uuid=#{uuid}
+	</select>
+	
+	<update id="updateWarning" parameterType="map">
+	 	update sys_warning set model_name=#{model_name,jdbcType=VARCHAR},
+	 	model_code=#{model_code,jdbcType=VARCHAR},
+	 	warning_day=#{warning_day,jdbcType=VARCHAR},
+	 	state=#{state,jdbcType=VARCHAR},
+	 	type=#{type,jdbcType=VARCHAR}
+	 	where model_code = #{model_code}
+	</update>
+	
+	<insert id="insertWarning" parameterType="map">
+		insert into sys_warning
+		(warning_day,model_code,model_name, state,uuid,type) values(
+		#{warning_day,jdbcType=VARCHAR},
+		#{model_code,jdbcType=VARCHAR},
+		#{model_name,jdbcType=VARCHAR},
+		#{state,jdbcType=VARCHAR},
+		#{uuid,jdbcType=VARCHAR},
+		#{type,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 添加前验证model_code是否重复	-->	
+	<select id="selectCodeCount" resultType="String" useCache="false" >
+	    select count(*) from sys_warning t where 1=1 
+	    and t.model_code = #{model_code}
+	</select>
+</mapper>

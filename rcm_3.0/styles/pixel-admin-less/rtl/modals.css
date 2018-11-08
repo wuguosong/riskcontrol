@@ -1,0 +1,10 @@
+.modal-dialog .close {
+  float: left;
+}
+.modal-footer {
+  text-align: left;
+}
+.modal-footer .btn + .btn {
+  margin-left: 0;
+  margin-right: 5px;
+}

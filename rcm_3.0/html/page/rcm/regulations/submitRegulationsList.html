@@ -1,0 +1,105 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt=""
+			title="" /> <span class="hd-title">规章制度</span>
+	</div>
+
+	<div class="tab-content tab-content-bordered">
+		<div class="tab-pane active" id="bs-tabdrop-tab1">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div id="notificationList" class="panel-group">
+					<div class="panel">
+						<div class="panel-heading search-box">
+							<a class="accordion-toggle collapsed" data-toggle="collapse"
+								data-parent="#notificationList" href="/#searchbox">查询</a>
+						</div>
+						<div id="searchbox" class="panel-collapse collapse">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">名称</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<input type="text" name="NAME" id="NAME"
+											ng-model="paginationConf.queryObj.name"
+											class="form-control ng-pristine ng-untouched ng-valid" />
+											
+											<input type="hidden" name="STATUS" id="STATUS" 
+											ng-model="paginationConf.queryObj.status" value="2" />
+									</div>
+									<!--  <label class="col-sm-2 col-md-1 control-label">状态</label>
+									<div class="col-sm-4 col-md-2">
+										<select name="STATUS" id="STATUS" class="form-control"
+											ng-model="paginationConf.queryObj.status">
+											<option selected="selected"  value="2">正式发布</option>
+										</select>
+									</div>  -->
+									<div class="col-sm-4 col-md-2 search">
+										<button type="button" class="btn btn-info"
+											ng-click="getRegulationsList()">
+											<i class="glyphicon glyphicon-search"></i>查询
+										</button>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<div class="panel-heading">
+						<div class="panel-hd-cont">
+							<span class="panel-title">规章制度列表<i class="i-triangle"></i></span>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="form-group row nobottom-mar table-responsive table-list">
+							<table border="0" cellspacing="0" cellpadding="0"
+								class="table table-hover datatable first-col-fixed">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>制度名称</th>
+										<th>描述</th>
+										<th>发布时间</th>
+										<th>附件</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="p in notifications track by $index"
+										on-finish-render-filters>
+										<td>{{$index+1}}</td>
+										<td><a
+											href="#/regulationsInfoView/View/{{p.ID}}/{{'#/submitRegulationsList'|encodeURI}}">
+												{{p.NAME}} </a></td>
+										<td>{{p.CONTENT}}</td>
+										<td>{{p.CREATE_DATE.substring(0,10)}}</td>
+										<td>
+											<!-- <div ng-if="'1'== p.STATUS">起草中</div>
+											<div ng-if="'2'== p.STATUS">正式发布</div> -->
+											
+											<div class="row nobottom-mar">
+												<div class="col-sm-10 noleft-pad noright-pad">
+													<span ng-bind="progress$index"></span>
+													<span style="">{{errorAttach[$index].msg}}</span>
+													<a  href="javascript:void(0);" ng-click="downLoadFile(p.FILE_PATH,p.FILE_NAME)" style="line-height: 27px;" >{{p.FILE_NAME}}</a>
+													<input type="text" hidden="hidden" id="attachmentFile" name="attachmentFile" ng-model="p.FILE_NAME">
+												</div>
+											</div>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript"
+	src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>

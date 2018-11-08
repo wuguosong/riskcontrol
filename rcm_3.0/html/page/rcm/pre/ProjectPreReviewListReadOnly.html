@@ -1,0 +1,431 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt=""
+			title="" /> <span class="hd-title">投标评审</span>
+	</div>
+	<!--  三个图 -->
+	<div class="row"
+		style="margin: 10px; border: 1px solid #e6e8e9; border-radius: 5px">
+		<div class="p-nav">
+			<div class="p-header-fromal color_darkBlue ">
+				<!-- <a class="accordion-toggle collapse in" href="/#taskAssignment2"
+				data-toggle="collapse"><span class="text">正式评审统计<i></i></span></a> -->
+
+				<ul class="nav nav-tabs" style="border-bottom: 0" role="tablist"
+					id="myTab">
+					<li role="presentation" class="active"><a href="/#noCompleted"
+						ng-click="qiehuanNoCompleted()" data-toggle="tab"> 跟进中 </a></li>
+					<li role="presentation"><a href="/#completed"
+						ng-click="qiehuanCompleted()" data-toggle="tab"> 已完成 </a></li>
+					<li role="presentation" style="width: 870px"><a
+						class="accordion-toggle collapse in" href="/#taskAssignment2"
+						data-toggle="collapse"> </a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="panel-body panel-collapse collapse in "
+			id="taskAssignment2">
+			<div id="noCompleted">
+				<div class="col-md-6 ">
+					<div class="p-list list-message">
+						<div class="p-header color_darkBlue">战区PK</div>
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#ff-tabdrop-tab1"
+										data-toggle="tab">数量</a></li>
+									<li><a href="/#ff-tabdrop-tab2" data-toggle="tab">规模</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="ff-tabdrop-tab1">
+									<div id="review1" style="width: 490px; height: 300px;"></div>
+								</div>
+								<div class="tab-pane" id="ff-tabdrop-tab2">
+									<div id="review2" style="width: 490px; height: 300px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="col-md-4">
+					<div class="p-list list-message">
+						<div class="p-header color_darkBlue">完成决策会统计</div>
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#wc-tabdrop-tab1"
+										data-toggle="tab">月</a></li>
+									<li><a href="/#wc-tabdrop-tab2" data-toggle="tab">季</a></li>
+									<li><a href="/#wc-tabdrop-tab3" data-toggle="tab">年</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="wc-tabdrop-tab1">
+									<div id="reviewWC1" style="width: auto; height: 200px;"></div>
+								</div>
+								<div class="tab-pane" id="wc-tabdrop-tab2">
+									<div id="reviewWC2" style="width: auto; height: 200px;"></div>
+								</div>
+								<div class="tab-pane" id="wc-tabdrop-tab3">
+									<div id="reviewWC3" style="width: auto; height: 200px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<div class="col-md-6 ">
+					<div class="p-list first-list">
+						<div class="p-header color_darkBlue">业务类型统计</div>
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#tj-tabdrop-tab1"
+										data-toggle="tab">数量</a></li>
+									<li><a href="/#tj-tabdrop-tab2" data-toggle="tab">规模</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="tj-tabdrop-tab1">
+									<div id="TJ1" style="width: 490px; height: 300px;"></div>
+								</div>
+								<div class="tab-pane" id="tj-tabdrop-tab2">
+									<div id="TJ2" style="width: 490px; height: 300px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="completed">
+				<div class="col-md-6 ">
+					<div class="p-list list-message">
+						<div class="p-header color_darkBlue">战区PK</div>
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#yghPK-tabdrop-tab1"
+										data-toggle="tab">数量</a></li>
+									<li><a href="/#yghPK-tabdrop-tab2" data-toggle="tab">规模</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="yghPK-tabdrop-tab1">
+									<div id="reviewYghPK1" style="width: 490px; height: 300px;"></div>
+								</div>
+								<div class="tab-pane" id="yghPK-tabdrop-tab2">
+									<div id="reviewYghPK2" style="width: 490px; height: 300px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="col-md-4">
+					<div class="p-list list-message">
+						<div class="p-header color_darkBlue">完成决策会统计</div>
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#wc-tabdrop-tab1"
+										data-toggle="tab">月</a></li>
+									<li><a href="/#wc-tabdrop-tab2" data-toggle="tab">季</a></li>
+									<li><a href="/#wc-tabdrop-tab3" data-toggle="tab">年</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="wc-tabdrop-tab1">
+									<div id="reviewWC1" style="width: auto; height: 200px;"></div>
+								</div>
+								<div class="tab-pane" id="wc-tabdrop-tab2">
+									<div id="reviewWC2" style="width: auto; height: 200px;"></div>
+								</div>
+								<div class="tab-pane" id="wc-tabdrop-tab3">
+									<div id="reviewWC3" style="width: auto; height: 200px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<div class="col-md-6 ">
+					<div class="p-list first-list">
+						<div class="p-header color_darkBlue">业务类型统计</div>
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#yghtj-tabdrop-tab1"
+										data-toggle="tab">数量</a></li>
+									<li><a href="/#yghtj-tabdrop-tab2" data-toggle="tab">规模</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="yghtj-tabdrop-tab1">
+									<div id="TJYghLx1" style="width: 490px; height: 300px;"></div>
+								</div>
+								<div class="tab-pane" id="yghtj-tabdrop-tab2">
+									<div id="TJYghLx2"  style="width: 490px; height: 300px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<!-- 类型统计 -->
+	<div class="row"
+		style="margin: 10px; border: 1px solid #e6e8e9; border-radius: 5px">
+		<!-- <div class="p-header-fromal color_darkBlue">
+			<a class="accordion-toggle collapse in" href="/#taskAssignment3"
+				data-toggle="collapse"><span class="text">正式评审类型统计<i></i></span></a>
+		</div> -->
+		<div class="p-nav">
+			<div class="p-header-fromal color_darkBlue ">
+				<!-- <a class="accordion-toggle collapse in" href="/#taskAssignment2"
+				data-toggle="collapse"><span class="text">正式评审统计<i></i></span></a> -->
+
+				<ul class="nav nav-tabs" style="border-bottom: 0" role="tablist"
+					id="myTab">
+					<li role="presentation" class="active"><a
+						href="/#noCompleted1" ng-click="qiehuannoCompleted1()"
+						data-toggle="tab"> 跟进中 </a></li>
+					<li role="presentation"><a href="/#completed1"
+						ng-click="qiehuanCompleted1()" data-toggle="tab"> 已完成 </a></li>
+					<li role="presentation" style="width: 870px"><a
+						class="accordion-toggle collapse in" href="/#taskAssignment5"
+						data-toggle="collapse"> </a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="panel-body panel-collapse collapse in "
+			id="taskAssignment5">
+			<div id="noCompleted1">
+				<div class="col-sm-12">
+					<div class="p-list list-message">
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#lx-tabdrop-tab1"
+										data-toggle="tab">数量</a></li>
+									<li><a href="/#lx-tabdrop-tab2" data-toggle="tab">规模</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="lx-tabdrop-tab1">
+									<div id="reviewLX1" style="width: 1000px; height: 300px;"></div>
+								</div>
+								<div class="tab-pane" id="lx-tabdrop-tab2">
+									<div id="reviewLX2" style="width: 1000px; height: 300px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="completed1">
+				<div class="col-sm-12">
+					<div class="p-list list-message">
+						<div class="panel">
+							<div class="panel-heading hp-heading">
+								<span class="panel-title">&nbsp;</span>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="/#yghlx-tabdrop-tab1"
+										data-toggle="tab">数量</a></li>
+									<li><a href="/#yghlx-tabdrop-tab2" data-toggle="tab">规模</a></li>
+								</ul>
+							</div>
+							<div class="tab-content no-pad tab-table-contract">
+								<div class="tab-pane active" id="yghlx-tabdrop-tab1">
+									<div id="reviewYghLX1" style="width: 1000px; height: 300px;"></div>
+								</div>
+								<div class="tab-pane" id="yghlx-tabdrop-tab2">
+									<div id="reviewYghLX2" style="width: 1000px; height: 300px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row"
+		style="margin: 10px; border: 1px solid #e6e8e9; border-radius: 5px">
+		<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+			<div id="projectPreReview" class="panel-group">
+				<div class="panel">
+					<div class="p-header-fromal color_darkBlue">
+						<a class="accordion-toggle collapse in" href="/#taskAssignment1"
+							data-parent="#reviewLeader" data-toggle="collapse"><span
+							class="text">项目正式评审申请管理</span></a>
+					</div>
+					<div class="panel-body panel-collapse collapse in "
+						id="taskAssignment1">
+
+						<input type="hidden" name="proId" id="proId" ng-model="conf.orgId" />
+						<div class="panel-heading search-box">
+							<a class="accordion-toggle collapsed" data-toggle="collapse"
+								href="/#searchbox">查询</a>
+						</div>
+						<div id="searchbox" class="panel-collapse collapse">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">所属大区</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text"
+											ng-model="paginationConf.queryObj.reporting_unit_name"
+											class="form-control ng-pristine ng-untouched ng-valid" />
+									</div>
+									<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text"
+											ng-model="paginationConf.queryObj.project_name"
+											class="form-control ng-pristine ng-untouched ng-valid" />
+									</div>
+								</div>
+								<div class="form-group row sm-row">
+									<label for="" class="col-sm-2 col-md-1 control-label">补充评审</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<select class="form-control"
+											ng-model="paginationConf.queryObj.is_supplement_review">
+											<option value="">请选择...</option>
+											<option value="0">否</option>
+											<option value="1">是</option>
+										</select>
+									</div>
+
+									<label class="col-sm-2 col-md-1 control-label">评审状态</label>
+									<div class="col-sm-4 col-md-3">
+										<select class="form-control"
+											ng-model="paginationConf.queryObj.wf_state">
+											<option value="">请选择...</option>
+											<option value="0">起草中</option>
+											<option value="1">审批中</option>
+											<option value="2">已审批</option>
+											<option value="3">已终止</option>
+										</select>
+									</div>
+									<div class="col-sm-12 col-md-4">
+										<div class="col-sm-12 col-md-2 search">
+											<button type="button" class="btn btn-info"
+												ng-click="queryAllFormalAssessmentInfoByPage()">
+												<i class="glyphicon glyphicon-search"></i>查询
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+						<div class="panel">
+							<div class="panel-body">
+								<div class="form-group row">
+									<button type="button" ng-click="exportFormaReportInfo()"
+										class="btn btn-info">
+										<i class="glyphicon glyphicon-export"></i>导出台账
+									</button>
+								</div>
+								<div
+									class="form-group row nobottom-mar table-responsive table-list">
+									<table border="0" cellspacing="0" cellpadding="0"
+										class="table table-hover datatable first-col-fixed">
+										<thead>
+											<tr>
+												<th>序号</th>
+												<th>项目名称</th>
+												<th>所属大区</th>
+												<th>业务类型</th>
+												<th>投资模式</th>
+												<th>投资经理</th>
+												<th>评审负责人</th>
+												<th>法律负责人</th>
+												<th>申请时间<i class="icofunc fa fa-caret-up" id="orderasc"
+													ng-click="order('time','asc')"></i><i
+													class="icofunc cur fa fa-caret-down" id="orderdesc"
+													ng-click="order('time','desc')"></i></th>
+												<th>评审状态<i class="icofunc fa fa-caret-up"
+													id="orderascstate" ng-click="order('state','asc')"></i><i
+													class="icofunc cur fa fa-caret-down" id="orderdescstate"
+													ng-click="order('state','desc')"></i></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="p in preList"
+												on-finish-render-filters>
+												<td>{{$index+1}}</td>
+												<td><a ng-if="p.OLDDATA != '1'"
+													href="#/FormalAssessmentAuditDetailView/{{p.BUSINESSID}}/{{'#/ProjectFormalReviewListReadOnly'|encodeURI}}">{{p.PROJECTNAME}}</a>
+													<a ng-if="p.OLDDATA == '1'" href="#/{{p.OLDURL}}6">{{p.PROJECTNAME}}</a>
+													<img ng-if="p.ISURGENT==1"
+													src="assets/images/icons/urgent.png" width="20" height="20"
+													alt="" title="" class="urgent-sign" />
+												<td>{{p.PERTAINAREANAME}}</td>
+												<img ng-if="p.isUrgent==1"
+													src="assets/images/icons/urgent.png" width="20" height="20"
+													alt="" title="" class="urgent-sign" />
+												</td>
+												<td>{{p.SERVICE_TYPE_NAME}}</td>
+												<td>{{p.PROJECT_MODEL_NAMES}}</td>
+												<td>{{p.INVESTMENTNAME}}</td>
+												<td>{{p.REVIEWPERSONNAME}}</td>
+												<td>{{p.LEGALREVIEWPERSONNAME}}</td>
+												<td><span
+													ng-if="p.APPLY_DATE != null && p.CREATE_DATE == null">{{p.APPLY_DATE
+														|date:'yyyy-MM-dd hh:mm:ss'}}</span> <span
+													ng-if="p.CREATE_DATE != null && p.APPLY_DATE == null">{{p.CREATE_DATE
+														|date:'yyyy-MM-dd hh:mm:ss'}}</span></td>
+												<td>
+													<div ng-if="'0'== p.WF_STATE">起草中</div>
+													<div ng-if="'1'== p.WF_STATE">审批中</div>
+													<div ng-if="'2'== p.WF_STATE">已审批</div>
+													<div ng-if="'3'== p.WF_STATE">已终止</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="table-footer clearfix">
+								<tm-pagination conf="paginationConf"></tm-pagination>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+	</div>
+	<div class="button-group">
+		<div class="row">
+			<div class="option">
+				<a class="btn btn-info" href="#/homePage"><i class="fa fa-reply"></i>返回</a>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+<script type="text/javascript"
+	src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>
+<script>
+	angular
+			.element(document)
+			.ready(
+					function() {
+						var options = {
+							todayBtn : "linked",
+							orientation : $('body').hasClass('right-to-left') ? "auto right"
+									: 'auto auto'
+						}
+						$('#formalApplyTime').datepicker(options);
+					});
+</script>

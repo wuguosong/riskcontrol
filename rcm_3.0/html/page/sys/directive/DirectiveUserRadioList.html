@@ -1,0 +1,77 @@
+<div  id="userRaido-modal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog selection-pop">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">人员选择(单选)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="wrap-menu" >
+                    <div class="menu-hd"><h3 class="title">组织列表</h3></div>
+                    <div id="directiveDtreeID">
+                        <div id="treeIDuser5" class="ztree"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-info">
+                    <form name="formDirectivve" ng-submit="queryuserradioList()" class="form-horizontal ng-pristine ng-valid" novalidate>
+                        <div class="panel-body">
+                            <div class="row">
+                                <label class="col-sm-2 control-label noleft-pad txl">已选人员</label>
+                                <div class="col-sm-10 noleft-pad noright-pad">
+                                    {{selectName}}
+                                </div>
+                            </div>
+                            <div>
+                                <input type="hidden"  name="ORGIDRADIO" id="ORGIDRADIO" ng-model="queryObj.ORGIDRADIO"/>
+                                <input type="hidden"  ng-model="queryObj.categoryCode"/>
+                                <div class="search-input has-feedback">
+                                    <input type="text" name="name" ng-model="queryObj.name" class="in-t form-control" placeholder="请输入人员姓名" />
+                                    <button class="fa fa-search form-control-feedback" style="background-color:transparent;border: 0;" type="submit"></button>
+                                </div>
+                            </div>
+                            <div class="row"></div>
+                            <div class="panel nobottom-mar">
+                                <div class="panel-body">
+                                    <div class="form-group row table-list">
+                                        <table border="0" cellspacing="0" cellpadding="0" class="table  table-hover datatable pop-first-col-fixed">
+                                            <thead>
+                                            <tr>
+                                                <th>选择</th>
+                                                <th>登录名</th>
+                                                <th>姓名</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="userListTbody">
+                                            <tr ng-repeat="u in sysUserradio" on-finish-render-filters>
+                                                <td>
+                                                    <div class="radio radio-inline">
+                                                        <label>
+                                                            <input class="px" type="radio" id="RaidoNAME" name="RaidoNAME"  ng-click="setSelection(u.UUID,u.NAME)"/>
+                                                            <span class="lbl">&nbsp;</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>{{u.ACCOUNT}}</td>
+                                                <td>{{u.NAME}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="table-footer clearfix">
+                                    <tm-paginationes confes="paginationConfes"></tm-paginationes>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="resetRadioUserList()" data-dismiss="modal">取消</button>
+                <button type="button" ng-click="saveUserRadioListforDiretive()" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,416 @@
+<div class="panel-body" >
+    <!--form表单开始-->
+    <form class="form-horizontal" name="myFormPPR"  >
+        <div class="" >
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">上会通知信息补充</span>
+            </div>
+            <div class="panel" >
+                <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">参会信息<i class="i-triangle"></i></span></div></div>
+                <div class="panel-body panel-group">
+                    <div class="row">
+                        <label class="col-sm-2 control-label">会议通知单编号</label>
+                        <div class="col-sm-4 noright-pad">
+                            <input type="text" name="noticeId" id="noticeId" ng-model="ArrOnemeeting.noticeId" class="form-control" readonly/>
+                        </div>
+                        <label class="col-sm-2 control-label">上会日期</label>
+                        <div class="col-sm-4 has-feedback noright-pad">
+                            <input type="text" disabled id="meetingTime" name="meetingTime" class="form-control" ng-model="ArrOnemeeting.meetingTime" />
+                            <i class="fa fa-calendar form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApply" href="/#reviewProject1"><span class="text">评审项目<i class="i-triangle"></i></span></a>
+                        </div> <!-- / .panel-heading -->
+                        <div id="reviewProject1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="row nobottom-mar">
+                                    <div class="row-tit">项目参会信息</div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                                            <tbody class="tr-max">
+                                            <input type="hidden"  name="UUID" id="UUID"   class="form-control"  value="{{id}}" />
+                                            <tr>
+                                                <td class="title-column">项目名称</td>
+                                                <td>{{ArrOnemeeting.projectName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">业务类型</td>
+                                                <td>{{ArrOnemeeting.projectForm}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">项目评级</td>
+                                                <td colspan="3">
+                                                    <div class="row nobottom-mar">
+                                                        <div class="col-sm-5 noleft-pad meeting-time-input">
+                                                            <input type="text" name="projectRating" id="projectRating" class="form-control" ng-model="ArrOnemeeting.projectRating.name" disabled/>
+                                                        </div>
+                                                        <div class="col-sm-1"></div>
+                                                        <div class="col-sm-6 td-checkbox txl noLeftPadMin">
+                                                            <label class="checkbox-inline">
+                                                                <input type="checkbox" class="px" name="projectType1" id="projectType1" ng-model="ArrOnemeeting.projectType1" disabled/>
+                                                                <span class="lbl">项目简单</span>
+                                                            </label>
+                                                            <label class="checkbox-inline">
+                                                                <input type="checkbox" class="px" name="projectType2" id="projectType2" ng-model="ArrOnemeeting.projectType2"  disabled/>
+                                                                <span class="lbl">风险较低</span>
+                                                            </label>
+                                                            <label class="checkbox-inline">
+                                                                <input type="checkbox" class="px" name="projectType3" id="projectType3" ng-model="ArrOnemeeting.projectType3" disabled />
+                                                                <span class="lbl">收益较好</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">评级理由</td>
+                                                <td colspan="3"><textarea name="" rows="" cols="" class="form-control"  ng-model="ArrOnemeeting.ratingReason" readonly></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">其他参会人区域事业部</td>
+                                                <td colspan="3">
+                                                    <div id="regional-division">
+                                                        <div id="headerdivisionName">
+                                                            <div  ng-click="setDirectiveParam('division')"   class="select2-success">
+                                                                <div id="s2id_projectModel2" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                                                                    <ul class="select2-choices">
+                                                                        <li class="select2-search-field">
+                                                                            <div class="full-drop">
+                                                                                <input id="s2id_autogen4" class="select2-input" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;">
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" class="form-control" id="divisionName"  ng-model="arr.division.name">
+                                                        <input type="hidden" class="form-control"  ng-model="arr.division.value"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">投资中心</td>
+                                                <td colspan="3">
+                                                    <div id="investment-center">
+                                                        <div id="headerinvestmentName{{outIndex}}">
+                                                            <div  ng-click="setDirectiveParam('investment')"    class="select2-success">
+                                                                <div id="s2id_projectModel1" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                                                                    <ul class="select2-choices">
+                                                                        <li class="select2-search-field">
+                                                                            <div class="full-drop">
+                                                                                <input id="s2id_autogen3" class="select2-input" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;">
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" class="form-control" id="investmentName"  ng-model="arr.investment.name" data-toggle="modal" data-target="#company-modal"  class="select2-success">
+                                                        <input type="hidden" class="form-control" ng-model="arr.investment.value"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">联系人</td>
+                                                <td colspan="3">
+                                                    <div class="row nobottom-mar">
+                                                        <div  id="contacts-type-box" class="col-sm-5 noleft-pad meeting-time-input">
+                                                            <input type="text" class="form-control" id="contacts"  ng-model="ArrOnemeeting.contacts.name" data-toggle="modal" data-target="#company-modal"  class="select2-success" disabled>
+                                                            <input type="hidden" class="form-control" id="contacts_id"  ng-model="ArrOnemeeting.contacts_id"/>
+                                                        </div>
+                                                        <div class="col-sm-1 noright-pad td-text txr meeting-tel">
+                                                            <span class="text">电话：</span>
+                                                        </div>
+                                                        <div class="col-sm-6 noright-pad meeting-tel-input">
+                                                            <input type="text" name="telephone" id="telephone" class="form-control" ng-model="ArrOnemeeting.telephone" disabled />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">备注</td>
+                                                <td colspan="3">
+                                                    <textarea name="mark" id="mark" rows="" cols="" class="form-control" ng-model="ArrOnemeeting.mark" readonly></textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="txl">
+                                        <button disabled  type="button" class="btn btn-info" ng-click="addProfit()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                        <button disabled type="button" class="btn btn-info" ng-click="deleteProfit()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center txc">
+                                            <thead>
+                                            <tr>
+                                                <th>选择</th>
+                                                <th>评审议程</th>
+                                                <th>汇报人</th>
+                                                <th>用时规定</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="scheduleList">
+                                            <tr ng-repeat="s in ArrOnemeeting.agenda">
+                                                <td>
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" disabled class="px"  ng-model="s.selected"/>
+                                                        <span class="lbl">&nbsp;</span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    {{s.agendaOption}}
+                                                    <!--<input  ng-model="s.agendaOption" value="{{s.agendaOption}}" id="agendaOption" name="agendaOption" class="form-control" disabled/>-->
+                                                </td>
+                                                <td>
+                                                    {{s.agendaName.name}}
+                                                    <!--<input type="text" ng-model="s.agendaName" value="{{s.agendaName}}" id="agendaName" name="agendaName" class="form-control" disabled />-->
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        {{s.agendaRule}} 分钟
+                                                        <!--<input type="text" ng-model="s.agendaRule" value="{{s.agendaRule}}" name="agendaRule" id="agendaRule" class="form-control" disabled/>-->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row nobottom-mar">
+                                    <div class="row-tit">会议通知信息</div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+                                            <tbody class="tr-max">
+                                            <tr>
+                                                <td class="title-column">上会时间</td>
+                                                <td>
+                                                    <div class="row nobottom-mar">
+                                                        <div class="col-sm-5 noleft-pad has-feedback meeting-time-input">
+                                                            <input type="text"  class="form-control starttime"  ng-model="ArrOnemeeting.startTime" placeholder="开始时间" disabled/>
+                                                            <i class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text"><span class="text">至</span></div>
+                                                        <div class="col-sm-5 has-feedback meeting-time-input">
+                                                            <input type="text" class="form-control endTime"   ng-model="ArrOnemeeting.endTime" placeholder="结束时间" disabled/>
+                                                            <i class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text"><span class="text"  ng-model="ArrOnemeeting.minute" >{{ArrOnemeeting.minute}}分钟</span></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-column">决策委员会委员</td>
+                                                <td colspan="3">
+                                                    <div class="row txl">
+                                                        <label class="checkbox-inline">
+                                                            <input type="radio" disabled class="px" name="decisionMakingCommitteeStaffNum" ng-model="ArrOnemeeting.decisionMakingCommitteeStaffNum" value="4"/>
+                                                            <span class="lbl">简单会议</span>
+                                                        </label>
+                                                        <label class="checkbox-inline">
+                                                            <input type="radio" disabled class="px" name="decisionMakingCommitteeStaffNum"  ng-model="ArrOnemeeting.decisionMakingCommitteeStaffNum" value="7" />
+                                                            <span class="lbl">专题会议</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="row nobottom-mar">
+                                                        <div  id="fixed-member-box">
+                                                            <div class="select2-success">
+                                                                <select multiple="multiple" disabled class="form-control" id="fixed-member" name="fixed-member" ng-model="ArrOnemeeting.decisionMakingCommitteeStaff" ng-options="ull.NAME for ull in dic.userRoleListall track by ull.UUID"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row"></div>
+                    <!--<div class="row">
+                        <div class="row-tit">审批信息</div>
+                        <ul class="apply-list">
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-3">
+                                            <img src="assets/demo/avatars/1.jpg" alt="" title=""/></div>
+                                        <div class="col-sm-9">
+                                            <div class="name">张三</div>
+                                            <div class="group">财务部</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-3 txr">
+                                        <button class="btn btn-sm btn-info" type="button" title=""><i class="fa fa-spinner"></i>审批中</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-3">
+                                            <img src="assets/demo/avatars/3.jpg" alt="" title=""/></div>
+                                        <div class="col-sm-9">
+                                            <div class="name">李四</div>
+                                            <div class="group">财务部</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="">审批意见：<span class="opinion">同意</span></div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div>审批时间：<span class="apply-time">2016-09-07 18:00</span></div>
+                                    </div>
+                                    <div class="col-sm-3 txr">
+                                        <button class="btn btn-sm" type="button" title=""><i class="fa fa-check-square"></i>已审批</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-3">
+                                            <img src="assets/demo/avatars/1.jpg" alt="" title=""/></div>
+                                        <div class="col-sm-9">
+                                            <div class="name">张三</div>
+                                            <div class="group">财务部</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-3 txr">
+                                        <button class="btn btn-sm btn-info" type="button" title=""><i class="fa fa-spinner"></i>审批中</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-3">
+                                            <img src="assets/demo/avatars/3.jpg" alt="" title=""/></div>
+                                        <div class="col-sm-9">
+                                            <div class="name">李四</div>
+                                            <div class="group">财务部</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="">审批意见：<span class="opinion">同意</span></div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div>审批时间：<span class="apply-time">2016-09-07 18:00</span></div>
+                                    </div>
+                                    <div class="col-sm-3 txr">
+                                        <button class="btn btn-sm" type="button" title=""><i class="fa fa-check-square"></i>已审批</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option txl">
+                    <a href="#/MeetingInfoList" type="button"  class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+                    <!--<button type="button" class="btn btn-info"  ng-click="save()"><i class="fa fa-cloud-upload"></i>提交</button>-->
+                    <!--<a href="#/MeetingInfoList" class="btn btn-info"><i class="fa fa-trash-o"></i>放弃会议申请</a>-->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+    <directive-user-list></directive-user-list>
+
+<script type="text/javascript">
+    angular.element(document).ready(function() {
+
+        var optionsDate = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        var options = {
+            minuteStep: 5,
+            orientation: $('body').hasClass('right-to-left') ? { x: 'right', y: 'auto'} : { x: 'auto', y: 'auto'}
+        }
+        $('.starttime').timepicker(options);
+        $('.endTime').timepicker(options);
+        $('#meetingTime').datepicker(optionsDate);
+        $("#regional-division select").select2();
+        $("#investment-center select").select2();
+        $("#fixed-member-box select").select2();
+    });
+    $(function(){
+        $('#reviewProject1').collapse('show');
+        $('#reviewProject2').collapse('show');
+        //二级菜单关闭&展示
+        $(".dropdown-list").children("li").click(function(){
+            var dropDown = $(this).find(".sub-list");
+            var togClass=$(this).find(".ico");
+            $(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+            $(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+            dropDown.slideToggle(300);
+            togClass.toggleClass("fa-minus");
+        });
+        //tabs切换
+        $(".nav-tabs").children("li:not('.navbar-right')").click(function(){
+            var liIndex=$(this).index();
+            var tabCont=$(this).parents(".myTab").siblings(".tab-content").find(".tab-pane");
+            $(this).addClass("active").siblings("li").removeClass("active");
+            tabCont.eq(liIndex).fadeIn(300).siblings(".tab-pane").fadeOut(0);
+        });
+        //单选
+        $(".one-choice .sub-list li").click(function(){
+            $(this).children("a").addClass("cur");
+            $(this).parents(".dropdown-list").find(".sub-list li a").not($(this).children()).removeClass("cur");
+            return false;
+        });
+        //多选
+        $(".more-choice .sub-list li").click(function(){
+            $(this).children("a").addClass("cur");
+            return false;
+        });
+    });
+
+    $("#compareBtn").click(function(){
+        var chooseCount=0;
+        $("input[name='choose']").each(function(){
+            if($(this).attr("checked")){
+                chooseCount++;
+            }
+        });
+        if(chooseCount==0){
+            alert("请选择要对比的数据！");
+            return;
+        }else if(chooseCount>1){
+            alert("只能选择一条数据！");
+            return;
+        }
+    });
+    //-->
+</script>
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+
+    });
+</script>

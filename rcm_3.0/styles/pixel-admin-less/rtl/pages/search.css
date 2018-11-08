@@ -1,0 +1,15 @@
+.page-search .search-classic .search-tags span,
+.page-search .search-classic .search-tags a {
+  float: right;
+}
+.page-search .search-classic .search-tags .search-tags-text {
+  margin-left: 10px;
+  margin-right: 0;
+}
+.page-search .search-classic .search-tags .label + .label,
+.page-search .search-classic .search-tags .badge + .label,
+.page-search .search-classic .search-tags .label + .badge,
+.page-search .search-classic .search-tags .badge + .badge {
+  margin-left: 0;
+  margin-right: 5px;
+}

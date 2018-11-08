@@ -1,0 +1,70 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">拟上会通知</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading search-box">
+				<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
+			</div>
+			<div id="searchbox" class="panel-collapse collapse">
+				<div class="panel-body search-body">
+					<div class="form-group row sm-row">
+						<label class="col-sm-2 col-md-1 control-label">主题</label>
+						<div class="col-sm-4 col-md-3 sm-col"><input type="text" ng-model="paginationConf.queryObj.title" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+						<label class="col-sm-1 col-md-1 control-label">内容</label>
+						<div class="col-sm-1 col-md-2 sm-col"><input type="text" ng-model="paginationConf.queryObj.content" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+						<!-- <label class="col-sm-1 col-md-1 control-label">上会日期</label>
+						<div class="col-sm-1 col-md-2 has-feedback sm-col">
+							<input type="text" id="meetingTime" name="meetingTime" ng-model="paginationConf.queryObj.meetingTime" class="form-control"/>
+							<i class="fa fa-calendar form-control-feedback"></i>
+						</div> -->
+						<div class="col-sm-1 col-md-2">
+							<div class="col-sm-1 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="executeQueryReviewByPage()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">拟上会通知列表<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+                <div class="">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                               	<th>序号</th>
+								<th>主题</th>
+								<th>内容</th>
+								<th>附件</th>
+								<th>发布时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+	                            <tr ng-repeat="n in noticeList">
+	                                <td>{{$index+1}}</td>
+									<td><a href="#/preliminaryNoticeReviewInfo/{{n.ID}}/{{('#/preliminaryNoticeReviewList/' + oldUrl) |encodeURI}}">{{n.TITLE}}</a></td>
+	                                <td>{{n.CONTENT}}</td>
+	                                <td><a href="javascript:void(0);" ng-click="downLoadFile(n.ATTACHMENT_OBJECT)" style="line-height: 27px;">{{n.ATTACHMENT_OBJECT.fileName}}</a></td>
+	                                <td>{{n.RELEASE_TIME | limitTo:10}}</td>
+	                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+              <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+            	<div class="option">
+            		<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+            	</div>
+            </div>
+        </div>
+    </form>
+</div>

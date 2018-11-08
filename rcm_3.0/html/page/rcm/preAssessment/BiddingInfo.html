@@ -1,0 +1,142 @@
+<div class="panel-body">
+	<form class="form-horizontal ng-pristine ng-valid" onsubmit="return false;">
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">提交决策委员会材料</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">决策委员会材料<i class="i-triangle"></i></span></div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="row-tit">1.投资预评审报告</div>
+						<div class="col-sm-10">
+
+							<a ng-click="downLoadFileReport(pre.filePath,pre.apply.projectName)" style="cursor: pointer" title="">{{pre.apply.projectName}}-预评审报告.doc</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">2.审核意见汇总表</div>
+						<div class="table-light">
+							<div class="table-header">
+								<div class="table-caption">投标项目预评审意见汇总表</div>
+							</div>
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+								<tbody>
+									<tr>
+										<td class="title-column">所属大区</td>
+										<td>{{pre.apply.reportingUnit.name}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">单位负责人</td>
+										<td>{{pre.apply.companyHeader.name}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">投资经理</td>
+										<td>{{pre.apply.investmentManager.name}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">项目名称</td>
+										<td>{{pre.apply.projectName}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">竞争对手</td>
+										<td>{{pre.apply.competitor}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">拟投标时间</td>
+										<td>{{pre.apply.tenderTime}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">投标上线的收益率</td>
+										<td style="text-align:start;">{{pre.reviewReport.incomeEvaluation[0].profitInvestment}}%</td>
+									</tr>
+									<tr>
+										<td class="title-column">一级单位审核意见</td>
+										<td style="text-align: left">{{yjdw}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">投资评审小组审核意见</td>
+										<td><div  ng-repeat="gd in gdcy">{{gd.USERNAME}} : {{gd.OPINION}}</div> </td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">3.选择相关附件</div>
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover table-light">
+									<thead>
+										<tr>
+											<th>选择</th>
+											<th>序号</th>
+											<th>资源名称</th>
+											<th>附件内容</th>
+											<th>编制人</th>
+											<th>审核人</th>
+											<th>创建时间</th>
+											<th>版本号</th>
+										</tr>
+									</thead>
+									<tbody ng-repeat="item in pre.attachment " ng-init="outerIndex = $index">
+									<tr ng-repeat="t in item.files" ng-init="innerIndex = $index">
+										<td >
+											<label class="checkbox-inline">
+												<input type="checkbox" name="choose" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{t.programmed.name}}||{{t.approved.name}}||{{t.fileName}}||{{t.filePath}}||{{t.version}}||{{t.upload_date}}||{{t.programmed.value}}||{{t.approved.value}}"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>{{outerIndex+1}}</td>
+										<td>{{item.ITEM_NAME}}</td>
+										<td> <a href="javascript:void(0);" ng-click="downLoadFile(t)">{{t.fileName}}</a> </td>
+										<td ng-if="null==t.programmed && null!=item.programmed">{{item.programmed.name}}</td>
+										<td ng-if="null!=t.programmed && null==item.programmed">{{t.programmed.name}}</td>
+										<td ng-if="null!=t.programmed && null!=item.programmed">{{t.programmed.name}}</td>
+										<td ng-if="null==t.programmed && null==item.programmed"></td>
+										<td ng-if="null==t.approved && null!=item.approved">{{item.approved.name}}</td>
+										<td ng-if="null!=t.approved && null==item.approved">{{t.approved.name}}</td>
+										<td ng-if="null!=t.approved && null!=item.approved">{{t.approved.name}}</td>
+										<td ng-if="null==t.approved && null==item.approved"></td>
+										<td>{{t.upload_date}}</td>
+										<td>{{t.version}}</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">4.选择决策委员会相关人员</div>
+						<label class="col-sm-2 control-label">决策委员会人员</label>
+						<div class="col-sm-10 noright-pad">
+							<div id="fixed-member-box">
+								<div class="select2-success">
+									<select multiple="multiple" class="form-control" id="fixed-member" name="fixed-member" ng-model="pre.decisionMakingCommitteeStaff" ng-options="ull.NAME for ull in userRoleListall track by ull.VALUE"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<a class="btn btn-info" href="#/ReportList"><i class="fa fa-reply"></i>返回</a>
+<!-- 					<button ng-click="save()" class="btn btn-info"><i class="fa fa-save"></i>保存</button> -->
+					<button ng-click="showSubmitModal()" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交</button>
+				</div>
+				<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+					<approve-pop-win approve="approve"></approve-pop-win>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+	angular.element(document).ready(function() {
+		$("#fixed-member-box select").select2();
+   });
+</script>

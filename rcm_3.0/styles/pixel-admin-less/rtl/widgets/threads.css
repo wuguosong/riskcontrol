@@ -1,0 +1,10 @@
+.widget-threads .thread-avatar {
+  float: right;
+}
+.widget-threads .thread-body {
+  margin-left: 0;
+  margin-right: 42px;
+}
+.widget-threads .thread-time {
+  float: left;
+}

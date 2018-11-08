@@ -1,0 +1,17 @@
+.breadcrumb > li + li:before {
+  content: "\f053";
+  left: 1px;
+}
+.breadcrumb li.active {
+  padding-left: 0;
+  padding-right: 15px;
+}
+.breadcrumb li.active:before {
+  left: auto;
+  right: -1px;
+}
+.breadcrumb-label {
+  float: right;
+  padding-left: 15px;
+  padding-right: 0;
+}

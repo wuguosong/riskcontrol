@@ -1,0 +1,146 @@
+ <div class="special-form">
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">所属大区</label>
+            <div class="col-sm-4 has-feedback">
+                <div class="full-drop">
+                    <input type="text" readonly class="form-control" id="reportingUnitName" name="reportingUnitName" ng-model="pfr.apply.reportingUnit.VALUE">
+                    <input type="hidden" class="form-control" id="reportingUnitValue" name="reportingUnitValue" ng-model="pfr.apply.reportingUnit.KEY">
+                </div>
+            </div>
+            <label for="" class="col-sm-2 control-label">项目编号</label>
+            <div class="col-sm-4">
+                <input type="text"  readonly class="form-control" id="projectNo" name="projectNo" ng-model="pfr.apply.projectNo" placeholder="" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">所属战区</label>
+				<div class="col-sm-4">
+					<input type="text" readonly class="form-control" id="pertainArea" name="pertainArea" ng-model="pfr.apply.pertainArea.VALUE" placeholder="" readonly>
+					<input type="hidden" class="form-control" id="pertainAreaKey" name="pertainAreaKey" ng-model="pfr.apply.pertainArea.KEY" >
+				</div>
+            <label for="" class="col-sm-2 control-label">项目归属单位负责人</label>
+            <div  id="companyHeader-type-box" class="col-sm-4">
+                <div class="full-drop">
+                    <input type="text" readonly class="form-control" id="companyHeaderName" name="companyHeaderName" ng-model="pfr.apply.companyHeader.NAME">
+                     <input type="hidden" id="companyHeaderValue" name="companyHeaderValue" ng-model="pfr.apply.companyHeader.VALUE"  >
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">投资经理</label>
+            <div class="col-sm-4 has-feedback">
+                <div class="full-drop">
+                    <input type="text" readonly  class="form-control"  id="investmentManagerName" name="investmentManagerName" ng-model="pfr.apply.investmentManager.NAME" data-toggle="modal" data-target="#company-modal"  >
+                    <input type="hidden"  id="investmentManagerValue" name="investmentManagerValue"  ng-model="pfr.apply.investmentManager.VALUE"/>
+                </div>
+            </div>
+            <label for="" class="col-sm-2 control-label">基层法务人员</label>
+            <div class="col-sm-4 has-feedback">
+                <div class="full-drop">
+                    <input type="text" readonly  class="form-control" id="grassrootsLegalStaffName" name="grassrootsLegalStaffName" ng-model="pfr.apply.grassrootsLegalStaff.NAME"   >
+                    <input type="hidden"  id="grassrootsLegalStaffValue" name="grassrootsLegalStaffValue"  ng-model="pfr.apply.grassrootsLegalStaff.VALUE"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label for="projectName" class="col-sm-2 control-label">项目名称</label>
+            <div class="col-sm-4">
+                <input type="text" readonly  class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" placeholder="">
+            </div>
+            <label for="projectAddress" class="col-sm-2  control-label">项目所在地</label>
+            <div class="col-sm-4">
+                <input type="text"  readonly class="form-control" id="projectAddress" name="projectAddress" ng-model="pfr.apply.projectAddress">
+            </div>
+        </div>
+     <div class="row">
+         <label for="" class="col-sm-2 control-label">业务类型</label>
+         <div id="headerserviceTypebox" class="col-sm-4">
+             <div class="select2-success">
+             <input name="serviceTypeboxName" readonly id="serviceTypeboxName" class="form-control" ng-model="pfr.apply.serviceType">
+             </div>
+         </div>
+         <label for="" class="col-sm-2 control-label">项目投资总额</label>
+			<div class="col-sm-4">
+				<input type="text"  class="form-control" readonly name="investMoney" ng-model="pfr.apply.investMoney">
+				<!-- <span class="unit-n">万元</span> -->
+			</div>
+     </div>
+     <div class="row">
+         <label for="headerprojectmodebox" class="col-sm-2 control-label">投资模式</label>
+         <div id="headerprojectmodebox" class="col-sm-4">
+             <div class="select2-success">
+                 <input class="form-control"  readonly id="projectmodeboxName" name="projectmodeboxName" ng-model="pfr.apply.projectModel" >
+             </div>
+         </div>
+         <label for="projectSize" class="col-sm-2 control-label">项目规模</label>
+         <div class="col-sm-4">
+             <textarea  readonly class="form-control" id="projectSize" name="projectSize" ng-model="pfr.apply.projectSize" placeholder=""></textarea>
+         </div>
+     </div>
+     <div class="row">
+        <label for="" class="col-sm-2 control-label">投资中心/水环境投资中心项目负责人</label>
+        <div class="col-sm-4">
+            <div class="col-sm-6 noleft-pad noright-pad has-feedback">
+                <input type="text" readonly  class="form-control" name="investmentPersonName" id="investmentPersonName"   ng-model="pfr.apply.investmentPerson.NAME" >
+                <input type="hidden" name="investmentPersonValue" ng-model="pfr.apply.investmentPerson.VALUE">
+            </div>
+            <div id="directPersonMin" class="col-sm-6 noright-pad has-feedback">
+                <input type="text"  readonly class="form-control" name="directPersonName" id="directPersonName" ng-model="pfr.apply.directPerson.NAME">
+                <input type="hidden" name="directPersonValue" ng-model="pfr.apply.directPerson.VALUE" >
+            </div>
+        </div>
+        <label for="projectNum" class="col-sm-2 control-label">单体项目数</label>
+        <div class="col-sm-4 has-feedback">
+            <input type="text"  readonly class="form-control" id="projectNum" name="projectNum" ng-model="pfr.apply.projectNum" placeholder="">
+            <span class="unit-n">个</span>
+        </div>
+    </div>
+     <div class="row">
+         <label for="" class="col-sm-2 control-label">预计签约时间</label>
+         <div class="col-sm-4 has-feedback">
+             <input type="text" class="form-control" readonly id="expectedContractDate" name="expectedContractDate" ng-model="pfr.apply.expectedContractDate" />
+             <i class="fa fa-calendar form-control-feedback"></i>
+         </div>
+     </div>
+     <div class="row" ng-if="'1'==pfr.is_supplement_review">
+         <label  class="col-sm-2 control-label">是否补充评审</label>
+         <div class="col-sm-4">
+             <label class="checkbox-inline">
+                 <input class="px" type="checkbox" ng-model="pfr.is_supplement_review" ng-checked="pfr.is_supplement_review=='1'" disabled id="supplementReview" name="supplementReview">
+                 <span class="lbl">是补充评审</span>
+             </label>
+         </div>
+         <label class="col-sm-2 control-label">原评审决策时间</label>
+         <div class="col-sm-4">
+             <input class="form-control" type="text" ng-model="pfr.apply.supplement.preDecisionDate" readonly>
+         </div>
+     </div>
+     <div class="row" ng-if="'1'==pfr.is_supplement_review">
+         <label  class="col-sm-2 control-label">原决策结论</label>
+         <div class="col-sm-4">
+            <input ng-if="pfr.apply.supplement.preDecisionResult=='1'" class="form-control" type="text" value="'同意投资'" readonly>
+            <input ng-if="pfr.apply.supplement.preDecisionResult=='2'" class="form-control" type="text" value="'不同意投资'" readonly>
+            <input ng-if="pfr.apply.supplement.preDecisionResult=='3'" class="form-control" type="text" value="'同意有条件投资'" readonly>
+            <input ng-if="pfr.apply.supplement.preDecisionResult=='4'" class="form-control" type="text" value="'择期决议'" readonly>
+         </div>
+     </div>
+     <div class="row" ng-if="'1'==pfr.is_supplement_review">
+         <label  class="col-sm-2 control-label">执行要求</label>
+         <div class="col-sm-10">
+             <textarea class="form-control"  ng-model="pfr.apply.supplement.executiveRequirements" readonly></textarea>
+         </div>
+     </div>
+     <div class="row" ng-if="'1'==pfr.is_supplement_review">
+         <label  class="col-sm-2 control-label">须落实事项</label>
+         <div class="col-sm-10">
+             <textarea class="form-control"  ng-model="pfr.apply.supplement.implementationItems" readonly></textarea>
+         </div>
+     </div>
+     <div class="row" ng-if="'1'==pfr.is_supplement_review">
+         <label class="col-sm-2 control-label">补充评审调整事项</label>
+         <div class="col-sm-10">
+             <textarea class="form-control"  ng-model="pfr.apply.supplement.changeOption" readonly></textarea>
+         </div>
+     </div>
+</div>

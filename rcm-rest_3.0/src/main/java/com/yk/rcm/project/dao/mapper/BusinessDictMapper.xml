@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.project.dao.IBusinessDictMapper">
+
+	<select id="queryByParentCode" parameterType="string" resultType="hashmap">
+		select * from sys_dictionary_item where IS_ENABLED='1' and FK_DICTIONARY_UUID=
+		(select uuid from sys_dictionary where DICTIONARY_CODE=#{code})
+		order by CUST_NUMBER01 asc
+	</select>
+	
+</mapper>

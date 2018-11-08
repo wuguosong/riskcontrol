@@ -1,0 +1,17 @@
+.widget-maps {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.widget-maps img {
+  max-width: none !important;
+}
+.widget-maps label {
+  display: inline !important;
+  width: auto !important;
+}
+.widget-maps .gmnoprint {
+  line-height: normal !important;
+}

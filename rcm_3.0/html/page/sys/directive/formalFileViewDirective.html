@@ -1,0 +1,230 @@
+<div>
+	<div class="panel-heading">
+		<a class="accordion-toggle collapsed" href="/#allFiles"
+			data-parent="#reviewLeader" data-toggle="collapse"><span
+			class="text">相关资源 <span style="background-color: #04C0FD" class="badge badge-blue" ng-show="unReadNum!=null">{{unReadNum}}个未读</span><i class="i-triangle"></i></span></a>
+	</div>
+	<div id="allFiles" class="panel-collapse collapse in">
+		<div class="panel-body">
+			<div>
+			<div class="row">
+				<div class="row-tit">1.投资部门提供</div>
+			</div>	
+			    <div class="row">
+			        <div class="full-drop">
+<!-- 			            <button type="button" data-toggle="modal" data-target="#compareModal" id="compareBtn" class="btn btn-info" title=""><i class="fa fa-arrows-h"></i>对比</button> -->
+			            <button type="button" ng-click="batchDownload()" id="batchDownloadBtn" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>
+			            <button type="button" ng-if="editable" data-toggle="modal" data-target="#addFileModal"  id="" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
+			            <button type="button" ng-click="signRead()" id="" class="btn btn-info" title="">标为已读</button>
+<!--  			            <div id="compareModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">  -->
+<!-- 			                <div class="modal-dialog"> -->
+<!-- 			                    <div class="modal-content"> -->
+<!-- 			                        <div class="modal-header"> -->
+<!-- 			                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+<!-- 			                            <h4 class="modal-title" id="myModalLabel">文件对比</h4> -->
+<!-- 			                        </div> -->
+<!-- 			                        <div class="modal-body"> -->
+<!-- 			                            <div class="row"> -->
+<!-- 			                                <div class="input-group"> -->
+<!-- 			                                    <span class="input-group-addon">已选文件</span> -->
+<!-- 			                                    <input type="text" class="form-control" disabled="disabled"> -->
+<!-- 			                                </div> -->
+<!-- 			                            </div> -->
+<!-- 			                            <div class="row"> -->
+<!-- 			                                <div class="input-group"> -->
+<!-- 			                                    <span class="input-group-addon">目标文件</span> -->
+<!-- 			                                    <select name="" id="" class="form-control"> -->
+<!-- 			                                        <option value="">请选择...</option> -->
+<!-- 			                                        <option value="">项目投资测算.doc&nbsp;版本号：1.0</option> -->
+<!-- 			                                        <option value="">项目投资测算.doc&nbsp;版本号：2.0</option> -->
+<!-- 			                                        <option value="">项目投资测算.doc&nbsp;版本号：3.0</option> -->
+<!-- 			                                    </select> -->
+<!-- 			                                </div> -->
+<!-- 			                            </div> -->
+<!-- 			                        </div> -->
+<!-- 			                        <div class="modal-footer"> -->
+<!-- 			                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button> -->
+<!-- 			                            <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button> -->
+<!-- 			                        </div> -->
+<!-- 			                    </div> -->
+<!-- 			                </div> -->
+<!-- 			            </div> -->
+			        </div>
+			    </div>
+			    <div class="row table-responsive">
+			        <table class="table table-bordered table-hover datatable table-text-mid table-light">
+			            <thead>
+				            <tr>
+				                <th>
+				                	<label class="checkbox-inline">
+				                        <input type="checkbox" name="all" id="all" ng-click="selectAll()" class="px" />
+				                        <span class="lbl">&nbsp;</span>
+				                    </label>
+				                </th>
+				                <th>序号</th>
+				                <th>资源名称</th>
+				                <th>附件名称</th>
+				                <th>上传人</th>
+				                <th>最后修改时间</th>
+				                <th>版本号</th>
+				                <th ng-if="meetingFileable">上会附件</th>
+				                <th ng-if="editable">相关操作</th>
+				            </tr>
+			            </thead>
+			            <tbody ng-repeat="item in newAttachment " ng-init="outerIndex = $index">
+				            <tr>
+				                <td>
+				                    <label class="checkbox-inline">
+				                        <input type="checkbox" name="choose"  class="px" value="{{item.UUID}}"
+				                         filename="{{item.fileName}}" filepath="{{item.filePath}}"
+				                        />
+				                        <span class="lbl">&nbsp;</span>
+				                    </label>
+				                </td>
+				                <td>{{outerIndex+1}}<span ng-if="checkRead(item.UUID)">未读</span></td>
+				                <td>{{item.ITEM_NAME}}</td>
+				                <td>
+				                	<a href="javascript:void(0);" ng-click="removeSigm(item)">{{item.fileName}}</a>
+				                </td>
+				                <td>
+				                	{{item.owner.NAME}}</span>
+								</td>
+				                <td>{{item.upload_date}}</td>
+				                <td>{{item.version}}</td>
+				                <td ng-show="meetingFileable">
+									<label class="checkbox-inline">
+										<input ng-checked="$parent.$parent.isValueExist(meetingFiles, 'UUID', item.UUID)"  
+										type="checkbox" name="meetingFiles" class="px" value="{{item}}" ng-click="saveMeetingFiles($event)"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+				                <td ng-if="editable">
+				                	<button type="button" class="btn btn-danger"  ng-click="deleteFile(item)">删除</button>
+				                    <button type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="changeFile($file,$invalidFiles,outerIndex,item)">替换</button>
+				               	</td>
+				            </tr>
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+		<div class="row">
+			<div class="row-tit">2.风控部门提供</div>
+			<button type="button" class="btn btn-info" ng-click="addFileList()" ng-if="editable"><i class="glyphicon glyphicon-plus"></i>新增</button>
+		</div>
+		<div class="row table-responsive">
+	        <table class="table table-bordered table-hover datatable table-text-mid table-light">
+	            <thead>
+		            <tr>
+		                <th>
+		                	<label class="checkbox-inline">
+		                        <input type="checkbox" name="all" id="all" class="px" />
+		                        <span class="lbl">&nbsp;</span>
+		                    </label>
+		                </th>
+		                <th>序号</th>
+		                <th>附件名称</th>
+		                <th>上传人</th>
+		                <th>最后修改时间</th>
+		                <th ng-show="meetingFileable">上会附件</th>
+		                <th ng-if="editable == 'true'">相关操作</th>
+		            </tr>
+	            </thead>
+	            <tbody ng-repeat="item in riskFiles " ng-init="outerIndex = $index">
+		            <tr>
+		                <td>
+		                    <label class="checkbox-inline">
+		                        <input type="checkbox" name="riskFileChoose" ng-model="item.selected" class="px" value="{{item.UUID}}"/>
+		                        <span class="lbl">&nbsp;</span>
+		                    </label>
+		                </td>
+		                <td>{{$index+1}}</td>
+		                <td>
+		                	<a href="javascript:void(0);" ng-click="$parent.$parent.downLoadFile(item)">{{item.fileName}}</a>
+		                </td>
+		                <td>
+		                	{{item.owner.NAME}}</span>
+						</td>
+		                <td>{{item.upload_date}}</td>
+		                <td ng-show="meetingFileable">
+							<label class="checkbox-inline">
+								<input ng-checked="$parent.$parent.isValueExist(meetingFiles, 'UUID', item.UUID)"  
+								 type="checkbox" name="meetingFiles" class="px" value="{{item}}" ng-click="saveMeetingFiles($event)"/>
+								<span class="lbl">&nbsp;</span>
+							</label>
+						</td>
+		                <td ng-if="editable == 'true'">
+		                	<button  type="button" class="btn btn-danger"  ng-click="deleteRiskFile(item,$index)">删除</button>
+		                    <button ng-if="item.newFile == null" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadRiskFile($file,$invalidFiles,outerIndex)">替换</button>
+		                    <button ng-if="item.newFile" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadRiskFile($file,$invalidFiles,outerIndex)">新增</button>
+		               	</td>
+		            </tr>
+	            </tbody>
+	        </table>
+	    </div>	
+			<div class="row">
+				<div class="row-tit">3.评审报告</div>
+			</div>
+			<div class="row table-responsive">
+				<div class="col-sm-10 mb20">
+					<a ng-show="formalReport.filePath != null" ng-click="$parent.$parent.downLoadFileReport(formalReport.filePath,formalReport.projectName)" style="cursor: pointer">{{formalReport.projectName}}-正式评审报告.docx</a>
+					<span ng-show="formalReport.filePath == null">暂无报告</span>
+				</div>
+				<div class="col-sm-2">
+					<button ng-show="formalReport.filePath != null && meetingFileable" type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadReprot($file,$invalidFiles,$index)">替换</button>
+					<button ng-show="formalReport.filePath == null && meetingFileable" type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadReprot($file,$invalidFiles,$index)">上传</button>
+				</div>
+		    </div>
+			<div class="row">
+				<div class="row-tit">4.决策通知书</div>
+			</div>
+			<div class="row table-responsive">
+				<div class="col-sm-10 mb20">
+					<a ng-show="noticeDecision != null" ng-click="$parent.$parent.downLoadFile(noticeDecision)" style="cursor: pointer">{{noticeDecision.fileName}}</a>
+					<span ng-show="noticeDecision == null">暂无决策通知书</span>
+				</div>
+				<div class="col-sm-2" ng-show="noticeDecision != null && editable">
+					<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadNotice($file,$invalidFiles,$index)">替换</button>
+				</div>	
+		    </div>
+		</div>
+	</div>
+	<!-- 新增投资附件模态框 -->
+	<div id="addFileModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title" id="myModalLabel">新增附件</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="row">
+		                <label class="col-sm-3 control-label" >附件类型：</label>
+		                <div class="col-sm-8" id="itemNameDiv">
+		                    <select type="text" ng-model="newFile.ITEM_UUID" id="itemName" class="col-sm-10 form-control">
+		                    	<option value="">请选择......</option>
+		                    	<option value="{{tt.UUID}}" ng-repeat="tt in attach">{{tt.ITEM_NAME}}</option>
+		                    </select>
+		                    <a href="javaScropt:void(0)" ng-click="showNewFileItem()">新增类型</a>
+		                </div>
+		                <div class="col-sm-8" id="itemNameDivHide" style="display: none;">
+		                    <input type="text" ng-model="newFile.ITEM_NAME" class="form-control col-sm-8">
+		                    <a href="javaScropt:void(0)" ng-click="hideNewFileItem()">返回</a>
+		                </div>
+		            </div>
+		            	
+		            <div class="row">
+		                <label class="col-sm-3 control-label" >附件内容：</label>
+		                <div class="col-sm-8">
+		                    <button type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="chooseNewFile($file,$invalidFiles)">浏览</button>
+		                    <a href="javascript:void(0);"  ng-click="$parent.$parent.downLoadFile(newFile)">{{newFile.fileName}}</a>
+		                </div>
+		            </div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	                <button type="button" class="btn btn-primary" ng-click="uploadNewFile()">确定</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>

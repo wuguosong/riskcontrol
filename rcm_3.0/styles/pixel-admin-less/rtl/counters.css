@@ -1,0 +1,10 @@
+.counter-separated span {
+  float: right;
+}
+.counter-separated span + span {
+  margin-left: 0;
+  margin-right: 4px;
+}
+.counter-separated.counter-sm span + span {
+  margin-right: 3px;
+}

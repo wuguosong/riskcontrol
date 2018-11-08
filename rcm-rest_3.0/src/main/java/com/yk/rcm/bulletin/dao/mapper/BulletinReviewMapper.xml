@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.bulletin.dao.IBulletinReviewMapper">
+
+	<select id="queryWaitByPage" parameterType="map" resultType="hashmap">
+		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName,
+		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName,
+		 (select name from sys_user where uuid=t.createby) applyUserName,
+		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName 
+		from rcm_bulletin_info t where STAGE='3'
+		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%${bulletinName}%'</if> 
+		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	
+	<select id="queryApplyedByPage" parameterType="map" resultType="hashmap">
+		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName,
+		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName,
+		 (select name from sys_user where uuid=t.createby) applyUserName,
+		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName 
+		from rcm_bulletin_info t where STAGE in('4','5') 
+		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%${bulletinName}%'</if> 
+		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if>
+	</select>
+	
+</mapper>

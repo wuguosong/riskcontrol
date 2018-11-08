@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.noticeofdecision.dao.INoticeOfDecisionMapper">
+
+	<select id="queryOracleByFormalId" parameterType="string" resultType="hashmap">
+		select * from rcm_noticeofdecision_info n where n.projectformalid=#{formalId}
+	</select>
+	
+	<select id="queryOracleById" parameterType="string" resultType="hashmap">
+		select * from rcm_noticeofdecision_info n where n.businessid=#{businessId}
+	</select>
+	
+</mapper>

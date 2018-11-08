@@ -1,0 +1,202 @@
+<div class="panel-body" >
+    <form class="form-horizontal ng-pristine ng-valid" >
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">投标评审项目详情</span>
+            </div>
+            <div id="professionalReviewComments" class="panel-group">
+                <div id="myTab" class="myTab">
+                    <ul class="nav nav-tabs bs-tabdrop dept-nav">
+                        <li class="active">
+                            <a href="/#bs-tabdrop-tab1" data-toggle="tab">评审申请单</a>
+                        </li>
+                        <li>
+                            <a ng-if="firstLevelOpinion==null" href="javascript:void(0);" class="tab-disabled">一级业务单位意见</a>
+                            <a ng-if="firstLevelOpinion!=null" href="/#bs-tabdrop-tab2" data-toggle="tab">一级业务单位意见</a>
+                        </li>
+                        <li>
+                            <a ng-if="approveAttachment==null" href="javascript:void(0);" class="tab-disabled">风控意见</a>
+                            <a ng-if="approveAttachment!=null" href="/#bs-tabdrop-tab3" data-toggle="tab">风控意见</a>
+                        </li>
+                        <li>
+                        	<a ng-if="pre.reviewReport.filePath==null" href="javascript:void(0);" class="tab-disabled">投资评审报告</a>
+                            <a ng-if="pre.reviewReport.filePath!=null" href="/#bs-tabdrop-tab4" data-toggle="tab">投资评审报告</a>
+                        </li>
+                        <li>
+                            <a ng-if="pre==null" href="javascript:void(0);" class="tab-disabled">相关资源</a>
+                            <a ng-if="pre!=null" href="/#bs-tabdrop-tab7" data-toggle="tab">相关资源</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content tab-content-bordered">
+                    <div class="tab-pane in active" id="bs-tabdrop-tab1">
+                        <directive-project-formal-info-review></directive-project-formal-info-review>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab2">
+                        <div class="row">
+                            <label for="" class="col-sm-2 control-label">一级投资业务单位审核意见</label>
+                            <div class="col-sm-10 ">
+                                <div class="reason"><textarea class="form-control" readonly  name="reason">{{'项目投资测算意见：'+firstLevelOpinion.cesuanFileOpinion}}{{'项目投资协议意见：'+firstLevelOpinion.tzProtocolOpinion}}</textarea></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab3">
+					<div class="panel">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle" href="/#reviewComments" data-parent="#commentsFeedback" data-toggle="collapse"><span class="text">初步评审意见反馈<i class="i-triangle"></i></span></a>
+                    </div>
+                    <div id="reviewComments" class="panel-collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center reviewCommentsTable">
+                                        <thead>
+                                        <tr>
+                                            <th>选择</th>
+                                            <th>序号</th>
+                                            <th>意见类型</th>
+                                            <th>具体内容</th>
+                                            <th>反馈要求</th>
+                                            <th>投资经理反馈</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="m in approveAttachment.commentsList track by $index">
+                                            <td class="txc">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" class="px" ng-model="m.selected" disabled="disabled">
+                                                    <span class="lbl">&nbsp;</span>
+                                                </label>
+                                            </td>
+                                            <td class="txc">{{ $index + 1 }}</td>
+                                            <td>
+                                                <div class="row">
+                                                    <select ng-model="m.opinionType" ng-options="ot.ITEM_NAME for  ot in optionTypeList track by ot.ITEM_CODE" disabled="disabled" name="" id="" class="form-control">
+                                                        <option value="">请选择...</option>
+                                                    </select>
+                                                </div>
+                                                <div class="row nobottom-mar">
+                                                    <input type="text" style="border:0;width:100%;color:red;background-color:#ffffff;text-align:center;" readonly ng-model="m.commentDate" value="{{m.commentDate}}"/>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <textarea name="" ng-model="m.commentConent" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea name="" ng-model="m.commentFeedback" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                            </td>
+                                            <td class="attachmentTd">
+                                                <div class="row">
+                                                    <textarea name="" ng-model="m.commentDepartment" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                                </div>
+                                                <div class="row nobottom-mar">
+                                                    <div class="col-sm-12 noleft-pad noright-pad">
+                                                        <span ng-bind="progress$index"></span>
+                                                        <span style="">{{errorAttach[$index].msg}}</span>
+                                                        <input type="hidden" ng-model="m.files.filePath" />
+                                                        <a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
+                                                        <button class="btn btn-info attachmentBtn"  disabled ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles, $index)">浏览</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="tr-max">
+                                            <td colspan="2" rowspan="2"></td>
+                                            <td>重点风险提示</td>
+                                            <td colspan="3">
+                                                <textarea name="riskWarning" readonly rows="" cols="" ng-model="approveAttachment.riskWarning" class="form-control" auto-height></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr class="tr-max">
+                                            <td>要求反馈时间</td>
+                                            <td colspan="3">
+                                                <div class="has-feedback">
+                                                    <input type="text" id="feedbackTime" readonly name="" ng-model="approveAttachment.feedbackTime" class="form-control" />
+                                                    <i class="fa fa-calendar form-control-feedback"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center attachmentTable">
+                                        <thead>
+                                        <tr>
+                                            <th>选择</th>
+                                            <th>需更新附件</th>
+                                            <th>最新版本附件</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="attachmentList">
+                                        <tr ng-repeat="am in approveAttachment.attachmentNew">
+                                            <td class="txc">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" class="px" ng-model="am.selected" disabled="disabled">
+                                                    <span class="lbl">&nbsp;</span>
+                                                </label>
+                                            </td>
+                                            <td>  <!--  ng-options="f.UUID as f.ITEM_NAME for f in  dic.fileName track by f.UUID"-->
+                                                <select disabled="disabled" name="attachmentUList" id="attachmentUList" ng-model="am.attachmentUList"  ng-options="f.ITEM_NAME for f in fileName track by f.UUID" class="form-control">
+                                                    <option value="">---请选择---</option>
+                                                </select>
+                                            </td>
+                                            <td class="attachmentTd">
+                                                <div class="row nobottom-mar">
+                                                    <div class="col-sm-12 noleft-pad noright-pad">
+                                                        <span ng-bind="progress$index"></span>
+                                                        <span style="">{{errorAttach[$index].msg}}</span>
+                                                        <input type="hidden" name="filePath" id="filePath" ng-model="am.attachment_new.filePath" />
+                                                        <a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(am.attachment_new)">{{am.attachment_new.fileName}}</a>
+                                                        <button class="btn btn-info attachmentBtn" disabled  ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab4">
+						<div class="row">
+							<label class="col-sm-2 control-label">项目名称</label>
+							<div class="col-sm-10">
+								<input type="text" readonly value="{{pre.apply.projectName}}" class="form-control" id="projectName" name="projectName"/>
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-sm-2 control-label">评审报告</label>
+							<div class="col-sm-10">
+								<div class="col-sm-10">
+									<span ng-bind="progress$index"></span>
+									<a href="javascript:void(0);" ng-click="downLoadFileReport(pre.reviewReport.filePath,pre.apply.projectName+'评审报告')" style="line-height: 27px;">{{pre.apply.projectName+'评审报告'}}</a>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab7">
+                        <directive-project-formal-info-file-list></directive-project-formal-info-file-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="btn-group-gap">
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+//     angular.element(document).ready(function() {
+//         $('ul.bs-tabdrop').tabdrop();
+//     });
+</script>

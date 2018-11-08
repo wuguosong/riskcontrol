@@ -1,0 +1,10 @@
+.pa-flot-info span {
+  margin-left: 10px;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 24px;
+}
+.pa-flot-info i {
+  left: auto;
+  right: 10px;
+}

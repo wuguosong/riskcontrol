@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.noticeofdecision.dao.INoticeDecisionInfoMapper">
+	
+	<select id="queryById" parameterType="string" resultType="map">
+		select * from rcm_noticedecision_info i where i.businessid = #{businessId}
+	</select>
+	
+	<select id="queryByProjectformalId" parameterType="string" resultType="map">
+		select * from rcm_noticedecision_info i where i.projectformalId = #{projectformalId}
+	</select>
+	
+	<update id="updateAfterStartflow" parameterType="map">
+		update rcm_noticedecision_info set wf_state=#{wf_state},apply_date=#{apply_date}
+		where businessid=#{businessId}
+	</update>
+
+	<update id="updateAuditStatusByBusinessId" parameterType="map">
+		update rcm_noticedecision_info set wf_state=#{wf_state} where businessid=#{businessId}
+	</update>
+
+	<delete id="delete"  parameterType="map">
+		delete from rcm_noticedecision_info where businessId = #{businessId}
+	</delete>
+	
+	<update id="update"  parameterType="map">
+		update rcm_noticedecision_info set 
+		contractScale = trunc(to_number(#{contractScale,jdbcType=VARCHAR}),4),
+		evaluationScale = trunc(to_number(#{evaluationScale,jdbcType=VARCHAR}),4),
+		reviewOfTotalInvestment = trunc(to_number(#{reviewOfTotalInvestment}),4),
+		decisionStage = #{decisionStage},
+		dateOfMeeting = to_date(#{dateOfMeeting,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+		consentToInvestment = #{consentToInvestment},
+		reportingUnitId = #{reportingUnitId,jdbcType=VARCHAR},
+		last_update_date = to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+		responsibilityUnitValue = #{responsibilityUnitValue},
+		oldData = #{oldData,jdbcType=VARCHAR}
+		where businessId = #{businessId}
+	</update>
+	
+	<insert id="save" parameterType="map">
+		insert into rcm_noticedecision_info ninfo ( 
+			 businessid,
+			 contractscale, 
+			 evaluationscale,
+			reviewoftotalinvestment,
+			decisionstage, 
+			responsibilityunitvalue,  
+			wf_state, 
+			apply_date,
+			last_update_date, 
+			projectformalid,  
+			reportingunitid,
+			dateOfMeeting,
+	        consenttoinvestment ,
+	        create_date,
+	        createBy,
+	        oldData
+        ) values (
+	        #{businessId},
+	        trunc(to_number(#{contractScale,jdbcType=VARCHAR}),4),
+	        trunc(to_number(#{evaluationScale,jdbcType=VARCHAR}),4),
+	        trunc(to_number(#{reviewOfTotalInvestment}),4),
+	        #{decisionStage},
+	        #{responsibilityUnitValue},
+	        #{wf_State},
+	        to_date(#{appyly_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+	        to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'), 
+	        #{projectFormalid},
+	        #{reportingUnitId,jdbcType=VARCHAR},
+	        to_date(#{dateOfMeeting,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),
+	        #{consentToInvestment},
+	        to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss') ,
+	        #{createBy},
+	        #{oldData,jdbcType=VARCHAR}                                 
+        )
+	</insert>
+	<!-- 保存之后修改stage状态为"7" -->
+	<update id="updateFormalAssessmentStage" parameterType="hashmap">
+		update rcm_formalAssessment_info set stage=#{stage} where businessid in (#{businessId,jdbcType=VARCHAR})
+	</update>
+	<select id="queryStartByPage" resultType="map" parameterType="map" useCache="false">
+		select * from (
+			select 
+			ndinfo.businessid as businessid,
+<!--       		( -->
+<!-- 				select p.proc_inst_id_ from act_hi_procinst p where p.business_key_ = ndinfo.businessid  -->
+<!-- 			) as proc_inst_id_ , -->
+<!-- 			( -->
+<!-- 				select p.proc_def_id_ from act_hi_procinst p where p.business_key_ = ndinfo.businessid  -->
+<!-- 			) as proc_def_id_ , -->
+			(
+				select org.name from  sys_org org where org.ORGPKVALUE = 
+				(
+				select pinfo.pertainareaid from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = ndinfo.projectformalid
+				)
+			) as pertainareaName,
+			(
+				select pinfo.projectname from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = ndinfo.projectformalid 
+			) as projectName ,
+			(
+				select pinfo.isUrgent from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = ndinfo.projectformalid
+			) as isUrgent ,
+			to_char(ndinfo.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting,
+			to_char(ndinfo.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting1,
+			to_char(ndinfo.apply_date,'yyyy-mm-dd') as apply_dates ,
+			decode(ndinfo.wf_state,'0','起草中','1','审批中','2','已审批','3','终止') as approve_state,
+			ndinfo.consenttoinvestment,
+			ndinfo.wf_state,
+			ndinfo.createBy,ndinfo.olddata,
+			ndinfo.create_date 
+			from rcm_noticedecision_info ndinfo 
+		) ta where 1 = 1 and ta.wf_state in ('0','3')
+		<if test="createBy!=null and createBy!=''"> and ta.createby=#{createBy} </if>
+		<if test="projectName != null and projectName != ''"> and ta.projectName like '%${projectName}%'</if>
+		<if test="consentToInvestment!=null and consentToInvestment!='' ">and ta.consentToInvestment = '${consentToInvestment}'</if>
+		<if test="approveState!=null and approveState!='' ">and ta.approve_state = '${approveState}'</if>
+		<if test="dateOfMeeting!=null and dateOfMeeting!='' ">and ta.dateOfMeeting1 = '${dateOfMeeting}'</if>
+		
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+<!-- 		order by ta.dateOfMeeting  -->
+<!-- 		<if test="ASCDESC!=NULL and ASCDESC!=''"> ${ASCDESC} </if> -->
+<!-- 		<if test="ASCDESC==NULL or ASCDESC==''">desc </if> -->
+	</select>
+	
+	<select id="queryOverByPage" resultType="map" parameterType="map" useCache="false">
+		select ta.*,
+          (select min(url_) from 
+  			(select  pp.business_key_,  to_char('#/NoticeOfDecision/view/'||pp.business_key_ || 
+                  '@'||x.proc_def_id_ ||'@'||x.proc_inst_id_||'@'||x.id_ ) url_  from 
+		       act_hi_taskinst x, act_hi_procinst pp, act_re_procdef a 
+		     where x.proc_inst_id_ = pp.proc_inst_id_ 
+		     and pp.proc_def_id_ = a.id_  
+		     and a.key_='noticeOfDecision' ) gg   
+		     where gg.business_key_=ta.businessid group by gg.business_key_ ) detailurl 
+		 from (
+			select 
+			ndinfo.businessid as businessid,
+				(
+				select org.name from  sys_org org where org.ORGPKVALUE = 
+				(
+				select pinfo.pertainareaid from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = ndinfo.projectformalid
+				)
+			) as pertainareaName,
+			(
+				select pinfo.projectname from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = ndinfo.projectformalid 
+			) as projectName ,
+			(
+				select pinfo.isUrgent from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = ndinfo.projectformalid
+			) as isUrgent ,
+			to_char(ndinfo.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting,
+			to_char(ndinfo.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting1,
+			to_char(ndinfo.apply_date,'yyyy-mm-dd') as apply_dates ,
+			decode(ndinfo.wf_state,'0','起草中','1','审批中','2','已审批','3','终止') as approve_state,
+			ndinfo.consenttoinvestment,
+			ndinfo.wf_state,
+			ndinfo.createBy,ndinfo.olddata,
+			ndinfo.create_date 
+			from rcm_noticedecision_info ndinfo 
+		) ta where 1 = 1 and ta.wf_state in ('1','2')
+		<if test="createBy!=null and createBy!=''"> and ta.createby=#{createBy} </if>
+		<if test="projectName != null and projectName != ''"> and ta.projectName like '%${projectName}%'</if>
+		<if test="consentToInvestment!=null and consentToInvestment!='' ">and ta.consentToInvestment = '${consentToInvestment}'</if>
+		<if test="approveState!=null and approveState!='' ">and ta.approve_state = '${approveState}'</if>
+		<if test="dateOfMeeting!=null and dateOfMeeting!='' ">and ta.dateOfMeeting1 = '${dateOfMeeting}'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+<!-- 		order by ta.dateOfMeeting  -->
+<!-- 		<if test="ASCDESC!=NULL and ASCDESC!=''"> ${ASCDESC} </if> -->
+<!-- 		<if test="ASCDESC==NULL or ASCDESC==''">desc </if> -->
+	</select>
+	
+	<update id="updateDecisionByProjectformalId" parameterType="hashmap">
+		update rcm_noticedecision_info set CONSENTTOINVESTMENT=#{decisionResult} where projectformalId = #{projectformalId}
+	</update>
+</mapper>
