@@ -287,7 +287,7 @@ class MSWord {
 	
 	
 	/**
-	 * @param the bookmarkName of the table
+	 * @param bookmarkName of the table
 	 * @param markMap Map<mark,refill>
 	 */
 	public void replaceTableTexts(String bookmarkName, Map<String,String> markMap) {
@@ -306,8 +306,7 @@ class MSWord {
 					for(XWPFParagraph paragraph : paragraphs){
 						for(Entry<String,String> e : markMap.entrySet()){
 							if(paragraph.getText().contains(e.getKey())){
-								logger.info("paragraph: "+paragraph.getText()+" VS e: "+e.getKey());
-								cell.replaceParagraphText(paragraphs.indexOf(paragraph), e);
+								cell.replaceParagraphText(paragraphs.indexOf(paragraph),e);
 							}
 						}
 					}

@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>anonymous complex typeµÄ Java Àà¡£
+ * <p>anonymous complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -46,7 +46,7 @@ public class UpdateRiskAuditInfo {
     protected String auditReport;
 
     /**
-     * »ñÈ¡customerIdÊôĞÔµÄÖµ¡£
+     * è·å–customerIdå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class UpdateRiskAuditInfo {
     }
 
     /**
-     * ÉèÖÃcustomerIdÊôĞÔµÄÖµ¡£
+     * è®¾ç½®customerIdå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class UpdateRiskAuditInfo {
     }
 
     /**
-     * »ñÈ¡riskStatusÊôĞÔµÄÖµ¡£
+     * è·å–riskStatuså±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class UpdateRiskAuditInfo {
     }
 
     /**
-     * ÉèÖÃriskStatusÊôĞÔµÄÖµ¡£
+     * è®¾ç½®riskStatuså±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class UpdateRiskAuditInfo {
     }
 
     /**
-     * »ñÈ¡auditReportÊôĞÔµÄÖµ¡£
+     * è·å–auditReportå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class UpdateRiskAuditInfo {
     }
 
     /**
-     * ÉèÖÃauditReportÊôĞÔµÄÖµ¡£
+     * è®¾ç½®auditReportå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
