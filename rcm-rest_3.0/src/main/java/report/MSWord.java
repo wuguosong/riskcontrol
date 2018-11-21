@@ -306,7 +306,8 @@ class MSWord {
 					for(XWPFParagraph paragraph : paragraphs){
 						for(Entry<String,String> e : markMap.entrySet()){
 							if(paragraph.getText().contains(e.getKey())){
-								cell.replaceParagraphText(paragraphs.indexOf(paragraph),e);
+								logger.info("paragraph: "+paragraph.getText()+" VS e: "+e.getKey());
+								cell.replaceParagraphText(paragraphs.indexOf(paragraph), e);
 							}
 						}
 					}
