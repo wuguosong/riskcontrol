@@ -1000,7 +1000,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             $scope.descOrderno = function (projectOverview) {
             	if (projectOverview.orderno != 0) {
                     $scope.old = angular.copy(projectOverview);
-                    angular.forEach($scope.	projectOverviewList, function(data, index, array){
+                    angular.forEach($scope.projectOverviewList, function(data, index, array){
                         // 给上层序号+1
                         if (data.orderno == (parseInt(projectOverview.orderno) - 1))
                         {
@@ -1013,9 +1013,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             };
             // 降序方法
             $scope.ascOrderno = function (projectOverview) {
+            	console.log(projectOverview)
+                console.log($scope.projectOverviewList)
                 if (projectOverview.orderno != ($scope.projectOverviewList.length - 1)) {
                     $scope.old = angular.copy(projectOverview);
-                    angular.forEach($scope.	projectOverviewList, function(data, index, array){
+                    angular.forEach($scope.projectOverviewList, function(data, index, array){
                         // 给下层序号-1
                         if (data.orderno == (parseInt(projectOverview.orderno) + 1))
                         {
