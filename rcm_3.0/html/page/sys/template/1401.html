@@ -10,7 +10,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="projectOverview in projectOverviewList | orderBy: 'orderno': desc">
+		<tr ng-repeat="projectOverview in projectOverviews | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
@@ -31,7 +31,7 @@
 				<button ng-click="closeOverview(projectOverview)">
 					关闭
 				</button>
-				<button ng-show="(projectOverview.orderno + 1) === projectOverviewList.length" ng-click="addOverview()">
+				<button ng-show="(projectOverview.orderno + 1) === projectOverviews.length" ng-click="addOverview()">
 					新增
 				</button>
 			</td>

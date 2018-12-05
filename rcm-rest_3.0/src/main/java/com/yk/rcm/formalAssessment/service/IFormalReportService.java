@@ -196,4 +196,31 @@ public interface IFormalReportService {
 	 * @param json
 	 */
 	public void saveReportFile(String json);
+	
+	/**
+	 * 决策会材料提交暂存功能
+	 * 
+	 * @param json
+	 *            json
+	 * @param method
+	 *            method
+	 * @return boolean
+	 * 
+	 */
+	public Result stagingFormalProject(String json, String method);
+	
+	/**
+	 * 风控评审意见汇总暂存功能
+	 * 
+	 * @param json
+	 *            json
+	 * @param method
+	 *            method
+	 * @return boolean
+	 * 
+	 */
+	public boolean stagingFormalProjectSummary(Document summaryDoc);
+
+	public Map<String, Object> sss();
+
 }

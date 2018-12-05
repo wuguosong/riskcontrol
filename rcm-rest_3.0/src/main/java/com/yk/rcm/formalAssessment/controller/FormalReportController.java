@@ -248,4 +248,31 @@ public class FormalReportController {
 		this.formalReportService.saveReportFile(json);
 		return result;
 	}
+	
+	/**
+	 * author: Sam Gao
+	 * date: 2018-12-05
+	 * 决策会材料提交暂存功能
+	 * 参数：
+	 * json: 保存的数据对象
+	 * method: 
+	 * 
+	 */
+	@RequestMapping("/stagingFormalProjectSummary")
+	@ResponseBody
+	public Result stagingFormalProjectSummary(String json, String method, HttpServletRequest request) {
+		
+		Result result = this.formalReportService.stagingFormalProject(json, method);
+
+		return result;
+	}
+	
+	@RequestMapping("/findFormalProjectSummary")
+	@ResponseBody
+	public Result findFormalProjectSummary(String json, String method, HttpServletRequest request) {
+		Result result = new Result();
+		Map<String, Object> map = this.formalReportService.sss();
+		result.setResult_data(map);
+		return result;
+	}
 }

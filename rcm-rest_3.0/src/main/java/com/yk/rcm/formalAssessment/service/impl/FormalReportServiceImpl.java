@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 
@@ -50,6 +51,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 	@Resource
 	private IFormalAssessmentInfoService formalAssessmentInfoService;
+
+	private Logger logger = Logger.getLogger("FormalReportServiceImpl");
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -198,7 +201,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 	@Override
 	public void submitAndupdate(String id, String projectFormalId) {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("stage", "3.7");
 		map.put("decision_commit_time", null);
@@ -223,7 +226,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		serverPath = serverPath + "/common/RcmFile/downLoad?filePath=" + filepath + "&fileName=formalReport" + ext;
 
 		String formalId = (String) doc.get("projectFormalId");
-		
+
 		TzClient client = new TzClient();
 		client.setBusinessId(formalId);
 		client.setStatus("2");
@@ -400,7 +403,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		}
 
 		Map<String, Object> map = this.formalAssessmentInfoService.getFormalAssessmentByID(projectFormalId);
-		 Map<String, Object> oracle = (Map<String, Object>) map.get("formalAssessmentOracle");
+		Map<String, Object> oracle = (Map<String, Object>) map.get("formalAssessmentOracle");
 
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("Report", doc_Report);
@@ -421,7 +424,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		Document bjson = Document.parse(json);
 		String businessId = bjson.getString("projectFormalId");
 
-		//验证边界条件
+		// 验证边界条件
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessId);
 		// 获取被选中的投资部门提供的附件、项目重要边界条件的信息以及附件列表的附件信息
@@ -433,12 +436,12 @@ public class FormalReportServiceImpl implements IFormalReportService {
 				Double projectSize = null;
 				Double investmentAmount = null;
 				Double rateOfReturn = null;
-				
-				try{
-					projectSize =  Double.parseDouble(policyDecision.get("projectSize").toString());
+
+				try {
+					projectSize = Double.parseDouble(policyDecision.get("projectSize").toString());
 					investmentAmount = Double.parseDouble(policyDecision.get("investmentAmount").toString());
 					rateOfReturn = Double.parseDouble(policyDecision.get("rateOfReturn").toString());
-				}catch(Exception e){
+				} catch (Exception e) {
 					result.setSuccess(false).setResult_name("投资金额、项目规模、投资收益率必须为数字！");
 					return result;
 				}
@@ -449,14 +452,14 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			}
 		}
 
-		//1、更新项目规模、投资金额、收益率、业务类型
+		// 1、更新项目规模、投资金额、收益率、业务类型
 		this.reportInfoService.updateReportByBusinessId(params);
 
 		// 获取投资部门提供的所有附件(包含新增的附件)
 		List<Document> attachments = (List<Document>) bjson.get("ac_attachment");
 		bjson.remove("ac_attachment");
 
-		//2、添加提交时间,修改阶段
+		// 2、添加提交时间,修改阶段
 		if ("ss".equals(method)) {
 			if (this.isHaveMeetingInfo(businessId)) {
 				Map<String, Object> map = new HashMap<String, Object>();
@@ -468,7 +471,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 				return result.setResult_data(false);
 			}
 		}
-		//3、修改mongo数据
+		// 3、修改mongo数据
 		Document doc = (Document) this.baseMongo.queryById(bjson.getString("_id"), Constants.RCM_FORMALREPORT_INFO);
 		doc.put("_id", new ObjectId(bjson.getString("_id")));
 		doc.put("fkPsResult", bjson.getString("fkPsResult"));// 风控中心评审结论
@@ -521,6 +524,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 		return result;
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean updatePolicyDecision(String json, String method) {
@@ -554,7 +558,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		doc.put("_id", new ObjectId(bjson.getString("_id")));
 
 		// 获取投资部门提供的附件中被选中的附件
-		List<Document> decisionMakingCommitteeStaffFiles = (List<Document>) policyDecision.get("decisionMakingCommitteeStaffFiles");
+		List<Document> decisionMakingCommitteeStaffFiles = (List<Document>) policyDecision
+				.get("decisionMakingCommitteeStaffFiles");
 
 		for (Document item : decisionMakingCommitteeStaffFiles) {
 
@@ -563,7 +568,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			if ("".equals(uuid) || null == uuid) {
 				item.put("version", "");
 			} else if ("".equals(version) || null == version) {
-				
+
 				int tmp = 1;
 				for (Document attachment : attachments) {
 					if (attachment.getString("UUID").equals(uuid)) {
@@ -624,32 +629,32 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	public List<Map<String, Object>> queryPfrNoticeFileList(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);
-		if(page.getParamMap() != null){
+		if (page.getParamMap() != null) {
 			params.putAll(page.getParamMap());
 		}
-		if(Util.isNotEmpty(params.get("stage"))){
+		if (Util.isNotEmpty(params.get("stage"))) {
 			String stage = (String) params.get("stage");
 			String bulletinStage = "";
 			String pfrStage = "";
-			if("1".equals(stage)){
+			if ("1".equals(stage)) {
 				bulletinStage = "'3'";
 				pfrStage = "'5'";
-			}else if("2".equals(stage)){
+			} else if ("2".equals(stage)) {
 				bulletinStage = "'2'";
 				pfrStage = "'4'";
-			}else if("3".equals(stage)){
+			} else if ("3".equals(stage)) {
 				bulletinStage = "'4','5'";
 				pfrStage = "'6','7','9'";
-			}else if("4".equals(stage)){
+			} else if ("4".equals(stage)) {
 				bulletinStage = "'1','1.5'";
 				pfrStage = "'1','2','3','3.5','3.7','3.9'";
 			}
 			params.put("bulletinStage", bulletinStage);
-			
+
 			params.put("pfrStage", pfrStage);
-			params.put("now", Util.format(Util.now(),"yyyy-MM-dd"));
+			params.put("now", Util.format(Util.now(), "yyyy-MM-dd"));
 		}
-		
+
 		return formalReportMapper.queryPfrNoticeFileList(params);
 	}
 
@@ -659,11 +664,41 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		String id = doc.getString("_id");
 		String filePath = doc.getString("filePath");
 		String fileName = doc.getString("fileName");
-		
-		Map<String, Object> data = new HashMap<String,Object>();
+
+		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("fileName", fileName);
 		data.put("filePath", filePath);
 		this.baseMongo.updateSetByObjectId(id, data, Constants.RCM_FORMALREPORT_INFO);
 	}
 	
+	@Override
+	public Result stagingFormalProject(String json, String method) {
+		Document summaryDoc = Document.parse(json);
+		boolean flag = stagingFormalProjectSummary(summaryDoc);
+		return null;
+	}
+
+	@Override
+	public boolean stagingFormalProjectSummary(Document summaryDoc) {
+		try {
+			this.baseMongo.save(summaryDoc, Constants.RCM_FORMAL_SUMMARY);
+			return true;
+		} catch (Exception e) {
+			logger.info("保存风控评审意见汇总出错");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public Map<String, Object> sss() {
+		BasicDBObject queryAndWhere =new BasicDBObject();
+		queryAndWhere.put("projectFormalId", "5afcc2e6ddd03412cebef6e5");
+		List<Map<String, Object>> queryById = this.baseMongo.queryByCondition(queryAndWhere, Constants.RCM_FORMAL_SUMMARY);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("stage", queryById.get(1));
+		return param;
+	}
+
+
 }

@@ -923,7 +923,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
 
      $scope.jprojectType = function (type) {
 		if (type.ITEM_CODE == "1401") {
-            $scope.projectOverviewList = [
+            $scope.projectOverviews = [
 				{
 					orderno: "0",
                		code: "regionalBackground",
@@ -978,20 +978,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     start: "1",
                     edit: "0",
                     modify: "1"
-                },
-                {
-                    orderno: "5",
-                    code: "other0",
-                    value: "其他",
-                    content: null,
-                    attachmentFile: null,
-                    attachmentValue: null,
-                    start: "1",
-					edit: "1",
-                    modify: "1"
                 }
 			];
-            angular.forEach($scope.projectOverviewList, function (data, index) {
+            angular.forEach($scope.projectOverviews, function (data, index) {
                 data.orderno = parseInt(data.orderno);
             });
 
@@ -1000,7 +989,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             $scope.descOrderno = function (projectOverview) {
             	if (projectOverview.orderno != 0) {
                     $scope.old = angular.copy(projectOverview);
-                    angular.forEach($scope.projectOverviewList, function(data, index, array){
+                    angular.forEach($scope.projectOverviews, function(data, index, array){
                         // 给上层序号+1
                         if (data.orderno == (parseInt(projectOverview.orderno) - 1))
                         {
@@ -1014,10 +1003,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             // 降序方法
             $scope.ascOrderno = function (projectOverview) {
             	console.log(projectOverview)
-                console.log($scope.projectOverviewList)
-                if (projectOverview.orderno != ($scope.projectOverviewList.length - 1)) {
+                console.log($scope.projectOverviews)
+                if (projectOverview.orderno != ($scope.projectOverviews.length - 1)) {
                     $scope.old = angular.copy(projectOverview);
-                    angular.forEach($scope.projectOverviewList, function(data, index, array){
+                    angular.forEach($scope.projectOverviews, function(data, index, array){
                         // 给下层序号-1
                         if (data.orderno == (parseInt(projectOverview.orderno) + 1))
                         {
@@ -1034,19 +1023,20 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             }
             // 新增projectOverview
             $scope.addOverview = function () {
-                $scope.newOtherCodeIndex = 0;
-                angular.forEach($scope.	projectOverviewList, function(data, index, array){
+                $scope.newOtherCodeIndex = -1;
+                angular.forEach($scope.	projectOverviews, function(data, index, array){
                     if (data.code.slice(0,5) == "other") {
                         $scope.newOtherCodeIndex = $scope.newOtherCodeIndex < parseInt(data.code.slice(5)) ? parseInt(data.code.slice(5)) : $scope.newOtherCodeIndex;
 					}
                 });
                 $scope.newProjectOverview = angular.copy($scope.projectOverview);
-                $scope.newProjectOverview.orderno = $scope.projectOverviewList.length;
+                $scope.newProjectOverview.orderno = $scope.projectOverviews.length;
+                $scope.newProjectOverview.code = "other" + ($scope.newOtherCodeIndex + 1);
                 $scope.newProjectOverview.value = "其他";
                 $scope.newProjectOverview.start = "1";
 ;          		$scope.newProjectOverview.edit = "1";
                 $scope.newProjectOverview.modify = "1";
-                $scope.projectOverviewList.push($scope.newProjectOverview);
+                $scope.projectOverviews.push($scope.newProjectOverview);
             };
 
             // 数组指定key值排序
@@ -1066,6 +1056,41 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         return 0;
                     }
                 }
+            }
+
+            // 整理json对象数据
+            $scope.combProjectSummaryJson = function () {
+                $scope.projectSummary = {};
+                $scope.projectSummary.reportlId = $scope.pfr.apply.investmentManager._id;
+                $scope.projectSummary.summaryType = "1401";
+                $scope.projectSummary.create_by = $scope.pfr.apply.investmentManager.VALUE;
+                $scope.projectSummary.create_name = $scope.pfr.apply.investmentManager.NAME;
+                $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId;
+                $scope.projectSummary.projectName = $scope.formalReport.projectName;
+                $scope.projectSummary.projectNo = $scope.formalReport.projectNo;
+                $scope.projectSummary.reportingUnit = $scope.formalReport.reportingUnit;
+                $scope.projectSummary.projectOverviews = $scope.projectOverviews;
+                return  $scope.projectSummary;
+            }
+
+            // 决策会材料提交暂存功能
+            $scope.staging = function () {
+            	console.log("aaaaaaaaaaaaaaaa");
+                $scope.projectSummary = $scope.combProjectSummaryJson();
+                console.log($scope.projectSummary);
+                console.log(angular.toJson($scope.projectSummary))
+
+                $http({
+                    method:'post',
+                    url:srvUrl+"formalReport/findFormalProjectSummary.do",
+                    data:
+						$.param({
+							"json": angular.toJson($scope.projectSummary),
+							"method": "sss"
+						})
+                }).success(function(result){
+                    $scope.projectOverviews = result.result_data.stage.projectOverviews;
+                })
             }
 
 

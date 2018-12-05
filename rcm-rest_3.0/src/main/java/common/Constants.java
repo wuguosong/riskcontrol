@@ -238,4 +238,17 @@ public class Constants {
 	 * 
 	 */
 	public static final String MESSAGE_TYPE_EMAIL = "EMAIL";
+	
+	/**
+	 * author: Sam Gao
+	 * date: 2018-12-05
+	 * 风控评审意见汇总
+	 * 必填参数：
+	 * _id:意见汇总id
+	 * type:项目类型
+	 * status:意见状态
+	 * content:内容
+	 * 
+	 */
+	public static final String RCM_FORMAL_SUMMARY = "rcm_formal_summary";
 }
