@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.MongoCollection;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
 import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
@@ -413,6 +414,22 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		param.put("applyDate", applyDate);
 		param.put("stage", oracle.get("STAGE"));
 
+		// ------------------------Sam Gao 2018-12-06
+		// Start------------------------------
+		// 获得风控评审意见汇总
+		BasicDBObject summaryDBObject = new BasicDBObject();
+		summaryDBObject.put("projectFormalId", projectFormalId);
+		List<Map<String, Object>> listDoc_summaryInfo = this.baseMongo.queryByCondition(summaryDBObject,
+				Constants.RCM_FORMAL_SUMMARY);
+		Document doc_summmaryInfo = null;
+		if (listDoc_meetingInfo.size() > 0) {
+			for (Map<String, Object> mapSummary : listDoc_summaryInfo) {
+				doc_summmaryInfo = (Document) mapSummary;
+			}
+			param.put("summary", doc_summmaryInfo);
+		}
+		// ------------------------Sam Gao 2018-12-06 End------------------------------
+
 		return param;
 	}
 
@@ -670,35 +687,39 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		data.put("filePath", filePath);
 		this.baseMongo.updateSetByObjectId(id, data, Constants.RCM_FORMALREPORT_INFO);
 	}
-	
-	@Override
-	public Result stagingFormalProject(String json, String method) {
-		Document summaryDoc = Document.parse(json);
-		boolean flag = stagingFormalProjectSummary(summaryDoc);
-		return null;
-	}
 
 	@Override
-	public boolean stagingFormalProjectSummary(Document summaryDoc) {
-		try {
-			this.baseMongo.save(summaryDoc, Constants.RCM_FORMAL_SUMMARY);
+	public boolean saveOrUpdateFormalProjectSummary(String json) {
+		Document summaryDoc = Document.parse(json);
+		summaryDoc.put("_id", new ObjectId(summaryDoc.getString("projectFormalId")));
+		Map<String, Object> doc = this.baseMongo.queryById(summaryDoc.getString("projectFormalId"),
+				Constants.RCM_FORMAL_SUMMARY);
+		if (Util.isNotEmpty(doc)) {
+			this.baseMongo.updateSetByObjectId(summaryDoc.getString("projectFormalId"), summaryDoc,
+					Constants.RCM_FORMAL_SUMMARY);
 			return true;
-		} catch (Exception e) {
-			logger.info("保存风控评审意见汇总出错");
-			e.printStackTrace();
-			return false;
+		} else {
+			try {
+				this.baseMongo.save(summaryDoc, Constants.RCM_FORMAL_SUMMARY);
+				logger.info("保存风控评审意见汇总成功");
+				return true;
+			} catch (Exception e) {
+				logger.info("保存风控评审意见汇总出错");
+				e.printStackTrace();
+				return false;
+			}
 		}
 	}
 
 	@Override
-	public Map<String, Object> sss() {
-		BasicDBObject queryAndWhere =new BasicDBObject();
+	public Map<String, Object> findFormalProjectSummary() {
+		BasicDBObject queryAndWhere = new BasicDBObject();
 		queryAndWhere.put("projectFormalId", "5afcc2e6ddd03412cebef6e5");
-		List<Map<String, Object>> queryById = this.baseMongo.queryByCondition(queryAndWhere, Constants.RCM_FORMAL_SUMMARY);
+		List<Map<String, Object>> queryById = this.baseMongo.queryByCondition(queryAndWhere,
+				Constants.RCM_FORMAL_SUMMARY);
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("stage", queryById.get(1));
 		return param;
 	}
-
 
 }

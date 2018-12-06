@@ -260,10 +260,10 @@ public class FormalReportController {
 	 */
 	@RequestMapping("/stagingFormalProjectSummary")
 	@ResponseBody
-	public Result stagingFormalProjectSummary(String json, String method, HttpServletRequest request) {
-		
-		Result result = this.formalReportService.stagingFormalProject(json, method);
-
+	public Result stagingFormalProjectSummary(String json, HttpServletRequest request) {
+		Result result = new Result();
+		boolean flag = this.formalReportService.saveOrUpdateFormalProjectSummary(json);
+		result.setResult_data("" + flag);
 		return result;
 	}
 	
@@ -271,7 +271,7 @@ public class FormalReportController {
 	@ResponseBody
 	public Result findFormalProjectSummary(String json, String method, HttpServletRequest request) {
 		Result result = new Result();
-		Map<String, Object> map = this.formalReportService.sss();
+		Map<String, Object> map = this.formalReportService.findFormalProjectSummary();
 		result.setResult_data(map);
 		return result;
 	}
