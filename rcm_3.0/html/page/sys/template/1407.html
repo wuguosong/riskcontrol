@@ -1,0 +1,82 @@
+﻿<div>
+	<div class="row-tit">项目概况</div>
+	<table id = "" class="table table-bordered table-hover datatable table-text-mid table-light">
+		<thead>
+		<tr>
+			<th>分类</th>
+			<th>内容</th>
+			<th>附件</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="projectOverview in projectOverviewList | orderBy: 'orderno': desc">
+			<td>
+				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
+				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
+			</td>
+			<td>
+				<textarea ng-disabled="projectOverview.modify === '0'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+			</td>
+			<td>
+				{{ projectOverview.attachmentValue }}
+			</td>
+			<td>
+				<button ng-click="descOrderno(projectOverview)">
+					升序
+				</button>
+				<button ng-click="ascOrderno(projectOverview)">
+					降序
+				</button>
+				<button ng-click="closeOverview(projectOverview)">
+					关闭
+				</button>
+				<button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview)">
+					新增
+				</button>
+			</td>
+
+		</tr>
+		</tbody>
+	</table>
+	<div class="row-tit">项目概况</div>
+	<table id = "1" border="0" cellspacing="0" cellpadding="0"  class="table table-bordered table-hover datatable table-text-mid table-light">
+		<thead>
+		<tr>
+			<th>分类</th>
+			<th>内容</th>
+			<th>附件</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="projectOverview in projectOverviewList1 | orderBy: 'orderno': desc">
+			<td>
+				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
+				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
+			</td>
+			<td>
+				<textarea ng-disabled="projectOverview.modify === '0'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+			</td>
+			<td>
+				{{ projectOverview.attachmentValue }}
+			</td>
+			<td>
+				<button ng-click="descOrderno(projectOverview, 0)">
+					升序
+				</button>
+				<button ng-click="ascOrderno(projectOverview, 0)">
+					降序
+				</button>
+				<button ng-click="closeOverview(projectOverview, 0)">
+					关闭
+				</button>
+				<button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview, 0)">
+					新增
+				</button>
+			</td>
+
+		</tr>
+		</tbody>
+	</table>
+</div>
