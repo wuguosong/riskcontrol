@@ -10,7 +10,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="projectOverview in projectOverviewList | orderBy: 'orderno': desc">
+        <tr ng-repeat="projectOverview in projectOverviews | orderBy: 'orderno': desc">
             <td>
                 <input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
                 <a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>

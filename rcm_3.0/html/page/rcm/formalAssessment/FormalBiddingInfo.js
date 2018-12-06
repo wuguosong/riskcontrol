@@ -39,6 +39,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             $scope.getMarks(objId);
             $scope.getSelectTypeByCode("8");
             $scope.getSelectTypeByCodetype('14');
+            $scope.getSelectSUMMARY_TEMPLATE('SUMMARY_TEMPLATE');
         }
         $scope.saveMarks = function(){
             if($scope.mark != null && $scope.mark != ""){
@@ -287,6 +288,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             $scope.httpData(url,typeCode).success(function(data){
                 if(data.result_code == 'S'){
                     $scope.projectlisttype=data.result_data;
+                }else{
+                    alert(data.result_name);
+                }
+            });
+        }
+
+        $scope.getSelectSUMMARY_TEMPLATE = function(typeCode){
+            var  url = 'common/commonMethod/selectDataDictionByCode';
+            $scope.httpData(url,typeCode).success(function(data){
+                if(data.result_code == 'S'){
+                    console.log(data.result_data);
+                    $scope.SUMMARY_TEMPLATE=data.result_data;
                 }else{
                     alert(data.result_name);
                 }
@@ -909,6 +922,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
 
         // -------------------Sam Gao 2018-11-28日修改--------------------------
 
+        // 增加默认选中
+        $scope.formalReport.summaryTemplate = {
+            ITEM_NAME: "通用版",
+            ITEM_CODE: "1000"
+        };
+        console.log($scope.formalReport.summaryTemplate.ITEM_CODE);
+
         $scope.projectOverview = {
             orderno: null, // 排序编号
             code: null, // 行code
@@ -934,9 +954,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             new: null // 是否可以新增 0:不可以新增；1:可以新增
         };
 
-        $scope.jprojectType = function (type) {
-            if (type.ITEM_CODE == "1401") {
-                $scope.projectOverviewList = [
+        $scope.summaryTemplateChange = function (type) {
+            console.log(type.ITEM_CODE == "1000");
+            if (type.ITEM_CODE == "1000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1010,8 +1031,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-            }else if (type.ITEM_CODE == "1402") {
-                $scope.projectOverviewList = [
+            }else if (type.ITEM_CODE == "2000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1109,8 +1130,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-            } else if (type.ITEM_CODE == "1403") {
-                $scope.projectOverviewList = [
+            } else if (type.ITEM_CODE == "3000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1220,8 +1241,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-            } else if (type.ITEM_CODE == "1404") {
-                $scope.projectOverviewList = [
+            } else if (type.ITEM_CODE == "4000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1319,8 +1340,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-            }else if (type.ITEM_CODE == "1405") {
-                $scope.projectOverviewList = [
+            }else if (type.ITEM_CODE == "5000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "operationMode",
@@ -1478,8 +1499,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-            }else if (type.ITEM_CODE == "1406") {
-                $scope.projectOverviewList = [
+            }else if (type.ITEM_CODE == "6000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "serviceArea",
@@ -1565,8 +1586,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-            }else if (type.ITEM_CODE == "1407") {
-                $scope.projectOverviewList = [
+            }else if (type.ITEM_CODE == "7000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "borrowingAmount",
@@ -1603,7 +1624,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         modify: "1",
                         new: "1"
                     }];
-                $scope.projectOverviewList1 = [
+                $scope.projectOverviews1 = [
                     {
                         orderno: "0",
                         code: "borrowingPurpose",
@@ -1641,8 +1662,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-            }else if (type.ITEM_CODE == "1410") {
-                $scope.projectOverviewList = [
+            }else if (type.ITEM_CODE == "8000") {
+                $scope.projectOverviews = [
                     {
                         orderno: "0",
                         code: "businessArea",
@@ -1691,7 +1712,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         modify: "1",
                         new: "1"
                     }];
-                $scope.projectOverviewList1 = [
+                $scope.projectOverviews1 = [
                     {
                         orderno: "0",
                         code: "registeredCapital",
@@ -1730,10 +1751,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
             }
-            angular.forEach($scope.projectOverviewList, function (data, index) {
+            angular.forEach($scope.projectOverviews, function (data, index) {
                 data.orderno = parseInt(data.orderno);
             });
-            angular.forEach($scope.projectOverviewList1, function (data, index) {
+            angular.forEach($scope.projectOverviews1, function (data, index) {
                 data.orderno = parseInt(data.orderno);
             });
 
@@ -1741,9 +1762,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             // 升序方法
             $scope.descOrderno = function (projectOverview, flag) {
                 if(flag != 0){
-                    $scope.newList = $scope.projectOverviewList;
+                    $scope.newList = $scope.projectOverviews;
                 }else{
-                    $scope.newList = $scope.projectOverviewList1;
+                    $scope.newList = $scope.projectOverviews1;
                 }
                 if (projectOverview.orderno != 0) {
                     $scope.old = angular.copy(projectOverview);
@@ -1758,17 +1779,17 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     projectOverview.orderno = ($scope.old.orderno  - 1);
                 }
                 if(flag != 0){
-                    $scope.projectOverviewList = $scope.newList;
+                    $scope.projectOverviews = $scope.newList;
                 }else{
-                    $scope.projectOverviewList1 = $scope.newList;
+                    $scope.projectOverviews1 = $scope.newList;
                 }
             };
             // 降序方法
             $scope.ascOrderno = function (projectOverview, flag) {
                 if(flag != 0){
-                    $scope.newList = $scope.projectOverviewList;
+                    $scope.newList = $scope.projectOverviews;
                 }else{
-                    $scope.newList = $scope.projectOverviewList1;
+                    $scope.newList = $scope.projectOverviews1;
                 }
                 if (projectOverview.orderno != ($scope.newList.length - 1)) {
                     $scope.old = angular.copy(projectOverview);
@@ -1783,9 +1804,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     projectOverview.orderno = ($scope.old.orderno + 1);
                 }
                 if(flag != 0){
-                    $scope.projectOverviewList = $scope.newList;
+                    $scope.projectOverviews = $scope.newList;
                 }else{
-                    $scope.projectOverviewList1 = $scope.newList;
+                    $scope.projectOverviews1 = $scope.newList;
                 }
             };
             // 启用或者关闭编辑界面
@@ -1796,9 +1817,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             $scope.addOverview = function (projectOverview, flag) {
                 // 判断需要修改的数组
                 if(flag != 0){
-                    $scope.newList = $scope.projectOverviewList;
+                    $scope.newList = $scope.projectOverviews;
                 }else{
-                    $scope.newList = $scope.projectOverviewList1;
+                    $scope.newList = $scope.projectOverviews1;
                 }
                 $scope.newProjectOverview = angular.copy(projectOverview);
                 // 名称逻辑（除 其他 外，剩余需新增的对象名称变成原名称+1）
@@ -1833,9 +1854,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 });
                 $scope.newList.push($scope.newProjectOverview);
                 if(flag != 0){
-                    $scope.projectOverviewList = $scope.newList;
+                    $scope.projectOverviews = $scope.newList;
                 }else{
-                    $scope.projectOverviewList1 = $scope.newList;
+                    $scope.projectOverviews1 = $scope.newList;
                 }
             };
 

@@ -10,7 +10,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="projectOverview in projectOverviewList | orderBy: 'orderno': desc">
+		<tr ng-repeat="projectOverview in projectOverviews | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
@@ -40,17 +40,17 @@
 		</tbody>
 	</table>
 	<div class="row-tit">项目概况</div>
-	<table id = "1" border="0" cellspacing="0" cellpadding="0"  class="table table-bordered table-hover datatable table-text-mid table-light">
+	<table id = "1"  border="0" cellspacing="0" cellpadding="0"  class="table table-bordered table-hover datatable table-text-mid table-light">
 		<thead>
 		<tr>
-			<th>分类</th>
+ 			<th>分类</th>
 			<th>内容</th>
 			<th>附件</th>
 			<th>操作</th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="projectOverview in projectOverviewList1 | orderBy: 'orderno': desc">
+		<tr ng-repeat="projectOverview in projectOverviews1 | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>

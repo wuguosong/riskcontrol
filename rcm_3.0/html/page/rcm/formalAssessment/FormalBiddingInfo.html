@@ -19,39 +19,38 @@
 								<td colspan="3">
 									<div id="regional-division">
 										<div class="select2-success">
-											<select ng-change="jprojectType(formalReport.policyDecision.projectType)" ng-disabled="!hasWaiting" class="form-control" id="jprojectType" name="jprojectType" ng-model="formalReport.policyDecision.projectType" ng-options="listtype.ITEM_NAME for listtype in projectlisttype track by listtype.ITEM_CODE">
-												<option value="">-- 请选择 --</option>
-											</select>
+											<select ng-change="summaryTemplateChange(formalReport.summaryTemplate)" class="form-control" id="summaryTemplate" name="summaryTemplate" ng-model="formalReport.summaryTemplate" ng-options="summary.ITEM_NAME for summary in SUMMARY_TEMPLATE track by summary.ITEM_CODE">
+                                            </select>
 										</div>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td colspan="4">
-									<div ng-switch on="formalReport.policyDecision.projectType.ITEM_CODE">
-										<section ng-switch-when="1401">
-											<div ng-include src="'page/sys/template/1401.html'"></div>
+									<div ng-switch on="formalReport.summaryTemplate.ITEM_CODE">
+										<section ng-switch-when="1000">
+											<div ng-include src="'page/sys/template/1000.html'"></div>
 										</section>
-										<section ng-switch-when="1402">
-											<div ng-include src="'page/sys/template/1402.html'"></div>
+										<section ng-switch-when="2000">
+											<div ng-include src="'page/sys/template/2000.html'"></div>
 										</section>
-										<section ng-switch-when="1403">
-											<div ng-include src="'page/sys/template/1403.html'"></div>
+										<section ng-switch-when="3000">
+											<div ng-include src="'page/sys/template/3000.html'"></div>
 										</section>
-										<section ng-switch-when="1404">
-											<div ng-include src="'page/sys/template/1404.html'"></div>
+										<section ng-switch-when="4000">
+											<div ng-include src="'page/sys/template/4000.html'"></div>
 										</section>
-										<section ng-switch-when="1405">
-											<div ng-include src="'page/sys/template/1405.html'"></div>
+										<section ng-switch-when="5000">
+											<div ng-include src="'page/sys/template/5000.html'"></div>
 										</section>
-										<section ng-switch-when="1406">
-											<div ng-include src="'page/sys/template/1406.html'"></div>
+										<section ng-switch-when="6000">
+											<div ng-include src="'page/sys/template/6000.html'"></div>
 										</section>
-										<section ng-switch-when="1407">
-											<div ng-include src="'page/sys/template/1407.html'"></div>
+										<section ng-switch-when="7000">
+											<div ng-include src="'page/sys/template/7000.html'"></div>
 										</section>
-										<section ng-switch-when="1410 ">
-											<div ng-include src="'page/sys/template/1408.html'"></div>
+										<section ng-switch-when="8000 ">
+											<div ng-include src="'page/sys/template/8000.html'"></div>
 										</section>
 									</div>
 								</td>
