@@ -922,7 +922,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         // -------------------Sam Gao 2018-11-28日修改--------------------------
 
 
-        // 常量（类型：1000）==项目概况
+        // 常量（类型：1000,2000,3000,4000,5000,6000,7000,8000）==项目概况
         $scope.projectOverview = {
             orderno: null, // 排序编号从0开始
             code: null, // 行code
@@ -936,17 +936,51 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             new: null // 是否可以新增 0:不可以新增；1:可以新增
         };
 
-        // 常量（类型：1000）==风险提示-重点关注/风险提示-一般关注
+        // 常量（类型：1000,2000,3000,4000,5000,6000）==风险提示-重点关注/风险提示-一般关注
         $scope.risk = {
             orderno: null, // 排序编号从0开始
             riskType: null, // 风险类别
             riskContent: null // 风险事项
         };
 
-        // 常量（类型：1000）==投前条件/后续执行要求
+        // 常量（类型：1000,2000,3000,4000,5000,6000）==投前条件/后续执行要求
         $scope.requirement = {
             orderno: null, // 排序编号从0开始
             requirementContent: null // 风险事项
+        };
+
+        // 常量（类型：4000）==项目收益
+        $scope.projectIncome = {
+            code: null, // 行code
+            value: null, // 行描述
+            originalReview: null, // 原评审情况
+            actualOperation: null, // 实际运用情况
+            afterTechnicalReform: null // 技改后
+        };
+        // 常量（类型：5000,6000）==项目收益
+        $scope.projectIncome1 = {
+            code: null, // 行code
+            value: null, // 行描述
+            indicator: null // 本项目指标
+        }
+        // 常量（类型：7000） ==还款计划变量
+        $scope.repaymentPlanVar = {
+            orderno: null, // 排序编号从0开始
+            loanTime: null, // 借款时间
+            loanAmount: null, // 借款金额
+            repaymentPlan: null,// 还款计划
+            repaymentMethod: null, // 还款方式
+            repaymentSource: null // 还款来源
+        }
+        // 常量（类型：7000,8000）==原评审情况说明/特殊事项说明
+        $scope.desciptionVar = {
+            orderno: null, // 排序编号从0开始
+            description: null // 说明
+        };
+        // 常量（类型：8000）==决策事项
+        $scope.decisionMakingVar = {
+            orderno: null, // 排序编号从0开始
+            decisionMaking: null // 说明
         };
 
         // 删除数组对象
@@ -1202,6 +1236,66 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+                $scope.seriousRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是重点关注1",
+                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是重点关注2",
+                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
+                    }
+                ];
+
+                $scope.generalRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是一般关注1",
+                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是一般关注2",
+                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
+                    }
+                ];
+
+                $scope.performs = [
+                    {
+                        orderno: 0,
+                        requirementContent: "后续执行要求111111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "后续执行要求222222"
+                    }
+                ];
+
+                $scope.project = {
+                    investmentGlobale: null,
+                    investmentInternal: null,
+                    investmentStatic: null,
+                    financialROE: null,
+                    financialROI: null,
+                    indicatorCash: null
+                }
+
+
+                // 风险提示新增按钮
+                $scope.addRisk = function (variable) {
+                    $scope.newRisk = angular.copy($scope.risk);
+                    $scope.newRisk.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRisk);
+                };
+
+                // 投前条件/后续执行要求--新增按钮
+                $scope.addRequirement = function (variable) {
+                    $scope.newRequirement = angular.copy($scope.requirement);
+                    $scope.newRequirement.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRequirement);
+                };
             } else if (type.ITEM_CODE == "3000") {
                 $scope.projectOverviews = [
                     {
@@ -1313,6 +1407,66 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+                $scope.seriousRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是重点关注1",
+                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是重点关注2",
+                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
+                    }
+                ];
+
+                $scope.generalRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是一般关注1",
+                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是一般关注2",
+                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
+                    }
+                ];
+
+                $scope.performs = [
+                    {
+                        orderno: 0,
+                        requirementContent: "后续执行要求111111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "后续执行要求222222"
+                    }
+                ];
+
+                $scope.project = {
+                    investmentGlobale: null,
+                    investmentInternal: null,
+                    investmentStatic: null,
+                    financialROE: null,
+                    financialROI: null,
+                    indicatorCash: null
+                }
+
+
+                // 风险提示新增按钮
+                $scope.addRisk = function (variable) {
+                    $scope.newRisk = angular.copy($scope.risk);
+                    $scope.newRisk.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRisk);
+                };
+
+                // 投前条件/后续执行要求--新增按钮
+                $scope.addRequirement = function (variable) {
+                    $scope.newRequirement = angular.copy($scope.requirement);
+                    $scope.newRequirement.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRequirement);
+                };
             } else if (type.ITEM_CODE == "4000") {
                 $scope.projectOverviews = [
                     {
@@ -1412,6 +1566,147 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+                $scope.projectOverviews1 = [
+                    {
+                        orderno: "0",
+                        code: "technicalReformNecessity",
+                        value: "技改必要性",
+                        content: null,
+                        attachmentFile: null,
+                        attachmentValue: null,
+                        start: "1",
+                        edit: "0",
+                        modify: "1",
+                        new: "0"
+                    },
+                    {
+                        orderno: "1",
+                        code: "technicalReformContent",
+                        value: "技改内容",
+                        content: null,
+                        attachmentFile: null,
+                        attachmentValue: null,
+                        start: "1",
+                        edit: "0",
+                        modify: "1",
+                        new: "0"
+                    },
+                    {
+                        orderno: "2",
+                        code: "investmentAndFundingSources",
+                        value: "技改投资及资金来源",
+                        content: null,
+                        attachmentFile: null,
+                        attachmentValue: null,
+                        start: "1",
+                        edit: "0",
+                        modify: "1",
+                        new: "0"
+                    },
+                    {
+                        orderno: "3",
+                        code: "afterEffluentStandard",
+                        value: "技改后出水标准",
+                        content: null,
+                        attachmentFile: null,
+                        attachmentValue: null,
+                        start: "1",
+                        edit: "0",
+                        modify: "1",
+                        new: "0"
+                    },
+                    {
+                        orderno: "4",
+                        code: "adjustPriceAndWhy",
+                        value: "技改是否调价及原因",
+                        content: null,
+                        attachmentFile: null,
+                        attachmentValue: null,
+                        start: "1",
+                        edit: "0",
+                        modify: "1",
+                        new: "0"
+                    },
+                    {
+                        orderno: "5",
+                        code: "other_100",
+                        value: "其他",
+                        content: null,
+                        attachmentFile: null,
+                        attachmentValue: null,
+                        start: "1",
+                        edit: "1",
+                        modify: "1",
+                        new: "1"
+                    }
+                ];
+                $scope.projectIncomes = [
+                    {
+                        code: "fullInvestment",
+                        value: "全投资IRR",
+                        originalReview: null,
+                        actualOperation: null,
+                        afterTechnicalReform: null
+                    },
+                    {
+                        code: "privateCapital",
+                        value: "自有资金IRR",
+                        originalReview: null,
+                        actualOperation: null,
+                        afterTechnicalReform: null
+                    }
+                ];
+                $scope.seriousRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是重点关注1",
+                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是重点关注2",
+                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
+                    }
+                ];
+
+                $scope.generalRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是一般关注1",
+                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是一般关注2",
+                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
+                    }
+                ];
+
+                $scope.performs = [
+                    {
+                        orderno: 0,
+                        requirementContent: "后续执行要求111111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "后续执行要求222222"
+                    }
+                ];
+
+
+                // 风险提示新增按钮
+                $scope.addRisk = function (variable) {
+                    $scope.newRisk = angular.copy($scope.risk);
+                    $scope.newRisk.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRisk);
+                };
+
+                // 投前条件/后续执行要求--新增按钮
+                $scope.addRequirement = function (variable) {
+                    $scope.newRequirement = angular.copy($scope.requirement);
+                    $scope.newRequirement.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRequirement);
+                };
             }else if (type.ITEM_CODE == "5000") {
                 $scope.projectOverviews = [
                     {
@@ -1571,6 +1866,80 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+                $scope.projectIncomes = [
+                    {
+                        code: "fullInvestment",
+                        value: "项目全投资IRR",
+                        indicator: null
+                    },
+                    {
+                        code: "privateCapital",
+                        value: "自有资金IRR",
+                        indicator: null
+                    }
+                ];
+                $scope.seriousRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是重点关注1",
+                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是重点关注2",
+                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
+                    }
+                ];
+
+                $scope.generalRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是一般关注1",
+                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是一般关注2",
+                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
+                    }
+                ];
+
+                $scope.requirements = [
+                    {
+                        orderno: 0,
+                        requirementContent: "投前条件11111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "投前条件22222"
+                    }
+                ];
+
+                $scope.performs = [
+                    {
+                        orderno: 0,
+                        requirementContent: "后续执行要求111111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "后续执行要求222222"
+                    }
+                ];
+
+                // 风险提示新增按钮
+                $scope.addRisk = function (variable) {
+                    $scope.newRisk = angular.copy($scope.risk);
+                    $scope.newRisk.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRisk);
+                };
+
+                // 投前条件/后续执行要求--新增按钮
+                $scope.addRequirement = function (variable) {
+                    $scope.newRequirement = angular.copy($scope.requirement);
+                    $scope.newRequirement.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRequirement);
+                };
+
             }else if (type.ITEM_CODE == "6000") {
                 $scope.projectOverviews = [
                     {
@@ -1658,6 +2027,78 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+                $scope.projectIncomes = [
+                    {
+                        code: "averageNetInterestRate",
+                        value: "项目平均净利率",
+                        indicator: null
+                    },
+                    {
+                        code: "fullInvestment",
+                        value: "全投资IRR",
+                        indicator: null
+                    }
+                ];
+                $scope.seriousRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是重点关注1",
+                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是重点关注2",
+                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
+                    }
+                ];
+
+                $scope.generalRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是一般关注1",
+                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是一般关注2",
+                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
+                    }
+                ];
+
+                $scope.performs = [
+                    {
+                        orderno: 0,
+                        requirementContent: "后续执行要求111111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "后续执行要求222222"
+                    }
+                ];
+
+                $scope.project = {
+                    investmentGlobale: null,
+                    investmentInternal: null,
+                    investmentStatic: null,
+                    financialROE: null,
+                    financialROI: null,
+                    indicatorCash: null
+                }
+
+
+                // 风险提示新增按钮
+                $scope.addRisk = function (variable) {
+                    $scope.newRisk = angular.copy($scope.risk);
+                    $scope.newRisk.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRisk);
+                };
+
+                // 投前条件/后续执行要求--新增按钮
+                $scope.addRequirement = function (variable) {
+                    $scope.newRequirement = angular.copy($scope.requirement);
+                    $scope.newRequirement.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRequirement);
+                };
             }else if (type.ITEM_CODE == "7000") {
                 $scope.projectOverviews = [
                     {
@@ -1734,6 +2175,35 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+                $scope.repaymentPlans = [
+                    {
+                        orderno: "0",
+                        loanTime: null,
+                        loanAmount: null,
+                        repaymentPlan: null,
+                        repaymnetMethod: null,
+                        repaymentSource: null
+                    }
+                ];
+                $scope.desciptions = [
+                    {
+                        orderno: "0",
+                        description: null
+                    }
+                ];
+                // 新增还款计划
+                $scope.addRepaymentPlan = function () {
+                    $scope.newRepaymentPlan = angular.copy($scope.repaymentPlanVar);
+                    $scope.newRepaymentPlan.orderno = $scope.repaymentPlans.length;
+                    $scope.repaymentPlans.push($scope.newRepaymentPlan);
+                }
+
+                // 新增原评审情况说明
+                $scope.addDesciption = function () {
+                    $scope.newDesciption = angular.copy($scope.desciptionVar);
+                    $scope.newDesciption.orderno = $scope.desciptions.length;
+                    $scope.desciptions.push($scope.newDesciption);
+                }
             }else if (type.ITEM_CODE == "8000") {
                 $scope.projectOverviews = [
                     {
@@ -1822,6 +2292,30 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+                $scope.decisionMakings = [
+                    {
+                        orderno: "0",
+                        decisionMaking: null
+                    }
+                ];
+                $scope.desciptions = [
+                    {
+                        orderno: "0",
+                        description: null
+                    }
+                ];
+                // 新增特殊事项说明
+                $scope.addDesciption = function () {
+                    $scope.newDesciption = angular.copy($scope.desciptionVar);
+                    $scope.newDesciption.orderno = $scope.desciptions.length;
+                    $scope.desciptions.push($scope.newDesciption);
+                }
+                // 新增决策事项
+                $scope.addDecisionMaking = function () {
+                    $scope.newDecisionMaking = angular.copy($scope.decisionMakingVar);
+                    $scope.newDecisionMaking.orderno = $scope.decisionMakings.length;
+                    $scope.decisionMakings.push($scope.newDecisionMaking);
+                }
             }
             angular.forEach($scope.projectOverviews, function (data, index) {
                 data.orderno = parseInt(data.orderno);
@@ -1829,7 +2323,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             angular.forEach($scope.projectOverviews1, function (data, index) {
                 data.orderno = parseInt(data.orderno);
             });
-
         }
 
         // 升序方法

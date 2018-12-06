@@ -1,5 +1,5 @@
 ﻿<div>
-	<div class="row-tit">项目概况</div>
+	<div class="row-tit">新设公司简介</div>
 	<table id = "" class="table table-bordered table-hover datatable table-text-mid table-light">
 		<thead>
 		<tr>
@@ -39,7 +39,7 @@
 		</tr>
 		</tbody>
 	</table>
-	<div class="row-tit">项目概况</div>
+	<div class="row-tit">公司股权结构</div>
 	<table id = "1"  border="0" cellspacing="0" cellpadding="0"  class="table table-bordered table-hover datatable table-text-mid table-light">
 		<thead>
 		<tr>
@@ -75,7 +75,56 @@
 					新增
 				</button>
 			</td>
-
+		</tr>
+		</tbody>
+	</table>
+	<div class="row-tit">特殊事项说明</div>
+	<table id = "table3" class="table table-bordered table-hover table-text-mid table-light">
+		<thead>
+		<tr>
+			<th>特殊事项说明</th>
+			<th>
+				<button ng-click="addDesciption()">
+					新增
+				</button>
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="desciptionVar in desciptions | orderBy: 'orderno': desc">
+			<td>
+				<textarea ng-model="desciptionVar.desciption" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+			</td>
+			<td>
+				<button ng-click="deleteObj($index, desciptions)">
+					删除
+				</button>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div class="row-tit">决策事项</div>
+	<table id = "table4" class="table table-bordered table-hover table-text-mid table-light">
+		<thead>
+		<tr>
+			<th>决策事项</th>
+			<th>
+				<button ng-click="addDecisionMaking()">
+					新增
+				</button>
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="decisionMakingVar in decisionMakings | orderBy: 'orderno': desc">
+			<td>
+				<textarea ng-model="decisionMakingVar.decisionMaking" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+			</td>
+			<td>
+				<button ng-click="deleteObj($index, decisionMakings)">
+					删除
+				</button>
+			</td>
 		</tr>
 		</tbody>
 	</table>

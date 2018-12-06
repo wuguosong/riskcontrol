@@ -75,7 +75,72 @@
 					新增
 				</button>
 			</td>
-
+		</tr>
+		</tbody>
+	</table>
+	<div class="row-tit">还款计划</div>
+	<table id = "2" border="0" cellspacing="0" cellpadding="0"  class="table table-bordered table-hover datatable table-text-mid table-light">
+		<thead>
+		<tr>
+			<th>借款时间</th>
+			<th>借款金额（万元）</th>
+			<th>还款计划</th>
+			<th>还款方式</th>
+			<th>还款来源</th>
+			<th>
+				<button ng-click="addRepaymentPlan()">
+					新增
+				</button>
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="repaymentPlanVar in repaymentPlans | orderBy: 'orderno': desc">
+			<td>
+				<input  ng-model="repaymentPlanVar.loanTime" class="form-control ng-pristine ng-valid ng-touched"></input>
+			</td>
+			<td>
+				<input  ng-model="repaymentPlanVar.loanAmount" class="form-control ng-pristine ng-valid ng-touched"></input>
+			</td>
+			<td>
+				<input  ng-model="repaymentPlanVar.repaymentPlan" class="form-control ng-pristine ng-valid ng-touched"></input>
+			</td>
+			<td>
+				<input  ng-model="repaymentPlanVar.repaymnetMethod" class="form-control ng-pristine ng-valid ng-touched"></input>
+			</td>
+			<td>
+				<input  ng-model="repaymentPlanVar.repaymentSource" class="form-control ng-pristine ng-valid ng-touched"></input>
+			</td>
+			<td>
+				<button ng-click="deleteObj($index, repaymentPlans)">
+					删除
+				</button>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div class="row-tit">原评审情况说明</div>
+	<table id = "table6" class="table table-bordered table-hover table-text-mid table-light">
+		<thead>
+		<tr>
+			<th>原评审情况说明</th>
+			<th>
+				<button ng-click="addDesciption()">
+					新增
+				</button>
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="desciptionVar in desciptions | orderBy: 'orderno': desc">
+			<td>
+				<textarea ng-model="desciptionVar.desciption" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+			</td>
+			<td>
+				<button ng-click="deleteObj($index, desciptions)">
+					删除
+				</button>
+			</td>
 		</tr>
 		</tbody>
 	</table>
