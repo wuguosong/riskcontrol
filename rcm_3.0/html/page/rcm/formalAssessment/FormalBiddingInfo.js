@@ -298,7 +298,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             var  url = 'common/commonMethod/selectDataDictionByCode';
             $scope.httpData(url,typeCode).success(function(data){
                 if(data.result_code == 'S'){
-                    console.log(data.result_data);
                     $scope.SUMMARY_TEMPLATE=data.result_data;
                 }else{
                     alert(data.result_name);
@@ -922,15 +921,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
 
         // -------------------Sam Gao 2018-11-28日修改--------------------------
 
-        // 增加默认选中
-        $scope.formalReport.summaryTemplate = {
-            ITEM_NAME: "通用版",
-            ITEM_CODE: "1000"
-        };
-        console.log($scope.formalReport.summaryTemplate.ITEM_CODE);
 
+        // 常量（类型：1000）==项目概况
         $scope.projectOverview = {
-            orderno: null, // 排序编号
+            orderno: null, // 排序编号从0开始
             code: null, // 行code
             value: null, // 行描述
             content: null, // 行内容
@@ -941,21 +935,26 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             modify: null, // 是否可以编辑 0:不可以编辑；1：可编辑
             new: null // 是否可以新增 0:不可以新增；1:可以新增
         };
-        $scope.projectOverview1 = {
-            orderno: null, // 排序编号
-            code: null, // 行code
-            value: null, // 行描述
-            content: null, // 行内容
-            attachmentFile: null, // 附件地址
-            attachmentValue: null, // 附件名称
-            start: null, // 是否启用 0：未启用；1：启用
-            edit: null, // 是否可以修改行描述 0：不可修改； 1：可修改
-            modify: null, // 是否可以编辑 0:不可以编辑；1：可编辑
-            new: null // 是否可以新增 0:不可以新增；1:可以新增
+
+        // 常量（类型：1000）==风险提示-重点关注/风险提示-一般关注
+        $scope.risk = {
+            orderno: null, // 排序编号从0开始
+            riskType: null, // 风险类别
+            riskContent: null // 风险事项
+        };
+
+        // 常量（类型：1000）==投前条件/后续执行要求
+        $scope.requirement = {
+            orderno: null, // 排序编号从0开始
+            requirementContent: null // 风险事项
+        };
+
+        // 删除数组对象
+        $scope.deleteObj = function (key,variableList) {
+            variableList.splice(key,1);
         };
 
         $scope.summaryTemplateChange = function (type) {
-            console.log(type.ITEM_CODE == "1000");
             if (type.ITEM_CODE == "1000") {
                 $scope.projectOverviews = [
                     {
@@ -1031,6 +1030,79 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
+
+                $scope.seriousRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是重点关注1",
+                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是重点关注2",
+                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
+                    }
+                ];
+
+                $scope.generalRisks = [
+                    {
+                        orderno: 0,
+                        riskType: "这是一般关注1",
+                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
+                    },
+                    {
+                        orderno: 1,
+                        riskType: "这是一般关注2",
+                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
+                    }
+                ];
+
+                $scope.requirements = [
+                    {
+                        orderno: 0,
+                        requirementContent: "投前条件11111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "投前条件22222"
+                    }
+                ];
+
+                $scope.performs = [
+                    {
+                        orderno: 0,
+                        requirementContent: "后续执行要求111111"
+                    },
+                    {
+                        orderno: 1,
+                        requirementContent: "后续执行要求222222"
+                    }
+                ];
+
+                $scope.project = {
+                    investmentGlobale: null,
+                    investmentInternal: null,
+                    investmentStatic: null,
+                    financialROE: null,
+                    financialROI: null,
+                    indicatorCash: null
+                }
+
+
+                // 风险提示新增按钮
+                $scope.addRisk = function (variable) {
+                    $scope.newRisk = angular.copy($scope.risk);
+                    $scope.newRisk.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRisk);
+                };
+
+                // 投前条件/后续执行要求--新增按钮
+                $scope.addRequirement = function (variable) {
+                    $scope.newRequirement = angular.copy($scope.requirement);
+                    $scope.newRequirement.orderno = $scope[variable].length;
+                    $scope[variable].push($scope.newRequirement);
+                };
+
             }else if (type.ITEM_CODE == "2000") {
                 $scope.projectOverviews = [
                     {
@@ -1758,129 +1830,131 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 data.orderno = parseInt(data.orderno);
             });
 
-            // $scope.projectOverviewOne = {};
-            // 升序方法
-            $scope.descOrderno = function (projectOverview, flag) {
-                if(flag != 0){
-                    $scope.newList = $scope.projectOverviews;
-                }else{
-                    $scope.newList = $scope.projectOverviews1;
-                }
-                if (projectOverview.orderno != 0) {
-                    $scope.old = angular.copy(projectOverview);
-                    angular.forEach($scope.newList, function(data, index, array){
-                        // 给上层序号+1
-                        if (data.orderno == (projectOverview.orderno - 1))
-                        {
-                            data.orderno = data.orderno + 1;
-                        }
-                    });
-                    // 给自己序号-1
-                    projectOverview.orderno = ($scope.old.orderno  - 1);
-                }
-                if(flag != 0){
-                    $scope.projectOverviews = $scope.newList;
-                }else{
-                    $scope.projectOverviews1 = $scope.newList;
-                }
-            };
-            // 降序方法
-            $scope.ascOrderno = function (projectOverview, flag) {
-                if(flag != 0){
-                    $scope.newList = $scope.projectOverviews;
-                }else{
-                    $scope.newList = $scope.projectOverviews1;
-                }
-                if (projectOverview.orderno != ($scope.newList.length - 1)) {
-                    $scope.old = angular.copy(projectOverview);
-                    angular.forEach($scope.newList, function(data, index, array){
-                        // 给下层序号-1
-                        if (data.orderno == (projectOverview.orderno + 1))
-                        {
-                            data.orderno = data.orderno - 1;
-                        }
-                    });
-                    // 给自己序号+1
-                    projectOverview.orderno = ($scope.old.orderno + 1);
-                }
-                if(flag != 0){
-                    $scope.projectOverviews = $scope.newList;
-                }else{
-                    $scope.projectOverviews1 = $scope.newList;
-                }
-            };
-            // 启用或者关闭编辑界面
-            $scope.closeOverview = function (projectOverview) {
-                projectOverview.modify = projectOverview.modify == "0" ?  "1" : "0";
+        }
+
+        // 升序方法
+        $scope.descOrderno = function (projectOverview, flag) {
+            if(flag != 0){
+                $scope.newList = $scope.projectOverviews;
+            }else{
+                $scope.newList = $scope.projectOverviews1;
             }
-            // 新增projectOverview
-            $scope.addOverview = function (projectOverview, flag) {
-                // 判断需要修改的数组
-                if(flag != 0){
-                    $scope.newList = $scope.projectOverviews;
-                }else{
-                    $scope.newList = $scope.projectOverviews1;
-                }
-                $scope.newProjectOverview = angular.copy(projectOverview);
-                // 名称逻辑（除 其他 外，剩余需新增的对象名称变成原名称+1）
-                if(projectOverview.code.slice(0,5) != "other"){
-                    $scope.str = projectOverview.value.split("_");
-                    if($scope.str.length > 1){
-                        $scope.newProjectOverview.value = $scope.str[0]+ "_" + (parseInt($scope.str[1]) + 1).toString();
-                    }else{
-                        $scope.newProjectOverview.value = projectOverview.value + "_1";
-                    }
-                }
-                // code逻辑（新增对象code变成原code+1）
-                $scope.str = projectOverview.code.split("_");
-                if($scope.str.length > 1){
-                    $scope.newProjectOverview.code = $scope.str[0]+ "_" + (parseInt($scope.str[1]) + 1).toString();
-                }else{
-                    $scope.newProjectOverview.code = projectOverview.code + "_1";
-                }
-                $scope.newProjectOverview.orderno = projectOverview.orderno + 1;
-                $scope.newProjectOverview.start = "1";
-                $scope.newProjectOverview.modify = "1";
+            if (projectOverview.orderno != 0) {
+                $scope.old = angular.copy(projectOverview);
                 angular.forEach($scope.newList, function(data, index, array){
-                    if(data.orderno == projectOverview.orderno){
-                        // 隐藏原对象新增按钮
-                        data.new = "0";
-                    } else {
-                        // 给序号比原对象大的对象的序号加1
-                        if(data.orderno > projectOverview.orderno){
-                            data.orderno = data.orderno + 1;
-                        }
+                    // 给上层序号+1
+                    if (data.orderno == (projectOverview.orderno - 1))
+                    {
+                        data.orderno = data.orderno + 1;
                     }
                 });
-                $scope.newList.push($scope.newProjectOverview);
-                if(flag != 0){
-                    $scope.projectOverviews = $scope.newList;
+                // 给自己序号-1
+                projectOverview.orderno = ($scope.old.orderno  - 1);
+            }
+            if(flag != 0){
+                $scope.projectOverviews = $scope.newList;
+            }else{
+                $scope.projectOverviews1 = $scope.newList;
+            }
+        };
+        // 降序方法
+        $scope.ascOrderno = function (projectOverview, flag) {
+            if(flag != 0){
+                $scope.newList = $scope.projectOverviews;
+            }else{
+                $scope.newList = $scope.projectOverviews1;
+            }
+            if (projectOverview.orderno != ($scope.newList.length - 1)) {
+                $scope.old = angular.copy(projectOverview);
+                angular.forEach($scope.newList, function(data, index, array){
+                    // 给下层序号-1
+                    if (data.orderno == (projectOverview.orderno + 1))
+                    {
+                        data.orderno = data.orderno - 1;
+                    }
+                });
+                // 给自己序号+1
+                projectOverview.orderno = ($scope.old.orderno + 1);
+            }
+            if(flag != 0){
+                $scope.projectOverviews = $scope.newList;
+            }else{
+                $scope.projectOverviews1 = $scope.newList;
+            }
+        };
+        // 启用或者关闭编辑界面
+        $scope.closeOverview = function (projectOverview) {
+            projectOverview.modify = projectOverview.modify == "0" ?  "1" : "0";
+        }
+        // 新增projectOverview
+        $scope.addOverview = function (projectOverview, flag) {
+            // 判断需要修改的数组
+            if(flag != 0){
+                $scope.newList = $scope.projectOverviews;
+            }else{
+                $scope.newList = $scope.projectOverviews1;
+            }
+            $scope.newProjectOverview = angular.copy(projectOverview);
+            // 名称逻辑（除 其他 外，剩余需新增的对象名称变成原名称+1）
+            if(projectOverview.code.slice(0,5) != "other"){
+                $scope.str = projectOverview.value.split("_");
+                if($scope.str.length > 1){
+                    $scope.newProjectOverview.value = $scope.str[0]+ "_" + (parseInt($scope.str[1]) + 1).toString();
                 }else{
-                    $scope.projectOverviews1 = $scope.newList;
-                }
-            };
-
-            // 数组指定key值排序
-            var compare = function (prop) {
-                return function (obj1, obj2) {
-                    var val1 = obj1[prop];
-                    var val2 = obj2[prop];
-                    if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
-                        val1 = Number(val1);
-                        val2 = Number(val2);
-                    }
-                    if (val1 < val2) {
-                        return -1;
-                    } else if (val1 > val2) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
+                    $scope.newProjectOverview.value = projectOverview.value + "_1";
                 }
             }
-            // 整理json对象数据
-            $scope.combProjectSummaryJson = function () {
-                $scope.projectSummary = {};
+            // code逻辑（新增对象code变成原code+1）
+            $scope.str = projectOverview.code.split("_");
+            if($scope.str.length > 1){
+                $scope.newProjectOverview.code = $scope.str[0]+ "_" + (parseInt($scope.str[1]) + 1).toString();
+            }else{
+                $scope.newProjectOverview.code = projectOverview.code + "_1";
+            }
+            $scope.newProjectOverview.orderno = projectOverview.orderno + 1;
+            $scope.newProjectOverview.start = "1";
+            $scope.newProjectOverview.modify = "1";
+            angular.forEach($scope.newList, function(data, index, array){
+                if(data.orderno == projectOverview.orderno){
+                    // 隐藏原对象新增按钮
+                    data.new = "0";
+                } else {
+                    // 给序号比原对象大的对象的序号加1
+                    if(data.orderno > projectOverview.orderno){
+                        data.orderno = data.orderno + 1;
+                    }
+                }
+            });
+            $scope.newList.push($scope.newProjectOverview);
+            if(flag != 0){
+                $scope.projectOverviews = $scope.newList;
+            }else{
+                $scope.projectOverviews1 = $scope.newList;
+            }
+        };
+
+        // 数组指定key值排序
+        var compare = function (prop) {
+            return function (obj1, obj2) {
+                var val1 = obj1[prop];
+                var val2 = obj2[prop];
+                if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+                    val1 = Number(val1);
+                    val2 = Number(val2);
+                }
+                if (val1 < val2) {
+                    return -1;
+                } else if (val1 > val2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        // 整理json对象数据
+        $scope.combProjectSummaryJson = function () {
+            $scope.projectSummary = {};
+            if ($scope.formalReport.summaryTemplate.ITEM_CODE == "1000" ) {
                 $scope.projectSummary.reportlId = $scope.pfr.apply.investmentManager._id;
                 $scope.projectSummary.summaryType = "1401";
                 $scope.projectSummary.create_by = $scope.pfr.apply.investmentManager.VALUE;
@@ -1890,27 +1964,38 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 $scope.projectSummary.projectNo = $scope.formalReport.projectNo;
                 $scope.projectSummary.reportingUnit = $scope.formalReport.reportingUnit;
                 $scope.projectSummary.projectOverviews = $scope.projectOverviews;
+
+                $scope.projectSummary.investmentGlobale = $scope.project.investmentGlobale;
+                $scope.projectSummary.investmentStatic = $scope.project.investmentStatic;
+                $scope.projectSummary.financialROE = $scope.project.financialROE;
+                $scope.projectSummary.financialROI = $scope.project.financialROI;
+                $scope.projectSummary.indicatorCash = $scope.project.indicatorCash;
+
+                $scope.projectSummary.seriousRisks = $scope.seriousRisks;
+                $scope.projectSummary.generalRisks = $scope.generalRisks;
+                $scope.projectSummary.requirements = $scope.requirements;
+                $scope.projectSummary.performs = $scope.performs;
+
                 return  $scope.projectSummary;
             }
+        };
 
-            // 决策会材料提交暂存功能
-            $scope.staging = function () {
-                console.log("aaaaaaaaaaaaaaaa");
-                $scope.projectSummary = $scope.combProjectSummaryJson();
-                console.log($scope.projectSummary);
-                console.log(angular.toJson($scope.projectSummary))
+        // 决策会材料提交暂存功能
+        $scope.staging = function () {
+            $scope.projectSummary = $scope.combProjectSummaryJson();
 
-                $http({
-                    method:'post',
-                    url:srvUrl+"formalReport/findFormalProjectSummary.do",
-                    data:
-                        $.param({
-                            "json": angular.toJson($scope.projectSummary),
-                            "method": "sss"
-                        })
-                }).success(function(result){
-                    $scope.projectOverviews = result.result_data.stage.projectOverviews;
-                })
-            }
+            $http({
+                method:'post',
+                url:srvUrl+"formalReport/stagingFormalProjectSummary.do",
+                data:
+                    $.param({
+                        "json": angular.toJson($scope.projectSummary),
+                        "method": "sss"
+                    })
+            }).success(function(result){
+                console.log(result);
+            })
         }
+
+
     }]);
