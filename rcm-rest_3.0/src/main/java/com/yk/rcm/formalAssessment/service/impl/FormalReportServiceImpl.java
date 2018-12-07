@@ -407,15 +407,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		Map<String, Object> oracle = (Map<String, Object>) map.get("formalAssessmentOracle");
 
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("Report", doc_Report);
-		param.put("MeetInfo", doc_meetingInfo);
-		param.put("Formal", doc_Formal);
-		param.put("attach", attach);
-		param.put("applyDate", applyDate);
-		param.put("stage", oracle.get("STAGE"));
 
-		// ------------------------Sam Gao 2018-12-06
-		// Start------------------------------
+		// ------------------------Sam Gao 2018-12-06 Start------------------------------
 		// 获得风控评审意见汇总
 		BasicDBObject summaryDBObject = new BasicDBObject();
 		summaryDBObject.put("projectFormalId", projectFormalId);
@@ -430,6 +423,12 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		}
 		// ------------------------Sam Gao 2018-12-06 End------------------------------
 
+		param.put("Report", doc_Report);
+		param.put("MeetInfo", doc_meetingInfo);
+		param.put("Formal", doc_Formal);
+		param.put("attach", attach);
+		param.put("applyDate", applyDate);
+		param.put("stage", oracle.get("STAGE"));
 		return param;
 	}
 
@@ -692,12 +691,21 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	public boolean saveOrUpdateFormalProjectSummary(String json) {
 		Document summaryDoc = Document.parse(json);
 		summaryDoc.put("_id", new ObjectId(summaryDoc.getString("projectFormalId")));
+		summaryDoc.put("create_by", ThreadLocalUtil.getUserId());
+		summaryDoc.put("create_name", ThreadLocalUtil.getUser().get("NAME"));
 		Map<String, Object> doc = this.baseMongo.queryById(summaryDoc.getString("projectFormalId"),
 				Constants.RCM_FORMAL_SUMMARY);
 		if (Util.isNotEmpty(doc)) {
-			this.baseMongo.updateSetByObjectId(summaryDoc.getString("projectFormalId"), summaryDoc,
-					Constants.RCM_FORMAL_SUMMARY);
-			return true;
+			try {
+				this.baseMongo.updateSetByObjectId(summaryDoc.getString("projectFormalId"), summaryDoc,
+						Constants.RCM_FORMAL_SUMMARY);
+				logger.info("更新风控评审意见汇总成功");
+				return true;
+			} catch (Exception e) {
+				logger.info("更新风控评审意见汇总出错");
+				e.printStackTrace();
+				return false;
+			}
 		} else {
 			try {
 				this.baseMongo.save(summaryDoc, Constants.RCM_FORMAL_SUMMARY);

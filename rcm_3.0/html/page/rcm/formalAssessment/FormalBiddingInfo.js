@@ -988,9 +988,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             variableList.splice(key,1);
         };
 
+        // 风控评审意见汇总
+        $scope.projectSummary = {};
+
         $scope.summaryTemplateChange = function (type) {
             if (type.ITEM_CODE == "1000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1065,7 +1068,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.seriousRisks = [
+                $scope.projectSummary.seriousRisks = [
                     {
                         orderno: 0,
                         riskType: "这是重点关注1",
@@ -1078,7 +1081,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.generalRisks = [
+                $scope.projectSummary.generalRisks = [
                     {
                         orderno: 0,
                         riskType: "这是一般关注1",
@@ -1091,7 +1094,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.requirements = [
+                $scope.projectSummary.requirements = [
                     {
                         orderno: 0,
                         requirementContent: "投前条件11111"
@@ -1102,7 +1105,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.performs = [
+                $scope.projectSummary.performs = [
                     {
                         orderno: 0,
                         requirementContent: "后续执行要求111111"
@@ -1113,15 +1116,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.project = {
-                    investmentGlobale: null,
-                    investmentInternal: null,
-                    investmentStatic: null,
-                    financialROE: null,
-                    financialROI: null,
-                    indicatorCash: null
-                }
-
+                $scope.projectSummary.investmentGlobale = null;
+                $scope.projectSummary.investmentInternal = null;
+                $scope.projectSummary.investmentStatic = null;
+                $scope.projectSummary.financialROE = null;
+                $scope.projectSummary.financialROI = null;
+                $scope.projectSummary.indicatorCash = null;
 
                 // 风险提示新增按钮
                 $scope.addRisk = function (variable) {
@@ -2446,29 +2446,15 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         }
         // 整理json对象数据
         $scope.combProjectSummaryJson = function () {
-            $scope.projectSummary = {};
+
+            // 模板通用属性
+            $scope.projectSummary.reportlId = $scope.pfr.apply.investmentManager._id; //报告id
+            $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId; // 正式评审项目id
+            $scope.projectSummary.projectName = $scope.formalReport.projectName; // 项目名称
+            $scope.projectSummary.projectNo = $scope.formalReport.projectNo;  // 项目编号
+            $scope.projectSummary.reportingUnit = $scope.formalReport.reportingUnit; // 所属大区
             if ($scope.formalReport.summaryTemplate.ITEM_CODE == "1000" ) {
-                $scope.projectSummary.reportlId = $scope.pfr.apply.investmentManager._id;
-                $scope.projectSummary.summaryType = "1401";
-                $scope.projectSummary.create_by = $scope.pfr.apply.investmentManager.VALUE;
-                $scope.projectSummary.create_name = $scope.pfr.apply.investmentManager.NAME;
-                $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId;
-                $scope.projectSummary.projectName = $scope.formalReport.projectName;
-                $scope.projectSummary.projectNo = $scope.formalReport.projectNo;
-                $scope.projectSummary.reportingUnit = $scope.formalReport.reportingUnit;
-                $scope.projectSummary.projectOverviews = $scope.projectOverviews;
-
-                $scope.projectSummary.investmentGlobale = $scope.project.investmentGlobale;
-                $scope.projectSummary.investmentStatic = $scope.project.investmentStatic;
-                $scope.projectSummary.financialROE = $scope.project.financialROE;
-                $scope.projectSummary.financialROI = $scope.project.financialROI;
-                $scope.projectSummary.indicatorCash = $scope.project.indicatorCash;
-
-                $scope.projectSummary.seriousRisks = $scope.seriousRisks;
-                $scope.projectSummary.generalRisks = $scope.generalRisks;
-                $scope.projectSummary.requirements = $scope.requirements;
-                $scope.projectSummary.performs = $scope.performs;
-
+                $scope.projectSummary.summaryType = "1000";
                 return  $scope.projectSummary;
             }
         };
