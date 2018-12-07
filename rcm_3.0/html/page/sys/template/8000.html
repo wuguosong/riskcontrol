@@ -10,7 +10,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="projectOverview in projectOverviews | orderBy: 'orderno': desc">
+		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
@@ -43,14 +43,14 @@
 	<table id = "1"  border="0" cellspacing="0" cellpadding="0"  class="table table-bordered table-hover datatable table-text-mid table-light">
 		<thead>
 		<tr>
- 			<th>分类</th>
+			<th>分类</th>
 			<th>内容</th>
 			<th>附件</th>
 			<th>操作</th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="projectOverview in projectOverviews1 | orderBy: 'orderno': desc">
+		<tr ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
@@ -91,12 +91,12 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="desciptionVar in desciptions | orderBy: 'orderno': desc">
+		<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 			<td>
 				<textarea ng-model="desciptionVar.desciption" class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, desciptions)">
+				<button ng-click="deleteObj($index, projectSummary.desciptions)">
 					删除
 				</button>
 			</td>
@@ -116,12 +116,12 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="decisionMakingVar in decisionMakings | orderBy: 'orderno': desc">
+		<tr ng-repeat="decisionMakingVar in projectSummary.decisionMakings | orderBy: 'orderno': desc">
 			<td>
 				<textarea ng-model="decisionMakingVar.decisionMaking" class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, decisionMakings)">
+				<button ng-click="deleteObj($index, projectSummary.decisionMakings)">
 					删除
 				</button>
 			</td>

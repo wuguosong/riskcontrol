@@ -10,7 +10,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="projectOverview in projectOverviews | orderBy: 'orderno': desc">
+        <tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
             <td>
                 <input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
                 <a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
@@ -30,7 +30,6 @@
                 </button>
                 <button ng-click="closeOverview(projectOverview)">
                     关闭
-                </button>
                 <button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview)">
                     新增
                 </button>
@@ -56,7 +55,7 @@
                 全投资内部收益率IRR
             </td>
             <td>
-                <input type="text" ng-model="project.investmentGlobale">
+                <input type="text" ng-model="projectSummary.project.investmentGlobale">
             </td>
         </tr>
         <tr>
@@ -64,7 +63,7 @@
                 自有资金内部收益率IRR
             </td>
             <td>
-                <input type="text" ng-model="project.investmentInternal">
+                <input type="text" ng-model="projectSummary.project.investmentInternal">
             </td>
         </tr>
         <tr>
@@ -72,7 +71,7 @@
                 全投资静态回收期
             </td>
             <td>
-                <input type="text" ng-model="project.investmentStatic">
+                <input type="text" ng-model="projectSummary.project.investmentStatic">
             </td>
         </tr>
         <tr>
@@ -83,7 +82,7 @@
                 运营期平均ROE
             </td>
             <td>
-                <input type="text" ng-model="project.financialROE">
+                <input type="text" ng-model="projectSummary.project.financialROE">
             </td>
         </tr>
         <tr>
@@ -91,7 +90,7 @@
                 运营期平均ROI
             </td>
             <td>
-                <input type="text" ng-model="project.financialROI">
+                <input type="text" ng-model="projectSummary.project.financialROI">
             </td>
         </tr>
         <tr>
@@ -102,7 +101,7 @@
                 自有资金前五年现金净流量
             </td>
             <td>
-                <input type="text" ng-model="project.indicatorCash">
+                <input type="text" ng-model="projectSummary.project.indicatorCash">
             </td>
         </tr>
         </tbody>
@@ -123,7 +122,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="seriousRisk in seriousRisks | orderBy: 'orderno': desc">
+        <tr ng-repeat="seriousRisk in projectSummary.seriousRisks | orderBy: 'orderno': desc">
             <td>
                 <input type="text" ng-model="seriousRisk.riskType">
             </td>
@@ -131,7 +130,7 @@
                 <input type="text" ng-model="seriousRisk.riskContent">
             </td>
             <td>
-                <button ng-click="deleteObj($index, seriousRisks)">
+                <button ng-click="deleteObj($index, projectSummary.seriousRisks)">
                     删除
                 </button>
             </td>
@@ -153,7 +152,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="generalRisk in generalRisks | orderBy: 'orderno': desc">
+        <tr ng-repeat="generalRisk in projectSummary.generalRisks | orderBy: 'orderno': desc">
             <td>
                 <input type="text" ng-model="generalRisk.riskType">
             </td>
@@ -161,7 +160,7 @@
                 <input type="text" ng-model="generalRisk.riskContent">
             </td>
             <td>
-                <button ng-click="deleteObj($index, generalRisks)">
+                <button ng-click="deleteObj($index, projectSummary.generalRisks)">
                     删除
                 </button>
             </td>
@@ -182,12 +181,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="perform in performs | orderBy: 'orderno': desc">
+        <tr ng-repeat="perform in projectSummary.performs | orderBy: 'orderno': desc">
             <td>
                 <input type="text" ng-model="perform.requirementContent">
             </td>
             <td>
-                <button ng-click="deleteObj($index, performs)">
+                <button ng-click="deleteObj($index, projectSummary.performs)">
                     删除
                 </button>
             </td>

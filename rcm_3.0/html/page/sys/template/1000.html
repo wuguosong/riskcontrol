@@ -57,7 +57,7 @@
 				全投资内部收益率IRR
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.investmentGlobale">
+				<input type="text" ng-model="projectSummary.project.investmentGlobale">
 			</td>
 		</tr>
 		<tr>
@@ -65,7 +65,7 @@
 				自有资金内部收益率IRR
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.investmentInternal">
+				<input type="text" ng-model="projectSummary.project.investmentInternal">
 			</td>
 		</tr>
 		<tr>
@@ -73,7 +73,7 @@
 				全投资静态回收期
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.investmentStatic">
+				<input type="text" ng-model="projectSummary.project.investmentStatic">
 			</td>
 		</tr>
 		<tr>
@@ -84,7 +84,7 @@
 				运营期平均ROE
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.financialROE">
+				<input type="text" ng-model="projectSummary.project.financialROE">
 			</td>
 		</tr>
 		<tr>
@@ -92,7 +92,7 @@
 				运营期平均ROI
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.financialROI">
+				<input type="text" ng-model="projectSummary.project.financialROI">
 			</td>
 		</tr>
 		<tr>
@@ -103,7 +103,7 @@
 				自有资金前五年现金净流量
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.indicatorCash">
+				<input type="text" ng-model="projectSummary.project.indicatorCash">
 			</td>
 		</tr>
 		</tbody>
@@ -117,7 +117,7 @@
 			<th>风险类别</th>
 			<th>风险事项</th>
 			<th>
-				<button ng-click="addRisk('projectSummary.seriousRisks')">
+				<button ng-click="addRisk('seriousRisks')">
 					新增
 				</button>
 			</th>
@@ -132,7 +132,7 @@
 				<input type="text" ng-model="seriousRisk.riskContent">
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, seriousRisks)">
+				<button ng-click="deleteObj($index, projectSummary.seriousRisks)">
 					删除
 				</button>
 			</td>
@@ -147,7 +147,7 @@
 			<th>风险类别</th>
 			<th>风险事项</th>
 			<th>
-				<button ng-click="addRisk('projectSummary.generalRisks')">
+				<button ng-click="addRisk('generalRisks')">
 					新增
 				</button>
 			</th>
@@ -162,7 +162,7 @@
 				<input type="text" ng-model="generalRisk.riskContent">
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, generalRisks)">
+				<button ng-click="deleteObj($index, projectSummary.generalRisks)">
 					删除
 				</button>
 			</td>
@@ -176,7 +176,7 @@
 		<tr>
 			<th>投前条件</th>
 			<th>
-				<button ng-click="addRequirement('projectSummary.requirements')">
+				<button ng-click="addRequirement('requirements')">
 					新增
 				</button>
 			</th>
@@ -188,7 +188,7 @@
 				<input type="text" ng-model="requirement.requirementContent">
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, requirements)">
+				<button ng-click="deleteObj($index, projectSummary.requirements)">
 					删除
 				</button>
 			</td>
@@ -214,7 +214,7 @@
 				<input type="text" ng-model="perform.requirementContent">
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, performs)">
+				<button ng-click="deleteObj($index, projectSummary.performs)">
 					删除
 				</button>
 			</td>

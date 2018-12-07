@@ -10,7 +10,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="projectOverview in projectOverviews | orderBy: 'orderno': desc">
+		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
@@ -50,7 +50,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="projectOverview in projectOverviews1 | orderBy: 'orderno': desc">
+		<tr ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
@@ -95,7 +95,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="repaymentPlanVar in repaymentPlans | orderBy: 'orderno': desc">
+		<tr ng-repeat="repaymentPlanVar in projectSummary.repaymentPlans | orderBy: 'orderno': desc">
 			<td>
 				<input  ng-model="repaymentPlanVar.loanTime" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
@@ -112,7 +112,7 @@
 				<input  ng-model="repaymentPlanVar.repaymentSource" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, repaymentPlans)">
+				<button ng-click="deleteObj($index, projectSummary.repaymentPlans)">
 					删除
 				</button>
 			</td>
@@ -132,12 +132,12 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="desciptionVar in desciptions | orderBy: 'orderno': desc">
+		<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 			<td>
 				<textarea ng-model="desciptionVar.desciption" class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
 			<td>
-				<button ng-click="deleteObj($index, desciptions)">
+				<button ng-click="deleteObj($index, projectSummary.desciptions)">
 					删除
 				</button>
 			</td>

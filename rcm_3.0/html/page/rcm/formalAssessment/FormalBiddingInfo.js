@@ -988,10 +988,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             variableList.splice(key,1);
         };
 
-        // 风控评审意见汇总
-        $scope.projectSummary = {};
-
         $scope.summaryTemplateChange = function (type) {
+            // 风控评审意见汇总 初始化模板数据
+            $scope.projectSummary = {};
             if (type.ITEM_CODE == "1000") {
                 $scope.projectSummary.projectOverviews = [
                     {
@@ -1116,29 +1115,31 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.projectSummary.investmentGlobale = null;
-                $scope.projectSummary.investmentInternal = null;
-                $scope.projectSummary.investmentStatic = null;
-                $scope.projectSummary.financialROE = null;
-                $scope.projectSummary.financialROI = null;
-                $scope.projectSummary.indicatorCash = null;
+                $scope.projectSummary.project = {
+                    investmentGlobale: null,
+                    investmentInternal: null,
+                    investmentStatic: null,
+                    financialROE: null,
+                    financialROI: null,
+                    indicatorCash: null
+                }
 
                 // 风险提示新增按钮
                 $scope.addRisk = function (variable) {
                     $scope.newRisk = angular.copy($scope.risk);
-                    $scope.newRisk.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRisk);
+                    $scope.newRisk.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRisk);
                 };
 
                 // 投前条件/后续执行要求--新增按钮
                 $scope.addRequirement = function (variable) {
                     $scope.newRequirement = angular.copy($scope.requirement);
-                    $scope.newRequirement.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRequirement);
+                    $scope.newRequirement.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRequirement);
                 };
 
             }else if (type.ITEM_CODE == "2000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1236,7 +1237,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.seriousRisks = [
+                $scope.projectSummary.seriousRisks = [
                     {
                         orderno: 0,
                         riskType: "这是重点关注1",
@@ -1249,7 +1250,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.generalRisks = [
+                $scope.projectSummary.generalRisks = [
                     {
                         orderno: 0,
                         riskType: "这是一般关注1",
@@ -1262,7 +1263,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.performs = [
+                $scope.projectSummary.performs = [
                     {
                         orderno: 0,
                         requirementContent: "后续执行要求111111"
@@ -1273,7 +1274,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.project = {
+                $scope.projectSummary.project = {
                     investmentGlobale: null,
                     investmentInternal: null,
                     investmentStatic: null,
@@ -1286,18 +1287,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 风险提示新增按钮
                 $scope.addRisk = function (variable) {
                     $scope.newRisk = angular.copy($scope.risk);
-                    $scope.newRisk.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRisk);
+                    $scope.newRisk.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRisk);
                 };
 
                 // 投前条件/后续执行要求--新增按钮
                 $scope.addRequirement = function (variable) {
                     $scope.newRequirement = angular.copy($scope.requirement);
-                    $scope.newRequirement.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRequirement);
+                    $scope.newRequirement.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRequirement);
                 };
             } else if (type.ITEM_CODE == "3000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1407,7 +1408,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.seriousRisks = [
+                $scope.projectSummary.seriousRisks = [
                     {
                         orderno: 0,
                         riskType: "这是重点关注1",
@@ -1420,7 +1421,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.generalRisks = [
+                $scope.projectSummary.generalRisks = [
                     {
                         orderno: 0,
                         riskType: "这是一般关注1",
@@ -1433,7 +1434,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.performs = [
+                $scope.projectSummary.performs = [
                     {
                         orderno: 0,
                         requirementContent: "后续执行要求111111"
@@ -1444,7 +1445,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.project = {
+                $scope.projectSummary.project = {
                     investmentGlobale: null,
                     investmentInternal: null,
                     investmentStatic: null,
@@ -1457,18 +1458,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 风险提示新增按钮
                 $scope.addRisk = function (variable) {
                     $scope.newRisk = angular.copy($scope.risk);
-                    $scope.newRisk.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRisk);
+                    $scope.newRisk.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRisk);
                 };
 
                 // 投前条件/后续执行要求--新增按钮
                 $scope.addRequirement = function (variable) {
                     $scope.newRequirement = angular.copy($scope.requirement);
-                    $scope.newRequirement.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRequirement);
+                    $scope.newRequirement.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRequirement);
                 };
             } else if (type.ITEM_CODE == "4000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "regionalBackground",
@@ -1566,7 +1567,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.projectOverviews1 = [
+                $scope.projectSummary.projectOverviews1 = [
                     {
                         orderno: "0",
                         code: "technicalReformNecessity",
@@ -1640,7 +1641,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.projectIncomes = [
+                $scope.projectSummary.projectIncomes = [
                     {
                         code: "fullInvestment",
                         value: "全投资IRR",
@@ -1656,7 +1657,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         afterTechnicalReform: null
                     }
                 ];
-                $scope.seriousRisks = [
+                $scope.projectSummary.seriousRisks = [
                     {
                         orderno: 0,
                         riskType: "这是重点关注1",
@@ -1669,7 +1670,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.generalRisks = [
+                $scope.projectSummary.generalRisks = [
                     {
                         orderno: 0,
                         riskType: "这是一般关注1",
@@ -1682,7 +1683,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.performs = [
+                $scope.projectSummary.performs = [
                     {
                         orderno: 0,
                         requirementContent: "后续执行要求111111"
@@ -1697,18 +1698,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 风险提示新增按钮
                 $scope.addRisk = function (variable) {
                     $scope.newRisk = angular.copy($scope.risk);
-                    $scope.newRisk.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRisk);
+                    $scope.newRisk.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRisk);
                 };
 
                 // 投前条件/后续执行要求--新增按钮
                 $scope.addRequirement = function (variable) {
                     $scope.newRequirement = angular.copy($scope.requirement);
-                    $scope.newRequirement.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRequirement);
+                    $scope.newRequirement.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRequirement);
                 };
             }else if (type.ITEM_CODE == "5000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "operationMode",
@@ -1866,7 +1867,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.projectIncomes = [
+                $scope.projectSummary.projectIncomes = [
                     {
                         code: "fullInvestment",
                         value: "项目全投资IRR",
@@ -1878,7 +1879,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         indicator: null
                     }
                 ];
-                $scope.seriousRisks = [
+                $scope.projectSummary.seriousRisks = [
                     {
                         orderno: 0,
                         riskType: "这是重点关注1",
@@ -1891,7 +1892,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.generalRisks = [
+                $scope.projectSummary.generalRisks = [
                     {
                         orderno: 0,
                         riskType: "这是一般关注1",
@@ -1904,7 +1905,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.requirements = [
+                $scope.projectSummary.requirements = [
                     {
                         orderno: 0,
                         requirementContent: "投前条件11111"
@@ -1915,7 +1916,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.performs = [
+                $scope.projectSummary.performs = [
                     {
                         orderno: 0,
                         requirementContent: "后续执行要求111111"
@@ -1929,19 +1930,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 风险提示新增按钮
                 $scope.addRisk = function (variable) {
                     $scope.newRisk = angular.copy($scope.risk);
-                    $scope.newRisk.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRisk);
+                    $scope.newRisk.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRisk);
                 };
 
                 // 投前条件/后续执行要求--新增按钮
                 $scope.addRequirement = function (variable) {
                     $scope.newRequirement = angular.copy($scope.requirement);
-                    $scope.newRequirement.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRequirement);
+                    $scope.newRequirement.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRequirement);
                 };
-
             }else if (type.ITEM_CODE == "6000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "serviceArea",
@@ -2027,7 +2027,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.projectIncomes = [
+                $scope.projectSummary.projectIncomes = [
                     {
                         code: "averageNetInterestRate",
                         value: "项目平均净利率",
@@ -2039,7 +2039,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         indicator: null
                     }
                 ];
-                $scope.seriousRisks = [
+                $scope.projectSummary.seriousRisks = [
                     {
                         orderno: 0,
                         riskType: "这是重点关注1",
@@ -2052,7 +2052,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.generalRisks = [
+                $scope.projectSummary.generalRisks = [
                     {
                         orderno: 0,
                         riskType: "这是一般关注1",
@@ -2065,7 +2065,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.performs = [
+                $scope.projectSummary.performs = [
                     {
                         orderno: 0,
                         requirementContent: "后续执行要求111111"
@@ -2076,7 +2076,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                     }
                 ];
 
-                $scope.project = {
+                $scope.projectSummary.project = {
                     investmentGlobale: null,
                     investmentInternal: null,
                     investmentStatic: null,
@@ -2089,18 +2089,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 风险提示新增按钮
                 $scope.addRisk = function (variable) {
                     $scope.newRisk = angular.copy($scope.risk);
-                    $scope.newRisk.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRisk);
+                    $scope.newRisk.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRisk);
                 };
 
                 // 投前条件/后续执行要求--新增按钮
                 $scope.addRequirement = function (variable) {
                     $scope.newRequirement = angular.copy($scope.requirement);
-                    $scope.newRequirement.orderno = $scope[variable].length;
-                    $scope[variable].push($scope.newRequirement);
+                    $scope.newRequirement.orderno = $scope.projectSummary[variable].length;
+                    $scope.projectSummary[variable].push($scope.newRequirement);
                 };
             }else if (type.ITEM_CODE == "7000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "borrowingAmount",
@@ -2137,7 +2137,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         modify: "1",
                         new: "1"
                     }];
-                $scope.projectOverviews1 = [
+                $scope.projectSummary.projectOverviews1 = [
                     {
                         orderno: "0",
                         code: "borrowingPurpose",
@@ -2175,7 +2175,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.repaymentPlans = [
+                $scope.projectSummary.repaymentPlans = [
                     {
                         orderno: "0",
                         loanTime: null,
@@ -2185,7 +2185,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         repaymentSource: null
                     }
                 ];
-                $scope.desciptions = [
+                $scope.projectSummary.desciptions = [
                     {
                         orderno: "0",
                         description: null
@@ -2194,18 +2194,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 新增还款计划
                 $scope.addRepaymentPlan = function () {
                     $scope.newRepaymentPlan = angular.copy($scope.repaymentPlanVar);
-                    $scope.newRepaymentPlan.orderno = $scope.repaymentPlans.length;
-                    $scope.repaymentPlans.push($scope.newRepaymentPlan);
+                    $scope.newRepaymentPlan.orderno = $scope.projectSummary.repaymentPlans.length;
+                    $scope.projectSummary.repaymentPlans.push($scope.newRepaymentPlan);
                 }
 
                 // 新增原评审情况说明
                 $scope.addDesciption = function () {
                     $scope.newDesciption = angular.copy($scope.desciptionVar);
-                    $scope.newDesciption.orderno = $scope.desciptions.length;
-                    $scope.desciptions.push($scope.newDesciption);
+                    $scope.newDesciption.orderno = $scope.projectSummary.desciptions.length;
+                    $scope.projectSummary.desciptions.push($scope.newDesciption);
                 }
             }else if (type.ITEM_CODE == "8000") {
-                $scope.projectOverviews = [
+                $scope.projectSummary.projectOverviews = [
                     {
                         orderno: "0",
                         code: "businessArea",
@@ -2254,7 +2254,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         modify: "1",
                         new: "1"
                     }];
-                $scope.projectOverviews1 = [
+                $scope.projectSummary.projectOverviews1 = [
                     {
                         orderno: "0",
                         code: "registeredCapital",
@@ -2292,13 +2292,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                         new: "1"
                     }
                 ];
-                $scope.decisionMakings = [
+                $scope.projectSummary.decisionMakings = [
                     {
                         orderno: "0",
                         decisionMaking: null
                     }
                 ];
-                $scope.desciptions = [
+                $scope.projectSummary.desciptions = [
                     {
                         orderno: "0",
                         description: null
@@ -2307,20 +2307,20 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 新增特殊事项说明
                 $scope.addDesciption = function () {
                     $scope.newDesciption = angular.copy($scope.desciptionVar);
-                    $scope.newDesciption.orderno = $scope.desciptions.length;
-                    $scope.desciptions.push($scope.newDesciption);
+                    $scope.newDesciption.orderno = $scope.projectSummary.desciptions.length;
+                    $scope.projectSummary.desciptions.push($scope.newDesciption);
                 }
                 // 新增决策事项
                 $scope.addDecisionMaking = function () {
                     $scope.newDecisionMaking = angular.copy($scope.decisionMakingVar);
-                    $scope.newDecisionMaking.orderno = $scope.decisionMakings.length;
-                    $scope.decisionMakings.push($scope.newDecisionMaking);
+                    $scope.newDecisionMaking.orderno = $scope.projectSummary.decisionMakings.length;
+                    $scope.projectSummary.decisionMakings.push($scope.newDecisionMaking);
                 }
             }
-            angular.forEach($scope.projectOverviews, function (data, index) {
+            angular.forEach($scope.projectSummary.projectOverviews, function (data, index) {
                 data.orderno = parseInt(data.orderno);
             });
-            angular.forEach($scope.projectOverviews1, function (data, index) {
+            angular.forEach($scope.projectSummary.projectOverviews1, function (data, index) {
                 data.orderno = parseInt(data.orderno);
             });
         }
@@ -2328,9 +2328,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         // 升序方法
         $scope.descOrderno = function (projectOverview, flag) {
             if(flag != 0){
-                $scope.newList = $scope.projectOverviews;
+                $scope.newList = $scope.projectSummary.projectOverviews;
             }else{
-                $scope.newList = $scope.projectOverviews1;
+                $scope.newList = $scope.projectSummary.projectOverviews1;
             }
             if (projectOverview.orderno != 0) {
                 $scope.old = angular.copy(projectOverview);
@@ -2344,18 +2344,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 给自己序号-1
                 projectOverview.orderno = ($scope.old.orderno  - 1);
             }
-            if(flag != 0){
-                $scope.projectOverviews = $scope.newList;
-            }else{
-                $scope.projectOverviews1 = $scope.newList;
-            }
         };
         // 降序方法
         $scope.ascOrderno = function (projectOverview, flag) {
             if(flag != 0){
-                $scope.newList = $scope.projectOverviews;
+                $scope.newList = $scope.projectSummary.projectOverviews;
             }else{
-                $scope.newList = $scope.projectOverviews1;
+                $scope.newList = $scope.projectSummary.projectOverviews1;
             }
             if (projectOverview.orderno != ($scope.newList.length - 1)) {
                 $scope.old = angular.copy(projectOverview);
@@ -2369,11 +2364,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 // 给自己序号+1
                 projectOverview.orderno = ($scope.old.orderno + 1);
             }
-            if(flag != 0){
-                $scope.projectOverviews = $scope.newList;
-            }else{
-                $scope.projectOverviews1 = $scope.newList;
-            }
         };
         // 启用或者关闭编辑界面
         $scope.closeOverview = function (projectOverview) {
@@ -2383,9 +2373,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         $scope.addOverview = function (projectOverview, flag) {
             // 判断需要修改的数组
             if(flag != 0){
-                $scope.newList = $scope.projectOverviews;
+                $scope.newList = $scope.projectSummary.projectOverviews;
             }else{
-                $scope.newList = $scope.projectOverviews1;
+                $scope.newList = $scope.projectSummary.projectOverviews1;
             }
             $scope.newProjectOverview = angular.copy(projectOverview);
             // 名称逻辑（除 其他 外，剩余需新增的对象名称变成原名称+1）
@@ -2419,11 +2409,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 }
             });
             $scope.newList.push($scope.newProjectOverview);
-            if(flag != 0){
-                $scope.projectOverviews = $scope.newList;
-            }else{
-                $scope.projectOverviews1 = $scope.newList;
-            }
         };
 
         // 数组指定key值排序
@@ -2446,7 +2431,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         }
         // 整理json对象数据
         $scope.combProjectSummaryJson = function () {
-
+            debugger
             // 模板通用属性
             $scope.projectSummary.reportlId = $scope.pfr.apply.investmentManager._id; //报告id
             $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId; // 正式评审项目id
@@ -2455,6 +2440,27 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             $scope.projectSummary.reportingUnit = $scope.formalReport.reportingUnit; // 所属大区
             if ($scope.formalReport.summaryTemplate.ITEM_CODE == "1000" ) {
                 $scope.projectSummary.summaryType = "1000";
+                return  $scope.projectSummary;
+            } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "2000" ) {
+                $scope.projectSummary.summaryType = "2000";
+                return  $scope.projectSummary;
+            } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "3000" ) {
+                $scope.projectSummary.summaryType = "3000";
+                return  $scope.projectSummary;
+            } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "4000" ) {
+                $scope.projectSummary.summaryType = "4000";
+                return  $scope.projectSummary;
+            } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "5000" ) {
+                $scope.projectSummary.summaryType = "5000";
+                return  $scope.projectSummary;
+            } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "6000" ) {
+                $scope.projectSummary.summaryType = "6000";
+                return  $scope.projectSummary;
+            } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "7000" ) {
+                $scope.projectSummary.summaryType = "7000";
+                return  $scope.projectSummary;
+            } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "8000" ) {
+                $scope.projectSummary.summaryType = "8000";
                 return  $scope.projectSummary;
             }
         };
@@ -2475,6 +2481,4 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 console.log(result);
             })
         }
-
-
     }]);
