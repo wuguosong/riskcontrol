@@ -22,18 +22,18 @@
 				{{ projectOverview.attachmentValue }}
 			</td>
 			<td>
-				<button ng-click="descOrderno(projectOverview)">
-					升序
-				</button>
-				<button ng-click="ascOrderno(projectOverview)">
-					降序
-				</button>
-				<button ng-click="closeOverview(projectOverview)">
-					关闭
-				</button>
-				<button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview)">
-					新增
-				</button>
+                <button ng-click="descOrderno(projectOverview, 'projectOverviews')">
+                    升序
+                </button>
+                <button ng-click="ascOrderno(projectOverview, 'projectOverviews')">
+                    降序
+                </button>
+                <button ng-click="closeOverview(projectOverview, 'projectOverviews')">
+                    关闭
+                </button>
+                <button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview, 'projectOverviews')">
+                    新增
+                </button>
 			</td>
 		</tr>
 		</tbody>
