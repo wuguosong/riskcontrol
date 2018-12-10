@@ -1,4 +1,4 @@
-<div class="row">
+<div>
     <div class="project-names">
         <a class="project-names-font">
             {{ pfr.apply.projectName }}
@@ -147,7 +147,9 @@
                     </td>
                     <td colspan="3">
                         <div class="">
-                            <textarea style="resize:vertical;" readonly="readonly" name="" rows="" cols="" class="form-control" auto-height>{{meetInfo.ratingReason}}</textarea>
+                            <textarea style="resize:vertical;" readonly="readonly" auto-height>
+                                {{meetInfo.ratingReason}}
+                            </textarea>
                         </div>
                         <div class="">
                             <label class="checkbox-inline">

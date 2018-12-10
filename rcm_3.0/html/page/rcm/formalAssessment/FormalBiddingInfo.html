@@ -2,66 +2,63 @@
 <div class="body-background">
     <form class="new-form">
 
-
+        <!--项目过程回顾和项目评级-->
         <directive-formal-jcwyh-new></directive-formal-jcwyh-new>
+
+        <!--项目重要边界条件-->
+        <div class="box">
+            <div class="box-title">
+                <a class="box-title-font">
+                    项目重要边界条件
+                </a>
+            </div>
+            <div>
+                <table class="table-box table-overview">
+                    <tr>
+                        <td width="20%">
+                            <span class="required">*</span>项目模板类型
+                        </td>
+                        <td width="80%">
+                            <select style="width: 200px" ng-change="summaryTemplateChange(formalReport.summaryTemplate)"
+                                    class="form-control" id="summaryTemplate" name="summaryTemplate"
+                                    ng-model="formalReport.summaryTemplate"
+                                    ng-options="summary.ITEM_NAME for summary in SUMMARY_TEMPLATE track by summary.ITEM_CODE">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-switch on="formalReport.summaryTemplate.ITEM_CODE">
+                <section ng-switch-when="1000">
+                    <div ng-include src="'page/sys/template/1000.html'"></div>
+                </section>
+                <section ng-switch-when="2000">
+                    <div ng-include src="'page/sys/template/2000.html'"></div>
+                </section>
+                <section ng-switch-when="3000">
+                    <div ng-include src="'page/sys/template/3000.html'"></div>
+                </section>
+                <section ng-switch-when="4000">
+                    <div ng-include src="'page/sys/template/4000.html'"></div>
+                </section>
+                <section ng-switch-when="5000">
+                    <div ng-include src="'page/sys/template/5000.html'"></div>
+                </section>
+                <section ng-switch-when="6000">
+                    <div ng-include src="'page/sys/template/6000.html'"></div>
+                </section>
+                <section ng-switch-when="7000">
+                    <div ng-include src="'page/sys/template/7000.html'"></div>
+                </section>
+                <section ng-switch-when="8000 ">
+                    <div ng-include src="'page/sys/template/8000.html'"></div>
+                </section>
+            </div>
+        </div>
 
 
         <div class="panel">
             <div class="panel-body">
-
-                <div class="row">
-                    <div class="row-tit">3.风控评审意见汇总</div>
-                    <table border="0" cellspacing="0" cellpadding="0"
-                           class="table table-bordered table-text-mid table-light">
-                        <tbody>
-                        <tr>
-                            <td class="title-column"><span class="required">*</span>项目模板类型</td>
-                            <td colspan="3">
-                                <div id="regional-division">
-                                    <div class="select2-success">
-                                        <select ng-change="summaryTemplateChange(formalReport.summaryTemplate)"
-                                                class="form-control" id="summaryTemplate" name="summaryTemplate"
-                                                ng-model="formalReport.summaryTemplate"
-                                                ng-options="summary.ITEM_NAME for summary in SUMMARY_TEMPLATE track by summary.ITEM_CODE">
-                                        </select>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <div ng-switch on="formalReport.summaryTemplate.ITEM_CODE">
-                                    <section ng-switch-when="1000">
-                                        <div ng-include src="'page/sys/template/1000.html'"></div>
-                                    </section>
-                                    <section ng-switch-when="2000">
-                                        <div ng-include src="'page/sys/template/2000.html'"></div>
-                                    </section>
-                                    <section ng-switch-when="3000">
-                                        <div ng-include src="'page/sys/template/3000.html'"></div>
-                                    </section>
-                                    <section ng-switch-when="4000">
-                                        <div ng-include src="'page/sys/template/4000.html'"></div>
-                                    </section>
-                                    <section ng-switch-when="5000">
-                                        <div ng-include src="'page/sys/template/5000.html'"></div>
-                                    </section>
-                                    <section ng-switch-when="6000">
-                                        <div ng-include src="'page/sys/template/6000.html'"></div>
-                                    </section>
-                                    <section ng-switch-when="7000">
-                                        <div ng-include src="'page/sys/template/7000.html'"></div>
-                                    </section>
-                                    <section ng-switch-when="8000 ">
-                                        <div ng-include src="'page/sys/template/8000.html'"></div>
-                                    </section>
-                                </div>
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>
                 <div class="row">
                     <div class="row-tit">3.投资正式评审报告_风控部门提供</div>
                     <div class="col-sm-10 mb20">
