@@ -35,11 +35,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
 
         //初始化页面所需数据
         $scope.initData = function(){
+            $scope.getSelectSUMMARY_TEMPLATE('SUMMARY_TEMPLATE');
             $scope.getByID(objId);
             $scope.getMarks(objId);
             $scope.getSelectTypeByCode("8");
             $scope.getSelectTypeByCodetype('14');
-            $scope.getSelectSUMMARY_TEMPLATE('SUMMARY_TEMPLATE');
         }
         $scope.saveMarks = function(){
             if($scope.mark != null && $scope.mark != ""){
@@ -217,6 +217,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 }
             });
         }
+
+        // 模板选择框绑定值初始化
+        $scope.formalReport.summaryTemplate = [];
+        // 初始化提交决策会材料数据
         $scope.getByID = function(projectFormalId){
             $http({
                 method:'post',
@@ -228,6 +232,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 $scope.meetInfo = data.result_data.MeetInfo;
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
+
+                // 模板选择框给默认值 初始化模板数据
+                if(data.result_data.summary == null){
+                    $scope.formalReport.summaryTemplate = $scope.SUMMARY_TEMPLATE[0];
+                    $scope.summaryTemplateChange($scope.formalReport.summaryTemplate);
+                } else {
+                    angular.forEach($scope.SUMMARY_TEMPLATE,function (data1, index, array) {
+                        if(data.result_data.summary.summaryType == data1.ITEM_CODE){
+                            $scope.formalReport.summaryTemplate = data1;
+                            $scope.projectSummary = data.result_data.summary;
+                        }
+                    });
+                }
 
                 //处理附件列表
                 $scope.reduceAttachment(data.result_data.Formal.attachment);
@@ -294,6 +311,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             });
         }
 
+        $scope.SUMMARY_TEMPLATE = [];
         $scope.getSelectSUMMARY_TEMPLATE = function(typeCode){
             var  url = 'common/commonMethod/selectDataDictionByCode';
             $scope.httpData(url,typeCode).success(function(data){
@@ -2425,7 +2443,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         }
         // 整理json对象数据
         $scope.combProjectSummaryJson = function () {
-            debugger
             // 模板通用属性
             $scope.projectSummary.reportlId = $scope.pfr.apply.investmentManager._id; //报告id
             $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId; // 正式评审项目id
