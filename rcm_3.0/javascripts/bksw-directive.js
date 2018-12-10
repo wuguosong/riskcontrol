@@ -4896,3 +4896,14 @@ ctmApp.directive('preReviewBpmnPopWin', function(){
 		}
 	}
 });
+//正式评审决策委员会
+ctmApp.directive('directiveFormalJcwyhNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalJcwyhNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        }
+
+    };
+});
