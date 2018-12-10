@@ -1,4 +1,4 @@
-﻿<div class="template-table-div">
+﻿﻿<div class="template-table-div">
     <a class="overview-title-font">
         项目概况
     </a>
@@ -47,50 +47,6 @@
                 <div class="rows">
                     {{ projectOverview.attachmentValue }}ssssssssssss
                 </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-
-</div>
-<div>
-    <table id="table1" class="table table-bordered table-hover table-text-mid table-light">
-        <thead>
-        <tr>
-            <th>分类</th>
-            <th>内容</th>
-            <th>附件</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
-            <td>
-                <input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-                <a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
-            </td>
-            <td>
-                    <textarea ng-disabled="projectOverview.modify === '0'" ng-model="projectOverview.content"
-                              class="form-control ng-pristine ng-valid ng-touched"></textarea>
-            </td>
-            <td>
-                {{ projectOverview.attachmentValue }}
-            </td>
-            <td>
-                <button ng-click="descOrderno(projectOverview, 'projectOverviews')">
-                    升序
-                </button>
-                <button ng-click="ascOrderno(projectOverview, 'projectOverviews')">
-                    降序
-                </button>
-                <button ng-click="closeOverview(projectOverview, 'projectOverviews')">
-                    关闭
-                </button>
-                <button ng-show="projectOverview.new === '1'"
-                        ng-click="addOverview(projectOverview, 'projectOverviews')">
-                    新增
-                </button>
             </td>
         </tr>
         </tbody>
