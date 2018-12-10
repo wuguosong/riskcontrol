@@ -13,10 +13,10 @@
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
+				<a ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
 			</td>
 			<td>
-				<textarea ng-disabled="projectOverview.modify === '0'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+				<textarea ng-disabled="projectOverview.modify === '0'" ng-required="projectOverview.modify === '1'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
 			<td>
 				{{ projectOverview.attachmentValue }}
@@ -28,7 +28,7 @@
 				<button ng-click="ascOrderno(projectOverview, 'projectOverviews')">
 					降序
 				</button>
-				<button ng-click="closeOverview(projectOverview, 'projectOverviews')">
+				<button ng-click="closeOverview(projectOverview)">
 					关闭
 				</button>
 				<button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview, 'projectOverviews')">
@@ -53,10 +53,10 @@
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
 			<td>
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a ng-if="projectOverview.edit == 0">{{ projectOverview.value }}</a>
+				<a ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
 			</td>
 			<td>
-				<textarea ng-disabled="projectOverview.modify === '0'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+				<textarea ng-disabled="projectOverview.modify === '0'" ng-required="projectOverview.modify === '1'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
 			<td>
 				{{ projectOverview.attachmentValue }}
@@ -68,7 +68,7 @@
 				<button ng-click="ascOrderno(projectOverview, 'projectOverviews1')">
 					降序
 				</button>
-				<button ng-click="closeOverview(projectOverview, 'projectOverviews1')">
+				<button ng-click="closeOverview(projectOverview)">
 					关闭
 				</button>
 				<button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview, 'projectOverviews1')">
@@ -97,19 +97,19 @@
 		<tbody>
 		<tr ng-repeat="repaymentPlanVar in projectSummary.repaymentPlans | orderBy: 'orderno': desc">
 			<td>
-				<input  ng-model="repaymentPlanVar.loanTime" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input required ng-model="repaymentPlanVar.loanTime" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input  ng-model="repaymentPlanVar.loanAmount" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input required ng-model="repaymentPlanVar.loanAmount" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input  ng-model="repaymentPlanVar.repaymentPlan" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input required ng-model="repaymentPlanVar.repaymentPlan" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input  ng-model="repaymentPlanVar.repaymnetMethod" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input required ng-model="repaymentPlanVar.repaymnetMethod" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input  ng-model="repaymentPlanVar.repaymentSource" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input required ng-model="repaymentPlanVar.repaymentSource" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
 				<button ng-click="deleteObj($index, projectSummary.repaymentPlans)">
@@ -134,7 +134,7 @@
 		<tbody>
 		<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 			<td>
-				<textarea ng-model="desciptionVar.desciption" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+				<textarea required ng-model="desciptionVar.desciption" class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
 			<td>
 				<button ng-click="deleteObj($index, projectSummary.desciptions)">
