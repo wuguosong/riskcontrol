@@ -130,7 +130,9 @@
         风险提示
     </a>
     <div class="template-table-line"></div>
-    <div class="row-tit">重点关注</div>
+    <a href="" class="overview-title-font-second">
+        重点关注
+    </a>
     <table class="template-table">
         <thead>
         <tr>
@@ -138,9 +140,6 @@
             <th width="50%">风险事项</th>
             <th width="30%">
                 操作
-                <!--<button ng-click="addRisk('seriousRisks')">
-                    新增
-                </button>-->
             </th>
         </tr>
         </thead>
@@ -170,7 +169,9 @@
         </tbody>
     </table>
 
-    <div class="row-tit">一般关注</div>
+    <a href="" class="overview-title-font-second">
+        一般关注
+    </a>
     <table class="template-table">
         <thead>
         <tr>
@@ -178,9 +179,6 @@
             <th width="50%">风险事项</th>
             <th width="30%">
                 操作
-                <!--<button ng-click="addRisk('generalRisks')">
-                    新增
-                </button>-->
             </th>
         </tr>
         </thead>
@@ -220,14 +218,11 @@
             <th width="70%">投前条件</th>
             <th>
                 操作
-                <!--<button ng-click="addRequirement('requirements')">
-                    新增
-                </button>-->
             </th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="requirement in projectSummary.requirements | orderBy: 'orderno': desc">
+        <tr ng-repeat"requirement in projectSummary.requirements | orderBy: 'orderno': desc">
             <td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
                           ng-model="requirement.requirementContent" required></textarea>
@@ -259,9 +254,6 @@
             <th width="70%">后续执行要求</th>
             <th>
                 操作
-                <!--<button ng-click="addRequirement('performs')">
-                    新增
-                </button>-->
             </th>
         </tr>
         </thead>

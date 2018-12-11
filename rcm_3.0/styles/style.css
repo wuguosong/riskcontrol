@@ -77,6 +77,12 @@
     font-weight: 600;
 }
 
+.overview-title-font-second {
+    color: #0d0d0e;
+    font-size: 15px !important;
+    font-weight: 600;
+}
+
 .template-table-div {
     width: 100%;
     /*margin: 10px 19px;*/
