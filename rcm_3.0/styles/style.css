@@ -181,3 +181,29 @@
     background: url("/html/assets/images/button/button-delete.png");
     border: none;
 }
+
+.button-preview {
+    width: 120px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/button/button-preview.png");
+    border: none;
+}
+
+.side-dialog-right {
+    right: 15px !important;
+    left: unset;
+}
+
+.side-bar-div {
+    background: white;
+    height: 500px;
+}
+
+.link-new {
+    line-height: 50px;
+}
+
+.pointer-new {
+    background-color: #0060C4;
+}
