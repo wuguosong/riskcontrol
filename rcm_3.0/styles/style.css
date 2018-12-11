@@ -57,6 +57,11 @@
     margin: 5px 10px;
 }
 
+.table-head {
+    height: 40px;
+    line-height: 40px;
+}
+
 .table-overview td {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -157,4 +162,22 @@
     background: url("/html/assets/images/button/button-asc.png");
     border: none;
     border-right: 1px solid white;
+}
+
+.button-replace {
+    float:left;
+    width: 80px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/button/button-replace.png");
+    border: none;
+}
+
+.button-delete {
+    float:left;
+    width: 80px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/button/button-delete.png");
+    border: none;
 }
