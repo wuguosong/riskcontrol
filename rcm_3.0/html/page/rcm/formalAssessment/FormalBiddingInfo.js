@@ -410,6 +410,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         }
 
         $scope.submitSave = function() {
+            // 验证必填项
+            $scope.submitted = false
+            if($scope.formalReportForm.$invalid){
+                $scope.submitted = true;
+                alert("模板内容项没有填写完整,请填写完整后再保存");
+                return;
+            }
             if(!$scope.saveMarks()){
                 return;
             }
@@ -2398,26 +2405,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
 
         // 决策会材料提交暂存功能
         $scope.staging = function () {
-            $scope.submitted = false
-            if($scope.formalReportForm.$valid){
-                $scope.projectSummary = $scope.combProjectSummaryJson();
+            $scope.projectSummary = $scope.combProjectSummaryJson();
 
-                $http({
-                    method:'post',
-                    url:srvUrl+"formalReport/stagingFormalProjectSummary.do",
-                    data:
-                        $.param({
-                            "json": angular.toJson($scope.projectSummary),
-                            "method": "sss"
-                        })
-                }).success(function(result){
-                    console.log(result);
-                    alert("暂存成功");
-                })
-            } else {
-                $scope.submitted = true;
-                alert("模板内容项没有填写完整,请填写完整后再保存");
-            }
-
+            $http({
+                method:'post',
+                url:srvUrl+"formalReport/stagingFormalProjectSummary.do",
+                data:
+                    $.param({
+                        "json": angular.toJson($scope.projectSummary),
+                        "method": "sss"
+                    })
+            }).success(function(result){
+                console.log(result);
+                alert("暂存成功");
+            })
         }
     }]);

@@ -222,7 +222,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat"requirement in projectSummary.requirements | orderBy: 'orderno': desc">
+        <tr ng-repeat="requirement in projectSummary.requirements | orderBy: 'orderno': desc">
             <td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
                           ng-model="requirement.requirementContent" required></textarea>

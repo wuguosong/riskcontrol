@@ -1,131 +1,187 @@
-﻿<div>
-	<div class="row-tit">新设公司简介</div>
-	<table id = "" class="table table-bordered table-hover datatable table-text-mid table-light">
+﻿<div class="template-table-div">
+	<a class="overview-title-font">
+		新设公司简介
+	</a>
+	<div class="template-table-line"></div>
+	<table class="template-table">
 		<thead>
-		<tr>
-			<th>分类</th>
-			<th>内容</th>
-			<th>附件</th>
-			<th>操作</th>
-		</tr>
+		<th width="20%">
+			分类
+		</th>
+		<th width="50%">
+			内容
+		</th>
+		<th width="30%">
+			附件
+		</th>
 		</thead>
 		<tbody>
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
-			<td>
+			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
 			</td>
-			<td>
-				<textarea ng-disabled="projectOverview.modify === '0'" ng-required="projectOverview.modify === '1'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+			<td class="padding5">
+                <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
+						  ng-required="projectOverview.modify === '1'"
+						  ng-model="projectOverview.content"
+						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
-			<td>
-				{{ projectOverview.attachmentValue }}
+			<td class="padding5">
+				<div class="col-sm-4" align="center">
+					<button class="button-add" ng-show="projectOverview.new === '1'"
+							ng-click="addOverview(projectOverview, 'projectOverviews')">
+						添加
+					</button>
+				</div>
+				<div class="col-sm-4" align="center">
+					<button class="button-close" ng-click="closeOverview(projectOverview)">
+						关闭
+					</button>
+				</div>
+				<div class="col-sm-4" align="center">
+					<button class="button-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews')">
+					</button>
+					<button class="button-desc" ng-click="descOrderno(projectOverview, 'projectOverviews')">
+					</button>
+				</div>
+				<div class="rows">
+					{{ projectOverview.attachmentValue }}
+				</div>
 			</td>
-			<td>
-				<button ng-click="descOrderno(projectOverview, 'projectOverviews')">
-					升序
-				</button>
-				<button ng-click="ascOrderno(projectOverview, 'projectOverviews')">
-					降序
-				</button>
-				<button ng-click="closeOverview(projectOverview)">
-					关闭
-				</button>
-				<button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview, 'projectOverviews')">
-					新增
-				</button>
-			</td>
-
 		</tr>
 		</tbody>
 	</table>
-	<div class="row-tit">公司股权结构</div>
-	<table id = "1"  border="0" cellspacing="0" cellpadding="0"  class="table table-bordered table-hover datatable table-text-mid table-light">
+
+	<a class="overview-title-font">
+		公司股权结构
+	</a>
+	<div class="template-table-line"></div>
+	<table class="template-table">
 		<thead>
-		<tr>
-			<th>分类</th>
-			<th>内容</th>
-			<th>附件</th>
-			<th>操作</th>
-		</tr>
+		<th width="20%">
+			分类
+		</th>
+		<th width="50%">
+			内容
+		</th>
+		<th width="30%">
+			附件
+		</th>
 		</thead>
 		<tbody>
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
-			<td>
+			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
 			</td>
-			<td>
-				<textarea ng-disabled="projectOverview.modify === '0'" ng-required="projectOverview.modify === '1'" ng-model="projectOverview.content" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+			<td class="padding5">
+                <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
+						  ng-required="projectOverview.modify === '1'"
+						  ng-model="projectOverview.content"
+						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
-			<td>
-				{{ projectOverview.attachmentValue }}
-			</td>
-			<td>
-				<button ng-click="descOrderno(projectOverview, 'projectOverviews1')">
-					升序
-				</button>
-				<button ng-click="ascOrderno(projectOverview, 'projectOverviews1')">
-					降序
-				</button>
-				<button ng-click="closeOverview(projectOverview)">
-					关闭
-				</button>
-				<button ng-show="projectOverview.new === '1'" ng-click="addOverview(projectOverview, 'projectOverviews1')">
-					新增
-				</button>
+			<td class="padding5">
+				<div class="col-sm-4" align="center">
+					<button class="button-add" ng-show="projectOverview.new === '1'"
+							ng-click="addOverview(projectOverview, 'projectOverviews1')">
+						添加
+					</button>
+				</div>
+				<div class="col-sm-4" align="center">
+					<button class="button-close" ng-click="closeOverview(projectOverview)">
+						关闭
+					</button>
+				</div>
+				<div class="col-sm-4" align="center">
+					<button class="button-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews1')">
+					</button>
+					<button class="button-desc" ng-click="descOrderno(projectOverview, 'projectOverviews1')">
+					</button>
+				</div>
+				<div class="rows">
+					{{ projectOverview.attachmentValue }}
+				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
-	<div class="row-tit">特殊事项说明</div>
-	<table id = "table3" class="table table-bordered table-hover table-text-mid table-light">
+
+	<a class="overview-title-font">
+		特殊事项说明
+	</a>
+	<div class="template-table-line"></div>
+	<table class="template-table">
 		<thead>
 		<tr>
-			<th>特殊事项说明</th>
+			<th width="70%">特殊事项说明</th>
 			<th>
-				<button ng-click="addDesciption()">
+				操作
+				<!--<button ng-click="addDesciption()">
 					新增
-				</button>
+				</button>-->
 			</th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 			<td>
-				<textarea required ng-model="desciptionVar.desciption" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+				<textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+						  ng-model="desciptionVar.desciption" required></textarea>
 			</td>
-			<td>
-				<button ng-click="deleteObj($index, projectSummary.desciptions)">
-					删除
-				</button>
+			<td class="padding5">
+				<div class="col-sm-6" align="center">
+					<button class="button-add" ng-show="$index == projectSummary.desciptions.length - 1"
+							ng-click="addDesciption()">
+						添加
+					</button>
+				</div>
+				<div class="col-sm-6" align="center">
+					<button class="button-close" ng-click="deleteObj($index, projectSummary.desciptions)">
+						删除
+					</button>
+				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
-	<div class="row-tit">决策事项</div>
-	<table id = "table4" class="table table-bordered table-hover table-text-mid table-light">
+
+	<a class="overview-title-font">
+		决策事项
+	</a>
+	<div class="template-table-line"></div>
+	<table class="template-table">
 		<thead>
 		<tr>
-			<th>决策事项</th>
+			<th width="70%">决策事项</th>
 			<th>
-				<button ng-click="addDecisionMaking()">
+				操作
+				<!--<button ng-click="addDecisionMaking()">
 					新增
-				</button>
+				</button>-->
 			</th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr ng-repeat="decisionMakingVar in projectSummary.decisionMakings | orderBy: 'orderno': desc">
 			<td>
-				<textarea required ng-model="decisionMakingVar.decisionMaking" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+				<textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+						  required ng-model="decisionMakingVar.decisionMaking"></textarea>
 			</td>
-			<td>
-				<button ng-click="deleteObj($index, projectSummary.decisionMakings)">
-					删除
-				</button>
+			<td class="padding5">
+				<div class="col-sm-6" align="center">
+					<button class="button-add" ng-show="$index == projectSummary.decisionMakings.length - 1"
+							ng-click="addDecisionMaking()">
+						添加
+					</button>
+				</div>
+				<div class="col-sm-6" align="center">
+					<button class="button-close" ng-click="deleteObj($index, projectSummary.decisionMakings)">
+						删除
+					</button>
+				</div>
 			</td>
-		</tr>
+			</tr>
 		</tbody>
 	</table>
 </div>
