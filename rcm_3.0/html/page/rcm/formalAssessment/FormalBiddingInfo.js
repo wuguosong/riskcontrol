@@ -2439,4 +2439,31 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
                 alert("暂存成功");
             })
         }
+
+        // 整理预览界面需要的json数据
+        $scope.previewJson = function () {
+            var formalPreview = $scope.projectSummary;  // 存入模板数据
+            formalPreview.stage = $scope.stage;
+            formalPreview.applyDate = $scope.applyDate
+            formalPreview.apply = $scope.pfr.apply       // 存入项目信息
+            formalPreview.taskallocation = $scope.pfr.taskallocation
+            formalPreview.cesuanFileOpinion = $scope.pfr.cesuanFileOpinion
+            formalPreview.tzProtocolOpinion = $scope.pfr.tzProtocolOpinion
+            formalPreview.approveAttachment = $scope.pfr.approveAttachment  // 风控中心审批
+            formalPreview.approveLegalAttachment = $scope.pfr.approveLegalAttachment  // 风控中心法律审批
+            formalPreview.submit_date = $scope.formalReport.submit_date   // 评审报告出具时间
+            formalPreview.projectRating = $scope.meetInfo.projectRating  // 评审等级
+            formalPreview.filePath = $scope.formalReport.filePath
+            formalPreview.projectName = $scope.formalReport.projectName
+            formalPreview.newAttachment = $scope.newAttachment
+
+            formalPreview.mark = $scope.mark // 分数
+
+            return formalPreview;
+        }
+
+        // 进入预览页面
+        $scope.toPreview = function () {
+            $location.path("/FormalBiddingInfoPreview").search({formalPreview: $scope.previewJson()});
+        }
     }]);
