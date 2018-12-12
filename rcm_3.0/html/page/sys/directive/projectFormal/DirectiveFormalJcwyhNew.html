@@ -147,8 +147,7 @@
                     </td>
                     <td colspan="3">
                         <div class="">
-                            <textarea style="resize:vertical;width: 90%" readonly="readonly" class="form-control ng-pristine ng-valid ng-touched" auto-height>
-                                {{meetInfo.ratingReason}}
+                            <textarea style="resize:vertical;width: 90%" readonly="readonly" class="form-control ng-pristine ng-valid ng-touched" auto-height ng-model="meetInfo.ratingReason">
                             </textarea>
                         </div>
                         <div class="">
@@ -175,7 +174,11 @@
                         投资建议
                     </td>
                     <td colspan="3" class="">
-                        XXXXXXXXXXXX
+                        <select style="width: 200px" ng-change=""
+                                class="form-control" id="projectSummary.investmentType" name="projectSummary.investmentType"
+                                ng-model="projectSummary.investmentType"
+                                ng-options="investment.ITEM_NAME for investment in INVESTMENT_TYPE track by investment.ITEM_CODE">
+                        </select>
                     </td>
                 </tr>
                 </tbody>

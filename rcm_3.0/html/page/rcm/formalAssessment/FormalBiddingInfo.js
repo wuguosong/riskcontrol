@@ -36,6 +36,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         //初始化页面所需数据
         $scope.initData = function(){
             $scope.getSelectSUMMARY_TEMPLATE('SUMMARY_TEMPLATE');
+            $scope.getSelectINVESTMENT_TYPE('INVESTMENT_TYPE');
             $scope.getByID(objId);
             $scope.getMarks(objId);
             $scope.getSelectTypeByCode("8");
@@ -324,6 +325,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             });
         }
 
+        // 定义投资类型
+        $scope.INVESTMENT_TYPE = [];
+        $scope.getSelectINVESTMENT_TYPE = function(typeCode){
+            var  url = 'common/commonMethod/selectDataDictionByCode';
+            $scope.httpData(url,typeCode).success(function(data){
+                if(data.result_code == 'S'){
+                    $scope.INVESTMENT_TYPE=data.result_data;
+                }else{
+                    alert(data.result_name);
+                }
+            });
+        }
+
         $scope.downLoadFormalBiddingInfoFile = function(filePath,filename){
             var isExists = validFileExists(filePath);
             if(!isExists){
@@ -437,11 +451,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
         }
 
         $scope.saveOrSubmit = function(pData,method){
+            console.log(pData);
             show_Mask();
             $http({
                 method:'post',
                 url:srvUrl+"formalReport/addPolicyDecision.do",
-                data:  $.param({"json":JSON.stringify(pData),"method":method})
+                data:  $.param({"json":angular.toJson(pData),"method":method})
             }).success(function(data){
                 hide_Mask();
                 if(data.success){
@@ -551,6 +566,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http','$scope','$location','$
             $scope.formalReport.policyDecision.decisionMakingCommitteeStaffFiles = array;
 
             $scope.formalReport.ac_attachment = $scope.pfr.attachment;
+
+            $scope.formalReport.projectSummary = $scope.combProjectSummaryJson();
+
+            console.log($scope.formalReport);
 
             return  $scope.formalReport;
         }

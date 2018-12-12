@@ -537,7 +537,15 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			doc_rpi.put("attachment", attachments);
 			this.baseMongo.updateSetByObjectId(businessId, doc_rpi, Constants.RCM_FORMALASSESSMENT_INFO);
 		}
+		
+		// 修改评审意见汇总-------------Start-------------------------
+	
+		Document projectSummary = (Document) bjson.get("projectSummary");
+		
+		saveOrUpdateFormalProjectSummary(projectSummary);
 
+		// 修改评审意见汇总-------------End-------------------------
+		
 		return result;
 	}
 
@@ -688,8 +696,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	}
 
 	@Override
-	public boolean saveOrUpdateFormalProjectSummary(String json) {
-		Document summaryDoc = Document.parse(json);
+	public boolean saveOrUpdateFormalProjectSummary(Document summaryDoc) {
+//		Document summaryDoc = Document.parse(json);
 		summaryDoc.put("_id", new ObjectId(summaryDoc.getString("projectFormalId")));
 		summaryDoc.put("create_by", ThreadLocalUtil.getUserId());
 		summaryDoc.put("create_name", ThreadLocalUtil.getUser().get("NAME"));

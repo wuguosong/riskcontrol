@@ -207,7 +207,7 @@ public interface IFormalReportService {
 	 * @return boolean
 	 * 
 	 */
-	public boolean saveOrUpdateFormalProjectSummary(String json);
+	public boolean saveOrUpdateFormalProjectSummary(Document summaryDoc);
 
 	/**
 	 * 风控评审意见汇总暂存功能

@@ -262,7 +262,8 @@ public class FormalReportController {
 	@ResponseBody
 	public Result stagingFormalProjectSummary(String json, HttpServletRequest request) {
 		Result result = new Result();
-		boolean flag = this.formalReportService.saveOrUpdateFormalProjectSummary(json);
+		Document bjson = Document.parse(json);
+		boolean flag = this.formalReportService.saveOrUpdateFormalProjectSummary(bjson);
 		result.setResult_data("" + flag);
 		return result;
 	}
