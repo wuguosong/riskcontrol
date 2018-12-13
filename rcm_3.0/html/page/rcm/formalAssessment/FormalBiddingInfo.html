@@ -54,7 +54,7 @@
                             <span class="required">*</span>项目模板类型
                         </td>
                         <td width="80%">
-                            <select style="width: 200px" ng-change="summaryTemplateChange(formalReport.investType)"
+                            <select style="width: 200px" ng-change="summaryTemplateChange(formalReport.summaryTemplate)"
                                     class="form-control" id="summaryTemplate" name="summaryTemplate"
                                     ng-model="formalReport.summaryTemplate"
                                     ng-options="summary.ITEM_NAME for summary in SUMMARY_TEMPLATE track by summary.ITEM_CODE">
