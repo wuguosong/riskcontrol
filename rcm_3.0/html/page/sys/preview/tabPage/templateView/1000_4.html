@@ -1,0 +1,21 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            投前条件
+        </a>
+    </div>
+    <div ng-if="formalPreview.requirements.length > 0">
+        <table class="table-box table-overview">
+            <tbody>
+            <tr ng-repeat="perform in formalPreview.requirements | orderBy: 'orderno': desc">
+                <td class="" width="80%">
+                    {{perform.requirementContent}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-if="formalPreview.requirements.requirements <= 0">
+        <h2>投前条件暂未填写</h2>
+    </div>
+</div>

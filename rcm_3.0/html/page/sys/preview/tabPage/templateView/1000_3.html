@@ -1,0 +1,57 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            风险提示
+        </a>
+    </div>
+    <div class="box-title">
+        <a class="box-title-font" style="font-size: 14px">
+            重点关注
+        </a>
+    </div>
+    <div>
+        <table class="table-box table-overview">
+            <thead>
+            <tr>
+                <th width="30%">风险类别</th>
+                <th width="70%">风险事项</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="seriousRisk in formalPreview.seriousRisks | orderBy: 'orderno': desc">
+                <td>
+                    {{seriousRisk.riskType}}
+                </td>
+                <td>
+                    {{seriousRisk.riskContent}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="box-title">
+        <a class="box-title-font" style="font-size: 14px">
+            一般关注
+        </a>
+    </div>
+    <div>
+        <table class="table-box table-overview">
+            <thead>
+            <tr>
+                <th width="30%">风险类别</th>
+                <th width="70%">风险事项</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="generalRisk in formalPreview.generalRisks | orderBy: 'orderno': desc">
+                <td>
+                    {{generalRisk.riskType}}
+                </td>
+                <td>
+                    {{generalRisk.riskContent}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

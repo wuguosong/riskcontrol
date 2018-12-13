@@ -1,0 +1,35 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            技改项目收益
+        </a>
+    </div>
+    <div>
+        <table class="table-box table-overview">
+            <thead>
+            <tr>
+                <th width="20%"></th>
+                <th width="26%">原评审情况</th>
+                <th width="26%">实际运营情况</th>
+                <th width="26%">技改后</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="projectIncome in formalPreview.projectIncomes | orderBy: 'orderno': desc">
+                <td>
+                    {{ projectIncome.value }}
+                </td>
+                <td>
+                    {{projectIncome.originalReview}}
+                </td>
+                <td>
+                    {{projectIncome.actualOperation}}
+                </td>
+                <td>
+                    {{projectIncome.afterTechnicalReform}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

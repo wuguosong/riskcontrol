@@ -1,0 +1,21 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            后续执行要求
+        </a>
+    </div>
+    <div ng-if="formalPreview.performs > 0">
+        <table class="table-box table-overview">
+            <tbody>
+            <tr ng-repeat="requirement in formalPreview.performs | orderBy: 'orderno': desc">
+                <td class="" width="80%">
+                    {{requirement.requirementContent}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-if="formalPreview.performs <= 0">
+        <h2>后续执行要求暂未填写</h2>
+    </div>
+</div>
