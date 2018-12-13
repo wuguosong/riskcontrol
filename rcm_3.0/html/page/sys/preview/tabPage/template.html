@@ -1,0 +1,55 @@
+<div>
+    <img src="page/sys/preview/img/left.png" ng-click="changeTemplateTab(0)" style="float: left;margin-top: 15%">
+    <img src="page/sys/preview/img/right.png" ng-click="changeTemplateTab(1)" style="float: right;margin-top: 15%">
+    <div>
+        <div ng-switch on="templateChangeValue">
+            <section ng-switch-when="1">
+                <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+                <div ng-if="formalPreview.summaryType == '4000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
+                <div ng-if="formalPreview.summaryType == '7000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
+                <div ng-if="formalPreview.summaryType == '8000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
+            </section>
+            <section ng-switch-when="2">
+                <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+                <div ng-if="formalPreview.summaryType == '4000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
+                <div ng-if="formalPreview.summaryType == '5000' || formalPreview.summaryType == '6000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+                <div ng-if="formalPreview.summaryType == '7000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
+                <div ng-if="formalPreview.summaryType == '8000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
+            </section>
+            <section ng-switch-when="3">
+                <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                <div ng-if="formalPreview.summaryType == '4000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
+                <div ng-if="formalPreview.summaryType == '7000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
+                <div ng-if="formalPreview.summaryType == '8000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
+            </section>
+            <section ng-switch-when="4">
+                <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '5000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+                <div ng-if="formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000' || formalPreview.summaryType == '6000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+                <div ng-if="formalPreview.summaryType == '4000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                <div ng-if="formalPreview.summaryType == '7000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
+                <div ng-if="formalPreview.summaryType == '8000'"
+                     ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
+            </section>
+            <section ng-switch-when="5">
+                <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+            </section>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            项目收益
+        </a>
+    </div>
+    <div>
+        <table class="table-box table-overview">
+            <thead>
+            <tr>
+                <th width="30%">指标名称</th>
+                <th width="70%">本项目指标</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="projectIncome in formalPreview.projectIncomes | orderBy: 'orderno': desc">
+                <td>
+                    {{projectIncome.value}}
+                </td>
+                <td>
+                    {{projectIncome.indicator}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

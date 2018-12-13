@@ -1,0 +1,24 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            申请事项
+        </a>
+    </div>
+    <div>
+        <table class="table-box table-overview">
+            <tbody>
+            <tr ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
+                <td class="" width="30%">
+                    {{projectOverview.value}}
+                </td>
+                <td class="" width="70%">
+                    {{projectOverview.content}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
+        <span style="margin: 10px">{{projectOverview.attachmentValue }}</span>
+    </div>
+</div>

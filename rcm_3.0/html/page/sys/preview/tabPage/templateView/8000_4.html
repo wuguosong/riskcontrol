@@ -1,0 +1,21 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            决策事项
+        </a>
+    </div>
+    <div ng-if="formalPreview.decisionMakings > 0">
+        <table class="table-box table-overview">
+            <tbody>
+            <tr ng-repeat="decisionMakingVar in formalPreview.decisionMakings | orderBy: 'orderno': desc">
+                <td class="" width="80%">
+                    {{decisionMakingVar.decisionMaking}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-if="formalPreview.decisionMakings <= 0">
+        <h2>决策事项暂未填写</h2>
+    </div>
+</div>

@@ -35,8 +35,8 @@
             </div>
         </div>
     </div>
-    <img src="page/sys/preview/img/left.png" ng-click="changeTab(0)" style="float: left;margin-top: 15%">
-    <img src="page/sys/preview/img/right.png" ng-click="changeTab(1)" style="float: right;margin-top: 15%">
+    <img src="page/sys/preview/img/left.png" ng-if="changeValue != 1 && changeValue != 2" ng-click="changeTab(0)" style="float: left;margin-top: 15%">
+    <img src="page/sys/preview/img/right.png" ng-if="changeValue != 4 && changeValue != 2" ng-click="changeTab(1)" style="float: right;margin-top: 15%">
     <div>
         <div ng-switch on="changeValue">
             <section ng-switch-when="1">

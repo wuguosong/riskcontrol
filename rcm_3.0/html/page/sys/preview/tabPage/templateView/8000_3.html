@@ -1,0 +1,21 @@
+<div class="box">
+    <div class="box-title">
+        <a class="box-title-font">
+            特殊事项说明
+        </a>
+    </div>
+    <div ng-if="formalPreview.desciptions > 0">
+        <table class="table-box table-overview">
+            <tbody>
+            <tr ng-repeat="desciptionVar in formalPreview.desciptions | orderBy: 'orderno': desc">
+                <td class="" width="80%">
+                    {{desciptionVar.desciption}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-if="formalPreview.desciptions <= 0">
+        <h2>特殊事项说明暂未填写</h2>
+    </div>
+</div>
