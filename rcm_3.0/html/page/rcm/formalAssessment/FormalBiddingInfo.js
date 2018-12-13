@@ -2341,42 +2341,58 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             projectOverview.modify = projectOverview.modify == "0" ? "1" : "0";
         }
         // 新增projectOverview
-        $scope.addOverview = function (projectOverview, variable) {
-            console.log(projectOverview);
-            $scope.newProjectOverview = angular.copy(projectOverview);
-            // 名称逻辑（除 其他 外，剩余需新增的对象名称变成原名称+1）
-            if (projectOverview.code.slice(0, 5) != "other") {
-                $scope.str = projectOverview.value.split("_");
-                if ($scope.str.length > 1) {
-                    $scope.newProjectOverview.value = $scope.str[0] + "_" + (parseInt($scope.str[1]) + 1).toString();
-                } else {
-                    $scope.newProjectOverview.value = projectOverview.value + "_1";
-                }
-            }
-            // code逻辑（新增对象code变成原code+1）
-            $scope.str = projectOverview.code.split("_");
-            if ($scope.str.length > 1) {
-                $scope.newProjectOverview.code = $scope.str[0] + "_" + (parseInt($scope.str[1]) + 1).toString();
-            } else {
-                $scope.newProjectOverview.code = projectOverview.code + "_1";
-            }
-            $scope.newProjectOverview.orderno = projectOverview.orderno + 1;
+        $scope.addOverview = function (variable) {
+            // 初始化添加的对象
+            $scope.newProjectOverview = angular.copy($scope.projectOverview);
+            $scope.newProjectOverview.orderno = $scope.projectSummary[variable].length;
+            $scope.newProjectOverview.code = null;
             $scope.newProjectOverview.content = null;
             $scope.newProjectOverview.attachmentFile = null;
             $scope.newProjectOverview.attachmentValue = null;
+            $scope.newProjectOverview.value = "其他";
+            $scope.newProjectOverview.edit = "1";
             $scope.newProjectOverview.start = "1";
             $scope.newProjectOverview.modify = "1";
+
+            // 添加对象的
+            $scope.newIndex = -1;
             angular.forEach($scope.projectSummary[variable], function (data, index, array) {
-                if (data.orderno == projectOverview.orderno) {
-                    // 隐藏原对象新增按钮
-                    data.new = "0";
-                } else {
-                    // 给序号比原对象大的对象的序号加1
-                    if (data.orderno > projectOverview.orderno) {
-                        data.orderno = data.orderno + 1;
+                $scope.str = data.code.split("_");
+                if ($scope.str[0] == "other") {
+                    if (data.data > $scope.newIndex ) {
+                        $scope.newIndex = data.data;
                     }
                 }
             });
+            $scope.newProjectOverview.code = "other_" + ($scope.newIndex + 1).toString();
+
+            //
+            //
+            // // code逻辑（新增对象code变成原code+1）
+            // $scope.str = projectOverview.code.split("_");
+            // if ($scope.str.length > 1) {
+            //     $scope.newProjectOverview.code = $scope.str[0] + "_" + (parseInt($scope.str[1]) + 1).toString();
+            // } else {
+            //     $scope.newProjectOverview.code = projectOverview.code + "_1";
+            // }
+            // $scope.newProjectOverview.orderno = projectOverview.orderno + 1;
+            // $scope.newProjectOverview.content = null;
+            // $scope.newProjectOverview.attachmentFile = null;
+            // $scope.newProjectOverview.attachmentValue = null;
+            // $scope.newProjectOverview.start = "1";
+            // $scope.newProjectOverview.modify = "1";
+            // angular.forEach($scope.projectSummary[variable], function (data, index, array) {
+            //     if (data.orderno == projectOverview.orderno) {
+            //         // 隐藏原对象新增按钮
+            //         data.new = "0";
+            //     } else {
+            //         // 给序号比原对象大的对象的序号加1
+            //         if (data.orderno > projectOverview.orderno) {
+            //             data.orderno = data.orderno + 1;
+            //         }
+            //     }
+            // });
+            console.log($scope.newProjectOverview);
             $scope.projectSummary[variable].push($scope.newProjectOverview);
         };
 
@@ -2474,6 +2490,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         // 附件管理
         $scope.errorAttach = [];
+
         // 文件上传
         $scope.uploadAttachment = function (file, errorFile, idx, projectOverview) {
             if (errorFile && errorFile.length > 0) {
@@ -2497,8 +2514,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             }
         };
 
+        // 文件替换
+        $scope.changeAttachment = function (file, errorFile, idx, projectOverview) {
+            $scope.uploadAttachment(file, errorFile, idx, projectOverview);
+        };
+
         // 文件下载
-        $scope.downLoadFile = function (projectOverview) {
+        $scope.downLoadAttachment = function (projectOverview) {
             var isExists = validFileExists(projectOverview.attachmentFile);
             if (!isExists) {
                 $.alert("要下载的文件已经不存在了！");
@@ -2510,7 +2532,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 fileName = fileName.substring(0, 22);
                 fileName = fileName + extSuffix;
             }
-
             var url = srvUrl + "file/downloadFile.do?filepaths=" + encodeURI(filePath) + "&filenames=" + encodeURI(encodeURI(fileName));
             var a = document.createElement('a');
             a.id = 'tagOpenWin';
@@ -2523,4 +2544,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             document.getElementById("tagOpenWin").dispatchEvent(e);
             $(a).remove();
         }
+
+        // 文件删除
+        $scope.deleteAttachment = function (projectOverview) {
+            projectOverview.attachmentFile = null;
+            projectOverview.attachmentValue = null;
+        };
+
+
     }]);

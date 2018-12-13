@@ -35,17 +35,26 @@
                           class="form-control ng-pristine ng-valid ng-touched"></textarea>
             </td>
             <td>
-                <button class="btn btn-info attachmentBtn"
+                <button ng-if="projectOverview.attachmentValue == null" class="btn btn-info attachmentBtn"
                         ngf-max-size="100MB"
                         ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
-                    浏览
+                    添加
+                </button>
+                <button ng-if="projectOverview.attachmentValue != null" class="btn btn-info attachmentBtn"
+                        ngf-max-size="100MB"
+                        ngf-select="changeAttachment($file, $invalidFiles, $index, projectOverview)">
+                    替换
+                </button>
+                <button ng-if="projectOverview.attachmentValue != null" class="btn btn-info attachmentBtn"
+                        ngf-max-size="100MB"
+                        ng-click="deleteAttachment(projectOverview)">
+                    删除
                 </button>
                 <div class="rows">
-                    <a href="javascript:void(0);" ng-click="downLoadFile(projectOverview)">
+                    <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)">
                         {{ projectOverview.attachmentValue }}
                     </a>
                 </div>
-
             </td>
             <td class="padding5">
                 <div class="col-md-6" align="center">
@@ -64,7 +73,7 @@
         </tbody>
     </table>
     <div class="row" align="center">
-        <button class="button-add1" ng-click="addOverview(projectOverview, 'projectOverviews')">
+        <button class="button-add1" ng-click="addOverview('projectOverviews')">
         </button>
     </div>
 
@@ -93,7 +102,10 @@
                 全投资内部收益率IRR
             </td>
             <td>
-                <input class="text-quant" type="text" ng-model="projectSummary.project.investmentGlobale" required>%
+                <div class="has-feedback">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentGlobale" value="{{ projectSummary.project.indicatorCash }}">
+                    <span class="percent">%</span>
+                </div>
             </td>
         </tr>
         <tr>
@@ -101,7 +113,10 @@
                 自有资金内部收益率IRR
             </td>
             <td>
-                <input class="text-quant" type="text" ng-model="projectSummary.project.investmentInternal" required>%
+                <div class="has-feedback">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentInternal" value="{{ projectSummary.project.indicatorCash }}">
+                    <span class="percent">%</span>
+                </div>
             </td>
         </tr>
         <tr>
@@ -109,7 +124,10 @@
                 全投资静态回收期
             </td>
             <td>
-                <input class="text-quant" type="text" ng-model="projectSummary.project.investmentStatic" required>%
+                <div class="has-feedback">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentStatic" value="{{ projectSummary.project.indicatorCash }}">
+                    <span class="percent">%</span>
+                </div>
             </td>
         </tr>
         <tr>
@@ -120,7 +138,10 @@
                 运营期平均ROE
             </td>
             <td>
-                <input class="text-quant" type="text" ng-model="projectSummary.project.financialROE" required>%
+                <div class="has-feedback">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROE" value="{{ projectSummary.project.indicatorCash }}">
+                    <span class="percent">%</span>
+                </div>
             </td>
         </tr>
         <tr>
@@ -128,7 +149,10 @@
                 运营期平均ROI
             </td>
             <td>
-                <input class="text-quant" type="text" ng-model="projectSummary.project.financialROI" required>%
+                <div class="has-feedback">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROI" value="{{ projectSummary.project.indicatorCash }}">
+                    <span class="percent">%</span>
+                </div>
             </td>
         </tr>
         <tr>
