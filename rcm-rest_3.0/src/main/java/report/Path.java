@@ -134,4 +134,11 @@ public final class Path {
 		return newPath;
 	}
 	
+	/**
+	 * 项目投资总结文件存放路径
+	 */
+	public static String formalSummaryAttachmentPath(){
+		return getPath(PropertiesUtil.getProperty("formalSummaryPath"));
+	}
+	
 }

@@ -2487,6 +2487,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     var retData = resp.data.result_data[0];
                     projectOverview.attachmentFile = retData.filePath;
                     projectOverview.attachmentValue = retData.fileName;
+                    console.log(projectOverview);
                 }, function (resp) {
 
                 }, function (evt) {
