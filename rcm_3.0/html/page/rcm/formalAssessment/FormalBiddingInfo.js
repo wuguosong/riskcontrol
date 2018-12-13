@@ -407,6 +407,26 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             return true;
         }
 
+        /*
+         * 验证表单
+         * by Sam Gao
+         * */
+        $scope.submit = false;
+        $scope.interacted = function (field) {
+            if (field) {
+                return $scope.submit && !field.$valid;
+            }
+        };
+        $scope.$watch('submit', function () {
+            if ($scope.submit) {
+                $scope.interacted = function (field) {
+                    if (field) {
+                        return !field.$valid;
+                    }
+                }
+            }
+        });
+
         $scope.saveOnly = function () {
             if (!$scope.saveMarks()) {
                 return;
@@ -421,7 +441,14 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             if (data == false) {
                 return;
             }
+            // $scope.submit = true;
+            // if ($scope.formalReportForm.$valid) {
+            //     console.log("可以提交");
+            // } else {
+            //     console.log("不可以提交");
+            // }
             $scope.saveOrSubmit(data, "so");
+
         }
 
         $scope.submitSave = function () {
