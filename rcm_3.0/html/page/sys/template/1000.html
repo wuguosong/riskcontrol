@@ -35,9 +35,15 @@
                           class="form-control ng-pristine ng-valid ng-touched"></textarea>
             </td>
             <td>
-                <button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadNew($file,$invalidFiles,outerIndex,item)">新增</button>
+                <button class="btn btn-info attachmentBtn"
+                        ngf-max-size="100MB"
+                        ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
+                    浏览
+                </button>
                 <div class="rows">
-                    {{ projectOverview.attachmentValue }}
+                    <a href="javascript:void(0);" ng-click="downLoadFile(projectOverview)">
+                        {{ projectOverview.attachmentValue }}
+                    </a>
                 </div>
 
             </td>
