@@ -973,7 +973,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         // -------------------Sam Gao 2018-11-28日修改--------------------------
 
-
         // 常量（类型：1000,2000,3000,4000,5000,6000,7000,8000）==项目概况
         $scope.projectOverview = {
             orderno: null, // 排序编号从0开始
@@ -1110,67 +1109,68 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         edit: "0",
                         modify: "1",
                         new: "0"
-                    },
-                    {
-                        orderno: "5",
-                        code: "other_0",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
                     }
+                    // ,
+                    // {
+                    //     orderno: "5",
+                    //     code: "other_0",
+                    //     value: "其他",
+                    //     content: null,
+                    //     attachmentFile: null,
+                    //     attachmentValue: null,
+                    //     start: "1",
+                    //     edit: "1",
+                    //     modify: "1",
+                    //     new: "1"
+                    // }
                 ];
 
                 $scope.projectSummary.seriousRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是重点关注1",
-                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是重点关注2",
-                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
-                    }
+                    // {
+                    //     orderno: 0,
+                    //     riskType: "这是重点关注1",
+                    //     riskContent: "这是重点关注1这是重点关注1这是重点关注1"
+                    // },
+                    // {
+                    //     orderno: 1,
+                    //     riskType: "这是重点关注2",
+                    //     riskContent: "这是重点关注2这是重点关注2这是重点关注2"
+                    // }
                 ];
 
                 $scope.projectSummary.generalRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是一般关注1",
-                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是一般关注2",
-                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
-                    }
+                    // {
+                    //     orderno: 0,
+                    //     riskType: "这是一般关注1",
+                    //     riskContent: "这是一般关注1这是一般关注1这是一般关注1"
+                    // },
+                    // {
+                    //     orderno: 1,
+                    //     riskType: "这是一般关注2",
+                    //     riskContent: "这是一般关注2这是一般关注2这是一般关注2"
+                    // }
                 ];
 
                 $scope.projectSummary.requirements = [
-                    {
-                        orderno: 0,
-                        requirementContent: "投前条件11111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "投前条件22222"
-                    }
+                    // {
+                    //     orderno: 0,
+                    //     requirementContent: "投前条件11111"
+                    // },
+                    // {
+                    //     orderno: 1,
+                    //     requirementContent: "投前条件22222"
+                    // }
                 ];
 
                 $scope.projectSummary.performs = [
-                    {
-                        orderno: 0,
-                        requirementContent: "后续执行要求111111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "后续执行要求222222"
-                    }
+                    // {
+                    //     orderno: 0,
+                    //     requirementContent: "后续执行要求111111"
+                    // },
+                    // {
+                    //     orderno: 1,
+                    //     requirementContent: "后续执行要求222222"
+                    // }
                 ];
 
                 $scope.projectSummary.project = {
@@ -2342,6 +2342,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         }
         // 新增projectOverview
         $scope.addOverview = function (projectOverview, variable) {
+            console.log(projectOverview);
             $scope.newProjectOverview = angular.copy(projectOverview);
             // 名称逻辑（除 其他 外，剩余需新增的对象名称变成原名称+1）
             if (projectOverview.code.slice(0, 5) != "other") {
