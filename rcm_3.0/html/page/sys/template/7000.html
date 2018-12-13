@@ -22,12 +22,11 @@
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
 			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" >{{ projectOverview.value
 					}}</a>
 			</td>
 			<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  ng-required="projectOverview.modify === '1'"
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
@@ -100,12 +99,11 @@
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
 			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" >{{ projectOverview.value
 					}}</a>
 			</td>
 			<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  ng-required="projectOverview.modify === '1'"
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
@@ -175,19 +173,19 @@
 		<tbody>
 		<tr ng-repeat="repaymentPlanVar in projectSummary.repaymentPlans | orderBy: 'orderno': desc">
 			<td>
-				<input required ng-model="repaymentPlanVar.loanTime" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input  ng-model="repaymentPlanVar.loanTime" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input required ng-model="repaymentPlanVar.loanAmount" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input  ng-model="repaymentPlanVar.loanAmount" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input required ng-model="repaymentPlanVar.repaymentPlan" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input  ng-model="repaymentPlanVar.repaymentPlan" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input required ng-model="repaymentPlanVar.repaymnetMethod" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input  ng-model="repaymentPlanVar.repaymnetMethod" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td>
-				<input required ng-model="repaymentPlanVar.repaymentSource" class="form-control ng-pristine ng-valid ng-touched"></input>
+				<input  ng-model="repaymentPlanVar.repaymentSource" class="form-control ng-pristine ng-valid ng-touched"></input>
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
@@ -227,7 +225,7 @@
 		<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 		<td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="desciptionVar.desciption" required></textarea>
+						  ng-model="desciptionVar.desciption" ></textarea>
 		</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">

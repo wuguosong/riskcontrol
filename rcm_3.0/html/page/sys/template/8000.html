@@ -22,12 +22,11 @@
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
 			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" >{{ projectOverview.value
 					}}</a>
 			</td>
 			<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  ng-required="projectOverview.modify === '1'"
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
@@ -100,12 +99,11 @@
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
 			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" >{{ projectOverview.value
 					}}</a>
 			</td>
 			<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  ng-required="projectOverview.modify === '1'"
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
@@ -175,7 +173,7 @@
 		<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 			<td>
 				<textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="desciptionVar.desciption" required></textarea>
+						  ng-model="desciptionVar.desciption" ></textarea>
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
@@ -218,7 +216,7 @@
 		<tr ng-repeat="decisionMakingVar in projectSummary.decisionMakings | orderBy: 'orderno': desc">
 			<td>
 				<textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  required ng-model="decisionMakingVar.decisionMaking"></textarea>
+						   ng-model="decisionMakingVar.decisionMaking"></textarea>
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">

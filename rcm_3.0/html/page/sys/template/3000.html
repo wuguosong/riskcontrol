@@ -22,12 +22,11 @@
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
 			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" >{{ projectOverview.value
 					}}</a>
 			</td>
 			<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  ng-required="projectOverview.modify === '1'"
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
@@ -98,7 +97,7 @@
 				全投资内部收益率IRR
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.project.investmentGlobale" required>
+				<input type="text" ng-model="projectSummary.project.investmentGlobale" >
 			</td>
 		</tr>
 		<tr>
@@ -106,7 +105,7 @@
 				自有资金内部收益率IRR
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.project.investmentInternal" required>
+				<input type="text" ng-model="projectSummary.project.investmentInternal" >
 			</td>
 		</tr>
 		<tr>
@@ -114,7 +113,7 @@
 				全投资静态回收期
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.project.investmentStatic" required>
+				<input type="text" ng-model="projectSummary.project.investmentStatic" >
 			</td>
 		</tr>
 		<tr>
@@ -125,7 +124,7 @@
 				运营期平均ROE
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.project.financialROE" required>
+				<input type="text" ng-model="projectSummary.project.financialROE" >
 			</td>
 		</tr>
 		<tr>
@@ -133,7 +132,7 @@
 				运营期平均ROI
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.project.financialROI" required>
+				<input type="text" ng-model="projectSummary.project.financialROI" >
 			</td>
 		</tr>
 		<tr>
@@ -144,7 +143,7 @@
 				自有资金前五年现金净流量
 			</td>
 			<td>
-				<input type="text" ng-model="projectSummary.project.indicatorCash" required>
+				<input type="text" ng-model="projectSummary.project.indicatorCash" >
 			</td>
 		</tr>
 		</tbody>
@@ -170,11 +169,11 @@
 		<tbody>
 		<tr ng-repeat="seriousRisk in projectSummary.seriousRisks | orderBy: 'orderno': desc">
 			<td>
-				<input type="text" ng-model="seriousRisk.riskType" required>
+				<input type="text" ng-model="seriousRisk.riskType" >
 			</td>
 			<td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="seriousRisk.riskContent" required></textarea>
+						  ng-model="seriousRisk.riskContent" ></textarea>
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
@@ -213,11 +212,11 @@
 		<tbody>
 		<tr ng-repeat="generalRisk in projectSummary.generalRisks | orderBy: 'orderno': desc">
 			<td>
-				<input type="text" ng-model="generalRisk.riskType" required>
+				<input type="text" ng-model="generalRisk.riskType" >
 			</td>
 			<td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="generalRisk.riskContent" required></textarea>
+						  ng-model="generalRisk.riskContent" ></textarea>
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
@@ -257,7 +256,7 @@
 		<tr ng-repeat="perform in projectSummary.performs | orderBy: 'orderno': desc">
 			<td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="perform.requirementContent" required></textarea>
+						  ng-model="perform.requirementContent" ></textarea>
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
