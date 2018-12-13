@@ -1,25 +1,32 @@
 ﻿<div class="template-table-div">
-    <a class="overview-title-font">
-        项目概况
-    </a>
+    <div class="overview-title-font-div">
+        <a class="overview-title-font">
+            项目概况
+        </a>
+    </div>
+
     <div class="template-table-line"></div>
     <table class="template-table">
         <thead>
-        <th width="20%">
+        <th width="18%">
             分类
         </th>
         <th width="50%">
             内容
         </th>
-        <th width="30%">
+        <th width="14%">
             附件
+        </th>
+        <th width="18%">
+            操作
         </th>
         </thead>
         <tbody>
         <tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
             <td align="center">
                 <input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-                <a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
+                <a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value
+                    }}</a>
             </td>
             <td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
@@ -27,42 +34,48 @@
                           ng-model="projectOverview.content"
                           class="form-control ng-pristine ng-valid ng-touched"></textarea>
             </td>
-            <td class="padding5">
-                <div class="col-sm-4" align="center">
-                    <button class="button-add" ng-show="projectOverview.new === '1'"
-                            ng-click="addOverview(projectOverview, 'projectOverviews')">
-                        添加
-                    </button>
+            <td>
+                <button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadNew($file,$invalidFiles,outerIndex,item)">新增</button>
+                <div class="rows">
+                    {{ projectOverview.attachmentValue }}
                 </div>
-                <div class="col-sm-4" align="center">
+
+            </td>
+            <td class="padding5">
+                <div class="col-md-6" align="center">
                     <button class="button-close" ng-click="closeOverview(projectOverview)">
                         关闭
                     </button>
                 </div>
-                <div class="col-sm-4" align="center">
+                <div class="col-md-6" align="center">
                     <button class="button-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews')">
                     </button>
                     <button class="button-desc" ng-click="descOrderno(projectOverview, 'projectOverviews')">
                     </button>
                 </div>
-                <div class="rows">
-                    {{ projectOverview.attachmentValue }}
-                </div>
             </td>
         </tr>
         </tbody>
     </table>
+    <div class="row" align="center">
+        <button class="button-add1" ng-click="addOverview(projectOverview, 'projectOverviews')">
+        </button>
+    </div>
 
-    <a class="overview-title-font">
-        项目收益
-    </a>
+
+    <div class="overview-title-font-div">
+        <a class="overview-title-font">
+            项目收益
+        </a>
+    </div>
+
     <div class="template-table-line"></div>
     <table class="template-table">
         <thead>
         <tr>
             <th width="20%">指标分类</th>
-            <th width="50%">指标名称</th>
-            <th width="30%">本项目指标</th>
+            <th width="62%">指标名称</th>
+            <th width="18%">本项目指标</th>
         </tr>
         </thead>
         <tbody>
@@ -74,7 +87,7 @@
                 全投资内部收益率IRR
             </td>
             <td>
-                <input type="text" ng-model="projectSummary.project.investmentGlobale" required>
+                <input class="text-quant" type="text" ng-model="projectSummary.project.investmentGlobale" required>%
             </td>
         </tr>
         <tr>
@@ -82,7 +95,7 @@
                 自有资金内部收益率IRR
             </td>
             <td>
-                <input type="text" ng-model="projectSummary.project.investmentInternal" required>
+                <input class="text-quant" type="text" ng-model="projectSummary.project.investmentInternal" required>%
             </td>
         </tr>
         <tr>
@@ -90,7 +103,7 @@
                 全投资静态回收期
             </td>
             <td>
-                <input type="text" ng-model="projectSummary.project.investmentStatic" required>
+                <input class="text-quant" type="text" ng-model="projectSummary.project.investmentStatic" required>%
             </td>
         </tr>
         <tr>
@@ -101,7 +114,7 @@
                 运营期平均ROE
             </td>
             <td>
-                <input type="text" ng-model="projectSummary.project.financialROE" required>
+                <input class="text-quant" type="text" ng-model="projectSummary.project.financialROE" required>%
             </td>
         </tr>
         <tr>
@@ -109,7 +122,7 @@
                 运营期平均ROI
             </td>
             <td>
-                <input type="text" ng-model="projectSummary.project.financialROI" required>
+                <input class="text-quant" type="text" ng-model="projectSummary.project.financialROI" required>%
             </td>
         </tr>
         <tr>
@@ -120,7 +133,10 @@
                 自有资金前五年现金净流量
             </td>
             <td>
-                <input type="text" ng-model="projectSummary.project.indicatorCash" required>
+                <div class="has-feedback">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.indicatorCash" value="{{ projectSummary.project.indicatorCash }}">
+                    <span class="percent">%</span>
+                </div>
             </td>
         </tr>
         </tbody>
