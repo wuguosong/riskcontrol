@@ -984,7 +984,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             start: null, // 是否启用 0：未启用；1：启用
             edit: null, // 是否可以修改行描述 0：不可修改； 1：可修改
             modify: null, // 是否可以编辑 0:不可以编辑；1：可编辑
-            new: null // 是否可以新增 0:不可以新增；1:可以新增
+            // new: null, // 是否可以新增 0:不可以新增；1:可以新增
+            delete: null // 是否可以删除 0:不可以删除；1:可以删除
         };
 
         // 常量（类型：1000,2000,3000,4000,5000,6000）==风险提示-重点关注/风险提示-一般关注
@@ -1060,7 +1061,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        new: "0",
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -1072,7 +1074,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        new: "0",
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -1084,7 +1087,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        new: "0",
+                        delete: "0"
                     },
                     {
                         orderno: "3",
@@ -1096,7 +1100,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        new: "0",
+                        delete: "0"
                     },
                     {
                         orderno: "4",
@@ -1108,69 +1113,21 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        new: "0",
+                        delete: "0"
                     }
-                    // ,
-                    // {
-                    //     orderno: "5",
-                    //     code: "other_0",
-                    //     value: "其他",
-                    //     content: null,
-                    //     attachmentFile: null,
-                    //     attachmentValue: null,
-                    //     start: "1",
-                    //     edit: "1",
-                    //     modify: "1",
-                    //     new: "1"
-                    // }
                 ];
 
                 $scope.projectSummary.seriousRisks = [
-                    // {
-                    //     orderno: 0,
-                    //     riskType: "这是重点关注1",
-                    //     riskContent: "这是重点关注1这是重点关注1这是重点关注1"
-                    // },
-                    // {
-                    //     orderno: 1,
-                    //     riskType: "这是重点关注2",
-                    //     riskContent: "这是重点关注2这是重点关注2这是重点关注2"
-                    // }
                 ];
 
                 $scope.projectSummary.generalRisks = [
-                    // {
-                    //     orderno: 0,
-                    //     riskType: "这是一般关注1",
-                    //     riskContent: "这是一般关注1这是一般关注1这是一般关注1"
-                    // },
-                    // {
-                    //     orderno: 1,
-                    //     riskType: "这是一般关注2",
-                    //     riskContent: "这是一般关注2这是一般关注2这是一般关注2"
-                    // }
                 ];
 
                 $scope.projectSummary.requirements = [
-                    // {
-                    //     orderno: 0,
-                    //     requirementContent: "投前条件11111"
-                    // },
-                    // {
-                    //     orderno: 1,
-                    //     requirementContent: "投前条件22222"
-                    // }
                 ];
 
                 $scope.projectSummary.performs = [
-                    // {
-                    //     orderno: 0,
-                    //     requirementContent: "后续执行要求111111"
-                    // },
-                    // {
-                    //     orderno: 1,
-                    //     requirementContent: "后续执行要求222222"
-                    // }
                 ];
 
                 $scope.projectSummary.project = {
@@ -2272,7 +2229,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             angular.forEach($scope.projectSummary.projectOverviews1, function (data, index) {
                 data.orderno = parseInt(data.orderno);
             });
-        }
+        };
 
         // 风险提示新增按钮
         $scope.addRisk = function (variable) {
@@ -2293,20 +2250,20 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.newRepaymentPlan = angular.copy($scope.repaymentPlanVar);
             $scope.newRepaymentPlan.orderno = $scope.projectSummary.repaymentPlans.length;
             $scope.projectSummary.repaymentPlans.push($scope.newRepaymentPlan);
-        }
+        };
 
         // 新增原评审情况说明/特殊事项说明
         $scope.addDesciption = function () {
             $scope.newDesciption = angular.copy($scope.desciptionVar);
             $scope.newDesciption.orderno = $scope.projectSummary.desciptions.length;
             $scope.projectSummary.desciptions.push($scope.newDesciption);
-        }
+        };
         // 新增决策事项
         $scope.addDecisionMaking = function () {
             $scope.newDecisionMaking = angular.copy($scope.decisionMakingVar);
             $scope.newDecisionMaking.orderno = $scope.projectSummary.decisionMakings.length;
             $scope.projectSummary.decisionMakings.push($scope.newDecisionMaking);
-        }
+        };
 
         // 升序方法
         $scope.descOrderno = function (projectOverview, variable) {
@@ -2336,10 +2293,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 projectOverview.orderno = ($scope.old.orderno + 1);
             }
         };
+
         // 启用或者关闭编辑界面
         $scope.closeOverview = function (projectOverview) {
             projectOverview.modify = projectOverview.modify == "0" ? "1" : "0";
-        }
+        };
+
         // 新增projectOverview
         $scope.addOverview = function (variable) {
             // 初始化添加的对象
@@ -2353,7 +2312,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.newProjectOverview.edit = "1";
             $scope.newProjectOverview.start = "1";
             $scope.newProjectOverview.modify = "1";
-
+            $scope.newProjectOverview.delete = "1";
             // 添加对象的
             $scope.newIndex = -1;
             angular.forEach($scope.projectSummary[variable], function (data, index, array) {
@@ -2365,34 +2324,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 }
             });
             $scope.newProjectOverview.code = "other_" + ($scope.newIndex + 1).toString();
-
-            //
-            //
-            // // code逻辑（新增对象code变成原code+1）
-            // $scope.str = projectOverview.code.split("_");
-            // if ($scope.str.length > 1) {
-            //     $scope.newProjectOverview.code = $scope.str[0] + "_" + (parseInt($scope.str[1]) + 1).toString();
-            // } else {
-            //     $scope.newProjectOverview.code = projectOverview.code + "_1";
-            // }
-            // $scope.newProjectOverview.orderno = projectOverview.orderno + 1;
-            // $scope.newProjectOverview.content = null;
-            // $scope.newProjectOverview.attachmentFile = null;
-            // $scope.newProjectOverview.attachmentValue = null;
-            // $scope.newProjectOverview.start = "1";
-            // $scope.newProjectOverview.modify = "1";
-            // angular.forEach($scope.projectSummary[variable], function (data, index, array) {
-            //     if (data.orderno == projectOverview.orderno) {
-            //         // 隐藏原对象新增按钮
-            //         data.new = "0";
-            //     } else {
-            //         // 给序号比原对象大的对象的序号加1
-            //         if (data.orderno > projectOverview.orderno) {
-            //             data.orderno = data.orderno + 1;
-            //         }
-            //     }
-            // });
-            console.log($scope.newProjectOverview);
             $scope.projectSummary[variable].push($scope.newProjectOverview);
         };
 

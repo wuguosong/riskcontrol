@@ -58,8 +58,11 @@
             </td>
             <td class="padding5">
                 <div class="col-md-6" align="center">
-                    <button class="button-close" ng-click="closeOverview(projectOverview)">
+                    <button ng-if="projectOverview.delete != '1'" class="button-close" ng-click="closeOverview(projectOverview)">
                         关闭
+                    </button>
+                    <button ng-if="projectOverview.delete == '1'" class="button-close" ng-click="deleteObj($index, projectSummary.projectOverviews)">
+                        删除
                     </button>
                 </div>
                 <div class="col-md-6" align="center">
@@ -103,7 +106,7 @@
             </td>
             <td>
                 <div class="has-feedback">
-                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentGlobale" value="{{ projectSummary.project.indicatorCash }}">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentGlobale" value="{{ projectSummary.project.investmentGlobale }}">
                     <span class="percent">%</span>
                 </div>
             </td>
@@ -114,7 +117,7 @@
             </td>
             <td>
                 <div class="has-feedback">
-                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentInternal" value="{{ projectSummary.project.indicatorCash }}">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentInternal" value="{{ projectSummary.project.investmentInternal }}">
                     <span class="percent">%</span>
                 </div>
             </td>
@@ -125,7 +128,7 @@
             </td>
             <td>
                 <div class="has-feedback">
-                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentStatic" value="{{ projectSummary.project.indicatorCash }}">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentStatic" value="{{ projectSummary.project.investmentStatic }}">
                     <span class="percent">%</span>
                 </div>
             </td>
@@ -139,7 +142,7 @@
             </td>
             <td>
                 <div class="has-feedback">
-                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROE" value="{{ projectSummary.project.indicatorCash }}">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROE" value="{{ projectSummary.project.financialROE }}">
                     <span class="percent">%</span>
                 </div>
             </td>
@@ -150,7 +153,7 @@
             </td>
             <td>
                 <div class="has-feedback">
-                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROI" value="{{ projectSummary.project.indicatorCash }}">
+                    <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROI" value="{{ projectSummary.project.financialROI }}">
                     <span class="percent">%</span>
                 </div>
             </td>
@@ -200,20 +203,24 @@
             </td>
             <td class="padding5">
                 <div class="col-sm-6" align="center">
-                    <button class="button-add" ng-show="$index == projectSummary.seriousRisks.length - 1"
-                            ng-click="addRisk('seriousRisks')">
-                        添加
-                    </button>
-                </div>
-                <div class="col-sm-6" align="center">
                     <button class="button-close" ng-click="deleteObj($index, projectSummary.seriousRisks)">
                         删除
+                    </button>
+                </div>
+                <div class="col-md-6" align="center">
+                    <button class="button-asc" ng-click="ascOrderno(seriousRisk, 'seriousRisks')">
+                    </button>
+                    <button class="button-desc" ng-click="descOrderno(seriousRisk, 'seriousRisks')">
                     </button>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
+    <div class="row" align="center">
+        <button class="button-add1" ng-click="addRisk('seriousRisks')">
+        </button>
+    </div>
 
     <a href="" class="overview-title-font-second">
         一般关注
@@ -239,20 +246,24 @@
             </td>
             <td class="padding5">
                 <div class="col-sm-6" align="center">
-                    <button class="button-add" ng-show="$index == projectSummary.generalRisks.length - 1"
-                            ng-click="addRisk('generalRisks')">
-                        添加
-                    </button>
-                </div>
-                <div class="col-sm-6" align="center">
                     <button class="button-close" ng-click="deleteObj($index, projectSummary.generalRisks)">
                         删除
+                    </button>
+                </div>
+                <div class="col-md-6" align="center">
+                    <button class="button-asc" ng-click="ascOrderno(generalRisk, 'generalRisks')">
+                    </button>
+                    <button class="button-desc" ng-click="descOrderno(generalRisk, 'generalRisks')">
                     </button>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
+    <div class="row" align="center">
+        <button class="button-add1" ng-click="addRisk('generalRisks')">
+        </button>
+    </div>
 
     <a class="overview-title-font">
         投前条件
@@ -275,20 +286,24 @@
             </td>
             <td class="padding5">
                 <div class="col-sm-6" align="center">
-                    <button class="button-add" ng-show="$index == projectSummary.requirements.length - 1"
-                            ng-click="addRequirement('requirements')">
-                        添加
-                    </button>
-                </div>
-                <div class="col-sm-6" align="center">
                     <button class="button-close" ng-click="deleteObj($index, projectSummary.requirements)">
                         删除
+                    </button>
+                </div>
+                <div class="col-md-6" align="center">
+                    <button class="button-asc" ng-click="ascOrderno(requirement, 'requirements')">
+                    </button>
+                    <button class="button-desc" ng-click="descOrderno(requirement, 'requirements')">
                     </button>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
+    <div class="row" align="center">
+        <button class="button-add1" ng-click="addRequirement('requirements')">
+        </button>
+    </div>
 
     <a class="overview-title-font">
         后续执行要求
@@ -311,19 +326,24 @@
             </td>
             <td class="padding5">
                 <div class="col-sm-6" align="center">
-                    <button class="button-add" ng-show="$index == projectSummary.performs.length - 1"
-                            ng-click="addRequirement('performs')">
-                        添加
-                    </button>
-                </div>
-                <div class="col-sm-6" align="center">
                     <button class="button-close" ng-click="deleteObj($index, projectSummary.performs)">
                         删除
+                    </button>
+                </div>
+
+                <div class="col-md-6" align="center">
+                    <button class="button-asc" ng-click="ascOrderno(perform, 'performs')">
+                    </button>
+                    <button class="button-desc" ng-click="descOrderno(perform, 'performs')">
                     </button>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
+    <div class="row" align="center">
+        <button class="button-add1" ng-click="addRequirement('performs')">
+        </button>
+    </div>
 
 </div>
