@@ -5,21 +5,25 @@
 	<div class="template-table-line"></div>
 	<table class="template-table">
 		<thead>
-		<th width="20%">
+		<th width="18%">
 			分类
 		</th>
 		<th width="50%">
 			内容
 		</th>
-		<th width="30%">
+		<th width="14%">
 			附件
+		</th>
+		<th width="18%">
+			操作
 		</th>
 		</thead>
 		<tbody>
 		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
 			<td align="center">
 				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value }}</a>
+				<a class="template-table-font" ng-if="projectOverview.edit == 0" required>{{ projectOverview.value
+					}}</a>
 			</td>
 			<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
@@ -27,31 +31,51 @@
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
 			</td>
-			<td class="padding5">
-				<div class="col-sm-4" align="center">
-					<button class="button-add" ng-show="projectOverview.new === '1'"
-							ng-click="addOverview(projectOverview, 'projectOverviews')">
-						添加
-					</button>
+			<td>
+				<button ng-if="projectOverview.attachmentValue == null" class="btn btn-info attachmentBtn"
+						ngf-max-size="100MB"
+						ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
+					添加
+				</button>
+				<button ng-if="projectOverview.attachmentValue != null" class="btn btn-info attachmentBtn"
+						ngf-max-size="100MB"
+						ngf-select="changeAttachment($file, $invalidFiles, $index, projectOverview)">
+					替换
+				</button>
+				<button ng-if="projectOverview.attachmentValue != null" class="btn btn-info attachmentBtn"
+						ngf-max-size="100MB"
+						ng-click="deleteAttachment(projectOverview)">
+					删除
+				</button>
+				<div class="rows">
+					<a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)">
+						{{ projectOverview.attachmentValue }}
+					</a>
 				</div>
-				<div class="col-sm-4" align="center">
-					<button class="button-close" ng-click="closeOverview(projectOverview)">
+			</td>
+			<td class="padding5">
+				<div class="col-md-6" align="center">
+					<button ng-if="projectOverview.delete != '1'" class="button-close" ng-click="closeOverview(projectOverview)">
 						关闭
 					</button>
+					<button ng-if="projectOverview.delete == '1'" class="button-close" ng-click="deleteObj($index, projectSummary.projectOverviews)">
+						删除
+					</button>
 				</div>
-				<div class="col-sm-4" align="center">
+				<div class="col-md-6" align="center">
 					<button class="button-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews')">
 					</button>
 					<button class="button-desc" ng-click="descOrderno(projectOverview, 'projectOverviews')">
 					</button>
 				</div>
-				<div class="rows">
-					{{ projectOverview.attachmentValue }}
-				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
+	<div class="row" align="center">
+		<button class="button-add1" ng-click="addOverview('projectOverviews')">
+		</button>
+	</div>
 
 	<a class="overview-title-font">
 		项目收益
@@ -104,20 +128,24 @@
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
-					<button class="button-add" ng-show="$index == projectSummary.seriousRisks.length - 1"
-							ng-click="addRisk('seriousRisks')">
-						添加
-					</button>
-				</div>
-				<div class="col-sm-6" align="center">
 					<button class="button-close" ng-click="deleteObj($index, projectSummary.seriousRisks)">
 						删除
+					</button>
+				</div>
+				<div class="col-md-6" align="center">
+					<button class="button-asc" ng-click="ascOrderno(seriousRisk, 'seriousRisks')">
+					</button>
+					<button class="button-desc" ng-click="descOrderno(seriousRisk, 'seriousRisks')">
 					</button>
 				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
+	<div class="row" align="center">
+		<button class="button-add1" ng-click="addRisk('seriousRisks')">
+		</button>
+	</div>
 
 	<a href="" class="overview-title-font-second">
 		一般关注
@@ -143,20 +171,24 @@
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
-					<button class="button-add" ng-show="$index == projectSummary.generalRisks.length - 1"
-							ng-click="addRisk('generalRisks')">
-						添加
-					</button>
-				</div>
-				<div class="col-sm-6" align="center">
 					<button class="button-close" ng-click="deleteObj($index, projectSummary.generalRisks)">
 						删除
+					</button>
+				</div>
+				<div class="col-md-6" align="center">
+					<button class="button-asc" ng-click="ascOrderno(generalRisk, 'generalRisks')">
+					</button>
+					<button class="button-desc" ng-click="descOrderno(generalRisk, 'generalRisks')">
 					</button>
 				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
+	<div class="row" align="center">
+		<button class="button-add1" ng-click="addRisk('generalRisks')">
+		</button>
+	</div>
 
 	<a class="overview-title-font">
 		投前条件
@@ -168,9 +200,6 @@
 			<th width="70%">投前条件</th>
 			<th>
 				操作
-				<!--<button ng-click="addRequirement('requirements')">
-                    新增
-                </button>-->
 			</th>
 		</tr>
 		</thead>
@@ -182,20 +211,24 @@
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
-					<button class="button-add" ng-show="$index == projectSummary.requirements.length - 1"
-							ng-click="addRequirement('requirements')">
-						添加
-					</button>
-				</div>
-				<div class="col-sm-6" align="center">
 					<button class="button-close" ng-click="deleteObj($index, projectSummary.requirements)">
 						删除
+					</button>
+				</div>
+				<div class="col-md-6" align="center">
+					<button class="button-asc" ng-click="ascOrderno(requirement, 'requirements')">
+					</button>
+					<button class="button-desc" ng-click="descOrderno(requirement, 'requirements')">
 					</button>
 				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
+	<div class="row" align="center">
+		<button class="button-add1" ng-click="addRequirement('requirements')">
+		</button>
+	</div>
 
 	<a class="overview-title-font">
 		后续执行要求
@@ -207,9 +240,6 @@
 			<th width="70%">后续执行要求</th>
 			<th>
 				操作
-				<!--<button ng-click="addRequirement('performs')">
-                    新增
-                </button>-->
 			</th>
 		</tr>
 		</thead>
@@ -221,19 +251,24 @@
 			</td>
 			<td class="padding5">
 				<div class="col-sm-6" align="center">
-					<button class="button-add" ng-show="$index == projectSummary.performs.length - 1"
-							ng-click="addRequirement('performs')">
-						添加
-					</button>
-				</div>
-				<div class="col-sm-6" align="center">
 					<button class="button-close" ng-click="deleteObj($index, projectSummary.performs)">
 						删除
+					</button>
+				</div>
+
+				<div class="col-md-6" align="center">
+					<button class="button-asc" ng-click="ascOrderno(perform, 'performs')">
+					</button>
+					<button class="button-desc" ng-click="descOrderno(perform, 'performs')">
 					</button>
 				</div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
+	<div class="row" align="center">
+		<button class="button-add1" ng-click="addRequirement('performs')">
+		</button>
+	</div>
 
 </div>

@@ -988,6 +988,16 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             delete: null // 是否可以删除 0:不可以删除；1:可以删除
         };
 
+        // 常量（类型：1000,2000,3000） ==项目收益
+        $scope.project = {
+            investmentGlobale: null,
+            investmentInternal: null,
+            investmentStatic: null,
+            financialROE: null,
+            financialROI: null,
+            indicatorCash: null
+        }
+
         // 常量（类型：1000,2000,3000,4000,5000,6000）==风险提示-重点关注/风险提示-一般关注
         $scope.risk = {
             orderno: null, // 排序编号从0开始
@@ -1061,7 +1071,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0",
                         delete: "0"
                     },
                     {
@@ -1074,7 +1083,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0",
                         delete: "0"
                     },
                     {
@@ -1087,7 +1095,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0",
                         delete: "0"
                     },
                     {
@@ -1100,7 +1107,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0",
                         delete: "0"
                     },
                     {
@@ -1113,7 +1119,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0",
                         delete: "0"
                     }
                 ];
@@ -1130,14 +1135,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $scope.projectSummary.performs = [
                 ];
 
-                $scope.projectSummary.project = {
-                    investmentGlobale: null,
-                    investmentInternal: null,
-                    investmentStatic: null,
-                    financialROE: null,
-                    financialROI: null,
-                    indicatorCash: null
-                }
+                $scope.projectSummary.project = angular.copy($scope.project);
 
             } else if (type.ITEM_CODE == "2000") {
                 $scope.projectSummary.projectOverviews = [
@@ -1151,7 +1149,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -1163,7 +1161,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "1"
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -1175,7 +1173,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "3",
@@ -1187,7 +1185,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "4",
@@ -1199,7 +1197,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "5",
@@ -1211,7 +1209,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "6",
@@ -1223,66 +1221,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "7",
-                        code: "other_0",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.seriousRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是重点关注1",
-                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是重点关注2",
-                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
-                    }
                 ];
 
                 $scope.projectSummary.generalRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是一般关注1",
-                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是一般关注2",
-                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
-                    }
                 ];
 
                 $scope.projectSummary.performs = [
-                    {
-                        orderno: 0,
-                        requirementContent: "后续执行要求111111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "后续执行要求222222"
-                    }
                 ];
 
-                $scope.projectSummary.project = {
-                    investmentGlobale: null,
-                    investmentInternal: null,
-                    investmentStatic: null,
-                    financialROE: null,
-                    financialROI: null,
-                    indicatorCash: null
-                }
+                $scope.projectSummary.project = angular.copy($scope.project);
 
             } else if (type.ITEM_CODE == "3000") {
                 $scope.projectSummary.projectOverviews = [
@@ -1296,7 +1247,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -1308,7 +1259,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "1"
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -1320,7 +1271,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "3",
@@ -1332,7 +1283,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "4",
@@ -1344,7 +1295,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "5",
@@ -1356,7 +1307,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "6",
@@ -1368,7 +1319,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "7",
@@ -1380,66 +1331,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "8",
-                        code: "other_0",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.seriousRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是重点关注1",
-                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是重点关注2",
-                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
-                    }
                 ];
 
                 $scope.projectSummary.generalRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是一般关注1",
-                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是一般关注2",
-                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
-                    }
                 ];
 
                 $scope.projectSummary.performs = [
-                    {
-                        orderno: 0,
-                        requirementContent: "后续执行要求111111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "后续执行要求222222"
-                    }
                 ];
 
-                $scope.projectSummary.project = {
-                    investmentGlobale: null,
-                    investmentInternal: null,
-                    investmentStatic: null,
-                    financialROE: null,
-                    financialROI: null,
-                    indicatorCash: null
-                }
+                $scope.projectSummary.project = angular.copy($scope.project);
 
             } else if (type.ITEM_CODE == "4000") {
                 $scope.projectSummary.projectOverviews = [
@@ -1453,7 +1357,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -1465,7 +1369,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "1"
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -1477,7 +1381,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "3",
@@ -1489,7 +1393,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "4",
@@ -1501,7 +1405,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "5",
@@ -1513,7 +1417,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "6",
@@ -1525,19 +1429,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "7",
-                        code: "other_0",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.projectOverviews1 = [
@@ -1551,7 +1443,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -1563,7 +1455,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -1575,7 +1467,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "3",
@@ -1587,7 +1479,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "4",
@@ -1599,19 +1491,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "5",
-                        code: "other_100",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.projectIncomes = [
@@ -1631,40 +1511,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     }
                 ];
                 $scope.projectSummary.seriousRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是重点关注1",
-                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是重点关注2",
-                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
-                    }
                 ];
 
                 $scope.projectSummary.generalRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是一般关注1",
-                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是一般关注2",
-                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
-                    }
                 ];
 
                 $scope.projectSummary.performs = [
-                    {
-                        orderno: 0,
-                        requirementContent: "后续执行要求111111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "后续执行要求222222"
-                    }
                 ];
 
             } else if (type.ITEM_CODE == "5000") {
@@ -1679,7 +1531,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -1691,7 +1543,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "1"
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -1703,7 +1555,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "3",
@@ -1715,7 +1567,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "4",
@@ -1727,7 +1579,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "5",
@@ -1739,7 +1591,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "6",
@@ -1751,7 +1603,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "7",
@@ -1763,7 +1615,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "8",
@@ -1775,7 +1627,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "9",
@@ -1787,7 +1639,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "10",
@@ -1799,7 +1651,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "11",
@@ -1811,19 +1663,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "12",
-                        code: "other_0",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.projectIncomes = [
@@ -1839,51 +1679,15 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     }
                 ];
                 $scope.projectSummary.seriousRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是重点关注1",
-                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是重点关注2",
-                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
-                    }
                 ];
 
                 $scope.projectSummary.generalRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是一般关注1",
-                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是一般关注2",
-                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
-                    }
                 ];
 
                 $scope.projectSummary.requirements = [
-                    {
-                        orderno: 0,
-                        requirementContent: "投前条件11111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "投前条件22222"
-                    }
                 ];
 
                 $scope.projectSummary.performs = [
-                    {
-                        orderno: 0,
-                        requirementContent: "后续执行要求111111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "后续执行要求222222"
-                    }
                 ];
             } else if (type.ITEM_CODE == "6000") {
                 $scope.projectSummary.projectOverviews = [
@@ -1897,7 +1701,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -1909,7 +1713,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "1"
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -1921,7 +1725,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "3",
@@ -1933,7 +1737,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "4",
@@ -1945,7 +1749,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "5",
@@ -1957,19 +1761,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "6",
-                        code: "other_0",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.projectIncomes = [
@@ -1985,50 +1777,15 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     }
                 ];
                 $scope.projectSummary.seriousRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是重点关注1",
-                        riskContent: "这是重点关注1这是重点关注1这是重点关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是重点关注2",
-                        riskContent: "这是重点关注2这是重点关注2这是重点关注2"
-                    }
                 ];
 
                 $scope.projectSummary.generalRisks = [
-                    {
-                        orderno: 0,
-                        riskType: "这是一般关注1",
-                        riskContent: "这是一般关注1这是一般关注1这是一般关注1"
-                    },
-                    {
-                        orderno: 1,
-                        riskType: "这是一般关注2",
-                        riskContent: "这是一般关注2这是一般关注2这是一般关注2"
-                    }
                 ];
 
                 $scope.projectSummary.performs = [
-                    {
-                        orderno: 0,
-                        requirementContent: "后续执行要求111111"
-                    },
-                    {
-                        orderno: 1,
-                        requirementContent: "后续执行要求222222"
-                    }
                 ];
 
-                $scope.projectSummary.project = {
-                    investmentGlobale: null,
-                    investmentInternal: null,
-                    investmentStatic: null,
-                    financialROE: null,
-                    financialROI: null,
-                    indicatorCash: null
-                }
+                $scope.projectSummary.project = angular.copy($scope.project);
 
             } else if (type.ITEM_CODE == "7000") {
                 $scope.projectSummary.projectOverviews = [
@@ -2042,7 +1799,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -2054,19 +1811,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "2",
-                        code: "other_0",
-                        value: "其他事项",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }];
                 $scope.projectSummary.projectOverviews1 = [
                     {
@@ -2079,7 +1824,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -2091,36 +1836,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "2",
-                        code: "other_100",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.repaymentPlans = [
-                    {
-                        orderno: 0,
-                        loanTime: null,
-                        loanAmount: null,
-                        repaymentPlan: null,
-                        repaymnetMethod: null,
-                        repaymentSource: null
-                    }
                 ];
                 $scope.projectSummary.desciptions = [
-                    {
-                        orderno: 0,
-                        description: null
-                    }
                 ];
             } else if (type.ITEM_CODE == "8000") {
                 $scope.projectSummary.projectOverviews = [
@@ -2134,7 +1855,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -2146,7 +1867,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "1"
+                        delete: "0"
                     },
                     {
                         orderno: "2",
@@ -2158,19 +1879,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "3",
-                        code: "other_0",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }];
                 $scope.projectSummary.projectOverviews1 = [
                     {
@@ -2183,7 +1892,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
+                        delete: "0"
                     },
                     {
                         orderno: "1",
@@ -2195,32 +1904,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         start: "1",
                         edit: "0",
                         modify: "1",
-                        new: "0"
-                    },
-                    {
-                        orderno: "2",
-                        code: "other_100",
-                        value: "其他",
-                        content: null,
-                        attachmentFile: null,
-                        attachmentValue: null,
-                        start: "1",
-                        edit: "1",
-                        modify: "1",
-                        new: "1"
+                        delete: "0"
                     }
                 ];
                 $scope.projectSummary.decisionMakings = [
-                    {
-                        orderno: 0,
-                        decisionMaking: null
-                    }
                 ];
                 $scope.projectSummary.desciptions = [
-                    {
-                        orderno: 0,
-                        description: null
-                    }
                 ];
             }
             angular.forEach($scope.projectSummary.projectOverviews, function (data, index) {
