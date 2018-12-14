@@ -473,7 +473,7 @@ li{
 .mcontent .innertable .btn .add{
     color: #fff;
     text-align: center;
-    background: url(img/button-add.png)no-repeat;
+    background: url(img/btn-add.png)no-repeat;
     background-size: cover;
 }
 .mcontent .innertable .btn .del{
@@ -481,11 +481,11 @@ li{
     height: 33px;
     color: #fff;
     text-align: center;
-    background: url(img/button-close.png)no-repeat;
+    background: url(img/btn-close.png)no-repeat;
     background-size: cover;
 }
 .mcontent .innertable .btn .btn-img{
-    background: url(img/button-delete.png)no-repeat;
+    background: url(img/btn-delete.png)no-repeat;
     background-size: cover;
 }
 .mcontent .innertable .btn .btn-img>span{
@@ -579,7 +579,7 @@ li{
     display: inline-block;
     width: 75px;
     height: 35px;
-    background: url(img/button-replace.png)no-repeat;
+    background: url(img/btn-replace.png)no-repeat;
     background-size: cover;
     color: #fff;
     text-align: center;
@@ -626,10 +626,80 @@ li{
     margin-right: 20px;
 }
 
-.swiper-button-next, .swiper-button-prev{
+.swiper-btn-next, .swiper-btn-prev{
     width:8%;
     height: 100%;
     top: 50%;
     transform: translateY(-50%);
     background: none;
+}
+
+.btn-add {
+    width: 75px;
+    height: 33px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-add.png") no-repeat;
+    border: none;
+}
+
+.btn-add1 {
+    width: 40px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-add1.png") no-repeat;
+    border: none;
+}
+
+.btn-close {
+    width: 73px;
+    height: 32px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-close.png") no-repeat;
+    border: none;
+}
+
+.btn-desc {
+    float: left;
+    width: 32px;
+    height: 32px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-desc.png") no-repeat;
+    border: none;
+}
+
+.btn-asc {
+    float: left;
+    right: 5px;
+    width: 35px;
+    height: 32px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-asc.png") no-repeat;
+    border: none;
+    border-right: 1px solid white;
+}
+
+.btn-replace {
+    float: left;
+    width: 80px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
+    border: none;
+}
+
+.btn-delete {
+    float: left;
+    width: 80px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-delete.png") no-repeat;
+    border: none;
+}
+
+.btn-preview {
+    width: 120px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/btn/btn-preview.png") no-repeat;
+    border: none;
 }
