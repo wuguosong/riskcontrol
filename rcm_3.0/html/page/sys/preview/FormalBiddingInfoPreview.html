@@ -1,39 +1,23 @@
-<link href="../styles/style.css" rel="stylesheet" type="text/css"/>
-<div>
-    <div style="font-size: 20px">
-        <a>
-            {{ formalPreview.apply.projectName }}
-        </a>
+<link href="../styles/style_preview.css" rel="stylesheet" type="text/css"/>
+<div class="container-fluid">
+    <div class="mheader row">
+        <div class="col-md-10 col-sm-10 col-xs-10">
+            <h3 class="text-blue">{{ formalPreview.apply.projectName }}</h3>
+            <h5 class="text-gray">评审报告出具时间：{{formalPreview.submit_date}}</h5>
+        </div>
+        <img src="assets/images/pixel-admin/main-navbar-logo.png" alt="Pixel Admin" class="logo" />
     </div>
-    <div>
-        <a>
-            评审报告出具时间：{{formalPreview.submit_date}}
-        </a>
+    <div class="row mtab text-gray">
+        <a href="page/sys/preview/tabPage/processReview.html" class="chose col-md-3 col-sm-6 col-xs-12">项目过程回顾</a>
+        <a href="page/sys/preview/tabPage/template.html" class="col-md-3 col-sm-6 col-xs-12">风控评测意见汇总</a>
+        <a href="page/sys/preview/tabPage/formalReport.html" class="col-md-3 col-sm-6 col-xs-12">正式评审报告</a>
+        <a href="page/sys/preview/tabPage/score.html" class="col-md-3 col-sm-6 col-xs-12">项目整体评分</a>
     </div>
-    <div style="margin: 10px">
-        这是切换的tab留地
-    </div>
-    <div>
-        <div class="col-md-3 padding0">
-            <div class="">
-                评审负责人 &nbsp;&nbsp; {{formalPreview.taskallocation.reviewLeader.NAME}}
-            </div>
-        </div>
-        <div class="col-md-3 padding0">
-            <div class="">
-                法律负责人 &nbsp;&nbsp; {{formalPreview.taskallocation.legalReviewLeader.NAME}}
-            </div>
-        </div>
-        <div class="col-md-3 padding0">
-            <div class="">
-                投资建议 &nbsp;&nbsp;  XXXXXXXXXXXX
-            </div>
-        </div>
-        <div class="col-md-3 padding0">
-            <div class="">
-                评审难度评级 &nbsp;&nbsp; {{ formalPreview.projectRating.name }}
-            </div>
-        </div>
+    <div class="mperson row">
+        <div class="col-md-3 col-sm-6 col-xs-12">评审负责人<em>{{formalPreview.taskallocation.reviewLeader.NAME}}</em></div>
+        <div class="col-md-3 col-sm-6 col-xs-12">法律负责人<em>{{formalPreview.taskallocation.legalReviewLeader.NAME}}</em></div>
+        <div class="col-md-3 col-sm-6 col-xs-12">投资建议<em>{{formalPreview.investmentType}}</em></div>
+        <div class="col-md-3 col-sm-6 col-xs-12">评审难度评级<em>{{ formalPreview.projectRating.name }}</em></div>
     </div>
     <img src="page/sys/preview/img/left.png" ng-if="changeValue != 1 && changeValue != 2" ng-click="changeTab(0)" style="float: left;margin-top: 15%">
     <img src="page/sys/preview/img/right.png" ng-if="changeValue != 4 && changeValue != 2" ng-click="changeTab(1)" style="float: right;margin-top: 15%">
