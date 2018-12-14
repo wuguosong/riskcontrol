@@ -1,37 +1,46 @@
-a{
+a {
     color: inherit;
     text-decoration: none;
 }
-a:hover{
+
+a:hover {
     color: inherit;
     text-decoration: none;
 }
-a:visited{
+
+a:visited {
     text-decoration: none;
 }
-a:link{
+
+a:link {
     text-decoration: none;
 }
-li{
+
+li {
     list-style: none;
 }
-.right{
+
+.right {
     float: right;
 }
-.flex{
+
+.flex {
     display: flex;
     justify-content: space-around;
 }
-.row{
+
+.row {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
 }
-.rowsection{
+
+.rowsection {
     width: 100%;
     position: relative;
 }
-.container-fluid{
+
+.container-fluid {
     position: absolute;
     top: 0;
     right: 0;
@@ -40,66 +49,78 @@ li{
     background: #f6f7fe;
     padding: 0;
     letter-spacing: .1em;
-    overflow-y:auto;
-    overflow-x:hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding-bottom: 30px;
     font-size: 12px;
 }
-.blue{
+
+.blue {
     color: #005fc2;
 }
-.text-blue{
+
+.text-blue {
     color: #005fc2;
     font-weight: bold;
 }
-.text-gray{
+
+.text-gray {
     color: #838587;
 }
-.mheader{
+
+.mheader {
     background: #fff;
     margin: 0;
     padding: 1px 10px;
     position: relative;
 }
-.mheader>div:nth-child(2){
+
+.mheader > div:nth-child(2) {
     padding: 10px;
 
 }
-.mheader .logo{
+
+.mheader .logo {
     width: 36px;
     height: 36px;
     position: absolute;
     top: 11px;
     right: 11px;
 }
-.mtab{
+
+.mtab {
     font-size: 12px;
 }
-.mtab a{
+
+.mtab a {
     height: 30px;
     line-height: 30px;
     background: #f1f2f3;
     text-align: center;
 }
-.mtab a.chose{
+
+.mtab a.chose {
     background: #d4e2f6;
     color: #000;
 }
-.mperson{
+
+.mperson {
     width: 100%;
     padding: 18px 0;
     font-size: 14px;
     font-weight: bold;
     color: #000;
 }
-.mperson>div{
+
+.mperson > div {
     text-overflow: ellipsis;
     line-height: 24px;
     overflow: hidden;
     white-space: normal;
     text-align: center;
 }
-.mperson>div>em{
+
+.mperson > div > em {
     font-style: normal;
     font-weight: normal;
     padding-left: 10px;
@@ -107,25 +128,29 @@ li{
     overflow: hidden;
     white-space: nowrap;
 }
-.mcontent{
+
+.mcontent {
     padding: 1px 20px 30px;
     background: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
     color: #000;
     font-weight: bold;
     line-height: 24px;
 }
-.content1 span{
+
+.content1 span {
     font-weight: normal;
     color: #363636;
     font-size: 14px;
     letter-spacing: 0;
 }
-.mcontent .timeline{
+
+.mcontent .timeline {
     position: relative;
     overflow: hidden;
 }
-.mcontent .timeline .line{
+
+.mcontent .timeline .line {
     position: absolute;
     width: 100%;
     height: 1px;
@@ -133,56 +158,68 @@ li{
     left: 0;
     top: 14px;
 }
-.mcontent .timeline .time{
+
+.mcontent .timeline .time {
     background: #fff;
     position: relative;
 }
-.mcontent .timeline .start-time{
+
+.mcontent .timeline .start-time {
     padding-right: 20px;
     float: left;
 }
+
 .mcontent .timeline .start-time:before,
-.mcontent .timeline .end-time:before{
-    content:'';
+.mcontent .timeline .end-time:before {
+    content: '';
     display: block;
     background: #27bb87;
     width: 16px;
     height: 16px;
-    border-radius:50%;
+    border-radius: 50%;
     position: absolute;
     right: 0;
     top: 6px;
 }
-.mcontent .timeline .end-time:before{
+
+.mcontent .timeline .end-time:before {
     background: #d11513;
     left: 0;
 }
-.mcontent .timeline .end-time{
+
+.mcontent .timeline .end-time {
     padding-left: 20px;
     float: right;
 }
-.mcontent .timeline .time span{
+
+.mcontent .timeline .time span {
     display: block;
 }
-.mcontent .normalline{
+
+.mcontent .normalline {
     line-height: 36px;
     padding: 10px 0;
     border-bottom: 1px solid #DBE5EF;
 }
-.mcontent .normalline:nth-last-of-type(1){
+
+.mcontent .normalline:nth-last-of-type(1) {
     border-bottom: 0;
 }
-.mcontent .normalline span{
+
+.mcontent .normalline span {
     padding-left: 20px;
 }
-.mcontent .titline .tit{
+
+.mcontent .titline .tit {
     font-size: 16px;
 }
-.mcontent .titline span{
+
+.mcontent .titline span {
     font-weight: bold;
     color: #000;
 }
-.file-icon{
+
+.file-icon {
     display: inline-block;
     vertical-align: text-bottom;
     margin-right: 10px;
@@ -191,115 +228,134 @@ li{
     background: url(img/icon-file.png) no-repeat;
     background-size: cover;
 }
-.content3 .file-download{
+
+.content3 .file-download {
     margin: 30px 0;
     color: #005fc2;
 }
-.mytable table th{
+
+.mytable table th {
     text-align: center;
 }
-.mytable tbody{
+
+.mytable tbody {
     font-weight: normal;
 }
+
 .mytable tbody th,
-.mytable tbody td{
-    padding: 20px 10px!important;
+.mytable tbody td {
+    padding: 20px 10px !important;
 }
+
 .mytable {
     position: relative;
     margin-top: 20px;
     height: 400px;
     /*overflow: hidden;*/
 }
-.mytable .table-cover{
+
+.mytable .table-cover {
     position: absolute;
     width: 100%;
     left: 0;
     bottom: 0;
     z-index: 99;
     padding-top: 160px;
-    background-image: linear-gradient(-180deg,rgba(255,255,255,0) 0%, #fff 70%);
+    background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, #fff 70%);
     text-align: center;
     cursor: pointer;
 }
-.mytable .table-cover .icon{
+
+.mytable .table-cover .icon {
     width: 32px;
     height: 32px;
     margin: 0 auto;
-    background: url(img/icon-bottom.png)no-repeat;
+    background: url(img/icon-bottom.png) no-repeat;
     background-size: cover;
 }
-.content2 .row{
+
+.content2 .row {
     margin-top: 20px;
 }
-.content2 .row .det{
+
+.content2 .row .det {
     font-weight: normal;
 }
-.content2 .row .img{
+
+.content2 .row .img {
     color: #005fc2;
     font-size: 14px;
     font-weight: normal;
 }
-.content2 .row .img span{
+
+.content2 .row .img span {
     display: inline-block;
     width: 16px;
     height: 16px;
     vertical-align: middle;
     margin-right: 5px;
-    background: url(img/icon-pic.png)no-repeat;
+    background: url(img/icon-pic.png) no-repeat;
     background-size: cover;
 }
-.current-swiper{
+
+.current-swiper {
     position: relative;
 }
-.nocurrent-swiper{
+
+.nocurrent-swiper {
     width: 50%;
     height: 80%;
     position: absolute;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,.15)
+    box-shadow: 0 0 20px rgba(0, 0, 0, .15)
 }
-.nocurrent-swiper:before{
+
+.nocurrent-swiper:before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(237,240,240,0.9);
+    background: rgba(237, 240, 240, 0.9);
     z-index: 99;
 
 }
-.left-swiper{
+
+.left-swiper {
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
 }
-.left-swiper .mcontent{
+
+.left-swiper .mcontent {
     margin-left: 1%;
 }
-.right-swiper{
+
+.right-swiper {
     text-align: right;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
 }
-.right-swiper .mcontent{
+
+.right-swiper .mcontent {
     margin-left: 16.666%;
 }
 
 /*demo5*/
 .mheader-top,
 .mheader-mid,
-.mheader-bot{
+.mheader-bot {
     white-space: nowrap;
     overflow: hidden;
 }
-.mheader-top{
+
+.mheader-top {
     background: #fff;
 }
 
-.mheader-top .logo-area{
+.mheader-top .logo-area {
     float: left;
     padding: 0 10px;
     line-height: 58px;
@@ -307,14 +363,16 @@ li{
     font-size: 20px;
     font-weight: bold;
 }
-.mheader-top .logo-area img{
+
+.mheader-top .logo-area img {
     width: 93px;
     height: 32px;
     display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
 }
-.mheader-top .list{
+
+.mheader-top .list {
     float: left;
     height: 58px;
     overflow: hidden;
@@ -322,7 +380,8 @@ li{
     padding-right: 30px;
     position: relative;
 }
-.mheader-top .list a{
+
+.mheader-top .list a {
     display: inline-block;
     height: 100%;
     line-height: 58px;
@@ -331,15 +390,18 @@ li{
     border-top-right-radius: 6px;
     padding: 0 5px;
 }
-.mheader-top .list a.chose{
+
+.mheader-top .list a.chose {
     background: #0060c4;
     color: #fff;
 
 }
-.mheader-top .right{
+
+.mheader-top .right {
     padding-right: 10px;
 }
-.mheader-top .right span{
+
+.mheader-top .right span {
     display: inline-block;
     vertical-align: middle;
     line-height: 24px;
@@ -347,31 +409,38 @@ li{
     height: 24px;
     margin: 5px;
 }
-.mheader-top .right>div{
+
+.mheader-top .right > div {
     display: inline-block;
     height: 32px;
     margin-top: 17px;
 }
-.mheader-top .right .tool{
+
+.mheader-top .right .tool {
     border-right: 1px solid #eee
 }
-.mheader-top .search{
-    background: url(img/search.png)no-repeat;
+
+.mheader-top .search {
+    background: url(img/search.png) no-repeat;
     background-size: cover;
 }
-.mheader-top .help{
-    background: url(img/help.png)no-repeat;
+
+.mheader-top .help {
+    background: url(img/help.png) no-repeat;
     background-size: cover;
 }
-.mheader-top .user{
-    background: url(img/user.png)no-repeat;
+
+.mheader-top .user {
+    background: url(img/user.png) no-repeat;
     background-size: cover;
 }
-.mheader-top .quit{
-    background: url(img/quit.png)no-repeat;
+
+.mheader-top .quit {
+    background: url(img/quit.png) no-repeat;
     background-size: cover;
 }
-.mheader-top .more{
+
+.mheader-top .more {
     display: inline-block;
     vertical-align: middle;
     width: 24px;
@@ -379,157 +448,181 @@ li{
     position: absolute;
     right: 0px;
     top: 20px;
-    background: url(img/showlist.png)no-repeat;
+    background: url(img/showlist.png) no-repeat;
     background-size: cover;
 }
-.mheader-mid{
+
+.mheader-mid {
     text-align: center;
     background: #0060c4;
     line-height: 60px;
     color: #fff;
 }
-.mheader-mid .chose{
+
+.mheader-mid .chose {
     background: #0052b7;
     border-bottom: 2px solid #fff;
 }
-.mheader-mid .info{
+
+.mheader-mid .info {
     text-align: center;
 }
-.mheader-bot{
+
+.mheader-bot {
     background: #f6f7fe;
     border-bottom: 1px solid #eee;
     line-height: 50px;
 }
 
-.mheader-bot .chose{
+.mheader-bot .chose {
     color: #0060C4;
     border-bottom: 1px solid #0060C4;
 }
 
-
-.xh-content .item-name{
+.xh-content .item-name {
     text-align: center;
 }
-.xh-content .mcontent{
+
+.xh-content .mcontent {
     margin-top: 20px;
 }
 
-.mcontent  .dropdown{
+.mcontent .dropdown {
     cursor: pointer;
     white-space: nowrap;
     display: inline-block;
 }
-.mcontent  .dropdown .dropdown-toggle{
+
+.mcontent .dropdown .dropdown-toggle {
     color: #0060C4;
 }
-.mcontent  .dropdown .caret{
+
+.mcontent .dropdown .caret {
     padding-left: 0;
     border-top-color: #0060C4;
 }
-.mcontent  .dropdown .dropdown-menu{
+
+.mcontent .dropdown .dropdown-menu {
     color: #838587;
     left: 20px;
     border-top: 2px solid #0060C4;
     border-radius: 4px;
     padding-bottom: 20px;
 }
-.mcontent .text-arealine textarea{
+
+.mcontent .text-arealine textarea {
     width: 100%;
 }
-.mcontent .text-arealine label{
+
+.mcontent .text-arealine label {
     margin-right: 20px;
 }
-.mcontent .importantline{
+
+.mcontent .importantline {
     position: relative;
 }
-.mcontent .importantline:before{
+
+.mcontent .importantline:before {
     content: '*';
     position: absolute;
     left: -5px;
     top: 2px;
     color: #ff0000;
 }
-.mcontent .innertable h5{
+
+.mcontent .innertable h5 {
     font-weight: bold;
     border-bottom: 1px solid #e2eaf2;
     padding: 20px 0;
 }
-.mcontent .innertable .btn{
+
+.mcontent .innertable .btn {
     width: 100%;
 }
-.mcontent .innertable .btn:active{
+
+.mcontent .innertable .btn:active {
     box-shadow: none;
 }
 
-.mcontent .innertable .btn span{
+.mcontent .innertable .btn span {
     display: inline-block;
     vertical-align: middle;
 }
-.mcontent .innertable .btn>span{
+
+.mcontent .innertable .btn > span {
     width: 75px;
     height: 35px;
     line-height: 35px;
 }
-.mcontent .innertable .btn .add{
+
+.mcontent .innertable .btn .add {
     color: #fff;
     text-align: center;
-    background: url(img/button-add.png)no-repeat;
+    background: url(img/button-add.png) no-repeat;
     background-size: cover;
 }
-.mcontent .innertable .btn .del{
+
+.mcontent .innertable .btn .del {
     width: 73px;
     height: 33px;
     color: #fff;
     text-align: center;
-    background: url(img/button-close.png)no-repeat;
+    background: url(img/button-close.png) no-repeat;
     background-size: cover;
 }
-.mcontent .innertable .btn .btn-img{
-    background: url(img/button-delete.png)no-repeat;
+
+.mcontent .innertable .btn .btn-img {
+    background: url(img/button-delete.png) no-repeat;
     background-size: cover;
 }
-.mcontent .innertable .btn .btn-img>span{
+
+.mcontent .innertable .btn .btn-img > span {
     width: 16px;
     height: 16px;
 }
 
-.mcontent .innertable .btn .btn-img .add-img{
+.mcontent .innertable .btn .btn-img .add-img {
 
-    background: url(img/add-img.png)no-repeat;
+    background: url(img/add-img.png) no-repeat;
     background-size: cover;
 }
 
-.mcontent .innertable .btn .btn-img .del-img{
+.mcontent .innertable .btn .btn-img .del-img {
 
-    background: url(img/del-img.png)no-repeat;
+    background: url(img/del-img.png) no-repeat;
     background-size: cover;
 }
-.mcontent .innertable .work{
+
+.mcontent .innertable .work {
     position: relative;
 }
-.mcontent .innertable .work>span{
+
+.mcontent .innertable .work > span {
     color: #0060C4;
     display: inline-block;
     vertical-align: middle;
 }
-.mcontent .innertable .work .pic{
+
+.mcontent .innertable .work .pic {
     width: 16px;
     height: 16px;
     margin-right: 5px;
-    background: url(img/icon-pic.png)no-repeat;
+    background: url(img/icon-pic.png) no-repeat;
     background-size: cover;
 }
-.mcontent .innertable .work .close{
+
+.mcontent .innertable .work .close {
     position: absolute;
     right: 0;
     top: 3px;
     width: 16px;
     height: 16px;
-    background: url(img/icon-close.png)no-repeat;
+    background: url(img/icon-close.png) no-repeat;
     background-size: cover;
     opacity: 1;
 }
-.mcontent .innertable .work .progress{
+
+.mcontent .innertable .work .progress {
     width: 70%;
     height: 4px;
     border-radius: 2px;
@@ -537,7 +630,8 @@ li{
     margin-bottom: 0;
     position: relative;
 }
-.mcontent .innertable .work .progress span{
+
+.mcontent .innertable .work .progress span {
     position: absolute;
     left: 0;
     top: 0;
@@ -546,45 +640,55 @@ li{
     border-radius: 2px;
     background: #0060C4;
 }
-.mcontent .innertable th{
+
+.mcontent .innertable th {
     vertical-align: middle;
 }
-.mcontent .innertable tr:last-child{
+
+.mcontent .innertable tr:last-child {
     height: 20px;
 }
-.mcontent .innertable tbody .innertr td{
-    padding: 0!important;
+
+.mcontent .innertable tbody .innertr td {
+    padding: 0 !important;
 }
-.mcontent .innertable tbody .innertr td:last-child{
+
+.mcontent .innertable tbody .innertr td:last-child {
     text-align: center;
 }
-.mcontent .innertable .innerline{
+
+.mcontent .innertable .innerline {
     font-size: 12px;
     border-bottom: 1px solid #dbe5ef;
     line-height: 24px;
     padding: 10px;
 }
-.mcontent .innertable .innerline:last-child{
+
+.mcontent .innertable .innerline:last-child {
     border-bottom: 0;
 }
-.innertable .mytable{
+
+.innertable .mytable {
     height: auto;
 }
-.innertable .filework{
+
+.innertable .filework {
     line-height: 35px;
     color: #0060C4;
     font-size: 14px;
 }
-.innertable  .replace{
+
+.innertable .replace {
     display: inline-block;
     width: 75px;
     height: 35px;
-    background: url(img/button-replace.png)no-repeat;
+    background: url(img/button-replace.png) no-repeat;
     background-size: cover;
     color: #fff;
     text-align: center;
 }
-.mcontent .innertable  .progress{
+
+.mcontent .innertable .progress {
     width: 70%;
     height: 8px;
     border-radius: 4px;
@@ -593,7 +697,8 @@ li{
     position: relative;
     margin: 0 auto;
 }
-.mcontent .innertable .progress span{
+
+.mcontent .innertable .progress span {
     position: absolute;
     left: 0;
     top: 0;
@@ -602,26 +707,103 @@ li{
     border-radius: 4px;
     background: #0060C4;
 }
-.mcontent .innertable td time{
-    color:#6c6c6c
+
+.mcontent .innertable td time {
+    color: #6c6c6c
 }
-.mcontent .innertable tbody{
+
+.mcontent .innertable tbody {
     font-size: 12px;
 }
-.mcontent .innertable tbody td{
+
+.mcontent .innertable tbody td {
     vertical-align: middle;
 }
-.mcontent .innertable tbody .score{
+
+.mcontent .innertable tbody .score {
     color: #ff0000;
 }
-.mcontent .innertable tbody .help{
+
+.mcontent .innertable tbody .help {
     color: #0060C4;
 }
-.mcontent .radioline input{
+
+.mcontent .radioline input {
     margin: 0;
     vertical-align: middle;
     margin-right: 10px;
 }
-.mcontent .radioline label{
+
+.mcontent .radioline label {
     margin-right: 20px;
+}
+
+.btn-add {
+    width: 74px;
+    height: 34px;
+    color: white;
+    background: url("/html/assets/images/button/button-add.png")no-repeat;
+    border: none;
+}
+
+.btn-add1 {
+    width: 40px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/button/button-add1.png")no-repeat;
+    border: none;
+}
+
+.btn-close {
+    width: 73px;
+    height: 32px;
+    color: white;
+    background: url("/html/assets/images/button/button-close.png")no-repeat;
+    border: none;
+}
+
+.btn-desc {
+    float: left;
+    width: 32px;
+    height: 32px;
+    color: white;
+    background: url("/html/assets/images/button/button-desc.png")no-repeat;
+    border: none;
+}
+
+.btn-asc {
+    float: left;
+    right: 5px;
+    width: 35px;
+    height: 32px;
+    color: white;
+    background: url("/html/assets/images/button/button-asc.png")no-repeat;
+    border: none;
+    border-right: 1px solid white;
+}
+
+.btn-replace {
+    float: left;
+    width: 80px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/button/button-replace.png")no-repeat;
+    border: none;
+}
+
+.btn-delete {
+    float: left;
+    width: 80px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/button/button-delete.png")no-repeat;
+    border: none;
+}
+
+.btn-preview {
+    width: 120px;
+    height: 40px;
+    color: white;
+    background: url("/html/assets/images/button/button-preview.png")no-repeat;
+    border: none;
 }

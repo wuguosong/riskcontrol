@@ -1,188 +1,135 @@
 <div class="">
-    <div class="project-names" id="ProcessReview">
-        <a class="project-names-font" id="flag1-c" data-toggle="collapse" data-parent="#summary" href="/#ProcessReview">
-            {{ pfr.apply.projectName }}
-        </a>
-    </div>
-    <div class="box">
-        <div class="box-title">
-            <a class="box-title-font">
-                项目过程回顾
-            </a>
-        </div>
-        <div>
-            <table class="table-box table-overview">
-                <tbody>
-                <tr class="">
-                    <td colspan="4" class="">
-                        <div class="col-md-3 padding0">
-                            <div class="">
-                                提交申请时间
-                            </div>
-                            <div class="overview-date-font">
-                                {{applyDate}}
-                            </div>
-                        </div>
-                        <div class="col-md-6 padding0">
-                            这是横线
-                        </div>
-                        <div class="col-md-3 padding0">
-                            <div class="">
-                                评审报告出具时间
-                            </div>
-                            <div class="overview-date-font">
-                                {{ formalReport.submit_date }}
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="" width="20%">
-                        所属大区
-                    </td>
-                    <td ng-if="pfr.apply.pertainArea.VALUE != null" class="" width="30%">
+    <h3 class='text-blue item-name'>
+        {{ pfr.apply.projectName }}
+    </h3>
+
+    <div class="mcontent content1 ">
+            <h3 class='text-blue'>项目过程回顾</h3>
+            <div class="timeline">
+                <siv class="line hidden-xs"></siv>
+                <div class="time start-time">
+                    {{applyDate}}
+                    <span>2018-06-19 15:52:11</span>
+                </div>
+                <div class="time end-time">
+                    {{ formalReport.submit_date }}
+                    <span>2018-10-29</span>
+                </div>
+            </div>
+            <div class="row normalline">
+                <div class="col-md-6 col-sm-6  col-xs-12">所属大区
+                    <span ng-if="pfr.apply.pertainArea.VALUE != null">
                         {{ pfr.apply.pertainArea.VALUE }}
-                    </td>
-                    <td ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"
+                    </span>
+                    <span ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"
                         class="" width="30%">
                         {{ pfr.apply.reportingUnit.VALUE }}
-                    </td>
-                    <td class="" width="20%">
-                        投资经理
-                    </td>
-                    <td class="" width="30%">
+                    </span>
+                </div>
+                <div class="col-md-6 col-sm-6  col-xs-12">投资经理
+                    <span>
                         {{ pfr.apply.investmentManager.NAME }}
-                    </td>
-                </tr>
-                <td colspan="4" class="overview-title-font">
-                    投资中心/水环境投资中心意见
-                </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        投资测算意见：
-                    </td>
-                    <td class="">
-                        {{pfr.cesuanFileOpinion}}
-                    </td>
-                    <td class="">
-                        投资协议意见：
-                    </td>
-                    <td class="">
-                        {{pfr.tzProtocolOpinion}}
-                    </td>
-                </tr>
-                <td colspan="4" class="overview-title-font">
-                    风控中心审批意见
-                </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        风控中心审批次数：
-                    </td>
-                    <td class="">
-                        {{pfr.approveAttachment.commentsList.length}}
-                    </td>
-                    <td class="">
-                        风控中心法律评审意见条数：
-                    </td>
-                    <td class="">
-                    {{pfr.approveLegalAttachment.commentsList.length}}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+                    </span>
+                </div>
+            </div>
 
-    <div class="box" id="Rating">
-        <div class="box-title" id="flag2-c" data-toggle="collapse" data-parent="#summary" href="/#Rating">
-            <a class="box-title-font">
-                项目评级
-            </a>
+            <div class="row normalline titline">
+                <div class="tit col-md-12">投资中心/水环境投资意见中心</div>
+                <div class="col-md-6 col-sm-6  col-xs-12">投资测算意见:
+                    <span>
+                        {{pfr.cesuanFileOpinion}}
+                    </span>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">投资协议意见:
+                    <span>
+                         {{pfr.tzProtocolOpinion}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row normalline titline">
+                <div class="tit col-md-12">风控中心审批意见</div>
+                <div class="col-md-6 col-sm-6 col-xs-12">风控中心审批次数:
+                    <span>
+                        {{pfr.approveAttachment.commentsList.length}}
+                    </span>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">风控中心法律评审意见条数:
+                    <span>
+                        {{pfr.approveLegalAttachment.commentsList.length}}
+                    </span>
+                </div>
+            </div>
         </div>
-        <div>
-            <table class="table-box table-overview">
-                <tbody>
-                <tr class="">
-                    <td class="" width="20%">
-                        评审负责人
-                    </td>
-                    <td class="" width="30%">
+        <!--过程项目回顾-->
+
+    <div class="mcontent content1">
+            <h3 class="text-blue">项目评级</h3>
+            <div class="row normalline">
+                <div class="col-md-6 col-sm-6  col-xs-12">评审负责人
+                    <span>
                         {{pfr.taskallocation.reviewLeader.NAME}}
-                    </td>
-                    <td class="" width="20%">
-                        投资经理
-                    </td>
-                    <td class="" width="30%">
+                    </span>
+                </div>
+                <div class="col-md-6 col-sm-6  col-xs-12">法律负责人
+                    <span>
                         {{pfr.taskallocation.legalReviewLeader.NAME}}
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        评审难度评级
-                    </td>
-                    <td class="">
-                        {{meetInfo.projectRating.name}}
-                    </td>
-                    <td class="">
-                        <span class="required">*</span>是否紧急上会
-                    </td>
-                    <td class="">
-                        <div class="">
-                            <label class="radio radio-inline">
-                                <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px"
-                                       ng-checked="true"/><span class="lbl">否</span>
-                            </label>
-                            <label class="radio radio-inline">
-                                <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="1"
-                                       class="px"/><span class="lbl">是</span>
-                            </label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="">
-                        评级理由
-                    </td>
-                    <td colspan="3">
-                        <div class="">
-                            <textarea style="resize:vertical;width: 90%" readonly="readonly" class="form-control ng-pristine ng-valid ng-touched" auto-height ng-model="meetInfo.ratingReason">
+                    </span>
+                </div>
+            </div>
+
+            <div class="row normalline selectline">
+                <div class="col-md-6 col-sm-6  col-xs-12">
+                    评审难度评级
+                    <span class="dropdown">
+                        <span class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{meetInfo.projectRating.name}}
+                            <span class="caret"></span>
+                        </span>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">B级（中级评审）</a></li>
+                            <li><a href="#">C级（简单评审）</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="col-md-6 col-sm-6  col-xs-12">是否紧急上会
+                    <span class="radioline">
+                        <input type="radio" name='ifmeet' ng-model="meetInfo.isUrgent" id='meet-yes'/><label for="meet-yes">是</label>
+                        <input type="radio" name="ifmeet" ng-model="meetInfo.isUrgent" id='meet-no'/><label for="meet-no">否</label>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" row normalline text-arealine">
+                <div class="col-md-1">评级理由</div>
+                <div class="col-md-11">
+                    <textarea style="resize:vertical;width: 90%" readonly="readonly" class="form-control ng-pristine ng-valid ng-touched" auto-height ng-model="meetInfo.ratingReason">
                             </textarea>
-                        </div>
-                        <div class="">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType1"
-                                       name="projectType" value="1"/>
-                                <span class="lbl">项目简单</span>
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType2"
-                                       name="projectType" value="2"/>
-                                <span class="lbl">风险较低</span>
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType3"
-                                       name="projectType" value="2"/>
-                                <span class="lbl">收益较好</span>
-                            </label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="">
-                        投资建议
-                    </td>
-                    <td colspan="3" class="">
-                        <select style="width: 200px" ng-change=""
-                                class="form-control" id="projectSummary.investmentType" name="projectSummary.investmentType"
-                                ng-model="projectSummary.investmentType"
-                                ng-options="investment.ITEM_NAME for investment in INVESTMENT_TYPE track by investment.ITEM_CODE">
+                    <div class="radioline">
+                        <input type="radio" name='ifeasy' ng-model="meetInfo.projectType1" id='easy-1'/><label for="easy-1">项目简单</label>
+                        <input type="radio" name="ifeasy" ng-model="meetInfo.projectType2" id='easy-2'/><label for="easy-1">风险较低</label>
+                        <input type="radio" name='ifeasy' ng-model="meetInfo.projectType3" id='easy-3'/><label for="easy-1">收益较好</label>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="row normalline selectline">
+                <div class="col-md-6 col-sm-6  col-xs-12">
+                    投资意见
+                    <span class="dropdown">
+                      </span>
+                      <select style="width: 200px" ng-change=""
+                              class="form-control" id="projectSummary.investmentType" name="projectSummary.investmentType"
+                              ng-model="projectSummary.investmentType"
+                              ng-options="investment.ITEM_NAME for investment in INVESTMENT_TYPE track by investment.ITEM_CODE">
                         </select>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    </span>
+                </div>
+            </div>
+
         </div>
-    </div>
+        <!--项目评级-->
+
 </div>
