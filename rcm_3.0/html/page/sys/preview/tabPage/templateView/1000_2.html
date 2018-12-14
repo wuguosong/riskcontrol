@@ -1,77 +1,57 @@
-<div class="box">
-    <div class="box-title">
-        <a class="box-title-font">
-            项目收益
-        </a>
-    </div>
-    <div>
-        <table class="table-box table-overview">
-            <thead>
-            <tr>
-                <th width="20%">指标分类</th>
-                <th width="50%">指标名称</th>
-                <th width="30%">本项目指标</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td rowspan="3">
-                    投资指标
-                </td>
-                <td>
-                    全投资内部收益率IRR
-                </td>
-                <td>
-                    {{formalPreview.project.investmentGlobale}}%
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    自有资金内部收益率IRR
-                </td>
-                <td>
-                    {{formalPreview.project.investmentInternal}}%
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    全投资静态回收期
-                </td>
-                <td>
-                    {{formalPreview.project.investmentStatic}}%
-                </td>
-            </tr>
-            <tr>
-                <td rowspan="2">
-                    财务指标
-                </td>
-                <td>
-                    运营期平均ROE
-                </td>
-                <td>
-                    {{formalPreview.project.financialROE}}%
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    运营期平均ROI
-                </td>
-                <td>
-                    {{formalPreview.project.financialROI}}%
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    现金流指标
-                </td>
-                <td>
-                    自有资金前五年现金净流量
-                </td>
-                <td>
-                   {{formalPreview.project.indicatorCash}}%
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<div class="swiper-slide">
+    <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <h3 class="text-blue">项目收益</h3>
+        <div class="mytable">
+            <table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th>指标分类</th>
+                    <th>指标名称</th>
+                    <th>本项目指标</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='innertr'>
+                    <th scope="row">投资指标</th>
+                    <td>
+                        <div class="innerline">全投资内部收益率IRR</div>
+                        <div class="innerline">自有资金内部收益率IRR</div>
+                        <div class="innerline">全投资静态回收期</div>
+                    </td>
+                    <td>
+                        <div class="innerline">{{formalPreview.project.investmentGlobale}}%</div>
+                        <div class="innerline">{{formalPreview.project.investmentInternal}}%</div>
+                        <div class="innerline">{{formalPreview.project.investmentStatic}}%</div>
+                    </td>
+                </tr>
+                <tr class='innertr'>
+                    <th scope="row">财务指标</th>
+                    <td>
+                        <div class="innerline">运营期平均ROE</div>
+                        <div class="innerline">运营期平均ROI</div>
+
+                    </td>
+                    <td>
+                        <div class="innerline">{{formalPreview.project.financialROE}}%</div>
+                        <div class="innerline">{{formalPreview.project.financialROI}}%</div>
+
+                    </td>
+                </tr>
+                <tr class='innertr'>
+                    <th scope="row">财务指标</th>
+                    <td>
+                        <div class="innerline">自有资金前五年现金净流量</div>
+
+
+                    </td>
+                    <td>
+
+                        <div class="innerline">{{formalPreview.project.indicatorCash}}%</div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

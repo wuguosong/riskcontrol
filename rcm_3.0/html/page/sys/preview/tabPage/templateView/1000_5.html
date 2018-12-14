@@ -1,21 +1,19 @@
-<div class="box">
-    <div class="box-title">
-        <a class="box-title-font">
-            后续执行要求
-        </a>
-    </div>
-    <div ng-if="formalPreview.performs.length > 0">
-        <table class="table-box table-overview">
-            <tbody>
-            <tr ng-repeat="perform in formalPreview.performs | orderBy: 'orderno': desc">
-                <td class="" width="80%">
-                    {{perform.requirementContent}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div ng-if="formalPreview.performs.length <= 0">
-        <h2>后续执行要求暂未填写</h2>
+<div class="swiper-slide">
+    <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <h3 class="text-blue">后续执行要求</h3>
+        <div class="mytable" ng-if="formalPreview.performs.length > 0">
+            <table class="table table-bordered">
+                <tbody>
+                <tr ng-repeat="perform in formalPreview.performs | orderBy: 'orderno': desc">
+                    <td class="" width="80%">
+                        {{perform.requirementContent}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="formalPreview.performs.length <= 0">
+            <h4>后续执行要求暂未填写</h4>
+        </div>
     </div>
 </div>

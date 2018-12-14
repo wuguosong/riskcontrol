@@ -1,169 +1,91 @@
-<div>
-    <div class="box" id="Score">
-        <div class="box-title">
-            <a class="box-title-font" id="flag6-c" data-toggle="collapse" data-parent="#summary" href="/#Score">
-                项目整体评分
-            </a>
+<div class="row rowsection">
+
+    <div id="scoreExpand" class="mcontent content4 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <h3 class='text-blue'>项目整体评分</h3>
+        <div id='content4_table' class="mytable">
+            <table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th>打分项</th>
+                    <th>分数</th>
+                    <th>扣分原因</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">合规-审批流程熟悉度</th>
+                    <td>{{formalPreview.mark.flowMark}}<span> (满分：15分) </span></td>
+                    <td>{{formalPreview.mark.flowMarkReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">合规-资料备案</th>
+                    <td>{{formalPreview.mark.fileCopy}} <span>（满分：15分)</span></td>
+                    <td>{{formalPreview.mark.fileCopyReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">资料-及时性</th>
+                    <td>{{formalPreview.mark.fileTime}} <span>（满分：9分）</span></td>
+                    <td>{{formalPreview.mark.fileTimeReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">资料-完整性</th>
+                    <td>{{formalPreview.mark.fileContent}} <span>（满分：9分）</span></td>
+                    <td>{{formalPreview.mark.fileContentReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">核心-财务测算能力</th>
+                    <td>{{formalPreview.mark.moneyCalculate}}<span>（满分：12分）</span></td>
+                    <td>{{formalPreview.mark.moneyCalculateReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">资料-准确性(业务类资料)</th>
+                    <td>{{formalPreview.mark.reviewFileAccuracy}}<span>（满分：6分）</span></td>
+                    <td>{{formalPreview.mark.reviewFileAccuracyReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">核心-风险识别及规避能力</th>
+                    <td>{{formalPreview.mark.riskControl}}<span>（满分：12分）</span></td>
+                    <td>{{formalPreview.mark.riskControlReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">核心-方案设计能力</th>
+                    <td>{{formalPreview.mark.planDesign}}<span>（满分：4分）</span></td>
+                    <td>{{formalPreview.mark.planDesignReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">资料-准确性(法律类资料)</th>
+                    <td>{{formalPreview.mark.legalFileAccuracy}}<span>（满分：6分）</span></td>
+                    <td>{{formalPreview.mark.legalFileAccuracyReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">核心-协议谈判能力</th>
+                    <td>{{formalPreview.mark.talks}}<span>（满分：12分）</span></td>
+                    <td>{{formalPreview.mark.talksReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">评审合规能力</th>
+                    <td>{{formalPreview.mark.HEGUITOTALMARK}}<span>（满分：30分）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">评审资料质量</th>
+                    <td>{{formalPreview.mark.FILETOTALMARK}}<span>（满分：30分）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">投资核心能力</th>
+                    <td>{{formalPreview.mark.HEXINTOTALMARK}}<span>（满分：40分）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">总得分</th>
+                    <td>{{formalPreview.mark.ALLTOTALMARK}}<span>（满分：100分）</span></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-cover" ng-hide="hideFlagS">
+                <div class="more">
+                    <div class="icon"></div>
+                    <h6 class="text-blue" ng-click="expandMore('content4_table', 'hideFlagS')">点击查看更多</h6>
+                </div>
+            </div>
         </div>
-        <div class="template-table-line"></div>
-        <table class="template-table">
-            <thead>
-            <tr>
-                <th width="20%">
-                    打分项
-                </th>
-                <th width="20%">
-                    分数
-                </th>
-                <th width="60%">
-                    扣分原因
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- 首次进入业务评审节点 -->
-            <tr>
-                <td>合规-审批流程熟悉度</td>
-                <td>
-                    {{formalPreview.mark.flowMark}}
-                    <span class="required">(满分：15分)</span>
-                    <!-- 资料备案默认满分 -->
-                </td>
-                <td>
-                    {{formalPreview.mark.flowMarkReason}}
-                </td>
-            </tr>
-            <tr>
-                <td>合规-资料备案</td>
-                <td>
-                    {{formalPreview.mark.fileCopy}}
-                    <span class="required">(满分：15分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.fileCopyReason}}
-                </td>
-            </tr>
-            <tr>
-                <td>资料-及时性</td>
-                <td>
-                    {{formalPreview.mark.fileTime}}
-                    <span class="required">(满分：9分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.fileTimeReason}}
-                </td>
-            </tr>
-            <tr>
-                <td>资料-完整性</td>
-                <td>
-                    {{formalPreview.mark.fileContent}}
-                    <span class="required">(满分：9分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.fileContentReason}}
-                </td>
-            </tr>
-            <tr>
-                <td>核心-财务测算能力</td>
-                <td>
-                    {{formalPreview.mark.moneyCalculate}}
-                    <span class="required">(满分：12分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.moneyCalculateReason}}
-                </td>
-            </tr>
-            <!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
-            <tr>
-                <td>资料-准确性(业务类资料)</td>
-                <td>
-                    {{formalPreview.mark.reviewFileAccuracy}}
-                    <span class="required">(满分：6分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.reviewFileAccuracyReason}}
-                </td>
-            </tr>
-            <tr>
-                <td>核心-风险识别及规避能力</td>
-                <td>
-                    {{formalPreview.mark.riskControl}}
-                    <span class="required">(满分：12分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.riskControlReason}}
-                </td>
-            </tr>
-            <tr>
-                <td>核心-方案设计能力</td>
-                <td>
-                    {{formalPreview.mark.planDesign}}
-                    <span class="required">(满分：4分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.planDesignReason}}
-                </td>
-            </tr>
-            <!-- -------------------------------评审负责人到确认  end--------------------------------------------- -->
-            <!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
-            <tr>
-                <td>资料-准确性(法律类资料)</td>
-                <td>
-                    {{formalPreview.mark.legalFileAccuracy}}
-                    <span class="required">(满分：6分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.legalFileAccuracyReason}}
-                </td>
-            </tr>
-            <tr>
-                <td>核心-协议谈判能力</td>
-                <td>
-                    {{formalPreview.mark.talks}}
-                    <span class="required">(满分：12分)</span>
-                </td>
-                <td>
-                    {{formalPreview.mark.talksReason}}
-                </td>
-            </tr>
-            <!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
-            <tr>
-                <td>评审合规能力</td>
-                <td>
-                    {{formalPreview.mark.HEGUITOTALMARK}}
-                    <span class="required">(满分：30分)</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>评审资料质量</td>
-                <td>
-                    {{formalPreview.mark.FILETOTALMARK}}
-                    <span class="required">(满分：30分)</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>投资核心能力</td>
-                <td>
-                    {{formalPreview.mark.HEXINTOTALMARK}}
-                    <span class="required">(满分：40分)</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>总得分</td>
-                <td>
-                    {{formalPreview.mark.ALLTOTALMARK}}
-                    <span class="required">(满分：100分)</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 </div>

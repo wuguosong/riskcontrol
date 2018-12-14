@@ -1,55 +1,173 @@
 <div>
-    <img src="page/sys/preview/img/left.png" ng-click="changeTemplateTab(0)" style="float: left;margin-top: 15%">
-    <img src="page/sys/preview/img/right.png" ng-click="changeTemplateTab(1)" style="float: right;margin-top: 15%">
-    <div>
-        <div ng-switch on="templateChangeValue">
-            <section ng-switch-when="1">
-                <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                <div ng-if="formalPreview.summaryType == '4000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
-                <div ng-if="formalPreview.summaryType == '7000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
-                <div ng-if="formalPreview.summaryType == '8000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
-            </section>
-            <section ng-switch-when="2">
-                <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                <div ng-if="formalPreview.summaryType == '4000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
-                <div ng-if="formalPreview.summaryType == '5000' || formalPreview.summaryType == '6000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
-                <div ng-if="formalPreview.summaryType == '7000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
-                <div ng-if="formalPreview.summaryType == '8000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
-            </section>
-            <section ng-switch-when="3">
-                <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                <div ng-if="formalPreview.summaryType == '4000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
-                <div ng-if="formalPreview.summaryType == '7000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
-                <div ng-if="formalPreview.summaryType == '8000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
-            </section>
-            <section ng-switch-when="4">
-                <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '5000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
-                <div ng-if="formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000' || formalPreview.summaryType == '6000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                <div ng-if="formalPreview.summaryType == '4000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                <div ng-if="formalPreview.summaryType == '7000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
-                <div ng-if="formalPreview.summaryType == '8000'"
-                     ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
-            </section>
-            <section ng-switch-when="5">
-                <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-            </section>
+    <!--<img src="page/sys/preview/img/left.png" ng-click="changeTemplateTab(0)" style="float: left;margin-top: 15%">
+    <img src="page/sys/preview/img/right.png" ng-click="changeTemplateTab(1)" style="float: right;margin-top: 15%">-->
+    <div class="row rowsection">
+        <!--左滚动区: 把最后一个swiper-slide放到第一个-->
+        <div class="left-swiper nocurrent-swiper" ng-hide="tempFlag1">
+            <div class="swiper-wrapper">
+                <!-- 左滚动区第一个页面 -->
+                <div ng-switch on="templateChangeValue1" style="width: 100%">
+                    <section ng-switch-when="1">
+                        <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
+                    </section>
+                    <section ng-switch-when="2">
+                        <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '5000' || formalPreview.summaryType == '6000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
+                    </section>
+                    <section ng-switch-when="3">
+                        <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
+                    </section>
+                    <section ng-switch-when="4">
+                        <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '5000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000' || formalPreview.summaryType == '6000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
+                    </section>
+                    <section ng-switch-when="5">
+                        <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--主滚动区-->
+        <div class="current-swiper">
+            <div class="swiper-button-prev" ng-click="changeTemplateTab(0)"></div>
+            <div class="swiper-button-next" ng-click="changeTemplateTab(1)"></div>
+            <div class="swiper-wrapper" id='current_wrapper'>
+                <!-- 主滚动区第一个页面 -->
+                <div ng-switch on="templateChangeValue2" style="width: 100%">
+                    <section ng-switch-when="1">
+                        <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
+                    </section>
+                    <section ng-switch-when="2">
+                        <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '5000' || formalPreview.summaryType == '6000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
+                    </section>
+                    <section ng-switch-when="3">
+                        <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
+                    </section>
+                    <section ng-switch-when="4">
+                        <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '5000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000' || formalPreview.summaryType == '6000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
+                    </section>
+                    <section ng-switch-when="5">
+                        <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--右滚动区:把第一个swiper-slide放在最后-->
+        <div class="right-swiper nocurrent-swiper" ng-hide="tempFlag3">
+            <div class="swiper-wrapper">
+                <!-- 右滚动区第一个页面 -->
+                <div ng-switch on="templateChangeValue3" style="width: 100%">
+                    <section ng-switch-when="1">
+                        <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
+                    </section>
+                    <section ng-switch-when="2">
+                        <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '5000' || formalPreview.summaryType == '6000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
+                    </section>
+                    <section ng-switch-when="3">
+                        <div ng-if="formalPreview.summaryType != '4000' && formalPreview.summaryType != '7000' && formalPreview.summaryType != '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
+                    </section>
+                    <section ng-switch-when="4">
+                        <div ng-if="formalPreview.summaryType == '1000' || formalPreview.summaryType == '5000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '2000' || formalPreview.summaryType == '3000' || formalPreview.summaryType == '6000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '4000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '7000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
+                        <div ng-if="formalPreview.summaryType == '8000'"
+                             ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
+                    </section>
+                    <section ng-switch-when="5">
+                        <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+                    </section>
+                </div>
+            </div>
         </div>
     </div>
 </div>

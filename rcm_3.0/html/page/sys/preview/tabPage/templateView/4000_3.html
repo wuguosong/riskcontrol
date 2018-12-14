@@ -1,13 +1,10 @@
-<div class="box">
-    <div class="box-title">
-        <a class="box-title-font">
-            技改项目收益
-        </a>
-    </div>
+<div class="swiper-slide">
+    <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <h3 class="text-blue">技改项目收益</h3>
     <div>
-        <table class="table-box table-overview">
+        <table class="table table-bordered">
             <thead>
-            <tr>
+            <tr class="info">
                 <th width="20%"></th>
                 <th width="26%">原评审情况</th>
                 <th width="26%">实际运营情况</th>
@@ -16,20 +13,13 @@
             </thead>
             <tbody>
             <tr ng-repeat="projectIncome in formalPreview.projectIncomes | orderBy: 'orderno': desc">
-                <td>
-                    {{ projectIncome.value }}
-                </td>
-                <td>
-                    {{projectIncome.originalReview}}
-                </td>
-                <td>
-                    {{projectIncome.actualOperation}}
-                </td>
-                <td>
-                    {{projectIncome.afterTechnicalReform}}
-                </td>
+                <th scope="row">{{ projectIncome.value }}</th>
+                <td>{{projectIncome.originalReview}}</td>
+                <td>{{projectIncome.actualOperation}}</td>
+                <td>{{projectIncome.afterTechnicalReform}}</td>
             </tr>
             </tbody>
         </table>
+       </div>
     </div>
 </div>

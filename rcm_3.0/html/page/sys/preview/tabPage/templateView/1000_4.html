@@ -1,21 +1,19 @@
-<div class="box">
-    <div class="box-title">
-        <a class="box-title-font">
-            投前条件
-        </a>
-    </div>
-    <div ng-if="formalPreview.requirements.length > 0">
-        <table class="table-box table-overview">
-            <tbody>
-            <tr ng-repeat="perform in formalPreview.requirements | orderBy: 'orderno': desc">
-                <td class="" width="80%">
-                    {{perform.requirementContent}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div ng-if="formalPreview.requirements.length <= 0">
-        <h2>投前条件暂未填写</h2>
+<div class="swiper-slide">
+    <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <h3 class="text-blue">投前条件</h3>
+        <div class="mytable" ng-if="formalPreview.requirements.length > 0">
+            <table  class="table table-bordered">
+                <tbody>
+                <tr ng-repeat="perform in formalPreview.requirements | orderBy: 'orderno': desc">
+                    <td class="">
+                        {{perform.requirementContent}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="formalPreview.requirements.length <= 0">
+            <h4>投前条件暂未填写</h4>
+        </div>
     </div>
 </div>

@@ -1,24 +1,19 @@
-<div class="box">
-    <div class="box-title">
-        <a class="box-title-font">
-            申请事项
-        </a>
-    </div>
-    <div>
-        <table class="table-box table-overview">
-            <tbody>
-            <tr ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
-                <td class="" width="30%">
-                    {{projectOverview.value}}
-                </td>
-                <td class="" width="70%">
+<div class="swiper-wrapper" id='current_wrapper'>
+    <div class="swiper-slide">
+        <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <h3 class="text-blue">申请事项</h3>
+            <div class="row" ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
+                <div class="tit col-md-2 col-sm-2 col-xs-12">{{projectOverview.value}}</div>
+                <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
                     {{projectOverview.content}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
-        <span style="margin: 10px">{{projectOverview.attachmentValue }}</span>
+                </div>
+            </div>
+            <div class="row" ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
+                <div class="img col-md-6 col-sm-6 col-xs-12">
+                    <span></span>
+                    <a ng-click="downLoadAttachment(projectOverview)">{{projectOverview.attachmentValue }}</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

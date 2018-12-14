@@ -1,39 +1,37 @@
-<div class="box">
-    <div class="box-title">
-        <a class="box-title-font">
-            技改项目收益
-        </a>
-    </div>
-    <div>
-        <table class="table-box table-overview">
-            <thead>
-            <tr>
-                <th width="20%">借款时间</th>
-                <th width="20%">借款金额（万元）</th>
-                <th width="20%">还款计划</th>
-                <th width="20%">还款方式</th>
-                <th width="20%">还款来源</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="repaymentPlanVar in formalPreview.repaymentPlans | orderBy: 'orderno': desc">
-                <td>
-                    {{ repaymentPlanVar.loanTime }}
-                </td>
-                <td>
-                    {{repaymentPlanVar.loanAmount}}
-                </td>
-                <td>
-                    {{repaymentPlanVar.repaymentPlan}}
-                </td>
-                <td>
-                    {{repaymentPlanVar.repaymnetMethod}}
-                </td>
-                <td>
-                    {{repaymentPlanVar.repaymentSource}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<div class="swiper-slide">
+    <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <h3 class="text-blue">还款计划</h3>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="20%">借款时间</th>
+                    <th width="20%">借款金额（万元）</th>
+                    <th width="20%">还款计划</th>
+                    <th width="20%">还款方式</th>
+                    <th width="20%">还款来源</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="repaymentPlanVar in formalPreview.repaymentPlans | orderBy: 'orderno': desc">
+                    <td>
+                        {{ repaymentPlanVar.loanTime }}
+                    </td>
+                    <td>
+                        {{repaymentPlanVar.loanAmount}}
+                    </td>
+                    <td>
+                        {{repaymentPlanVar.repaymentPlan}}
+                    </td>
+                    <td>
+                        {{repaymentPlanVar.repaymnetMethod}}
+                    </td>
+                    <td>
+                        {{repaymentPlanVar.repaymentSource}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

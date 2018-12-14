@@ -1,92 +1,35 @@
-<div>
-    <div class="box">
-        <div class="box-title">
-            <a class="box-title-font">
-                项目过程回顾
-            </a>
+<div class="row rowsection">
+
+    <div class="mcontent content1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <h3 class='text-blue'>项目过程回顾</h3>
+
+        <div class="timeline">
+            <siv class="line"></siv>
+            <div class="time start-time">
+                提交申请时间
+                <span>{{formalPreview.applyDate}}</span>
+            </div>
+            <div class="time end-time">
+                评审报告出具时间
+                <span>{{ formalPreview.submit_date }}</span>
+            </div>
         </div>
-        <div>
-            <table class="table-box table-overview">
-                <tbody>
-                <tr class="">
-                    <td colspan="4" class="">
-                        <div class="col-md-3 padding0">
-                            <div class="">
-                                提交申请时间
-                            </div>
-                            <div class="overview-date-font">
-                                {{formalPreview.applyDate}}
-                            </div>
-                        </div>
-                        <div class="col-md-6 padding0">
-                            图片图片图片
-                        </div>
-                        <div class="col-md-3 padding0">
-                            <div class="">
-                                评审报告出具时间
-                            </div>
-                            <div class="overview-date-font">
-                                {{ formalPreview.submit_date }}
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="" width="20%">
-                        所属大区
-                    </td>
-                    <td ng-if="formalPreview.apply.pertainArea.VALUE != null" class="" width="30%">
-                        {{ formalPreview.apply.pertainArea.VALUE }}
-                    </td>
-                    <td ng-if="formalPreview.apply.pertainArea == null || formalPreview.apply.pertainArea.VALUE == null"
-                        class="" width="30%">
-                        {{ formalPreview.apply.reportingUnit.VALUE }}
-                    </td>
-                    <td class="" width="20%">
-                        投资经理
-                    </td>
-                    <td class="" width="30%">
-                        {{ formalPreview.apply.investmentManager.NAME }}
-                    </td>
-                </tr>
-                <td colspan="4" class="overview-title-font">
-                    投资中心/水环境投资中心意见
-                </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        投资测算意见：
-                    </td>
-                    <td class="">
-                        {{formalPreview.cesuanFileOpinion}}
-                    </td>
-                    <td class="">
-                        投资协议意见：
-                    </td>
-                    <td class="">
-                        {{formalPreview.tzProtocolOpinion}}
-                    </td>
-                </tr>
-                <td colspan="4" class="overview-title-font">
-                    风控中心审批意见
-                </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        风控中心审批次数：
-                    </td>
-                    <td class="">
-                        {{formalPreview.approveAttachment.commentsList.length}}
-                    </td>
-                    <td class="">
-                        风控中心法律评审意见条数：
-                    </td>
-                    <td class="">
-                        {{formalPreview.approveLegalAttachment.commentsList.length}}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+
+        <div class="row normalline">
+            <div class="col-md-6 col-sm-6  col-xs-12">所属大区<span>{{ formalPreview.apply.pertainArea.VALUE }}</span></div>
+            <div class="col-md-6 col-sm-6  col-xs-12">投资经理<span>{{ formalPreview.apply.investmentManager.NAME }}</span></div>
+        </div>
+
+        <div class="row normalline titline">
+            <div class="tit col-md-12">投资中心/水环境投资意见中心</div>
+            <div class="col-md-6 col-sm-6  col-xs-12">投资测算意见:<span>{{formalPreview.cesuanFileOpinion}}</span></div>
+            <div class="col-md-6 col-sm-6 col-xs-12">投资协议意见:<span>{{formalPreview.tzProtocolOpinion}}</span></div>
+        </div>
+
+        <div class="row normalline titline">
+            <div class="tit col-md-12">风控中心审批意见</div>
+            <div class="col-md-6 col-sm-6 col-xs-12">风控中心审批次数:<span>{{formalPreview.approveAttachment.commentsList.length}}</span></div>
+            <div class="col-md-6 col-sm-6 col-xs-12">风控中心法律评审意见条数:<span>{{formalPreview.approveLegalAttachment.commentsList.length}}</span></div>
         </div>
     </div>
 </div>
