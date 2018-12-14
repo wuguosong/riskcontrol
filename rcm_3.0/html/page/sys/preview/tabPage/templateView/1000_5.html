@@ -4,18 +4,18 @@
             后续执行要求
         </a>
     </div>
-    <div ng-if="formalPreview.performs > 0">
+    <div ng-if="formalPreview.performs.length > 0">
         <table class="table-box table-overview">
             <tbody>
-            <tr ng-repeat="requirement in formalPreview.performs | orderBy: 'orderno': desc">
+            <tr ng-repeat="perform in formalPreview.performs | orderBy: 'orderno': desc">
                 <td class="" width="80%">
-                    {{requirement.requirementContent}}
+                    {{perform.requirementContent}}
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div ng-if="formalPreview.performs <= 0">
+    <div ng-if="formalPreview.performs.length <= 0">
         <h2>后续执行要求暂未填写</h2>
     </div>
 </div>

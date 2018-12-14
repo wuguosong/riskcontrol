@@ -31,7 +31,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         }
 
         $scope.changeTemplateTab = function (flag) {
-            debugger
+            console.log($scope.formalPreview.summaryType)
             var oldValue = $scope.templateChangeValue;
             if(flag == 0){
                 if (oldValue > 1){

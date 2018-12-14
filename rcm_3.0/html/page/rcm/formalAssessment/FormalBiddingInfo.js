@@ -2110,7 +2110,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         // 整理预览界面需要的json数据
         $scope.previewJson = function () {
-            var formalPreview = $scope.projectSummary;  // 存入模板数据
+            var formalPreview = $scope.combProjectSummaryJson();  // 存入模板数据
             formalPreview.stage = $scope.stage;
             formalPreview.applyDate = $scope.applyDate
             formalPreview.apply = $scope.pfr.apply       // 存入项目信息
