@@ -4,10 +4,10 @@
         <table  class="table table-bordered">
             <thead>
             <tr class="info">
-                <th>分类</th>
-                <th>内容</th>
-                <th>附件</th>
-                <th>操作</th>
+                <th width="17%">分类</th>
+                <th width="47%">内容</th>
+                <th width="16%">附件</th>
+                <th width="20%">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
                     </div>
                 </td>
                 <td class="padding5">
-                    <div class="col-md-6" align="center">
+                    <div class="col-md-6 col-md-6 col-xs-12" align="center">
                         <button ng-if="projectOverview.delete != '1'" class="btn-close" ng-click="closeOverview(projectOverview)">
                             关闭
                         </button>
@@ -59,7 +59,7 @@
                             删除
                         </button>
                     </div>
-                    <div class="col-md-6" align="center">
+                    <div class="col-md-6 col-md-6 col-xs-12" align="center">
                         <button class="btn-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews')">
                         </button>
                         <button class="btn-desc" ng-click="descOrderno(projectOverview, 'projectOverviews')">
@@ -82,62 +82,81 @@
         <table  class="table table-bordered">
             <thead>
             <tr class="info">
-                <th>指标分类</th>
-                <th>指标名称</th>
-                <th>本项目指标</th>
+                <th width="17%">指标分类</th>
+                <th width="47%">指标名称</th>
+                <th width="36%">本项目指标</th>
             </tr>
             </thead>
             <tbody>
-            <tr class='innertr'>
-                <th scope="row">投资指标</th>
+            <tr>
+                <td rowspan="3">投资指标</td>
                 <td>
-                    <div class="innerline">全部投资内部收益率IRR</div>
-                    <div class="innerline">全部投资内部收益率IRR</div>
-                    <div class="innerline">全部投资内部收益率IRR</div>
+                    全投资内部收益率IRR
                 </td>
                 <td>
-                    <div class="innerline">
-                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentGlobale" value="{{ projectSummary.project.investmentGlobale }}">
-                        <span class="percent">%</span>
-                    </div>
-                    <div class="innerline">
-                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentInternal" value="{{ projectSummary.project.investmentInternal }}">
-                        <span class="percent">%</span>
-                    </div>
-                    <div class="innerline">
-                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentStatic" value="{{ projectSummary.project.investmentStatic }}">
+                    <div class="has-feedback">
+                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentGlobale"/>
                         <span class="percent">%</span>
                     </div>
                 </td>
             </tr>
-            <tr class='innertr'>
-                <th scope="row">财务指标</th>
+            <tr>
                 <td>
-                    <div class="innerline">全部投资内部收益率IRR</div>
-                    <div class="innerline">全部投资内部收益率IRR</div>
-
+                    自有资金内部收益率IRR
                 </td>
                 <td>
-                    <div class="innerline">
-                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROE" value="{{ projectSummary.project.financialROE }}">
+                    <div class="has-feedback">
+                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentInternal"/>
                         <span class="percent">%</span>
                     </div>
-                    <div class="innerline">
-                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROI" value="{{ projectSummary.project.financialROI }}">
-                        <span class="percent">%</span>
-                    </div>
-
                 </td>
             </tr>
-            <tr class='innertr'>
-                <th scope="row">财务指标</th>
+            <tr>
                 <td>
-                    <div class="innerline">全部投资内部收益率IRR</div>
+                    全投资静态回收期
                 </td>
                 <td>
-                    <div class="innerline">
-                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.indicatorCash" value="{{ projectSummary.project.indicatorCash }}">
+                    <div class="has-feedback">
+                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.investmentStatic"/>
                         <span class="percent">%</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    财务指标
+                </td>
+                <td>
+                    运营期平均ROE
+                </td>
+                <td>
+                    <div class="has-feedback">
+                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROE"/>
+                        <span class="percent">%</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    运营期平均ROI
+                </td>
+                <td>
+                    <div class="has-feedback">
+                        <input class="form-control" type="text" name="" ng-model="projectSummary.project.financialROI"/>
+                        <span class="percent">%</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    现金流指标
+                </td>
+                <td>
+                    自有资金前五年现金净流量
+                </td>
+                <td>
+                    <div class="has-feedback">
+                        <input type="text" ng-model="projectSummary.project.indicatorCash" class="form-control" name=""/>
                     </div>
                 </td>
             </tr>
@@ -153,14 +172,14 @@
         <div>重点关注</div>
         <table class="table table-bordered">
             <thead>
-            <tr>
-                <th>风险类别</th>
-                <th>风险事项</th>
-                <th>操作</th>
+            <tr class="info">
+                <th width="17%">风险类别</th>
+                <th width="63%">风险事项</th>
+                <th width="20%">操作</th>
             </tr>
             </thead>
-            <tr ng-repeat="seriousRisk in projectSummary.seriousRisks | orderBy: 'orderno': desc">
-                <th scope="row">
+            <tr class='innertr' ng-repeat="seriousRisk in projectSummary.seriousRisks | orderBy: 'orderno': desc">
+                <th>
                     <input type="text" ng-model="seriousRisk.riskType" >
                 </th>
                 <td>
@@ -190,16 +209,16 @@
         <div>一般关注</div>
         <table class="table table-bordered">
             <thead>
-            <tr>
-                <th>风险类别</th>
-                <th>风险事项</th>
-                <th>操作</th>
+            <tr class="info">
+                <th width="17%">风险类别</th>
+                <th width="63%">风险事项</th>
+                <th width="20%">操作</th>
             </tr>
             </thead>
 
             <tbody>
-            <tr ng-repeat="generalRisk in projectSummary.generalRisks | orderBy: 'orderno': desc">
-                <th scope="row">
+            <tr class="innertr" ng-repeat="generalRisk in projectSummary.generalRisks | orderBy: 'orderno': desc">
+                <th>
                     <input type="text" ng-model="generalRisk.riskType" >
                 </th>
                 <td>
@@ -236,9 +255,9 @@
     <div class="mytable">
         <table class="table table-bordered">
             <thead>
-            <tr>
-                <th>投前条件</th>
-                <th>操作</th>
+            <tr class="info">
+                <th width="80%">投前条件</th>
+                <th width="20%">操作</th>
             </tr>
             </thead>
 
@@ -275,9 +294,9 @@
     <div class="mytable">
         <table class="table table-bordered">
             <thead>
-            <tr>
-                <th>后续执行要求</th>
-                <th>操作</th>
+            <tr class="info">
+                <th width="80%">后续执行要求</th>
+                <th width="20%">操作</th>
             </tr>
             </thead>
             <tr ng-repeat="perform in projectSummary.performs | orderBy: 'orderno': desc">
