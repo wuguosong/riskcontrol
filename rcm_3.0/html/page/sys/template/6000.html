@@ -1,232 +1,225 @@
-﻿<div class="template-table-div">
-	<a class="overview-title-font">
-		项目概况
-	</a>
-	<div class="template-table-line"></div>
-	<table class="template-table">
-		<thead>
-		<th width="18%">
-			分类
-		</th>
-		<th width="50%">
-			内容
-		</th>
-		<th width="14%">
-			附件
-		</th>
-		<th width="18%">
-			操作
-		</th>
-		</thead>
-		<tbody>
-		<tr ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
-			<td align="center">
-				<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
-				<a class="template-table-font" ng-if="projectOverview.edit == 0" >{{ projectOverview.value
-					}}</a>
-			</td>
-			<td class="padding5">
-                <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  ng-model="projectOverview.content"
-						  class="form-control ng-pristine ng-valid ng-touched"></textarea>
-			</td>
-			<td>
-				<button ng-if="projectOverview.attachmentValue == null" class="btn btn-info attachmentBtn"
-						ngf-max-size="100MB"
-						ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
-					添加
-				</button>
-				<button ng-if="projectOverview.attachmentValue != null" class="btn btn-info attachmentBtn"
-						ngf-max-size="100MB"
-						ngf-select="changeAttachment($file, $invalidFiles, $index, projectOverview)">
-					替换
-				</button>
-				<button ng-if="projectOverview.attachmentValue != null" class="btn btn-info attachmentBtn"
-						ngf-max-size="100MB"
-						ng-click="deleteAttachment(projectOverview)">
-					删除
-				</button>
-				<div class="rows">
-					<a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)">
-						{{ projectOverview.attachmentValue }}
+﻿<div class="innertable">
+	<h5>项目概况</h5>
+	<div class="mytable">
+		<table  class="table table-bordered">
+			<thead>
+			<tr class="info">
+				<th width="17%">分类</th>
+				<th width="47%">内容</th>
+				<th width="16%">附件</th>
+				<th width="20%">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr scope="row" ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
+				<td align="center">
+					<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
+					<a class="template-table-font" ng-if="projectOverview.edit == 0" >
+						{{ projectOverview.value }}
 					</a>
-				</div>
-			</td>
-			<td class="padding5">
-				<div class="col-md-6" align="center">
-					<button ng-if="projectOverview.delete != '1'" class="button-close" ng-click="closeOverview(projectOverview)">
-						关闭
+				</td>
+				<td class="padding5">
+                <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
+						  name="{{ 'projectOverview_content' + $index }}"
+						  ng-model="projectOverview.content"
+						  class="form-control ng-pristine ng-valid ng-touched" required></textarea>
+					<div class="error-messages"
+						 ng-if="interacted(formalReportForm['projectOverview_content' + $index])">
+						这里是必填项
+					</div>
+				</td>
+				<td>
+					<button ng-if="projectOverview.attachmentValue == null" class="btn-add"
+							ngf-max-size="100MB"
+							ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
+						添加
 					</button>
-					<button ng-if="projectOverview.delete == '1'" class="button-close" ng-click="deleteObj($index, projectSummary.projectOverviews)">
+					<button ng-if="projectOverview.attachmentValue != null" class="btn-add"
+							ngf-max-size="100MB"
+							ngf-select="changeAttachment($file, $invalidFiles, $index, projectOverview)">
+						替换
+					</button>
+					<button ng-if="projectOverview.attachmentValue != null" class=""
+							ngf-max-size="100MB"
+							ng-click="deleteAttachment(projectOverview)">
 						删除
 					</button>
-				</div>
-				<div class="col-md-6" align="center">
-					<button class="button-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews')">
-					</button>
-					<button class="button-desc" ng-click="descOrderno(projectOverview, 'projectOverviews')">
-					</button>
-				</div>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<div class="row" align="center">
-		<button class="button-add1" ng-click="addOverview('projectOverviews')">
-		</button>
+					<div class="rows">
+						<a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)">
+							{{ projectOverview.attachmentValue }}
+						</a>
+					</div>
+				</td>
+				<td class="padding5">
+					<div class="col-md-6 col-md-6 col-xs-12" align="center">
+						<button ng-if="projectOverview.delete != '1'" class="btn-close" ng-click="closeOverview(projectOverview)">
+							关闭
+						</button>
+						<button ng-if="projectOverview.delete == '1'" class="btn-close" ng-click="deleteObj($index, projectSummary.projectOverviews)">
+							删除
+						</button>
+					</div>
+					<div class="col-md-6 col-md-6 col-xs-12" align="center">
+						<button class="btn-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews')">
+						</button>
+						<button class="btn-desc" ng-click="descOrderno(projectOverview, 'projectOverviews')">
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addOverview('projectOverviews')"/>
+		</div>
 	</div>
+</div><!--项目概况-->
 
-	<a class="overview-title-font">
-		项目收益
-	</a>
-	<div class="template-table-line"></div>
-	<table class="template-table">
-		<thead>
-		<tr>
-			<th width="50%">指标名称</th>
-			<th width="50%">本项目指标</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="projectIncome in projectSummary.projectIncomes">
-			<td>
-				<a >{{ projectIncome.value }}</a>
-			</td>
-			<td>
-				<input  ng-model="projectIncome.indicator" class="form-control ng-pristine ng-valid ng-touched"></input>
-			</td>
-		</tr>
-		</tbody>
-	</table>
 
-	<a class="overview-title-font">
-		风险提示
-	</a>
-	<div class="template-table-line"></div>
-	<a href="" class="overview-title-font-second">
-		重点关注
-	</a>
-	<table class="template-table">
-		<thead>
-		<tr>
-			<th width="20%">风险类别</th>
-			<th width="50%">风险事项</th>
-			<th width="30%">
-				操作
-			</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="seriousRisk in projectSummary.seriousRisks | orderBy: 'orderno': desc">
-			<td>
-				<input type="text" ng-model="seriousRisk.riskType" >
-			</td>
-			<td>
-                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="seriousRisk.riskContent" ></textarea>
-			</td>
-			<td class="padding5">
-				<div class="col-sm-6" align="center">
-					<button class="button-close" ng-click="deleteObj($index, projectSummary.seriousRisks)">
-						删除
-					</button>
-				</div>
-				<div class="col-md-6" align="center">
-					<button class="button-asc" ng-click="ascOrderno(seriousRisk, 'seriousRisks')">
-					</button>
-					<button class="button-desc" ng-click="descOrderno(seriousRisk, 'seriousRisks')">
-					</button>
-				</div>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<div class="row" align="center">
-		<button class="button-add1" ng-click="addRisk('seriousRisks')">
-		</button>
-	</div>
-
-	<a href="" class="overview-title-font-second">
-		一般关注
-	</a>
-	<table class="template-table">
-		<thead>
-		<tr>
-			<th width="20%">风险类别</th>
-			<th width="50%">风险事项</th>
-			<th width="30%">
-				操作
-			</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="generalRisk in projectSummary.generalRisks | orderBy: 'orderno': desc">
-			<td>
-				<input type="text" ng-model="generalRisk.riskType" >
-			</td>
-			<td>
-                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="generalRisk.riskContent" ></textarea>
-			</td>
-			<td class="padding5">
-				<div class="col-sm-6" align="center">
-					<button class="button-close" ng-click="deleteObj($index, projectSummary.generalRisks)">
-						删除
-					</button>
-				</div>
-				<div class="col-md-6" align="center">
-					<button class="button-asc" ng-click="ascOrderno(generalRisk, 'generalRisks')">
-					</button>
-					<button class="button-desc" ng-click="descOrderno(generalRisk, 'generalRisks')">
-					</button>
-				</div>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<div class="row" align="center">
-		<button class="button-add1" ng-click="addRisk('generalRisks')">
-		</button>
-	</div>
-
-	<a class="overview-title-font">
-		后续执行要求
-	</a>
-	<div class="template-table-line"></div>
-	<table class="template-table">
-		<thead>
-		<tr>
-			<th width="70%">后续执行要求</th>
-			<th>
-				操作
-			</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="perform in projectSummary.performs | orderBy: 'orderno': desc">
-			<td>
-                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="perform.requirementContent" ></textarea>
-			</td>
-			<td class="padding5">
-				<div class="col-sm-6" align="center">
-					<button class="button-close" ng-click="deleteObj($index, projectSummary.performs)">
-						删除
-					</button>
-				</div>
-
-				<div class="col-md-6" align="center">
-					<button class="button-asc" ng-click="ascOrderno(perform, 'performs')">
-					</button>
-					<button class="button-desc" ng-click="descOrderno(perform, 'performs')">
-					</button>
-				</div>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<div class="row" align="center">
-		<button class="button-add1" ng-click="addRequirement('performs')">
-		</button>
+<div class="innertable">
+	<h5>项目收益</h5>
+	<div class="mytable">
+		<table  class="table table-bordered">
+			<thead>
+			<tr class="info">
+				<th width="70%">指标名称</th>
+				<th width="30%">本项目指标</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="projectIncome in projectSummary.projectIncomes">
+				<td>
+					<a class="template-table-font" >
+						{{ projectIncome.value }}
+					</a>
+				</td>
+				<td>
+					<div class="has-feedback">
+						<input class="form-control" type="text" name="" ng-model="projectIncome.indicator"/>
+						<span class="percent">%</span>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
+
+
+<div class="innertable">
+	<h5>风险提示</h5>
+	<div class="mytable">
+		<div>重点关注</div>
+		<table class="table table-bordered">
+			<thead>
+			<tr class="info">
+				<th width="17%">风险类别</th>
+				<th width="63%">风险事项</th>
+				<th width="20%">操作</th>
+			</tr>
+			</thead>
+			<tr class='innertr' ng-repeat="seriousRisk in projectSummary.seriousRisks | orderBy: 'orderno': desc">
+				<th>
+					<input type="text" ng-model="seriousRisk.riskType" >
+				</th>
+				<td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+						  ng-model="seriousRisk.riskContent" ></textarea>
+				</td>
+				<td class="padding5">
+					<div class="col-sm-6" align="center">
+						<button class="btn-close" ng-click="deleteObj($index, projectSummary.seriousRisks)">
+							删除
+						</button>
+					</div>
+					<div class="col-md-6" align="center">
+						<button class="btn-asc" ng-click="ascOrderno(seriousRisk, 'seriousRisks')">
+						</button>
+						<button class="btn-desc" ng-click="descOrderno(seriousRisk, 'seriousRisks')">
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addRisk('seriousRisks')"/>
+		</div>
+
+		<div>一般关注</div>
+		<table class="table table-bordered">
+			<thead>
+			<tr class="info">
+				<th width="17%">风险类别</th>
+				<th width="63%">风险事项</th>
+				<th width="20%">操作</th>
+			</tr>
+			</thead>
+
+			<tbody>
+			<tr class="innertr" ng-repeat="generalRisk in projectSummary.generalRisks | orderBy: 'orderno': desc">
+				<th>
+					<input type="text" ng-model="generalRisk.riskType" >
+				</th>
+				<td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+						  ng-model="generalRisk.riskContent" ></textarea>
+				</td>
+				<td class="padding5">
+					<div class="col-sm-6" align="center">
+						<button class="btn-close" ng-click="deleteObj($index, projectSummary.generalRisks)">
+							删除
+						</button>
+					</div>
+					<div class="col-md-6" align="center">
+						<button class="btn-asc" ng-click="ascOrderno(generalRisk, 'generalRisks')">
+						</button>
+						<button class="btn-desc" ng-click="descOrderno(generalRisk, 'generalRisks')">
+						</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addRisk('generalRisks')"/>
+		</div>
+	</div>
+</div><!--风险提示-->
+
+<div class="innertable">
+	<h5>后续执行要求</h5>
+	<div class="mytable">
+		<table class="table table-bordered">
+			<thead>
+			<tr class="info">
+				<th width="80%">后续执行要求</th>
+				<th width="20%">操作</th>
+			</tr>
+			</thead>
+			<tr ng-repeat="perform in projectSummary.performs | orderBy: 'orderno': desc">
+				<td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+						  ng-model="perform.requirementContent" ></textarea>
+				</td>
+				<td class="padding5">
+					<div class="col-sm-6" align="center">
+						<button class="btn-close" ng-click="deleteObj($index, projectSummary.performs)">
+							删除
+						</button>
+					</div>
+
+					<div class="col-md-6" align="center">
+						<button class="btn-asc" ng-click="ascOrderno(perform, 'performs')">
+						</button>
+						<button class="btn-desc" ng-click="descOrderno(perform, 'performs')">
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addRequirement('performs')"/>
+		</div>
+	</div>
+</div><!--后续执行要求-->
