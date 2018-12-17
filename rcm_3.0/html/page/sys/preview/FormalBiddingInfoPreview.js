@@ -11,21 +11,39 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         $scope.tempFlag3 = false; // 没有后一个页面，隐藏右阴影区
         $scope.hideFlagR = false; // 正式评审报告隐藏标识
         $scope.hideFlagS = false; // 项目整体评分隐藏标识
+        $scope.slidesL = [];   // 左边滑块页面初始化
+        $scope.slidesM = [];   // 中间滑块页面初始化
+        $scope.slidesR = [];   // 右边滑块页面初始化
 
-        $scope.getDate = function(){
-            var myDate = new Date();
-            //获取当前年
-            var year = myDate.getFullYear();
-            //获取当前月
-            var month = myDate.getMonth() + 1;
-            //获取当前日
-            var date = myDate.getDate();
-            var h = myDate.getHours(); //获取当前小时数(0-23)
-            var m = myDate.getMinutes(); //获取当前分钟数(0-59)
-            var s = myDate.getSeconds();
-            var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
-            return now;
+        // 初始化滑块页面
+        $scope.initSlide = function () {
+            if ($scope.formalPreview.summaryType == '1000') {
+                $scope.slidesL = [
+                    {url: ' '},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_1.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_2.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_3.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_4.html'}
+                ];
+                $scope.slidesM = [
+                    {url: 'page/sys/preview/tabPage/templateView/1000_1.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_2.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_3.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_4.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_5.html'}
+                ];
+                $scope.slidesR = [
+                    {url: 'page/sys/preview/tabPage/templateView/1000_2.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_3.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_4.html'},
+                    {url: 'page/sys/preview/tabPage/templateView/1000_5.html'},
+                    {url: ' '}
+                ];
+            }
+            console.log($scope.slidesM);
         }
+
+        //$scope.initSlide();
 
         // 文件下载
         $scope.downLoadAttachment = function (projectOverview) {
@@ -155,10 +173,10 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             }
         }*/
 
-        // 点击左右按钮切换 风险评控意见汇总 里面的内容
+        /*// 点击左右按钮切换 风险评控意见汇总 里面的内容
         $scope.changeTemplateTab = function (flag) {
-            console.log($scope.formalPreview.summaryType)
-            debugger
+            //console.log($scope.formalPreview.summaryType);
+            console.log(flag)
             // 模板包含列表数
             var number = 0;
             if($scope.formalPreview.summaryType == '1000' || $scope.formalPreview.summaryType == '4000' ||
@@ -177,7 +195,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                     $scope.templateChangeValue1 = $scope.templateChangeValue1 - 1;
                     $scope.templateChangeValue2 = $scope.templateChangeValue2 - 1;
                 } else if ($scope.templateChangeValue2 == 1) {
-                    /*$scope.changeValue = 1;*/
+                    /!*$scope.changeValue = 1;*!/
                 }
             } else {
                 if ($scope.templateChangeValue2 != number) {
@@ -189,9 +207,12 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                         $scope.templateChangeValue3 = $scope.templateChangeValue3 + 1;
                     }
                 } else {
-                    /*$scope.changeValue = 3;*/
+                    /!*$scope.changeValue = 3;*!/
                 }
             }
+            console.log("temp1"+ $scope.templateChangeValue1);
+            console.log("temp2"+ $scope.templateChangeValue2);
+            console.log("temp3"+ $scope.templateChangeValue3);
             // 没有呈现内容，阴影区域不显示
             if ($scope.templateChangeValue1 < 1) {
                 $scope.tempFlag1 = true;
@@ -203,7 +224,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             } else {
                 $scope.tempFlag3 = false;
             }
-        }
+        }*/
 
     }]
 );
