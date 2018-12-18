@@ -78,15 +78,14 @@
             <!--正式评审报告 End-->
 
             <!--业务单位上报评审文件 Start-->
-            <div class="mcontent content1" id="fla5-c">
+            <div class="mcontent content1" id="flag5-c">
                 <h3 class="text-blue">业务单位上报评审文件</h3>
                 <div class="innertable">
                     <h5>投资部门提供</h5>
-                    <div class="rows">
-                        <button ng-if="hasWaiting" type="span" class="btn-add" ng-click="addFileList1()">
-                            新增
-                        </button>
-                    </div>
+                    <direct-upload-file-touzi id="fileupload" file-list="formalReport.policyDecision.fileList"
+                                              select="attach" formal-report="formalReport" attach="newAttachment"
+                                              is-editable="selectFlag" checked-user="item.programmed" callback="hello">
+                    </direct-upload-file-touzi>
                     <!--<span ng-if="hasWaiting" type="span" class="span-add" ng-click="addFileList1()"/>-->
                     <div class="mytable">
                         <table class="table table-bordered">
@@ -101,40 +100,32 @@
                             </thead>
 
                             <tbody>
-                            <tr ng-repeat="item in newAttachment track by $index">
+                            <tr ng-repeat="item in formalReport.policyDecision.fileList track by $index">
                                 <th scope="row">
                                     {{$index+1}}
                                 </td>
                                 <td>
-                                    {{item.ITEM_NAME}}
-                                    <div ng-if="item.newFile">
-                                        <select ng-model="item.newItem" class="newItem"
-                                                ng-options="y.ITEM_NAME for y in attach ">
-                                        </select>
-                                    </div>
+                                    {{item.files.ITEM_NAME }}
                                 </td>
                                 <td>
                                     <span ng-bind="progress$index"></span>
                                     <span style="">{{errorMsg[$index].msg}}</span>
-                                    <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item)">
-                                        {{item.fileName}}
+                                    <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)">
+                                        {{item.files.fileName }}
                                     </a>
                                 </td>
                                 <td>
-                                    {{item.upload_date}}
+                                    {{item.files.upload_date}}
                                 </td>
                                 <td>
                                     <div class="mbtn flex">
-                                        <button ng-if="!item.newFile" ng-disabled="!hasWaiting" class="btn-replace"
-                                                ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">
+                                        <button ng-disabled="!hasWaiting" class="btn-replace"
+                                                ngf-max-size="100MB"
+                                                ngf-select="uploadFK($file, $invalidFiles, $index, item)">
                                             替换
                                         </button>
-                                        <button ng-if="item.newFile" ng-disabled="!hasWaiting" class="btn btn-info"
-                                                ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">
-                                            浏览
-                                        </button>
                                         <button ng-if="hasWaiting" type="span" class="btn-delete"
-                                                ng-click="deleteFileList()">
+                                                ng-click="deleteFileFK($index)">
                                             删除
                                         </button>
                                     </div>
@@ -168,11 +159,11 @@
                                 <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="15"
-                                               ng-model="mark.flowMark" ng-click="validMark(50)">
+                                               ng-model="mark.flowMark" ng-click="validMark(15)">
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                         <span class="score">
-                                        (满分: 50分)
+                                        (满分: 15分)
                                         </span>
                                     </div>
                                 </th>
@@ -188,22 +179,22 @@
                             </tr>
                             <tr>
                                 <th scope="row">合规-资料备案
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="15"
                                                ng-model="mark.fileCopy"
-                                               ng-click="validMark(50)">
+                                               ng-click="validMark(15)"/>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
                                         (满分: 15分)
                                         </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.fileCopyReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th>
                                     <a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
@@ -213,8 +204,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">资料-及时性
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="9"
                                                ng-model="mark.fileTime">
@@ -224,19 +215,19 @@
                                         (满分: 9分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.fileTimeReason" class="form-control"></textarea>
-                                </td>
-                                <td><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+                                </th>
+                                <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        class="help"
-                                       title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a></td>
+                                       title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a></th>
                             </tr>
                             <tr>
                                 <th scope="row">资料-完整性
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="9"
                                                ng-model="mark.fileContent">
@@ -246,10 +237,10 @@
                                         (满分: 9分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.fileContentReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white" class="help"
@@ -257,8 +248,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">核心-财务测算能力
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.moneyCalculate">
@@ -268,10 +259,10 @@
                                         (满分: 12分)
                                         </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.moneyCalculateReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -281,8 +272,8 @@
                             <!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
                             <tr>
                                 <th scope="row">资料-准确性(业务类资料)
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="6"
                                                ng-model="mark.reviewFileAccuracy">
@@ -292,10 +283,10 @@
                                         (满分: 6分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.reviewFileAccuracyReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -304,8 +295,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">核心-风险识别及规避能力
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.riskControl">
@@ -315,10 +306,10 @@
                                         (满分: 12分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.riskControlReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -327,8 +318,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">核心-方案设计能力
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="4"
                                                ng-model="mark.planDesign">
@@ -338,10 +329,10 @@
                                         (满分: 4分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.planDesignReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -351,8 +342,8 @@
                             <!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
                             <tr>
                                 <th scope="row">资料-准确性(法律类资料)
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="6"
                                                ng-model="mark.legalFileAccuracy">
@@ -362,10 +353,10 @@
                                         (满分: 6分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.legalFileAccuracyReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -374,8 +365,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">核心-协议谈判能力
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.talks">
@@ -385,10 +376,10 @@
                                         (满分: 12分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <textarea ng-model="mark.talksReason" class="form-control"></textarea>
-                                </td>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -398,8 +389,8 @@
                             <!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
                             <tr>
                                 <th scope="row">评审合规能力
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" ng-disabled="true" min="0"
                                                max="30"
@@ -410,9 +401,9 @@
                                         (满分: 30分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
-                                </td>
+                                </th>
+                                <th>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -420,8 +411,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">评审资料质量
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" ng-disabled="true" min="0"
                                                max="30"
@@ -432,9 +423,9 @@
                                         (满分: 30分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
-                                </td>
+                                </th>
+                                <th>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -442,8 +433,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">投资核心能力
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" ng-disabled="true" min="0"
                                                max="40"
@@ -454,9 +445,9 @@
                                         (满分: 40分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
-                                </td>
+                                </th>
+                                <th>
+                                </th>
                                 <th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
                                        data-backColor="white"
@@ -464,8 +455,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">总得分
-                                </td>
-                                <td>
+                                </th>
+                                <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" ng-disabled="true" min="0"
                                                max="100"
@@ -476,9 +467,9 @@
                                         (满分: 100分)
                                     </span>
                                     </div>
-                                </td>
-                                <td>
-                                </td>
+                                </th>
+                                <th>
+                                </th>
                                 <th>
                                     <a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
                                        data-html="true"
@@ -501,8 +492,8 @@
                 <span ng-if="hasWaiting" type="span" class="btn-preview" ng-click="toPreview()" class="btn btn-info"/>
             </div>
             <div class="stage flex">
-                <a href="#">提交</a>
-                <a href="#">暂存</a>
+                <a href="" ng-click="submitSave()">提交</a>
+                <a href="" ng-click="saveOnly()">暂存</a>
             </div>
             <div class="linkline mcontent">
                 <div class="side-bar-div">
@@ -632,7 +623,6 @@
         });
         //点击目录跳到相应模块
         $(".catalog-list li").click(function () {
-            console.log($(this));
             $(this).addClass("cur").siblings("li").removeClass("cur");
             var _id = $(this).attr("id");
             if (typeof $('#' + _id + '-c').offset() !== 'undefined') {

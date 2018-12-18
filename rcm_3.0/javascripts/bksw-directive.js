@@ -1774,7 +1774,7 @@ ctmApp.directive('directUserSingleDialog', function() {
         		}
         	};
         	
-        	$scope.cancelSelected = function(){
+        	$scope.cancelSelected = function(){saveSelected()
         		$scope.initData();
         	}
         	$scope.saveSelected = function(){
@@ -4905,5 +4905,145 @@ ctmApp.directive('directiveFormalJcwyhNew', function() {
         link:function(scope,element,attr){
         }
 
+    };
+});
+ctmApp.directive('directUploadFileTouzi', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directUploadFileTouzi.html',
+        replace: true,
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            //查询参数
+            queryParams: "=",
+            //是否可编辑
+            isEditable:"=",
+            //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
+            checkedUser: "=",
+            //映射的key，value，{nameField:'username',valueField:'uuid'}，
+            //默认为{nameField:'NAME',valueField:'VALUE'}
+            mappedKeyValue: "=",
+            callback: "=",
+            attach: "=",
+            fileList: "=",
+            select: "=",
+            formalReport: "="
+        },
+        controller: function($scope, $http, $element, Upload){
+
+            $scope.item = {};
+            // 获得时间
+        	$scope.getDate = function () {
+                var myDate = new Date();
+                //获取当前年
+                var year = myDate.getFullYear();
+                //获取当前月
+                var month = myDate.getMonth() + 1;
+                //获取当前日
+                var date = myDate.getDate();
+                var h = myDate.getHours(); //获取当前小时数(0-23)
+                var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+                var s = myDate.getSeconds();
+                var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
+                return now;
+            }
+
+            $scope.changeAttach = function (name) {
+                console.log(name);
+                $scope.latestAttachment = null;
+                angular.forEach($scope.attach, function (data, index) {
+                    if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
+                        if ($scope.latestAttachment) {
+                            if ($scope.latestAttachment.upload_date < data.upload_date) {
+                                $scope.latestAttachment = data;
+                            }
+                        } else {
+                            $scope.latestAttachment = data;
+                        }
+                    }
+                });
+                if ($scope.latestAttachment.type == "invest") {
+                    $scope.latestAttachment.typeValue = "业务部门提供";
+				}
+            };
+
+            $scope.close = function() {
+                $scope.latestAttachment = null;
+                $scope.item = null;
+			}
+
+            $scope.submit = function() {
+            	$scope.file = {};
+                $scope.file.files = {};
+                $scope.file.files.fileName = $scope.latestAttachment.fileName;
+                $scope.file.files.filePath = $scope.latestAttachment.filePath;
+                $scope.file.files.upload_date = $scope.latestAttachment.upload_date;
+                $scope.file.files.type = $scope.latestAttachment.type;
+                $scope.file.files.typeValue = $scope.latestAttachment.typeValue;
+                $scope.file.files.ITEM_NAME = $scope.item.newItem.ITEM_NAME;
+                $scope.file.files.UUID = $scope.item.newItem.UUID;
+                $scope.fileList.push($scope.file);
+            }
+
+            $scope.changeAttach = function (name) {
+                $scope.latestAttachment = null;
+                angular.forEach($scope.attach, function (data, index) {
+                    if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
+                        if ($scope.latestAttachment) {
+                            if ($scope.latestAttachment.upload_date < data.upload_date) {
+                                $scope.latestAttachment = data;
+                            }
+                        } else {
+                            $scope.latestAttachment = data;
+                        }
+                    }
+                });
+                if ($scope.latestAttachment.type == "invest") {
+                    $scope.latestAttachment.typeValue = "投资部门提供";
+                } else {
+                    $scope.latestAttachment.typeValue = "业务部门提供";
+				}
+            };
+
+            $scope.newAttachment;
+            $scope.upload = function (file, errorFile, idx) {
+                $scope.newAttachment = {};
+                var fileFolder = "formalReport/";
+                var dates = $scope.formalReport.create_date;
+                var no = $scope.formalReport.projectNo;
+
+                var strs = new Array(); //定义一数组
+                var dates = $scope.getDate();
+                strs = dates.split("-"); //字符分割
+                dates = strs[0] + strs[1]; //分割后的字符输出
+                fileFolder = fileFolder + dates + "/" + no;
+                console.log(fileFolder);
+
+                Upload.upload({
+                    url: srvUrl + 'file/uploadFile.do',
+                    data: {file: file, folder: fileFolder}
+                }).then(function (resp) {
+                    var retData = resp.data.result_data[0];
+                    console.log(retData);
+                    $scope.newAttachment.fileName = retData.fileName;
+                    $scope.newAttachment.filePath = retData.filePath;
+                    $scope.newAttachment.upload_date = retData.upload_date
+                    $scope.newAttachment.type = "invest";
+                    $scope.newAttachment.typeValue = "投资部门提供";
+                    $scope.latestAttachment = $scope.newAttachment;
+                }, function (resp) {
+                    $.alert(resp.status);
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    $scope["progress" + idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                });
+            };
+
+
+
+        }
     };
 });

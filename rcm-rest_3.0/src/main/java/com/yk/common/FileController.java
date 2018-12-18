@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import util.FileUtil;
 import util.PropertiesUtil;
+import util.Util;
 
 import com.google.gson.Gson;
 
@@ -97,6 +98,7 @@ public class FileController {
 						map.put("fileName", originalFilename);
 						File file2 = new File(path + nowFileName);
 						map.put("filePath", file2.getAbsolutePath().replaceAll("\\\\", "/"));
+						map.put("upload_date", Util.format(Util.now()));
 						listsMap.add(map);
 						result.setResult_data(listsMap);
 					}

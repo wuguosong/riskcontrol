@@ -119,7 +119,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 //		});
             $(".mark").keyup(function () {
                 if (this.value.length == 1) {
-                    this.value = this.value.replace(/[^1-9]/g, '');
+                    this.value = this.value.replace(/[^0-9]/g, '');
                 } else {
                     this.value = this.value.replace(/\D/g, '')
                 }
@@ -448,7 +448,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             //     console.log("不可以提交");
             // }
             $scope.saveOrSubmit(data, "so");
-
+            console.log($scope.newAttachment );
         }
 
         $scope.submitSave = function () {
@@ -511,7 +511,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         $scope.dataForSave = function () {
             var newAttachment = $scope.reduceAttachmentForSubmit($scope.newAttachment);
-
+            console.log(newAttachment);
             if (newAttachment == false) {
                 return false;
             }
@@ -741,10 +741,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         }
                         newAttachment[i].ITEM_NAME = newAttachment[i].newItem.ITEM_NAME;
                         newAttachment[i].UUID = newAttachment[i].newItem.UUID;
-
                         $scope.newAttachment[i].ITEM_NAME = newAttachment[i].newItem.ITEM_NAME;
                         $scope.newAttachment[i].UUID = newAttachment[i].newItem.UUID;
-
                         if (newAttachment[i].UUID == $scope.newPfr.attachment[j].UUID) {
                             //之前版本号
                             //console.log($scope.newPfr.attachment[j].files);
@@ -756,13 +754,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                                 newAttachment[i].version = versionNum * 1 + 1;
                             }
                             newAttachment[i].newFile = false;
-                            newAttachment[i].upload_date = now;
                             newAttachment[i].programmed = newAttachment[i].programmed;
-//	    				newAttachment[i].programmed.name=$scope.credentials.userName;
-//	    				newAttachment[i].programmed.value=$scope.credentials.UUID;
                             newAttachment[i].approved = newAttachment[i].approved;
-//	    				newAttachment[i].approved.name=$scope.credentials.userName;
-//	    				newAttachment[i].approved.value=$scope.credentials.UUID;
                             if (undefined == $scope.newPfr.attachment[j].files) {
                                 $scope.newPfr.attachment[j].files = [];
                                 $scope.newPfr.attachment[j].files.push(newAttachment[i]);
@@ -770,7 +763,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                                 $scope.newPfr.attachment[j].files.push(newAttachment[i]);
                             }
                         }
-
                     }
                 }
             }
@@ -925,11 +917,42 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             if (undefined == $scope.newPfr.attachment) {
                 $scope.newAttachment = {files: []};
             }
-            addBlankRow1($scope.newAttachment);
+            // addBlankRow1($scope.newAttachment);
+            var modalInstance = $uibModal.open({
+                animation: false,
+                backdrop: false,
+                controller: 'AddAttenchCtrl',
+                templateUrl: 'page/function/AttenchmentFile.html',
+                resolve: {
+                    AttachmentList: function () {
+                        return $scope.newAttachment;
+                    },
+                    SelectList: function () {
+                        return $scope.attach;
+                    },
+                    no: function () {
+                        return $scope.formalReport.projectNo;
+                    }
+                }
+            })
+            modalInstance.opened.then(function() {// 模态窗口打开之后执行的函数
+                console.log('modal is opened');
+            });
+            modalInstance.result.then(function (result) {
+                console.log(result);
+            }, function (reason) {
+                console.log(reason);// 点击空白区域，总会输出backdrop
+                // click，点击取消，则会暑促cancel
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+
+
         }
 
         //业务单位上报评审文件-投资部门提供---->删除指定的列表
-        $scope.deleteFileList = function () {
+        $scope.deleteFileList = function (item) {
+            // $scope.newAttachment.splice(index - 1, 1);
+            // $scope.newAttachment.splice(14, 1);
             var i = 0;
             $(".deleteSelect:checked").each(function () {
                 if (i > 0) {
@@ -941,6 +964,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             });
             $(".deleteSelect:checked").attr("checked", false);
         }
+
 
         //业务单位上报评审文件-投资部门提供---->上传附件
         $scope.errorMsg = [];
@@ -965,6 +989,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     var bbb = $scope.newAttachment[idx];
                     $scope.newAttachment[idx].fileName = retData.fileName;
                     $scope.newAttachment[idx].filePath = retData.filePath;
+                    $scope.newAttachment[idx].upload_date = retData.upload_date;
                     $.alert("文件替换成功！请执行保存操作！否则操作无效！");
                 }, function (resp) {
                     $.alert(resp.status);
@@ -1150,17 +1175,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     }
                 ];
 
-                $scope.projectSummary.seriousRisks = [
-                ];
+                $scope.projectSummary.seriousRisks = [];
 
-                $scope.projectSummary.generalRisks = [
-                ];
+                $scope.projectSummary.generalRisks = [];
 
-                $scope.projectSummary.requirements = [
-                ];
+                $scope.projectSummary.requirements = [];
 
-                $scope.projectSummary.performs = [
-                ];
+                $scope.projectSummary.performs = [];
 
                 $scope.projectSummary.project = angular.copy($scope.project);
 
@@ -1251,14 +1272,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         delete: "0"
                     }
                 ];
-                $scope.projectSummary.seriousRisks = [
-                ];
+                $scope.projectSummary.seriousRisks = [];
 
-                $scope.projectSummary.generalRisks = [
-                ];
+                $scope.projectSummary.generalRisks = [];
 
-                $scope.projectSummary.performs = [
-                ];
+                $scope.projectSummary.performs = [];
 
                 $scope.projectSummary.project = angular.copy($scope.project);
 
@@ -1361,14 +1379,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         delete: "0"
                     }
                 ];
-                $scope.projectSummary.seriousRisks = [
-                ];
+                $scope.projectSummary.seriousRisks = [];
 
-                $scope.projectSummary.generalRisks = [
-                ];
+                $scope.projectSummary.generalRisks = [];
 
-                $scope.projectSummary.performs = [
-                ];
+                $scope.projectSummary.performs = [];
 
                 $scope.projectSummary.project = angular.copy($scope.project);
 
@@ -1537,14 +1552,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         afterTechnicalReform: null
                     }
                 ];
-                $scope.projectSummary.seriousRisks = [
-                ];
+                $scope.projectSummary.seriousRisks = [];
 
-                $scope.projectSummary.generalRisks = [
-                ];
+                $scope.projectSummary.generalRisks = [];
 
-                $scope.projectSummary.performs = [
-                ];
+                $scope.projectSummary.performs = [];
 
             } else if (type.ITEM_CODE == "5000") {
                 $scope.projectSummary.projectOverviews = [
@@ -1705,17 +1717,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         indicator: null
                     }
                 ];
-                $scope.projectSummary.seriousRisks = [
-                ];
+                $scope.projectSummary.seriousRisks = [];
 
-                $scope.projectSummary.generalRisks = [
-                ];
+                $scope.projectSummary.generalRisks = [];
 
-                $scope.projectSummary.requirements = [
-                ];
+                $scope.projectSummary.requirements = [];
 
-                $scope.projectSummary.performs = [
-                ];
+                $scope.projectSummary.performs = [];
             } else if (type.ITEM_CODE == "6000") {
                 $scope.projectSummary.projectOverviews = [
                     {
@@ -1803,14 +1811,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         indicator: null
                     }
                 ];
-                $scope.projectSummary.seriousRisks = [
-                ];
+                $scope.projectSummary.seriousRisks = [];
 
-                $scope.projectSummary.generalRisks = [
-                ];
+                $scope.projectSummary.generalRisks = [];
 
-                $scope.projectSummary.performs = [
-                ];
+                $scope.projectSummary.performs = [];
 
                 $scope.projectSummary.project = angular.copy($scope.project);
 
@@ -1866,10 +1871,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         delete: "0"
                     }
                 ];
-                $scope.projectSummary.repaymentPlans = [
-                ];
-                $scope.projectSummary.desciptions = [
-                ];
+                $scope.projectSummary.repaymentPlans = [];
+                $scope.projectSummary.desciptions = [];
             } else if (type.ITEM_CODE == "8000") {
                 $scope.projectSummary.projectOverviews = [
                     {
@@ -1934,10 +1937,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         delete: "0"
                     }
                 ];
-                $scope.projectSummary.decisionMakings = [
-                ];
-                $scope.projectSummary.desciptions = [
-                ];
+                $scope.projectSummary.decisionMakings = [];
+                $scope.projectSummary.desciptions = [];
             }
             angular.forEach($scope.projectSummary.projectOverviews, function (data, index) {
                 data.orderno = parseInt(data.orderno);
@@ -2034,7 +2035,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             angular.forEach($scope.projectSummary[variable], function (data, index, array) {
                 $scope.str = data.code.split("_");
                 if ($scope.str[0] == "other") {
-                    if (data.data > $scope.newIndex ) {
+                    if (data.data > $scope.newIndex) {
                         $scope.newIndex = data.data;
                     }
                 }
@@ -2198,5 +2199,128 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             projectOverview.attachmentValue = null;
         };
 
+        // 用户输入校验
+        $scope.validNumber = function (obj, attr) {
+            console.log(obj);
+            console.log(attr)
+            //先把非数字的都替换掉，除了数字和.
+            obj[attr] = obj[attr].replace(/[^\d.]/g, "");
+            //必须保证第一个为数字而不是.
+            obj[attr] = obj[attr].replace(/^\./g, "");
+            //保证只有出现一个.而没有多个.
+            obj[attr] = obj[attr].replace(/\.{2,}/g, "");
+            //只能输入两个小数
+            obj[attr] = obj[attr].replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+            //保证.只出现一次，而不能出现两次以上
+            obj[attr] = obj[attr].replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        }
+
+        $scope.deleteFileFK = function (index) {
+            $scope.formalReport.policyDecision.fileList.splice(index, 1);
+        }
+
+        $scope.uploadFK = function (file, errorFile, idx, item) {
+            var fileFolder = "formalReport/";
+            var dates = $scope.formalReport.create_date;
+            var no = $scope.formalReport.projectNo;
+
+            var strs = new Array(); //定义一数组
+            var dates = $scope.getDate();
+            strs = dates.split("-"); //字符分割
+            dates = strs[0] + strs[1]; //分割后的字符输出
+            fileFolder = fileFolder + dates + "/" + no;
+            console.log(fileFolder);
+
+            Upload.upload({
+                url: srvUrl + 'file/uploadFile.do',
+                data: {file: file, folder: fileFolder}
+            }).then(function (resp) {
+                var retData = resp.data.result_data[0];
+                console.log(retData);
+                item.files.fileName = retData.fileName;
+                item.files.filePath = retData.filePath;
+                item.files.upload_date = retData.upload_date
+                item.files.type = "invest";
+                item.files.typeValue = "投资部门提供";
+            }, function (resp) {
+                $.alert(resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope["progress" + idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+            });
+        };
+
+
+    }]);
+ctmApp.register.controller('AddAttenchCtrl', ['$uibModalInstance', '$scope', 'Upload', 'AttachmentList', 'SelectList', 'no',
+    function ($uibModalInstance, $scope, Upload, AttachmentList, SelectList, no) {
+        $scope.getDate = function () {
+            var myDate = new Date();
+            //获取当前年
+            var year = myDate.getFullYear();
+            //获取当前月
+            var month = myDate.getMonth() + 1;
+            //获取当前日
+            var date = myDate.getDate();
+            var h = myDate.getHours(); //获取当前小时数(0-23)
+            var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+            var s = myDate.getSeconds();
+            var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
+            return now;
+        }
+
+        $scope.upload2 = function (file, errorFile, idx) {
+            $scope.newAttachment = {};
+            var fileFolder = "pfrAssessment/";
+            var strs = new Array(); //定义一数组
+            var dates = $scope.getDate();
+            strs = dates.split("-"); //字符分割
+            dates = strs[0] + strs[1]; //分割后的字符输出
+            fileFolder = fileFolder + dates + "/" + no;
+            console.log(fileFolder);
+            Upload.upload({
+                url: srvUrl + 'file/uploadFile.do',
+                data: {file: file, folder: fileFolder}
+            }).then(function (resp) {
+                var retData = resp.data.result_data[0];
+                console.log(retData);
+                $scope.newAttachment.fileName = retData.fileName;
+                $scope.newAttachment.filePath = retData.filePath;
+                $scope.newAttachment.upload_date = retData.upload_date;
+                $uibModalInstance.close($scope.newAttachment);
+            }, function (resp) {
+                $.alert(resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope["progress" + idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+            });
+        };
+
+        //业务单位上报评审文件-投资部门提供---->新增列表
+        $scope.downLoadBiddingFile = function (idx) {
+            var isExists = validFileExists(idx.filePath);
+            if (!isExists) {
+                $.alert("要下载的文件已经不存在了！");
+                return;
+            }
+            var filePath = idx.filePath, fileName = idx.fileName;
+            if (fileName != null && fileName.length > 22) {
+                var extSuffix = fileName.substring(fileName.lastIndexOf("."));
+                fileName = fileName.substring(0, 22);
+                fileName = fileName + extSuffix;
+            }
+
+            var url = srvUrl + "file/downloadFile.do?filepaths=" + encodeURI(filePath) + "&filenames=" + encodeURI(encodeURI(fileName));
+            var a = document.createElement('a');
+            a.id = 'tagOpenWin';
+            a.target = '_blank';
+            a.href = url;
+            document.body.appendChild(a);
+
+            var e = document.createEvent('MouseEvent');
+            e.initEvent('click', false, false);
+            document.getElementById("tagOpenWin").dispatchEvent(e);
+            $(a).remove();
+        }
 
     }]);
