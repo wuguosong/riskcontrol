@@ -252,7 +252,7 @@ li {
 
 .mytable tbody th,
 .mytable tbody td {
-    padding: 20px 10px !important;
+    padding: 20px 10px;
 }
 
 .mytable {
@@ -741,16 +741,16 @@ li {
 }
 
 .left-content .preview {
-     font-size: 14px;
-     width: 120px;
-     height: 40px;
-     color: #fff;
-     line-height: 40px;
-     margin: 0 auto;
-     text-align: center;
-     background: url(/html/assets/images/btn/btn-preview.png) no-repeat;
-     background-size: cover;
- }
+    font-size: 14px;
+    width: 120px;
+    height: 40px;
+    color: #fff;
+    line-height: 40px;
+    margin: 0 auto;
+    text-align: center;
+    background: url(/html/assets/images/btn/btn-preview.png) no-repeat;
+    background-size: cover;
+}
 
 .left-content .stage {
     width: 80%;
@@ -951,5 +951,5 @@ li {
 }
 
 .link-new {
-    line-heigh: 50px;
+    line-heigh: 50px
 }
