@@ -1,5 +1,5 @@
 <link href="../styles/style.css" rel="stylesheet" type="text/css"/>
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="FormalBiddingInfoPreview">
     <div class="mheader row">
         <div class="col-md-10 col-sm-10 col-xs-10">
             <h3 class="text-blue">{{ formalPreview.apply.projectName }}</h3>
@@ -8,10 +8,10 @@
         <img src="assets/images/pixel-admin/main-navbar-logo.png" alt="Pixel Admin" class="logo" />
     </div>
     <div class="row mtab text-gray">
-        <a id="processReview" ng-click="changeTitle(1, 'processReview')" class="chose col-md-3 col-sm-6 col-xs-12">项目过程回顾</a>
-        <a id="template" ng-click="changeTitle(2, 'template')" class="col-md-3 col-sm-6 col-xs-12">风控评测意见汇总</a>
-        <a id="formalReport" ng-click="changeTitle(3, 'formalReport')" class="col-md-3 col-sm-6 col-xs-12">正式评审报告</a>
-        <a id="score" ng-click="changeTitle(4, 'score')" class="col-md-3 col-sm-6 col-xs-12">项目整体评分</a>
+        <a id="processReview" class="chose col-md-3 col-sm-6 col-xs-12">项目过程回顾</a>
+        <a id="template" class="col-md-3 col-sm-6 col-xs-12">风控评测意见汇总</a>
+        <a id="formalReport" class="col-md-3 col-sm-6 col-xs-12">正式评审报告</a>
+        <a id="score" class="col-md-3 col-sm-6 col-xs-12">项目整体评分</a>
     </div>
     <div class="mperson row">
         <div class="col-md-3 col-sm-6 col-xs-12">评审负责人<em>{{formalPreview.taskallocation.reviewLeader.NAME}}</em></div>
@@ -19,22 +19,68 @@
         <div class="col-md-3 col-sm-6 col-xs-12">投资建议<em>{{formalPreview.investmentType.ITEM_NAME}}</em></div>
         <div class="col-md-3 col-sm-6 col-xs-12">评审难度评级<em>{{ formalPreview.projectRating.name }}</em></div>
     </div>
-    <!--<img src="page/sys/preview/img/left.png" ng-if="changeValue != 1 && changeValue != 2" ng-click="changeTab(0)" style="float: left;margin-top: 15%">
-    <img src="page/sys/preview/img/right.png" ng-if="changeValue != 4 && changeValue != 2" ng-click="changeTab(1)" style="float: right;margin-top: 15%">-->
-    <div>
-        <div ng-switch on="changeValue">
-            <section ng-switch-when="1">
-                <div ng-include src="'page/sys/preview/tabPage/processReview.html'"></div>
-            </section>
-            <section ng-switch-when="2">
-                <div ng-include src="'page/sys/preview/tabPage/template.html'"></div>
-            </section>
-            <section ng-switch-when="3">
-                <div ng-include src="'page/sys/preview/tabPage/formalReport.html'"></div>
-            </section>
-            <section ng-switch-when="4">
-                <div ng-include src="'page/sys/preview/tabPage/score.html'"></div>
-            </section>
+    <div class="row rowsection">
+        <div class="outside-swiper swiper-container">
+            <div class="swiper-button-prev out-swiper-button-prev"></div>
+            <div class="swiper-button-next out-swiper-button-next"></div>
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div ng-include src="'page/sys/preview/tabPage/processReview.html'"></div>
+                </div>
+                <div class="swiper-slide">
+                    <div ng-include src="'page/sys/preview/tabPage/template.html'"></div>
+                </div>
+                <div class="swiper-slide">
+                    <div ng-include src="'page/sys/preview/tabPage/formalReport.html'"></div>
+                </div>
+                <div class="swiper-slide">
+                    <div ng-include src="'page/sys/preview/tabPage/score.html'"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+        setTimeout(function () {
+            var outsideSwiper = new Swiper('.outside-swiper', {
+                observer: true,
+                observeParents: true,
+                loop: false,
+                navigation: {
+                    nextEl: '.out-swiper-button-next',
+                    prevEl: '.out-swiper-button-prev'
+                },
+                on: {
+                    slideChange: function(){
+                        if(this.activeIndex == 1){
+                            $('.out-swiper-button-prev').hide()
+                            $('.out-swiper-button-next').hide()
+                        }else{
+                            $('.out-swiper-button-prev').show()
+                            $('.out-swiper-button-next').show()
+                        }
+                    },
+                    transitionStart: function () {
+                        var formalBiddingInfoPreview = document.querySelector('[ng-controller = FormalBiddingInfoPreview]');
+                        var $scope = angular.element(formalBiddingInfoPreview).scope();
+                        $scope.changeStyle(this.activeIndex)
+                    }
+                }
+            });
+            $('#processReview').click(function(){
+                outsideSwiper.slideTo(0, 1000, true);//切换到第一个slide，速度为1秒
+            });
+            $('#template').click(function(){
+                outsideSwiper.slideTo(1, 1000, true);//切换到第二个slide，速度为1秒
+            });
+            $('#formalReport').click(function(){
+                outsideSwiper.slideTo(2, 1000, true);//切换到第三个slide，速度为1秒
+            });
+            $('#score').click(function(){
+                outsideSwiper.slideTo(3, 1000, true);//切换到第四个slide，速度为1秒
+            });
+        }, 1000);
+    })
+</script>

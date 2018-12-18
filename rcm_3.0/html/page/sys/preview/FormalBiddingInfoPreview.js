@@ -3,47 +3,9 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         // 预览传来的参数
         $scope.formalPreview = $routeParams.formalPreview;
         $scope.changeValue = 1;   // 标识切换的页面
-        $scope.templateChangeValue = 1; // 标识切换页面
-        $scope.templateChangeValue1 = 0; // 滑动页面标识
-        $scope.templateChangeValue2 = 1; // 滑动页面标识
-        $scope.templateChangeValue3 = 2; // 滑动页面标识
-        $scope.tempFlag1 = true; // 没有前一个页面，隐藏左阴影区
-        $scope.tempFlag3 = false; // 没有后一个页面，隐藏右阴影区
         $scope.hideFlagR = false; // 正式评审报告隐藏标识
         $scope.hideFlagS = false; // 项目整体评分隐藏标识
-        $scope.slidesL = [];   // 左边滑块页面初始化
-        $scope.slidesM = [];   // 中间滑块页面初始化
-        $scope.slidesR = [];   // 右边滑块页面初始化
 
-        // 初始化滑块页面
-        $scope.initSlide = function () {
-            if ($scope.formalPreview.summaryType == '1000') {
-                $scope.slidesL = [
-                    {url: ' '},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_1.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_2.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_3.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_4.html'}
-                ];
-                $scope.slidesM = [
-                    {url: 'page/sys/preview/tabPage/templateView/1000_1.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_2.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_3.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_4.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_5.html'}
-                ];
-                $scope.slidesR = [
-                    {url: 'page/sys/preview/tabPage/templateView/1000_2.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_3.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_4.html'},
-                    {url: 'page/sys/preview/tabPage/templateView/1000_5.html'},
-                    {url: ' '}
-                ];
-            }
-            console.log($scope.slidesM);
-        }
-
-        //$scope.initSlide();
 
         // 文件下载
         $scope.downLoadAttachment = function (projectOverview) {
@@ -139,18 +101,16 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             return true;
         }
 
-
-
-        // 点击最上边标题切换内容 以及使用样式
-        $scope.changeTitle = function (num, id) {
+        // 滑动切换时，上面的过程跟着切换
+        $scope.changeStyle = function (num) {
             var tabId = ['processReview', 'template', 'formalReport', 'score'];
             angular.forEach(tabId, function (data, index, array) {
-                if (data != id) {
+                if (index != num) {
                     angular.element("#"+data).removeClass('chose');
+                } else {
+                    angular.element("#"+data).addClass('chose');
                 }
             });
-            angular.element("#"+id).addClass('chose');
-            $scope.changeValue = num;
         }
 
         // 展开展示信息
@@ -159,72 +119,5 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             angular.element("#"+parentId).addClass('hideOpen');
             $scope[val] = true;
         }
-
-        /*// 点击左右按钮切换
-        $scope.changeTab = function (flag) {
-            debugger
-            var $scope.templateChangeValue2 = $scope.changeValue;
-            if(flag == 0){
-                if ($scope.templateChangeValue2 > 1){
-                    $scope.changeValue = $scope.templateChangeValue2 - 1;
-                }
-            } else {
-                $scope.changeValue = $scope.templateChangeValue2 + 1;
-            }
-        }*/
-
-        /*// 点击左右按钮切换 风险评控意见汇总 里面的内容
-        $scope.changeTemplateTab = function (flag) {
-            //console.log($scope.formalPreview.summaryType);
-            console.log(flag)
-            // 模板包含列表数
-            var number = 0;
-            if($scope.formalPreview.summaryType == '1000' || $scope.formalPreview.summaryType == '4000' ||
-                $scope.formalPreview.summaryType == '5000'){
-                number = 5;
-            } else {
-                number = 4;
-            }
-            if(flag == 0){
-                if ($scope.templateChangeValue2 > 1){
-                    if($scope.templateChangeValue2 == number){
-                        $scope.templateChangeValue3 = number;
-                    } else {
-                        $scope.templateChangeValue3 = $scope.templateChangeValue3 - 1;
-                    }
-                    $scope.templateChangeValue1 = $scope.templateChangeValue1 - 1;
-                    $scope.templateChangeValue2 = $scope.templateChangeValue2 - 1;
-                } else if ($scope.templateChangeValue2 == 1) {
-                    /!*$scope.changeValue = 1;*!/
-                }
-            } else {
-                if ($scope.templateChangeValue2 != number) {
-                    $scope.templateChangeValue1 = $scope.templateChangeValue1 + 1;
-                    $scope.templateChangeValue2 = $scope.templateChangeValue2 + 1;
-                    if($scope.templateChangeValue3 == number){
-                        $scope.templateChangeValue3 = 10;
-                    } else {
-                        $scope.templateChangeValue3 = $scope.templateChangeValue3 + 1;
-                    }
-                } else {
-                    /!*$scope.changeValue = 3;*!/
-                }
-            }
-            console.log("temp1"+ $scope.templateChangeValue1);
-            console.log("temp2"+ $scope.templateChangeValue2);
-            console.log("temp3"+ $scope.templateChangeValue3);
-            // 没有呈现内容，阴影区域不显示
-            if ($scope.templateChangeValue1 < 1) {
-                $scope.tempFlag1 = true;
-            } else {
-                $scope.tempFlag1 = false;
-            }
-            if ($scope.templateChangeValue3 > 5) {
-                $scope.tempFlag3 = true;
-            } else {
-                $scope.tempFlag3 = false;
-            }
-        }*/
-
     }]
 );

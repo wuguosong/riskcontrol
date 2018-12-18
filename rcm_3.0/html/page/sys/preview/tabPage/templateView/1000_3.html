@@ -1,36 +1,36 @@
 
-    <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-        <h3 class="text-blue">风险提示</h3>
-        <div class="mytable">
-            <div>重点关注</div>
-            <table class="table table-bordered">
-                <thead>
-                <tr class="info">
-                    <th>风险类别</th>
-                    <th>风险事项</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="seriousRisk in formalPreview.seriousRisks | orderBy: 'orderno': desc">
-                    <th scope="row">{{seriousRisk.riskType}}</th>
-                    <td>{{seriousRisk.riskContent}}</td>
-                </tr>
-            </table>
+<div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class="text-blue">风险提示</h3>
+    <div class="mytable">
+        <div>重点关注</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr class="info">
+                <th width="30%">风险类别</th>
+                <th>风险事项</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="seriousRisk in formalPreview.seriousRisks | orderBy: 'orderno': desc">
+                <th scope="row">{{seriousRisk.riskType}}</th>
+                <td>{{seriousRisk.riskContent}}</td>
+            </tr>
+        </table>
 
-            <div>一般关注</div>
-            <table class="table table-bordered">
-                <thead>
-                <tr class="info">
-                    <th>风险类别</th>
-                    <th>风险事项</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="generalRisk in formalPreview.generalRisks | orderBy: 'orderno': desc">
-                    <th scope="row">{{generalRisk.riskType}}</th>
-                    <td>{{generalRisk.riskContent}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <div>一般关注</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr class="info">
+                <th width="30%">风险类别</th>
+                <th>风险事项</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="generalRisk in formalPreview.generalRisks | orderBy: 'orderno': desc">
+                <th scope="row">{{generalRisk.riskType}}</th>
+                <td>{{generalRisk.riskContent}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
