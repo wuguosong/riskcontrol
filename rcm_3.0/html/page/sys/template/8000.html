@@ -98,11 +98,11 @@
 				</td>
 				<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  name="{{ 'projectOverview_content' + $index }}"
+						  name="{{ 'projectOverview1_content' + $index }}"
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched" required></textarea>
 					<div class="error-messages"
-						 ng-if="interacted(formalReportForm['projectOverview_content' + $index])">
+						 ng-if="interacted(formalReportForm['projectOverview1_content' + $index])">
 						这里是必填项
 					</div>
 				</td>
@@ -166,7 +166,12 @@
 			<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 				<td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="desciptionVar.desciption" ></textarea>
+						  ng-model="desciptionVar.desciption" name="{{ 'desciption' + $index }}" required></textarea>
+					<div class="error-messages"
+						 ng-if="interacted(formalReportForm['desciption' + $index])">
+						这里是必填项
+					</div>
+				</td>
 				</td>
 				<td class="padding5">
 					<div class="col-sm-6" align="center">
@@ -204,8 +209,12 @@
 			</thead>
 			<tr ng-repeat="decisionMakingVar in projectSummary.decisionMakings| orderBy: 'orderno': desc">
 				<td>
-                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="decisionMakingVar.decisionMaking" ></textarea>
+					<textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+							  ng-model="decisionMakingVar.decisionMaking" name="{{ 'decisionMaking' + $index }}" required></textarea>
+					<div class="error-messages"
+						 ng-if="interacted(formalReportForm['decisionMaking' + $index])">
+						这里是必填项
+					</div>
 				</td>
 				<td class="padding5">
 					<div class="col-sm-6" align="center">

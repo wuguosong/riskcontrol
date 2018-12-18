@@ -98,11 +98,11 @@
 				</td>
 				<td class="padding5">
                 <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
-						  name="{{ 'projectOverview_content' + $index }}"
+						  name="{{ 'projectOverview1_content' + $index }}"
 						  ng-model="projectOverview.content"
 						  class="form-control ng-pristine ng-valid ng-touched" required></textarea>
 					<div class="error-messages"
-						 ng-if="interacted(formalReportForm['projectOverview_content' + $index])">
+						 ng-if="interacted(formalReportForm['projectOverview1_content' + $index])">
 						这里是必填项
 					</div>
 				</td>
@@ -172,27 +172,52 @@
 			<tr ng-repeat="repaymentPlanVar in projectSummary.repaymentPlans | orderBy: 'orderno': desc">
 				<td>
 					<div class="has-feedback">
-						<input class="form-control" type="text" name="" ng-model="repaymentPlanVar.loanTime"/>
+						<input class="form-control" type="text" name="{{ 'loanTime' + $index }}"
+							   ng-model="repaymentPlanVar.loanTime" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['loanTime' + $index])">
+							这里是必填项
+						</div>
 					</div>
 				</td>
 				<td>
 					<div class="has-feedback">
-						<input class="form-control" type="text" name="" ng-model="repaymentPlanVar.loanAmount"/>
+						<input class="form-control" type="text" name="{{ 'loanAmount' + $index }}"
+							   ng-model="repaymentPlanVar.loanAmount" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['loanAmount' + $index])">
+							这里是必填项
+						</div>
 					</div>
 				</td>
 				<td>
 					<div class="has-feedback">
-						<input class="form-control" type="text" name="" ng-model="repaymentPlanVar.repaymentPlan"/>
+						<input class="form-control" type="text" name="{{ 'repaymentPlan' + $index }}"
+							   ng-model="repaymentPlanVar.repaymentPlan" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['repaymentPlan' + $index])">
+							这里是必填项
+						</div>
 					</div>
 				</td>
 				<td>
 					<div class="has-feedback">
-						<input class="form-control" type="text" name="" ng-model="repaymentPlanVar.repaymnetMethod"/>
+						<input class="form-control" type="text" name="{{ 'repaymnetMethod' + $index }}"
+							   ng-model="repaymentPlanVar.repaymnetMethod" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['repaymnetMethod' + $index])">
+							这里是必填项
+						</div>
 					</div>
 				</td>
 				<td>
 					<div class="has-feedback">
-						<input class="form-control" type="text" name="" ng-model="repaymentPlanVar.repaymentSource"/>
+						<input class="form-control" type="text" name="{{ 'repaymentSource' + $index }}"
+							   ng-model="repaymentPlanVar.repaymentSource" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['repaymentSource' + $index])">
+							这里是必填项
+						</div>
 					</div>
 				</td>
 				<td class="padding5">
@@ -231,7 +256,11 @@
 			<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
 				<td>
                 <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
-						  ng-model="desciptionVar.desciption" ></textarea>
+						  ng-model="desciptionVar.desciption" name="{{ 'desciption' + $index }}" required></textarea>
+					<div class="error-messages"
+						 ng-if="interacted(formalReportForm['desciption' + $index])">
+						这里是必填项
+					</div>
 				</td>
 				<td class="padding5">
 					<div class="col-sm-6" align="center">
