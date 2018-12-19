@@ -5,7 +5,7 @@
             新增
         </button>
     </div>
-    <div ng-if="isEditable=='true'" id="userSinDialog_{{id}}" class="modal" tabindex="-1" role="dialog"
+    <div ng-if="isEditable=='true'" id="userSinDialog_{{id}}" class="modal modal-dialog selection-pop" tabindex="-1" role="dialog"
          style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,70 +16,53 @@
             </div>
             <div class="modal-body">
                 <div class="panel-body">
-                    <div class="panel nobottom-mar">
-                        <div class="panel-body">
-                            <div class="form-group row table-list">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            附件类型
-                                        </td>
-                                        <td>
-                                            <select ng-model="item.newItem" class="newItem" ng-change="changeAttach(item)"
-                                                    ng-options="y.ITEM_NAME for y in select ">
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            选择附件
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" ng-click="downLoadBiddingFile(latestAttachment)">
-                                                {{ latestAttachment.fileName }}
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            附件来源
-                                        </td>
-                                        <td>
-                                            {{ latestAttachment.typeValue }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            更新时间
-                                        </td>
-                                        <td>
-                                            {{ latestAttachment.upload_date }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button ng-disabled="item == undefined" ng-disabled="!hasWaiting" class="btn-add"
-                                                    ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
-                                                重新上传
-                                            </button>
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <table>
+                        <tr>
+                            <td>
+                                附件类型
+                            </td>
+                            <td>
+                                <select ng-model="item.newItem" class="newItem" ng-change="changeAttach(item)"
+                                        ng-options="y.ITEM_NAME for y in select ">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                选择附件
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" ng-click="downLoadBiddingFile(latestAttachment)">
+                                    {{ latestAttachment.fileName }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                附件来源
+                            </td>
+                            <td>
+                                {{ latestAttachment.typeValue }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                更新时间
+                            </td>
+                            <td>
+                                {{ latestAttachment.upload_date }}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button ng-disabled="item == undefined" ng-disabled="!hasWaiting" class="btn-add"
-                        ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
-                    重新上传
-                </button>
-                <button type="button" class="btn btn-primary" ng-click="submit()">确定</button>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <button ng-disabled="item == undefined" ng-disabled="!hasWaiting" class="btn-add"
+                    ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
+                重新上传
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="submit()">确定</button>
         </div>
     </div>
 </div>
