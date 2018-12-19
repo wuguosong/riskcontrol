@@ -1774,7 +1774,7 @@ ctmApp.directive('directUserSingleDialog', function() {
         		}
         	};
         	
-        	$scope.cancelSelected = function(){saveSelected()
+        	$scope.cancelSelected = function(){
         		$scope.initData();
         	}
         	$scope.saveSelected = function(){
