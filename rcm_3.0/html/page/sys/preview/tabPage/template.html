@@ -1,378 +1,374 @@
-<div>
-    <div class="row rowsection">
-        <!--左滚动区: 把最后一个swiper-slide放到第一个-->
-        <div class="left-swiper nocurrent-swiper">
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '1000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '2000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '3000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '4000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '5000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '6000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '7000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '8000'">
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
-                </div>
-            </div>
+<!--左滚动区: 把最后一个swiper-slide放到第一个-->
+<div class="left-swiper nocurrent-swiper">
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '1000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
         </div>
-        <!--主滚动区-->
-        <div class="current-swiper swiper-container">
-            <div class="swiper-button-prev son-swiper-button-prev"></div>
-            <div class="swiper-button-next son-swiper-button-next"></div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '1000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '2000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '3000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '4000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '5000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '6000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '7000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '8000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
-                </div>
-            </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
         </div>
-        <!--右滚动区:把第一个swiper-slide放在最后-->
-        <div class="right-swiper nocurrent-swiper">
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '1000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '2000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '3000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '4000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '5000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '6000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '7000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
-            <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '8000'">
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
-                </div>
-                <div class="swiper-slide">
-                    <div ng-include src=""></div>
-                </div>
-            </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '2000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '3000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '4000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '5000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '6000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '7000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '8000'">
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
+        </div>
+    </div>
+</div>
+<!--主滚动区-->
+<div class="current-swiper swiper-container">
+    <div class="swiper-button-prev son-swiper-button-prev"></div>
+    <div class="swiper-button-next son-swiper-button-next"></div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '1000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '2000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '3000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '4000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '5000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '6000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '7000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '8000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_1.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
+        </div>
+    </div>
+</div>
+<!--右滚动区:把第一个swiper-slide放在最后-->
+<div class="right-swiper nocurrent-swiper">
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '1000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '2000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '3000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper"  ng-if="formalPreview.summaryType == '4000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/4000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '5000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_4.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '6000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/5000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/1000_5.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '7000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/7000_4.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
+        </div>
+    </div>
+    <div class="swiper-wrapper" ng-if="formalPreview.summaryType == '8000'">
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_2.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_3.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
+        </div>
+        <div class="swiper-slide">
+            <div ng-include src=""></div>
         </div>
     </div>
 </div>
@@ -397,6 +393,7 @@
                 observeParents: true,
                 loop:false,
                 nested: true,
+                roundLengrhs: true,
                 navigation:{
                     nextEl:'.son-swiper-button-next',
                     prevEl:'.son-swiper-button-prev'

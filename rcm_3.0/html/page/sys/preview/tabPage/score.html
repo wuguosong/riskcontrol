@@ -1,101 +1,88 @@
-<div ng-controller="FormalBiddingInfoPreview"  class="row rowsection">
-
-    <div id="scoreExpand" class="mcontent content4 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-        <h3 class='text-blue'>项目整体评分</h3>
-        <div id='content4_table' class="mytable" style="overflow: hidden;">
-            <table  class="table table-bordered">
-                <thead>
-                <tr class="info">
-                    <th>打分项</th>
-                    <th>分数</th>
-                    <th>扣分原因</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">合规-审批流程熟悉度</th>
-                    <td>{{formalPreview.mark.flowMark}}<span> (满分：15分) </span></td>
-                    <td>{{formalPreview.mark.flowMarkReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">合规-资料备案</th>
-                    <td>{{formalPreview.mark.fileCopy}} <span>（满分：15分)</span></td>
-                    <td>{{formalPreview.mark.fileCopyReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">资料-及时性</th>
-                    <td>{{formalPreview.mark.fileTime}} <span>（满分：9分）</span></td>
-                    <td>{{formalPreview.mark.fileTimeReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">资料-完整性</th>
-                    <td>{{formalPreview.mark.fileContent}} <span>（满分：9分）</span></td>
-                    <td>{{formalPreview.mark.fileContentReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">核心-财务测算能力</th>
-                    <td>{{formalPreview.mark.moneyCalculate}}<span>（满分：12分）</span></td>
-                    <td>{{formalPreview.mark.moneyCalculateReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">资料-准确性(业务类资料)</th>
-                    <td>{{formalPreview.mark.reviewFileAccuracy}}<span>（满分：6分）</span></td>
-                    <td>{{formalPreview.mark.reviewFileAccuracyReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">核心-风险识别及规避能力</th>
-                    <td>{{formalPreview.mark.riskControl}}<span>（满分：12分）</span></td>
-                    <td>{{formalPreview.mark.riskControlReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">核心-方案设计能力</th>
-                    <td>{{formalPreview.mark.planDesign}}<span>（满分：4分）</span></td>
-                    <td>{{formalPreview.mark.planDesignReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">资料-准确性(法律类资料)</th>
-                    <td>{{formalPreview.mark.legalFileAccuracy}}<span>（满分：6分）</span></td>
-                    <td>{{formalPreview.mark.legalFileAccuracyReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">核心-协议谈判能力</th>
-                    <td>{{formalPreview.mark.talks}}<span>（满分：12分）</span></td>
-                    <td>{{formalPreview.mark.talksReason}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">评审合规能力</th>
-                    <td>{{formalPreview.mark.HEGUITOTALMARK}}<span>（满分：30分）</span></td>
-                </tr>
-                <tr>
-                    <th scope="row">评审资料质量</th>
-                    <td>{{formalPreview.mark.FILETOTALMARK}}<span>（满分：30分）</span></td>
-                </tr>
-                <tr>
-                    <th scope="row">投资核心能力</th>
-                    <td>{{formalPreview.mark.HEXINTOTALMARK}}<span>（满分：40分）</span></td>
-                </tr>
-                <tr>
-                    <th scope="row">总得分</th>
-                    <td>{{formalPreview.mark.ALLTOTALMARK}}<span>（满分：100分）</span></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="table-cover" ng-hide="hideFlagS">
-                <div class="more">
-                    <div class="icon" ng-click="expandMore('content4_table', 'hideFlagS')"></div>
-                    <h6 class="text-blue" ng-click="expandMore('content4_table', 'hideFlagS')">点击查看更多</h6>
-                </div>
+<div id="scoreExpand" class="mcontent content4 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue'>项目整体评分</h3>
+    <div id='content4_table' class="mytable" style="overflow: hidden;">
+        <table  class="table table-bordered">
+            <thead>
+            <tr class="info">
+                <th>打分项</th>
+                <th>分数</th>
+                <th>扣分原因</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">合规-审批流程熟悉度</th>
+                <td>{{formalPreview.mark.flowMark}}<span> (满分：15分) </span></td>
+                <td>{{formalPreview.mark.flowMarkReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">合规-资料备案</th>
+                <td>{{formalPreview.mark.fileCopy}} <span>（满分：15分)</span></td>
+                <td>{{formalPreview.mark.fileCopyReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">资料-及时性</th>
+                <td>{{formalPreview.mark.fileTime}} <span>（满分：9分）</span></td>
+                <td>{{formalPreview.mark.fileTimeReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">资料-完整性</th>
+                <td>{{formalPreview.mark.fileContent}} <span>（满分：9分）</span></td>
+                <td>{{formalPreview.mark.fileContentReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">核心-财务测算能力</th>
+                <td>{{formalPreview.mark.moneyCalculate}}<span>（满分：12分）</span></td>
+                <td>{{formalPreview.mark.moneyCalculateReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">资料-准确性(业务类资料)</th>
+                <td>{{formalPreview.mark.reviewFileAccuracy}}<span>（满分：6分）</span></td>
+                <td>{{formalPreview.mark.reviewFileAccuracyReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">核心-风险识别及规避能力</th>
+                <td>{{formalPreview.mark.riskControl}}<span>（满分：12分）</span></td>
+                <td>{{formalPreview.mark.riskControlReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">核心-方案设计能力</th>
+                <td>{{formalPreview.mark.planDesign}}<span>（满分：4分）</span></td>
+                <td>{{formalPreview.mark.planDesignReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">资料-准确性(法律类资料)</th>
+                <td>{{formalPreview.mark.legalFileAccuracy}}<span>（满分：6分）</span></td>
+                <td>{{formalPreview.mark.legalFileAccuracyReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">核心-协议谈判能力</th>
+                <td>{{formalPreview.mark.talks}}<span>（满分：12分）</span></td>
+                <td>{{formalPreview.mark.talksReason}}</td>
+            </tr>
+            <tr>
+                <th scope="row">评审合规能力</th>
+                <td>{{formalPreview.mark.HEGUITOTALMARK}}<span>（满分：30分）</span></td>
+            </tr>
+            <tr>
+                <th scope="row">评审资料质量</th>
+                <td>{{formalPreview.mark.FILETOTALMARK}}<span>（满分：30分）</span></td>
+            </tr>
+            <tr>
+                <th scope="row">投资核心能力</th>
+                <td>{{formalPreview.mark.HEXINTOTALMARK}}<span>（满分：40分）</span></td>
+            </tr>
+            <tr>
+                <th scope="row">总得分</th>
+                <td>{{formalPreview.mark.ALLTOTALMARK}}<span>（满分：100分）</span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon" ng-click="expandMore('content4_table', 'hideFlagS')"></div>
+                <h6 class="text-blue" ng-click="expandMore('content4_table', 'hideFlagS')">点击查看更多</h6>
             </div>
         </div>
     </div>
 </div>
-
-<!--
-<script>
-    var slidingSwitch = function(num, id){
-        var formalBiddingInfoPreview = document.querySelector('[ng-controller = FormalBiddingInfoPreview]');
-        var $scope = angular.element(formalBiddingInfoPreview).scope();
-        $scope.changeTitle(num, id);
-    }
-    EventUtil.listenTouchDirection(document, true, false, false, false, slidingSwitch(3, 'formalReport'))
-</script>-->

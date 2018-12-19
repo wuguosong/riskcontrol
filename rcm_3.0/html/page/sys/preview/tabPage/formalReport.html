@@ -1,46 +1,46 @@
-<div class="row rowsection">
-    <div class="mcontent content3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-        <h3 class='text-blue'>正式评审报告</h3>
-        <h5 class='file-download'><span class='file-icon'></span>
-            <a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)">
-                {{formalPreview.projectName}}-正式评审报告.docx</a></h5>
-            <h3 class='text-blue'>业务单位上报评审文件</h3>
-            <div id='content3_table' class="mytable" style="overflow: hidden;">
-                <table  class="table table-bordered">
-                    <thead>
-                    <tr class="info">
-                        <th>序号</th>
-                        <th>资源名称</th>
-                        <th>附件内容</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="item in formalPreview.newAttachment track by $index">
-                        <th scope="row">{{outerIndex+1}}</th>
-                        <td>
-                            {{item.ITEM_NAME}}
-                            <div ng-if="item.newFile">
-                                <select ng-model="item.newItem" class="newItem"
-                                        ng-options="y.ITEM_NAME for y in attach ">
-                                </select>
-                            </div>
-                        </td>
-                        <td>
-                            <span ng-bind="progress$index"></span>
-                            <span style="">{{errorMsg[$index].msg}}</span>
-                            <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item)">
-                                {{item.fileName}}
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="table-cover" ng-hide="hideFlagR">
-                    <div class="more">
-                        <div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>
-                        <h6 class="text-blue" ng-click="expandMore('content3_table', 'hideFlagR')">点击查看更多</h6>
+
+<div class="mcontent content3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue'>正式评审报告</h3>
+    <h5 class='file-download'><span class='file-icon'></span>
+        <a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)">
+            {{formalPreview.projectName}}-正式评审报告.docx</a></h5>
+    <h3 class='text-blue'>业务单位上报评审文件</h3>
+    <div id='content3_table' class="mytable" style="overflow: hidden;">
+        <table  class="table table-bordered">
+            <thead>
+            <tr class="info">
+                <th>序号</th>
+                <th>资源名称</th>
+                <th>附件内容</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in formalPreview.newAttachment track by $index">
+                <th scope="row">{{outerIndex+1}}</th>
+                <td>
+                    {{item.ITEM_NAME}}
+                    <div ng-if="item.newFile">
+                        <select ng-model="item.newItem" class="newItem"
+                                ng-options="y.ITEM_NAME for y in attach ">
+                        </select>
                     </div>
-                </div>
+                </td>
+                <td>
+                    <span ng-bind="progress$index"></span>
+                    <span style="">{{errorMsg[$index].msg}}</span>
+                    <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item)">
+                        {{item.fileName}}
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table-cover" ng-hide="hideFlagR">
+            <div class="more">
+                <div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>
+                <h6 class="text-blue" ng-click="expandMore('content3_table', 'hideFlagR')">点击查看更多</h6>
             </div>
+        </div>
     </div>
 </div>
+
