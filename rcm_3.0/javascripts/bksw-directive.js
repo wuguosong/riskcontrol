@@ -4985,6 +4985,9 @@ ctmApp.directive('directUploadFileTouzi', function() {
                 $scope.file.files.typeValue = $scope.latestAttachment.typeValue;
                 $scope.file.files.ITEM_NAME = $scope.item.newItem.ITEM_NAME;
                 $scope.file.files.UUID = $scope.item.newItem.UUID;
+                if($scope.fileList == undefined || $scope.fileList == null){
+                	$scope.fileList = [];
+				}
                 $scope.fileList.push($scope.file);
             }
 
@@ -5099,18 +5102,18 @@ ctmApp.directive('directPromptBoxFormal', function() {
             }
         }
     };
-    ctmApp.directive('directiveFormalReturnBtn', function() {
-        return {
-            restrict: 'E',
-            //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
-            // '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>'
-            template: '<a ng-href="{{url|decodeURI}}" ng-click="callback()">返回</a>',
-            replace: true,
-            scope:{url:'@',callback:"&"},
-            link:function(scope,element,attr){
-            },
-            controller:function($scope,$http,$element){
-            }
-        };
-    });
+});
+ctmApp.directive('directiveFormalReturnBtn', function() {
+    return {
+        restrict: 'E',
+        //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
+        // '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>'
+        template: '<a ng-href="{{url|decodeURI}}" ng-click="callback()">返回</a>',
+        replace: true,
+        scope:{url:'@',callback:"&"},
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
 });
