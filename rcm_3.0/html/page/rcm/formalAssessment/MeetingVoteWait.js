@@ -2,6 +2,7 @@ ctmApp.register.controller('MeetingVoteWait', ['$http','$scope','$location','$ro
 	$scope.decisionId = $routeParams.decisionId;
 	$scope.oldUrl = $routeParams.url;
 	$scope.isAdmin = $routeParams.isAdmin;
+
     //获取正在决策信息
 	var initializeInterval;
 	$scope.initialize = function () {
@@ -28,6 +29,15 @@ ctmApp.register.controller('MeetingVoteWait', ['$http','$scope','$location','$ro
 						$location.path("/MeetingVoteResult/"+data.result_data.ID+"/"+$scope.oldUrl);
 					}else{
 						$scope.decision = data.result_data;
+                        $scope.yesPeoples = [];
+                        $scope.noPeoples = [];
+						angular.forEach($scope.decision.meetingLeaders, function (data) {
+                           if(data.isVote == "1") {
+                               $scope.yesPeoples.push(data);
+						   } else {
+                               $scope.noPeoples.push(data);
+						   }
+                        });
 					}
 				}else{
 					$.alert(data.result_name);

@@ -12,6 +12,14 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
 					$location.path("/MeetingVoteWait/"+data.result_data.ID+"/"+$scope.oldUrl);
 				}else{
 					$scope.decision = data.result_data;
+                    // $scope.decision.tongYiCountStyle = [];
+                    // $scope.decision.tongYiCountStyle.width = $scope.decision.tongYiCount/$scope.decision.zongRenShu*100 + "%";
+                    // $scope.decision.buTongYiCountStyle = [];
+                    // $scope.decision.buTongYiCountStyle.width = $scope.decision.buTongYiCount/$scope.decision.zongRenShu*100 + "%";
+                    // $scope.decision.tiaoJianTongYiCountStyle = [];
+                    // $scope.decision.tiaoJianTongYiCountStyle.width = $scope.decision.tiaoJianTongYiCount/$scope.decision.zongRenShu*100 + "%";
+                    // $scope.decision.zeQiShangHuiCountStyle = [];
+                    // $scope.decision.zeQiShangHuiCountStyle.width = $scope.decision.zeQiShangHuiCount/$scope.decision.zongRenShu*100 + "%";
 				}
 			}else{
 				$.alert(data.result_name);

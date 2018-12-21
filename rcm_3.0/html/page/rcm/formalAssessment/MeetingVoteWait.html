@@ -1,26 +1,42 @@
-<div class="panel-body">
-	<div class="header">
-		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
-		<span class="hd-title">决策会表决</span>
-	</div>
-	<form class="form-horizontal ng-pristine ng-valid" >
-		<div style="text-align:center;font-size: 30px;">{{decision.project_name}}</div>
-		<div class="voting">
-			<div><img src="assets/images/pixel-admin/loading3.gif" width="400" height="300" alt="" title="" /></div>
-			<span class="text">表决进行中，{{decision.weiJueCeRenShu}}人尚未表决...</span>
-		</div>
-		<div class="voting">
-			<span class="maker-container" ng-repeat="leader in decision.meetingLeaders">
-				<span ng-if="leader.isVote == null || leader.isVote == 0" class="decision-makers">{{leader.NAME}}</span>
-				<span ng-if="leader.isVote == 1" class="decision-makers completed">{{leader.NAME}}<i class="completed-tick"></i></span>
-			</span>
-		</div>
-		<div class="voting" ng-if="null != isAdmin && '1' == isAdmin">
-			<div class="vote-btn">
-				<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-			</div>
-		</div>
-	</form>
+<div class="container-fluid tp-container">
+    <a class="logo"></a>
+    <a class="title">
+        <h1>2018年度第二十五次投票决策会</h1>
+        <h3>{{ decision.project_name }}</h3>
+    </a>
+
+    <div class="vote-stage row">
+        <div class="content col-md-10">
+            <div class="voted row">
+                <div class="col-md-3 col-sm-3">
+                    <span class="vote-state"></span>
+                </div>
+                <div class="col-md-9 col-sm-9 list">
+                    <span class="col-md-4 col-sm-6 col-xs-12" ng-repeat="leader in yesPeoples">
+                        {{ leader.NAME }}
+                    </span>
+                </div>
+            </div><div class="unvote">
+                <div class="col-md-3 col-sm-3">
+                    <span class="vote-state"></span>
+                </div>
+                <div class="col-md-9 col-sm-9 list">
+                    <span class="col-md-4 col-sm-6 col-xs-12" ng-repeat="leader in noPeoples">
+                         {{ leader.NAME }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!--<div class="voting" ng-if="null != isAdmin && '1' == isAdmin">-->
+            <!--<div class="vote-btn">-->
+                <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    </div>
+    <div ng-if="null != isAdmin && '1' == isAdmin">
+        <div class="vote-return">
+            <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+        </div>
+    </div>
 </div>
-<script type="text/javascript">
-</script>
