@@ -1070,3 +1070,484 @@ li {
     left: 0;
     transform: translateY(-50%);
 }
+
+/*toupiao start*/
+
+.tp-container {
+    position: absolute;
+    top: 46px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url(../mystatic/img/tp-bj.jpg) no-repeat;
+    background-size: cover;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.tp-container .logo {
+    position: absolute;
+    /*top: 20px;*/
+    /*left: 20px;*/
+    background: url(../mystatic/img/logo1.png) no-repeat;
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 36px;
+    height: 36px;
+}
+
+.tp-container .title {
+    display: block;
+    text-align: center;
+    margin-top: 5rem;
+    color: #000;
+    text-decoration: none;
+
+}
+
+.tp-container h1,
+.tp-container h3 {
+    font-weight: bold;
+}
+
+.tp-container .reel {
+    margin: 5rem auto;
+    position: relative
+}
+
+.tp-container .reel .content {
+    width: 80%;
+    padding-bottom: 31.74%;
+    height: 0;
+    position: relative;
+    margin: 0 auto;
+}
+
+.tp-container .reel .content .zhou {
+    position: absolute;
+    top: 0;
+    width: 4.5%;
+    height: 100%;
+    z-index: 4;
+}
+
+.tp-container .reel .content .zhou-left {
+    background: url(../mystatic/img/zhou-left.png) no-repeat;
+    background-size: contain;
+    left: 45.5%;
+    -webkit-transition: all 2s;
+    -moz-transition: all 2s;
+    -ms-transition: all 2s;
+    -o-transition: all 2s;
+    transition: all 2s;
+}
+
+.tp-container .reel .content .zhou-right {
+    background: url(../mystatic/img/zhou-right.png) no-repeat;
+    background-size: contain;
+    right: 45.5%;
+    -webkit-transition: all 2s;
+    -moz-transition: all 2s;
+    -ms-transition: all 2s;
+    -o-transition: all 2s;
+    transition: all 2s;
+}
+
+.tp-container .reel .content .zhou-mid {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 50%;
+    left: 50%;
+    background: url(../mystatic/img/zhou-mid.png) no-repeat;
+    background-size: cover;
+    -webkit-transition: all 1.9s;
+    -moz-transition: all 1.9s;
+    -ms-transition: all 1.9s;
+    -o-transition: all 1.9s;
+    transition: all 1.9s;
+}
+
+.tp-container .reel .content .items {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    /*display: flex;*/
+    /*justify-content: space-around;*/
+    /*align-items: center;*/
+    margin: 0;
+    text-align: center;
+}
+
+.tp-container .reel .content .items > div {
+    display: inline-block;
+    vertical-align: middle;
+    width: 14%;
+    margin: 0 3%;
+}
+
+.tp-container .reel .content .items .items-line {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1px;
+    height: 100%;
+}
+
+.tp-container .reel .content a {
+    display: block;
+}
+
+.tp-container .reel .items > div:nth-of-type(1) a {
+    width: 100%;
+    padding-bottom: 140%;
+    background: url(../mystatic/img/btn-agree.png) no-repeat;
+    background-size: cover;
+}
+
+.tp-container .reel .items > div:nth-of-type(2) a {
+    width: 100%;
+    padding-bottom: 140%;
+    background: url(../mystatic/img/btn-disagree.png) no-repeat;
+    background-size: cover;
+}
+
+.tp-container .reel .items > div:nth-of-type(3) a {
+    width: 100%;
+    padding-bottom: 121.8%;
+    background: url(../mystatic/img/btn-addagree.png) no-repeat;
+    background-size: cover;
+}
+
+.tp-container .reel .items > div:nth-of-type(4) a {
+    width: 100%;
+    padding-bottom: 121.8%;
+    background: url(../mystatic/img/btn-discuss.png) no-repeat;
+    background-size: cover;
+}
+
+.tp-container .onevote {
+    font-size: 20px;
+    color: #014c90;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+}
+
+.tp-container .onevote > span，.tp-container .onevote > a {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tp-container .onevote .mo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+    background: url(../mystatic/img/mo.png) no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    transition: all .5s;
+}
+
+.tp-container .onevote .btn-vote {
+    display: inline-block;
+    vertical-align: middle;
+    width: 80px;
+    margin-left: 20px;
+    padding: 0 15px;
+    height: 34px;
+    line-height: 34px;
+    vertical-align: middle;
+    background: #06b3eb;
+    color: #fff;
+    border-radius: 15px;
+    position: relative;
+    transition: all .5s;
+}
+
+.tp-container .onevote .btn-vote .yes {
+    float: left;
+}
+
+.tp-container .onevote .btn-vote .no {
+    float: right;
+}
+
+.tp-container .onevote .btn-vote .cir {
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #06b3eb;
+    background: #fff;
+    top: -3px;
+    left: 40px;
+    transition: all .5s;
+}
+
+.chose-no {
+    background: #aeb8c4 !important;
+}
+
+.chose-no .cir {
+    border-color: #aeb8c3 !important;
+    left: 0 !important;
+}
+
+.rotate {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg)
+}
+
+.vote-stage {
+    width: 80%;
+    margin: 5rem auto;
+    border: 1px solid #7b838e;
+    padding: 10px;
+    color: #000;
+}
+
+.vote-stage .content {
+    width: 100%;
+    border: 2px solid #222325;
+    padding: 20px 20px 80px;
+    background: #fdfeff;
+}
+
+.vote-stage .content > div {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.vote-stage .voted .vote-state,
+.vote-stage .unvote .vote-state {
+    display: block;
+    width: 100%;
+    padding-bottom: 105%;
+    background: url(../mystatic/img/btn-vote.png) no-repeat;
+    background-size: contain;
+}
+
+.vote-stage .unvote .vote-state {
+    background: url(../mystatic/img/btn-unvote.png) no-repeat;
+    background-size: contain;
+}
+
+.vote-stage .voted .list span,
+.vote-stage .unvote .list span {
+    font-size: 20px;
+    line-height: 40px;
+    color: #000;
+    display: block;
+    padding: 0 5px;
+    text-align: center;
+    float: left;
+}
+
+.result-container {
+    overflow: hidden;
+}
+
+.result-content {
+    position: absolute;
+    top: calc(36px + 9rem);
+    bottom: -5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    width: 80%;
+    background: rgba(211, 232, 255, .6);
+    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    color: #000;
+    background: -webkit-linear-gradient(rgba(211, 232, 255, .6), rgba(255, 255, 255, .2));
+    background: -o-linear-gradient(rgba(211, 232, 255, .6), rgba(255, 255, 255, .2));
+    background: -moz-linear-gradient(rgba(211, 232, 255, .6), rgba(255, 255, 255, .2));
+    background: linear-gradient(rgba(211, 232, 255, .6), rgba(255, 255, 255, .2));
+}
+
+.result-content h1 {
+    text-align: center;
+    margin: 3rem;
+}
+
+.result-content .result-wrap {
+    font-size: 20px;
+    /*display: flex;*/
+    /*align-items: flex-end;*/
+}
+.result-content .result-wrap>div{
+    display: inline-block;
+    vertical-align: bottom;
+}
+.result-content .result-line {
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    margin: 3rem 0;
+}
+.result-content .result-line>span{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.result-content .result-line > span:first-child {
+    padding-left: 20px;
+    width: 30%;
+    text-align: right;
+}
+
+.result-content .result-line .mprogress {
+    width: calc(60% - 10px);
+    height: 16px;
+    border-radius: 8px;
+    background: #fff;
+    position: relative;
+    margin-right: 10px;
+}
+
+.result-content .result-line .mprogress span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 16px;
+    border-radius: 8px;
+    background: -webkit-linear-gradient(left, rgb(66, 191, 255), rgb(17, 156, 255));
+    background: -o-linear-gradient(right, rgb(66, 191, 255), rgb(17, 156, 255));
+    background: -moz-linear-gradient(right, rgb(66, 191, 255), rgb(17, 156, 255));
+    background: linear-gradient(to right, rgb(65, 190, 239), rgb(17, 156, 255));
+}
+
+.result-content .result-right {
+    padding-right: 3rem;
+    padding-bottom: 3rem;
+    margin-top: 18%;
+}
+
+.result-content .munit {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.result-content .munit a {
+    display: inline-block;
+    background: url(../mystatic/img/logo1.png) no-repeat;
+    width: 36px;
+    height: 36px;
+}
+
+.result-content .count {
+    text-align: right;
+}
+
+.tp-cover {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .2);
+}
+
+.tp-cover .tp-confirm-wrap {
+    width: 33%;
+    min-width: 300px;
+    padding-bottom: 23.1%;
+    height: 0;
+    position: absolute;
+    top: calc(50% - 46px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    background: url(../mystatic/img/tp-confirm-content.png) no-repeat;
+    background-size: cover;
+}
+
+.tp-cover .tp-confirm-wrap .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.tp-cover .tp-confirm-wrap .tit {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 25% 0 15%;
+    font-size: 20px;
+}
+
+.tp-cover .tp-confirm-wrap .tit em {
+    font-style: normal;
+}
+
+.tp-cover .tp-confirm-wrap button {
+    width: 30%;
+    height: 40px;
+    line-height: 30px;
+    outline: none;
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 16px;
+    margin: 0 5%;
+}
+
+.tp-cover .tp-confirm-wrap .confirm-cancel {
+    background: #b0b8c3;
+}
+
+.tp-cover .tp-confirm-wrap .confirm-ensure {
+    background: #50b1e6;
+}
+
+/*toupiao end*/
+
+/*布局修改start*/
+html,body,#main-wrapper,#content-wrapper{
+    height: 100%
+}
+#main-wrapper{
+    overflow-y: auto!important;
+}
+/*布局修改end*/
+/*动画实现方式2 start*/
+.zhou-left-animate{
+    left: 0!important;
+}
+.zhou-right-animate{
+    right: 0!important;
+}
+.zhou-mid-animate{
+    left: 4.5%!important;
+    right: 4.5%!important;
+}
+/*动画实现方式2end*/
+.vote-return a{
+    display: block;
+    width: 80px;
+    height: 40px;
+    line-height: 30px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 20px auto 0;
+    background: #50b1e6;
+}
