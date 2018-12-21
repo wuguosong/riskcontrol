@@ -273,6 +273,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         $scope.meetInfo.projectType3 = true;
                     }else{
                         $scope.meetInfo.projectType3 = false;
+                    }
                     $scope.meetInfo.isUrgent = angular.copy(storage.isUrgent);
                     $scope.initTemplate = angular.copy(JSON.parse(storage.summaryTemplate));
                     $scope.formalReport.summaryTemplate = angular.copy(JSON.parse(storage.summaryTemplate));
@@ -1127,6 +1128,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         // 删除数组对象
         $scope.deleteObj = function (delObj, variableList) {
+            debugger
             angular.forEach(variableList, function (data, index, array) {
                 if(data.orderno == delObj.orderno){
                     variableList.splice(index, 1);
