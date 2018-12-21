@@ -736,9 +736,8 @@ li {
 
 .left-content {
     position: fixed;
-    right: 0;
+    right: 11px;
     top: 60px;
-    width: 15%;
 }
 
 .left-content .preview {
@@ -754,7 +753,6 @@ li {
 }
 
 .left-content .stage {
-    width: 80%;
     font-size: 14px;
     line-height: 40px;
     text-align: center;
@@ -779,21 +777,21 @@ li {
 }
 
 .left-content .linkline {
-
-    width: 80%;
     margin: auto;
     position: relative;
-    padding-top: 20px;
-    padding-left: 10px;
+    padding: 20px 0;
 }
 
 .left-content .linkline a {
     display: flex;
-    /*padding: 20px;*/
-    /*display: block;*/
+    padding: 20px;
+    display: block;
     position: relative;
     font-size: 12px;
     color: #969696;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .left-content .linkline .fcir {
@@ -821,7 +819,7 @@ li {
     width: 2px;
     height: calc(100% - 40px);
     top: 20px;
-    left: 37px;
+    left: 27px;
     background: #dbe5ef;
 }
 
@@ -1550,4 +1548,10 @@ html,body,#main-wrapper,#content-wrapper{
     border-radius: 20px;
     margin: 20px auto 0;
     background: #50b1e6;
+}
+.input-group{
+    margin: 20px 0;
+}
+.main-content{
+    padding-bottom: 20px;
 }
