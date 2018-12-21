@@ -15,6 +15,7 @@ ctmApp.register.controller('MeetingVote', ['$http','$scope','$location','$routeP
 			method:'post',  
 		    url:srvUrl+"decision/initialize.do"
 		}).success(function(data){
+			console.log(data);
 			//取消定时器
 			try{
 				$interval.cancel(initializeInterval);
@@ -23,6 +24,7 @@ ctmApp.register.controller('MeetingVote', ['$http','$scope','$location','$routeP
 			$scope.decision = null;
 			$scope.isLoad = false;
 			if(data.success){
+                $scope.isZhuXi = data.result_data.decisionsData.isZhuXi;
 				//无数据时,启动定时器刷新
 				if(null == data.result_data){
 					initializeInterval = $interval(function(){
@@ -49,7 +51,7 @@ ctmApp.register.controller('MeetingVote', ['$http','$scope','$location','$routeP
 			}
 		});
     };
-    
+	
     //确认意见
     $scope.enterDecisionOpinion= function () {
     	var aagreeOrDisagree = $("#submitModal input[name='aagreeOrDisagree']").val();
@@ -70,4 +72,14 @@ ctmApp.register.controller('MeetingVote', ['$http','$scope','$location','$routeP
 		});
     }
     $scope.initialize();
+    // 主席行使一票否决权
+    $scope.zhuxiStatus = 0;
+    $scope.changeZhuxi = function () {
+		if($scope.zhuxiStatus == '1') {
+            $scope.zhuxiStatus = 0;
+		} else {
+            $scope.zhuxiStatus = 1;
+		}
+		console.log($scope.zhuxiStatus);
+    }
 }]);
