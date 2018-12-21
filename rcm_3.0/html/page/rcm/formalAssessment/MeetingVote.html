@@ -117,13 +117,13 @@
         </div>
     </div>
     <!--卷轴end-->
-    <div class="onevote">
+    <div class="onevote" ng-show="isZhuXi == '1'">
         <span class="mo"></span>
         是否行使主席&lt;一票否决&gt;权
-        <a class="btn-vote">
+        <a class="btn-vote chose-no" ng-click="changeZhuxi()">
             <span class="cir"></span>
-            <span class="yes">是</span>
             <span class="no">否</span>
+            <span class="yes">是</span>
         </a>
     </div>
 </div>

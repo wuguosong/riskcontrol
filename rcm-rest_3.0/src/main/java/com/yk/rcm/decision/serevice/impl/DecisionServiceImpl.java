@@ -109,6 +109,11 @@ public class DecisionServiceImpl implements IDecisionService{
 				return null;
 			
 			resultData.put("project_name", queryData.get(0).get("projectName"));
+			if(userId.equals(queryData.get(0).get("jueCeHuiYiZhuXiId"))) {
+				resultData.put("isZhuXi", "1");
+			} else {
+				resultData.put("isZhuXi", "0");
+			}
 			decisionOpinionList = (List<Map<String, Object>>) queryData.get(0).get("decisionOpinionList");
 			break;
 		case 1:
