@@ -6,7 +6,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         $scope.complexId = $routeParams.id;
         // 标识进来的方法
         var flag = $routeParams.flag;
-        alert(flag);
         var params = $scope.complexId.split("@");
         var objId = params[0];
         $scope.formalReport = {};
