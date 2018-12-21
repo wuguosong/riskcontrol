@@ -16,14 +16,17 @@
                         项目模板信息
                     </div>
                     <div class="col-md-10">
-                        <select style="width: 200px" ng-change="summaryTemplateChange(formalReport.summaryTemplate)"
+                       <!-- <select style="width: 200px" ng-change="summaryTemplateChange(formalReport.summaryTemplate)"
                                 class="form-control" id="summaryTemplate" name="summaryTemplate"
                                 ng-model="formalReport.summaryTemplate"
                                 ng-options="summary.ITEM_NAME for summary in SUMMARY_TEMPLATE track by summary.ITEM_CODE">
-                        </select>
+                        </select>-->
+                        <direct-prompt-box-formal id="summaryTemplate" summary-template="SUMMARY_TEMPLATE"
+                                                  template-bak="initTemplate" template="formalReport.summaryTemplate"
+                                                  summary-template-change="summaryTemplateChange(type)"></direct-prompt-box-formal>
                     </div>
                 </div>
-                <div ng-switch on="formalReport.summaryTemplate.ITEM_CODE">
+                <div ng-switch on="initTemplate.ITEM_CODE">
                     <section ng-switch-when="1000">
                         <div ng-include src="'page/sys/template/1000.html'"></div>
                     </section>
@@ -158,8 +161,14 @@
                                 <th scope="row">合规-审批流程熟悉度</th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="15"
-                                               ng-model="mark.flowMark" ng-click="validMark(15)">
+                                               ng-model="mark.flowMark" ng-click="validMark(15)"
+                                               name="flowMark" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.flowMark )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                         <span class="score">
@@ -182,9 +191,14 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="15"
                                                ng-model="mark.fileCopy"
-                                               ng-click="validMark(15)"/>
+                                               ng-click="validMark(15)" name="fileCopy" required/>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.fileCopy )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -207,8 +221,13 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="9"
-                                               ng-model="mark.fileTime">
+                                               ng-model="mark.fileTime" name="fileTime" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.fileCopy )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -229,8 +248,13 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="9"
-                                               ng-model="mark.fileContent">
+                                               ng-model="mark.fileContent" name="fileContent" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.fileContent )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -251,8 +275,13 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="12"
-                                               ng-model="mark.moneyCalculate">
+                                               ng-model="mark.moneyCalculate" name="moneyCalculate" required>
+                                    </div>
+                                    <div class="error-messages"
+                                         ng-if="interacted(formalReportForm.moneyCalculate )">
+                                        这里是必填项
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -275,8 +304,13 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="6"
-                                               ng-model="mark.reviewFileAccuracy">
+                                               ng-model="mark.reviewFileAccuracy" name="reviewFileAccuracy" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.reviewFileAccuracy )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -298,8 +332,13 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="12"
-                                               ng-model="mark.riskControl">
+                                               ng-model="mark.riskControl" name="riskControl" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.riskControl )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -321,8 +360,13 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="4"
-                                               ng-model="mark.planDesign">
+                                               ng-model="mark.planDesign" name="planDesign" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.planDesign )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -345,8 +389,13 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="6"
-                                               ng-model="mark.legalFileAccuracy">
+                                               ng-model="mark.legalFileAccuracy" name="legalFileAccuracy" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.legalFileAccuracy )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                         <span class="score">
@@ -368,6 +417,7 @@
                                 </th>
                                 <th>
                                     <div class="col-md-6">
+                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.talks">
                                     </div>

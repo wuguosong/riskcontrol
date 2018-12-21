@@ -247,6 +247,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                         }
                     });
                 }
+                // 用于记录模板初始对象
+                $scope.initTemplate = angular.copy($scope.formalReport.summaryTemplate);
 
                 //处理附件列表
                 $scope.reduceAttachment(data.result_data.Formal.attachment);
@@ -441,12 +443,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             if (data == false) {
                 return;
             }
-            // $scope.submit = true;
-            // if ($scope.formalReportForm.$valid) {
-            //     console.log("可以提交");
-            // } else {
-            //     console.log("不可以提交");
-            // }
+             /*$scope.submit = true;
+             if ($scope.formalReportForm.$valid) {
+                 console.log("可以提交");
+             } else {
+                 console.log("不可以提交");
+             }*/
             $scope.saveOrSubmit(data, "so");
             console.log($scope.newAttachment );
         }
@@ -945,8 +947,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 // click，点击取消，则会暑促cancel
                 $log.info('Modal dismissed at: ' + new Date());
             });
-
-
         }
 
         //业务单位上报评审文件-投资部门提供---->删除指定的列表
@@ -1109,6 +1109,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         };
 
         $scope.summaryTemplateChange = function (type) {
+            alert(123)
+            alert(type)
             // 风控评审意见汇总 初始化模板数据
             $scope.projectSummary = {};
             if (type.ITEM_CODE == "1000") {

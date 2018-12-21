@@ -252,7 +252,7 @@ li {
 
 .mytable tbody th,
 .mytable tbody td {
-    padding: 20px 10px;
+    padding: 20px 10px!important;
 }
 
 .mytable {
@@ -1061,4 +1061,12 @@ li {
 .error-messages{
     font-size: 12px;
     color: red;
+}
+
+.requireMark{
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
 }
