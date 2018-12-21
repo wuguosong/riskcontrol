@@ -158,10 +158,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <th scope="row">合规-审批流程熟悉度</th>
+                                <th scope="row"><span class="required">*</span>合规-审批流程熟悉度</th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="15"
                                                ng-model="mark.flowMark" ng-click="validMark(15)"
                                                name="flowMark" required>
@@ -187,11 +186,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th scope="row">合规-资料备案
+                                <th scope="row"><span class="required">*</span>合规-资料备案
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="15"
                                                ng-model="mark.fileCopy"
                                                ng-click="validMark(15)" name="fileCopy" required/>
@@ -217,11 +215,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th scope="row">资料-及时性
+                                <th scope="row"><span class="required">*</span>资料-及时性
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="9"
                                                ng-model="mark.fileTime" name="fileTime" required>
                                         <div class="error-messages"
@@ -244,11 +241,10 @@
                                        title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a></th>
                             </tr>
                             <tr>
-                                <th scope="row">资料-完整性
+                                <th scope="row"><span class="required">*</span>资料-完整性
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="9"
                                                ng-model="mark.fileContent" name="fileContent" required>
                                         <div class="error-messages"
@@ -271,11 +267,10 @@
                                        title="<div>1 、每缺少一项资料或资料无相关人员签字确认扣2分，以此累加，最低得分为0分。</div>">提示</a></th>
                             </tr>
                             <tr>
-                                <th scope="row">核心-财务测算能力
+                                <th scope="row"><span class="required">*</span>核心-财务测算能力
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.moneyCalculate" name="moneyCalculate" required>
                                     </div>
@@ -300,11 +295,10 @@
                             </tr>
                             <!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
                             <tr>
-                                <th scope="row">资料-准确性(业务类资料)
+                                <th scope="row"><span class="required">*</span>资料-准确性(业务类资料)
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="6"
                                                ng-model="mark.reviewFileAccuracy" name="reviewFileAccuracy" required>
                                         <div class="error-messages"
@@ -328,11 +322,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th scope="row">核心-风险识别及规避能力
+                                <th scope="row"><span class="required">*</span>核心-风险识别及规避能力
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.riskControl" name="riskControl" required>
                                         <div class="error-messages"
@@ -356,11 +349,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th scope="row">核心-方案设计能力
+                                <th scope="row"><span class="required">*</span>核心-方案设计能力
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="4"
                                                ng-model="mark.planDesign" name="planDesign" required>
                                         <div class="error-messages"
@@ -385,11 +377,10 @@
                             <!-- -------------------------------评审负责人到确认  end--------------------------------------------- -->
                             <!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
                             <tr>
-                                <th scope="row">资料-准确性(法律类资料)
+                                <th scope="row"><span class="required">*</span>资料-准确性(法律类资料)
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="6"
                                                ng-model="mark.legalFileAccuracy" name="legalFileAccuracy" required>
                                         <div class="error-messages"
@@ -413,11 +404,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th scope="row">核心-协议谈判能力
+                                <th scope="row"><span class="required">*</span>核心-协议谈判能力
                                 </th>
                                 <th>
                                     <div class="col-md-6">
-                                        <span class="requireMark">*</span>
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.talks">
                                     </div>
@@ -438,7 +428,7 @@
                             </tr>
                             <!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
                             <tr>
-                                <th scope="row">评审合规能力
+                                <th scope="row"><span></span>评审合规能力
                                 </th>
                                 <th>
                                     <div class="col-md-6">
@@ -460,7 +450,7 @@
                                        title="流程熟悉度+资料备案">提示</a></th>
                             </tr>
                             <tr>
-                                <th scope="row">评审资料质量
+                                <th scope="row"><span></span>评审资料质量
                                 </th>
                                 <th>
                                     <div class="col-md-6">
@@ -482,7 +472,7 @@
                                        title="及时性+完整性+准确性">提示</a></th>
                             </tr>
                             <tr>
-                                <th scope="row">投资核心能力
+                                <th scope="row"><span></span>投资核心能力
                                 </th>
                                 <th>
                                     <div class="col-md-6">
@@ -504,7 +494,7 @@
                                        title="风险识别及规避能力+财务测算能力+方案设计能力+协议谈判能力">提示</a></th>
                             </tr>
                             <tr>
-                                <th scope="row">总得分
+                                <th scope="row"><span></span>总得分
                                 </th>
                                 <th>
                                     <div class="col-md-6">
@@ -544,6 +534,9 @@
             <div class="stage flex">
                 <a href="" ng-click="submitSave()">提交</a>
                 <a href="" ng-click="saveOnly()">暂存</a>
+            </div>
+            <div class="stage flex">
+                <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>
             <div class="linkline mcontent">
                 <div class="side-bar-div">

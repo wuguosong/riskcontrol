@@ -102,18 +102,22 @@
         </div>
 
         <div class=" row normalline text-arealine">
-            <div class="col-md-1">评级理由</div>
+            <div class="col-md-1"><span class="required" style="color: red" >*</span>评级理由</div>
             <div class="col-md-11">
-                    <textarea style="resize:vertical;width: 90%" readonly="readonly"
-                              class="form-control ng-pristine ng-valid ng-touched" auto-height
-                              ng-model="meetInfo.ratingReason">
-                            </textarea>
+                <textarea style="resize:vertical;"
+                          name="ratingReason"
+                          ng-model="meetInfo.ratingReason"
+                          class="form-control ng-pristine ng-valid ng-touched" required></textarea>
+                <div class="error-messages"
+                     ng-if="interacted(formalReportForm.ratingReason)">
+                    这里是必填项
+                </div>
                 <div class="radioline">
-                    <input type="radio" name='ifeasy' ng-model="meetInfo.projectType1" id='easy-1'/><label
+                    <input type="checkbox" name='ifeasy' ng-model="meetInfo.projectType1" id='easy-1'/><label
                         for="easy-1">项目简单</label>
-                    <input type="radio" name="ifeasy" ng-model="meetInfo.projectType2" id='easy-2'/><label
+                    <input type="checkbox" name="ifeasy" ng-model="meetInfo.projectType2" id='easy-2'/><label
                         for="easy-1">风险较低</label>
-                    <input type="radio" name='ifeasy' ng-model="meetInfo.projectType3" id='easy-3'/><label
+                    <input type="checkbox" name='ifeasy' ng-model="meetInfo.projectType3" id='easy-3'/><label
                         for="easy-1">收益较好</label>
                 </div>
 
@@ -122,13 +126,18 @@
         </div>
 
         <div class="row normalline selectline">
-            <div class="col-md-1"> 投资意见</div>
+            <div class="col-md-1"><span class="required" style="color: red">*</span>投资意见</div>
             <div class="col-md-11">
                 <select style="width: 200px" ng-change=""
-                        class="form-control" id="projectSummary.investmentType" name="projectSummary.investmentType"
-                        ng-model="projectSummary.investmentType"
+                        class="form-control" id="projectSummary.investmentType"
+                        ng-model="projectSummary.investmentType" name="investmentType" required
                         ng-options="investment.ITEM_NAME for investment in INVESTMENT_TYPE track by investment.ITEM_CODE">
+                    <option value="">-- 请选择 --</option>
                 </select>
+                <div class="error-messages"
+                     ng-if="interacted(formalReportForm.investmentType )">
+                    这里是必填项
+                </div>
             </div>
         </div>
 

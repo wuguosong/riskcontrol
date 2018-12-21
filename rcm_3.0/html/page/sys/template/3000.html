@@ -55,7 +55,7 @@
 						<button ng-if="projectOverview.delete != '1'" class="btn-close" ng-click="closeOverview(projectOverview)">
 							关闭
 						</button>
-						<button ng-if="projectOverview.delete == '1'" class="btn-close" ng-click="deleteObj($index, projectSummary.projectOverviews)">
+						<button ng-if="projectOverview.delete == '1'" class="btn-close" ng-click="deleteObj(projectOverview, projectSummary.projectOverviews)">
 							删除
 						</button>
 					</div>
@@ -220,7 +220,7 @@
 				</td>
 				<td class="padding5">
 					<div class="col-sm-6" align="center">
-						<button class="btn-close" ng-click="deleteObj($index, projectSummary.seriousRisks)">
+						<button class="btn-close" ng-click="deleteObj(seriousRisk, projectSummary.seriousRisks)">
 							删除
 						</button>
 					</div>
@@ -267,7 +267,7 @@
 				</td>
 				<td class="padding5">
 					<div class="col-sm-6" align="center">
-						<button class="btn-close" ng-click="deleteObj($index, projectSummary.generalRisks)">
+						<button class="btn-close" ng-click="deleteObj(generalRisk, projectSummary.generalRisks)">
 							删除
 						</button>
 					</div>
@@ -308,7 +308,7 @@
 				</td>
 				<td class="padding5">
 					<div class="col-sm-6" align="center">
-						<button class="btn-close" ng-click="deleteObj($index, projectSummary.performs)">
+						<button class="btn-close" ng-click="deleteObj(perform, projectSummary.performs)">
 							删除
 						</button>
 					</div>

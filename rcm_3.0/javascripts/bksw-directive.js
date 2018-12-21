@@ -4370,7 +4370,7 @@ ctmApp.directive('directiveReturnBtn', function() {
     return {
         restrict: 'E',
         //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
-        template: '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>', 
+        template: '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
         replace: true,
         scope:{url:'@',callback:"&"},
         link:function(scope,element,attr){
@@ -5070,7 +5070,6 @@ ctmApp.directive('directPromptBoxFormal', function() {
         },
 		link:function($scope,$element,$attrs){
             $scope.change = function(){
-            	alert("ng-change");
             	if($scope.template.ITEM_CODE != $scope.templateBak.ITEM_CODE){
                     $scope.isShow = true;
 				}
@@ -5094,12 +5093,24 @@ ctmApp.directive('directPromptBoxFormal', function() {
             };
             $scope.initDefaultData();
             $scope.cancel = function () {
-                alert("cancel   "+JSON.stringify($scope.template));
-                alert("cancel   "+JSON.stringify($scope.templateBak));
                 $scope.template = angular.copy($scope.templateBak);
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
             }
         }
     };
+    ctmApp.directive('directiveFormalReturnBtn', function() {
+        return {
+            restrict: 'E',
+            //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
+            // '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>'
+            template: '<a ng-href="{{url|decodeURI}}" ng-click="callback()">返回</a>',
+            replace: true,
+            scope:{url:'@',callback:"&"},
+            link:function(scope,element,attr){
+            },
+            controller:function($scope,$http,$element){
+            }
+        };
+    });
 });

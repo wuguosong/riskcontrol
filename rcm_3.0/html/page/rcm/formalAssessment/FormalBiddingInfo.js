@@ -443,7 +443,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             if (data == false) {
                 return;
             }
-             /*$scope.submit = true;
+            /* $scope.submit = true;
              if ($scope.formalReportForm.$valid) {
                  console.log("可以提交");
              } else {
@@ -1098,19 +1098,21 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         };
 
         // 删除数组对象
-        $scope.deleteObj = function (key, variableList) {
-            $scope.delObj = angular.copy(variableList[key]);
-            variableList.splice(key, 1);
+        $scope.deleteObj = function (delObj, variableList) {
+            debugger
             angular.forEach(variableList, function (data, index, array) {
-                if (data.orderno > $scope.delObj.orderno) {
-                    data.orderno = data.orderno - 1;
+                if(data.orderno == delObj.orderno){
+                    variableList.splice(index, 1);
                 }
             });
+            angular.forEach(variableList, function (data, index, array) {
+                if (data.orderno > delObj.orderno) {
+                    data.orderno = data.orderno - 1;
+                }
+            })
         };
 
         $scope.summaryTemplateChange = function (type) {
-            alert(123)
-            alert(type)
             // 风控评审意见汇总 初始化模板数据
             $scope.projectSummary = {};
             if (type.ITEM_CODE == "1000") {
