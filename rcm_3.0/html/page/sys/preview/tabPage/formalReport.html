@@ -14,26 +14,25 @@
                 <th>附件内容</th>
             </tr>
             </thead>
+
             <tbody>
-            <tr ng-repeat="item in formalPreview.newAttachment track by $index">
-                <th scope="row">{{outerIndex+1}}</th>
+            <tr ng-repeat="item in formalPreview.fileList track by $index">
+                <th scope="row">
+                    {{$index+1}}
+                </td>
                 <td>
-                    {{item.ITEM_NAME}}
-                    <div ng-if="item.newFile">
-                        <select ng-model="item.newItem" class="newItem"
-                                ng-options="y.ITEM_NAME for y in attach ">
-                        </select>
-                    </div>
+                    {{item.files.ITEM_NAME }}
                 </td>
                 <td>
                     <span ng-bind="progress$index"></span>
                     <span style="">{{errorMsg[$index].msg}}</span>
-                    <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item)">
-                        {{item.fileName}}
+                    <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)">
+                        {{item.files.fileName }}
                     </a>
                 </td>
             </tr>
             </tbody>
+
         </table>
         <div class="table-cover" ng-hide="hideFlagR">
             <div class="more">

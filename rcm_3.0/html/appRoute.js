@@ -1742,7 +1742,7 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
 				}
 			})
 			//正式评审提交决策委员会材料
-			.when('/FormalBiddingInfo/:id/:url',{
+			.when('/FormalBiddingInfo/:id/:url/:flag',{
 				controller:'FormalBiddingInfo',
 				templateUrl:'page/rcm/formalAssessment/FormalBiddingInfo.html',
 				controllerAs:'model',

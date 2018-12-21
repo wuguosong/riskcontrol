@@ -2,9 +2,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
     function ($http, $scope, $location, $routeParams, Upload, $filter) {
         $scope.selectFlag = 'false';
         $scope.oldUrl = $routeParams.url;
-        //申请报告ID
-        var complexId = $routeParams.id;
-        var params = complexId.split("@");
+        // 申请报告ID
+        $scope.complexId = $routeParams.id;
+        // 标识进来的方法
+        var flag = $routeParams.flag;
+        alert(flag);
+        var params = $scope.complexId.split("@");
         var objId = params[0];
         $scope.formalReport = {};
         $scope.formalReport.policyDecision = {};
@@ -249,6 +252,32 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 }
                 // 用于记录模板初始对象
                 $scope.initTemplate = angular.copy($scope.formalReport.summaryTemplate);
+
+                if(flag == 1){
+                    var storage = window.localStorage;
+                    $scope.projectSummary = angular.copy(JSON.parse(storage.projectSummary));
+                    $scope.mark = angular.copy(JSON.parse(storage.mark));
+                    $scope.formalReport.policyDecision.fileList = angular.copy(JSON.parse(storage.fileList));
+                    $scope.formalReport.projectName = angular.copy(storage.projectName);
+                    $scope.meetInfo.ratingReason = angular.copy(storage.ratingReason);
+                    if(storage.projectType1 == 'true'){
+                        $scope.meetInfo.projectType1 = true;
+                    }else{
+                        $scope.meetInfo.projectType1 = false;
+                    }
+                    if(storage.projectType2 == 'true'){
+                        $scope.meetInfo.projectType2 = true;
+                    }else{
+                        $scope.meetInfo.projectType2 = false;
+                    }
+                    if(storage.projectType3 == 'true'){
+                        $scope.meetInfo.projectType3 = true;
+                    }else{
+                        $scope.meetInfo.projectType3 = false;
+                    $scope.meetInfo.isUrgent = angular.copy(storage.isUrgent);
+                    $scope.initTemplate = angular.copy(JSON.parse(storage.summaryTemplate));
+                    $scope.formalReport.summaryTemplate = angular.copy(JSON.parse(storage.summaryTemplate));
+                }
 
                 //处理附件列表
                 $scope.reduceAttachment(data.result_data.Formal.attachment);
@@ -1099,7 +1128,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         // 删除数组对象
         $scope.deleteObj = function (delObj, variableList) {
-            debugger
             angular.forEach(variableList, function (data, index, array) {
                 if(data.orderno == delObj.orderno){
                     variableList.splice(index, 1);
@@ -2128,16 +2156,40 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             formalPreview.projectRating = $scope.meetInfo.projectRating  // 评审等级
             formalPreview.filePath = $scope.formalReport.filePath
             formalPreview.projectName = $scope.formalReport.projectName
-            formalPreview.newAttachment = $scope.newAttachment
+            formalPreview.fileList = $scope.formalReport.policyDecision.fileList
 
             formalPreview.mark = $scope.mark // 分数
+
+            formalPreview.url = $scope.oldUrl
+            formalPreview.id = $scope.complexId
 
             return formalPreview;
         }
 
         // 进入预览页面
         $scope.toPreview = function () {
+            $scope.saveDataToLocalStorage();
             $location.path("/FormalBiddingInfoPreview").search({formalPreview: $scope.previewJson()});
+        }
+
+        // 预览时将数据存入浏览器缓存，以便退出预览时使用
+        $scope.saveDataToLocalStorage = function () {
+            if(!window.localStorage){
+                alert("浏览器不支持localstorage");
+                return false;
+            }else{
+                var storage = window.localStorage;
+                storage.projectSummary =  JSON.stringify($scope.projectSummary);
+                storage.projectName = $scope.formalReport.projectName;
+                storage.fileList = JSON.stringify($scope.formalReport.policyDecision.fileList);
+                storage.mark = JSON.stringify($scope.mark);
+                storage.ratingReason = $scope.meetInfo.ratingReason;
+                storage.projectType1 = $scope.meetInfo.projectType1;
+                storage.projectType2 = $scope.meetInfo.projectType2;
+                storage.projectType3 = $scope.meetInfo.projectType3;
+                storage.isUrgent = $scope.meetInfo.isUrgent;
+                storage.summaryTemplate = JSON.stringify($scope.formalReport.summaryTemplate);
+            }
         }
 
         // 附件管理
