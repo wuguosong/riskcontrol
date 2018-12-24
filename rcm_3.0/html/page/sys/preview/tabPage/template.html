@@ -404,13 +404,31 @@
                     control:[leftSwiper,rightSwiper]
                 },
                 on:{
-                    touchEnd: function(){
-                        if(this.isEnd){
-                            $('.out-swiper-button-next').show()
-                        }else if(this.isBeginning){
+                    slideChange: function(){
+                        if(this.activeIndex==0){
+                            $('.left-swiper').css('opacity',0)
                             $('.out-swiper-button-prev').show()
+                        }else if(this.activeIndex==this.slides.length-1){
+                            $('.right-swiper').css('opacity',0)
+                            $('.out-swiper-button-next').show()
+                        }else{
+                            $('.left-swiper').css('opacity',1)
+                            $('.right-swiper').css('opacity',1)
+                            $('.out-swiper-button-prev').hide()
+                            $('.out-swiper-button-next').hide()
                         }
-                    }
+                    },
+                    /*touchEnd: function(){
+                        if(this.isEnd){
+
+
+                        }else if(this.isBeginning){
+
+
+                        }else{
+
+                        }
+                    }*/
                 }
             })
         },1000)

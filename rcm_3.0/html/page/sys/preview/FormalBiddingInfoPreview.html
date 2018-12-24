@@ -92,9 +92,13 @@
                 },
                 on: {
                     slideChange: function(){
+
                         if(this.activeIndex == 1){
-                            $('.out-swiper-button-prev').hide()
-                            $('.out-swiper-button-next').hide()
+                            if(this.previousIndex==0){
+                                $('.out-swiper-button-next').hide()
+                            }else{
+                                $('.out-swiper-button-prev').hide()
+                            }
                         }else{
                             $('.out-swiper-button-prev').show()
                             $('.out-swiper-button-next').show()
@@ -145,30 +149,30 @@
                     $('.mcontent').removeClass('mcontent2')
                     $('.left-swiper').show()
                     $('.right-swiper').show()
-                    outsideSwiper = new Swiper('.outside-swiper',{
-                        loop:false,
-                        navigation:{
-                            nextEl:'.swiper-button-next',
-                            prevEl:'.swiper-button-prev'
-                        },
-                    })
-                    $('.swiper-slide').each(function(){
-                        $(this).width(toeven($(this).width()))
-                        $(this).height(toeven($(this).height()))
-                    })
+                    // outsideSwiper = new Swiper('.outside-swiper',{
+                    //     loop:false,
+                    //     navigation:{
+                    //         nextEl:'.swiper-button-next',
+                    //         prevEl:'.swiper-button-prev'
+                    //     },
+                    // })
+                    // $('.swiper-slide').each(function(){
+                    //     $(this).width(toeven($(this).width()))
+                    //     $(this).height(toeven($(this).height()))
+                    // })
                 }else{
                     $('.out-rowsection').addClass('wrap')
                     $('.outside-swiper').addClass('current-swiper-scale')
                     $('.mcontent').addClass('mcontent2')
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
-                    outsideSwiper = new Swiper('.outside-swiper',{
-                        loop:false,
-                        navigation:{
-                            nextEl:'.swiper-button-next',
-                            prevEl:'.swiper-button-prev'
-                        },
-                    })
+                    // outsideSwiper = new Swiper('.outside-swiper',{
+                    //     loop:false,
+                    //     navigation:{
+                    //         nextEl:'.swiper-button-next',
+                    //         prevEl:'.swiper-button-prev'
+                    //     },
+                    // })
                     $('.swiper-slide').each(function(){
                         $(this).width(toeven($(this).width()))
                         $(this).height(toeven($(this).height()))
@@ -181,42 +185,41 @@
             }
             $('.text-blue-name').click(function (e) {
                 e.stopPropagation()
+                // alert('双击');
                 if($('.out-rowsection').hasClass('wrap')){
                     $('.out-rowsection').removeClass('wrap')
                     $('.outside-swiper').removeClass('current-swiper-scale')
                     $('.mcontent').removeClass('mcontent2')
                     $('.left-swiper').show()
                     $('.right-swiper').show()
-                    //$('.current-swiper')
-                    outsideSwiper = new Swiper('.outside-swiper',{
-                        loop:false,
-                        navigation:{
-                            nextEl:'.swiper-button-next',
-                            prevEl:'.swiper-button-prev'
-                        },
-                    })
-                    $('.swiper-slide').each(function(){
-                        $(this).width(toeven($(this).width()))
-                        $(this).height(toeven($(this).height()))
-                    })
+                    // outsideSwiper = new Swiper('.outside-swiper',{
+                    //     loop:false,
+                    //     navigation:{
+                    //         nextEl:'.swiper-button-next',
+                    //         prevEl:'.swiper-button-prev'
+                    //     },
+                    // })
+                    // $('.swiper-slide').each(function(){
+                    //     $(this).width(toeven($(this).width()))
+                    //     $(this).height(toeven($(this).height()))
+                    // })
                 }else{
                     $('.out-rowsection').addClass('wrap')
                     $('.outside-swiper').addClass('current-swiper-scale')
                     $('.mcontent').addClass('mcontent2')
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
-                    outsideSwiper = new Swiper('.outside-swiper',{
-                        loop:false,
-                        navigation:{
-                            nextEl:'.swiper-button-next',
-                            prevEl:'.swiper-button-prev'
-                        },
-                    })
+                    // outsideSwiper = new Swiper('.outside-swiper',{
+                    //     loop:false,
+                    //     navigation:{
+                    //         nextEl:'.swiper-button-next',
+                    //         prevEl:'.swiper-button-prev'
+                    //     },
+                    // })
                     $('.swiper-slide').each(function(){
                         $(this).width(toeven($(this).width()))
                         $(this).height(toeven($(this).height()))
                     })
-
                 }
             })
         }, 1000);

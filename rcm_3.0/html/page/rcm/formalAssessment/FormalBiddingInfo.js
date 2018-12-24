@@ -482,7 +482,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             console.log($scope.newAttachment );
         }
 
-        $scope.submitSave = function () {
+        /*$scope.submitSave = function () {
             // 验证必填项
             $scope.submitted = false
             if ($scope.formalReportForm.$invalid) {
@@ -507,7 +507,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     $scope.saveOrSubmit(data, "ss");
                 }
             }
-        }
+        }*/
 
         $scope.saveOrSubmit = function (pData, method) {
             console.log(pData);

@@ -541,42 +541,43 @@
             </div>
             <div class="linkline mcontent">
                 <div class="line"></div>
-                <a class="chose" href="javascript:;">
+                <a id="flag1" class="catalog-list catalog-list-formal chose" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
                     项目过程回顾
                 </a>
-                <a href="javascript:;">
+                <a id="flag2" class="catalog-list catalog-list-formal" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
                     项目评级
                 </a>
-                <a href="javascript:;">
+                <a id="flag3" class="catalog-list catalog-list-formal" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
                     项目重要边界条件
                 </a>
-                <a href="javascript:;">
+                <a id="flag4" class="catalog-list catalog-list-formal" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
                     正式评审报告
                 </a>
-                <a href="javascript:;">
+                <a id="flag5" class="catalog-list catalog-list-formal" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
                     业务单位上报评审文件
                 </a>
-                <a href="javascript:;">
+                <a id="flag6" class="catalog-list catalog-list-formal" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
                     项目整体评分
                 </a>
+            </div>
                 <!--<div class="side-bar-div">-->
                 <!--<div class="side-bar" style="margin-left: 20px; margin-top: 20px">-->
                 <!--<i class="circle start"></i>-->
@@ -634,8 +635,7 @@
                 <!--</li>-->
                 <!--</ul>-->
                 <!--</div>-->
-                </div>
-            </div><!--右边导航-->
+            <!--右边导航-->
             <!--<div class="box">-->
             <!--<table class="table">-->
             <!--<tr>-->
@@ -675,11 +675,8 @@
             <!--</tr>-->
             <!--</table>-->
             <!--</div>-->
-
-
         </div>
     </form>
-
 </div>
 
 <script type="text/javascript">
@@ -770,7 +767,47 @@
         $(".toggle-span").click(function () {
             $(".side-catalog").toggleClass("collapse");
         });
+
         //点击目录跳到相应模块
+        $(".catalog-list-formal").click(function () {
+            //alert(123)
+            $(this).addClass("chose").siblings("a").removeClass("chose");
+            var _id = $(this).attr("id");
+            if (typeof $('#' + _id + '-c').offset() !== 'undefined') {
+                var _idTop = $("#" + _id + "-c").offset().top - 10;
+                $("html,body").animate({"scrollTop": _idTop}, 300);
+            }
+        });
+        //滚动响应
+        if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
+            var SideCatalog = {};
+        };
+
+        SideCatalog.catalogDetail = (function () {
+            // scroll to tab content
+            var _gotoTab = function () {
+                window.onscroll = function () {
+                    SideCatalog.ids = [];
+                    $('.catalog-list-formal').each(function () {
+                        var id = $(this).attr('id');
+                        if (typeof $('#' + id + '-c').offset() !== 'undefined') {
+                            SideCatalog[id] = $('#' + id + '-c').offset().top - 11;
+                        }
+                        SideCatalog.ids.push(id);
+                    });
+                    var _top = $(document).scrollTop();
+                    //循环ID处理屏幕滚动情况
+                    $.each(SideCatalog.ids, function (key, id) {
+                        var next_id = key + 1;
+                        var next_tab = SideCatalog.ids[next_id];
+                        if ((_top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id]) {
+                            /*$('#' + id).addClass('chose').siblings("a").removeClass("chose");*/
+                        }
+                    });
+                };
+            };
+
+        /*//点击目录跳到相应模块
         $(".catalog-list li").click(function () {
             $(this).addClass("cur").siblings("li").removeClass("cur");
             var _id = $(this).attr("id");
@@ -806,7 +843,7 @@
                         }
                     });
                 };
-            };
+            };*/
 
             function _init() {
                 _gotoTab();

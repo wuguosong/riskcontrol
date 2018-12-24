@@ -336,7 +336,7 @@ li {
     height: 80%;
     position: absolute;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .15)
+    /*box-shadow: 0 0 20px rgba(0, 0, 0, .15)*/
 }
 
 .nocurrent-swiper:before {
@@ -355,6 +355,7 @@ li {
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
+    opacity: 0;
 }
 
 .left-swiper .mcontent {
