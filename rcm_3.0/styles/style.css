@@ -1,7 +1,27 @@
 .hideOpen {
-    height: auto;
+    /*height: auto;*/
+    max-height: auto!important;
+    overflow-y: auto!important;
 }
 
+button{
+    outline: none;
+}
+
+.required{
+    padding-left: 0!important;
+    width: 10px;
+    margin: 0;
+
+    color: red!important;
+}
+div>.required{
+    position: absolute;
+    left: 0;
+}
+.innertable h5{
+    padding-left: 10px!important;
+}
 a {
     color: inherit;
     text-decoration: none;
@@ -258,10 +278,14 @@ li {
 .mytable {
     position: relative;
     margin-top: 20px;
+
     /*height: 400px;*/
     /*overflow: hidden;*/
 }
 
+.swiper-slide .mytable{
+    height: 400px;
+}
 .mytable .table-cover {
     position: absolute;
     width: 100%;
@@ -308,7 +332,7 @@ li {
 
 .current-swiper {
     position: relative;
-    top: 48px;
+    top: 10px;
 }
 
 .nocurrent-swiper {
@@ -662,9 +686,6 @@ li {
     border-bottom: 0;
 }
 
-.innertable .mytable {
-    height: auto;
-}
 
 .innertable .filework {
     line-height: 35px;
@@ -738,6 +759,7 @@ li {
     position: fixed;
     right: 11px;
     top: 60px;
+    width: 16%;
 }
 
 .left-content .preview {
@@ -875,6 +897,8 @@ li {
     height: 33px;
     color: white;
     background: url("/html/assets/images/btn/btn-add.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
 }
 
@@ -883,6 +907,8 @@ li {
     height: 40px;
     color: white;
     background: url("/html/assets/images/btn/btn-add1.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
 }
 
@@ -891,6 +917,8 @@ li {
     height: 32px;
     color: white;
     background: url("/html/assets/images/btn/btn-close.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
 }
 
@@ -900,6 +928,8 @@ li {
     height: 32px;
     color: white;
     background: url("/html/assets/images/btn/btn-desc.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
 }
 
@@ -910,6 +940,8 @@ li {
     height: 32px;
     color: white;
     background: url("/html/assets/images/btn/btn-asc.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
     border-right: 1px solid white;
 }
@@ -920,6 +952,8 @@ li {
     height: 33px;
     color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
 }
 
@@ -929,6 +963,8 @@ li {
     height: 40px;
     color: white;
     background: url("/html/assets/images/btn/btn-delete.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
 }
 
@@ -937,6 +973,8 @@ li {
     height: 40px;
     color: white;
     background: url("/html/assets/images/btn/btn-preview.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
     border: none;
 }
 
@@ -953,23 +991,7 @@ li {
     line-heigh: 50px
 }
 
-.wrap{
-    position: fixed;
-    width: 100%;
-    top: 46px;
-    left: 0;
-    bottom: 0;
-    background: rgba(0,0,0,.6);
-    z-index: 999;
-    overflow-y: auto;
-}
-.current-swiper-scale{
-    width:100%;
-    left: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
+
 .mcontent2{
     width: 100%;
     margin: 0;

@@ -7,7 +7,7 @@
             {{projectOverview.content}}
         </div>
     </div>
-    <div class="row" ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
+    <div ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
         <div ng-if="projectOverview.attachmentValue != null || projectOverview.attachmentValue != null">
             <div class="img col-md-6 col-sm-6 col-xs-12">
                 <span></span>

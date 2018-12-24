@@ -5,7 +5,7 @@
         <a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)">
             {{formalPreview.projectName}}-正式评审报告.docx</a></h5>
     <h3 class='text-blue'>业务单位上报评审文件</h3>
-    <div id='content3_table' class="mytable" style="overflow: hidden;">
+    <div id='content3_table' class="mytable">
         <table  class="table table-bordered">
             <thead>
             <tr class="info">
@@ -34,7 +34,7 @@
             </tbody>
 
         </table>
-        <div class="table-cover" ng-hide="hideFlagR">
+        <div id="content3_cover" class="table-cover" ng-hide="hideFlagR">
             <div class="more">
                 <div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>
                 <h6 class="text-blue" ng-click="expandMore('content3_table', 'hideFlagR')">点击查看更多</h6>
@@ -43,3 +43,14 @@
     </div>
 </div>
 
+<script>
+    $(function(){
+        setTimeout(function(){
+            if($('#content3_table .table').height() <200){
+
+                $('#content3_cover').hide()
+            }
+        },1000)
+
+    })
+</script>

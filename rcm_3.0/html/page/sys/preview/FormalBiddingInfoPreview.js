@@ -115,6 +115,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
 
         // 展开展示信息
         $scope.expandMore = function (parentId, val) {
+            debugger
             angular.element("#"+parentId).addClass('hideOpen');
             $scope[val] = true;
         }

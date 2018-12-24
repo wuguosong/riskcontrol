@@ -1,8 +1,9 @@
 <link href="../styles/style.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="../styles/style_preview.css">
 <div class="mcontainer-fluid" ng-controller="FormalBiddingInfoPreview">
     <div class="mheader row">
         <div class="col-md-10 col-sm-10 col-xs-10">
-            <h3 class="text-blue">{{ formalPreview.apply.projectName }}</h3>
+            <h3 class="text-blue text-blue-name">{{ formalPreview.apply.projectName }}</h3>
             <h5 class="text-gray">评审报告出具时间：{{formalPreview.submit_date}}</h5>
         </div>
         <a href="#/FormalBiddingInfo/{{formalPreview.id}}@2/{{formalPreview.url}}/1">返回</a>
@@ -97,6 +98,7 @@
                         }else{
                             $('.out-swiper-button-prev').show()
                             $('.out-swiper-button-next').show()
+
                         }
                     },
                     transitionStart: function () {
@@ -108,19 +110,35 @@
             });
             $('#processReview').click(function(){
                 outsideSwiper.slideTo(0, 1000, true);//切换到第一个slide，速度为1秒
+                $('#processReview').addClass('chose');
+                $('#template').removeClass('chose');
+                $('#formalReport').removeClass('chose');
+                $('#score').removeClass('chose');
             });
             $('#template').click(function(){
                 outsideSwiper.slideTo(1, 1000, true);//切换到第二个slide，速度为1秒
+                $('#template').addClass('chose');
+                $('#processReview').removeClass('chose');
+                $('#formalReport').removeClass('chose');
+                $('#score').removeClass('chose');
             });
             $('#formalReport').click(function(){
                 outsideSwiper.slideTo(2, 1000, true);//切换到第三个slide，速度为1秒
+                $('#formalReport').addClass('chose');
+                $('#template').removeClass('chose');
+                $('#processReview').removeClass('chose');
+                $('#score').removeClass('chose');
             });
             $('#score').click(function(){
                 outsideSwiper.slideTo(3, 1000, true);//切换到第四个slide，速度为1秒
+                $('#score').addClass('chose');
+                $('#template').removeClass('chose');
+                $('#formalReport').removeClass('chose');
+                $('#processReview').removeClass('chose');
             });
             $('.swiper-slide').dblclick(function (e) {
                 e.stopPropagation()
-                alert('双击');
+                // alert('双击');
                 if($('.out-rowsection').hasClass('wrap')){
                     $('.out-rowsection').removeClass('wrap')
                     $('.outside-swiper').removeClass('current-swiper-scale')
@@ -161,7 +179,7 @@
             function toeven(num){
                 return num%2 == 0?num:num+1
             }
-            $('.text-blue').click(function (e) {
+            $('.text-blue-name').click(function (e) {
                 e.stopPropagation()
                 if($('.out-rowsection').hasClass('wrap')){
                     $('.out-rowsection').removeClass('wrap')
