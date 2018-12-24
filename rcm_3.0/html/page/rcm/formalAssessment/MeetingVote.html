@@ -75,7 +75,7 @@
                 <div>
                     <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
                        data-target="#submitModal">
-                        <span class="text" style="display: none">不同意</span></a>
+                        <span class="text" style="display: none">不同意</span>
                     </a>
                     <input type="hidden" name="" class="opinion-content" value="2"/>
                 </div>
@@ -99,6 +99,7 @@
 
             </div>
             <div  id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                <input type="hidden" name="aagreeOrDisagree">
                 <div class="tp-cover">
                     <div class="tp-confirm-wrap">
                         <div class="content">
@@ -134,6 +135,7 @@
     function decisionOpinion(thiz) {
         var opinionText = $(thiz).find(".text").text();
         var opinionValue = $(thiz).next().val();
+
         $("#submitModal .opinion-cont .text").text(opinionText);
         $("#submitModal input[name='aagreeOrDisagree']").val(opinionValue);
     }

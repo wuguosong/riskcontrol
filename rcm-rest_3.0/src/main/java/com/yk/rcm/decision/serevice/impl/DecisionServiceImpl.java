@@ -826,4 +826,107 @@ public class DecisionServiceImpl implements IDecisionService{
 	public List<Map<String, Object>> queryByIds(List<Map<String,Object>> projectArray) {
 		return decisionMapper.queryByIds(projectArray);
 	}
+
+	@Override
+	public void addDecisionOpinionNew(String formalId, String formalTypeStr, String aagreeOrDisagree, String zhuxiStatus) {
+		synchronized (formalId) {
+			//获取当前用户
+			String userId = ThreadLocalUtil.getUserId();
+			String userName = (String) userService.queryById(userId).get("NAME");
+			
+			//项目类型(0:正式评审,1:其他评审,2:投标评审)
+			int formalType = Integer.parseInt(formalTypeStr);
+			Map meetingData = null;
+			Map<String,Object> queryData = null;
+			List<Map<String,Object>> decisionOpinionList = null;
+			Map<String,Object> userData = new HashMap<String,Object>(1);
+			Map<String,Object> data = new HashMap<String,Object>(1);
+			boolean isAddOpinion = true;
+			switch (formalType) {
+			case 0:
+				queryData = baseMongo.queryByCondition(new BasicDBObject("formalId",formalId), Constants.FORMAL_MEETING_INFO).get(0);
+				decisionOpinionList = (List<Map<String, Object>>) queryData.get("decisionOpinionList");
+				if(null == decisionOpinionList){
+					decisionOpinionList = new ArrayList<Map<String,Object>>();
+				}
+				//防止重复提交!
+				if(decisionOpinionList.size() > 0){
+					for (Map<String, Object> dataMap : decisionOpinionList) {
+						if(dataMap.get("userId").equals(userId)){
+							isAddOpinion = false;
+							break;
+						}
+					}
+				}
+				if(isAddOpinion){
+					userData.put("particularView","");
+					userData.put("aagreeOrDisagree",aagreeOrDisagree);
+					userData.put("userId",userId);
+					userData.put("userName",userName);
+					userData.put("zhuxiStatus",zhuxiStatus);
+					decisionOpinionList.add(userData);
+					data.put("decisionOpinionList", decisionOpinionList);
+					
+					String objectId = queryData.get("_id").toString();
+					baseMongo.updateSetByObjectId(objectId, data, Constants.FORMAL_MEETING_INFO);
+				}
+				break;
+			case 1:
+				queryData = baseMongo.queryByCondition(new BasicDBObject("_id",formalId), Constants.RCM_BULLETIN_INFO).get(0);
+				meetingData = (Map) queryData.get("meeting");
+				decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
+				if(null == decisionOpinionList){
+					decisionOpinionList = new ArrayList<Map<String,Object>>();
+				}
+				//防止重复提交!
+				if(decisionOpinionList.size() > 0){
+					for (Map<String, Object> dataMap : decisionOpinionList) {
+						if(dataMap.get("userId").equals(userId)){
+							isAddOpinion = false;
+							break;
+						}
+					}
+				}
+				if(isAddOpinion){
+					userData.put("particularView","");
+					userData.put("aagreeOrDisagree",aagreeOrDisagree);
+					userData.put("userId",userId);
+					userData.put("userName",userName);
+					userData.put("zhuxiStatus",zhuxiStatus);
+					decisionOpinionList.add(userData);
+					data.put("meeting.decisionOpinionList", decisionOpinionList);
+					baseMongo.updateSetById(formalId, data, Constants.RCM_BULLETIN_INFO);
+				}
+				break;
+			case 2:
+				queryData = baseMongo.queryById(formalId, Constants.RCM_PRE_INFO);
+				meetingData = (Map) queryData.get("meetingInfo");
+				decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
+				if(null == decisionOpinionList){
+					decisionOpinionList = new ArrayList<Map<String,Object>>();
+				}
+				//防止重复提交!
+				if(decisionOpinionList.size() > 0){
+					for (Map<String, Object> dataMap : decisionOpinionList) {
+						if(dataMap.get("userId").equals(userId)){
+							isAddOpinion = false;
+							break;
+						}
+					}
+				}
+				if(isAddOpinion){
+					userData.put("particularView","");
+					userData.put("aagreeOrDisagree",aagreeOrDisagree);
+					userData.put("userId",userId);
+					userData.put("userName",userName);
+					userData.put("zhuxiStatus",zhuxiStatus);
+					decisionOpinionList.add(userData);
+					data.put("meetingInfo.decisionOpinionList", decisionOpinionList);
+					baseMongo.updateSetByObjectId(formalId, data, Constants.RCM_PRE_INFO);
+				}
+				break;
+			}
+		}
+		
+	}
 }
