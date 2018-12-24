@@ -56,9 +56,15 @@ ctmApp.register.controller('MeetingVote', ['$http','$scope','$location','$routeP
     $scope.enterDecisionOpinion= function () {
     	var aagreeOrDisagree = $("#submitModal input[name='aagreeOrDisagree']").val();
     	$http({
-			method:'post',  
-		    url:srvUrl+"decision/addDecisionOpinion.do",
-		    data: $.param({"id":$scope.decision.ID,"formalId":$scope.decision.FORMAL_ID,"formalType":$scope.decision.FORMAL_TYPE,"aagreeOrDisagree":aagreeOrDisagree})
+			method:'post',
+		    url:srvUrl+"decision/addDecisionOpinionNew.do",
+		    data: $.param({
+				"id": $scope.decision.ID,
+				"formalId": $scope.decision.FORMAL_ID,
+				"formalType": $scope.decision.FORMAL_TYPE,
+				"aagreeOrDisagree": aagreeOrDisagree,
+                "zhuxiStatus": $scope.zhuxiStatus
+		    })
 		}).success(function(data){
 			if(data.success){
 				if(null != data.result_name && "0" == data.result_name){

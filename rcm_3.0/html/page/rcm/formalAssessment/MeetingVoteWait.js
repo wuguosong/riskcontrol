@@ -3,6 +3,8 @@ ctmApp.register.controller('MeetingVoteWait', ['$http','$scope','$location','$ro
 	$scope.oldUrl = $routeParams.url;
 	$scope.isAdmin = $routeParams.isAdmin;
 
+
+	console.log($scope.decisionId);
     //获取正在决策信息
 	var initializeInterval;
 	$scope.initialize = function () {

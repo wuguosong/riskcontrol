@@ -134,4 +134,6 @@ public interface IDecisionService {
 	 * 重置(还原)表决
 	 */
 	public void resetDecision(String id);
+
+	public void addDecisionOpinionNew(String formalId, String formalType, String aagreeOrDisagree, String zhuxiStatus);
 }
