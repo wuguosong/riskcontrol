@@ -4,6 +4,11 @@
     overflow-y: auto!important;
 }
 
+.noPadding{
+    padding-left: 0;
+    padding-right: 0;
+}
+
 button{
     outline: none;
 }
@@ -166,7 +171,7 @@ li {
     line-height: 24px;
 }
 
-.content1 span {
+.content1 .slim {
     font-weight: normal;
     color: #363636;
     font-size: 14px;
@@ -234,17 +239,8 @@ li {
     border-bottom: 0;
 }
 
-.mcontent .normalline span {
-    padding-left: 20px;
-}
-
 .mcontent .titline .tit {
     font-size: 16px;
-}
-
-.mcontent .titline span {
-    font-weight: bold;
-    color: #000;
 }
 
 .file-icon {
@@ -1542,12 +1538,12 @@ li {
 /*toupiao end*/
 
 /*布局修改start*/
-html,body,#main-wrapper,#content-wrapper{
-    height: 100%
-}
-#main-wrapper{
-    overflow-y: auto!important;
-}
+/*html,body,#main-wrapper,#content-wrapper{*/
+    /*height: 100%*/
+/*}*/
+/*#main-wrapper{*/
+    /*overflow-y: auto!important;*/
+/*}*/
 /*布局修改end*/
 /*动画实现方式2 start*/
 .zhou-left-animate{

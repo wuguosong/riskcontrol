@@ -21,47 +21,57 @@
 
         <div class="row normalline">
             <div class="col-md-6 col-sm-6  col-xs-12">
-                所属大区
-                <span ng-if="pfr.apply.pertainArea.VALUE != null">
-                    {{ pfr.apply.pertainArea.VALUE }}
-                </span>
-                <span ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"
-                      class="" width="30%">
-                    {{ pfr.apply.reportingUnit.VALUE }}
-                </span>
+                <div class="row">
+                    <span class="col-md-4 noPadding">所属大区</span>
+                    <span class="col-md-8 slim" ng-if="pfr.apply.pertainArea.VALUE != null">
+                        {{ pfr.apply.pertainArea.VALUE }}
+                    </span>
+                    <span class="col-md-8 slim" ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"
+                              class="" width="30%">
+                        {{ pfr.apply.reportingUnit.VALUE }}
+                    </span>
+                </div>
+
             </div>
-            <div class="col-md-6 col-sm-6  col-xs-12">投资经理
-                <span>
-                    {{ pfr.apply.investmentManager.NAME }}
-                </span>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">投资经理</span>
+                    <span class="col-md-8 slim">
+                        {{ pfr.apply.investmentManager.NAME }}
+                    </span>
+                </div>
             </div>
         </div>
 
         <div class="row normalline titline">
             <div class="tit col-md-12">投资中心/水环境投资意见中心</div>
-            <div class="col-md-6 col-sm-6  col-xs-12">投资测算意见:
-                <span>
-                    {{pfr.cesuanFileOpinion}}
-                </span>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">投资测算意见:</span>
+                    <span class="col-md-8 slim">{{pfr.cesuanFileOpinion}}</span>
+                </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">投资协议意见:
-                <span>
-                     {{pfr.tzProtocolOpinion}}
-                </span>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">投资协议意见:</span>
+                    <span class="col-md-8 slim">{{pfr.tzProtocolOpinion}}</span>
+                </div>
             </div>
         </div>
 
         <div class="row normalline titline">
             <div class="tit col-md-12">风控中心审批意见</div>
-            <div class="col-md-6 col-sm-6 col-xs-12">风控中心审批次数:
-                <span>
-                    {{pfr.approveAttachment.commentsList.length}}
-                </span>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">风控中心审批次数:</span>
+                    <span class="col-md-8 slim">{{pfr.approveAttachment.commentsList.length}}</span>
+                </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">风控中心法律评审意见条数:
-                <span>
-                    {{pfr.approveLegalAttachment.commentsList.length}}
-                </span>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">风控中心法律评审意见条数:</span>
+                    <span class="col-md-8 slim">{{pfr.approveLegalAttachment.commentsList.length}}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -70,34 +80,45 @@
     <div class="mcontent content1" id="flag2-c">
         <h3 class="text-blue">项目评级</h3>
         <div class="row normalline">
-            <div class="col-md-6 col-sm-6  col-xs-12">评审负责人
-                <span>
-                        {{pfr.taskallocation.reviewLeader.NAME}}
-                    </span>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">评审负责人</span>
+                    <span class="col-md-8 slim">{{pfr.taskallocation.reviewLeader.NAME}}</span>
+                </div>
             </div>
-            <div class="col-md-6 col-sm-6  col-xs-12">法律负责人
-                <span>
-                        {{pfr.taskallocation.legalReviewLeader.NAME}}
-                    </span>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">法律负责人</span>
+                    <span class="col-md-8 slim">{{pfr.taskallocation.legalReviewLeader.NAME}}</span>
+                </div>
             </div>
         </div>
 
         <div class="row normalline selectline">
             <div class="col-md-6 col-sm-6  col-xs-12">
-                评审难度评级
-                <span class="dropdown">
-                    {{meetInfo.projectRating.name}}
-                </span>
+                <div class="row">
+                    <span class="col-md-4 noPadding">评审难度评级</span>
+                    <span class="col-md-8 slim">
+                        <span class="dropdown">
+                        {{meetInfo.projectRating.name}}
+                        </span>
+                    </span>
+                </div>
             </div>
-            <div class="col-md-6 col-sm-6  col-xs-12">是否紧急上会
-                <label class="radio radio-inline">
-                    <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px"
-                           ng-checked="true"/><span class="lbl" style="display: inline">否</span>
-                </label>
-                <label class="radio radio-inline">
-                    <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="1"
-                           class="px"/><span class="lbl" style="display: inline">是</span>
-                </label>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-4 noPadding">是否紧急上会</span>
+                    <span class="col-md-8 slim">
+                        <label class="radio radio-inline">
+                            <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px"
+                                  ng-checked="true"/><span class="lbl" style="display: inline">否</span>
+                        </label>
+                        <label class="radio radio-inline">
+                            <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="1"
+                                   class="px"/><span class="lbl" style="display: inline">是</span>
+                        </label>
+                    </span>
+                </div>
             </div>
         </div>
 
