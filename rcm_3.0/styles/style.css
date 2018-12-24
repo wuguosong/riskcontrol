@@ -890,8 +890,8 @@ li {
 }
 
 .btn-add {
-    width: 75px;
-    height: 33px;
+    width: 70px;
+    height: 30px;
     color: white;
     background: url("/html/assets/images/btn/btn-add.png") no-repeat;
     -webkit-background-size: contain;
@@ -910,8 +910,8 @@ li {
 }
 
 .btn-close {
-    width: 73px;
-    height: 32px;
+    width: 70px;
+    height: 30px;
     color: white;
     background: url("/html/assets/images/btn/btn-close.png") no-repeat;
     -webkit-background-size: contain;
@@ -921,8 +921,8 @@ li {
 
 .btn-desc {
     float: left;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 29px;
     color: white;
     background: url("/html/assets/images/btn/btn-desc.png") no-repeat;
     -webkit-background-size: contain;
@@ -933,8 +933,8 @@ li {
 .btn-asc {
     float: left;
     right: 5px;
-    width: 35px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     color: white;
     background: url("/html/assets/images/btn/btn-asc.png") no-repeat;
     -webkit-background-size: contain;
@@ -945,8 +945,8 @@ li {
 
 .btn-replace {
     float: left;
-    width: 75px;
-    height: 33px;
+    width: 70px;
+    height: 30px;
     color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
     -webkit-background-size: contain;
@@ -956,8 +956,8 @@ li {
 
 .btn-delete {
     float: left;
-    width: 80px;
-    height: 40px;
+    width: 70px;
+    height: 30px;
     color: white;
     background: url("/html/assets/images/btn/btn-delete.png") no-repeat;
     -webkit-background-size: contain;

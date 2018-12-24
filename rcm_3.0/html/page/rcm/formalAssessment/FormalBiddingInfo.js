@@ -482,14 +482,16 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             console.log($scope.newAttachment );
         }
 
-        /*$scope.submitSave = function () {
+        $scope.submitSave = function () {
             // 验证必填项
-            $scope.submitted = false
-            if ($scope.formalReportForm.$invalid) {
-                $scope.submitted = true;
-                alert("模板内容项没有填写完整,请填写完整后再保存");
-                return;
-            }
+             $scope.submit = true;
+             if ($scope.formalReportForm.$invalid) {
+                 return;
+             }
+            /*if ($scope.formalReportForm.$invalid) {
+                /!*alert("模板内容项没有填写完整,请填写完整后再保存");*!/
+
+            }*/
             if (!$scope.saveMarks()) {
                 return;
             }
@@ -507,7 +509,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     $scope.saveOrSubmit(data, "ss");
                 }
             }
-        }*/
+        }
 
         $scope.saveOrSubmit = function (pData, method) {
             console.log(pData);
@@ -753,6 +755,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
             $scope.formalReport.ac_attachment = $scope.pfr.attachment;
 
+            $scope.formalReport.projectSummary = $scope.combProjectSummaryJson();
+
             return $scope.formalReport;
         }
 
@@ -802,7 +806,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         //验证必填项
         $scope.validateFormalBiddingInfo = function () {
-            var boolean = false;
+            var boolean = true;
+           /* var boolean = false;
             var jprojectType = $("#jprojectType").val();
             var jinvestmentAmount = $("#jinvestmentAmount").val();
             var jprojectSize = $("#jprojectSize").val();
@@ -831,18 +836,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 return boolean;
             } else {
                 boolean = true;
-            }
+            }*/
 
             return boolean;
         }
 
         $scope.isAttachmentBeChosen = function () {
-            var boolean = false;
+            var boolean = true;
+            /*var boolean = false;
             if ($("input[name='choose']:checked").length + $("input[name='choosem']:checked").length == 0) {
                 $.alert("您没有选择要提交的附件!");
             } else {
                 boolean = true;
-            }
+            }*/
 
             return boolean;
         }
@@ -1128,7 +1134,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         // 删除数组对象
         $scope.deleteObj = function (delObj, variableList) {
-            debugger
             angular.forEach(variableList, function (data, index, array) {
                 if(data.orderno == delObj.orderno){
                     variableList.splice(index, 1);
