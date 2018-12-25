@@ -178,12 +178,14 @@
                 return num%2 == 0?num:num+1
             }
             $('.text-blue-name').click(function (e) {
-                e.stopPropagation()
-                // alert('双击');
                 if($('.out-rowsection').hasClass('wrap')){
                     $('.out-rowsection').removeClass('wrap')
                     $('.outside-swiper').removeClass('current-swiper-scale')
                     $('.mcontent').removeClass('mcontent2')
+                    $('.swiper-wrapper').removeClass('heightAll')
+                    // $('.swiper-slide').removeClass('heightAll')
+                    $('.swiper-slide .mcontent').removeClass('heightAll')
+                    $('.current-swiper').removeClass('noPadding')
                     $('.left-swiper').show()
                     $('.right-swiper').show()
 
@@ -193,7 +195,10 @@
                     $('.mcontent').addClass('mcontent2')
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
-
+                    $('.swiper-wrapper').addClass('heightAll')
+                    $('.current-swiper').addClass('noPadding')
+                    // $('.swiper-slide').addClass('heightAll')
+                    $('.swiper-slide .mcontent').addClass('heightAll')
                     $('.swiper-slide').each(function(){
                         $(this).width(toeven($(this).width()))
                         $(this).height(toeven($(this).height()))
@@ -201,5 +206,17 @@
                 }
             })
         }, 1000);
+        $('.text-blue-out').click(function (e) {
+            e.stopPropagation()
+            $('.out-rowsection').removeClass('wrap')
+            $('.outside-swiper').removeClass('current-swiper-scale')
+            $('.mcontent').removeClass('mcontent2')
+            $('.swiper-wrapper').removeClass('heightAll')
+            // $('.swiper-slide').removeClass('heightAll')
+            $('.swiper-slide .mcontent').removeClass('heightAll')
+            $('.current-swiper').removeClass('noPadding')
+            $('.left-swiper').show()
+            $('.right-swiper').show()
+        })
     })
 </script>
