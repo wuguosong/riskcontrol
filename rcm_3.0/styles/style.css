@@ -17,15 +17,20 @@ button{
     padding-left: 0!important;
     width: 10px;
     margin: 0;
-
-    color: red!important;
-}
-div>.required{
     position: absolute;
     left: 0;
+    color: red!important;
 }
-.innertable h5{
-    padding-left: 10px!important;
+
+.ranktable tbody tr th:first-child{
+    position: relative;
+    padding-left: 20px!important;
+}
+.ranktable .required{
+    left: 10px;
+}
+.innertable{
+    padding: 0px 11px;
 }
 a {
     color: inherit;
@@ -55,7 +60,9 @@ li {
 
 .flex {
     display: flex;
+    display: -webkit-flex;
     justify-content: space-around;
+    -webkit-justify-content: space-around;
 }
 
 .row {
@@ -258,7 +265,7 @@ li {
     color: #005fc2;
 }
 
-.mytable table th {
+.mytable table thead th {
     text-align: center;
 }
 
@@ -784,7 +791,9 @@ li {
     background: #fff;
     position: relative;
 }
-
+.left-content .stage a:first-child{
+    margin-right: 1px;
+}
 .left-content .stage a:first-child:before {
     content: '';
     border-right: 6px solid #fff;
@@ -890,13 +899,13 @@ li {
 }
 
 .btn-add {
-    width: 70px;
-    height: 30px;
+    width: 75px;
+    height: 35px;
     color: white;
+    border: none;
     background: url("/html/assets/images/btn/btn-add.png") no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
-    border: none;
 }
 
 .btn-add1 {
@@ -919,11 +928,10 @@ li {
     border: none;
 }
 
-.btn-desc {
+.btn-desc{
     float: left;
-    width: 30px;
-    height: 29px;
-    color: white;
+    width: 24%;
+    padding-bottom: 24%;
     background: url("/html/assets/images/btn/btn-desc.png") no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
@@ -932,21 +940,19 @@ li {
 
 .btn-asc {
     float: left;
-    right: 5px;
-    width: 30px;
-    height: 30px;
-    color: white;
+    width: 24%;
+    padding-bottom: 24%;
     background: url("/html/assets/images/btn/btn-asc.png") no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
     border: none;
-    border-right: 1px solid white;
+    margin-right: 1%;
 }
 
 .btn-replace {
     float: left;
-    width: 70px;
-    height: 30px;
+    width: 75px;
+    height: 35px;
     color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
     -webkit-background-size: contain;
@@ -954,15 +960,19 @@ li {
     border: none;
 }
 
+.btn-table-replace {
+    width: 49%;
+    padding-bottom: 22.87%;
+    background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
 .btn-delete {
-    float: left;
-    width: 70px;
-    height: 30px;
-    color: white;
+
     background: url("/html/assets/images/btn/btn-delete.png") no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
-    border: none;
 }
 
 .btn-preview {
@@ -974,7 +984,31 @@ li {
     background-size: contain;
     border: none;
 }
-
+.btn-scale{
+    float: left;
+    width: 49%;
+    height: 0;
+    padding-bottom: 22.87%;
+    color: white;
+    border: none;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+td>.btn-scale:first-child{
+    margin-right: 2%;
+}
+.btn-scale>span{
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -o-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
 .side-bar-div {
     background: white;
     height: 500px;

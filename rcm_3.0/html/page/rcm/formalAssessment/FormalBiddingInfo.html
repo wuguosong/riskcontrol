@@ -12,11 +12,11 @@
             <div class="mcontent content1" id="flag3-c">
                 <h3 class="text-blue">项目重要边界条件</h3>
                 <div class="row selectline">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <span class="required">*</span>
                         项目模板信息
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                        <!-- <select style="width: 200px" ng-change="summaryTemplateChange(formalReport.summaryTemplate)"
                                 class="form-control" id="summaryTemplate" name="summaryTemplate"
                                 ng-model="formalReport.summaryTemplate"
@@ -61,7 +61,7 @@
                 <div class="innertable">
                     <h5>风控部门提供</h5>
                     <div class="filework" style="height: 40px">
-                        <div class="col-md-9">
+                        <div class="col-md-9" style="padding-left: 0">
                             <a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)"
                                style="cursor: pointer" title="">
                                 {{formalReport.projectName}}-正式评审报告.docx
@@ -97,8 +97,8 @@
                             <tr class="info">
                                 <th width="5%">序号</th>
                                 <th width="30%">资源名称</th>
-                                <th width="30%">附件内容</th>
-                                <th width="15%">最后更新时间</th>
+                                <th width="32%">附件内容</th>
+                                <th width="13%">最后更新时间</th>
                                 <th width="20%">操作</th>
                             </tr>
                             </thead>
@@ -123,14 +123,14 @@
                                 </td>
                                 <td>
                                     <div class="mbtn flex">
-                                        <button ng-disabled="!hasWaiting" class="btn-replace"
+                                        <button ng-disabled="!hasWaiting" class="btn-table-replace btn-scale"
                                                 ngf-max-size="100MB"
                                                 ngf-select="uploadFK($file, $invalidFiles, $index, item)">
-                                            替换
+                                            <span>替换</span>
                                         </button>
-                                        <button ng-if="hasWaiting" type="span" class="btn-delete"
+                                        <button ng-if="hasWaiting" type="span" class="btn-delete btn-scale"
                                                 ng-click="deleteFileFK($index)">
-                                            删除
+                                            <span>删除</span>
                                         </button>
                                     </div>
                                 </td>
@@ -147,7 +147,7 @@
             <div class="contnet1 mcontent" id="flag6-c">
                 <h3 class="text-blue">项目整体评分</h3>
                 <div class="innertable">
-                    <div class="mytable">
+                    <div class="mytable ranktable">
                         <table class="table table-bordered">
                             <thead>
                             <tr class="info">
@@ -532,9 +532,8 @@
             <div class="row" align="center">
                 <span ng-if="hasWaiting" type="span" class="btn-preview" ng-click="toPreview()" class="btn btn-info"/>
             </div>
-            <div class="stage flex">
-                <a href="" ng-click="submitSave()">提交</a>
-                <a href="" ng-click="saveOnly()">暂存</a>
+            <div class="stage">
+                <a href="" ng-click="submitSave()">提交</a><a href="" ng-click="saveOnly()">暂存</a>
             </div>
             <div class="stage flex">
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
@@ -863,11 +862,14 @@
             $('textarea').attr("readonly", "readonly");
             $('select').attr("disabled", "disabled");
         }
-        //监听主题区域宽度变化
-        // $('.xh-content').resize(function(){
-        //     $('.left-content').width($(this).width()*.16)
-        // })
-
+        // 监听主题区域宽度变化
+        $('.xh-content').resize(function(){
+            $('.left-content').width($(this).width()*.16)
+        })
+        //滚动时改变导航位置
+        $(window).scroll(function(){
+            $(document).scrollTop()>100?$('.left-content').css('top','5px'):$('.left-content').css('top','60px')
+        })
 
     });
 </script>

@@ -1,6 +1,6 @@
 <link href="../styles/style.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="../styles/style_preview.css">
-<div class="mcontainer-fluid" ng-controller="FormalBiddingInfoPreview">
+<div class="preview-contanier" ng-controller="FormalBiddingInfoPreview">
     <div class="mheader row">
         <div class="col-md-10 col-sm-10 col-xs-10">
             <h3 class="text-blue text-blue-name">{{ formalPreview.apply.projectName }}</h3>
@@ -150,32 +150,23 @@
                     $('.out-rowsection').removeClass('wrap')
                     $('.outside-swiper').removeClass('current-swiper-scale')
                     $('.mcontent').removeClass('mcontent2')
+                    $('.swiper-wrapper').removeClass('heightAll')
+                    // $('.swiper-slide').removeClass('heightAll')
+                    $('.swiper-slide .mcontent').removeClass('heightAll')
+                    $('.current-swiper').removeClass('noPadding')
                     $('.left-swiper').show()
                     $('.right-swiper').show()
-                    // outsideSwiper = new Swiper('.outside-swiper',{
-                    //     loop:false,
-                    //     navigation:{
-                    //         nextEl:'.swiper-button-next',
-                    //         prevEl:'.swiper-button-prev'
-                    //     },
-                    // })
-                    // $('.swiper-slide').each(function(){
-                    //     $(this).width(toeven($(this).width()))
-                    //     $(this).height(toeven($(this).height()))
-                    // })
+
                 }else{
                     $('.out-rowsection').addClass('wrap')
                     $('.outside-swiper').addClass('current-swiper-scale')
                     $('.mcontent').addClass('mcontent2')
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
-                    // outsideSwiper = new Swiper('.outside-swiper',{
-                    //     loop:false,
-                    //     navigation:{
-                    //         nextEl:'.swiper-button-next',
-                    //         prevEl:'.swiper-button-prev'
-                    //     },
-                    // })
+                    $('.swiper-wrapper').addClass('heightAll')
+                    $('.current-swiper').addClass('noPadding')
+                    // $('.swiper-slide').addClass('heightAll')
+                    $('.swiper-slide .mcontent').addClass('heightAll')
                     $('.swiper-slide').each(function(){
                         $(this).width(toeven($(this).width()))
                         $(this).height(toeven($(this).height()))
@@ -195,30 +186,14 @@
                     $('.mcontent').removeClass('mcontent2')
                     $('.left-swiper').show()
                     $('.right-swiper').show()
-                    // outsideSwiper = new Swiper('.outside-swiper',{
-                    //     loop:false,
-                    //     navigation:{
-                    //         nextEl:'.swiper-button-next',
-                    //         prevEl:'.swiper-button-prev'
-                    //     },
-                    // })
-                    // $('.swiper-slide').each(function(){
-                    //     $(this).width(toeven($(this).width()))
-                    //     $(this).height(toeven($(this).height()))
-                    // })
+
                 }else{
                     $('.out-rowsection').addClass('wrap')
                     $('.outside-swiper').addClass('current-swiper-scale')
                     $('.mcontent').addClass('mcontent2')
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
-                    // outsideSwiper = new Swiper('.outside-swiper',{
-                    //     loop:false,
-                    //     navigation:{
-                    //         nextEl:'.swiper-button-next',
-                    //         prevEl:'.swiper-button-prev'
-                    //     },
-                    // })
+
                     $('.swiper-slide').each(function(){
                         $(this).width(toeven($(this).width()))
                         $(this).height(toeven($(this).height()))
