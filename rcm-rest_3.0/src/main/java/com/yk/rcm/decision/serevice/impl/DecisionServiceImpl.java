@@ -524,6 +524,30 @@ public class DecisionServiceImpl implements IDecisionService{
 		}
 		return decisionResult;
 	}
+	
+	/**
+	 * 根据规则计算决策结果
+	 */
+	private int decisionCalculationNew(int tongYiCount,int tiaoJianTongYiCount,int zongRenShu,int buTongYiCount,int huiYiZhuXi) {
+		int decisionResult;
+		//如果“同意投资与同意有条件投资”表决票数合计超过三分之二
+		if(isDaYuFanMu(tongYiCount+tiaoJianTongYiCount,zongRenShu,3,2)){
+			//且其中至少一半为“同意有条件投资”或当期会议主席意见为“同意有条件投资”，则最终决议为有条件投资
+			if(isDaYuDengYuFanMu(tiaoJianTongYiCount,tongYiCount+tiaoJianTongYiCount,2,1)){
+				decisionResult = 3;
+			}else{
+				//否则就是同意投资
+				decisionResult = 1;
+			}
+		//不同意投资   大于等于3分之1 ，则为不同意投资
+		}else if(isDaYuDengYuFanMu(buTongYiCount,zongRenShu,3,1)){
+			decisionResult = 2;
+		//否则视为项目条件不成熟或重大问题尚未核实，不具备决策条件，应进一步完善资料择期上会决议。
+		}else{
+			decisionResult = 4;
+		}
+		return decisionResult;
+	}
 
 	@Override
 	public void isShiYongFouJueQuan(Map<String, Object> resultData) {
@@ -928,5 +952,216 @@ public class DecisionServiceImpl implements IDecisionService{
 			}
 		}
 		
+	}
+
+	@Override
+	public Map<String, Object> getDecisionResultNew(String id) {
+		Map<String, Object> resultData = decisionMapper.queryById(id);
+
+		//项目类型(0:评审项目,1:通报项目)
+		String formalId = resultData.get("FORMAL_ID").toString();
+		int formalType = Integer.parseInt(resultData.get("FORMAL_TYPE").toString());
+		Map meetingData = null;
+		Map<String,Object> queryData = null;
+		List<Map<String,Object>> meetingLeaders = null;
+		List<Map<String,Object>> decisionOpinionList = null;
+		String jueCeHuiYiZhuXiId = null;
+		switch (formalType) {
+		case 0:
+			queryData = baseMongo.queryByCondition(new BasicDBObject("formalId",formalId), Constants.FORMAL_MEETING_INFO).get(0);
+			jueCeHuiYiZhuXiId = queryData.get("jueCeHuiYiZhuXiId").toString();
+			meetingLeaders  = (List<Map<String, Object>>) queryData.get("decisionMakingCommitteeStaff");
+			decisionOpinionList = (List<Map<String, Object>>) queryData.get("decisionOpinionList");
+			resultData.put("project_name", queryData.get("projectName"));
+			break;
+		case 1:
+			queryData = baseMongo.queryByCondition(new BasicDBObject("_id",formalId), Constants.RCM_BULLETIN_INFO).get(0);
+			meetingData = (Map) queryData.get("meeting");
+			jueCeHuiYiZhuXiId = meetingData.get("jueCeHuiYiZhuXiId").toString();
+			meetingLeaders  = (List<Map<String, Object>>) meetingData.get("meetingLeaders");
+			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
+			resultData.put("project_name", queryData.get("bulletinName"));
+			break;
+		case 2:
+			queryData = baseMongo.queryById(formalId, Constants.RCM_PRE_INFO);
+			meetingData = (Map) queryData.get("meetingInfo");
+			jueCeHuiYiZhuXiId = meetingData.get("jueCeHuiYiZhuXiId").toString();
+			meetingLeaders  = (List<Map<String, Object>>) meetingData.get("meetingLeaders");
+			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
+			Map apply = (Map) queryData.get("apply");
+			resultData.put("project_name", apply.get("projectName"));
+			break;
+		}
+		//决策没有结束，跳转到等待页面!
+		if(null == decisionOpinionList || meetingLeaders.size() != decisionOpinionList.size() ){
+			resultData.put("userVoteStatus", "1");
+			return resultData;
+		}
+		int zongRenShu = meetingLeaders.size();
+		int huiYiZhuXi = 0;
+		
+		int tongYiCount = 0;
+		int buTongYiCount = 0;
+		int tiaoJianTongYiCount = 0;
+		int zeQiShangHuiCount = 0;
+		// 主席是否行使了一票否决权0:未行使;1:行驶
+		int zhuxiStatus = 0;
+		for (Map<String, Object> map : decisionOpinionList) {
+			if(Integer.parseInt(map.get("zhuxiStatus").toString()) == 1) {
+				zhuxiStatus = 1;
+			};
+			int aagreeOrDisagree = Integer.parseInt(map.get("aagreeOrDisagree").toString());
+			//1:同意投资,2:不同意投资,3:有条件投资,4:择期上会
+			switch (aagreeOrDisagree) {
+			case 1:
+				tongYiCount++;
+				break;
+			case 2:
+				buTongYiCount++;
+				break;
+			case 3:
+				tiaoJianTongYiCount++;
+				break;
+			case 4:
+				zeQiShangHuiCount++;
+				break;
+			}
+			//记录会议主席的  投票决策
+			if(jueCeHuiYiZhuXiId.equals(map.get("userId"))){
+				huiYiZhuXi = aagreeOrDisagree;
+			}
+		}
+		resultData.put("zhuxiStatus", zhuxiStatus);
+		resultData.put("zongRenShu", zongRenShu);
+		resultData.put("tongYiCount", tongYiCount);
+		resultData.put("buTongYiCount", buTongYiCount);
+		resultData.put("tiaoJianTongYiCount", tiaoJianTongYiCount);
+		resultData.put("zeQiShangHuiCount", zeQiShangHuiCount);
+		resultData.put("huiYiZhuXi", huiYiZhuXi);
+		
+		meetingLeaders = meetingIssueService.queryMeetingLeadersByMeetingIssueId(resultData.get("MEETING_ISSUE_ID").toString());
+		int meetingLeaderCount = meetingLeaders.size();
+		
+		//---------------------------------------------------------------------
+		//  根据规则求 决策 结果   start
+		//---------------------------------------------------------------------
+		synchronized (id) {
+			Object decisionResultText = resultData.get("DECISION_RESULT");
+			int decisionResult = 0;
+			if(null != decisionResultText){
+				decisionResult = Integer.parseInt(decisionResultText.toString());
+			}
+			if (zhuxiStatus == 1) {
+				//会议主席选择 不同意
+				if(huiYiZhuXi == 2){
+					decisionResult = 2;
+				//会议主席选择择期再议
+				}else if(huiYiZhuXi == 4){
+					decisionResult = 4;
+				}else {
+					//走正常计算流程
+					decisionResult = decisionCalculation(tongYiCount, tiaoJianTongYiCount, zongRenShu, buTongYiCount, huiYiZhuXi);
+					
+					//表决人数小于7个，考虑离场
+					//表决人数少于会议安排人数(5+1)，考虑离场
+					//如果有条件同意票数  等于  表决人数，则不考虑离场人员
+					if(zongRenShu < 7 && zongRenShu < meetingLeaderCount && tongYiCount+tiaoJianTongYiCount != zongRenShu){
+						resultData.put("isLiChangGanRaoQuan", 0);
+
+						int differSize = meetingLeaderCount - zongRenShu;
+						//第1种情况，离场人员选择同意
+						int tongYiCount2 = tongYiCount + differSize;
+						int decisionResult1 = decisionCalculation(tongYiCount2, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount, huiYiZhuXi);
+						
+						//第2种情况，离场人员选择不同意
+						int buTongYiCount2 = buTongYiCount + differSize;
+						int decisionResult2 = decisionCalculation(tongYiCount, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount2, huiYiZhuXi);
+						
+						//如果两个结果一致,则为一致的结果
+						int decisionResultNew;
+						if(decisionResult1 == decisionResult2){
+							decisionResultNew = decisionResult1; 
+						}else{
+							//如果结果不一致,则结果为择期再议!
+							decisionResultNew = 4;
+						}
+						//如果加入离场人员表决  导致   现场正常表决结果    发生变化,则友情提示
+						if(decisionResultNew != decisionResult){
+							decisionResult = decisionResultNew;
+							resultData.put("isLiChangGanRaoQuan", 1);
+							//安排委员人数
+							resultData.put("meetingLeaderCount", meetingLeaderCount);
+						}
+					}
+				}
+			} else {
+				//走正常计算流程,主席未行使一票否决权
+				decisionResult = decisionCalculationNew(tongYiCount, tiaoJianTongYiCount, zongRenShu, buTongYiCount, huiYiZhuXi);
+				//表决人数小于7个，考虑离场
+				//表决人数少于会议安排人数(5+1)，考虑离场
+				//如果有条件同意票数  等于  表决人数，则不考虑离场人员
+				if(zongRenShu < 7 && zongRenShu < meetingLeaderCount && tongYiCount+tiaoJianTongYiCount != zongRenShu){
+					resultData.put("isLiChangGanRaoQuan", 0);
+
+					int differSize = meetingLeaderCount - zongRenShu;
+					//第1种情况，离场人员选择同意
+					int tongYiCount2 = tongYiCount + differSize;
+					int decisionResult1 = decisionCalculation(tongYiCount2, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount, huiYiZhuXi);
+					
+					//第2种情况，离场人员选择不同意
+					int buTongYiCount2 = buTongYiCount + differSize;
+					int decisionResult2 = decisionCalculation(tongYiCount, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount2, huiYiZhuXi);
+					
+					//如果两个结果一致,则为一致的结果
+					int decisionResultNew;
+					if(decisionResult1 == decisionResult2){
+						decisionResultNew = decisionResult1; 
+					}else{
+						//如果结果不一致,则结果为择期再议!
+						decisionResultNew = 4;
+					}
+					//如果加入离场人员表决  导致   现场正常表决结果    发生变化,则友情提示
+					if(decisionResultNew != decisionResult){
+						decisionResult = decisionResultNew;
+						resultData.put("isLiChangGanRaoQuan", 1);
+						//安排委员人数
+						resultData.put("meetingLeaderCount", meetingLeaderCount);
+					}
+				}
+			}
+			
+			if(null == decisionResultText || "0".equals(decisionResultText.toString())){
+				//更新决策结果
+				decisionMapper.updateDecisionResult(id,new Date(),decisionResult);
+				//更新项目 流程阶段 状态  
+				switch (formalType) {
+					case 0:
+						assessmentAuditService.updateAuditStageByBusinessId(formalId, "6");
+						//更新决策通知书的表决结果
+						noticeDecisionInfoService.updateDecisionByBusinessId(formalId,decisionResult);
+						//给投资系统推送信息
+						TzAfterNoticeClient tzAfterNoticeClient = new TzAfterNoticeClient(formalId, decisionResult+"", null);
+						Thread t = new Thread(tzAfterNoticeClient);
+						t.start();
+						break;
+					case 1:
+						bulletinInfoService.updateAuditStageByBusinessId(formalId, "4");
+						break;
+					case 2:
+						preInfoService.updateAuditStageByBusinessId(formalId, "6");
+						daxtService.preStart(formalId);
+						TzAfterPreReviewClient tzAfterPreReviewClient = new TzAfterPreReviewClient(formalId, decisionResult+"", null);
+						Thread h = new Thread(tzAfterPreReviewClient);
+						h.start();
+						break;
+				}
+			}
+			resultData.put("decisionResult", decisionResult);
+			//System.out.printf(String.format("zongRenShu:%s,tongYiCount:%s,buTongYiCount:%s,tiaoJianTongYiCount:%s,zeQiShangHuiCount:%s,huiYiZhuXi:%s,decisionResult:%s,decisionResultText:%s\r\n",zongRenShu,tongYiCount,buTongYiCount, tiaoJianTongYiCount,zeQiShangHuiCount,huiYiZhuXi,decisionResult,decisionResultText));
+		}
+		//---------------------------------------------------------------------
+		// 根据规则求 决策 结果   end
+		//---------------------------------------------------------------------
+		return resultData;
 	}
 }

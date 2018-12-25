@@ -136,4 +136,6 @@ public interface IDecisionService {
 	public void resetDecision(String id);
 
 	public void addDecisionOpinionNew(String formalId, String formalType, String aagreeOrDisagree, String zhuxiStatus);
+
+	public Map<String, Object> getDecisionResultNew(String id);
 }

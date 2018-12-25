@@ -235,6 +235,22 @@ public class DecisionController {
 		result.setResult_data(resultData);
 		return result;
 	}
+	
+	/**
+	 * 获取决策结果信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/getDecisionResultNew")
+	@ResponseBody
+	public Result getDecisionResultNew(String id) {
+		Result result = new Result();
+		Map<String, Object> resultData = decisionService.getDecisionResultNew(id);
+		decisionService.isShiYongFouJueQuan(resultData);
+		result.setResult_data(resultData);
+		return result;
+	}
 
 	/**
 	 * 是否为 今天上会(表决),并 当前用户 是决策委员角色
