@@ -18,7 +18,7 @@ html,body,#content-wrapper{
 }
 .rowsection .outside-swiper{
     height: 100%;
-    padding: 5px 0;
+    padding: 0 0 20px;
 }
 .rowsection .outside-swiper .swiper-wrapper,
 .rowsection .outside-swiper .swiper-slide,
@@ -44,7 +44,8 @@ html,body,#content-wrapper{
 }
 .preview-contanier{
     height: 100%;
-    background: #f6f7fe;
+    background: url(../mystatic/img/tp-bj.jpg) no-repeat;
+    background-size: cover;
 }
 #content-wrapper>.ng-scope{
     height: 100%;
@@ -60,11 +61,22 @@ html,body,#content-wrapper{
     margin: 0;
     padding: 1px 10px;
     position: relative;
+    background: #fff;
+    text-align: center;
+    line-height: 40px;
+    font-size: 24px;
+    color: #0050bc;
+    box-shadow: 0 0 10px rgba(0,0,0,.2)
 }
-.mheader>div:nth-child(2){
-    padding: 10px;
+.mheader .btn-return{
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+/*.mheader>div:nth-child(2){*/
+    /*padding: 10px;*/
 
-}
+/*}*/
 .mheader .logo{
     width: 36px;
     height: 36px;
@@ -87,14 +99,24 @@ html,body,#content-wrapper{
     background: #d4e2f6;
     color: #000;
 }
-.mperson{
-    width: 100%;
-    padding: 18px 0;
-    font-size: 14px;
+.mtab2{
+    margin: 0 auto 10px;
+    width: 83.3%;
     font-weight: bold;
-    color: #000;
+}
+.mperson{
+    margin: 0 auto;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #fff;
+    background: #0050bc;
+    width: 83.3%;
+    overflow: hidden;
 }
 .mperson>div{
+    display: inline-block;
+    float: left;
+    width: 25%;
     text-overflow: ellipsis;
     line-height: 24px;
     overflow: hidden;
@@ -116,6 +138,8 @@ html,body,#content-wrapper{
     color: #000;
     font-weight: bold;
     line-height: 24px;
+    height: 100%;
+    overflow-y: auto;
 }
 .content1 span{
     font-weight: normal;
@@ -210,7 +234,7 @@ html,body,#content-wrapper{
 .mytable {
     position: relative;
     margin-top: 20px;
-    height: 400px;
+    height: auto;
     overflow: hidden;
 }
 .mytable .table-cover{
@@ -288,23 +312,11 @@ html,body,#content-wrapper{
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
 }
+
 .right-swiper .mcontent{
     margin-left: 16.666%;
 }
-.swiper-slide .mytable {
-    max-height: 350px;
-}
-.content2 ,.content3{
-    height: 100%;
-    overflow-y: auto;
-}
-.content2 .mytable{
-    height: auto;
-}
-.content3 .mytable{
-    height: auto;
-    max-height: 200px;
-}
+
 .wrap{
     position: fixed;
     width: 100%;
@@ -329,6 +341,21 @@ html,body,#content-wrapper{
     height: 100%!important;
     margin: 0;
 }
+.heightAll2{
+    height: 100%!important;
+}
 .noPadding{
     padding: 0!important;
 }
+
+.mcontent2{
+    margin-top: 0!important;
+}
+/*.content3 .mytable{*/
+    /*max-height: calc(100% - 170px);*/
+/*}*/
+
+/*.content4 .mytable{*/
+    /*max-height: calc(100% - 62px);*/
+    /*overflow-y: auto;*/
+/*}*/
