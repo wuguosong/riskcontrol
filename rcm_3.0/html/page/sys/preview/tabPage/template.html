@@ -248,6 +248,7 @@
             <div ng-include src="'page/sys/preview/tabPage/templateView/8000_4.html'"></div>
         </div>
     </div>
+    <div class="swiper-pagination"></div>
 </div>
 <!--右滚动区:把第一个swiper-slide放在最后-->
 <div class="right-swiper nocurrent-swiper">
@@ -399,6 +400,17 @@
                 navigation:{
                     nextEl:'.son-swiper-button-next',
                     prevEl:'.son-swiper-button-prev'
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    //type: 'bullets',
+                    //type: 'fraction',
+                    //type : 'progressbar',
+                    //type : 'custom',
+                    clickable: true,
+                    renderBullet: function (index, className) {
+                        return '<span class="' + className + '">' + (index + 1) + '</span>';
+                    },
                 },
                 controller: {
                     control:[leftSwiper,rightSwiper]
