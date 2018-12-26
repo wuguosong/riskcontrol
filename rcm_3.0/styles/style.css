@@ -58,12 +58,12 @@ li {
     float: right;
 }
 
-.flex {
-    display: flex;
-    display: -webkit-flex;
-    justify-content: space-around;
-    -webkit-justify-content: space-around;
-}
+/*.flex {*/
+    /*display: flex;*/
+    /*display: -webkit-flex;*/
+    /*justify-content: space-around;*/
+    /*-webkit-justify-content: space-around;*/
+/*}*/
 
 .row {
     width: 100%;
@@ -278,17 +278,6 @@ li {
     padding: 20px 10px!important;
 }
 
-.mytable {
-    position: relative;
-    margin-top: 20px;
-
-    /*height: 400px;*/
-    /*overflow: hidden;*/
-}
-
-.swiper-slide .mytable{
-    height: 400px;
-}
 .mytable .table-cover {
     position: absolute;
     width: 100%;
@@ -811,7 +800,6 @@ li {
 }
 
 .left-content .linkline a {
-    display: flex;
     padding: 20px;
     display: block;
     position: relative;
