@@ -1148,7 +1148,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         $scope.summaryTemplateChange = function (type) {
             // 风控评审意见汇总 初始化模板数据
+            var investmentType = angular.copy($scope.projectSummary.investmentType);
             $scope.projectSummary = {};
+            $scope.projectSummary.investmentType = angular.copy(investmentType);
             if (type.ITEM_CODE == "1000") {
                 $scope.projectSummary.projectOverviews = [
                     {
