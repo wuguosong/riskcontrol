@@ -3,7 +3,6 @@ html,body,#content-wrapper{
 }
 #main-wrapper{
     overflow-y: auto!important;
-
     height: 100% ;
 }
 .row{
@@ -26,9 +25,6 @@ html,body,#content-wrapper{
 .rowsection .outside-swiper .swiper-slide>.ng-scope{
      height: 100%;
  }
-.rowsection .outside-swiper .swiper-slide .current-swiper{
-    padding: 5px 0;
-}
 .container-fluid{
     position: absolute;
     top: 0;
@@ -63,15 +59,21 @@ html,body,#content-wrapper{
     position: relative;
     background: #fff;
     text-align: center;
-    line-height: 40px;
+    line-height: 50px;
     font-size: 24px;
     color: #0050bc;
     box-shadow: 0 0 10px rgba(0,0,0,.2)
 }
 .mheader .btn-return{
     position: absolute;
-    top: 1px;
-    right: 1px;
+    padding: 5px 20px;
+    border-radius: 20px;
+    background: #0050bc;
+    color: #fff;
+    line-height: 30px;
+    top: 5px;
+    right: 10px;
+    font-size: 18px;
 }
 /*.mheader>div:nth-child(2){*/
     /*padding: 10px;*/
@@ -100,7 +102,7 @@ html,body,#content-wrapper{
     color: #000;
 }
 .mtab2{
-    margin: 0 auto 10px;
+    margin: 20px auto;
     width: 83.3%;
     font-weight: bold;
 }
@@ -108,6 +110,7 @@ html,body,#content-wrapper{
     margin: 0 auto;
     padding: 10px 0;
     font-size: 14px;
+    font-weight: normal;
     color: #fff;
     background: #0050bc;
     width: 83.3%;
@@ -131,6 +134,46 @@ html,body,#content-wrapper{
     overflow: hidden;
     white-space: nowrap;
 }
+.btn-fullscreen{
+    width: 40px;
+    height: 40px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background: #0050bc;
+    position: absolute;
+    bottom: 40px;
+    right: 10%;
+    cursor: pointer;
+    z-index: 99;
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+    transform: rotate(30deg);
+}
+.btn-fullscreen:before{
+    content: '';
+    display: block;
+    position: absolute;
+    border-top: 8px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 8px solid #fff;
+    top: 0;
+    left: 15px;
+}
+.btn-fullscreen:after{
+    content: '';
+    display: block;
+    position: absolute;
+    border-top: 8px solid #fff;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 8px solid transparent;
+    bottom: 0;
+    left: 15px;
+}
 .mcontent{
     padding: 1px 20px 30px;
     background: #fff;
@@ -140,6 +183,16 @@ html,body,#content-wrapper{
     line-height: 24px;
     height: 100%;
     overflow-y: auto;
+}
+.swiper-slide-active:before{
+    content: '';
+    position: absolute;
+    left: 8.3%;
+    right: 8.3%;
+    bottom: 0;
+    height: 20px;
+    z-index: 98;
+    background: #fff;
 }
 .content1 span{
     font-weight: normal;
