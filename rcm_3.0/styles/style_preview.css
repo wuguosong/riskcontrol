@@ -162,6 +162,11 @@ html,body,#content-wrapper{
     border-bottom: 8px solid #fff;
     top: 0;
     left: 15px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
 }
 .btn-fullscreen:after{
     content: '';
@@ -173,6 +178,21 @@ html,body,#content-wrapper{
     border-bottom: 8px solid transparent;
     bottom: 0;
     left: 15px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+.btn-outscreen:before{
+    border-bottom: 8px solid transparent;
+    border-top: 8px solid #fff;
+    top: 8px;
+}
+.btn-outscreen:after{
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid #fff;
+    bottom: 8px;
 }
 .mcontent{
     padding: 1px 20px 30px;
@@ -194,8 +214,8 @@ html,body,#content-wrapper{
     z-index: 98;
     background: #fff;
 }
-.outside-swiper>.swiper-wrapper>.swiper-slide:nth-child(2):before{
-    width: 0;
+.swiper-wrapper .swiper-slide:nth-child(2):before{
+    width: 0!important;
 }
 .content1 span{
     font-weight: normal;
@@ -444,4 +464,9 @@ html,body,#content-wrapper{
 .swiper-pagination-bullet-active {
     color: #fff;
     background: #007aff;
+}
+
+.widthAll{
+    width: 100%!important;
+    bottom: 0!important;
 }

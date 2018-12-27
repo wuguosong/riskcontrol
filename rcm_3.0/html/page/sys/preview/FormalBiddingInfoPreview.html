@@ -158,25 +158,30 @@
             $('.btn-fullscreen'). click(function (e) {
                 e.stopPropagation()
                 if($('.out-rowsection').hasClass('wrap')){
+                    $(this).removeClass('btn-outscreen')
                     $('.out-rowsection').removeClass('wrap')
                     $('.outside-swiper').removeClass('current-swiper-scale')
                     $('.swiper-wrapper').removeClass('heightAll').addClass('heightAll2')
                     $('.swiper-slide').removeClass('heightAll').addClass('heightAll2')
-                    $('.mcontent').removeClass('mcontent2')
+                    $('.mcontent').removeClass('heightAll').addClass('heightAll2')
+                    $('.mcontent').css('width','83.3%')
+                    //$('.content2')
                     $('.current-swiper').removeClass('noPadding')
                     $('.left-swiper').show()
                     $('.right-swiper').show()
+                    $('.swiper-pagination').removeClass('widthAll')
                 }else{
+                    $(this).addClass('btn-outscreen')
                     $('.out-rowsection').addClass('wrap')
                     $('.outside-swiper').addClass('current-swiper-scale')
                     $('.swiper-wrapper').removeClass('heightAll2').addClass('heightAll')
                     $('.swiper-slide').removeClass('heightAll2').addClass('heightAll')
-                    $('.mcontent').addClass('mcontent2')
+                    $('.mcontent').removeClass('heightAll2').addClass('heightAll')
+                    $('.mcontent').css('width','100%')
                     $('.current-swiper').addClass('noPadding')
-                    //$('.swiper-slide .mcontent').addClass('heightAll')
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
-
+                    $('.swiper-pagination').addClass('widthAll')
 
                     $('.swiper-slide').each(function(){
                         $(this).width(toeven($(this).width()))
