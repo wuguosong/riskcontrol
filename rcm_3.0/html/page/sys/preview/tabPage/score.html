@@ -94,11 +94,23 @@
             </tr>-->
             </tbody>
         </table>
-        <!--<div class="table-cover" ng-hide="hideFlagS">-->
-            <!--<div class="more">-->
-                <!--<div class="icon" ng-click="expandMore('content4_table', 'hideFlagS')"></div>-->
-                <!--<h6 class="text-blue" ng-click="expandMore('content4_table', 'hideFlagS')">点击查看更多</h6>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon" ng-click="expandMore('content4_table', 'hideFlagS')"></div>
+                <h6 class="text-blue" ng-click="expandMore('content4_table', 'hideFlagS')">点击查看更多</h6>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    $(function(){
+        setTimeout(function(){
+            if($('#content4_table .table').height() < $('#content4_table').height()){
+
+                $('#content3_cover').hide()
+            }
+        },1000)
+
+    })
+</script>

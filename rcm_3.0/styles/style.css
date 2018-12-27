@@ -1,9 +1,13 @@
 .hideOpen {
-    /*height: auto;*/
-    max-height: auto!important;
     overflow-y: auto!important;
 }
 
+.text-hidden{
+    overflow: hidden;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
 .noPadding{
     padding-left: 0;
     padding-right: 0;
@@ -31,6 +35,13 @@ button{
 }
 .innertable{
     padding: 0px 11px;
+}
+
+.innertable textarea{
+    margin: -10px auto;
+}
+.innertable input{
+    max-width: 100%;
 }
 a {
     color: inherit;
@@ -983,7 +994,7 @@ li {
     display: inline-block;
     vertical-align: middle;
 }
-td>.btn-scale:first-child{
+td btn-scale:first-child{
     margin-right: 2%;
 }
 .btn-scale>span{

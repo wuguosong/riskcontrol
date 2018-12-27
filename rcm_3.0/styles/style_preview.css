@@ -194,6 +194,9 @@ html,body,#content-wrapper{
     z-index: 98;
     background: #fff;
 }
+.outside-swiper>.swiper-wrapper>.swiper-slide:nth-child(2):before{
+    width: 0;
+}
 .content1 span{
     font-weight: normal;
     color: #363636;
@@ -404,11 +407,41 @@ html,body,#content-wrapper{
 .mcontent2{
     margin-top: 0!important;
 }
-/*.content3 .mytable{*/
-    /*max-height: calc(100% - 170px);*/
-/*}*/
 
-/*.content4 .mytable{*/
-    /*max-height: calc(100% - 62px);*/
-    /*overflow-y: auto;*/
-/*}*/
+.swiper-pagination{
+    width: 83.3%!important;
+    margin-left: 8.3%!important;
+    bottom: 22px!important;
+    background: #fff;
+}
+.current-swiper .mcontent{
+    height: calc(100% - 22px);
+}
+.content3 .mytable{
+    max-height: calc(100% - 170px);
+}
+
+.content4 .mytable{
+    max-height: calc(100% - 63px);
+    overflow-y: hidden;
+}
+
+.swiper-pagination-clickable .swiper-pagination-bullet {
+    cursor: pointer;
+}
+
+.swiper-pagination-bullet {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #000;
+    opacity: 1;
+    background: rgba(0,0,0,0.2);
+}
+
+.swiper-pagination-bullet-active {
+    color: #fff;
+    background: #007aff;
+}

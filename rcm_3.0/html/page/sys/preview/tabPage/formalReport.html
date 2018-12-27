@@ -34,19 +34,19 @@
             </tbody>
 
         </table>
-        <!--<div id="content3_cover" class="table-cover" ng-hide="hideFlagR">-->
-            <!--<div class="more">-->
-                <!--<div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>-->
-                <!--<h6 class="text-blue" ng-click="expandMore('content3_table', 'hideFlagR')">点击查看更多</h6>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div id="content3_cover" class="table-cover" ng-hide="hideFlagR">
+            <div class="more">
+                <div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>
+                <h6 class="text-blue" ng-click="expandMore('content3_table', 'hideFlagR')">点击查看更多</h6>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     $(function(){
         setTimeout(function(){
-            if($('#content3_table .table').height() <200){
+            if($('#content3_table .table').height() < $('#content3_table .table').height()){
 
                 $('#content3_cover').hide()
             }
