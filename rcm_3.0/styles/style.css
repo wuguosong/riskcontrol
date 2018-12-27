@@ -756,6 +756,9 @@ li {
     height: 100%;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.noArrow{
     background: none;
 }
 

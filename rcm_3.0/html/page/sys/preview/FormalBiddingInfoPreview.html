@@ -106,12 +106,13 @@
                 },
                 on: {
                     slideChange: function(){
-
                         if(this.activeIndex == 1){
                             if(this.previousIndex==0){
-                                $('.out-swiper-button-next').hide()
+                                $('.out-swiper-button-next').hide();
+                                $('.son-swiper-button-prev').hide();
                             }else{
-                                $('.out-swiper-button-prev').hide()
+                                $('.out-swiper-button-prev').hide();
+                                $('.son-swiper-button-next').hide();
                             }
 
                         }else{

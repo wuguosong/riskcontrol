@@ -7,8 +7,8 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         $scope.hideFlagS = false; // 项目整体评分隐藏标识
 
         // 待决策项目审阅传来的参数
-        // $scope.waitId = $routeParams.id;
-        $scope.waitId = '5af296721063f4211810dc58';
+        $scope.waitId = $routeParams.id;
+        // $scope.waitId = '5af296721063f4211810dc58';
         $scope.waitUrl = $routeParams.url;
         $scope.flag = $routeParams.flag;
 
@@ -54,6 +54,9 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
 
                 // 处理数据
                 $scope.previewJson();
+
+                $(".swiper-button-prev").addClass('noArrow');
+                $(".swiper-button-next").addClass('noArrow');
             }).error(function (data, status, header, config) {
                 $.alert(status);
             });
