@@ -4930,11 +4930,14 @@ ctmApp.directive('directUploadFileTouzi', function() {
             attach: "=",
             fileList: "=",
             select: "=",
-            formalReport: "="
+            formalReport: "=",
+			// 确定按钮是否可用
+            isUse: "="
         },
         controller: function($scope, $http, $element, Upload){
 
             $scope.item = {};
+            $scope.isUse = false;
             // 获得时间
         	$scope.getDate = function () {
                 var myDate = new Date();
@@ -4953,6 +4956,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
 
             $scope.changeAttach = function (name) {
                 console.log(name);
+                debugger
                 $scope.latestAttachment = null;
                 angular.forEach($scope.attach, function (data, index) {
                     if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
@@ -4965,9 +4969,15 @@ ctmApp.directive('directUploadFileTouzi', function() {
                         }
                     }
                 });
-                if ($scope.latestAttachment.type == "invest") {
+                if($scope.latestAttachment.fileName == undefined || $scope.latestAttachment.fileName == ''
+                        || $scope.latestAttachment.fileName == null){
+                        $scope.isUse = true;
+                    }
+                /*if ($scope.latestAttachment.type == "invest") {
+                    $scope.latestAttachment.typeValue = "投资部门提供";
+                } else {
                     $scope.latestAttachment.typeValue = "业务部门提供";
-				}
+				}*/
             };
 
             $scope.close = function() {
@@ -4990,26 +5000,6 @@ ctmApp.directive('directUploadFileTouzi', function() {
 				}
                 $scope.fileList.push($scope.file);
             }
-
-            $scope.changeAttach = function (name) {
-                $scope.latestAttachment = null;
-                angular.forEach($scope.attach, function (data, index) {
-                    if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
-                        if ($scope.latestAttachment) {
-                            if ($scope.latestAttachment.upload_date < data.upload_date) {
-                                $scope.latestAttachment = data;
-                            }
-                        } else {
-                            $scope.latestAttachment = data;
-                        }
-                    }
-                });
-                if ($scope.latestAttachment.type == "invest") {
-                    $scope.latestAttachment.typeValue = "投资部门提供";
-                } else {
-                    $scope.latestAttachment.typeValue = "业务部门提供";
-				}
-            };
 
             $scope.newAttachment;
             $scope.upload = function (file, errorFile, idx) {

@@ -1,6 +1,6 @@
 <div class="row nobottom-mar">
     <div class="col-sm-12 noleft-pad noright-pad" id="modelFile" data-toggle="modal"
-         data-target="#userSinDialog_{{id}}">
+         data-target="#userSinDialog_{{id}}" style="width: 75px">
         <button type="span" class="btn-add">
             新增
         </button>
@@ -62,7 +62,8 @@
                     ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
                 重新上传
             </button>
-            <button type="button" class="btn btn-primary" ng-click="submit()" data-dismiss="modal" aria-hidden="true">确定</button>
+            <button type="button" class="btn btn-primary" ng-click="submit()" data-dismiss="modal" aria-hidden="true"
+            ng-disabled="isUse">确定</button>
         </div>
     </div>
 </div>

@@ -1792,6 +1792,23 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
+            //正式评审预览决策委员会材料-待决策项目审阅入口
+            .when('/FormalBiddingInfoPreview/:id/:url/:flag',{
+                controller:'FormalBiddingInfoPreview',
+                templateUrl:'page/sys/preview/FormalBiddingInfoPreview.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/preview/FormalBiddingInfoPreview.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
 			//决策委员会审阅
 			.when('/FormalBiddingInfoReview/:id/:url',{
 				controller:'FormalBiddingInfoReview',

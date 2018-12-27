@@ -3,7 +3,10 @@
 <div class="preview-contanier" ng-controller="FormalBiddingInfoPreview">
     <div class="mheader row text-blue-name">
         {{ formalPreview.apply.projectName }}
-        <a class="btn-return" href="#/FormalBiddingInfo/{{formalPreview.id}}@2/{{formalPreview.url}}/1">
+        <a ng-if="flag != 1" class="btn-return" href="#/FormalBiddingInfo/{{formalPreview.id}}@2/{{formalPreview.url}}/1">
+            返回
+        </a>
+        <a ng-if="flag == 1" class="btn-return" href="#/waitDecisionReviewList">
             返回
         </a>
     <!--<h5 class="text-gray">评审报告出具时间：{{formalPreview.submit_date}}</h5>-->
@@ -152,7 +155,7 @@
                 $('#formalReport').removeClass('chose');
                 $('#processReview').removeClass('chose');
             });
-            $('.swiper-slide').dblclick(function (e) {
+            $('.btn-fullscreen'). click(function (e) {
                 e.stopPropagation()
                 if($('.out-rowsection').hasClass('wrap')){
                     $('.out-rowsection').removeClass('wrap')
@@ -181,7 +184,7 @@
                     })
                 }
             })
-            $('.text-blue-name').click(function (e) {
+            /*$('.text-blue-name').click(function (e) {
                 e.stopPropagation()
                 if ($('.out-rowsection').hasClass('wrap')) {
                     $('.out-rowsection').removeClass('wrap')
@@ -220,7 +223,7 @@
                 $('.mcontent').removeClass('mcontent2')
                 $('.current-swiper').removeClass('noPadding')
                 $('.left-swiper').show()
-            })
+            })*/
         }, 1000);
                 // alert('双击');
                 // if($('.out-rowsection').hasClass('wrap')){
