@@ -217,73 +217,78 @@ html,body,#content-wrapper{
 .swiper-wrapper .swiper-slide:nth-child(2):before{
     width: 0!important;
 }
-.content1 span{
+.content1 .slim {
     font-weight: normal;
     color: #363636;
     font-size: 14px;
     letter-spacing: 0;
 }
-.mcontent .timeline{
+
+.mcontent .timeline {
     position: relative;
     overflow: hidden;
 }
-.mcontent .timeline .line{
+
+.mcontent .timeline .line {
     position: absolute;
-    width: 100%;
+    width: 90%;
     height: 1px;
     background: #dbe5ef;
-    left: 0;
+    left: 5%;
     top: 14px;
 }
-.mcontent .timeline .time{
+
+.mcontent .timeline .time {
     background: #fff;
     position: relative;
 }
-.mcontent .timeline .start-time{
+
+.mcontent .timeline .start-time {
     padding-right: 20px;
     float: left;
 }
+
 .mcontent .timeline .start-time:before,
-.mcontent .timeline .end-time:before{
-    content:'';
+.mcontent .timeline .end-time:before {
+    content: '';
     display: block;
     background: #27bb87;
     width: 16px;
     height: 16px;
-    border-radius:50%;
+    border-radius: 50%;
     position: absolute;
     right: 0;
     top: 6px;
 }
-.mcontent .timeline .end-time:before{
+
+.mcontent .timeline .end-time:before {
     background: #d11513;
     left: 0;
 }
-.mcontent .timeline .end-time{
+
+.mcontent .timeline .end-time {
     padding-left: 20px;
     float: right;
 }
-.mcontent .timeline .time span{
+
+.mcontent .timeline .time span {
     display: block;
 }
-.mcontent .normalline{
+
+.mcontent .normalline {
     line-height: 36px;
     padding: 10px 0;
     border-bottom: 1px solid #DBE5EF;
 }
-.mcontent .normalline:nth-last-of-type(1){
+
+.mcontent .normalline:nth-last-of-type(1) {
     border-bottom: 0;
 }
-.mcontent .normalline span{
-    padding-left: 20px;
-}
-.mcontent .titline .tit{
+
+.mcontent .titline .tit {
     font-size: 16px;
 }
-.mcontent .titline span{
-    font-weight: bold;
-    color: #000;
-}
+
 .file-icon{
     display: inline-block;
     vertical-align: text-bottom;
@@ -468,5 +473,31 @@ html,body,#content-wrapper{
 
 .widthAll{
     width: 100%!important;
-    bottom: 0!important;
+    margin: 0!important;
+    bottom: 20px!important;
+}
+
+.modal-backdrop{
+    z-index: 1499
+}
+
+.modal{
+    z-index: 1500
+}
+
+.mcontent.heightAll>div.contentwrap{
+    width: 90%;
+    height: calc(95% - 75px);
+    margin: 0 auto;
+    /*overflow-y: scroll;*/
+    overflow: auto;
+}
+
+.heightAll h3{
+    margin-top: 40px;
+    padding-left: 5%;
+}
+
+.heightAll.mcontent{
+    overflow: hidden;
 }

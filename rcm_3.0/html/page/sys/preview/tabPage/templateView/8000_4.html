@@ -1,18 +1,20 @@
 
 <div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class="text-blue">决策事项</h3>
-    <div ng-if="formalPreview.decisionMakings > 0">
-        <table class="table table-bordered">
-            <tbody>
-            <tr ng-repeat="decisionMakingVar in formalPreview.decisionMakings | orderBy: 'orderno': desc">
-                <td class="">
-                    {{decisionMakingVar.decisionMaking}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div ng-if="formalPreview.decisionMakings <= 0">
-        <h4>决策事项暂未填写</h4>
+    <div class="contentwrap">
+        <div ng-if="formalPreview.decisionMakings > 0">
+            <table class="table table-bordered">
+                <tbody>
+                <tr ng-repeat="decisionMakingVar in formalPreview.decisionMakings | orderBy: 'orderno': desc">
+                    <td class="">
+                        {{decisionMakingVar.decisionMaking}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="formalPreview.decisionMakings <= 0">
+            <h4>决策事项暂未填写</h4>
+        </div>
     </div>
 </div>

@@ -1,0 +1,75 @@
+<div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue text-blue-out'>风控意见及附件</h3>
+    <div class="contentwrap">
+        <div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''
+						|| bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''
+						|| bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''
+						|| bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment != ''
+						|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment != ''
+						|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment != ''">
+
+            <div class="row" ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
+                <div class="tit col-md-2 col-sm-2 col-xs-12">评审负责人意见</div>
+                <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    {{bulletin.reviewLeaderOpinion}}
+                </div>
+            </div>
+            <div class="row" ng-show="bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''">
+                <div class="tit col-md-2 col-sm-2 col-xs-12">法律负责人意见</div>
+                <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    {{bulletin.legalLeaderOpinion}}
+                </div>
+            </div>
+            <div class="row" ng-show="bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''">
+                <div class="tit col-md-2 col-sm-2 col-xs-12">风控负责人意见</div>
+                <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    {{bulletin.riskLeaderOpinion}}
+                </div>
+            </div>
+            <div class="row normalline titline">
+                <div class="mytable" style="margin: 20px" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0
+								|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length > 0
+								|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment.length > 0 ">
+                    <div>风控附件列表</div>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="info">
+                            <th>附件</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in bulletin.legalLeaderAttachment track by $index">
+                            <td>
+                                <span ng-bind="progress$index"></span>
+                                <span style="">{{errorAttach[$index].msg}}</span>
+                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in bulletin.reviewLeaderAttachment track by $index">
+                            <td>
+                                <span ng-bind="progress$index"></span>
+                                <span style="">{{errorAttach[$index].msg}}</span>
+                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in bulletin.riskLeaderAttachment track by $index">
+                            <td>
+                                <span ng-bind="progress$index"></span>
+                                <span style="">{{errorAttach[$index].msg}}</span>
+                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
+						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
+						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')
+						&& (bulletin.legalLeaderAttachment == null || bulletin.legalLeaderAttachment == '')
+						&& (bulletin.reviewLeaderAttachment == null || bulletin.reviewLeaderAttachment == '')
+						&& (bulletin.riskLeaderAttachment == null || bulletin.riskLeaderAttachment == '')">
+            <h4>风控意见暂未填写</h4>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="mcontent content1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue text-blue-out'>决策事项意见汇总表</h3>
+    <div class="contentwrap">
+        <div class="table-responsive" style="margin: 20px">
+            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                <tbody>
+                <tr>
+                    <td class="title-column">提交申请时间</td>
+                    <td>{{bulletinOracle.APPLYTIME | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                </tr>
+                <tr>
+                    <td class="title-column">所属大区</td>
+                    <td>{{bulletinOracle.APPLYUNITNAME}}</td>
+                </tr>
+                <tr>
+                    <td class="title-column">事项类型</td>
+                    <td>{{bulletinOracle.BULLETINTYPENAME}}</td>
+                </tr>
+                <tr ng-if="null != bulletin.taskallocation.riskLeader && null != bulletin.taskallocation.riskLeader.NAME">
+                    <td class="title-column">专业评审负责人</td>
+                    <td>{{bulletin.taskallocation.riskLeader.NAME}}</td>
+                </tr>
+                <tr ng-if="null != bulletin.taskallocation.legalLeader && null != bulletin.taskallocation.legalLeader.NAME">
+                    <td class="title-column">法律评审负责人</td>
+                    <td>{{bulletin.taskallocation.legalLeader.NAME}}</td>
+                </tr>
+                <tr>
+                    <td rowspan="2" class="title-column">事项说明</td>
+                    <td><span class="title-column">事项原因：</span>{{bulletin.reason}}</td>
+                </tr>
+                <tr>
+                    <td><span class="title-column">申请需求：</span>{{bulletin.applyRequirement}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

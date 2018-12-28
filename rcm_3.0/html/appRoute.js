@@ -1809,7 +1809,24 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
-			//决策委员会审阅
+            // 其他评审预览决策委员会材料-待决策项目审阅入口
+            .when('/BulletinReviewDetailPreview/:id/:url',{
+                controller:'BulletinReviewDetailPreview',
+                templateUrl:'page/sys/preview/BulletinReviewDetailPreview.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/preview/BulletinReviewDetailPreview.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            //决策委员会审阅
 			.when('/FormalBiddingInfoReview/:id/:url',{
 				controller:'FormalBiddingInfoReview',
 				templateUrl:'page/rcm/formalAssessment/FormalBiddingInfoReview.html',
@@ -3158,7 +3175,7 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                         return deferred.promise;
                     }]
                 }
-            })   
+            })
             //正式评审会议信息列表
             .when('/ConferenceInformation/:tabIndex',{
                 controller:'ConferenceInformation',

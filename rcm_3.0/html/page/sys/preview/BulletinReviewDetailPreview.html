@@ -1,0 +1,140 @@
+<link href="../styles/style.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="../styles/style_preview.css">
+<div class="preview-contanier" ng-controller="BulletinReviewDetailPreview">
+	<div class="mheader row text-blue-name">
+		{{ bulletinOracle.BULLETINNAME }}
+		<a class="btn-return" href="#/waitDecisionReviewList">
+			返回
+		</a>
+	</div>
+	<div class="row mtab2 text-gray">
+		<a id="decisionMatters" class="chose col-md-4 col-sm-6 col-xs-12">
+			决策事项意见汇总
+			<div class="line">
+						<span class="fcir">
+							<span></span>
+						</span>
+			</div>
+		</a>
+		<a id="windControlAdvice" class="col-md-4 col-sm-6 col-xs-12">
+			风控意见及附件
+			<div class="line">
+						<span class="fcir">
+							<span></span>
+						</span>
+			</div>
+		</a>
+		<a id="relevantAttachments" class="col-md-4 col-sm-6 col-xs-12">
+			相关附件
+			<div class="line">
+						<span class="fcir">
+							<span></span>
+						</span>
+			</div>
+		</a>
+	</div>
+	<!--<div class="mperson">
+		<div>评审负责人<em>{{formalPreview.taskallocation.reviewLeader.NAME}}</em></div>
+		<div>法律负责人<em>{{formalPreview.taskallocation.legalReviewLeader.NAME}}</em></div>
+		<div>投资建议<em>{{formalPreview.investmentType.ITEM_NAME}}</em></div>
+		<div>评审难度评级<em>{{ formalPreview.projectRating.name }}</em></div>
+	</div>-->
+	<div class="row rowsection out-rowsection">
+		<div class="outside-swiper swiper-container">
+			<div class="btn-fullscreen"></div>
+			<div class="swiper-button-prev out-swiper-button-prev noArrow"></div>
+			<div class="swiper-button-next out-swiper-button-next noArrow"></div>
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div ng-include src="'page/sys/preview/tabPage/bulletinReview/decisionMatters.html'"></div>
+				</div>
+				<div class="swiper-slide">
+					<div ng-include src="'page/sys/preview/tabPage/bulletinReview/windControlAdvice.html'"></div>
+				</div>
+				<div class="swiper-slide">
+					<div ng-include src="'page/sys/preview/tabPage/bulletinReview/relevantAttachments.html'"></div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+    $(function() {
+        setTimeout(function () {
+            var outsideSwiper = new Swiper('.outside-swiper', {
+                observer: true,
+                observeParents: true,
+                loop: false,
+                autoHeight: true,
+                roundLengrhs: true,
+                navigation: {
+                    nextEl: '.out-swiper-button-next',
+                    prevEl: '.out-swiper-button-prev'
+                },
+                on: {
+                    transitionStart: function () {
+                        var BulletinReviewDetailPreview = document.querySelector('[ng-controller = BulletinReviewDetailPreview]');
+                        var $scope = angular.element(BulletinReviewDetailPreview).scope();
+                        $scope.changeStyle(this.activeIndex)
+                    }
+                }
+            });
+            $('#decisionMatters').click(function(){
+                outsideSwiper.slideTo(0, 1000, true);//切换到第一个slide，速度为1秒
+                $('#decisionMatters').addClass('chose');
+                $('#windControlAdvice').removeClass('chose');
+                $('#relevantAttachments').removeClass('chose');
+            });
+            $('#windControlAdvice').click(function(){
+                outsideSwiper.slideTo(1, 1000, true);//切换到第二个slide，速度为1秒
+                $('#windControlAdvice').addClass('chose');
+                $('#decisionMatters').removeClass('chose');
+                $('#relevantAttachments').removeClass('chose');
+            });
+            $('#relevantAttachments').click(function(){
+                outsideSwiper.slideTo(2, 1000, true);//切换到第三个slide，速度为1秒
+                $('#relevantAttachments').addClass('chose');
+                $('#windControlAdvice').removeClass('chose');
+                $('#decisionMatters').removeClass('chose');
+            });
+            $('.btn-fullscreen'). click(function (e) {
+                e.stopPropagation()
+                if($('.out-rowsection').hasClass('wrap')){
+                    $(this).removeClass('btn-outscreen')
+                    $('.out-rowsection').removeClass('wrap')
+                    $('.outside-swiper').removeClass('current-swiper-scale')
+                    $('.swiper-wrapper').removeClass('heightAll').addClass('heightAll2')
+                    $('.swiper-slide').removeClass('heightAll').addClass('heightAll2')
+                    $('.mcontent').removeClass('heightAll').addClass('heightAll2')
+                    $('.mcontent').css('width','83.3%')
+                    //$('.content2')
+                    $('.current-swiper').removeClass('noPadding')
+                    $('.swiper-pagination').removeClass('widthAll')
+
+                }else{
+                    $(this).addClass('btn-outscreen')
+                    $('.out-rowsection').addClass('wrap')
+                    $('.outside-swiper').addClass('current-swiper-scale')
+                    $('.swiper-wrapper').removeClass('heightAll2').addClass('heightAll')
+                    $('.swiper-slide').removeClass('heightAll2').addClass('heightAll')
+                    $('.mcontent').removeClass('heightAll2').addClass('heightAll')
+                    $('.mcontent').css('width','100%')
+                    $('.current-swiper').addClass('noPadding')
+                    $('.swiper-pagination').addClass('widthAll')
+
+                    $('.swiper-slide').each(function(){
+                        $(this).width(toeven($(this).width()))
+                        $(this).height(toeven($(this).height()))
+                    })
+                }
+            })
+        }, 1000);
+
+        function toeven(num){
+            return num%2 == 0?num:num+1
+        }
+    })
+</script>

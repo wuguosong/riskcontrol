@@ -171,6 +171,10 @@
                     $('.left-swiper').show()
                     $('.right-swiper').show()
                     $('.swiper-pagination').removeClass('widthAll')
+
+                    /*if ($("#demo-settings-toggler")) {
+                        $("#demo-settings-toggler").show();
+                    }*/
                 }else{
                     $(this).addClass('btn-outscreen')
                     $('.out-rowsection').addClass('wrap')
@@ -183,6 +187,10 @@
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
                     $('.swiper-pagination').addClass('widthAll')
+
+                    /*if ($("#demo-settings-toggler")) {
+                        $("#demo-settings-toggler").hide();
+                    }*/
 
                     $('.swiper-slide').each(function(){
                         $(this).width(toeven($(this).width()))
