@@ -237,6 +237,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
 
+                // 定义模板数据变量
+                $scope.projectSummary = {};
                 // 模板选择框给默认值 初始化模板数据
                 if (data.result_data.summary == null || data.result_data.summary == undefined) {
                     $scope.formalReport.summaryTemplate = $scope.SUMMARY_TEMPLATE[0];
@@ -1149,7 +1151,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         $scope.summaryTemplateChange = function (type) {
             // 风控评审意见汇总 初始化模板数据
-            if($scope.projectSummary.investmentType != undefined){
+            if($scope.projectSummary.hasOwnProperty('investmentType')){
                 var investmentType = angular.copy($scope.projectSummary.investmentType);
             }
             $scope.projectSummary = {};
