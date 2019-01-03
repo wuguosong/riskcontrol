@@ -20,41 +20,37 @@
 				<div class="result-line">
 					<span>同意</span>
 					<span class="mprogress">
-								<span  style="width: 50%"></span>
+								<span ng-style="decision.tongYiCountStyle"></span>
 							</span>
 					<span class="num">
-						<!--{{decision.tongYiCount}}-->
-						5票
+						{{decision.tongYiCount}}
 					</span>
 				</div>
 				<div class="result-line">
 					<span>不同意</span>
 					<span class="mprogress">
-								<span  style="width: 30%"></span>
+								<span ng-style="decision.buTongYiCountStyle"></span>
 							</span>
 					<span class="num">
-						<!--{{decision.buTongYiCount}}-->
-						3票
+						{{decision.buTongYiCount}}
 					</span>
 				</div>
 				<div class="result-line">
 					<span>有条件同意</span>
 					<span class="mprogress">
-								<span  style="width: 15%"></span>
+								<span ng-style="decision.tiaoJianTongYiCountStyle"></span>
 							</span>
 					<span class="num">
-						<!--{{decision.tiaoJianTongYiCount}}-->
-						2票
+						{{decision.tiaoJianTongYiCount}}
 					</span>
 				</div>
 				<div class="result-line">
 					<span>择期决议</span>
 					<span class="mprogress">
-								<span  style="width: 5%"></span>
+								<span ng-style="decision.zeQiShangHuiCountStyle"></span>
 							</span>
 					<span class="num">
-						<!--{{decision.zeQiShangHuiCount}}-->
-						1票
+						{{decision.zeQiShangHuiCount}}
 					</span>
 				</div>
 			</div>
@@ -65,8 +61,8 @@
 
 				<div class="count">
 					投票人数
-					<!--{{decision.zongRenShu}}-->
-					11人</div>
+					{{decision.zongRenShu}}
+				</div>
 			</div>
 		</div>
 

@@ -125,6 +125,11 @@ public class DecisionServiceImpl implements IDecisionService{
 			
 			resultData.put("project_name", queryData.get(0).get("bulletinName"));
 			meetingData = (Map) queryData.get(0).get("meeting");
+			if(userId.equals(meetingData.get("jueCeHuiYiZhuXiId"))) {
+				resultData.put("isZhuXi", "1");
+			} else {
+				resultData.put("isZhuXi", "0");
+			}
 			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
 			break;
 		case 2:
@@ -137,6 +142,11 @@ public class DecisionServiceImpl implements IDecisionService{
 			Map apply = (Map) queryData.get(0).get("apply");
 			resultData.put("project_name", apply.get("projectName"));
 			meetingData = (Map) queryData.get(0).get("meetingInfo");
+			if(userId.equals(meetingData.get("jueCeHuiYiZhuXiId"))) {
+				resultData.put("isZhuXi", "1");
+			} else {
+				resultData.put("isZhuXi", "0");
+			}
 			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
 			break;
 		}

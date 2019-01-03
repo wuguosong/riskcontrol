@@ -25,6 +25,7 @@ ctmApp.register.controller('MeetingVote', ['$http','$scope','$location','$routeP
 			$scope.isLoad = false;
 			if(data.success){
                 $scope.isZhuXi = data.result_data.decisionsData.isZhuXi;
+                console.log($scope.isZhuXi);
 				//无数据时,启动定时器刷新
 				if(null == data.result_data){
 					initializeInterval = $interval(function(){
