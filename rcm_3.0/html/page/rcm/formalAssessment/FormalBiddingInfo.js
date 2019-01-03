@@ -2110,6 +2110,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.projectSummary.projectName = $scope.formalReport.projectName; // 项目名称
             $scope.projectSummary.projectNo = $scope.formalReport.projectNo;  // 项目编号
             $scope.projectSummary.reportingUnit = $scope.formalReport.reportingUnit; // 所属大区
+            $scope.projectSummary.state = $scope.stage;  // 数据状态值 提交前为3.9 提交后为4.0
             // 不同模板存入不同的模板code
             if ($scope.formalReport.summaryTemplate.ITEM_CODE == "1000") {
                 $scope.projectSummary.summaryType = "1000";
