@@ -237,8 +237,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
 
+                // 定义模板数据变量
+                $scope.projectSummary = {};
                 // 模板选择框给默认值 初始化模板数据
-                if (data.result_data.summary == null) {
+                if (data.result_data.summary == null || data.result_data.summary == undefined) {
                     $scope.formalReport.summaryTemplate = $scope.SUMMARY_TEMPLATE[0];
                     $scope.summaryTemplateChange($scope.formalReport.summaryTemplate);
                 } else {
@@ -355,6 +357,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     alert(data.result_name);
                 }
             });
+            console.log($scope.SUMMARY_TEMPLATE)
         }
 
         // 定义投资类型
@@ -1148,7 +1151,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         $scope.summaryTemplateChange = function (type) {
             // 风控评审意见汇总 初始化模板数据
-            var investmentType = angular.copy($scope.projectSummary.investmentType);
+            if($scope.projectSummary.hasOwnProperty('investmentType')){
+                var investmentType = angular.copy($scope.projectSummary.investmentType);
+            }
             $scope.projectSummary = {};
             $scope.projectSummary.investmentType = angular.copy(investmentType);
             if (type.ITEM_CODE == "1000") {
