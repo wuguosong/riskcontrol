@@ -11,6 +11,7 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
 				if(data.result_data.userVoteStatus != null && data.result_data.userVoteStatus =="1"){
 					$location.path("/MeetingVoteWait/"+data.result_data.ID+"/"+$scope.oldUrl);
 				}else{
+					console.log($scope.decision);
 					$scope.decision = data.result_data;
                     $scope.decision.tongYiCountStyle = [];
                     $scope.decision.tongYiCountStyle.width = $scope.decision.tongYiCount/$scope.decision.zongRenShu*100 + "%";

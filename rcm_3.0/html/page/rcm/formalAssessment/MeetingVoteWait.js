@@ -22,6 +22,7 @@ ctmApp.register.controller('MeetingVoteWait', ['$http','$scope','$location','$ro
 			    url:srvUrl+"decision/getCurrDecisionOpinion.do",
 			    data:$.param({"id":$scope.decisionId})
 			}).success(function(data){
+				console.log(data);
 				if(data.success){
 					if(data.result_data.userVoteStatus != null && data.result_data.userVoteStatus == "0"){
 						$interval.cancel(initializeInterval);

@@ -109,6 +109,8 @@ public class DecisionServiceImpl implements IDecisionService{
 				return null;
 			
 			resultData.put("project_name", queryData.get(0).get("projectName"));
+			resultData.put("huiYiQiCi", queryData.get(0).get("huiYiQiCi"));
+			
 			if(userId.equals(queryData.get(0).get("jueCeHuiYiZhuXiId"))) {
 				resultData.put("isZhuXi", "1");
 			} else {
@@ -125,6 +127,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			
 			resultData.put("project_name", queryData.get(0).get("bulletinName"));
 			meetingData = (Map) queryData.get(0).get("meeting");
+			resultData.put("huiYiQiCi", meetingData.get("huiYiQiCi"));
 			if(userId.equals(meetingData.get("jueCeHuiYiZhuXiId"))) {
 				resultData.put("isZhuXi", "1");
 			} else {
@@ -142,6 +145,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			Map apply = (Map) queryData.get(0).get("apply");
 			resultData.put("project_name", apply.get("projectName"));
 			meetingData = (Map) queryData.get(0).get("meetingInfo");
+			resultData.put("huiYiQiCi", meetingData.get("huiYiQiCi"));
 			if(userId.equals(meetingData.get("jueCeHuiYiZhuXiId"))) {
 				resultData.put("isZhuXi", "1");
 			} else {
@@ -290,6 +294,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			meetingLeaders  = (List<Map<String, Object>>) queryData.get("decisionMakingCommitteeStaff");
 			decisionOpinionList = (List<Map<String, Object>>) queryData.get("decisionOpinionList");
 			decision.put("project_name", queryData.get("projectName"));
+			decision.put("huiYiQiCi", queryData.get("huiYiQiCi"));
 			break;
 		case 1:
 			queryData = baseMongo.queryByCondition(new BasicDBObject("_id",formalId), Constants.RCM_BULLETIN_INFO).get(0);
@@ -297,6 +302,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			meetingLeaders  = (List<Map<String, Object>>) meetingData.get("meetingLeaders");
 			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
 			decision.put("project_name", queryData.get("bulletinName"));
+			decision.put("huiYiQiCi", meetingData.get("huiYiQiCi"));
 			break;
 		case 2:
 			queryData = baseMongo.queryById(formalId, Constants.RCM_PRE_INFO);
@@ -305,6 +311,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
 			Map apply = (Map) queryData.get("apply");
 			decision.put("project_name", apply.get("projectName"));
+			decision.put("huiYiQiCi", meetingData.get("huiYiQiCi"));
 			break;
 		}
 		//获取已决策人数
@@ -347,6 +354,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			meetingLeaders  = (List<Map<String, Object>>) queryData.get("decisionMakingCommitteeStaff");
 			decisionOpinionList = (List<Map<String, Object>>) queryData.get("decisionOpinionList");
 			resultData.put("project_name", queryData.get("projectName"));
+			resultData.put("huiYiQiCi", queryData.get("huiYiQiCi"));
 			break;
 		case 1:
 			queryData = baseMongo.queryByCondition(new BasicDBObject("_id",formalId), Constants.RCM_BULLETIN_INFO).get(0);
@@ -355,6 +363,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			meetingLeaders  = (List<Map<String, Object>>) meetingData.get("meetingLeaders");
 			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
 			resultData.put("project_name", queryData.get("bulletinName"));
+			resultData.put("huiYiQiCi", meetingData.get("huiYiQiCi"));
 			break;
 		case 2:
 			queryData = baseMongo.queryById(formalId, Constants.RCM_PRE_INFO);
@@ -364,6 +373,7 @@ public class DecisionServiceImpl implements IDecisionService{
 			decisionOpinionList =  (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
 			Map apply = (Map) queryData.get("apply");
 			resultData.put("project_name", apply.get("projectName"));
+			resultData.put("huiYiQiCi", meetingData.get("huiYiQiCi"));
 			break;
 		}
 		//决策没有结束，跳转到等待页面!
