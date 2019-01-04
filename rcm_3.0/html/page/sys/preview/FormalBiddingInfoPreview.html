@@ -3,10 +3,16 @@
 <div class="preview-contanier" ng-controller="FormalBiddingInfoPreview">
     <div class="mheader row text-blue-name">
         {{ formalPreview.apply.projectName }}
-        <a ng-if="flag != 1" class="btn-return" href="#/FormalBiddingInfo/{{formalPreview.id}}@2/{{formalPreview.url}}/1">
+        <a ng-if="flag != 1 && flag != 2 && flag != 3" class="btn-return" href="#/FormalBiddingInfo/{{formalPreview.id}}@2/{{formalPreview.url}}/1">
             返回
         </a>
         <a ng-if="flag == 1" class="btn-return" href="#/waitDecisionReviewList">
+            返回
+        </a>
+        <a ng-if="flag == 2" class="btn-return" href="#/FormalBiddingInfoList/0">
+            返回
+        </a>
+        <a ng-if="flag == 3" class="btn-return" href="#/FormalBiddingInfoList/1">
             返回
         </a>
     <!--<h5 class="text-gray">评审报告出具时间：{{formalPreview.submit_date}}</h5>-->
