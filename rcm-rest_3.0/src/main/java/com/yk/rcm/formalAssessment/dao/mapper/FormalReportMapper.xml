@@ -146,6 +146,18 @@ where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_sta
 	<!-- 未提交决策会材料 -->
 	<select id="queryUncommittedDecisionMaterialByPage" parameterType="map"
 		resultType="hashmap">
+		select i.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName,
+			(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+       		(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName ,
+       		(select u.NAME from sys_user u where u.uuid=i.legalreviewpersonid) legalreviewpersonName   
+		from rcm_formalassessment_info i 
+		where stage='3.7'
+		<if test="userId!=null and userId!=''"> and i.reviewpersonid = #{userId} </if>
+		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+    	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>
+    	<if test="wfState != null and wfState != ''"> and	i.wf_state = #{wfState}</if>
+		union
 		select * from (
 				SELECT RFI.ID,
 		       RFI.BUSINESSID,
