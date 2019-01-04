@@ -5,6 +5,12 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         $scope.changeValue = 1;   // 标识切换的页面
         $scope.hideFlagR = false; // 正式评审报告隐藏标识
         $scope.hideFlagS = false; // 项目整体评分隐藏标识
+        /*// 模板部分隐藏标识
+        $scope.hideFlag_1 = false;
+        $scope.hideFlag_2 = false;
+        $scope.hideFlag_3 = false;
+        $scope.hideFlag_4 = false;
+        $scope.hideFlag_5 = false;*/
 
         // 待决策项目审阅传来的参数
         $scope.waitId = $routeParams.id;
@@ -25,16 +31,12 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 url: srvUrl + "formalReport/findFormalAndReport.do",
                 data: $.param({"projectFormalId": $scope.waitId})
             }).success(function (data) {
-                debugger
                 $scope.formalReport = data.result_data.Report;
                 $scope.pfr = data.result_data.Formal;
                 $scope.meetInfo = data.result_data.MeetInfo;
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
                 $scope.projectSummary = data.result_data.summary;
-
-                // 获取分数数据
-                $scope.getMarks();
 
                 //处理附件列表
                 $scope.reduceAttachment(data.result_data.Formal.attachment);
@@ -52,8 +54,11 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                     $scope.pfr.apply.projectType = ptNameArr.join(",");
                 }
 
-                // 处理数据
-                $scope.previewJson();
+                // 获取分数数据
+                $scope.getMarks();
+
+                /*// 处理数据
+                $scope.previewJson();*/
 
                 $(".swiper-button-prev").addClass('noArrow');
                 $(".swiper-button-next").addClass('noArrow');
@@ -164,6 +169,8 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                             $scope.mark.ALLTOTALMARK = Math.round(mark.ALLTOTALMARK * vv) / vv;
                         }
                     }
+                    // 处理数据
+                    $scope.previewJson();
                 } else {
                     $.alert(result.result_name);
                 }
@@ -296,6 +303,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
 
         // 展开展示信息
         $scope.expandMore = function (parentId, val) {
+            debugger
             angular.element("#"+parentId).addClass('hideOpen');
             $scope[val] = true;
         }
