@@ -157,7 +157,40 @@ where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_sta
 		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
     	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>
     	<if test="wfState != null and wfState != ''"> and	i.wf_state = #{wfState}</if>
-		union
+    	union all
+    	select i.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName,
+			(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+       		(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName ,
+       		(select u.NAME from sys_user u where u.uuid=i.legalreviewpersonid) legalreviewpersonName   
+		from rcm_formalassessment_info i 
+		where stage='3.9'
+		AND WF_STATE = '2' 
+		<if test="projectName!=null and projectName!=''"> and projectName like '%${projectName}%'</if>
+		<!-- <if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if> -->
+		<if test="pertainareaname!=null and pertainareaname!=''"> and pertainareaName like '%${pertainareaname}%'</if>
+		<!-- <if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> -->
+    	<!-- select * from (
+				SELECT RFI.ID,
+		       RFI.BUSINESSID,
+		       RFI.PROJECTNAME,
+		       RFI.PROJECTNUM,
+		       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+		       RFI.PROJECT_MODEL_IDS,
+		       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+		       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RFI.REVIEWPERSONID) REVIEWPERSONNAME,
+		       RFI.ISURGENT,
+		       RFR.CREATE_DATE, 
+		       RFR.CONTROLLER_VAL 
+		  FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 WHERE RFI.STAGE = '3.7' 
+		   AND RFI.BUSINESSID = RFR.BUSINESSID 
+		) t where 1 = 1 
+		<if test="userId!=null and userId!=''"> and i.reviewpersonid = #{userId} </if>
+		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+    	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>
+    	<if test="wfState != null and wfState != ''"> and	i.wf_state = #{wfState}</if>
+		union all
 		select * from (
 				SELECT RFI.ID,
 		       RFI.BUSINESSID,
@@ -180,7 +213,7 @@ where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_sta
 		<if test="projectName!=null and projectName!=''"> and t.projectName like '%${projectName}%'</if>
 		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
 		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
-		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> -->
 	</select>
 	
 	<!-- 已提交决策会材料列表 -->
