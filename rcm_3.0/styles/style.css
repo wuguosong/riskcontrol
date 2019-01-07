@@ -286,7 +286,7 @@ li {
 
 .mytable tbody th,
 .mytable tbody td {
-    padding: 20px 10px!important;
+    padding: 8px 5px!important;
 }
 
 .mytable .table-cover {
@@ -1609,4 +1609,14 @@ td btn-scale:first-child{
 }
 .main-content{
     padding-bottom: 20px;
+}
+
+.modelFile {
+    margin-left: 30px;
+}
+
+.modelFile tbody th,
+.modelFile tbody td {
+    padding: 8px 5px!important;
+    font-size: 17px;
 }

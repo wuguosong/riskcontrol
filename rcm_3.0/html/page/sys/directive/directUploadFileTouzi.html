@@ -1,29 +1,29 @@
 <div class="row nobottom-mar">
-    <div class="col-sm-12 noleft-pad noright-pad" id="modelFile" data-toggle="modal"
-         data-target="#userSinDialog_{{id}}" style="width: 75px">
+    <div id="modelFile" data-toggle="modal" data-target="#userSinDialog_{{id}}" style="width: 75px">
         <button type="span" class="btn-add">
             新增
         </button>
     </div>
-    <div ng-if="isEditable=='true'" id="userSinDialog_{{id}}" class="modal modal-dialog selection-pop" tabindex="-1" role="dialog"
-         style="display: none;">
+    <div ng-if="isEditable=='true'" id="userSinDialog_{{id}}" class="modal modal-dialog selection-pop" tabindex="-1"
+         role="dialog"
+         style="display: none;position: fixed;">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="height: 45px;">
                 <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">
                     ×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
             </div>
             <div class="modal-body">
-                <div class="panel-body">
-                    <table>
+                <div class="mytable ranktable">
+                    <table class="modelFile">
                         <tr>
                             <td>
                                 附件类型
                             </td>
                             <td>
                                 <select ng-model="item.newItem" class="newItem" ng-change="changeAttach(item)"
-                                        ng-options="y.ITEM_NAME for y in select ">
+                                        ng-options="y.ITEM_NAME for y in select" style="width: 200px">
                                 </select>
                             </td>
                         </tr>
@@ -62,8 +62,9 @@
                     ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
                 重新上传
             </button>
-            <button type="button" class="btn btn-primary" ng-click="submit()" data-dismiss="modal" aria-hidden="true"
-            ng-disabled="isUse">确定</button>
+            <button type="button" class="btn-add" ng-click="submit()" data-dismiss="modal" aria-hidden="true"
+                    ng-disabled="isUse">确定
+            </button>
         </div>
     </div>
 </div>

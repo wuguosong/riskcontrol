@@ -2244,6 +2244,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     var retData = resp.data.result_data[0];
                     projectOverview.attachmentFile = retData.filePath;
                     projectOverview.attachmentValue = retData.fileName;
+                    if (projectOverview.attachmentValue.length > 10) {
+                        projectOverview.attachmentValueCopy = projectOverview.attachmentValue.substring(0, 10) + "...";
+                    } else {
+                        projectOverview.attachmentValueCopy = projectOverview.attachmentValue;
+                    }
                     console.log(projectOverview);
                 }, function (resp) {
 
