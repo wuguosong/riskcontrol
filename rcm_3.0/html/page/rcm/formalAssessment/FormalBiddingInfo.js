@@ -288,13 +288,16 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $scope.initTemplate = angular.copy($scope.formalReport.summaryTemplate);
 
                 if(flag == 1){
+                    debugger
                     var storage = window.localStorage;
                     if ($scope.meetInfo == null) {
                         $scope.meetInfo = [];
                     }
                     $scope.projectSummary = angular.copy(JSON.parse(storage.projectSummary));
                     $scope.mark = angular.copy(JSON.parse(storage.mark));
-                    $scope.formalReport.policyDecision.fileList = angular.copy(JSON.parse(storage.fileList));
+                    if (storage.fileList != "undefined"){
+                        $scope.formalReport.policyDecision.fileList = angular.copy(JSON.parse(storage.fileList));
+                    }
                     $scope.formalReport.projectName = angular.copy(storage.projectName);
                     $scope.meetInfo.ratingReason = angular.copy(storage.ratingReason);
                     if(storage.projectType1 == 'true'){
@@ -393,7 +396,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     alert(data.result_name);
                 }
             });
-            console.log($scope.SUMMARY_TEMPLATE)
         }
 
         // 定义投资类型
