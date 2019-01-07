@@ -113,11 +113,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         $scope.saveMeetingInfo = function (){
             console.log($scope.meetInfo);
             if ($scope.meetInfo != null && $scope.meetInfo != "") {
-                debugger
                 $scope.meetInfo.formalId = objId;
                 var myMeetingInfo = angular.copy($scope.meetInfo);
                 myMeetingInfo.apply = $scope.pfr.apply;
-                alert(JSON.stringify(myMeetingInfo))
                 // 保存项目评级
                 $.ajax({
                     type: 'post',
