@@ -43,6 +43,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.getMarks(objId);
             $scope.getSelectTypeByCode("8");
             $scope.getSelectTypeByCodetype('14');
+            $scope.dic2=[];
+            $scope.dic2.nameValue=[{name:'A级（困难评审)',value:1},{name:'B级（中级评审)',value:2},{name:'C级（简单评审)',value:3}]
         }
         $scope.saveMarks = function () {
             if ($scope.mark != null && $scope.mark != "") {
@@ -103,6 +105,39 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 return true;
             } else {
                 //没有项目评分
+                return true;
+            }
+        }
+
+        // 保存项目评级相关内容
+        $scope.saveMeetingInfo = function (){
+            console.log($scope.meetInfo);
+            if ($scope.meetInfo != null && $scope.meetInfo != "") {
+                debugger
+                $scope.meetInfo.formalId = objId;
+                var myMeetingInfo = angular.copy($scope.meetInfo);
+                myMeetingInfo.apply = $scope.pfr.apply;
+                alert(JSON.stringify(myMeetingInfo))
+                // 保存项目评级
+                $.ajax({
+                    type: 'post',
+                    url: srvUrl + "information/addConferenceInformation.do",
+                    data: $.param({
+                        "information": JSON.stringify(myMeetingInfo),
+                        "businessId": objId
+                    }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (!result.success) {
+                            alert(result.result_name);
+                            return false;
+                        }
+                    }
+                });
+                return true;
+            } else {
+                //没有项目评级
                 return true;
             }
         }
@@ -256,6 +291,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
                 if(flag == 1){
                     var storage = window.localStorage;
+                    if ($scope.meetInfo == null) {
+                        $scope.meetInfo = [];
+                    }
                     $scope.projectSummary = angular.copy(JSON.parse(storage.projectSummary));
                     $scope.mark = angular.copy(JSON.parse(storage.mark));
                     $scope.formalReport.policyDecision.fileList = angular.copy(JSON.parse(storage.fileList));
@@ -465,6 +503,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             if (!$scope.saveMarks()) {
                 return;
             }
+            if (!$scope.saveMeetingInfo()) {
+                return;
+            }
+
             $scope.getMarks(objId);
             //验证空附件
             if (!$scope.validateVoidFile()) {
@@ -487,15 +529,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         $scope.submitSave = function () {
             // 验证必填项
-             $scope.submit = true;
-             if ($scope.formalReportForm.$invalid) {
-                 return;
-             }
+            $scope.submit = true;
+            if ($scope.formalReportForm.$invalid) {
+                return;
+            }
             /*if ($scope.formalReportForm.$invalid) {
                 /!*alert("模板内容项没有填写完整,请填写完整后再保存");*!/
 
             }*/
             if (!$scope.saveMarks()) {
+                return;
+            }
+            if (!$scope.saveMeetingInfo()) {
                 return;
             }
             //验证空附件
@@ -810,36 +855,36 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         //验证必填项
         $scope.validateFormalBiddingInfo = function () {
             var boolean = true;
-           /* var boolean = false;
-            var jprojectType = $("#jprojectType").val();
-            var jinvestmentAmount = $("#jinvestmentAmount").val();
-            var jprojectSize = $("#jprojectSize").val();
-            var rateOfReturn = $("#rateOfReturn").val();
-            var fkPsResult = $("#fkPsResult").val();
-            var fkRiskTip = $("#fkRiskTip").val();
-            var newItem = $("select[class='newItem']");
+            /* var boolean = false;
+             var jprojectType = $("#jprojectType").val();
+             var jinvestmentAmount = $("#jinvestmentAmount").val();
+             var jprojectSize = $("#jprojectSize").val();
+             var rateOfReturn = $("#rateOfReturn").val();
+             var fkPsResult = $("#fkPsResult").val();
+             var fkRiskTip = $("#fkRiskTip").val();
+             var newItem = $("select[class='newItem']");
 
-            if (null == jprojectType || "" == jprojectType) {
-                $.alert("请选择项目类型!");
-                return boolean;
-            } else if (null == jinvestmentAmount || "" == jinvestmentAmount) {
-                $.alert("投资金额不能为空!");
-                return boolean;
-            } else if (null == jprojectSize || "" == jprojectSize) {
-                $.alert("项目规模不能为空!");
-                return boolean;
-            } else if (null == rateOfReturn || "" == rateOfReturn) {
-                $.alert("投资收益率不能为空!");
-                return boolean;
-            } else if (null == fkPsResult || "" == fkPsResult) {
-                $.alert("风控中心评审结论不能为空!");
-                return boolean;
-            } else if (null == fkRiskTip || "" == fkRiskTip) {
-                $.alert("风控重点风险提示不能为空!");
-                return boolean;
-            } else {
-                boolean = true;
-            }*/
+             if (null == jprojectType || "" == jprojectType) {
+                 $.alert("请选择项目类型!");
+                 return boolean;
+             } else if (null == jinvestmentAmount || "" == jinvestmentAmount) {
+                 $.alert("投资金额不能为空!");
+                 return boolean;
+             } else if (null == jprojectSize || "" == jprojectSize) {
+                 $.alert("项目规模不能为空!");
+                 return boolean;
+             } else if (null == rateOfReturn || "" == rateOfReturn) {
+                 $.alert("投资收益率不能为空!");
+                 return boolean;
+             } else if (null == fkPsResult || "" == fkPsResult) {
+                 $.alert("风控中心评审结论不能为空!");
+                 return boolean;
+             } else if (null == fkRiskTip || "" == fkRiskTip) {
+                 $.alert("风控重点风险提示不能为空!");
+                 return boolean;
+             } else {
+                 boolean = true;
+             }*/
 
             return boolean;
         }
@@ -2249,6 +2294,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     } else {
                         projectOverview.attachmentValueCopy = projectOverview.attachmentValue;
                     }
+
                     console.log(projectOverview);
                 }, function (resp) {
 

@@ -1,5 +1,5 @@
 
-<div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+<div class="mcontent content2 content1-5 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class="text-blue">后续执行要求</h3>
     <div class="contentwrap">
         <div class="mytable" ng-if="formalPreview.performs.length > 0">
@@ -16,5 +16,30 @@
         <div ng-if="formalPreview.performs.length <= 0">
             <h4>后续执行要求暂未填写</h4>
         </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    $(function(){
+        console.log($('.content1-5'))
+        let content10_5 = $('.content1-5').eq(0),
+            content10_5_wrap = content10_5.children('.contentwrap'),
+            content10_5_cover = content10_5_wrap.children('.table-cover');
+        setTimeout(function(){
+            if(content10_5_wrap.height() < content10_5.height() - 52){
+                content10_5_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

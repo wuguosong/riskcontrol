@@ -70,10 +70,10 @@ li {
 }
 
 /*.flex {*/
-    /*display: flex;*/
-    /*display: -webkit-flex;*/
-    /*justify-content: space-around;*/
-    /*-webkit-justify-content: space-around;*/
+/*display: flex;*/
+/*display: -webkit-flex;*/
+/*justify-content: space-around;*/
+/*-webkit-justify-content: space-around;*/
 /*}*/
 
 .row {
@@ -1108,7 +1108,7 @@ td btn-scale:first-child{
 }
 
 .swiper-slide{
-    webkit-font-smoothing: antialiased
+    webkit-font-smoothing:?antialiased
 }
 
 .error-messages{
@@ -1576,10 +1576,10 @@ td btn-scale:first-child{
 
 /*布局修改start*/
 /*html,body,#main-wrapper,#content-wrapper{*/
-    /*height: 100%*/
+/*height: 100%*/
 /*}*/
 /*#main-wrapper{*/
-    /*overflow-y: auto!important;*/
+/*overflow-y: auto!important;*/
 /*}*/
 /*布局修改end*/
 /*动画实现方式2 start*/
@@ -1620,3 +1620,24 @@ td btn-scale:first-child{
     padding: 8px 5px!important;
     font-size: 17px;
 }
+
+/*
+.template-cover {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+    padding-top: 160px;
+    background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, #fff 70%);
+    text-align: center;
+    cursor: pointer;
+}
+
+.template-cover .icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+    background: url(/html/assets/images/img/icon-bottom.png) no-repeat;
+    background-size: cover;
+}*/

@@ -1,7 +1,7 @@
 
-<div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+<div class="mcontent content2 content1-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class="text-blue">项目收益</h3>
     <div class="contentwrap">
-        <h3 class="text-blue">项目收益</h3>
         <div class="mytable">
             <table  class="table table-bordered">
                 <thead>
@@ -39,16 +39,40 @@
                     </td>
                 </tr>
                 <tr class='innertr'>
-                    <th scope="row">财务指标</th>
+                    <th scope="row">现金流指标</th>
                     <td>
                         <div class="innerline">自有资金前五年现金净流量</div>
                     </td>
                     <td>
-                        <div class="innerline">{{formalPreview.project.indicatorCash}}%</div>
+                        <div class="innerline">{{formalPreview.project.indicatorCash}}</div>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
     </div>
+
 </div>
+
+<script>
+    $(function(){
+        let content10_2 = $('.content1-2').eq(1),
+            content10_2_wrap = content10_2.children('.contentwrap'),
+            content10_2_cover = content10_2_wrap.children('.table-cover');
+        setTimeout(function(){
+            if(content10_2_wrap.height() < content10_2.height() - 52){
+                content10_2_cover.hide()
+            }
+        },1000)
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

@@ -27,7 +27,7 @@
                         {{ pfr.apply.pertainArea.VALUE }}
                     </span>
                     <span class="col-md-6 slim" ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"
-                              class="" width="30%">
+                          class="" width="30%">
                         {{ pfr.apply.reportingUnit.VALUE }}
                     </span>
                 </div>
@@ -97,11 +97,22 @@
         <div class="row normalline selectline">
             <div class="col-md-6 col-sm-6  col-xs-12">
                 <div class="row">
+                    <span class="required" style="color: red" >*</span>
                     <span class="col-md-6 noPadding">评审难度评级</span>
                     <span class="col-md-6 slim">
-                        <span class="dropdown">
+                        <!--<span class="dropdown">
                         {{meetInfo.projectRating.name}}
-                        </span>
+                        </span>-->
+                        <select style="width: 200px" ng-change=""
+                                class="form-control" id="meetInfo.projectRating.name"
+                                ng-model="meetInfo.projectRating" name="projectRatingName" required
+                                ng-options="nv.name for nv in dic2.nameValue track by  nv.value">
+                    <option value="">-- 请选择 --</option>
+                </select>
+                <div class="error-messages"
+                     ng-if="interacted(formalReportForm.projectRatingName )">
+                    这里是必填项
+                </div>
                     </span>
                 </div>
             </div>
@@ -111,7 +122,7 @@
                     <span class="col-md-6 slim">
                         <label class="radio radio-inline">
                             <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px"
-                                  ng-checked="true"/><span class="lbl" style="display: inline">否</span>
+                                   ng-checked="true"/><span class="lbl" style="display: inline">否</span>
                         </label>
                         <label class="radio radio-inline">
                             <input type="radio" name="isurgent" ng-model="meetInfo.isUrgent" value="1"

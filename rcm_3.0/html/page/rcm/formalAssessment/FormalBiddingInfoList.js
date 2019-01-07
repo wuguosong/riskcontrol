@@ -97,8 +97,8 @@ function ($http,$scope,$location,$routeParams,$filter) {
     		var chkValue_len = chkValue.length;
     		idsStr = idsStr + chkValue[chkValue_len - 1];
     	}
-    	
-		$location.path("/FormalBiddingInfo/"+idsStr+"@0/"+$filter('encodeURI')('#/FormalBiddingInfoList/0'));
+
+    	$location.path("/FormalBiddingInfo/"+idsStr+"@0/"+$filter('encodeURI')('#/FormalBiddingInfoList/0')+"/0");
 	}
 	
 	$scope.initData();

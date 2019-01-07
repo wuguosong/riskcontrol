@@ -306,6 +306,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             debugger
             angular.element("#"+parentId).addClass('hideOpen');
             $scope[val] = true;
+            angular.element("")
         }
 
         // 判断如何获取数据

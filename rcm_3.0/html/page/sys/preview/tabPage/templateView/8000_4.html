@@ -1,5 +1,5 @@
 
-<div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+<div class="mcontent content2 content8-4 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class="text-blue">决策事项</h3>
     <div class="contentwrap">
         <div ng-if="formalPreview.decisionMakings > 0">
@@ -16,5 +16,32 @@
         <div ng-if="formalPreview.decisionMakings <= 0">
             <h4>决策事项暂未填写</h4>
         </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    $(function(){
+        let content80_4 = $('.content8-4').eq(1),
+            content80_4_wrap = content80_4.children('.contentwrap'),
+            content80_4_cover = content80_4_wrap.children('.table-cover');
+        setTimeout(function(){
+            console.log(content80_4_wrap.height(),content80_4.height(),content80_4)
+            if(content80_4_wrap.height() < content80_4.height() - 52){
+                content80_4_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>
+
+
