@@ -297,7 +297,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     $scope.pfr.apply.projectType = ptNameArr.join(",");
                 }
 
-                if ($scope.stage == '3.9') {
+                if ($scope.stage == '3.9' || $scope.stage == '3.7') {
                     $scope.selectFlag = 'true';
                     $scope.hasWaiting = true;
                 }
@@ -2167,10 +2167,18 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             formalPreview.approveAttachment = $scope.pfr.approveAttachment  // 风控中心审批
             formalPreview.approveLegalAttachment = $scope.pfr.approveLegalAttachment  // 风控中心法律审批
             formalPreview.submit_date = $scope.formalReport.submit_date   // 评审报告出具时间
-            formalPreview.projectRating = $scope.meetInfo.projectRating  // 评审等级
+            if ($scope.meetInfo != null) {
+                formalPreview.projectRating = $scope.meetInfo.projectRating  // 评审等级
+            } else {
+                formalPreview.projectRating = '';
+            }
             formalPreview.filePath = $scope.formalReport.filePath
             formalPreview.projectName = $scope.formalReport.projectName
-            formalPreview.fileList = $scope.formalReport.policyDecision.fileList
+            if ($scope.formalReport.policyDecision != undefined) {
+                formalPreview.fileList = $scope.formalReport.policyDecision.fileList;
+            } else {
+                formalPreview.fileList = [];
+            }
 
             formalPreview.mark = $scope.mark // 分数
 
@@ -2195,13 +2203,26 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 var storage = window.localStorage;
                 storage.projectSummary =  JSON.stringify($scope.projectSummary);
                 storage.projectName = $scope.formalReport.projectName;
-                storage.fileList = JSON.stringify($scope.formalReport.policyDecision.fileList);
+                if ($scope.formalReport.policyDecision != undefined) {
+                    storage.fileList = JSON.stringify($scope.formalReport.policyDecision.fileList);
+                } else {
+                    storage.fileList = [];
+                }
                 storage.mark = JSON.stringify($scope.mark);
-                storage.ratingReason = $scope.meetInfo.ratingReason;
-                storage.projectType1 = $scope.meetInfo.projectType1;
-                storage.projectType2 = $scope.meetInfo.projectType2;
-                storage.projectType3 = $scope.meetInfo.projectType3;
-                storage.isUrgent = $scope.meetInfo.isUrgent;
+                if ($scope.meetInfo != null) {
+                    storage.ratingReason = $scope.meetInfo.ratingReason;
+                    storage.projectType1 = $scope.meetInfo.projectType1;
+                    storage.projectType2 = $scope.meetInfo.projectType2;
+                    storage.projectType3 = $scope.meetInfo.projectType3;
+                    storage.isUrgent = $scope.meetInfo.isUrgent;
+                } else {
+                    storage.ratingReason = '';
+                    storage.projectType1 = '';
+                    storage.projectType2 = '';
+                    storage.projectType3 = '';
+                    storage.isUrgent = '';
+                }
+
                 storage.summaryTemplate = JSON.stringify($scope.formalReport.summaryTemplate);
             }
         }
