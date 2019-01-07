@@ -2279,6 +2279,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 var errorMsg = fileErrorMsg(errorFile);
                 $scope.errorAttach[idx] = {msg: errorMsg};
             } else if (file) {
+                var fileSuffix = file.name.split('.')[1]
+                if (fileSuffix != "docx" && fileSuffix != "xlsx" && fileSuffix != "pptx" && fileSuffix != "pdf" &&
+                    fileSuffix != "jpg" && fileSuffix != "png" && fileSuffix != "gif" && fileSuffix != "tif" &&
+                    fileSuffix != "psd"){
+                    alert("您上传的文档格式不正确，请重新选择！");
+                    return;
+                }
                 $scope.errorAttach[idx] = {msg: ''};
                 Upload.upload({
                     url: srvUrl + 'common/RcmFile/upload',
@@ -2287,11 +2294,11 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     var retData = resp.data.result_data[0];
                     projectOverview.attachmentFile = retData.filePath;
                     projectOverview.attachmentValue = retData.fileName;
-                    if (projectOverview.attachmentValue.length > 10) {
+                    /*if (projectOverview.attachmentValue.length > 10) {
                         projectOverview.attachmentValueCopy = projectOverview.attachmentValue.substring(0, 10) + "...";
                     } else {
                         projectOverview.attachmentValueCopy = projectOverview.attachmentValue;
-                    }
+                    }*/
 
                     console.log(projectOverview);
                 }, function (resp) {
