@@ -38,7 +38,7 @@ button{
 }
 
 .innertable textarea{
-    margin: -10px auto;
+    /*margin: -10px auto;*/
 }
 .innertable input{
     max-width: 100%;
@@ -286,7 +286,7 @@ li {
 
 .mytable tbody th,
 .mytable tbody td {
-    padding: 8px 5px!important;
+    padding: 5px 5px!important;
 }
 
 .mytable .table-cover {
@@ -901,13 +901,18 @@ li {
 }
 
 .btn-add {
-    width: 75px;
-    height: 35px;
+    width: 68px!important;
+    height: 25px!important;
     color: white;
     border: none;
     background: url("/html/assets/images/btn/btn-add.png") no-repeat;
+    /*background-image: url("/html/assets/images/btn/btn-add.png");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 100% 100%;*/
+    /*-moz-background-size: 100% 100%;*/
     -webkit-background-size: contain;
-    background-size: contain;
+    /*background-size: contain;*/
+    line-height: 30px;
 }
 
 .btn-add1 {
@@ -921,18 +926,21 @@ li {
 }
 
 .btn-close {
-    width: 70px;
-    height: 30px;
+    width: 68px!important;
+    height: 25px!important;
     color: white;
     background: url("/html/assets/images/btn/btn-close.png") no-repeat;
     -webkit-background-size: contain;
-    background-size: contain;
+    /*background-size: contain;*/
+    line-height: 30px;
     border: none;
 }
 
 .btn-desc{
     float: left;
-    width: 24%;
+    /*width: 24%;*/
+    width: 32px!important;
+    height: 30px!important;
     padding-bottom: 24%;
     background: url("/html/assets/images/btn/btn-desc.png") no-repeat;
     -webkit-background-size: contain;
@@ -942,7 +950,8 @@ li {
 
 .btn-asc {
     float: left;
-    width: 24%;
+    width: 32px!important;
+    height: 30px!important;
     padding-bottom: 24%;
     background: url("/html/assets/images/btn/btn-asc.png") no-repeat;
     -webkit-background-size: contain;
@@ -952,13 +961,13 @@ li {
 }
 
 .btn-replace {
-    float: left;
-    width: 75px;
-    height: 35px;
+    width: 68px!important;
+    height: 25px!important;
     color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
     -webkit-background-size: contain;
-    background-size: contain;
+    /*background-size: contain;*/
+    line-height: 30px;
     border: none;
 }
 
@@ -971,10 +980,14 @@ li {
 }
 
 .btn-delete {
-
+    width: 68px!important;
+    height: 25px!important;
+    color: white;
     background: url("/html/assets/images/btn/btn-delete.png") no-repeat;
     -webkit-background-size: contain;
-    background-size: contain;
+    /*background-size: contain;*/
+    line-height: 30px;
+    border: none;
 }
 
 .btn-preview {
@@ -1003,7 +1016,7 @@ td btn-scale:first-child{
 .btn-scale>span{
     display: inline-block;
     position: absolute;
-    top: 50%;
+    top: 38%;
     left: 50%;
     -webkit-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
@@ -1108,7 +1121,7 @@ td btn-scale:first-child{
 }
 
 .swiper-slide{
-    webkit-font-smoothing:?antialiased
+    webkit-font-smoothing: antialiased
 }
 
 .error-messages{
