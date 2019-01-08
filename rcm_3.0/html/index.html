@@ -129,7 +129,7 @@
 						<li ng-repeat="fs in f.subFunc"  ng-if="fs.URL=='##'"  id="func{{fs.FUNC_ID}}" class="mm-dropdown" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
 							<a tabindex="-1" href="#/{{fs.URL}}"><span class="mm-text">{{fs.FUNC_NAME}}</span></a>
 							<ul>
-								<li ng-repeat="fss in fs.subsubFunc" id="func{{fss.FUNC_ID}}"  ng-click="GoPage($event)">
+								<li ng-repeat="fss in fs.subsubFunc" ng-if="fss.URL != 'ConferenceInformation/0'" id="func{{fss.FUNC_ID}}"  ng-click="GoPage($event)">
 									<!-- <a tabindex="-1" href="#"><span class="mm-text">测试</span><i class="fa fa-caret-left"></i></a> -->
 									<a tabindex="-1" href="#/{{fss.URL}}"><span class="mm-text">{{fss.FUNC_NAME}}</span><i class="fa fa-caret-left"></i></a>
 								</li>

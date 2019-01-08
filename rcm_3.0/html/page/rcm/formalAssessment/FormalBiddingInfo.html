@@ -110,7 +110,7 @@
 
                             <tbody>
                             <tr ng-repeat="item in formalReport.policyDecision.fileList track by $index">
-                                <th scope="row">
+                                <th scope="row" text-align="center">
                                     {{$index+1}}
                                 </td>
                                 <td>
@@ -128,7 +128,7 @@
                                 </td>
                                 <td>
                                     <div class="mbtn flex">
-                                        <button ng-disabled="!hasWaiting" class="btn-table-replace btn-scale"
+                                        <button ng-disabled="!hasWaiting" class="btn-replace btn-scale"
                                                 ngf-max-size="100MB"
                                                 ngf-select="uploadFK($file, $invalidFiles, $index, item)">
                                             <span>替换</span>
