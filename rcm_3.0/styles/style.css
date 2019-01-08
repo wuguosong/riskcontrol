@@ -1024,6 +1024,19 @@ td btn-scale:first-child{
     -o-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
 }
+
+.btn-pop{
+    float: right;
+    width: 49%;
+    height: 0;
+    padding-bottom: 9%;
+    color: white;
+    border: none;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .side-bar-div {
     background: white;
     height: 500px;
