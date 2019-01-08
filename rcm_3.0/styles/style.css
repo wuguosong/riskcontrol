@@ -902,7 +902,7 @@ li {
 
 .btn-add {
     width: 68px!important;
-    /*height: 25px!important;*/
+    height: 25px!important;
     color: white;
     border: none;
     background: url("/html/assets/images/btn/btn-add.png") no-repeat;
