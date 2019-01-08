@@ -152,8 +152,8 @@ html,body,#content-wrapper{
     border-radius: 50%;
     background: #0050bc;
     position: absolute;
-    bottom: 40px;
-    right: 10%;
+    bottom: 20px;
+    right: 3%;
     cursor: pointer;
     z-index: 99;
     -webkit-transform: rotate(30deg);
@@ -508,7 +508,7 @@ html,body,#content-wrapper{
 
 .mcontent.heightAll>div.contentwrap{
     width: 90%;
-    height: calc(95% - 75px);
+    /*height: calc(95% - 75px);*/
     margin: 0 auto;
 }
 
