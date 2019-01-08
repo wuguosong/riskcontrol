@@ -29,11 +29,11 @@
 
 <script>
     $(function(){
-        let content50_2 = $('.content5-2').eq(1),
+        var content50_2 = $('.content5-2').eq(1),
             content50_2_wrap = content50_2.children('.contentwrap'),
             content50_2_cover = content50_2_wrap.children('.table-cover');
         setTimeout(function(){
-            console.log(content50_2_wrap.height(),content50_2.height(),content50_2)
+            // console.log(content50_2_wrap.height(),content50_2.height(),content50_2)
             if(content50_2_wrap.height() < content50_2.height() - 52){
                 content50_2_cover.hide()
             }

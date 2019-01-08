@@ -27,11 +27,11 @@
 
 <script>
     $(function(){
-        let content80_3 = $('.content8-3').eq(1),
+        var content80_3 = $('.content8-3').eq(1),
             content80_3_wrap = content80_3.children('.contentwrap'),
             content80_3_cover = content80_3_wrap.children('.table-cover');
         setTimeout(function(){
-            console.log(content80_3_wrap.height(),content80_3.height(),content80_3)
+            //console.log(content80_3_wrap.height(),content80_3.height(),content80_3)
             if(content80_3_wrap.height() < content80_3.height() - 52){
                 content80_3_cover.hide()
             }

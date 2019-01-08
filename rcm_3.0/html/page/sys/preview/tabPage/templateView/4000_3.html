@@ -32,11 +32,11 @@
 
 <script>
     $(function(){
-        let content40_3 = $('.content4-3').eq(1),
+        var content40_3 = $('.content4-3').eq(1),
             content40_3_wrap = content40_3.children('.contentwrap'),
             content40_3_cover = content40_3_wrap.children('.table-cover');
         setTimeout(function(){
-            console.log(content40_3_wrap.height(),content40_3.height(),content40_3)
+            //console.log(content40_3_wrap.height(),content40_3.height(),content40_3)
             if(content40_3_wrap.height() < content40_3.height() - 52){
                 content40_3_cover.hide()
             }

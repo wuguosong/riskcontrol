@@ -244,7 +244,21 @@
                     $('.left-swiper').show()
                     $('.right-swiper').show()
                     $('.swiper-pagination').removeClass('widthAll')
+                    var maxHeight,wrapHeight;
+                    $('.swiper-slide').each(function(){
+                        $(this).width(toeven($(this).width()))
+                        $(this).height(toeven($(this).height()))
+                    })
+                    $('.mcontent').each(function(){
+                        if(!$(this).children('.contentwrap').hasClass('nocover')){
+                            maxHeight = $(this).height() - 52
+                            wrapHeight = $(this).find('.contentwrap').height()
+                            if(wrapHeight == maxHeight){
+                                $(this).find('.table-cover').show()
+                            }
+                        }
 
+                    })
                     /*if ($("#demo-settings-toggler")) {
                         $("#demo-settings-toggler").show();
                     }*/
@@ -269,11 +283,21 @@
                         $(this).width(toeven($(this).width()))
                         $(this).height(toeven($(this).height()))
                     })
+                    $('.mcontent').each(function(){
+                        var maxHeight = parseFloat($(this).height()*0.95) - 76;
+                        var wrapHeight = $(this).find('.contentwrap').height();
+                        if(wrapHeight < maxHeight){
+
+                            $(this).find('.table-cover').hide()
+                        }
+                    })
                 }
             })
             $('.outside-swiper').resize(function(){
-                console.log($(this).width())
                 outsideSwiper.update()
+            })
+            $('.table-cover').click(function(){
+                $(this).parent('.contentwrap').addClass('nocover')
             })
             /*$('.text-blue-name').click(function (e) {
                 e.stopPropagation()

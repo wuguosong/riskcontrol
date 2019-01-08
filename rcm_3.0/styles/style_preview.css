@@ -463,12 +463,10 @@ html,body,#content-wrapper{
 }
 
 .content3 .mytable{
-    max-height: calc(100% - 107px);
     overflow-y: hidden;
 }
 
 .content4 .mytable{
-    max-height: 100%;
     overflow-y: hidden;
 }
 
@@ -508,7 +506,7 @@ html,body,#content-wrapper{
 
 .mcontent.heightAll>div.contentwrap{
     width: 90%;
-    /*height: calc(95% - 75px);*/
+    max-height: calc(95% - 75px);
     margin: 0 auto;
 }
 

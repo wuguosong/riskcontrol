@@ -2,7 +2,9 @@
 <div class="mcontent content2 content7-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class="text-blue">申请原因</h3>
     <div class="contentwrap">
-        <div class="row" ng-repeat="projectOverview in formalPreview.projectOverviews1 | orderBy: 'orderno': desc">
+        <div class="row" ng-repeat="projectOverview in formalPreview.projectOverviews1 | orderBy: 'orderno': desc"
+             ng-if="projectOverview.content != '' && projectOverview.content != undefined
+                    && projectOverview.content != null && projectOverview.modify != '0'">
             <div class="tit col-md-2 col-sm-2 col-xs-12">{{projectOverview.value}}</div>
             <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
                 {{projectOverview.content}}
@@ -27,11 +29,11 @@
 
 <script>
     $(function(){
-        let content70_2 = $('.content7-1').eq(1),
+        var content70_2 = $('.content7-1').eq(1),
             content70_2_wrap = content70_2.children('.contentwrap'),
             content70_2_cover = content70_2_wrap.children('.table-cover');
         setTimeout(function(){
-            console.log(content70_2_wrap.height(),content70_2.height(),content70_2)
+            //console.log(content70_2_wrap.height(),content70_2.height(),content70_2)
             if(content70_2_wrap.height() < content70_2.height() - 52){
                 content70_2_cover.hide()
             }
