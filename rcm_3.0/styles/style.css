@@ -1120,9 +1120,9 @@ td btn-scale:first-child{
     align-items: center!important;
 }
 
-.swiper-slide{
+/*.swiper-slide{
     webkit-font-smoothing: antialiased
-}
+}*/
 
 .error-messages{
     font-size: 12px;

@@ -519,4 +519,6 @@ html,body,#content-wrapper{
 
 .heightAll.mcontent{
     overflow: hidden;
+    left: 0;
+    max-height: 100%;
 }
