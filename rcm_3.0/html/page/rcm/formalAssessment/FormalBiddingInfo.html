@@ -280,10 +280,10 @@
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="12"
                                                ng-model="mark.moneyCalculate" name="moneyCalculate" required>
-                                    </div>
-                                    <div class="error-messages"
-                                         ng-if="interacted(formalReportForm.moneyCalculate )">
-                                        这里是必填项
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.moneyCalculate )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                        <span class="score">
@@ -416,7 +416,11 @@
                                 <th>
                                     <div class="col-md-6">
                                         <input class="mark form-control" type="number" min="0" max="12"
-                                               ng-model="mark.talks">
+                                               ng-model="mark.talks" name="talks" required>
+                                        <div class="error-messages"
+                                             ng-if="interacted(formalReportForm.talks )">
+                                            这里是必填项
+                                        </div>
                                     </div>
                                     <div class="col-md-6" style="margin-top: 6px">
                                          <span class="score">
