@@ -6,45 +6,77 @@
             <table  class="table table-bordered">
                 <thead>
                 <tr class="info">
-                    <th>指标分类</th>
-                    <th>指标名称</th>
-                    <th>本项目指标</th>
+                    <th width="17%">指标分类</th>
+                    <th width="47%">指标名称</th>
+                    <th width="36%">本项目指标</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class='innertr'>
-                    <th scope="row">投资指标</th>
+                <tr>
+                    <td rowspan="3">投资指标</td>
                     <td>
-                        <div class="innerline">全投资内部收益率IRR</div>
-                        <div class="innerline">自有资金内部收益率IRR</div>
-                        <div class="innerline">全投资静态回收期</div>
+                        全投资内部收益率IRR
                     </td>
                     <td>
-                        <div class="innerline">{{formalPreview.project.investmentGlobale}}%</div>
-                        <div class="innerline">{{formalPreview.project.investmentInternal}}%</div>
-                        <div class="innerline">{{formalPreview.project.investmentStatic}}年</div>
+                        <div class="has-feedback">
+                            {{formalPreview.project.investmentGlobale}}<span >%</span>
+                        </div>
                     </td>
                 </tr>
-                <tr class='innertr'>
-                    <th scope="row">财务指标</th>
+                <tr>
                     <td>
-                        <div class="innerline">运营期平均ROE</div>
-                        <div class="innerline">运营期平均ROI</div>
-
+                        自有资金内部收益率IRR
                     </td>
                     <td>
-                        <div class="innerline">{{formalPreview.project.financialROE}}%</div>
-                        <div class="innerline">{{formalPreview.project.financialROI}}%</div>
-
+                        <div class="has-feedback">
+                            {{formalPreview.project.investmentInternal}}<span >%</span>
+                        </div>
                     </td>
                 </tr>
-                <tr class='innertr'>
-                    <th scope="row">现金流指标</th>
+                <tr>
                     <td>
-                        <div class="innerline">自有资金前五年现金净流量</div>
+                        全投资静态回收期
                     </td>
                     <td>
-                        <div class="innerline">{{formalPreview.project.indicatorCash}}</div>
+                        <div class="has-feedback">
+                            {{formalPreview.project.investmentStatic}}<span >年</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        财务指标
+                    </td>
+                    <td>
+                        运营期平均ROE
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            {{formalPreview.project.financialROE}}<span >%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        运营期平均ROI
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            {{formalPreview.project.financialROI}}<span >%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        现金流指标
+                    </td>
+                    <td>
+                        自有资金前五年现金净流量
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            {{formalPreview.project.indicatorCash}}
+                        </div>
                     </td>
                 </tr>
                 </tbody>

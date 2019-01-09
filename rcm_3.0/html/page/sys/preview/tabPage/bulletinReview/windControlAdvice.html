@@ -1,4 +1,4 @@
-<div class="mcontent content2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+<div class="mcontent content2 content_2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class='text-blue text-blue-out'>风控意见及附件</h3>
     <div class="contentwrap">
         <div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''
@@ -30,7 +30,7 @@
                 <div class="mytable" style="margin: 20px" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0
 								|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length > 0
 								|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment.length > 0 ">
-                    <div>风控附件列表</div>
+                    <h4 class="text-blue">风控附件列表</h4>
                     <table class="table table-bordered">
                         <thead>
                         <tr class="info">
@@ -71,5 +71,29 @@
 						&& (bulletin.riskLeaderAttachment == null || bulletin.riskLeaderAttachment == '')">
             <h4>风控意见暂未填写</h4>
         </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    $(function(){
+        var content_2 = $('.content_2').eq(0),
+            content_2_wrap = content_2.children('.contentwrap'),
+            content_2_cover = content_2_wrap.children('.table-cover');
+        setTimeout(function(){
+            if(content_2_wrap.height() < content_2.height() - 52){
+                content_2_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>
