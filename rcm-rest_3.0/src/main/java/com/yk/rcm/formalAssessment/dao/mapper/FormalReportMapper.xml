@@ -146,7 +146,30 @@ where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_sta
 	<!-- 未提交决策会材料 -->
 	<select id="queryUncommittedDecisionMaterialByPage" parameterType="map"
 		resultType="hashmap">
-		select i.*,
+		select * from (
+				SELECT RFI.ID,
+		       RFI.BUSINESSID,
+		       RFI.PROJECTNAME,
+		       RFI.PROJECTNUM,
+		       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+		       RFI.PROJECT_MODEL_IDS,
+		       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+		       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RFI.REVIEWPERSONID) REVIEWPERSONNAME,
+		       RFI.ISURGENT,
+		       RFR.CREATE_DATE, 
+		       RFR.CONTROLLER_VAL 
+		  FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 WHERE RFI.STAGE = '3.9' 
+		   AND RFI.WF_STATE = '2' 
+		   AND RFI.BUSINESSID = RFR.BUSINESSID 
+		   AND RFR.CREATE_DATE IS NOT NULL 
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if> 
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.projectName like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if>
+		<!-- select i.*,
 			(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName,
 			(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
        		(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName ,
@@ -167,8 +190,8 @@ where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_sta
 		where stage='3.9'
 		AND WF_STATE = '2' 
 		<if test="projectName!=null and projectName!=''"> and projectName like '%${projectName}%'</if>
-		<!-- <if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if> -->
-		<if test="pertainareaname!=null and pertainareaname!=''"> and pertainareaName like '%${pertainareaname}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and pertainareaName like '%${pertainareaname}%'</if> -->
 		<!-- <if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> -->
     	<!-- select * from (
 				SELECT RFI.ID,

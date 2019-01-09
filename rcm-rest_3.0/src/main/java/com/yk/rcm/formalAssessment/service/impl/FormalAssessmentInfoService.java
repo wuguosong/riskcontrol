@@ -1068,7 +1068,7 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		Map<String, Object> map = new HashMap<String, Object>();
 		//map.put("stage", "3.5");
 		// 数据所在目录修改 状态随之修改
-		map.put("stage", "3.9");
+		/*map.put("stage", "3.9");*/
 		map.put("need_meeting", "1");
 		map.put("metting_commit_time", Util.getTime());
 		map.put("businessId", pfr.getString("formalId"));

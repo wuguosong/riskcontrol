@@ -115,7 +115,7 @@
 	<!-- 查询可以起草的决策通知书 -->
 	<select id="queryFormalForCreate" parameterType="map" resultType="hashmap">
 		select r.* from rcm_formalassessment_info r 
-		where ( <if test="userId!=null and userId!=''">r.reviewpersonid=#{userId} and</if> r.stage='3.5' or r.stage='6') and not exists(select 1 from rcm_noticedecision_info 
+		where ( <if test="userId!=null and userId!=''">r.reviewpersonid=#{userId} and</if> r.stage='3.5' or r.stage = '3.7' or r.stage='6') and not exists(select 1 from rcm_noticedecision_info 
 		 where projectformalid=r.businessid)
 	</select>
 	<update id="updateStageByBusinessId" parameterType="hashmap">
