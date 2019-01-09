@@ -309,6 +309,10 @@ li {
     background-size: cover;
 }
 
+.info th {
+    background-color: #55bdf1!important;
+}
+
 .content2 .row {
     margin-top: 20px;
 }

@@ -520,3 +520,24 @@ html,body,#content-wrapper{
     left: 0;
     max-height: 100%;
 }
+.table-preview {
+    margin-top: 5px;
+}
+.table-preview tbody th,
+.table-preview tbody td{
+    padding: 8px!important;
+}
+
+.score-td {
+    padding: 0!important;
+    font-size: 13px
+}
+
+.score-div {
+    padding: 0; float: left;
+}
+
+.score-div-a {
+    width: 20px;
+}
+
