@@ -5,12 +5,6 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         $scope.changeValue = 1;   // 标识切换的页面
         $scope.hideFlagR = false; // 正式评审报告隐藏标识
         $scope.hideFlagS = false; // 项目整体评分隐藏标识
-        /*// 模板部分隐藏标识
-        $scope.hideFlag_1 = false;
-        $scope.hideFlag_2 = false;
-        $scope.hideFlag_3 = false;
-        $scope.hideFlag_4 = false;
-        $scope.hideFlag_5 = false;*/
 
         // 待决策项目审阅传来的参数
         $scope.waitId = $routeParams.id;
@@ -37,6 +31,11 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
                 $scope.projectSummary = data.result_data.summary;
+
+                if ($scope.projectSummary == null || $scope.projectSummary == undefined){
+                    $location.path("/FormalBiddingInfo_view/"+ $scope.waitId +"@view/" + $scope.waitUrl);
+                    return;
+                }
 
                 //处理附件列表
                 $scope.reduceAttachment(data.result_data.Formal.attachment);
