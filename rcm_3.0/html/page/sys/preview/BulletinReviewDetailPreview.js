@@ -2,6 +2,7 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
     function ($http,$scope,$location, $routeParams, $filter,$routeParams) {
         $scope.oldUrl = $routeParams.url;
         var routeParams = $routeParams.id.split("_");
+        $scope.flag = $routeParams.flag;
         var queryParamId = routeParams[0];
         $scope.tabIndex = routeParams[1];
         $scope.initDefaultData = function(){

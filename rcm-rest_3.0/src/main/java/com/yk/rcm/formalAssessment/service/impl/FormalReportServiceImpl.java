@@ -207,6 +207,10 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		map.put("stage", "3.7");
 		map.put("decision_commit_time", null);
 		map.put("businessid", projectFormalId);
+		// 合并 正式评审参会信息 时，将正式品汇参会信息中的修改项合并到正式评审报告中
+		map.put("need_meeting", "1");
+		map.put("metting_commit_time", Util.getTime());
+		
 		this.formalReportMapper.changeState(map);
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -435,6 +439,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Result addPolicyDecision(String json, String method) {
+		System.out.println("查看是提交还是暂存  method="+method);
 		Result result = new Result();
 		result.setResult_data(true);
 		Document bjson = Document.parse(json);

@@ -1809,8 +1809,8 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
-            // 其他评审预览决策委员会材料-待决策项目审阅入口
-            .when('/BulletinReviewDetailPreview/:id/:url',{
+            // 其他评审预览决策委员会材料-混合入口
+            .when('/BulletinReviewDetailPreview/:id/:url/:flag',{
                 controller:'BulletinReviewDetailPreview',
                 templateUrl:'page/sys/preview/BulletinReviewDetailPreview.html',
                 controllerAs:'model',

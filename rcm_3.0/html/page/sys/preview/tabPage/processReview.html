@@ -71,5 +71,30 @@
                 </div>
             </div>
         </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    $(function(){
+        var content1 = $('.content1').eq(1),
+            content1_wrap = content1.children('.contentwrap'),
+            content1_cover = content1_wrap.children('.table-cover');
+        setTimeout(function(){
+            //console.log(content1_wrap.height(),content1.height(),content1)
+            if(content1_wrap.height() < content1.height() - 52){
+                content1_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

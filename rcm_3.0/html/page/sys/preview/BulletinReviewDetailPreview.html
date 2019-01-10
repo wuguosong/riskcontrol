@@ -3,9 +3,12 @@
 <div class="preview-contanier" ng-controller="BulletinReviewDetailPreview">
 	<div class="mheader row text-blue-name">
 		{{ bulletinOracle.BULLETINNAME }}
-		<a class="btn-return" href="#/waitDecisionReviewList">
+		<a ng-if="flag == 1" class="btn-return" href="#/waitDecisionReviewList">
 			返回
 		</a>
+        <a ng-if="flag == 4" class="btn-return" href="#/meeting/MeetingArrangement/0">
+            返回
+        </a>
 	</div>
 	<div class="row mtab2 text-gray">
 		<a id="decisionMatters" class="chose col-md-4 col-sm-6 col-xs-12">

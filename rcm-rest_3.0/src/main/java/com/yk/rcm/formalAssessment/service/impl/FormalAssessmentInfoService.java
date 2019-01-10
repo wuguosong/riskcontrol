@@ -1065,14 +1065,14 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		Document meetingInfo = new Document();
 		
 		//修改oracle的stage状态
-		Map<String, Object> map = new HashMap<String, Object>();
+		/*Map<String, Object> map = new HashMap<String, Object>();
 		//map.put("stage", "3.5");
 		// 数据所在目录修改 状态随之修改
-		/*map.put("stage", "3.9");*/
+		map.put("stage", "3.9");
 		map.put("need_meeting", "1");
 		map.put("metting_commit_time", Util.getTime());
 		map.put("businessId", pfr.getString("formalId"));
-		this.formalAssessmentInfoMapper.updateStage(map);
+		this.formalAssessmentInfoMapper.updateStage(map);*/
 		//其他会议信息保存到metting表中
 		Document apply = (Document) pfr.get("apply");
 		String projectName = apply.getString("projectName");
