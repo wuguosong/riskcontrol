@@ -35,17 +35,24 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             return date.getFullYear() + "-" + paddNum(date.getMonth() + 1) + "-" + date.getDate();
         }
 
+        $scope.returnStatus = false;
         //初始化页面所需数据
         $scope.initData = function () {
             $scope.getSelectSUMMARY_TEMPLATE('SUMMARY_TEMPLATE');
             $scope.getSelectINVESTMENT_TYPE('INVESTMENT_TYPE');
-            $scope.getByID(objId);
-            $scope.getMarks(objId);
-            $scope.getSelectTypeByCode("8");
-            $scope.getSelectTypeByCodetype('14');
-            $scope.dic2=[];
-            $scope.dic2.nameValue=[{name:'A级（困难评审)',value:1},{name:'B级（中级评审)',value:2},{name:'C级（简单评审)',value:3}]
         }
+
+        $scope.$watch('returnStatus', function() {
+            if ($scope.returnStatus) {
+                $scope.getByID(objId);
+                $scope.getMarks(objId);
+                $scope.getSelectTypeByCode("8");
+                $scope.getSelectTypeByCodetype('14');
+                $scope.dic2=[];
+                $scope.dic2.nameValue=[{name:'A级（困难评审)',value:1},{name:'B级（中级评审)',value:2},{name:'C级（简单评审)',value:3}]
+            }
+        });
+
         $scope.saveMarks = function () {
             if ($scope.mark != null && $scope.mark != "") {
                 if ($scope.mark.flowMark == null) {
@@ -392,6 +399,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.httpData(url, typeCode).success(function (data) {
                 if (data.result_code == 'S') {
                     $scope.SUMMARY_TEMPLATE = data.result_data;
+                    $scope.returnStatus = true;
                 } else {
                     alert(data.result_name);
                 }
