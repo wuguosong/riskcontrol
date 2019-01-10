@@ -7,8 +7,42 @@
 						|| bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment != ''
 						|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment != ''
 						|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment != ''">
+            <div class="mytable">
+                <table  class="table table-bordered">
+                    <tbody>
+                    <tr  ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
+                        <th style="width: 20%">评审负责人意见</th>
+                        <td>
+                            <div class="has-feedback">
+                                {{bulletin.reviewLeaderOpinion}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''">
+                        <th>
+                            法律负责人意见
+                        </th>
+                        <td>
+                            <div class="has-feedback">
+                                {{bulletin.legalLeaderOpinion}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr  ng-show="bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''">
+                        <th>
+                            风控负责人意见
+                        </th>
+                        <td>
+                            <div class="has-feedback">
+                                {{bulletin.riskLeaderOpinion}}
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <div class="row" ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
+            <!--<div class="row" ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
                 <div class="tit col-md-2 col-sm-2 col-xs-12">评审负责人意见</div>
                 <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
                     {{bulletin.reviewLeaderOpinion}}
@@ -25,7 +59,7 @@
                 <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
                     {{bulletin.riskLeaderOpinion}}
                 </div>
-            </div>
+            </div>-->
             <div class="row normalline titline">
                 <div class="mytable" style="margin: 20px" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0
 								|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length > 0

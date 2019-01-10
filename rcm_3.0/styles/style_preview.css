@@ -323,7 +323,7 @@ html,body,#content-wrapper{
 }
 .mytable tbody th,
 .mytable tbody td{
-    padding: 20px 10px!important;
+    padding: 10px 10px!important;
 }
 .mytable {
     position: relative;
@@ -539,5 +539,10 @@ html,body,#content-wrapper{
 
 .score-div-a {
     width: 20px;
+}
+
+.content2 .mytable tbody th,
+.content2 .mytable tbody td{
+    padding: 14px 10px!important;
 }
 
