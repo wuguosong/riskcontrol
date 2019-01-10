@@ -295,14 +295,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $scope.initTemplate = angular.copy($scope.formalReport.summaryTemplate);
 
                 if(flag == 1){
-                    debugger
                     var storage = window.localStorage;
                     if ($scope.meetInfo == null) {
                         $scope.meetInfo = [];
                     }
                     $scope.projectSummary = angular.copy(JSON.parse(storage.projectSummary));
                     $scope.mark = angular.copy(JSON.parse(storage.mark));
-                    if (storage.fileList != "undefined"){
+                    if (storage.fileList != "undefined"  && storage.fileList != "" && storage.fileList != null){
                         $scope.formalReport.policyDecision.fileList = angular.copy(JSON.parse(storage.fileList));
                     }
                     $scope.formalReport.projectName = angular.copy(storage.projectName);
