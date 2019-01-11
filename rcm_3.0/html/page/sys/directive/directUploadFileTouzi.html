@@ -1,12 +1,12 @@
 <div class="row nobottom-mar">
     <div id="modelFile" data-toggle="modal" data-target="#userSinDialog_{{id}}">
-        <button class="btn-add btn-scale">
+        <button class="btn-add btn-scale" ng-click="initFileType()">
             <span style="top: 30%;">新增</span>
         </button>
     </div>
     <div ng-if="isEditable=='true'" id="userSinDialog_{{id}}" class="modal modal-dialog selection-pop" tabindex="-1"
          role="dialog"
-         style="display: none;position: fixed;height: 300px;width: 500px;">
+         style="display: none;position: fixed;height: 400px;width: 600px;">
         <div class="modal-content">
             <div class="modal-header">
                     <h4 class="modal-title text-left" style="font-weight: bold;" id="myModalLabel">{{title}}</h4>
@@ -28,6 +28,7 @@
                                 <span class="col-xs-8 slim text-left">
                                     <select ng-model="item.newItem" class="newItem" ng-change="changeAttach(item)"
                                             ng-options="y.ITEM_NAME for y in select" style="width: 200px">
+                                        <option value="">-- 请选择 --</option>
                                 </select>
                                 </span>
                             </div>

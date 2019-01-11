@@ -4935,9 +4935,8 @@ ctmApp.directive('directUploadFileTouzi', function() {
             isUse: "="
         },
         controller: function($scope, $http, $element, Upload){
-
             $scope.item = {};
-            $scope.isUse = false;
+            $scope.isUse = true;
             $scope.title = '附件上传';
             // 获得时间
         	$scope.getDate = function () {
@@ -4955,12 +4954,22 @@ ctmApp.directive('directUploadFileTouzi', function() {
                 return now;
             }
 
+            $scope.item = {};
+            $scope.item.newItem = null;
+
+            $scope.initFileType = function() {
+                $scope.item.newItem = null;
+                console.log($scope.item.newItem);
+            }
+
             $scope.changeAttach = function (name) {
                 console.log(name);
+                // console.log($scope.attach);
+                $scope.isUse = true;
                 $scope.item = name;
                 // debugger
                 $scope.latestAttachment = null;
-                console.log($scope.attach);
+
                 angular.forEach($scope.attach, function (data, index) {
                     if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
                         if ($scope.latestAttachment) {
@@ -4973,7 +4982,6 @@ ctmApp.directive('directUploadFileTouzi', function() {
                     }
                 });
                 angular.forEach($scope.fileList, function (data, index) {
-                	console.log(data)
                     if (data.files.ITEM_NAME == name.newItem.ITEM_NAME) {
                         data.files.upload_date.replace(/-/g,"/");
                         if ($scope.latestAttachment) {
@@ -4988,7 +4996,9 @@ ctmApp.directive('directUploadFileTouzi', function() {
                 if($scope.latestAttachment == null || $scope.latestAttachment.fileName == undefined || $scope.latestAttachment.fileName == ''
                         || $scope.latestAttachment.fileName == null){
                         $scope.isUse = true;
-                    }
+                    } else {
+                    $scope.isUse = false;
+                }
                 if ($scope.latestAttachment.type == "invest") {
                     $scope.latestAttachment.typeValue = "投资部门提供";
                 } else {
@@ -4997,8 +5007,14 @@ ctmApp.directive('directUploadFileTouzi', function() {
             };
 
             $scope.close = function() {
+                console.log($scope.item);
                 $scope.latestAttachment = null;
-                $scope.item.newItem = null;
+                if ($scope.item != null) {
+                    if($scope.item.newItem != undefined) {
+                        $scope.item = {};
+                        $scope.item.newItem = null;
+                    }
+                }
 			}
 
             $scope.submit = function() {
@@ -5016,8 +5032,9 @@ ctmApp.directive('directUploadFileTouzi', function() {
 				}
                 $scope.attach.push($scope.latestAttachment);
                 $scope.fileList.push($scope.file);
-                console.log($scope.fileList);
-                $scope.item = null;
+                $scope.item = {};
+                $scope.item.newItem = null;
+                console.log($scope.item);
                 $scope.latestAttachment = null;
             }
 

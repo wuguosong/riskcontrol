@@ -310,7 +310,7 @@ li {
 }
 
 .info th {
-    background-color: #D9DFF0!important;
+    background-color: #f6f6f6!important;
 }
 
 .content2 .row {
@@ -1020,7 +1020,7 @@ td btn-scale:first-child{
 .btn-scale>span{
     display: inline-block;
     position: absolute;
-    top: 38%;
+    top: 33%;
     left: 50%;
     -webkit-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
