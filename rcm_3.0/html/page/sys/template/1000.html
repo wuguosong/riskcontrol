@@ -19,7 +19,7 @@
                     </a>
                 </th>
                 <td>
-                    <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
+                    <textarea id="{{ 'textarea' + $index }}" style="resize:vertical;height: auto;" ng-disabled="projectOverview.modify === '0'"
                               name="{{ 'projectOverview_content' + $index }}"
                               ng-model="projectOverview.content"
                               class="form-control ng-pristine ng-valid ng-touched" ng-required="projectOverview.modify === '1'"></textarea>
@@ -90,7 +90,7 @@
             <tbody>
             <tr>
                 <td rowspan="3">投资指标</td>
-                <td>
+                <td class="text-right">
                     全投资内部收益率IRR
                 </td>
                 <td>
@@ -105,7 +105,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="text-right">
                     自有资金内部收益率IRR
                 </td>
                 <td>
@@ -120,7 +120,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="text-right">
                     全投资静态回收期
                 </td>
                 <td>
@@ -138,7 +138,7 @@
                 <td rowspan="2">
                     财务指标
                 </td>
-                <td>
+                <td class="text-right">
                     运营期平均ROE
                 </td>
                 <td>
@@ -153,7 +153,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="text-right">
                     运营期平均ROI
                 </td>
                 <td>
@@ -171,7 +171,7 @@
                 <td>
                     现金流指标
                 </td>
-                <td>
+                <td class="text-right">
                     自有资金前五年现金净流量
                 </td>
                 <td>
@@ -363,3 +363,21 @@
         </div>
     </div>
 </div><!--后续执行要求-->
+<!--
+
+<script>
+    $(function() {
+        setTimeout(function(){
+            $('#textarea' + '0').onchange(
+                $('.ng-pristine.ng-valid.ng-touched').each(function(){
+                    console.log(this.scrollHeight)
+                    this.style.height = this.scrollHeight + 12 + 'px'
+                })
+            );
+            $('.ng-pristine.ng-valid.ng-touched').each(function(){
+                console.log(this.scrollHeight)
+                this.style.height = this.scrollHeight + 12 + 'px'
+            })
+        },100)
+    })
+</script>-->

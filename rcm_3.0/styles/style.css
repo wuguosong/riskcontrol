@@ -250,7 +250,7 @@ li {
 .mcontent .normalline {
     line-height: 36px;
     padding: 10px 0;
-    border-bottom: 1px solid #DBE5EF;
+    /*border-bottom: 1px solid #DBE5EF;*/
 }
 
 .mcontent .normalline:nth-last-of-type(1) {
@@ -278,6 +278,9 @@ li {
 
 .mytable table thead th {
     text-align: center;
+    color: #666;
+    background: #f6f6f6;
+    font-weight: normal;
 }
 
 .mytable tbody {
@@ -578,7 +581,7 @@ li {
 
 .mcontent .innertable h5 {
     font-weight: bold;
-    border-bottom: 1px solid #e2eaf2;
+    /*border-bottom: 1px solid #e2eaf2;*/
     padding: 20px 0;
 }
 
@@ -1020,7 +1023,7 @@ td btn-scale:first-child{
 .btn-scale>span{
     display: inline-block;
     position: absolute;
-    top: 33%;
+    top: 50%;
     left: 50%;
     -webkit-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
