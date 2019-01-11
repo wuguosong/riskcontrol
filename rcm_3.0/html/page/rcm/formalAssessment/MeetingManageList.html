@@ -37,9 +37,11 @@
 								</td>
 								<td>{{$index+1}}</td>
 								<td>
-								<a ng-if="'pfr' == p.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{p.BUSINESS_ID}}/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
-								<a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetail/{{p.BUSINESS_ID}}_0/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+								<!--<a ng-if="'pfr' == p.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{p.BUSINESS_ID}}/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+								<a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetail/{{p.BUSINESS_ID}}_0/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>-->
 								<a ng-if="'pre' == p.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{p.BUSINESS_ID}}/{{'#/MeetingManageList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+									<a ng-if="'pfr' == p.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/MeetingManageList') | encodeURI}}/5">{{p.PROJECT_NAME}}</a>
+									<a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{p.BUSINESS_ID}}_0/{{('#/MeetingManageList') |encodeURI}}/5">{{p.PROJECT_NAME}}</a>
 								</td>
 								<td>
 									<font ng-if="'pfr' == p.PROJECT_TYPE">正式评审</font>

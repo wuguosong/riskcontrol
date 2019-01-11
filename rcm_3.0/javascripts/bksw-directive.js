@@ -4938,6 +4938,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
 
             $scope.item = {};
             $scope.isUse = false;
+            $scope.title = '附件上传';
             // 获得时间
         	$scope.getDate = function () {
                 var myDate = new Date();
@@ -4988,11 +4989,11 @@ ctmApp.directive('directUploadFileTouzi', function() {
                         || $scope.latestAttachment.fileName == null){
                         $scope.isUse = true;
                     }
-                /*if ($scope.latestAttachment.type == "invest") {
+                if ($scope.latestAttachment.type == "invest") {
                     $scope.latestAttachment.typeValue = "投资部门提供";
                 } else {
                     $scope.latestAttachment.typeValue = "业务部门提供";
-				}*/
+				}
             };
 
             $scope.close = function() {

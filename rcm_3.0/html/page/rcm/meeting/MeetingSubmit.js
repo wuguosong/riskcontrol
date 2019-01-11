@@ -1,4 +1,4 @@
-ctmApp.register.controller('MeetingSubmit', ['$http','$scope','$location','$routeParams','$filter',function ($http,$scope,$location,$routeParams,$filter) {
+ ctmApp.register.controller('MeetingSubmit', ['$http','$scope','$location','$routeParams','$filter',function ($http,$scope,$location,$routeParams,$filter) {
 	//--------------------------------------
 	//待上会—— 查询  所有 暂存未提交的项目
 	//--------------------------------------
@@ -7,6 +7,7 @@ ctmApp.register.controller('MeetingSubmit', ['$http','$scope','$location','$rout
 			method:'post',  
 		    url:srvUrl+"meeting/initQueryNotSubmProjList.do"
 		}).success(function(result){
+			debugger
 			if(result.success){
 				if(result.result_data.MEETING_LEADERS == null){
 					result.result_data.MEETING_LEADERS = [];

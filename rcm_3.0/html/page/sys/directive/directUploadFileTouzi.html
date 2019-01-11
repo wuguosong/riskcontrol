@@ -6,68 +6,65 @@
     </div>
     <div ng-if="isEditable=='true'" id="userSinDialog_{{id}}" class="modal modal-dialog selection-pop" tabindex="-1"
          role="dialog"
-         style="display: none;position: fixed;">
+         style="display: none;position: fixed;height: 300px;width: 500px;">
         <div class="modal-content">
-            <div class="modal-header" style="height: 45px;">
-                <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">
-                    ×
-                </button>
-                <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
+            <div class="modal-header">
+                    <h4 class="modal-title text-left" style="font-weight: bold;" id="myModalLabel">{{title}}</h4>
+                    <button type="button"
+                            class="close"
+                            ng-click="close()"
+                            data-dismiss="modal"
+                            style="position: absolute;right: 20px;top: 15px;"
+                            aria-hidden="true">
+                        ×
+                    </button>
             </div>
-            <div class="modal-body">
-                <div class="mytable ranktable">
-                    <table class="modelFile">
-                        <tr>
-                            <td>
-                                附件类型
-                            </td>
-                            <td>
-                                <select ng-model="item.newItem" class="newItem" ng-change="changeAttach(item)"
-                                        ng-options="y.ITEM_NAME for y in select" style="width: 200px">
+            <div class="modal-body" style="padding-left: 20px;">
+                <div>
+                    <div class="row normalline selectline">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <span class="col-xs-4 noPadding text-left">附件类型</span>
+                                <span class="col-xs-8 slim text-left">
+                                    <select ng-model="item.newItem" class="newItem" ng-change="changeAttach(item)"
+                                            ng-options="y.ITEM_NAME for y in select" style="width: 200px">
                                 </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                选择附件
-                            </td>
-                            <td>
-                                <a href="javascript:void(0);" ng-click="downLoadBiddingFile(latestAttachment)">
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="col-xs-4 noPadding text-left">选择附件</span>
+                                <span class="col-xs-8 slim text-left">
+                                    <a href="javascript:void(0);" ng-click="downLoadBiddingFile(latestAttachment)">
                                     {{ latestAttachment.fileName }}
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                附件来源
-                            </td>
-                            <td>
-                                {{ latestAttachment.typeValue }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                更新时间
-                            </td>
-                            <td>
-                                {{ latestAttachment.upload_date }}
-                            </td>
-                        </tr>
-                    </table>
+                                    </a>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="col-xs-4 noPadding text-left">附件来源</span>
+                                <span class="col-xs-8 slim text-left">
+                                    {{ latestAttachment.typeValue }}
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="col-xs-4 noPadding text-left">更新时间</span>
+                                <span class="col-xs-8 slim text-left">
+                                    {{ latestAttachment.upload_date }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button ng-disabled="item == undefined" ng-disabled="!hasWaiting" class="btn-add"
-                    ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
-                重新上传
-            </button>
-            <button type="button" class="btn-add" ng-click="submit()" data-dismiss="modal" aria-hidden="true"
-                    ng-disabled="isUse" style="height: 30px">
-                确定
-            </button>
+            <div class="modal-footer" style="padding: 8px 20px;">
+                <button ng-disabled="item == undefined" ng-disabled="!hasWaiting" class="btn-add"
+                        ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
+                    重新上传
+                </button>
+                <button type="button" class="btn-add" ng-click="submit()" data-dismiss="modal" aria-hidden="true"
+                        ng-disabled="isUse" style="height: 30px">
+                    确定
+                </button>
+            </div>
         </div>
     </div>
 </div>
-
-
