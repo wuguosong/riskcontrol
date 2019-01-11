@@ -1700,3 +1700,13 @@ td btn-scale:first-child{
     background: url(/html/assets/images/img/icon-bottom.png) no-repeat;
     background-size: cover;
 }*/
+
+.text-left {
+    text-align: left;
+    font-weight:normal
+}
+
+.text-right {
+    text-align: right;
+    font-weight:normal
+}
