@@ -57,7 +57,7 @@ public class YunkuFileSrv {
 	 * @param optId     创建人ID, 个人库默认是库拥有人ID, 如果创建人不是云库用户, 可以用op_name代替
 	 * @param localFile 本地文件
 	 * @param overWrite 是否覆盖同名文件
-	 * @return FileInfo
+	 * @return FileDto
 	 * @throws Exception
 	 */
 	public FileDto uploadByBlock(String fullPath, String localFile, String optName, Integer optId, boolean overWrite)
