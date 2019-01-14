@@ -14,7 +14,6 @@
 		<slf4j.version>1.7.6</slf4j.version>
 <!-- 		<cxf.version>3.0.12</cxf.version> -->
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -295,10 +294,36 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ssoclient.jar</systemPath>
 		</dependency>
-
-	</dependencies> 
-
+		<!--Add by LiPan[2019-01-11] start-->
+		<dependency>
+			<groupId>com.github.gokuai.yunku-sdk-java</groupId>
+			<artifactId>YunkuJavaSDK</artifactId>
+			<version>4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.47</version>
+		</dependency>
+		<!--Add by LiPan[2019-01-11] end-->
+	</dependencies>
 	<repositories>
+		<!--Add by LiPan[2019-01-11] start-->
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+		<!--Add by LiPan[2019-01-11] end-->
 		<repository>
 			<id>alimaven</id>
 			<name>ali maven repository</name>
