@@ -2288,7 +2288,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 var errorMsg = fileErrorMsg(errorFile);
                 $scope.errorAttach[idx] = {msg: errorMsg};
             } else if (file) {
-                var fileSuffix = file.name.split('.')[1]
+                var fileSuffixArr = file.name.split('.');
+                var fileSuffix = fileSuffixArr[fileSuffixArr.length-1];
                 if (fileSuffix != "docx" && fileSuffix != "xlsx" && fileSuffix != "pptx" && fileSuffix != "pdf" &&
                     fileSuffix != "jpg" && fileSuffix != "png" && fileSuffix != "gif" && fileSuffix != "tif" &&
                     fileSuffix != "psd" && fileSuffix != "ppts"){
