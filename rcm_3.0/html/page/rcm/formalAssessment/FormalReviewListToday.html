@@ -26,9 +26,11 @@
                             <tr ng-repeat="dr in decisionReview">
                                 <td>{{$index+1}}</td>
 								<td>
-									<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{dr.BUSINESS_ID}}/{{('#/FormalReviewListToday/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
-									<a ng-if="'bulletin' == dr.PROJECT_TYPE" href="#/BulletinReviewDetail/{{dr.BUSINESS_ID}}_0/{{('#/FormalReviewListToday/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
+									<!--<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{dr.BUSINESS_ID}}/{{('#/FormalReviewListToday/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
+									<a ng-if="'bulletin' == dr.PROJECT_TYPE" href="#/BulletinReviewDetail/{{dr.BUSINESS_ID}}_0/{{('#/FormalReviewListToday/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>-->
 									<a ng-if="'pre' == dr.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{dr.BUSINESS_ID}}/{{('#/FormalReviewListToday/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
+									<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{dr.BUSINESS_ID}}/{{('#/FormalReviewListToday/'+oldUrl) | encodeURI}}/6">{{dr.PROJECT_NAME}}</a>
+									<a ng-if="'bulletin' == dr.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{dr.BUSINESS_ID}}_0/{{('#/FormalReviewListToday/'+oldUrl) |encodeURI}}/6">{{dr.PROJECT_NAME}}</a>
 								</td>
                                 <td>
                                 	<font ng-if="'pfr' == dr.PROJECT_TYPE">正式评审</font>

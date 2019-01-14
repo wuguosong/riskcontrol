@@ -163,6 +163,20 @@ public class FormalMarkService implements IFormalMarkService{
 			data.put("talksReason", talksReason);
 		}
 		
+		/*// 合规-资料备案   fileCopy fileCopyReason
+		if(Util.isNotEmpty(mark.get("fileCopy"))){
+			Integer fileCopy = (Integer) mark.get("fileCopy");
+			data.put("fileCopy", fileCopy);
+		}
+		if(Util.isNotEmpty(mark.get("fileCopyDetail"))){
+			String fileCopyDetail = (String) mark.get("fileCopyDetail");
+			data.put("fileCopyDetail", fileCopyDetail);
+		}
+		if(Util.isNotEmpty(mark.get("fileCopyReason"))){
+			String fileCopyReason = (String) mark.get("fileCopyReason");
+			data.put("fileCopyReason", fileCopyReason);
+		}*/
+		
 		if(Util.isEmpty(queryMarks)){
 			Integer fileCopy = 15;//暂不统计默认满分
 			data.put("fileCopy", fileCopy);
