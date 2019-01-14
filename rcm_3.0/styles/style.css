@@ -284,11 +284,12 @@ li {
 }
 
 .mytable tbody {
-    font-weight: normal;
+    font-weight: normal!important;
 }
 
 .mytable tbody th,
 .mytable tbody td {
+    font-weight: normal!important;
     padding: 5px 5px!important;
 }
 
@@ -583,6 +584,7 @@ li {
     font-weight: bold;
     /*border-bottom: 1px solid #e2eaf2;*/
     padding: 20px 0;
+    font-size: 18px
 }
 
 .mcontent .innertable .mbtn {
@@ -727,7 +729,9 @@ li {
 .mcontent .innertable td time {
     color: #6c6c6c
 }
-
+.mcontent .innertable td button:first-child{
+    margin-right: 10%;
+}
 .mcontent .innertable tbody {
     font-size: 12px;
 }
@@ -793,25 +797,38 @@ li {
     line-height: 40px;
     text-align: center;
     margin: 20px auto;
+    overflow: hidden;
 }
+
+/*.left-content .stage a {*/
+    /*display: inline-block;*/
+    /*width: 49%;*/
+    /*background: #fff;*/
+    /*position: relative;*/
+/*}*/
+/*.left-content .stage a:first-child{*/
+    /*margin-right: 1px;*/
+/*}*/
+/*.left-content .stage a:first-child:before {*/
+    /*content: '';*/
+    /*border-right: 6px solid #fff;*/
+    /*border-top: 6px solid transparent;*/
+    /*border-bottom: 6px solid transparent;*/
+    /*position: absolute;*/
+    /*top: calc(50% - 3px);*/
+    /*left: -6px*/
+/*}*/
 
 .left-content .stage a {
     display: inline-block;
-    width: 49%;
-    background: #fff;
-    position: relative;
-}
-.left-content .stage a:first-child{
-    margin-right: 1px;
-}
-.left-content .stage a:first-child:before {
-    content: '';
-    border-right: 6px solid #fff;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    position: absolute;
-    top: calc(50% - 3px);
-    left: -6px
+    float: left;
+    width: 30.3%;
+    margin: 0 1.5%;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    background: #0060c4;
+    color: #fff;
 }
 
 .left-content .linkline {
@@ -908,7 +925,7 @@ li {
 }
 
 .btn-add {
-    width: 68px!important;
+    /*width: 68px!important;*/
     /*height: 25px!important;*/
     color: white;
     border: none;
@@ -933,22 +950,24 @@ li {
 }
 
 .btn-close {
-    width: 68px!important;
-    height: 25px!important;
+    /*width: 68px!important;*/
+    /*height: 25px!important;*/
     color: white;
     background: url("/html/assets/images/btn/btn-close.png") no-repeat;
     -webkit-background-size: contain;
     /*background-size: contain;*/
+    /*padding-bottom: 18.08%!important;*/
     line-height: 30px;
     border: none;
 }
 
 .btn-desc{
     float: left;
-    /*width: 24%;*/
-    width: 32px!important;
-    height: 30px!important;
-    padding-bottom: 24%;
+    width: 18%;
+    max-width: 35px;
+    /*width: 32px!important;*/
+    /*height: 30px!important;*/
+    padding-bottom: 18%;
     background: url("/html/assets/images/btn/btn-desc.png") no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
@@ -957,9 +976,10 @@ li {
 
 .btn-asc {
     float: left;
-    width: 32px!important;
-    height: 30px!important;
-    padding-bottom: 24%;
+    width: 18%;
+    max-width: 35px;
+    /*height: 30px!important;*/
+    padding-bottom: 18%;
     background: url("/html/assets/images/btn/btn-asc.png") no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
@@ -968,8 +988,8 @@ li {
 }
 
 .btn-replace {
-    width: 68px!important;
-    height: 25px!important;
+    /*width: 68px!important;*/
+    /*height: 25px!important;*/
     color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
     -webkit-background-size: contain;
@@ -977,18 +997,27 @@ li {
     line-height: 30px;
     border: none;
 }
-
-.btn-table-replace {
-    width: 49%;
-    padding-bottom: 22.87%;
+.btn-replace-out{
+    width: 75px;
+    height: 35px;
+    color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
     -webkit-background-size: contain;
-    background-size: contain;
+    /*background-size: contain;*/
+    line-height: 30px;
+    border: none;
 }
+/*.btn-table-replace {*/
+    /*width: 49%;*/
+    /*padding-bottom: 22.87%;*/
+    /*background: url("/html/assets/images/btn/btn-replace.png") no-repeat;*/
+    /*-webkit-background-size: contain;*/
+    /*background-size: contain;*/
+/*}*/
 
 .btn-delete {
-    width: 68px!important;
-    height: 25px!important;
+    /*width: 68px!important;*/
+    /*height: 25px!important;*/
     color: white;
     background: url("/html/assets/images/btn/btn-delete.png") no-repeat;
     -webkit-background-size: contain;
@@ -1008,9 +1037,10 @@ li {
 }
 .btn-scale{
     float: left;
-    width: 49%;
+    width: 45%;
+    max-width: 75px;
     height: 0;
-    padding-bottom: 22.87%;
+    padding-bottom: 21%;
     color: white;
     border: none;
     position: relative;
@@ -1030,6 +1060,11 @@ td btn-scale:first-child{
     -ms-transform: translateX(-50%) translateY(-50%);
     -o-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
+    min-width:24px;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .btn-pop{

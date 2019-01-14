@@ -5040,6 +5040,13 @@ ctmApp.directive('directUploadFileTouzi', function() {
 
             $scope.newAttachment;
             $scope.upload = function (file, errorFile, idx) {
+                var fileSuffix = file.name.split('.')[1]
+                if (fileSuffix != "docx" && fileSuffix != "xlsx" && fileSuffix != "pptx" && fileSuffix != "pdf" &&
+                    fileSuffix != "jpg" && fileSuffix != "png" && fileSuffix != "gif" && fileSuffix != "tif" &&
+                    fileSuffix != "psd"){
+                    alert("您上传的文档格式不正确，请重新选择！");
+                    return;
+                }
                 $scope.newAttachment = {};
                 var fileFolder = "formalReport/";
                 var dates = $scope.formalReport.create_date;
