@@ -83,11 +83,7 @@ public class YunkuFileSrv {
 		} catch (YunkuException e) {
 			ReturnResult result = e.getReturnResult();
 			if (result != null) {
-                // 如果API接口返回异常, 获取最后一次API请求的结果
-                BaseData data = BaseData.create(result.getBody());
-                if (data != null) {
-                    throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-                }
+				this.parseError(result);
 			}
 		}
 		return fileDto;
@@ -133,12 +129,7 @@ public class YunkuFileSrv {
 			}
 			// 解析body
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return files;
 	}
@@ -191,12 +182,7 @@ public class YunkuFileSrv {
 				fileDto = JSON.parseObject(body, FileDto.class);
 			}
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return fileDto;
 	}
@@ -218,12 +204,7 @@ public class YunkuFileSrv {
 			System.out.println(body);
 			return fileDto;
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return null;
 	}
@@ -256,12 +237,7 @@ public class YunkuFileSrv {
 				linkDto = JSON.parseObject(body, LinkDto.class);
 			}
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return linkDto;
 	}
@@ -306,12 +282,7 @@ public class YunkuFileSrv {
 				url = jsonObject.getString("url");
 			}
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return url;
 	}
@@ -347,12 +318,7 @@ public class YunkuFileSrv {
 				list = JSON.parseArray(JSON.toJSONString(urls), String.class);
 			}
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return list;
 	}
@@ -378,12 +344,7 @@ public class YunkuFileSrv {
             Object urls = jsonObject.get("urls");
             list = JSON.parseArray(JSON.toJSONString(urls), String.class);
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return list;
 	}
@@ -406,12 +367,7 @@ public class YunkuFileSrv {
 				list = JSON.parseArray(JSON.toJSONString(m_uploads), String.class);
 			}
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			this.parseError(result);
 		}
 		return list;
 	}
@@ -447,13 +403,17 @@ public class YunkuFileSrv {
 				}
 			}
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+            this.parseError(result);
 		}
 		return files;
+	}
+	
+	private void parseError(ReturnResult result) {
+		// 解析result中的内容
+        BaseData data = BaseData.create(result.getBody());
+        if (data != null) {
+            // 如果可解析，则返回错误信息和错误号
+            throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
+        }
 	}
 }
