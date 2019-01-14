@@ -4966,13 +4966,14 @@ ctmApp.directive('directUploadFileTouzi', function() {
             }
 
             $scope.changeAttach = function (name) {
+        	    console.log(name);
                 if(name.newItem == null) {
                     $scope.isUpload = true;
                 } else {
                     $scope.isUpload = false;
                 }
                 $scope.item = name;
-                $scope.latestAttachmentS = [];
+                // $scope.latestAttachmentS = [];
 
                 // angular.forEach($scope.attach, function (data, index) {
                 //     if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
@@ -5021,6 +5022,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
 			// }
 
             $scope.submit = function() {
+                console.log($scope.latestAttachmentS);
                 if($scope.fileList == undefined || $scope.fileList == null){
                     $scope.fileList = [];
                 }
@@ -5032,8 +5034,8 @@ ctmApp.directive('directUploadFileTouzi', function() {
                     $scope.file.files.upload_date = data.upload_date;
                     $scope.file.files.type = data.type;
                     $scope.file.files.typeValue = data.typeValue;
-                    $scope.file.files.ITEM_NAME = $scope.item.newItem.ITEM_NAME;
-                    $scope.file.files.UUID = $scope.item.newItem.UUID;
+                    $scope.file.files.ITEM_NAME = data.ITEM_NAME;
+                    $scope.file.files.UUID = data.UUID;
                     $scope.fileList.push($scope.file);
                 });
             }
@@ -5042,6 +5044,22 @@ ctmApp.directive('directUploadFileTouzi', function() {
                 if(file == null) {
                     return;
                 }
+                $scope.status = false;
+                angular.forEach($scope.fileList, function (data, index) {
+                    if (data.files.fileName == file.name) {
+                        $scope.status = true;
+                    }
+                });
+                angular.forEach($scope.latestAttachmentS, function (data, index) {
+                    if (data.fileName == file.name) {
+                        $scope.status = true;
+                    }
+                });
+                if($scope.status) {
+                    alert("您上传的文件已存在，请重新选择！");
+                    return;
+                }
+
                 var fileSuffix = file.name.split('.')[1]
                 if (fileSuffix != "docx" && fileSuffix != "xlsx" && fileSuffix != "pptx" && fileSuffix != "pdf" &&
                     fileSuffix != "jpg" && fileSuffix != "png" && fileSuffix != "gif" && fileSuffix != "tif" &&
@@ -5074,6 +5092,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
                     $scope.newAttachment.type = "invest";
                     $scope.newAttachment.typeValue = "投资部门提供";
                     $scope.newAttachment.ITEM_NAME = $scope.item.newItem.ITEM_NAME;
+                    $scope.newAttachment.UUID = $scope.item.newItem.UUID;
                     $scope.latestAttachmentS.push($scope.newAttachment);
                     $scope.isUse = false;
                 }, function (resp) {
