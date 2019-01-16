@@ -1,29 +1,40 @@
 package com.goukuai.dto;
 
 import com.alibaba.fastjson.JSON;
+
 /**
  * @description 云端存储文件日志类
  * @author LiPan[wjsxhclj@sina.com]
  * @date 2019/01/09
  */
 public class LogDto {
-	private Long logId;// 日志ID
+	private Long logid;// 日志ID
 	private String hash;// 哈希
 	private String fileHash;// 文件哈希
+	private String fullpath;// 文件路径
+	private String filename;// 文件名称
 	private String createdBy;// 创建人
 	private String updatedBy;// 更新人
 	private Long createdDate;// 创建时间
 	private Long updatedDate;// 更新时间
-	private String docType;// 业务单据类型
-	private String docCode;// 业务单据编号
-	private String fileOpt;// 文件操作
+	private String doctype;// 业务单据类型
+	private String doccode;// 业务单据编号
+	private String fileopt;// 文件操作
 
-	public Long getLogId() {
-		return logId;
+	public String getFullpath() {
+		return fullpath;
 	}
 
-	public void setLogId(Long logId) {
-		this.logId = logId;
+	public void setFullpath(String fullpath) {
+		this.fullpath = fullpath;
+	}
+
+	public Long getLogid() {
+		return logid;
+	}
+
+	public void setLogid(Long logid) {
+		this.logid = logid;
 	}
 
 	public String getHash() {
@@ -44,6 +55,14 @@ public class LogDto {
 
 	public String getCreatedBy() {
 		return createdBy;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -74,28 +93,28 @@ public class LogDto {
 		this.updatedDate = updatedDate;
 	}
 
-	public String getDocType() {
-		return docType;
+	public String getDoctype() {
+		return doctype;
 	}
 
-	public void setDocType(String docType) {
-		this.docType = docType;
+	public void setDoctype(String doctype) {
+		this.doctype = doctype;
 	}
 
-	public String getDocCode() {
-		return docCode;
+	public String getDoccode() {
+		return doccode;
 	}
 
-	public void setDocCode(String docCode) {
-		this.docCode = docCode;
+	public void setDoccode(String doccode) {
+		this.doccode = doccode;
 	}
 
-	public String getFileOpt() {
-		return fileOpt;
+	public String getFileopt() {
+		return fileopt;
 	}
 
-	public void setFileOpt(String fileOpt) {
-		this.fileOpt = fileOpt;
+	public void setFileopt(String fileopt) {
+		this.fileopt = fileopt;
 	}
 
 	@Override

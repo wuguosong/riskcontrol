@@ -25,8 +25,8 @@ public class FileDto {
 	private String preview;// 预览URL
 	private String thumbnail;// 缩略图
 	private String tag;
-	private String do_type;// 业务单据类型
-	private String do_code;// 业务单据编号
+	private String doctype;// 业务单据类型
+	private String doccode;// 业务单据编号
 
 	public String getHash() {
 		return hash;
@@ -156,10 +156,6 @@ public class FileDto {
 		this.tag = tag;
 	}
 
-	public String getDo_type() {
-		return do_type;
-	}
-
 	public Long getFileid() {
 		return fileid;
 	}
@@ -168,16 +164,20 @@ public class FileDto {
 		this.fileid = fileid;
 	}
 
-	public void setDo_type(String do_type) {
-		this.do_type = do_type;
+	public String getDoctype() {
+		return doctype;
 	}
 
-	public String getDo_code() {
-		return do_code;
+	public void setDoctype(String doctype) {
+		this.doctype = doctype;
 	}
 
-	public void setDo_code(String do_code) {
-		this.do_code = do_code;
+	public String getDoccode() {
+		return doccode;
+	}
+
+	public void setDoccode(String doccode) {
+		this.doccode = doccode;
 	}
 
 	@Override
