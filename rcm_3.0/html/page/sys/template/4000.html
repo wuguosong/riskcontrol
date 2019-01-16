@@ -338,3 +338,20 @@
 		</div>
 	</div>
 </div><!--后续执行要求-->
+
+<script>
+    $(function() {
+        setTimeout(function(){
+            /*$('#textarea' + '0').onchange(
+                $('.ng-pristine.ng-valid.ng-touched').each(function(){
+                    console.log(this.scrollHeight)
+                    this.style.height = this.scrollHeight + 12 + 'px'
+                })
+            );*/
+            $('.ng-pristine.ng-valid.ng-touched').each(function(){
+                console.log(this.scrollHeight)
+                this.style.height = this.scrollHeight + 12 + 'px'
+            })
+        },100)
+    })
+</script>

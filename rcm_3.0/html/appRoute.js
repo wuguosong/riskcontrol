@@ -1,6 +1,6 @@
 
 var $routeData;
-var _version = 2;
+var _version = 3;
 ctmApp.config(["$routeProvider", "$controllerProvider", "$compileProvider",
     function ($routeProvider, $controllerProvider, $compileProvider) {
 

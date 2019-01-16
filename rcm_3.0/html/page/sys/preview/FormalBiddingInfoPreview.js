@@ -33,7 +33,13 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 $scope.projectSummary = data.result_data.summary;
 
                 if ($scope.projectSummary == null || $scope.projectSummary == undefined){
-                    $location.path("/FormalBiddingInfo_view/"+ $scope.waitId +"@view/" + $scope.waitUrl);
+                    if ($scope.flag == 3){
+                        $location.path("/FormalBiddingInfo_view/"+ $scope.waitId +"@view/" + $scope.waitUrl);
+                    }
+                    if ($scope.flag == 7){
+                        $location.path("/FormalBiddingInfo_view/"+ $scope.waitId + "/" + $scope.waitUrl);
+                    }
+
                     return;
                 }
 

@@ -68,12 +68,12 @@
                             </a>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn-replace btn-scale"
+                            <button class="btn-replace-out"
                                     ng-disabled="!hasWaiting"
                                     ngf-max-size="100MB"
                                     ngf-select="uploadReprot($file,$invalidFiles,$index)"
                                     style="float: right; top: 3px">
-                                <span style="top: 30%;">替换</span>
+                                <span>替换</span>
                             </button>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
 
                             <tbody>
                             <tr ng-repeat="item in formalReport.policyDecision.fileList track by $index">
-                                <th scope="row" text-align="center">
+                                <th scope="row" style="text-align:center">
                                     {{$index+1}}
                                 </td>
                                 <td>
@@ -551,8 +551,6 @@
                 <button class="btn-add btn-scale" ng-click="saveOnly()">
                     <span>暂存</span>
                 </button>-->
-            </div>
-            <div class="stage flex">
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>
             <div class="linkline mcontent">
@@ -884,9 +882,19 @@
             $('.left-content').width($(this).width()*.16)
         })
         //滚动时改变导航位置
-        $(window).scroll(function(){
-            $(document).scrollTop()>100?$('.left-content').css('top','5px'):$('.left-content').css('top','60px')
-        })
+        // $(window).scroll(function(){
+        //     $(document).scrollTop()>100?$('.left-content').css('top','5px'):$('.left-content').css('top','60px')
+        // })
+        //按钮大小
+        setTimeout(function(){
+            $('.btn-scale').each(function(){
+                // console.log($(this).css('padding-bottom').slice(0,-2))
+                if($(this).css('padding-bottom').slice(0,-2)>'35'){
+                    console.log(111)
+                    $(this).css('padding-bottom','35px')
+                }
+            })
+        },2000)
 
     });
 </script>

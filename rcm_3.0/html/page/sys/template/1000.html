@@ -19,7 +19,7 @@
                     </a>
                 </th>
                 <td>
-                    <textarea id="{{ 'textarea' + $index }}" style="resize:vertical;height: auto;" ng-disabled="projectOverview.modify === '0'"
+                    <textarea style="resize:vertical;height: auto;" ng-disabled="projectOverview.modify === '0'"
                               name="{{ 'projectOverview_content' + $index }}"
                               ng-model="projectOverview.content"
                               class="form-control ng-pristine ng-valid ng-touched" ng-required="projectOverview.modify === '1'"></textarea>
@@ -363,21 +363,20 @@
         </div>
     </div>
 </div><!--后续执行要求-->
-<!--
 
 <script>
     $(function() {
         setTimeout(function(){
-            $('#textarea' + '0').onchange(
+            /*$('#textarea' + '0').onchange(
                 $('.ng-pristine.ng-valid.ng-touched').each(function(){
                     console.log(this.scrollHeight)
                     this.style.height = this.scrollHeight + 12 + 'px'
                 })
-            );
+            );*/
             $('.ng-pristine.ng-valid.ng-touched').each(function(){
                 console.log(this.scrollHeight)
                 this.style.height = this.scrollHeight + 12 + 'px'
             })
         },100)
     })
-</script>-->
+</script>
