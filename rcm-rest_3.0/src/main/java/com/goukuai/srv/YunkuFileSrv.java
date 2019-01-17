@@ -129,7 +129,12 @@ public class YunkuFileSrv {
 			}
 			// 解析body
 		} else {
-			this.parseError(result);
+            // 解析result中的内容
+            BaseData data = BaseData.create(result.getBody());
+            if (data != null) {
+                // 如果可解析，则返回错误信息和错误号
+                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
+            }
 		}
 		return files;
 	}
@@ -249,7 +254,7 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	public LinkDto getPreviewWindow(String fullPath) throws Exception {
-		return this.getLink(fullPath, AuthType.PREVIEW);
+		return this.getLink(fullPath, EntFileManager.AuthType.PREVIEW);
 	}
 
 	/**
@@ -259,7 +264,7 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	public LinkDto getDownloadWindow(String fullPath) throws Exception {
-		return this.getLink(fullPath, AuthType.DOWNLOAD);
+		return this.getLink(fullPath, EntFileManager.AuthType.DOWNLOAD);
 	}
 
 	/**
