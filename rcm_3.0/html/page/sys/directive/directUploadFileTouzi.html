@@ -1,6 +1,6 @@
 <div class="row nobottom-mar">
     <div id="modelFile" data-toggle="modal" data-target="#userSinDialog_{{id}}">
-        <button class="btn-add" ng-click="initFileType()" style="top: 20px;float: right;width: 68px;">
+        <button class="btn-add" ng-click="initFileType()" style="top: 20px;float: right;width: 75px; height: 35px;">
             <span>新增</span>
         </button>
     </div>
@@ -9,60 +9,95 @@
          style="display: none;position: fixed;height: 400px;width: 600px;">
         <div class="modal-content">
             <div class="modal-header">
-                    <h4 class="modal-title text-left" style="font-weight: bold;" id="myModalLabel">{{title}}</h4>
-                    <button type="button"
-                            class="close"
-                            ng-click="close()"
-                            data-dismiss="modal"
-                            style="position: absolute;right: 20px;top: 15px;"
-                            aria-hidden="true">
-                        ×
-                    </button>
+                <h4 class="modal-title text-left" style="font-weight: bold;" id="myModalLabel">{{title}}</h4>
+                <button type="button"
+                        class="close"
+                        ng-click="close()"
+                        data-dismiss="modal"
+                        style="position: absolute;right: 20px;top: 15px;"
+                        aria-hidden="true">
+                    ×
+                </button>
             </div>
             <div class="modal-body" style="padding-left: 20px;">
                 <div>
                     <div class="row normalline selectline">
                         <div class="col-xs-12">
                             <div class="row">
-                                <span class="col-xs-3 noPadding text-left">附件类型</span>
-                                <span class="col-xs-9 slim text-left">
+                                <span class="col-xs-2 noPadding text-left">附件类型</span>
+                                <span class="col-xs-7 slim text-left">
                                     <select ng-model="item.newItem" class="newItem" ng-change="changeAttach(item)"
-                                            ng-options="y.ITEM_NAME for y in select" style="width: 200px">
+                                            ng-options="y.ITEM_NAME for y in select" style="width: 100%">
                                         <option value="">-- 请选择 --</option>
                                 </select>
                                 </span>
-                            </div>
-                            <div class="row">
-                                <span class="col-xs-3 noPadding text-left">选择附件</span>
-                                <span class="col-xs-9 slim text-left">
-                                    <a href="javascript:void(0);" ng-click="downLoadBiddingFile(latestAttachment)">
-                                    {{ latestAttachment.fileName }}
-                                    </a>
+                                <span class="col-xs-3 slim text-left">
+                                    <button ng-disabled="item == undefined" ng-disabled="!hasWaiting" class="btn-add btn-scale" style="top: 3px"
+                                            ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)"ng-hide="isUpload">
+                                             <span>上传</span>
+                                     </button>
                                 </span>
                             </div>
-                            <div class="row">
-                                <span class="col-xs-3 noPadding text-left">附件来源</span>
-                                <span class="col-xs-9 slim text-left">
-                                    {{ latestAttachment.typeValue }}
-                                </span>
+                            <div class="mytable">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr class="info">
+                                        <th text-align="center" width="10%">序号</th>
+                                        <th text-align="center" width="25%">资源名称</th>
+                                        <th text-align="center" width="50%">附件内容</th>
+                                        <th text-align="center" width="15%">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="attachment in latestAttachmentS track by $index">
+                                        <td scope="row" align="center">
+                                            {{$index+1}}
+                                        </td>
+                                        <td align="left">
+                                            {{attachment.ITEM_NAME }}
+                                        </td>
+                                        <td align="left">
+                                            {{attachment.fileName }}
+                                        </td>
+                                        <td align="center">
+                                            <button type="span" class="btn-delete btn-scale"
+                                                    style="width: 45px; height: 20px"
+                                                    ng-click="deleteFile($index)">
+                                                <span>删除</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="row">
-                                <span class="col-xs-3 noPadding text-left">更新时间</span>
-                                <span class="col-xs-9 slim text-left">
-                                    {{ latestAttachment.upload_date }}
-                                </span>
-                            </div>
+
+                            <!--<div class="row">-->
+                            <!--<span class="col-xs-3 noPadding text-left">选择附件</span>-->
+                            <!--<span class="col-xs-9 slim text-left">-->
+                            <!--<a href="javascript:void(0);" ng-click="downLoadBiddingFile(latestAttachment)">-->
+                            <!--{{ latestAttachment.fileName }}-->
+                            <!--</a>-->
+                            <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="row">-->
+                            <!--<span class="col-xs-3 noPadding text-left">附件来源</span>-->
+                            <!--<span class="col-xs-9 slim text-left">-->
+                            <!--{{ latestAttachment.typeValue }}-->
+                            <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="row">-->
+                            <!--<span class="col-xs-3 noPadding text-left">更新时间</span>-->
+                            <!--<span class="col-xs-9 slim text-left">-->
+                            <!--{{ latestAttachment.upload_date }}-->
+                            <!--</span>-->
+                            <!--</div>-->
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer" style="padding: 8px 20px;">
-                <button ng-disabled="item == undefined" ng-disabled="!hasWaiting" class="btn-add"
-                        ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,$index)">
-                    重新上传
-                </button>
                 <button type="button" class="btn-add" ng-click="submit()" data-dismiss="modal" aria-hidden="true"
-                        ng-disabled="isUse" style="height: 30px">
+                        ng-disabled="isUse" style="height: 32px; width: 68px">
                     确定
                 </button>
             </div>
