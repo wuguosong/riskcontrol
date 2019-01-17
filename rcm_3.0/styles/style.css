@@ -313,6 +313,10 @@ li {
     background-size: cover;
 }
 
+.mytable tbody input {
+    border: 1px solid #c2c2c2;
+}
+
 .info th {
     background-color: #f6f6f6!important;
 }
