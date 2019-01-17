@@ -879,22 +879,27 @@
         }
         // 监听主题区域宽度变化
         $('.xh-content').resize(function(){
-            $('.left-content').width($(this).width()*.16)
+            $('.left-content').width($(this).width()*.16);
+            $('.btn-scale').each(function(){
+                $(this).css('padding-bottom','21%');
+                if($(this).css('padding-bottom').slice(0,-2)>'35'){
+                    $(this).css('padding-bottom','35px')
+
+                }
+            })
         })
         //滚动时改变导航位置
         // $(window).scroll(function(){
         //     $(document).scrollTop()>100?$('.left-content').css('top','5px'):$('.left-content').css('top','60px')
         // })
         //按钮大小
-        setTimeout(function(){
-            $('.btn-scale').each(function(){
-                // console.log($(this).css('padding-bottom').slice(0,-2))
-                if($(this).css('padding-bottom').slice(0,-2)>'35'){
-                    console.log(111)
-                    $(this).css('padding-bottom','35px')
-                }
-            })
-        },2000)
+        // setTimeout(function(){
+        //     $('.btn-scale').each(function(){
+        //         if($(this).css('padding-bottom').slice(0,-2)>'35'){
+        //             $(this).css('padding-bottom','35px')
+        //         }
+        //     })
+        // },2000)
 
     });
 </script>
