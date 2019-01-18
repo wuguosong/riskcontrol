@@ -77,13 +77,14 @@ public class HpgInfoClient implements Runnable, IWebClient {
 		this.pro_size = noticeDecision.get("evaluationScale") == null?"":(String) noticeDecision.get("evaluationScale"); 
 		List<Map<String, Object>> rlist = baseMongo.queryByCondition(filter,Constants.RCM_FORMALREPORT_INFO);
 		String pro_type= "";
-		if(rlist.size()>0){
+		// 去掉原因，修改版本后，正式评审-提交决策会材料，projectType字段去掉了 2019-01-18
+		/*if(rlist.size()>0){
 			Map<String, Object> report = rlist.get(0);
 			Map<String, Object> policyDecision =(Map<String, Object>) report.get("policyDecision");
 			Map<String, Object> projectType =(Map<String, Object>) policyDecision.get("projectType");
 			String item_name =(String) projectType.get("ITEM_NAME");
 			pro_type =item_name;
-		}
+		}*/
 		
 		Map<String, Object> subjectOfImplementation = (Map<String, Object>) noticeDecision.get("subjectOfImplementation");
 		this.pro_unit = subjectOfImplementation == null?"":(String) subjectOfImplementation.get("value");
