@@ -1,0 +1,97 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">项目报告</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+        <div class="panel">
+            <div class="panel-heading search-box">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
+            </div>
+            <div id="searchbox" class="panel-collapse collapse">
+                <div class="panel-body search-body">
+                    <div class="form-group row sm-row">
+                        <label class="col-sm-2 col-md-1 control-label">项目名称</label>
+                        <div class="col-sm-3 col-md-2 sm-col"><input type="text" ng-model="paginationConf.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+                        <label class="col-sm-1 col-md-1 control-label">所属大区</label>
+                        <div class="col-sm-3 col-md-2 sm-col"><input type="text" ng-model="paginationConf.queryObj.pertainareaName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+                        <label class="col-sm-3 col-md-2 control-label">评审报告出具年度</label>
+                        <div class="col-sm-3 col-md-2 sm-col">
+                            <input type="text" maxlength="4" ng-model="paginationConf.queryObj.issuedTime" class="form-control ng-pristine ng-untouched ng-valid"/>
+                        </div>
+                        <div class="col-sm-1 col-md-2">
+                            <div class="col-sm-1 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="executeQueryProjectReportListByPage()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">数据列表<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+                <div class="">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable first-col-fixed" style="width: 100%">
+                            <thead>
+                            <tr>
+                                <th width="3%">序号</th>
+                                <th width="15%">项目名称</th>
+                                <th width="5%">评审类型</th>
+                                <th width="5%">所属大区</th>
+                                <th width="5%">投资经理</th>
+                                <th width="5%">评审负责人</th>
+                                <th width="7%">评审报告出具时间</th>
+                                <th width="25%">评审报告</th>
+                                <th width="25%">决策通知书</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="dr in projectReportList">
+                                <td>{{$index+1}}</td>
+                                <td>
+                                    {{dr.PROJECT_NAME}}
+                                </td>
+                                <td>
+                                    <font ng-if="'pfr' == dr.PROJECT_TYPE">正式评审</font>
+                                    <font ng-if="'bulletin' == dr.PROJECT_TYPE">其他评审</font>
+                                    <font ng-if="'pre' == dr.PROJECT_TYPE">投标评审</font>
+                                </td>
+                                <td>{{dr.PERTAINAREANAME}}</td>
+                                <td>{{dr.CREATEBY}}</td>
+                                <td>{{dr.REVIEWPERSONNAME}}</td>
+                                <td>{{dr.REVIEW_REPORT_ISSUED_TIME | limitTo:10}}</td>
+                                <td>
+                                    <a ng-if="'pfr' == dr.PROJECT_TYPE" ng-click="downLoadFormalBiddingInfoFile(dr.reviewReport.filePath,dr.PROJECT_NAME)">{{dr.PROJECT_NAME}}-正式评审报告.docx</a>
+                                    <a ng-if="'pre' == dr.PROJECT_TYPE" ng-click="downLoadFormalBiddingInfoFile(dr.reviewReport.filePath,dr.PROJECT_NAME)">{{dr.PROJECT_NAME}}-投标评审报告.docx</a>
+                                </td>  <!--{{dr.reviewReport.filePath }}-->
+                                <td>
+                                    <a ng-click="downLoadFormalBiddingInfoFile(dr.decisionNotice.attachment[0].filePath,dr.decisionNotice.attachment[0].fileName)">{{dr.decisionNotice.attachment[0].fileName }}</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+                <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+        <!--<div class="button-group">
+            <div class="row">
+                <div class="option">
+                    <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                </div>
+            </div>
+        </div>-->
+    </form>
+</div>
+<script>
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#meetingTime').datepicker(options);
+    });
+</script>

@@ -4376,6 +4376,23 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
 					}]
 				}
 			})
+            // 项目报告
+            .when('/projectReport',{
+                controller:'projectReport',
+                templateUrl:'page/sys/projectReport/projectReport.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/projectReport/projectReport.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }]);
 
 function resolver($q, $rootScope, dependencies) {
