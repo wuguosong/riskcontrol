@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import org.slf4j.LoggerFactory;
+
 /**
  * Prop. Prop can load properties file from CLASSPATH or File object.
  */
@@ -64,7 +66,7 @@ public class Prop {
 			throw new RuntimeException("Error loading properties file.", e);
 		}
 		finally {
-			if (inputStream != null) try {inputStream.close();} catch (IOException e) {System.err.println(e.getMessage());}
+			if (inputStream != null) try {inputStream.close();} catch (IOException e) {LoggerFactory.getLogger(Prop.class).error(e.getMessage());}
 		}
 	}
 	
@@ -103,7 +105,7 @@ public class Prop {
 			throw new RuntimeException("Error loading properties file.", e);
 		}
 		finally {
-			if (inputStream != null) try {inputStream.close();} catch (IOException e) {System.err.println(e.getMessage());}
+			if (inputStream != null) try {inputStream.close();} catch (IOException e) {LoggerFactory.getLogger(Prop.class).error(e.getMessage());}
 		}
 	}
 	

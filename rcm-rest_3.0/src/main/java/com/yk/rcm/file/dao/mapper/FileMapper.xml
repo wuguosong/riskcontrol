@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.file.dao.IFileMapper">
+	<!-- 新增 -->
+	<insert id="saveFile" parameterType="com.goukuai.dto.FileDto">
+		insert into file_dto
+		(
+		       fileid,
+		       hash,
+		       dir,
+		       fullpath, 
+		       filename, 
+		       filehash, 
+		       filesize, 
+		       create_member_name, 
+		       create_dateline, 
+		       last_member_name, 
+		       last_dateline,
+		       property,
+		       uploadserver,
+		       uri,
+		       preview,
+		       thumbnail,
+		       tag,
+		       doctype,
+		       doccode
+		)
+		values
+		(
+		       file_dto_seq.nextval, 
+		       #{hash},
+		       #{dir},
+		       #{fullpath}, 
+		       #{filename}, 
+		       #{filehash}, 
+		       #{filesize}, 
+		       #{create_member_name}, 
+		       #{create_dateline}, 
+		       #{last_member_name}, 
+		       #{last_dateline},
+		       #{property},
+		       #{uploadserver},
+		       #{uri},
+		       #{preview},
+		       #{thumbnail},
+		       #{tag},
+		       #{doctype},
+		       #{doccode}
+		)
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteFile" parameterType="com.goukuai.dto.FileDto">
+		delete from file_dto fd where fd.fileid = #{fileid}
+	</delete>
+</mapper>

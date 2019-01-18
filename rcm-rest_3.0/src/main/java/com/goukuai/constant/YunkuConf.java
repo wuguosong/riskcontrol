@@ -72,7 +72,7 @@ public interface YunkuConf{
 	public static final String GET_FAIL = prop.get("yunku.return.getFail");
 	public static final String NET_IO = prop.get("yunku.return.NetIo");
 	/**
-	 * 文件路径处理
+	 * 上传根路径
 	 */
-	public static final Boolean IS_INGORE_FULLPATH = prop.getBoolean("yunku.fullpath.isIngoreFullPath");
+	public static final String UPLOAD_ROOT = prop.get("yunku.fullpath.uploadRoot");
 }

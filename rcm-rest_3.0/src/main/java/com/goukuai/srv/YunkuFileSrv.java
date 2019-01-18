@@ -1,5 +1,6 @@
 package com.goukuai.srv;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import com.goukuai.dto.LinkDto;
 import com.goukuai.helper.EntFileManagerHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -30,6 +33,7 @@ import com.yunkuent.sdk.data.YunkuException;
  */
 public class YunkuFileSrv {
 	private static volatile YunkuFileSrv instance = null;
+	private static final Logger log = LoggerFactory.getLogger(YunkuFileSrv.class);
 	static {
 		ConfigHelper configHelper = new ConfigHelper();
 		configHelper.apiHost(YunkuConf.API_HOST);
@@ -65,7 +69,7 @@ public class YunkuFileSrv {
 		DebugConfig.DEBUG = true;
 		FileDto fileDto = null;
 		try {
-			FileInfo file = EntFileManagerHelper.getInstance().uploadByBlock(fullPath, optName, optId, localFile,
+			FileInfo file = EntFileManagerHelper.getInstance().uploadByBlock(YunkuConf.UPLOAD_ROOT + fullPath, optName, optId, localFile,
 					overWrite);
 			// fileDto = new FileDto();
 			// 每次下载完成后,再查询一遍,获取文件更多的信息 TODO 或者有其它更好的操作建议
@@ -81,6 +85,8 @@ public class YunkuFileSrv {
 				 */
 			}
 		} catch (YunkuException e) {
+			e.printStackTrace();
+			log.error("Upload file["+fullPath+"] failed!");
 			ReturnResult result = e.getReturnResult();
 			if (result != null) {
 				this.parseError(result);
@@ -107,11 +113,11 @@ public class YunkuFileSrv {
 	public List<FileDto> getFileList(String fullpath, String order, String tag, int start, int size, boolean dirOnly)
 			throws Exception {
 		DebugConfig.DEBUG = true;
-		ReturnResult result = EntFileManagerHelper.getInstance().getFileList(fullpath, order, tag, start, size,
+		ReturnResult result = EntFileManagerHelper.getInstance().getFileList(YunkuConf.UPLOAD_ROOT + fullpath, order, tag, start, size,
 				dirOnly);
 		List<FileDto> files = new ArrayList<FileDto>();
 		if (result.isOK()) {
-			// 成功的结果
+			// 解析body
 			String body = result.getBody();
 			if (StringUtils.isNoneBlank(body)) {
 				JSONObject bodyJsonObj = JSON.parseObject(body);
@@ -127,14 +133,9 @@ public class YunkuFileSrv {
 					}
 				}
 			}
-			// 解析body
 		} else {
-            // 解析result中的内容
-            BaseData data = BaseData.create(result.getBody());
-            if (data != null) {
-                // 如果可解析，则返回错误信息和错误号
-                throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
-            }
+			log.error("Get file list["+fullpath+"] failed!");
+			this.parseError(result);
 		}
 		return files;
 	}
@@ -146,7 +147,7 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	public List<FileDto> getFileList(String fullpath) throws Exception {
-		return this.getFileList(fullpath, null, null, 1, 100, false);
+		return this.getFileList(fullpath, null, null, 0, 100, false);
 	}
 
 	/**
@@ -157,7 +158,30 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	public List<FileDto> getFileList(String fullpath, String order) throws Exception {
-		return this.getFileList("", null, null, 1, 100, false);
+		return this.getFileList(fullpath, order, null, 0, 100, false);
+	}
+	
+	/**
+	 * @description 获取文件列表
+	 * @param fullpath 路径, 空字符串表示根目录
+	 * @param order    排序
+	 * @param dirOnly 是否只是目录
+	 * @return List<FileDto>
+	 * @throws Exception
+	 */
+	public List<FileDto> getFileList(String fullpath, String order, boolean dirOnly) throws Exception {
+		return this.getFileList(fullpath, order, null, 0, 100, dirOnly);
+	}
+	
+	/**
+	 * @description 获取文件列表
+	 * @param fullpath 路径, 空字符串表示根目录
+	 * @param dirOnly  是否只是目录
+	 * @return List<FileDto>
+	 * @throws Exception
+	 */
+	public List<FileDto> getFileList(String fullpath, boolean dirOnly) throws Exception {
+		return this.getFileList(fullpath, null, null, 0, 100, dirOnly);
 	}
 
 	/**
@@ -166,7 +190,7 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	public List<FileDto> getFileList() throws Exception {
-		return this.getFileList("", null, null, 1, 100, false);
+		return this.getFileList("", null, null, 0, 100, false);
 	}
 
 	/**
@@ -178,7 +202,7 @@ public class YunkuFileSrv {
 	public FileDto getFileInfo(String fullPath) throws Exception {
 		FileDto fileDto = null;
 		DebugConfig.DEBUG = true;
-		ReturnResult result = EntFileManagerHelper.getInstance().getFileInfo(fullPath, EntFileManager.NetType.DEFAULT,
+		ReturnResult result = EntFileManagerHelper.getInstance().getFileInfo(YunkuConf.UPLOAD_ROOT + fullPath, EntFileManager.NetType.DEFAULT,
 				true);
 		if (result.isOK()) {
 			// 成功的结果
@@ -187,6 +211,7 @@ public class YunkuFileSrv {
 				fileDto = JSON.parseObject(body, FileDto.class);
 			}
 		} else {
+			log.error("Get file["+fullPath+"] failed!");
 			this.parseError(result);
 		}
 		return fileDto;
@@ -202,13 +227,14 @@ public class YunkuFileSrv {
 	public FileDto deleteFile(String fullPath, String optName) throws Exception {
 		FileDto fileDto = this.getFileInfo(fullPath);
 		DebugConfig.DEBUG = true;
-		ReturnResult result = EntFileManagerHelper.getInstance().del(fullPath, optName);
+		ReturnResult result = EntFileManagerHelper.getInstance().del(YunkuConf.UPLOAD_ROOT + fullPath, optName);
 		if (result.isOK()) {
 			// 成功的结果
 			String body = result.getBody();
-			System.out.println(body);
+			log.info("Delete file["+fullPath+"] successful!" + body);
 			return fileDto;
 		} else {
+			log.error("Delete file["+fullPath+"] failed!");
 			this.parseError(result);
 		}
 		return null;
@@ -222,19 +248,9 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	private LinkDto getLink(String fullPath, AuthType authType) throws Exception {
-		if(YunkuConf.IS_INGORE_FULLPATH) {
-			if(StringUtils.isNotBlank(fullPath)) {
-				if(fullPath.length() > 1) {
-					char c = fullPath.charAt(0);
-					if(c == '\\' || c == '/') {
-						fullPath = fullPath.substring(1, fullPath.length());
-					}
-				}
-			}
-		}
 		LinkDto linkDto = null;
 		DebugConfig.DEBUG = true;
-		ReturnResult result = EntFileManagerHelper.getInstance().link(fullPath, 0, authType, null);
+		ReturnResult result = EntFileManagerHelper.getInstance().link(YunkuConf.UPLOAD_ROOT + fullPath, 0, authType, null);
 		if (result.isOK()) {
 			// 成功的结果
 			String body = result.getBody();
@@ -242,6 +258,7 @@ public class YunkuFileSrv {
 				linkDto = JSON.parseObject(body, LinkDto.class);
 			}
 		} else {
+			log.error("Get link["+fullPath+"] failed!");
 			this.parseError(result);
 		}
 		return linkDto;
@@ -254,7 +271,7 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	public LinkDto getPreviewWindow(String fullPath) throws Exception {
-		return this.getLink(fullPath, EntFileManager.AuthType.PREVIEW);
+		return this.getLink(fullPath, AuthType.PREVIEW);
 	}
 
 	/**
@@ -264,7 +281,7 @@ public class YunkuFileSrv {
 	 * @throws Exception
 	 */
 	public LinkDto getDownloadWindow(String fullPath) throws Exception {
-		return this.getLink(fullPath, EntFileManager.AuthType.DOWNLOAD);
+		return this.getLink(fullPath, AuthType.DOWNLOAD);
 	}
 
 	/**
@@ -278,7 +295,7 @@ public class YunkuFileSrv {
 	private String getPreviewUrl(String fullPath, boolean showWaterRemark, String memberName) throws Exception {
 		String url = null;
 		DebugConfig.DEBUG = true;
-		ReturnResult result = EntFileManagerHelper.getInstance().previewUrl(fullPath, showWaterRemark, memberName);
+		ReturnResult result = EntFileManagerHelper.getInstance().previewUrl(YunkuConf.UPLOAD_ROOT + fullPath, showWaterRemark, memberName);
 		if (result.isOK()) {
 			// 成功的结果
 			String body = result.getBody();
@@ -287,6 +304,7 @@ public class YunkuFileSrv {
 				url = jsonObject.getString("url");
 			}
 		} else {
+			log.error("Get preview url["+fullPath+"] failed!");
 			this.parseError(result);
 		}
 		return url;
@@ -312,7 +330,7 @@ public class YunkuFileSrv {
 	public List<String> getDownloadUrlByFullPath(String fullPath) throws Exception {
 		List<String> list = null;
 		DebugConfig.DEBUG = true;
-		ReturnResult result = EntFileManagerHelper.getInstance().getDownloadUrlByFullpath(fullPath, false,
+		ReturnResult result = EntFileManagerHelper.getInstance().getDownloadUrlByFullpath(YunkuConf.UPLOAD_ROOT + fullPath, false,
 				EntFileManager.NetType.DEFAULT);
 		if (result.isOK()) {
 			// 成功的结果
@@ -323,6 +341,7 @@ public class YunkuFileSrv {
 				list = JSON.parseArray(JSON.toJSONString(urls), String.class);
 			}
 		} else {
+			log.error("Get download url by full path["+fullPath+"] failed!");
 			this.parseError(result);
 		}
 		return list;
@@ -349,6 +368,7 @@ public class YunkuFileSrv {
             Object urls = jsonObject.get("urls");
             list = JSON.parseArray(JSON.toJSONString(urls), String.class);
 		} else {
+			log.error("Get download url by hash["+hash+"] failed!");
 			this.parseError(result);
 		}
 		return list;
@@ -372,6 +392,7 @@ public class YunkuFileSrv {
 				list = JSON.parseArray(JSON.toJSONString(m_uploads), String.class);
 			}
 		} else {
+			log.error("Get uploadserver failed!");
 			this.parseError(result);
 		}
 		return list;
@@ -389,7 +410,7 @@ public class YunkuFileSrv {
 	 */
 	public List<FileDto> searchFile(String keyWords, String path, int start, int size, ScopeType... scopes) throws Exception {
 		DebugConfig.DEBUG = true;
-		ReturnResult result = EntFileManagerHelper.getInstance().search(keyWords, path, start, size, scopes);
+		ReturnResult result = EntFileManagerHelper.getInstance().search(keyWords, YunkuConf.UPLOAD_ROOT + path, start, size, scopes);
 		List<FileDto> files = new ArrayList<FileDto>();
 		if (result.isOK()) {
 			// 成功的结果
@@ -409,6 +430,7 @@ public class YunkuFileSrv {
 			}
 		} else {
             this.parseError(result);
+            log.error("Search file failed!");
 		}
 		return files;
 	}
@@ -418,6 +440,7 @@ public class YunkuFileSrv {
         BaseData data = BaseData.create(result.getBody());
         if (data != null) {
             // 如果可解析，则返回错误信息和错误号
+        	log.error(data.getErrorCode() + ":" + data.getErrorMsg());
             throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
         }
 	}
