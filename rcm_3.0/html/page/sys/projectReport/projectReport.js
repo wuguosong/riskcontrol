@@ -8,7 +8,6 @@ ctmApp.register.controller('projectReport', ['$http','$routeParams','$scope','$l
             data: $.param({"page":JSON.stringify($scope.paginationConf)})
         }).success(function(result){
             if(result.success){
-                debugger
                 $scope.projectReportList = result.result_data.list;
                 $scope.paginationConf.totalItems = result.result_data.totalItems;
             }else{
@@ -27,23 +26,28 @@ ctmApp.register.controller('projectReport', ['$http','$routeParams','$scope','$l
         $scope.queryProjectReportListByPage();
     };
     $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryProjectReportListByPage);
-    $scope.downLoadFormalBiddingInfoFile = function(filePath,filename){
-        console.log(filePath,filename)
+
+    $scope.downLoadFormalBiddingInfoFile = function(filePath,filename,flag){
+        console.log(filePath,filename,flag)
         var isExists = validFileExists(filePath);
         if(!isExists){
             $.alert("要下载的文件已经不存在了！");
             return false;
         }
-        if(filename!=null && filename.length>12){
+        /*if(filename!=null && filename.length>12){
             filename = filename.substring(0, 12)+"...";
         }else{
             filename = filename.substring(0,filename.lastIndexOf("."));
-        }
+        }*/
 
         if(undefined!=filePath && null!=filePath){
             var index = filePath.lastIndexOf(".");
             var str = filePath.substring(index + 1, filePath.length);
-            var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
+            if (flag == 1){
+                var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename + ".")) + str;
+            } else {
+                var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
+            }
 
             var a = document.createElement('a');
             a.id = 'tagOpenWin';

@@ -65,7 +65,7 @@
                                     <a ng-if="'pre' == dr.PROJECT_TYPE" ng-click="downLoadFormalBiddingInfoFile(dr.reviewReport.filePath,dr.PROJECT_NAME)">{{dr.PROJECT_NAME}}-投标评审报告.docx</a>
                                 </td>  <!--{{dr.reviewReport.filePath }}-->
                                 <td>
-                                    <a ng-click="downLoadFormalBiddingInfoFile(dr.decisionNotice.attachment[0].filePath,dr.decisionNotice.attachment[0].fileName)">{{dr.decisionNotice.attachment[0].fileName }}</a>
+                                    <a ng-click="downLoadFormalBiddingInfoFile(dr.decisionNotice.attachment[0].filePath,dr.decisionNotice.attachment[0].fileName,1)">{{dr.decisionNotice.attachment[0].fileName }}</a>
                                 </td>
                             </tr>
                             </tbody>
