@@ -99,6 +99,18 @@ public class PathKit {
 	public static boolean isAbsolutelyPath(String path) {
 		return path.startsWith("/") || path.indexOf(":") == 1;
 	}
+
+	public static String getWebRootDisk(){
+		String rootDisk = null;
+		File[] roots = File.listRoots();//获取磁盘分区列表
+		for (File file : roots) {
+			String root = file.getPath();
+			if (getWebRootPath().contains(root)){
+				rootDisk = root.replace("/", "").replace("\\", "");
+			}
+		}
+		return rootDisk;
+	}
 }
 
 

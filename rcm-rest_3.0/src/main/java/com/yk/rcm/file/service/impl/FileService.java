@@ -3,11 +3,9 @@ package com.yk.rcm.file.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import com.goukuai.constant.YunkuConf;
 import com.yk.rcm.file.dao.ILogMapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,57 +18,59 @@ import com.yk.rcm.file.constant.FileOpt;
 import com.yk.rcm.file.dao.IFileMapper;
 import com.yk.rcm.file.service.IFileService;
 
+import javax.annotation.Resource;
+
 /**
  * @description 文件操作业务类
  * @author LiPan[wjsxhclj@sina.com]
  * @date 2019/01/17
  */
 @Service
-@Transactional(value = "daxtTxManager", rollbackFor = Exception.class)
+@Transactional
 public class FileService implements IFileService {
-	private YunkuFileSrv fileSrv = YunkuFileSrv.getInstance();
+	private YunkuFileSrv yunkuFileSrv = YunkuFileSrv.getInstance();
 
-	@Autowired(required = true)
-	private ILogMapper iLogMapper;
-	@Autowired(required = true)
-	private IFileMapper iFileMapper;
+	@Resource
+	private ILogMapper logMapper;
+	@Resource
+	private IFileMapper fileMapper;
 
 	@Override
 	public FileDto fileUpload(String fullPath, String localFile, String docType, String docCode, String optName,
 			Integer optId) throws Exception {
-		FileDto fileDto = fileSrv.uploadByBlock(fullPath, localFile, optName, optId);
+		FileDto fileDto = yunkuFileSrv.uploadByBlock(fullPath, localFile, optName, optId);
 		if (fileDto != null) {
 			// 保存FileDto
 			this.saveFile(fileDto, optName, docType, docCode);
 			// 保存LogDto
-			iLogMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.UPLOAD));
+			logMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.UPLOAD));
 		}
 		return fileDto;
 	}
 
 	@Override
 	public FileDto fileDelete(String fullPath, String docType, String docCode, String optName) throws Exception {
-		FileDto fileDto = fileSrv.deleteFile(fullPath, optName);
+		FileDto fileDto = yunkuFileSrv.deleteFile(fullPath, optName);
 		if (fileDto != null) {
 			// 删除FileDto
 			this.deleteFile(fileDto, optName, docType, docCode);
 			// 保存LogDto
-			iLogMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.DELETE));
+			logMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.DELETE));
 		}
 		return fileDto;
 	}
 
 	@Override
 	public List<FileDto> fileList(String fullPath) throws Exception {
-		return fileSrv.getFileList(fullPath);
+		return yunkuFileSrv.getFileList(fullPath);
 	}
 
 	@Override
 	public FileDto fileInfo(String fullPath, String docType, String docCode, String optName) throws Exception {
-		FileDto fileDto = fileSrv.getFileInfo(fullPath);
+		FileDto fileDto = yunkuFileSrv.getFileInfo(fullPath);
 		if (fileDto != null) {
 			if (!StringUtils.isAnyBlank(docType, docCode, optName)) {
-				iLogMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.SEARCH));
+				logMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.SEARCH));
 			}
 		}
 		return fileDto;
@@ -83,12 +83,12 @@ public class FileService implements IFileService {
 
 	@Override
 	public LinkDto filePreviewLink(String fullPath, String docType, String docCode, String optName) throws Exception {
-		LinkDto linkDto = fileSrv.getPreviewWindow(fullPath);
+		LinkDto linkDto = yunkuFileSrv.getPreviewWindow(fullPath);
 		if (linkDto != null) {
 			if (!StringUtils.isAnyBlank(docType, docCode, optName)) {
 				FileDto fileDto = this.fileInfo(fullPath);
 				if (fileDto != null) {
-					iLogMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.PREVIEW));
+					logMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.PREVIEW));
 				}
 			}
 		}
@@ -102,12 +102,12 @@ public class FileService implements IFileService {
 
 	@Override
 	public LinkDto fileDownloadLink(String fullPath, String docType, String docCode, String optName) throws Exception {
-		LinkDto linkDto = fileSrv.getDownloadWindow(fullPath);
+		LinkDto linkDto = yunkuFileSrv.getDownloadWindow(fullPath);
 		if (linkDto != null) {
 			if (!StringUtils.isAnyBlank(docType, docCode, optName)) {
 				FileDto fileDto = this.fileInfo(fullPath);
 				if (fileDto != null) {
-					iLogMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.DOWNLOAD));
+					logMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.DOWNLOAD));
 				}
 			}
 		}
@@ -122,12 +122,12 @@ public class FileService implements IFileService {
 	@Override
 	public String filePreviewUrl(String fullPath, String memberName, String docType, String docCode, String optName)
 			throws Exception {
-		String url = fileSrv.getPreviewUrl(fullPath, memberName);
+		String url = yunkuFileSrv.getPreviewUrl(fullPath, memberName);
 		if (StringUtils.isNotBlank(url)) {
 			if (!StringUtils.isAnyBlank(docType, docCode, optName)) {
 				FileDto fileDto = this.fileInfo(fullPath);
 				if (fileDto != null) {
-					iLogMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.PREVIEW));
+					logMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.PREVIEW));
 				}
 			}
 		}
@@ -142,12 +142,12 @@ public class FileService implements IFileService {
 	@Override
 	public List<String> fileDownloadUrlByFullPath(String fullPath, String docType, String docCode, String optName)
 			throws Exception {
-		List<String> urls = fileSrv.getDownloadUrlByFullPath(fullPath);
+		List<String> urls = yunkuFileSrv.getDownloadUrlByFullPath(fullPath);
 		if (CollectionUtils.isNotEmpty(urls)) {
 			if (!StringUtils.isAnyBlank(docType, docCode, optName)) {
 				FileDto fileDto = this.fileInfo(fullPath);
 				if (fileDto != null) {
-					iLogMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.DOWNLOAD));
+					logMapper.saveLog(this.initLog(fileDto, optName, docType, docCode, FileOpt.DOWNLOAD));
 				}
 			}
 		}
@@ -162,13 +162,13 @@ public class FileService implements IFileService {
 	@Override
 	public List<String> fileDownloadUrlByHash(String hash)
 			throws Exception {
-		return fileSrv.getDownloadUrlByHash(hash);
+		return yunkuFileSrv.getDownloadUrlByHash(hash);
 	}
 
 
 	@Override
 	public List<String> fileUploadServer() throws Exception {
-		return fileSrv.getUploadServer();
+		return yunkuFileSrv.getUploadServer();
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class FileService implements IFileService {
 		Long time = new Date().getTime();
 		fileDto.setCreate_dateline(time);
 		fileDto.setLast_dateline(time);
-		iFileMapper.saveFile(fileDto, optName, docType, docCode);
+		fileMapper.saveFile(fileDto, optName, docType, docCode);
 		return fileDto;
 	}
 
@@ -192,7 +192,7 @@ public class FileService implements IFileService {
 		if (fileDto == null) {
 			throw new BusinessException("FileDto can't be null!");
 		}
-		iFileMapper.deleteFile(fileDto, optName, docType, docCode);
+		fileMapper.deleteFile(fileDto, optName, docType, docCode);
 		return fileDto;
 	}
 

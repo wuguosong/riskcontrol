@@ -9,8 +9,8 @@
 		       fileid,
 		       hash,
 		       dir,
-		       fullpath, 
-		       filename, 
+		       fullpath,
+		       filename,
 		       filehash, 
 		       filesize, 
 		       create_member_name, 
@@ -29,28 +29,28 @@
 		values
 		(
 		       file_dto_seq.nextval, 
-		       #{hash},
-		       #{dir},
-		       #{fullpath}, 
-		       #{filename}, 
-		       #{filehash}, 
-		       #{filesize}, 
-		       #{create_member_name}, 
-		       #{create_dateline}, 
-		       #{last_member_name}, 
-		       #{last_dateline},
-		       #{property},
-		       #{uploadserver},
-		       #{uri},
-		       #{preview},
-		       #{thumbnail},
-		       #{tag},
-		       #{doctype},
-		       #{doccode}
+		       #{fileDto.hash},
+		       #{fileDto.dir},
+		       #{fileDto.fullpath},
+		       #{fileDto.filename},
+		       #{fileDto.filehash},
+		       #{fileDto.filesize},
+		       #{fileDto.create_member_name},
+		       #{fileDto.create_dateline},
+		       #{fileDto.last_member_name},
+		       #{fileDto.last_dateline},
+		       #{fileDto.property},
+		       #{fileDto.uploadserver},
+		       #{fileDto.uri},
+		       #{fileDto.preview},
+		       #{fileDto.thumbnail},
+		       #{fileDto.tag},
+		       #{fileDto.doctype},
+		       #{fileDto.doccode}
 		)
 	</insert>
 	<!-- 删除 -->
 	<delete id="deleteFile" parameterType="com.goukuai.dto.FileDto">
-		delete from file_dto fd where fd.fileid = #{fileid}
+		delete from file_dto fd where fd.fileid = #{fileDto.fileid}
 	</delete>
 </mapper>
