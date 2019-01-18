@@ -45,15 +45,18 @@
                         <span>删除</span>
                     </button>
                     <div class="text-hidden" style="float: left; width: 100%;">
-                        <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)">
+                        <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
                             {{ projectOverview.attachmentValue }}
                         </a>
                     </div>
                 </td>
                 <td class="padding5">
 
-                    <button ng-if="projectOverview.delete != '1'" class="btn-close btn-scale" ng-click="closeOverview(projectOverview)">
+                    <button ng-if="projectOverview.delete != '1' && projectOverview.modify == '1'" class="btn-close btn-scale" ng-click="closeOverview(projectOverview)">
                         <span>关闭</span>
+                    </button>
+                    <button ng-if="projectOverview.delete != '1' && projectOverview.modify == '0'" class="btn-close btn-scale" ng-click="closeOverview(projectOverview)">
+                        <span>打开</span>
                     </button>
                     <button ng-if="projectOverview.delete == '1'" class="btn-close btn-scale" ng-click="deleteObj(projectOverview, projectSummary.projectOverviews)">
                         <span>删除</span>
