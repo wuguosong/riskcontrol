@@ -939,7 +939,7 @@ li {
     /*background-size: 100% 100%;*/
     /*-moz-background-size: 100% 100%;*/
     -webkit-background-size: contain;
-    /*background-size: contain;*/
+    background-size: contain;
     line-height: 30px;
 }
 
@@ -959,7 +959,7 @@ li {
     color: white;
     background: url("/html/assets/images/btn/btn-close.png") no-repeat;
     -webkit-background-size: contain;
-    /*background-size: contain;*/
+    background-size: contain;
     /*padding-bottom: 18.08%!important;*/
     line-height: 30px;
     border: none;
@@ -997,7 +997,7 @@ li {
     color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
     -webkit-background-size: contain;
-    /*background-size: contain;*/
+    background-size: contain;
     line-height: 30px;
     border: none;
 }
@@ -1007,7 +1007,7 @@ li {
     color: white;
     background: url("/html/assets/images/btn/btn-replace.png") no-repeat;
     -webkit-background-size: contain;
-    /*background-size: contain;*/
+    background-size: contain;
     line-height: 30px;
     border: none;
 }
@@ -1025,7 +1025,7 @@ li {
     color: white;
     background: url("/html/assets/images/btn/btn-delete.png") no-repeat;
     -webkit-background-size: contain;
-    /*background-size: contain;*/
+    background-size: contain;
     line-height: 30px;
     border: none;
 }
@@ -1044,6 +1044,7 @@ li {
     width: 45%;
     max-width: 75px;
     height: 0;
+    padding: 0;
     padding-bottom: 21%;
     color: white;
     border: none;
