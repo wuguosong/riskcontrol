@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.newProject.dao.IProjectReportReviewMapper">
+	
+	<select id="queryProjectReportListByPage" resultType="map" parameterType="map">
+	    SELECT *
+          FROM (SELECT f.id,
+                       f.businessid business_id,
+                       f.Projectname project_name, -- 项目名称
+                       'pfr' project_type, -- 项目类型
+                       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = f.CREATEBY) AS CREATEBY, -- 投资经理
+                       (SELECT su.NAME
+                          FROM SYS_USER su
+                         WHERE su.uuid = f.reviewpersonid) reviewpersonname, -- 评审负责人
+                       (SELECT O.NAME
+                          FROM SYS_ORG O
+                         WHERE O.ORGPKVALUE = f.PERTAINAREAID) AS PERTAINAREANAME, -- 所属大区
+                       f.wf_state,
+                       f.stage,
+                       fr.create_date review_report_issued_time, -- 评审报告出具时间
+                       dr.meeting_issue_id meeting_issue_id,
+                       dr.arrange_status,
+                       dr.vote_status,
+                       mi.meeting_issue_number meeting_issue_number,
+                       mi.meeting_time,
+                       mi.meeting_type,
+                       mi.status meeting_status
+                  FROM rcm_formalassessment_info f
+             LEFT JOIN rcm_formalassessment_report fr
+                    ON fr.businessid = f.businessid
+             LEFT JOIN rcm_decision_resolution dr
+                    ON dr.formal_id = f.businessid
+             LEFT JOIN rcm_meeting_issue mi
+                    ON mi.id = dr.meeting_issue_id
+           /*UNION
+                SELECT b.id,
+                       b.businessid business_id,
+                       b.bulletinname project_name, -- 项目名称
+                       'bulletin' project_type, -- 项目类型
+                       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = b.CREATEBY) AS CREATEBY, -- 投资经理
+                       (SELECT su.NAME
+                          FROM SYS_USER su
+                         WHERE su.uuid = b.reviewleaderid) reviewpersonname, -- 评审负责人
+                       (SELECT O.NAME
+                          FROM SYS_ORG O
+                         WHERE O.ORGPKVALUE = b.PERTAINAREAID) AS PERTAINAREANAME, -- 所属大区
+                       b.auditstatus wf_state,
+                       b.stage,
+                       NULL review_report_issued_time, -- 评审报告出具时间
+                       dr.meeting_issue_id meeting_issue_id,
+                       dr.arrange_status,
+                       dr.vote_status,
+                       mi.meeting_issue_number,
+                       mi.meeting_time,
+                       mi.meeting_type,
+                       mi.status meeting_status
+                  FROM rcm_bulletin_info b
+             LEFT JOIN rcm_decision_resolution dr
+                    ON dr.formal_id = b.businessid
+             LEFT JOIN rcm_meeting_issue mi
+                    ON mi.id = dr.meeting_issue_id*/
+             UNION
+                SELECT p.id,
+                       p.businessid business_id,
+                       p.projectname project_name, -- 项目名称
+                       'pre' project_type, -- 项目类型
+                       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = p.CREATEBY) AS CREATEBY, -- 投资经理
+                       (SELECT su.NAME
+                          FROM SYS_USER su
+                         WHERE su.uuid = p.reviewpersonid) reviewpersonname, -- 评审负责人
+                       (SELECT O.NAME
+                          FROM SYS_ORG O
+                         WHERE O.ORGPKVALUE = p.PERTAINAREAID) AS PERTAINAREANAME, -- 所属大区
+                       p.wf_state,
+                       p.stage,
+                       pr.create_date review_report_issued_time, -- 评审报告出具时间
+                       dr.meeting_issue_id,
+                       dr.arrange_status,
+                       dr.vote_status,
+                       mi.meeting_issue_number,
+                       mi.meeting_time,
+                       mi.meeting_type,
+                       mi.status meeting_status
+                  FROM rcm_pre_info p
+             LEFT JOIN rcm_pre_report pr
+                    ON pr.businessid = p.businessid
+             LEFT JOIN rcm_decision_resolution dr
+                    ON dr.formal_id = p.businessid
+             LEFT JOIN rcm_meeting_issue mi
+                    ON mi.id = dr.meeting_issue_id)
+              WHERE wf_state = 2
+                AND (arrange_status = 2 
+                 OR stage = 9)
+        <if test="projectName != null and projectName != ''">
+	   		and project_name like '%${projectName}%' 
+	   	</if>
+        <if test="pertainareaName != null and pertainareaName != ''">
+            and PERTAINAREANAME like '%${pertainareaName}%' 
+	   	</if>
+	   	<if test="issuedTime != null and issuedTime != ''">
+	   	    and to_char (review_report_issued_time, 'YYYY') = '${issuedTime}'
+	   	</if>
+	   	and (VOTE_STATUS = 2 
+	   		<![CDATA[
+	       	or meeting_time < to_date('${todayDate}', 'YYYY-MM-DD') 
+	        ]]>)
+	   	order by review_report_issued_time desc
+	</select>
+</mapper>
