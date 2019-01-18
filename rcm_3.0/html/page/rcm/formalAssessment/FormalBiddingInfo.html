@@ -881,7 +881,8 @@
         $('.xh-content').resize(function(){
             $('.left-content').width($(this).width()*.16);
             $('.btn-scale').each(function(){
-                $(this).css('padding-bottom','21%');
+                $(this).css('padding-bottom',$(this).innerWidth()*0.467);
+
                 if($(this).css('padding-bottom').slice(0,-2)>'35'){
                     $(this).css('padding-bottom','35px')
 
