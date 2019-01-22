@@ -74,11 +74,11 @@
 	       	(select u.NAME from sys_user u where u.uuid=f.reviewpersonid) reviewpersonName ,
 	       	(select u.NAME from sys_user u where u.uuid=f.legalreviewpersonid) legalreviewpersonName ,
 			(select create_date from rcm_noticedecision_info where projectformalid=f.businessid) notice_create_time 
-			from rcm_formalassessment_info f where f.stage='3.5' and f.stage='3.7' and f.businessid in 
+			from rcm_formalassessment_info f where f.stage='3.5' and f.businessid in 
 			(select projectformalid from rcm_noticedecision_info where 1=1 
-		<if test="createBy!=null and createBy!=''"> and reviewpersonid=#{createBy}</if>)
+		<if test="createBy!=null and createBy!=''"> and reviewpersonid=#{createBy}</if>
 		<if test="projectUnitName != null and projectUnitName != ''"> and f.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
-		<if test="projectName != null and projectName != ''"> and f.projectName like '%${projectName}%'</if> 
+		<if test="projectName != null and projectName != ''"> and f.projectName like '%${projectName}%'</if> )
 		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
 	</select>
 	<!-- 未上会 -->
@@ -115,7 +115,7 @@
 	<!-- 查询可以起草的决策通知书 -->
 	<select id="queryFormalForCreate" parameterType="map" resultType="hashmap">
 		select r.* from rcm_formalassessment_info r 
-		where ( <if test="userId!=null and userId!=''">r.reviewpersonid=#{userId} and</if> r.stage='3.5' or r.stage = '3.7' or r.stage='6') and not exists(select 1 from rcm_noticedecision_info 
+		where ( <if test="userId!=null and userId!=''">r.reviewpersonid=#{userId} and</if> 	) and not exists(select 1 from rcm_noticedecision_info 
 		 where projectformalid=r.businessid)
 	</select>
 	<update id="updateStageByBusinessId" parameterType="hashmap">
