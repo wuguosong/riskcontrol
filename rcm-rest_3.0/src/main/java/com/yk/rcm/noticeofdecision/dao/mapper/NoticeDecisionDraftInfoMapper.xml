@@ -74,7 +74,7 @@
 	       	(select u.NAME from sys_user u where u.uuid=f.reviewpersonid) reviewpersonName ,
 	       	(select u.NAME from sys_user u where u.uuid=f.legalreviewpersonid) legalreviewpersonName ,
 			(select create_date from rcm_noticedecision_info where projectformalid=f.businessid) notice_create_time 
-			from rcm_formalassessment_info f where f.stage='3.5' and f.businessid in 
+			from rcm_formalassessment_info f where f.stage='3.5' and f.stage='3.7' and f.businessid in 
 			(select projectformalid from rcm_noticedecision_info where 1=1 
 		<if test="createBy!=null and createBy!=''"> and reviewpersonid=#{createBy}</if>)
 		<if test="projectUnitName != null and projectUnitName != ''"> and f.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
