@@ -61,6 +61,10 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
 
                 // 获取分数数据
                 $scope.getMarks();
+                // 获取决策通知书数据
+                if ($scope.flag == 7){
+                    $scope.getNoticeDecstionByBusinessId($scope.formalID);
+                }
 
                 /*// 处理数据
                 $scope.previewJson();*/
@@ -68,6 +72,19 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 $(".swiper-button-prev").addClass('noArrow');
                 $(".swiper-button-next").addClass('noArrow');
             }).error(function (data, status, header, config) {
+                $.alert(status);
+            });
+        }
+
+        // 获取决策通知书
+        $scope.getNoticeDecstionByBusinessId = function(businessId){
+            $http({
+                method:'post',
+                url:srvUrl+"noticeDecisionInfo/getNoticeDecstionByBusinessId.do",
+                data: $.param({"businessId":businessId})
+            }).success(function(data){
+                $scope.noticeDecision = data.result_data;
+            }).error(function(data,status,header,config){
                 $.alert(status);
             });
         }
@@ -226,7 +243,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             $(a).remove();
         }
 
-        $scope.downLoadFormalBiddingInfoFile = function (filePath, filename) {
+        $scope.downLoadFormalBiddingInfoFile = function (filePath, filename,flag) {
             var isExists = validFileExists(filePath);
             if (!isExists) {
                 $.alert("要下载的文件已经不存在了！");
@@ -241,7 +258,11 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             if (undefined != filePath && null != filePath) {
                 var index = filePath.lastIndexOf(".");
                 var str = filePath.substring(index + 1, filePath.length);
-                var url = srvUrl + "file/downloadFile.do?filepaths=" + encodeURI(filePath) + "&filenames=" + encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
+                if (flag == 1){
+                    var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename ));
+                } else {
+                    var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
+                }
 
                 var a = document.createElement('a');
                 a.id = 'tagOpenWin';
@@ -308,7 +329,6 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
 
         // 展开展示信息
         $scope.expandMore = function (parentId, val) {
-            debugger
             angular.element("#"+parentId).addClass('hideOpen');
             $scope[val] = true;
             angular.element("")

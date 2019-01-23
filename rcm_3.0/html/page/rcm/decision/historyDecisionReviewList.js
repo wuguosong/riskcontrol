@@ -40,7 +40,8 @@ ctmApp.register.controller('HistoryDecisionReviewList', ['$http','$routeParams',
 
             var path = $filter('encodeURI')('#/historyDecisionReviewList/'+$scope.oldUrl);
             if ($scope.projectSummary == null || $scope.projectSummary == undefined){
-            	$location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+            	// $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+                $location.path("/FormalBiddingInfoReview/"+ id + "/" + path);
             } else {
                 $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/7");
 			}
