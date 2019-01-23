@@ -51,7 +51,8 @@
 									<!--<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{dr.BUSINESS_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
 									<a ng-if="'bulletin' == dr.PROJECT_TYPE" href="#/BulletinReviewDetail/{{dr.BUSINESS_ID}}_0/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>-->
 									<a ng-if="'pre' == dr.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{dr.BUSINESS_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
-									<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{dr.BUSINESS_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) | encodeURI}}/7">{{dr.PROJECT_NAME}}</a>
+									<!--<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{dr.BUSINESS_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) | encodeURI}}/7">{{dr.PROJECT_NAME}}</a>-->
+									<a ng-if="'pfr' == dr.PROJECT_TYPE" ng-click="getInfo(dr.BUSINESS_ID)">{{dr.PROJECT_NAME}}</a>
 									<a ng-if="'bulletin' == dr.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{dr.BUSINESS_ID}}_0/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}/7">{{dr.PROJECT_NAME}}</a>
 								</td>
 								<td>

@@ -32,7 +32,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 $scope.stage = data.result_data.stage;
                 $scope.projectSummary = data.result_data.summary;
 
-                if ($scope.projectSummary == null || $scope.projectSummary == undefined){
+                /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
                     if ($scope.flag == 3){
                         $location.path("/FormalBiddingInfo_view/"+ $scope.waitId +"@view/" + $scope.waitUrl);
                     }
@@ -41,7 +41,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                     }
 
                     return;
-                }
+                }*/
 
                 //处理附件列表
                 $scope.reduceAttachment(data.result_data.Formal.attachment);
