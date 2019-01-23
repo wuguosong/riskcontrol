@@ -127,6 +127,7 @@ ctmApp.register.controller('FormalBiddingInfo_view', ['$http','$scope','$locatio
 			}
 		});
 	}
+
 	 $scope.getByID = function(projectFormalId){
 	        $http({
 				method:'post',  
@@ -154,6 +155,9 @@ ctmApp.register.controller('FormalBiddingInfo_view', ['$http','$scope','$locatio
 		             }
 		            $scope.pfr.apply.projectType=ptNameArr.join(",");
 		         }
+
+                // 获取决策通知书数据
+                $scope.getNoticeDecstionByBusinessId($scope.formalID);
 		         
 		         if(!($scope.stage == '6' || $scope.stage == '7')){
 		        	 $scope.selectFlag = 'true';
@@ -163,6 +167,18 @@ ctmApp.register.controller('FormalBiddingInfo_view', ['$http','$scope','$locatio
 				$.alert(status);
 			});
 	    }
+     // 获取决策通知书
+     $scope.getNoticeDecstionByBusinessId = function(businessId){
+         $http({
+             method:'post',
+             url:srvUrl+"noticeDecisionInfo/getNoticeDecstionByBusinessId.do",
+             data: $.param({"businessId":businessId})
+         }).success(function(data){
+             $scope.noticeDecision = data.result_data;
+         }).error(function(data,status,header,config){
+             $.alert(status);
+         });
+     }
 	 $scope.saveOnly = function(){
 		//验证空附件
 		if(!$scope.validateVoidFile()){
@@ -457,7 +473,7 @@ ctmApp.register.controller('FormalBiddingInfo_view', ['$http','$scope','$locatio
 	            }
 	        }
 	    }
-	$scope.downLoadFormalBiddingInfoFile = function(filePath,filename){
+	$scope.downLoadFormalBiddingInfoFile = function(filePath,filename,flag){
 		var isExists = validFileExists(filePath);
     	if(!isExists){
     		$.alert("要下载的文件已经不存在了！");
@@ -472,7 +488,11 @@ ctmApp.register.controller('FormalBiddingInfo_view', ['$http','$scope','$locatio
         if(undefined!=filePath && null!=filePath){
             var index = filePath.lastIndexOf(".");
             var str = filePath.substring(index + 1, filePath.length);
-            var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
+            if (flag == 1){
+                var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename )) ;
+            } else {
+                var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
+            }
             
             var a = document.createElement('a');
     	    a.id = 'tagOpenWin';

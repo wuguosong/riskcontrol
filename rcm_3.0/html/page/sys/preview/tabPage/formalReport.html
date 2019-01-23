@@ -1,11 +1,11 @@
 
 <div class="mcontent content3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-    <h3 class='text-blue text-blue-out'>正式评审报告</h3>
     <div class="contentwrap">
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">正式评审报告</h3>
         <h5 class='file-download'><span class='file-icon'></span>
             <a ng-click="downLoadFormalBiddingInfoFile(formalPreview.filePath,formalPreview.projectName)">
                 {{formalPreview.projectName}}-正式评审报告.docx</a></h5>
-        <h3 class='text-blue text-blue-out'>业务单位上报评审文件</h3>
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
         <div id='content3_table' class="mytable">
             <table  class="table table-bordered">
                 <thead>
@@ -37,6 +37,10 @@
             </table>
 
         </div>
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;" ng-if="null != noticeDecision && noticeDecision.attachment != null">决策会通知书</h3>
+        <h5 class='file-download' ng-if="null != noticeDecision && noticeDecision.attachment != null"> <span class='file-icon'></span>
+            <a ng-click="downLoadFormalBiddingInfoFile(noticeDecision.attachment[0].filePath,noticeDecision.attachment[0].fileName,1)">{{noticeDecision.attachment[0].fileName }}</a>
+        </h5>
         <div id="content3_cover" class="table-cover" ng-hide="hideFlagR">
             <div class="more">
                 <div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>

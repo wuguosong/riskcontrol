@@ -220,8 +220,17 @@
 							</table>
 						</div>
 					</div>
+					<!--<div class="row" ng-if="null != noticeDecision && noticeDecision.attachment != null">
+						<div class="row-tit">5.决策会通知书</div>
+						<div class="col-sm-12">
+							<a ng-click="downLoadFormalBiddingInfoFile(noticeDecision.attachment[0].filePath,noticeDecision.attachment[0].fileName,1)">{{noticeDecision.attachment[0].fileName }}</a>
+						</div>
+					</div>
+					<br ng-if="null != noticeDecision && noticeDecision.attachment != null">-->
 					<div class="row" ng-show="mark != null && mark != ''">
 						<div class="row-tit">5.项目整体评分：</div>
+						<!--<div class="row-tit" ng-if="null == noticeDecision || noticeDecision.attachment == null">5.项目整体评分：</div>
+						<div class="row-tit" ng-if="null != noticeDecision && noticeDecision.attachment != null">6.项目整体评分：</div>-->
 					</div>
 					<div class="row" ng-show="mark != null && mark != ''">
 						<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
