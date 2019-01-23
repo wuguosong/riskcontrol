@@ -103,4 +103,26 @@ function ($http,$scope,$location,$routeParams,$filter) {
 	
 	$scope.initData();
 
+    /**
+     * 查询项目部分信息，查看是新项目还是老项目，决定跳转路径
+     * */
+    $scope.getInfo = function (id) {
+        $http({
+            method: 'post',
+            url: srvUrl + "formalReport/findFormalAndReport.do",
+            data: $.param({"projectFormalId": id})
+        }).success(function (data) {
+            $scope.projectSummary = data.result_data.summary;
+
+            var path = $filter('encodeURI')('#/FormalBiddingInfoList/1');
+            if ($scope.projectSummary == null || $scope.projectSummary == undefined){
+                $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+            } else {
+                $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+            }
+        }).error(function (data, status, header, config) {
+            $.alert(status);
+        });
+    }
+
 }]);
