@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSON;
+import fnd.UserDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yk.power.service.IUserService;
 import common.PageAssistant;
 import common.Result;
+import util.ThreadLocalUtil;
 
 @Controller
 @RequestMapping("/user")
@@ -74,6 +79,24 @@ public class UserController {
 		try {
 			Map<String,Object> map = this.userService.getAUser(json);
 			result.setResult_data(map);
+			/**
+			 * Add By LiPan On 2019-01-12 Start
+			 */
+			// Session
+			HttpSession session = request.getSession();
+			UserDto userDto = JSON.parseObject(JSON.toJSONString(map), UserDto.class);
+			Map<String,Object> mapInfo = userService.queryById(userDto.getUuid());
+			userDto = JSON.parseObject(JSON.toJSONString(mapInfo), UserDto.class);
+			session.setAttribute("userId", userDto.getUuid());
+			session.setAttribute("userInfo", userDto);
+			session.setAttribute("isAdmin", map.get("isAdmin"));
+			// Thread
+			ThreadLocalUtil.setIsAdmin((Boolean)map.get("isAdmin"));
+			ThreadLocalUtil.setUser(mapInfo);
+			ThreadLocalUtil.setUserId(userDto.getUuid());
+			/**
+			 * Add By LiPan On 2019-01-12 End
+			 */
 		} catch (Exception e) {
 			result.setResult_name("未找到此用户");
 			result.setSuccess(false);
