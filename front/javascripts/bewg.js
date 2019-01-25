@@ -1,9 +1,10 @@
-﻿define(['angular','router'],function(){
+﻿const BUSINESS_PATH = '/business/';
+define(['angular','router'],function(){
     var app = angular.module("myModule", ['ui.router'])
     app.config(function($controllerProvider,$compileProvider,$filterProvider,$provide){
         app.register = {
             //得到$controllerProvider的引用
-            controller : $controllerProvider.register,
+            controller: $controllerProvider.register,
             //同样的，这里也可以保存directive／filter／service的引用
             directive: $compileProvider.directive,
             filter: $filterProvider.register,
@@ -17,10 +18,7 @@
                     url:"/",
                     views: {
                         'index': {
-                            template: '<p>{{str}}</p><br/>'+
-                            '过滤器应用：<span>{{sex | sexFilter}}</span><br/><br/>'+
-                            'Service应用：<span ng-repeat="book in books">{{book.id + 1}}：《{{book.name}}》</span><br/><br/>'+
-                            '指令应用：<my-directive></my-directive>',
+                            template: BUSINESS_PATH + 'login/login/html',
                             controller: 'homeCtrl'
                         }
                     },
@@ -58,8 +56,8 @@
                     url:"/login",
                     views: {
                         'index': {
-                            template: '登出了啊',
-                            controller: 'localCtrl'
+                            template: BUSINESS_PATH + 'login/login/html',
+                            controller: 'loginCtrl'
                         }
                     },
                     resolve: {
@@ -67,7 +65,7 @@
                             var deferred = $q.defer();
                             //异步加载controller／directive/filter/service
                             require([
-                                'controller/localCtrl'
+                                BUSINESS_PATH + 'login/loginCtrl'
                             ], function() { deferred.resolve(); });
                             return deferred.promise;
                         }]
