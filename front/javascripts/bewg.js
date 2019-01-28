@@ -1,72 +1,129 @@
-﻿const BUSINESS_PATH = '/business/';
-define(['angular','router'],function(){
-    var app = angular.module("myModule", ['ui.router'])
-    app.config(function($controllerProvider,$compileProvider,$filterProvider,$provide){
-        app.register = {
-            //得到$controllerProvider的引用
-            controller: $controllerProvider.register,
-            //同样的，这里也可以保存directive／filter／service的引用
-            directive: $compileProvider.directive,
-            filter: $filterProvider.register,
-            service: $provide.service
-        };
-    })
-        .config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider){
-            $urlRouterProvider.otherwise('/');
+﻿define(['angular', 'ui-router', 'ng-cookies'], function () {
+    var app = angular.module("myModule", ['ui.router', 'ngCookies'])
+    app
+        .config(["$httpProvider", function ($httpProvider) {
+            $httpProvider.interceptors.push('httpInterceptor');
+        }])
+        .factory("httpInterceptor", ["$q", "$rootScope", '$location', function ($q, $rootScope, $location) {
+            return {
+                request: function (config) {
+                    console.log(config);
+
+                    config.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+                    // do something on request success
+                    return config || $q.when(config);
+                },
+                requestError: function (rejection) {
+                    // console.log(rejection);
+                    // do something on request error
+                    return $q.reject(rejection)
+                },
+                response: function (response) {
+                    // console.log(response);
+                    // $location.path('/login');
+                    // do something on response success
+                    return response || $q.when(response);
+                },
+                responseError: function (rejection) {
+                    // console.log(rejection);
+                    // do something on response error
+                    return $q.reject(rejection);
+                }
+            };
+        }])
+        .config(function ($controllerProvider, $compileProvider, $filterProvider, $provide) {
+            app.register = {
+                //得到$controllerProvider的引用
+                controller: $controllerProvider.register,
+                //同样的，这里也可以保存directive／filter／service的引用
+                directive: $compileProvider.directive,
+                filter: $filterProvider.register,
+                service: $provide.service
+            };
+        })
+        .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+            $urlRouterProvider.otherwise('/index');
             $stateProvider
-                .state("home",{
-                    url:"/",
+                .state("index", {
+                    url: "/index",
                     views: {
                         'index': {
-                            template: BUSINESS_PATH + 'login/login/html',
-                            controller: 'homeCtrl'
+                            templateUrl: BUSINESS_PATH + 'index/index.html',
+                            controller: 'indexCtrl'
                         }
                     },
                     resolve: {
-                        loadCtrl: ["$q", function($q) {
+                        loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             //异步加载controller／directive/filter/service
                             require([
-                                'controller/homeCtrl'
-                            ], function() { deferred.resolve(); });
+                                BUSINESS_PATH + 'index/indexCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
                             return deferred.promise;
                         }]
                     }
                 })
-                .state("local",{
-                    url:"/local",
+                .state("login", {
+                    url: "/login",
                     views: {
                         'index': {
-                            template: '<p>{{str}}</p><br/>',
-                            controller: 'localCtrl'
-                        }
-                    },
-                    resolve: {
-                        loadCtrl: ["$q", function($q) {
-                            var deferred = $q.defer();
-                            //异步加载controller／directive/filter/service
-                            require([
-                                'controller/localCtrl'
-                            ], function() { deferred.resolve(); });
-                            return deferred.promise;
-                        }]
-                    }
-                })
-                .state("login",{
-                    url:"/login",
-                    views: {
-                        'index': {
-                            template: BUSINESS_PATH + 'login/login/html',
+                            templateUrl: BUSINESS_PATH + 'login/login.html',
                             controller: 'loginCtrl'
                         }
                     },
                     resolve: {
-                        loadCtrl: ["$q", function($q) {
+                        loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             //异步加载controller／directive/filter/service
                             require([
-                                BUSINESS_PATH + 'login/loginCtrl'
-                            ], function() { deferred.resolve(); });
+                                BUSINESS_PATH + 'login/loginCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                .state("index.home", {
+                    url: "/",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'home/home.html',
+                            controller: 'homeCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'home/homeCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                .state("index.report", {
+                    url: "/report",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'report/report.html',
+                            controller: 'reportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'report/reportCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
                             return deferred.promise;
                         }]
                     }
