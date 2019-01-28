@@ -1,0 +1,76 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">正式评审项目新增</span>
+	</div>
+	<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading search-box">
+				<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="" href="/#searchbox">查询</a>
+			</div>
+				<div id="searchbox" class="panel-collapse in">
+					<div class="panel-body">
+						<div class="form-group row">
+							<label class="col-sm-2 control-label">项目名称：</label>
+							<div class="col-sm-3"><input type="text" id="FUNC_NAME" name="FUNC_NAME" ng-model="conf.FUNC_NAME" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							<label class="col-sm-2 control-label">项目所属大区：</label>
+							<div class="col-sm-3"><input type="text" id="URL" name="URL" ng-model="conf.URL" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							<div class="col-sm-2"><button  type="button" class="btn btn-info" ng-click="ListAll()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">查询结果<i class="i-triangle"></i></span></div>
+				</div>
+				<div class="panel-body">
+					<div class="form-group row">
+						<div class="txl">
+							<!--<button  type="button" ng-click="toback()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>返回主页面</button>-->
+							<button  type="button" class="btn btn-info" id="createbtn" ng-click="Create(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button  type="button" ng-click="updateSysFunction()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
+							<button  type="button" ng-click="deleteSysFunction()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>删除</button>
+							<!--<button  type="button" ng-click="viewSysFunction()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>查看</button>-->
+						</div>
+					</div>
+					<div class="form-group row nobottom-mar">
+						<div class="table-responsive table-list">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+								<thead>
+								<tr>
+									<th>选择</th>
+									<th>序号</th>
+									<th>名称</th>
+									<th>链接</th>
+									<th>描述</th>
+									<th>状态</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="u in sysfun" on-finish-render-filters>
+									<td>
+										<label class="checkbox-inline">
+											<input class="px" type="checkbox" name="checkbox" class="ng-pristine ng-untouched ng-valid" value="{{u.FUNC_ID}}"/>
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td>{{$index+1}}</td>
+									<td>{{u.FUNC_NAME}}</td>
+									<td>{{u.URL}}</td>
+									<td>{{u.FUNC_DESC}}</td>
+									<td><div ng-if="'1'== u.STATE"><span class="status-y">启用</span></div>
+										<div ng-if="'2'== u.STATE"><span class="status-n">禁用</span></div>
+									</td>
+									<!--   <td><span class="allot"  ng-click="roleClick('{{u.UUID}}')">分配角色</span></td>-->
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="table-footer clearfix">
+					<tm-pagination conf="paginationConf"></tm-pagination>
+		</div>
+	</form>
+</div>

@@ -1,6 +1,10 @@
 ﻿const BUSINESS_PATH = '/business/';
 define(['angular','router'],function(){
     var app = angular.module("myModule", ['ui.router'])
+
+
+
+    
     app.config(function($controllerProvider,$compileProvider,$filterProvider,$provide){
         app.register = {
             //得到$controllerProvider的引用
