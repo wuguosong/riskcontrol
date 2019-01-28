@@ -8,6 +8,8 @@
             return {
                 request: function (config) {
                     // console.log(config);
+
+                    
                     // do something on request success
                     return config || $q.when(config);
                 },
