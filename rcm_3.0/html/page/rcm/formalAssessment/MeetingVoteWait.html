@@ -43,4 +43,10 @@
             <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
         </div>
     </div>
+    <div ng-if="'1' != isAdmin">
+        <div class="vote-return">
+            <a class="btn btn-info" ng-href="/html/index.html#/" ng-click=""><i class="fa fa-reply"></i>返回</a>',
+            <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+        </div>
+    </div>
 </div>

@@ -571,45 +571,49 @@ public class DecisionServiceImpl implements IDecisionService{
 
 	@Override
 	public void isShiYongFouJueQuan(Map<String, Object> resultData) {
+		
 		int huiYiZhuXi = Integer.parseInt(resultData.get("huiYiZhuXi").toString());
 		int zongRenShu = Integer.parseInt(resultData.get("zongRenShu").toString());
 		int tongYiCount = Integer.parseInt(resultData.get("tongYiCount").toString());
 		int buTongYiCount = Integer.parseInt(resultData.get("buTongYiCount").toString());
 		int tiaoJianTongYiCount = Integer.parseInt(resultData.get("tiaoJianTongYiCount").toString());
-		
-		//如果表决结果为同意,则无会议主席干扰
-		int biaoJueJieGuo = Integer.parseInt(resultData.get("decisionResult").toString());
-		if(1 == biaoJueJieGuo){
-			return;
-		}
-		
-		//如果加入离场人员的计算，则不计算干扰 
-		if(resultData.containsKey("isLiChangGanRaoQuan")){
-			//如果会议主席选择了，不同意和决期再议，则显示会议选择了什么！
-			if(huiYiZhuXi == 2 || huiYiZhuXi == 4){
-				resultData.put("isShiYongFouJueQuan", 1);
-			}
-			return;
-		}
-		
-		int decisionResult = 0;
-		if(isDaYuFanMu(tongYiCount+tiaoJianTongYiCount,zongRenShu,3,2)){
-			if(isDaYuDengYuFanMu(tiaoJianTongYiCount,tongYiCount+tiaoJianTongYiCount,2,1)){
-				decisionResult = 3;
-			}else{
-				decisionResult = 1;
-			}
-		}else if(isDaYuDengYuFanMu(buTongYiCount,zongRenShu,3,1)){
-			decisionResult = 2;
-		}else{
-			decisionResult = 4;
-		}
-		
-		//普通投票		跟	会议主席投票结果不同，则视为已干扰
+		int zhuxistatus = Integer.parseInt(resultData.get("zhuxiStatus").toString());
 		int isShiYongFouJueQuan = 0;
-		if(decisionResult != biaoJueJieGuo){
-			//会议主席使用了一票否决权
-			isShiYongFouJueQuan = 1;
+		if (zhuxistatus == 1) {
+			//如果表决结果为同意,则无会议主席干扰
+			int biaoJueJieGuo = Integer.parseInt(resultData.get("decisionResult").toString());
+			if(1 == biaoJueJieGuo){
+				return;
+			}
+			
+			//如果加入离场人员的计算，则不计算干扰 
+			if(resultData.containsKey("isLiChangGanRaoQuan")){
+				//如果会议主席选择了，不同意和决期再议，则显示会议选择了什么！
+				if(huiYiZhuXi == 2 || huiYiZhuXi == 4){
+					resultData.put("isShiYongFouJueQuan", 1);
+				}
+				return;
+			}
+			
+			int decisionResult = 0;
+			if(isDaYuFanMu(tongYiCount+tiaoJianTongYiCount,zongRenShu,3,2)){
+				if(isDaYuDengYuFanMu(tiaoJianTongYiCount,tongYiCount+tiaoJianTongYiCount,2,1)){
+					decisionResult = 3;
+				}else{
+					decisionResult = 1;
+				}
+			}else if(isDaYuDengYuFanMu(buTongYiCount,zongRenShu,3,1)){
+				decisionResult = 2;
+			}else{
+				decisionResult = 4;
+			}
+			
+			//普通投票		跟	会议主席投票结果不同，则视为已干扰
+			isShiYongFouJueQuan = 0;
+			if(decisionResult != biaoJueJieGuo){
+				//会议主席使用了一票否决权
+				isShiYongFouJueQuan = 1;
+			}
 		}
 		resultData.put("isShiYongFouJueQuan", isShiYongFouJueQuan);
 	}

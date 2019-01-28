@@ -2,79 +2,92 @@
 <link rel="stylesheet" href="../styles/fullscreen.css">
 <div class="container-fluid tp-container result-container">
 
-	<a href="#" class="title">
-		<h1>{{ decision.huiYiQiCi }}</h1>
-		<h3>{{decision.project_name}}</h3>
-	</a>
+    <a class="title">
+        <h1>{{ decision.huiYiQiCi }}</h1>
+        <h3>{{decision.project_name}}</h3>
+    </a>
 
-	<div class="result-content">
-		<h1>
-			投票结果:
-			<span ng-if="1 == decision.decisionResult">同意</span>
-			<span ng-if="2 == decision.decisionResult">不同意</span>
-			<span ng-if="3 == decision.decisionResult">有条件同意</span>
-			<span ng-if="4 == decision.decisionResult">择期决议</span>
-		</h1>
-		<div class="row result-wrap">
-			<div class="col-md-9 col-sm-9 col-xs-9">
-				<div class="result-line">
-					<span>同意</span>
-					<span class="mprogress">
+    <div class="result-content">
+        <h1>
+            投票结果:
+            <span ng-if="1 == decision.decisionResult">同意</span>
+            <span ng-if="2 == decision.decisionResult">不同意</span>
+            <span ng-if="3 == decision.decisionResult">有条件同意</span>
+            <span ng-if="4 == decision.decisionResult">择期决议</span>
+        </h1>
+        <div class="row result-wrap">
+            <div class="col-md-9 col-sm-9 col-xs-9">
+                <div class="result-line">
+                    <span>同意</span>
+                    <span class="mprogress">
 								<span ng-style="decision.tongYiCountStyle"></span>
 							</span>
-					<span class="num">
+                    <span class="num">
 						{{decision.tongYiCount}}
 					</span>
-				</div>
-				<div class="result-line">
-					<span>不同意</span>
-					<span class="mprogress">
+                </div>
+                <div class="result-line">
+                    <span>不同意</span>
+                    <span class="mprogress">
 								<span ng-style="decision.buTongYiCountStyle"></span>
 							</span>
-					<span class="num">
+                    <span class="num">
 						{{decision.buTongYiCount}}
 					</span>
-				</div>
-				<div class="result-line">
-					<span>有条件同意</span>
-					<span class="mprogress">
+                </div>
+                <div class="result-line">
+                    <span>有条件同意</span>
+                    <span class="mprogress">
 								<span ng-style="decision.tiaoJianTongYiCountStyle"></span>
 							</span>
-					<span class="num">
+                    <span class="num">
 						{{decision.tiaoJianTongYiCount}}
 					</span>
-				</div>
-				<div class="result-line">
-					<span>择期决议</span>
-					<span class="mprogress">
+                </div>
+                <div class="result-line">
+                    <span>择期决议</span>
+                    <span class="mprogress">
 								<span ng-style="decision.zeQiShangHuiCountStyle"></span>
 							</span>
-					<span class="num">
+                    <span class="num">
 						{{decision.zeQiShangHuiCount}}
 					</span>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-3 result-right">
-				<div class="munit">
-					<a href="#"></a>
-				</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3 result-right">
+                <div class="munit">
+                    <a href="#"></a>
+                </div>
 
-				<div class="count">
-					投票人数
-					{{decision.zongRenShu}}人
-				</div>
-			</div>
-		</div>
-		<h2 ng-if="null != decision.isShiYongFouJueQuan && 1 == decision.isShiYongFouJueQuan" style="text-align: center">
-			会议主席选择了
-			<span ng-if="1 == decision.huiYiZhuXi">同意</span>
-			<span ng-if="2 == decision.huiYiZhuXi">不同意</span>
-			<span ng-if="3 == decision.huiYiZhuXi">有条件同意</span>
-			<span ng-if="4 == decision.huiYiZhuXi">择期决议</span>
-		</h2>
-		<a class="btn-return" href="#/">返回</a>
-		<div class="result-bg"></div>
-	</div>
+                <div class="count">
+                    投票人数
+                    {{decision.zongRenShu}}人
+                </div>
+            </div>
+        </div>
+        <h2 ng-if="null != decision.isShiYongFouJueQuan && 1 == decision.isShiYongFouJueQuan"
+            style="text-align: center">
+            会议主席选择了
+            <span ng-if="1 == decision.huiYiZhuXi">同意</span>
+            <span ng-if="2 == decision.huiYiZhuXi">不同意</span>
+            <span ng-if="3 == decision.huiYiZhuXi">有条件同意</span>
+            <span ng-if="4 == decision.huiYiZhuXi">择期决议</span>
+        </h2>
+
+        <div ng-if="null != isAdmin && '1' == isAdmin">
+            <div class="vote-return">
+                <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+            </div>
+        </div>
+
+        <div ng-if="'1' != isAdmin">
+            <div class="vote-return">
+                <a class="btn btn-info" ng-href="/html/index.html#/" ng-click=""><i class="fa fa-reply"></i>返回</a>',
+                <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+            </div>
+        </div>
+        <div class="result-bg"></div>
+    </div>
 
 </div>
 <script type="text/javascript">
