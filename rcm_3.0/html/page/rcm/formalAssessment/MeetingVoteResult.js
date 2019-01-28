@@ -4,7 +4,7 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
 	$scope.initialize = function () {
     	$http({
 			method:'post',  
-		    url:srvUrl+"decision/getDecisionResult.do",
+		    url:srvUrl+"decision/getDecisionResultNew.do",
 		    data:$.param({"id":$scope.decisionId})
 		}).success(function(data){
 			if(data.success){
