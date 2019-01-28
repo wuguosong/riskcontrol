@@ -42,6 +42,7 @@ define(['app', 'ui-router', 'ng-cookies'], function (app) {
                 console.log(params);
                 console.log($.param({"json": JSON.stringify($scope.credentials)}));
                 $http({
+                    ContentType: "application/x-www-form-urlencoded",
                     method: 'POST',
                     url: srvUrl + "user/getAUser.do",
                     data: $.param({"json": JSON.stringify($scope.credentials)})

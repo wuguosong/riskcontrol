@@ -4,12 +4,12 @@
         .config(["$httpProvider", function ($httpProvider) {
             $httpProvider.interceptors.push('httpInterceptor');
         }])
-        .factory("httpInterceptor", ["$q", "$rootScope", '$location' ,function ($q, $rootScope, $location) {
+        .factory("httpInterceptor", ["$q", "$rootScope", '$location', function ($q, $rootScope, $location) {
             return {
                 request: function (config) {
-                    // console.log(config);
+                    console.log(config);
 
-                    
+                    config.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
                     // do something on request success
                     return config || $q.when(config);
                 },
