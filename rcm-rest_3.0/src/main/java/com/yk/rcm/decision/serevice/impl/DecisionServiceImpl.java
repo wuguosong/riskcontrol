@@ -1130,11 +1130,11 @@ public class DecisionServiceImpl implements IDecisionService{
 					int differSize = meetingLeaderCount - zongRenShu;
 					//第1种情况，离场人员选择同意
 					int tongYiCount2 = tongYiCount + differSize;
-					int decisionResult1 = decisionCalculation(tongYiCount2, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount, huiYiZhuXi);
+					int decisionResult1 = decisionCalculationNew(tongYiCount2, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount, huiYiZhuXi);
 					
 					//第2种情况，离场人员选择不同意
 					int buTongYiCount2 = buTongYiCount + differSize;
-					int decisionResult2 = decisionCalculation(tongYiCount, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount2, huiYiZhuXi);
+					int decisionResult2 = decisionCalculationNew(tongYiCount, tiaoJianTongYiCount, meetingLeaders.size(), buTongYiCount2, huiYiZhuXi);
 					
 					//如果两个结果一致,则为一致的结果
 					int decisionResultNew;
