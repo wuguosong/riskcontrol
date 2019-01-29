@@ -1558,8 +1558,17 @@ td btn-scale:first-child{
 }
 
 .result-content .return-st{
-    position:relative;
+    position:fixed;
+    margin-left: 45%;
+    bottom: 6rem;
     z-index: 100;
+}
+
+.result-content .result-zx{
+    position:fixed;
+    margin-top: 20%;
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 .result-content .result-line > span:first-child {

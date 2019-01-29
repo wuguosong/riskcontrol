@@ -65,14 +65,16 @@
                 </div>
             </div>
         </div>
-        <h2 ng-if="null != decision.isShiYongFouJueQuan && 1 == decision.isShiYongFouJueQuan"
-            style="text-align: center">
-            会议主席选择了
-            <span ng-if="1 == decision.huiYiZhuXi">同意</span>
-            <span ng-if="2 == decision.huiYiZhuXi">不同意</span>
-            <span ng-if="3 == decision.huiYiZhuXi">有条件同意</span>
-            <span ng-if="4 == decision.huiYiZhuXi">择期决议</span>
-        </h2>
+        <div class="result-zx">
+            <h2 ng-if="null != decision.isShiYongFouJueQuan && 1 == decision.isShiYongFouJueQuan"
+                style="text-align: center">
+                会议主席选择了
+                <span ng-if="1 == decision.huiYiZhuXi">同意</span>
+                <span ng-if="2 == decision.huiYiZhuXi">不同意</span>
+                <span ng-if="3 == decision.huiYiZhuXi">有条件同意</span>
+                <span ng-if="4 == decision.huiYiZhuXi">择期决议</span>
+            </h2>
+        </div>
 
         <div class="return-st">
             <div ng-if="null != isAdmin && '1' == isAdmin">
