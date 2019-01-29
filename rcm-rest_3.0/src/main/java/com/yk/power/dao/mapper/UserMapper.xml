@@ -10,12 +10,16 @@
 	</select>
 	
 	<select id="queryByCondition" parameterType="map" resultType="hashmap">
-		select decode(orgcode,'000001',(select name from sys_org o where o.ORGPKVALUE=u.DEPTPKVALUE),
-		(select name from sys_org o where o.ORGPKVALUE=u.ORGPKVALUE)) orgname, u.* 
-		from sys_user u where 1=1 and u.state = '2' 
-		<if test="username!=null and username!=''"> and u.name like '%${username}%' </if>
-		<if test="account!=null and account!=''"> and u.account like '%${account}%' </if>
-		order by ${orderBy}
+      select decode(u.orgcode, '000001', o2.name, o1.name) as orgname,
+                       u.*
+                  from sys_user u, sys_org o1, sys_org o2
+                 where 1 = 1
+                   and u.state = '2'
+                   and u.ORGPKVALUE = o1.ORGPKVALUE(+)
+                   and u.DEPTPKVALUE = o2.ORGPKVALUE(+)
+                   <if test="username!=null and username!=''"> and u.name like '%${username}%' </if>
+		           <if test="account!=null and account!=''"> and u.account like '%${account}%' </if>
+                 order by ${orderBy}
 	</select>
 	
 	
