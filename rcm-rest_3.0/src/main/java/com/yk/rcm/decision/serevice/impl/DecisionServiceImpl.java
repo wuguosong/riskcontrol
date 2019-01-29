@@ -1089,7 +1089,7 @@ public class DecisionServiceImpl implements IDecisionService{
 					//表决人数小于7个，考虑离场
 					//表决人数少于会议安排人数(5+1)，考虑离场
 					//如果有条件同意票数  等于  表决人数，则不考虑离场人员
-					if(zongRenShu < 7 && zongRenShu < meetingLeaderCount && tongYiCount+tiaoJianTongYiCount != zongRenShu){
+					if(zongRenShu < 7 && zongRenShu < meetingLeaderCount){
 						resultData.put("isLiChangGanRaoQuan", 0);
 
 						int differSize = meetingLeaderCount - zongRenShu;
@@ -1124,7 +1124,7 @@ public class DecisionServiceImpl implements IDecisionService{
 				//表决人数小于7个，考虑离场
 				//表决人数少于会议安排人数(5+1)，考虑离场
 				//如果有条件同意票数  等于  表决人数，则不考虑离场人员
-				if(zongRenShu < 7 && zongRenShu < meetingLeaderCount && tongYiCount+tiaoJianTongYiCount != zongRenShu){
+				if(zongRenShu < 7 && zongRenShu < meetingLeaderCount){
 					resultData.put("isLiChangGanRaoQuan", 0);
 
 					int differSize = meetingLeaderCount - zongRenShu;
