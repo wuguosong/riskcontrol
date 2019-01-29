@@ -1556,6 +1556,12 @@ td btn-scale:first-child{
     background-size: cover;
     z-index: 1;
 }
+
+.result-content .return-st{
+    position:relative;
+    z-index: 100;
+}
+
 .result-content .result-line > span:first-child {
     padding-left: 20px;
     width: 30%;

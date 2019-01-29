@@ -74,16 +74,18 @@
             <span ng-if="4 == decision.huiYiZhuXi">择期决议</span>
         </h2>
 
-        <div ng-if="null != isAdmin && '1' == isAdmin">
-            <div class="vote-return">
-                <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+        <div class="return-st">
+            <div ng-if="null != isAdmin && '1' == isAdmin">
+                <div class="vote-return">
+                    <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                </div>
             </div>
-        </div>
 
-        <div ng-if="'1' != isAdmin">
-            <div class="vote-return">
-                <a class="btn btn-info" ng-href="/html/index.html#/" ng-click=""><i class="fa fa-reply"></i>返回</a>',
-                <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+            <div ng-if="'1' != isAdmin">
+                <div class="vote-return">
+                    <a class="btn btn-info" ng-href="/html/index.html#/" ng-click=""><i class="fa fa-reply"></i>返回</a>
+                    <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+                </div>
             </div>
         </div>
         <div class="result-bg"></div>
