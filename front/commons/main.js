@@ -9,13 +9,14 @@ require.config({
         'ng-cookies': LIBS_PATH + 'angular-1.5.8/angular-cookies',
         'ui-router': LIBS_PATH + 'ui-router/angular-ui-router',
         'app': COMMONS_PATH + 'bewg'
+
         // 'booksService': COMMONS_PATH + 'service/booksServicessssss'
     },
     shim: {
         'angular': {
             exports: 'angular',
             deps: [
-            	'jquery'
+            	'jquery',
 			]
         },
         'ng-cookies': {

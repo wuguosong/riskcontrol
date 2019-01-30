@@ -3,6 +3,7 @@
     app
         .config(["$httpProvider", function ($httpProvider) {
             $httpProvider.interceptors.push('httpInterceptor');
+            $httpProvider.defaults.headers.post = {"Content-Type":"application/x-www-form-urlencoded"};
         }])
         .factory("httpInterceptor", ["$q", "$rootScope", '$location', function ($q, $rootScope, $location) {
             return {
