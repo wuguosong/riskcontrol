@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.message.dao.IMessageMapper">
+    <!-- 字段与属性映射 -->
+    <resultMap id="messageMap" type="com.yk.message.entity.Message">
+        <id column="message_id" property="messageId" javaType="java.lang.Long"/>
+        <result column="message_type" property="messageType" javaType="java.lang.String"/>
+        <result column="proc_inst_id" property="procInstId" javaType="java.lang.Long"/>
+        <result column="parent_id" property="parentId" javaType="java.lang.Long"/>
+        <result column="original_id" property="originalId" javaType="java.lang.Long"/>
+        <result column="created_by" property="createdBy" javaType="java.lang.String"/>
+        <result column="created_name" property="createdName" javaType="java.lang.String"/>
+        <result column="replied_by" property="repliedBy" javaType="java.lang.String"/>
+        <result column="replied_name" property="repliedName" javaType="java.lang.String"/>
+        <result column="message_content" property="messageContent" javaType="java.lang.String"/>
+        <result column="message_date" property="messageDate" javaType="java.sql.Timestamp"/>
+        <result column="push_flag" property="pushFlag" javaType="java.lang.String"/>
+        <result column="read_flag" property="readFlag" javaType="java.lang.String"/>
+        <result column="bs_uni_related" property="bsUniRelated" javaType="java.lang.String"/>
+        <result column="attri_text01" property="attriText01" javaType="java.lang.String"/>
+        <result column="attri_text02" property="attriText02" javaType="java.lang.String"/>
+        <result column="attri_text03" property="attriText03" javaType="java.lang.String"/>
+        <result column="attri_text04" property="attriText04" javaType="java.lang.String"/>
+    </resultMap>
+    <!-- 基本数据列 -->
+    <sql id="baseColumn">
+	   message_id,
+       message_type,
+       proc_inst_id,
+       parent_id,
+       original_id,
+       created_by,
+       created_name,
+       replied_by,
+       replied_name,
+       message_content,
+       message_date,
+       push_flag,
+       read_flag,
+       bs_uni_related,
+       attri_text01,
+       attri_text02,
+       attri_text03,
+       attri_text04
+	</sql>
+    <!-- 查询某个根下的子节点 -->
+    <select id="selectMessageList" resultMap="messageMap" parameterType="long">
+        select
+        <include refid="baseColumn"/>
+        from sys_message
+        where 1 = 1
+        <if test="procInstId != null">
+            and proc_inst_id = #{procInstId}
+        </if>
+        <if test="parentId != null">
+            and parent_id = #{parentId}
+        </if>
+        order by message_date asc
+    </select>
+    <!-- 查询一个留言下的所有叶子留言 -->
+    <select id="selectMessageChildren" resultMap="messageMap" parameterType="long">
+        select
+        <include refid="baseColumn"/>
+        from sys_message
+        where 1 = 1
+        and parent_id = #{parentId}
+        or original_id = #{parentId}
+        order by message_date asc
+    </select>
+    <!--通过id获取-->
+    <select id="selectMessageById" resultMap="messageMap" parameterType="long">
+        select m.* from sys_message m
+        where m.message_id = #{messageId}
+    </select>
+    <!--保存-->
+    <insert id="insertMessage" parameterType="com.yk.message.entity.Message">
+		insert into sys_message
+		values(
+		sys_message_seq.nextval,
+		#{message.messageType},
+		#{message.procInstId},
+		#{message.parentId},
+		#{message.originalId},
+		#{message.createdBy},
+		#{message.createdName},
+		#{message.repliedBy},
+		#{message.repliedName},
+		#{message.messageContent},
+		sysdate,
+		#{message.pushFlag},
+		#{message.readFlag},
+		#{message.bsUniRelated},
+		#{message.attriText01},
+		#{message.attriText02},
+		#{message.attriText03},
+		#{message.attriText04}
+		)
+	</insert>
+    <!--更新-->
+    <update id="updateMessage" parameterType="com.yk.message.entity.Message">
+		update sys_message set
+		message_type = #{message.messageType},
+		proc_inst_id = #{message.procInstId},
+		parent_id = #{message.parentId},
+		original_id = #{message.originalId},
+		created_by = #{message.createdBy},
+		created_name = #{message.createdName},
+		replied_by = #{message.repliedBy},
+		replied_name = #{message.repliedName},
+		message_content = #{message.messageContent},
+		message_date = #{message.messageDate},
+		push_flag = #{message.pushFlag},
+		read_flag = #{message.readFlag},
+		bs_uni_related = #{message.bsUniRelated},
+		attri_text01 = #{message.attriText01},
+		attri_text02 = #{message.attriText02},
+		attri_text03 = #{message.attriText03},
+		attri_text04 = #{message.attriText04}
+		where message_id = #{message.messageId}
+	</update>
+    <!--根据删除-->
+    <delete id="deleteMessage" parameterType="long">
+		delete from sys_message m
+		where m.message_id = #{messageId}
+	</delete>
+    <!--根据ID递归删除-->
+    <delete id="deleteMessageRootAndChildren" parameterType="long">
+        delete from sys_message m
+        where m.message_id = #{messageId}
+        or m.original_id = #{messageId}
+    </delete>
+</mapper>
