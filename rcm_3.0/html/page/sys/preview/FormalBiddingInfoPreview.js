@@ -249,12 +249,9 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 $.alert("要下载的文件已经不存在了！");
                 return false;
             }
-            /*if (filename != null && filename.length > 12) {
-                filename = filename.substring(0, 12) + "...";
-            } else {
-                filename = filename.substring(0, filename.lastIndexOf("."));
-            }*/
-
+            if(filename!=null && filename.length>12){
+                filename = filename.substring(0, 12)+"...";
+            }
             if (undefined != filePath && null != filePath) {
                 var index = filePath.lastIndexOf(".");
                 var str = filePath.substring(index + 1, filePath.length);
