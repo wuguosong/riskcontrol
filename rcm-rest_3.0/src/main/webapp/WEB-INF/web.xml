@@ -61,6 +61,15 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping> -->
 	<!--SSO 过滤器 配置结束 -->
+	<!--提供PUT表单传参支持-->
+	<filter>
+		<filter-name>httpPutFormContentFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>httpPutFormContentFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	<filter>
 		<filter-name>commonFilter</filter-name>
 		<filter-class>sys.filter.CharacterFilter</filter-class>

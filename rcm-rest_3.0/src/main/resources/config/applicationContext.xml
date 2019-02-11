@@ -161,7 +161,7 @@
 			</list>
 		</property>
 	</bean>
-	
 	<import resource="classpath:config/daxt-dataSource.xml"/>
 	<import resource="classpath:config/quartz-config.xml"/>
+	<import resource="classpath:config/redis-conf.xml"/>
 </beans>
