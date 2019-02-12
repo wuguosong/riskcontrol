@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yk.rcm.newProject.serevice.IProjectReportReviewService;
+import com.yk.rcm.newProject.service.IProjectReportReviewService;
 
 import common.PageAssistant;
 import common.Result;
