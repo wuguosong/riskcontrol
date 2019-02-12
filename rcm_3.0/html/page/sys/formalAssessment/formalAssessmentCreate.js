@@ -1,5 +1,9 @@
 ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$location','$routeParams', function ($http,$scope,$location,$routeParams) {
-//数据绑定初始化
+    // 获取参数
+    $scope.id = $routeParams.id;
+    $scope.flag = $routeParams.flag;
+
+    //数据绑定初始化
     $scope.global_projectTypes=new Array();
     $scope.pfr={};
     $scope.pfr.apply={};
@@ -14,12 +18,95 @@ ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$locatio
     $scope.pfr.taskallocation.reviewLeader=null;
     $scope.investmentPerson=null;
     $scope.directPerson=null;
+    $scope.investmentModel=false;
+    $scope.title = "";
+
+    // 获取系统当前时间
+    $scope.getDate = function () {
+        var myDate = new Date();
+        //获取当前年
+        var year = myDate.getFullYear();
+        //获取当前月
+        var month = myDate.getMonth() + 1;
+        //获取当前日
+        var date = myDate.getDate();
+        var h = myDate.getHours(); //获取当前小时数(0-23)
+        var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+        var s = myDate.getSeconds();
+        var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
+        return now;
+    }
 
     //初始化数据
     $scope.initData = function(){
-        $scope.pfr.createby.VALUE=$scope.credentials.UUID;
-        $scope.pfr.createby.NAME=$scope.credentials.userName;
+        if($scope.flag == 1){
+            $scope.title = "项目正式评审新增";
+            $scope.initCreate();
+        } else {
+            if ($scope.flag == 2){
+                $scope.title = "项目正式评审修改";
+            } else {
+                $scope.title = "项目正式评审查看";
+            }
+            $scope.initUpdate();
+        }
+    }
+
+    // 初始化新增数据
+    $scope.initCreate = function () {
+        $scope.pfr.apply.createby = $scope.credentials.UUID;
         $scope.pfr.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
+    }
+    
+    // 初始化修改、查看数据
+    $scope.initUpdate = function () {
+        var  url = 'formalAssessmentInfoCreate/getProjectByID.do';
+        $http({
+            method:'post',
+            url:srvUrl+url,
+            data: $.param({"id":$scope.id})
+        }).success(function(data){
+            console.log(data.result_data.mongoData._id);
+            $scope.pfr  = data.result_data.mongoData;
+            $scope.pfrOracle  = data.result_data.oracleDate;
+
+            // 回显数据-人员信息
+            let paramsVal = "";
+            if($scope.pfr.apply.companyHeader != undefined && $scope.pfr.apply.companyHeader != null && $scope.pfr.apply.companyHeader != ""){
+                paramsVal = "companyHeader"
+                $("label[for='companyHeaderName']").remove();
+                commonModelOneValue(paramsVal,$scope.pfr.apply.companyHeader.VALUE,$scope.pfr.apply.companyHeader.NAME);
+            }
+            if($scope.pfr.apply.grassrootsLegalStaff != undefined && $scope.pfr.apply.grassrootsLegalStaff != null && $scope.pfr.apply.grassrootsLegalStaff != ""){
+                paramsVal = "grassrootsLegalStaff"
+                $("label[for='grassrootsLegalStaffName']").remove();
+                commonModelOneValue(paramsVal,$scope.pfr.apply.grassrootsLegalStaff.VALUE,$scope.pfr.apply.grassrootsLegalStaff.NAME);
+            }
+            if($scope.pfr.apply.investmentPerson != undefined && $scope.pfr.apply.investmentPerson != null && $scope.pfr.apply.investmentPerson != ""){
+                paramsVal = "investmentPerson"
+                $("label[for='investmentPersonName']").remove();
+                commonModelOneValue(paramsVal,$scope.pfr.apply.investmentPerson.VALUE,$scope.pfr.apply.investmentPerson.NAME);
+            }
+            if($scope.pfr.apply.directPerson != undefined && $scope.pfr.apply.directPerson != null && $scope.pfr.apply.directPerson != ""){
+                paramsVal = "directPerson"
+                $("label[for='directPersonName']").remove();
+                commonModelOneValue(paramsVal,$scope.pfr.apply.directPerson.VALUE,$scope.pfr.apply.directPerson.NAME);
+            }
+
+            // 回显数据-业务类型
+            if($scope.pfr.apply.serviceType != undefined && $scope.pfr.apply.serviceType != null && $scope.pfr.apply.serviceType != {} ){
+                commonModelValue2('oneservicetypebox',$scope.pfr.apply.serviceType);
+            }
+
+            // 回显数据-投资模式
+            if($scope.pfr.apply.investmentModel = '1'){
+                $scope.investmentModel = true;
+                $scope.getprojectmodel('1');
+            }
+            if($scope.pfr.apply.projectModel != undefined && $scope.pfr.apply.projectModel != null && $scope.pfr.apply.projectModel != {} ){
+                commonModelValue2('projectmodebox',$scope.pfr.apply.projectModel);
+            }
+        });
     }
 
     // 给申报单位变量赋值
@@ -146,6 +233,17 @@ ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$locatio
         $("#header"+paramsVal+"Name").find(".select2-search-field").before(leftstr+arrName+centerstr+paramsVal+"','"+arrID+"','"+arrName+addID+arrID+rightstr);
     }
 
+    // 回显select2下拉框的值
+    var commonModelValue2=function(paramsVal,arr){
+        var leftstr2="<li class=\"select2-search-choice\"><div>";
+        var centerstr2="</div><a class=\"select2-search-choice-close\" tabindex=\"-1\" onclick=\"delSelect(this,'";
+        var rightstr2="');\"  ></a></li>";
+        for(var i=0;i<arr.length;i++){
+            console.log(leftstr2+arr[i].VALUE + centerstr2+paramsVal+"','"+arr[i].VALUE+"','"+arr[i].KEY+rightstr2);
+            $("#header"+paramsVal).find(".select2-search-field").before(leftstr2+arr[i].VALUE + centerstr2+paramsVal+"','"+arr[i].VALUE+"','"+arr[i].KEY+rightstr2);
+        }
+    }
+
     // 人员赋值
     $scope.setDirectiveParam=function(columnName,num){
         $scope.columnsName=columnName;
@@ -188,6 +286,21 @@ ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$locatio
         });
     };
 
+    // 投资模式修改时候触发 （1：ppp；0：非ppp）
+    $scope.changeInvestmentModel=function(){
+        var pid="";
+        if($("#investmentModel").is(':checked')){
+            pid="1";
+            $scope.pfr.apply.investmentModel = '1';
+        }else{
+            pid="2";
+            $scope.pfr.apply.investmentModel = '0';
+        }
+        $("#s2id_projectmodeboxName").find(".select2-choices .select2-search-choice").remove();
+        $scope.pfr.apply.projectModel=null;
+        $scope.getprojectmodel(pid);
+    }
+
     // 获取项目模式
     $scope.getprojectmodel=function(keys){
         var url= "common/commonMethod/selectsyncbusinessmodel";
@@ -202,10 +315,11 @@ ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$locatio
 
     //保存
     $scope.save = function(){
+        $scope.pfr.create_date = $scope.getDate();
         $http({
             method:'post',
-            url: srvUrl + 'formalAssessmentInfo/create.do',
-            data: $.param({"formalAssessment":JSON.stringify($scope.pfr)})
+            url: srvUrl + 'formalAssessmentInfoCreate/createProject.do',
+            data: $.param({"projectInfo":JSON.stringify($scope.pfr)})
         }).success(function(result){
             if (result.result_code === 'S') {
                 $scope.nod._id = result.result_data;
@@ -214,6 +328,29 @@ ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$locatio
                 }else{
                     $.alert('保存成功');
                 }
+                $location.path("/formalAssessmentCreateList");
+            } else {
+                $.alert(result.result_name);
+            }
+        });
+    }
+
+    // 修改
+    $scope.update = function(){
+        $scope.pfr.last_update_date = $scope.getDate();
+        $http({
+            method:'post',
+            url: srvUrl + 'formalAssessmentInfoCreate/updateProject.do',
+            data: $.param({"projectInfo":JSON.stringify($scope.pfr)})
+        }).success(function(result){
+            if (result.result_code === 'S') {
+                $scope.nod._id = result.result_data;
+                if(typeof(showPopWin)=='function'){
+                    showPopWin();
+                }else{
+                    $.alert('保存成功');
+                }
+                $location.path("/formalAssessmentCreateList");
             } else {
                 $.alert(result.result_name);
             }
@@ -237,3 +374,68 @@ ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$locatio
         $scope.getprojectmodel('2');
     });
 }]);
+
+function delObj(o,paramsVal,value,name){
+    $(o).parent().remove();
+    accessScope("#"+paramsVal+"Name", function(scope){
+        if(paramsVal=="companyHeader"){
+            scope.pfr.apply.companyHeader={NAME:'',VALUE:''};
+            $("#companyHeaderName").val("");
+        }else if(paramsVal=="investmentManager"){
+            scope.pfr.apply.investmentManager ={NAME:'',VALUE:''};
+            $("#investmentManagerName").val("");
+        }else if(paramsVal=="grassrootsLegalStaff"){
+            scope.pfr.apply.grassrootsLegalStaff ={NAME:'',VALUE:''};//赋值保存到数据库
+            $("#grassrootsLegalStaffName").val("");
+        }else if(paramsVal=="investmentPerson"){
+            scope.pfr.apply.investmentPerson ={NAME:'',VALUE:''};//赋值保存到数据库
+            $("#investmentPersonName").val("");
+        }else if(paramsVal=="directPerson"){
+            scope.pfr.apply.directPerson ={NAME:'',VALUE:''};//赋值保存到数据库
+            $("#directPersonName").val("");
+        }
+    });
+}
+function delSelect(o,paramsVal,name,id){
+    $(o).parent().remove();
+    accessScope("#"+paramsVal+"Name", function(scope){
+        if(paramsVal=="oneservicetypebox"){
+            var names=scope.pfr.apply.serviceType;
+            var newNames = $(names).map(function(){
+                if(this.KEY!=id){
+                    return this;
+                }
+            }).get();
+            if(newNames.length>0){
+                scope.pfr.apply.serviceType=newNames;
+            }else{
+                scope.pfr.apply.serviceType=null;
+            }
+
+        }else if(paramsVal=="projecttypebox"){
+            var names=scope.pfr.apply.projectType;
+            var newNames = $(names).map(function(){
+                if(this.KEY!=id){
+                    return this;
+                }
+            }).get();
+            if(newNames.length>0){
+                scope.pfr.apply.projectType=newNames;
+            }else{
+                scope.pfr.apply.projectType=null;
+            }
+        }else if(paramsVal=="projectmodebox"){
+            var names=scope.pfr.apply.projectModel;
+            var newNames = $(names).map(function(){
+                if(this.KEY!=id){
+                    return this;
+                }
+            }).get();
+            if(newNames.length>0){
+                scope.pfr.apply.projectModel=newNames;
+            }else{
+                scope.pfr.apply.projectModel=null;
+            }
+        }
+    });
+}

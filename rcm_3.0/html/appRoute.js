@@ -4393,6 +4393,57 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
+            // 正式评审项目新增列表
+            .when('/formalAssessmentCreateList',{
+                controller:'formalAssessmentCreateList',
+                templateUrl:'page/sys/formalAssessment/formalAssessmentCreateList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/formalAssessment/formalAssessmentCreateList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 正式评审项目新增/修改
+            .when('/formalAssessmentCreate/:id/:flag',{
+                controller:'formalAssessmentCreate',
+                templateUrl:'page/sys/formalAssessment/formalAssessmentCreate.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/formalAssessment/formalAssessmentCreate.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 正式评审项目查看
+            .when('/formalAssessmentCreateView/:id',{
+                controller:'formalAssessmentCreateView',
+                templateUrl:'page/sys/formalAssessment/formalAssessmentCreateView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/formalAssessment/formalAssessmentCreateView.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }]);
 
 function resolver($q, $rootScope, dependencies) {
