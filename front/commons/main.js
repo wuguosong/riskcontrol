@@ -6,24 +6,44 @@ require.config({
     paths: {
         'jquery': LIBS_PATH + 'jquery/jquery-3.1.0.min',
         'angular': LIBS_PATH + 'angular-1.5.8/angular.min',
+        'ng-animate': LIBS_PATH + 'angular-1.5.8/angular-animate',
         'ng-cookies': LIBS_PATH + 'angular-1.5.8/angular-cookies',
         'ui-router': LIBS_PATH + 'ui-router/angular-ui-router',
-        'app': COMMONS_PATH + 'bewg'
-
-        // 'booksService': COMMONS_PATH + 'service/booksServicessssss'
+        'ui-bootstrap': LIBS_PATH + 'ui-bootstrap/js/bootstrap.min',
+        'ui-tpls': LIBS_PATH + 'ui-bootstrap/js/ui-bootstrap-tpls-1.3.3.min',
+        'app': COMMONS_PATH + 'bewg',
+        'Service': COMMONS_PATH + 'service',
+        'Directive': COMMONS_PATH + 'directive',
+        'Filter': COMMONS_PATH + 'filter',
+        'Controller': COMMONS_PATH + 'controller',
+        'Constants': COMMONS_PATH + 'constants'
     },
     shim: {
         'angular': {
-            exports: 'angular',
             deps: [
-            	'jquery',
-			]
+                'jquery',
+            ],
+            exports: 'angular',
+        },
+        'ui-tpls': {
+            deps: [
+                'angular',
+                'ng-animate',
+                'ui-bootstrap'
+            ],
+            exports: 'ui-tpls',
+        },
+        'ng-animate': {
+            deps: ['angular'],
+            exports: 'ng-animate',
         },
         'ng-cookies': {
-            deps: ['angular']
+            deps: ['angular'],
+            exports: 'ng-cookies',
         },
         'ui-router': {
-            deps: ['angular']
+            deps: ['angular'],
+            exports: 'ng-router',
         },
         'app': {
             deps: ['ui-router']
@@ -31,6 +51,6 @@ require.config({
     }
 })
 // 初始化myModule模块
-require(['app'],function(){
+require(['jquery', 'angular', 'app', 'ng-animate', 'ui-tpls', 'Constants'], function () {
     angular.bootstrap(document, ['myModule'])
 })

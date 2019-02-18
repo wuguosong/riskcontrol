@@ -1,10 +1,10 @@
-define(['app', 'ui-router', 'ng-cookies'], function (app) {
+define(['app'], function (app) {
     app
         .config(function ($httpProvider) {
             $httpProvider.defaults.headers.post = {"Content-Type": "application/x-www-form-urlencoded"};
         })
-        .register.controller('loginCtrl', ['$http', '$scope', '$location', '$cookies',
-        function ($http, $scope, $location, $cookies) {
+        .register.controller('loginCtrl', ['$http', '$scope', '$location', '$cookies', '$uibModal',
+        function ($http, $scope, $location, $cookies, $uibModal) {
 
             var srvUrl = "/rcm-rest";
             var init = [];
@@ -55,7 +55,7 @@ define(['app', 'ui-router', 'ng-cookies'], function (app) {
                         exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
                         $cookies.put('loged', 'true', {'expires': exp.toGMTString()});
                         //进入首页
-                        $location.path('/');
+                        $location.path('/index/');
                     } else {
                         $.alert(data.result_name);
                     }

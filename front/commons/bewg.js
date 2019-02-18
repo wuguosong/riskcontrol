@@ -1,5 +1,5 @@
-﻿define(['angular', 'ui-router', 'ng-cookies'], function () {
-    var app = angular.module("myModule", ['ui.router', 'ngCookies'])
+﻿define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
+    var app = angular.module("myModule", ['ui.router', 'ngCookies', 'ngAnimate', 'ui.bootstrap'])
     app
         .config(["$httpProvider", function ($httpProvider) {
             $httpProvider.interceptors.push('httpInterceptor');
@@ -7,7 +7,7 @@
         .factory("httpInterceptor", ["$q", "$rootScope", '$location', function ($q, $rootScope, $location) {
             return {
                 request: function (config) {
-                    console.log(config);
+                    // console.log(config);
 
                     config.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
                     // do something on request success
@@ -42,7 +42,7 @@
             };
         })
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.otherwise('/index');
+            $urlRouterProvider.otherwise('/index/');
             $stateProvider
                 .state("index", {
                     url: "/index",
@@ -128,6 +128,27 @@
                         }]
                     }
                 })
-        }])
+                .state("index.demo", {
+                    url: "/demo",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'demo/demo.html',
+                            controller: 'demoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'demo/demoCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+        }]);
     return app;
-})
+});
