@@ -15,7 +15,7 @@ require.config({
         'Service': COMMONS_PATH + 'service',
         'Directive': COMMONS_PATH + 'directive',
         'Filter': COMMONS_PATH + 'filter',
-        'Controller': COMMONS_PATH + 'controller',
+        'ComCtrl': COMMONS_PATH + 'comCtrl',
         'Constants': COMMONS_PATH + 'constants'
     },
     shim: {
