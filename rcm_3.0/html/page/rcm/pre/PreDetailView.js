@@ -74,7 +74,7 @@ ctmApp.register.controller('PreDetailView', ['$routeParams','$http','$scope','$l
 	$scope.queryAuditLogsByBusinessId = function (businessId){
     	var  url = 'preAudit/queryAuditedLogsById.do';
         $http({
-			method:'post',  
+			method:'post',
 		    url: srvUrl + url,
 		    data: $.param({"businessId":businessId})
 		}).success(function(result){

@@ -4444,6 +4444,108 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
+            // 正式评审项目新增列表
+            .when('/formalAssessmentCreateList',{
+                controller:'formalAssessmentCreateList',
+                templateUrl:'page/sys/formalAssessment/formalAssessmentCreateList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/formalAssessment/formalAssessmentCreateList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 正式评审项目新增/修改
+            .when('/formalAssessmentCreate/:id/:flag',{
+                controller:'formalAssessmentCreate',
+                templateUrl:'page/sys/formalAssessment/formalAssessmentCreate.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/formalAssessment/formalAssessmentCreate.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 正式评审项目查看
+            .when('/formalAssessmentCreateView/:id',{
+                controller:'formalAssessmentCreateView',
+                templateUrl:'page/sys/formalAssessment/formalAssessmentCreateView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/formalAssessment/formalAssessmentCreateView.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 投标评审项目新增列表
+            .when('/preCreateList',{
+                controller:'preCreateList',
+                templateUrl:'page/sys/pre/preCreateList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/pre/preCreateList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 投标评审项目新增/修改
+            .when('/preCreate/:id/:flag',{
+                controller:'preCreate',
+                templateUrl:'page/sys/pre/preCreate.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/pre/preCreate.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 投标评审项目查看
+            .when('/preCreateView/:id',{
+                controller:'preCreateView',
+                templateUrl:'page/sys/pre/preCreateView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/sys/pre/preCreateView.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }]);
 
 function resolver($q, $rootScope, dependencies) {

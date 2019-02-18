@@ -1157,7 +1157,7 @@ ctmApp.directive('directReportOrgDialog', function() {
             		}
         		}
         		if($scope.callback != null){
-        			$scope.callback();
+        			$scope.callback(cus);
         		}
         	}
         	$scope.$watch('checkedOrg', $scope.initData);

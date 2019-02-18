@@ -22,6 +22,16 @@
 					<div class="tab-content tab-content-bordered">
 						<div class="tab-pane in active special-form" id="contracts_file_info">
 							<div class="row">
+								<label class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-4">
+									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
+								</div>
+								<label class="col-sm-2 control-label">项目编号</label>
+								<div class="col-sm-4">
+									<input type="text" readonly class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="">
+								</div>
+							</div>
+							<div class="row">
 								<label for="" class="col-sm-2 control-label"><span class="required">*</span>所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
 									<div class="full-drop">
@@ -42,7 +52,7 @@
 								</div>
 								<label for="" class="col-sm-2 control-label"><span class="required">*</span>单位负责人</label>
 								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
+									<input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME" value="{{bulletin.unitPerson.NAME}}">
 									<input type="hidden" required class="form-control" id="unitPersonId" name="unitPersonId" ng-model="bulletin.unitPerson.VALUE">
 								</div>
 							</div>

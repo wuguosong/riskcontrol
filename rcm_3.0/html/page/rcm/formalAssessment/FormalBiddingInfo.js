@@ -10,6 +10,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         var objId = params[0];
         $scope.formalReport = {};
         $scope.formalReport.policyDecision = {};
+        $scope.isBtnShow = true;
 
         $scope.getDate = function () {
             var myDate = new Date();
@@ -38,6 +39,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         $scope.returnStatus = false;
         //初始化页面所需数据
         $scope.initData = function () {
+            if (flag == 3) {
+                $scope.isBtnShow = false;
+            }
             $scope.getSelectSUMMARY_TEMPLATE('SUMMARY_TEMPLATE');
             $scope.getSelectINVESTMENT_TYPE('INVESTMENT_TYPE');
         }
@@ -553,13 +557,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $.alert("附件不能为空！");
                 return;
             }
+            console.log(flag);
+            debugger
             if ($scope.validateFormalBiddingInfo()) {
                 if ($scope.isAttachmentBeChosen()) {
                     var data = $scope.dataForSubmit();
                     if (data == false) {
                         return;
                     }
-                    $scope.saveOrSubmit(data, "ss");
+                    if (flag == 3) {
+                        $scope.saveOrSubmit(data, "so");
+                    } else {
+                        $scope.saveOrSubmit(data, "ss");
+                    }
                 }
             }
         }

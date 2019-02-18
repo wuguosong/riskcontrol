@@ -1,5 +1,5 @@
 
-ctmApp.register.controller('formalAssessmentCreateList', ['$http','$scope','$location','$routeParams', function ($http,$scope,$location,$routeParams) {
+ctmApp.register.controller('preCreateList', ['$http','$scope','$location','$routeParams', function ($http,$scope,$location,$routeParams) {
     //初始化页面所需数据
     $scope.initData = function(){
         if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
@@ -7,7 +7,7 @@ ctmApp.register.controller('formalAssessmentCreateList', ['$http','$scope','$loc
         }
         $http({
             method:'post',
-            url: srvUrl + "formalAssessmentInfoCreate/getNewProjectList.do",
+            url: srvUrl + "preInfoCreate/getNewProjectList.do",
             data: $.param({"page":JSON.stringify($scope.paginationConf)})
         }).success(function(result){
             $scope.projectList = result.result_data.list;
@@ -17,7 +17,7 @@ ctmApp.register.controller('formalAssessmentCreateList', ['$http','$scope','$loc
 
     // 新增操作
     $scope.createProject=function(){
-        $location.path("/formalAssessmentCreate/0/1");
+        $location.path("/preCreate/0/1");
     };
 
     // 修改操作
@@ -37,7 +37,7 @@ ctmApp.register.controller('formalAssessmentCreateList', ['$http','$scope','$loc
             idsStr = idsStr + chkObjs[i].value + ",";
         }
         idsStr = idsStr.substring(0, idsStr.length - 1);
-        $location.path("/formalAssessmentCreate/" + idsStr + "/2");
+        $location.path("/preCreate/" + idsStr + "/2");
     };
 
     $scope.deleteProject = function () {
@@ -57,7 +57,7 @@ ctmApp.register.controller('formalAssessmentCreateList', ['$http','$scope','$loc
             }
             $http({
                 method:'post',
-                url: srvUrl + "formalAssessmentInfoCreate/deleteProject.do",
+                url: srvUrl + "preInfoCreate/deleteProject.do",
                 data: $.param({"ids":JSON.stringify(idsStr)})
             }).success(function(data){
                 if(data.success){

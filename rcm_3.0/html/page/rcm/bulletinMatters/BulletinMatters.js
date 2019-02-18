@@ -131,8 +131,9 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 		"fieldValue" : "FZRNAME"
 	}]
 	$scope.otherFields = ["FZRNAME","FZRID"];
-	$scope.selectOrgCallback = function(){
-		$scope.checkedOrg;
+	$scope.selectOrgCallback = function(checkedOrg){
+		$scope.checkedOrg = checkedOrg;
+        $scope.setUnitPerson($scope.checkedOrg.FZRID, $scope.checkedOrg.FZRNAME);
 	};
 	
 	$scope.checkedOrg={
@@ -497,7 +498,21 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
             });
         }
     };
-    
+
+     // 选择项目后，写入项目名称
+     $scope.setDirectiveCompanyList=function(code,name){
+         $scope.bulletin.projectNo=code;
+         $scope.bulletin.projectName=name;
+         $("#projectName").val(name);
+         $("label[for='projectName']").remove();
+     }
+
+     // 修改大区后，修改单位负责人的值
+     $scope.setUnitPerson = function(id, name){
+     	debugger
+         $scope.bulletin.unitPerson.VALUE = id;
+         $scope.bulletin.unitPerson.NAME = name;
+     };
 }]);
 
 ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$location', '$routeParams', '$filter',

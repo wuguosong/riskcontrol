@@ -543,7 +543,7 @@
             <div class="row" align="center">
                 <span ng-if="hasWaiting" type="span" class="btn-preview" ng-click="toPreview()" class="btn btn-info"/>
             </div>
-            <div class="stage">
+            <div class="stage" ng-if="isBtnShow">
                 <a href="" ng-click="submitSave()">提交</a><a href="" ng-click="saveOnly()">暂存</a>
                 <!--<button class="btn-add btn-scale" ng-click="submitSave()">
                     <span>提交</span>
@@ -551,6 +551,10 @@
                 <button class="btn-add btn-scale" ng-click="saveOnly()">
                     <span>暂存</span>
                 </button>-->
+                <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
+            </div>
+            <div class="noStage"  ng-if="!isBtnShow">
+                <a href="" ng-click="submitSave()">提交</a>
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>
             <div class="linkline mcontent">
