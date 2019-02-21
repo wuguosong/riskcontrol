@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>够快云</title>
+    <script type="text/javascript" src="/html/assets/javascripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/html/assets/angularjs/angular-1.4.0/angular.js"></script>
+    <style type="text/css">
+        table, td, th {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        table {
+            table-layout: fixed;
+            line-height: 25px;
+            text-align: center;
+        }
+
+        th {
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+<div data-ng-app="myApp" ng-controller="myCtrl">
+    <form action='http://localhost:8080/rcm-rest/cloud/upload.do' method="post" enctype="multipart/form-data"
+          onsubmit="return check()">
+        业务类型
+        <select name="docType" id="docType" ng-change="query()" ng-model="docType">
+            <option ng-repeat="d in ds" value="{{d.code}}">{{d.name}}</option>
+        </select>
+        业务编码
+        <select name="docCode" id="docCode" ng-change="query()" ng-model="docCode">
+            <option ng-repeat="c in dc" value="{{c.code}}">{{c.name}}</option>
+        </select>
+        文件位置
+        <select name="pageLocation" id="pageLocation" ng-change="query()" ng-model="pageLocation">
+            <option ng-repeat="f in fs" value="{{f.code}}">{{f.name}}</option>
+        </select>
+        <input type="file" name="file" id="file" multiple="multiple">
+        <input type="submit" value="上传文件">
+    </form>
+    <br>
+    <table>
+        <tr>
+            <th width="5%">序号</th>
+            <th width="15%">文件</th>
+            <th width="10%">大小</th>
+            <th width="10%">路径</th>
+            <th width="5%">上传人</th>
+            <th width="10%">缩略图</th>
+            <th colspan="2" width="20%">扫码</th>
+            <th colspan="2" width="25%">操作</th>
+        </tr>
+        <tr ng-repeat="file in files">
+            <td>{{$index + 1}}</td>
+            <td>{{file.filename}}</td>
+            <td>{{file.filesize}}</td>
+            <td>{{file.fullpath}}</td>
+            <td>{{file.create_member_name}}</td>
+            <td><img src="{{file.thumbnail}}" alt="{{file.filename}}"></td>
+            <td colspan="2">
+                <a href='{{file.previeqr3d}}'>预览</a>
+                <a href='{{file.downloadqr3d}}'>下载</a>
+            </td>
+            <td colspan="2">
+                <a href='{{file.preview3d}}'>预览</a>
+                <a href='{{file.download3d}}'>下载</a>
+                <a ng-click="deleteFile(file.fileid, file.filename)">移除</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    /************************************/
+    var myApp = angular.module("myApp", []);
+    myApp.controller("myCtrl", function ($scope, $http) {
+        $scope.ds = [{code: '', name: '全部业务'}, {code: 'cloud', name: '云测试'}, {code: 'pics', name: '图片'}, {
+            code: 'text',
+            name: '文档'
+        }];
+        $scope.dc = [{code: '', name: '全部编码'}, {code: 'CL008611', name: 'CL008611'}, {
+            code: 'CL008612',
+            name: 'CL008612'
+        }, {code: 'CL008613', name: 'CL008613'}];
+        $scope.fs = [{code: '', name: '全部位置'}, {code: 'file1', name: '位置1'}, {
+            code: 'file2',
+            name: '位置2'
+        }, {code: 'file3', name: '位置3'}];
+        $scope.queryPost = function (params, func) {
+            $http({
+                method: 'post',
+                url: 'http://localhost:8080/rcm-rest/cloud/list.do',
+                params: params
+            }).success(function (data) {
+                func(data);
+            });
+        }
+        // 所有
+        $scope.queryAll = function () {
+            $scope.queryPost({
+                'docType': $scope.docType,
+                'docCode': $scope.docCode,
+                'pageLocation': $scope.pageLocation
+            }, function (data) {
+                $scope.files = data.result_data;
+            });
+        }
+        $scope.queryAll();
+        $scope.query = function () {
+            $scope.queryAll();
+        }
+        // 移除
+        $scope.deleteFile = function (fileId, fileName) {
+            if (confirm("确认要移除" + fileName + "?")) {
+                $http({
+                    method: 'post',
+                    url: 'http://localhost:8080/rcm-rest/cloud/delete.do',
+                    params: {
+                        'fileId': fileId
+                    }
+                }).success(function (data) {
+                    console.log(data);
+                    window.location.reload(true);
+                });
+            }
+        }
+    });
+    function check() {
+        var validate = 0;
+        var docType = $('#docType').val();
+        if (docType == null || docType == '' || docType == "") {
+            alert('业务类型不能为空');
+            validate++;
+            return validate == 0;
+        }
+        var docCode = $('#docCode').val();
+        if (docCode == null || docCode == '' || docCode == "") {
+            alert('业务编码不能为空');
+            validate++;
+            return validate == 0;
+        }
+        var pageLocation = $('#pageLocation').val();
+        if (pageLocation == null || pageLocation == '' || pageLocation == "") {
+            alert('文件位置不能为空');
+            validate++;
+            return validate == 0;
+        }
+        var file = $('#file').val();
+        if (file == null || file == '' || file == "") {
+            alert('文件不能为空');
+            validate++;
+            return validate == 0;
+        }
+    }
+</script>
+</body>
+</html>
