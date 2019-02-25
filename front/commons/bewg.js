@@ -213,6 +213,72 @@
                         }]
                     }
                 })
+                //用户列表
+                .state("index.userList", {
+                    url: "/userList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/user/userList.html',
+                            controller: 'userListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/user/userListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //给用户分配角色
+                .state("index.userRole", {
+                    url: "/userRole/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/user/userRole.html',
+                            controller: 'userRoleCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/user/userRoleCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //用户详情信息
+                .state("index.userInfo", {
+                    url: "/userInfo/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/user/userInfo.html',
+                            controller: 'userInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/user/userInfoCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
         }]);
     return app;
 });

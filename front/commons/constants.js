@@ -7,6 +7,8 @@ define(['app'], function (app) {
 
             LoginUrl: "login/login",
 
+            srvUrl : "/rcm-rest",
+
 
         });
 });
