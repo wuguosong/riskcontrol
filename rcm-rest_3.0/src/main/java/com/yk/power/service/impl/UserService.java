@@ -129,6 +129,21 @@ public class UserService implements IUserService {
 		retMap.put("UUID", uuid);
 		retMap.put("userID", account);
 		retMap.put("userName", userName);
+		/**
+		 * Add By Sunny Qi On 2019-02-18 Start
+		 */
+		// 返回登录人所在大区数据
+		String orgId = (String)map.get("ORGPKVALUE");
+		String orgName = (String)map.get("ORGNAME");
+		String deptId = (String)map.get("DEPTPKVALUE");
+		String deptName = (String)map.get("DEPTNAME");
+		retMap.put("orgId", orgId);
+		retMap.put("orgName", orgName);
+		retMap.put("deptId", deptId);
+		retMap.put("deptName", deptName);
+		/**
+		 * Add By Sunny Qi On 2019-02-18 End
+		 */
 		
 		retMap.put("isAdmin", this.isAdmin(uuid));
 		
