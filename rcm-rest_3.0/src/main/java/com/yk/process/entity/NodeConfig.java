@@ -10,6 +10,8 @@ import java.util.Map;
  * Created by LiPan on 2019/2/22.
  */
 public class NodeConfig {
+    public static final String AGENCY = "Agency";
+    public static final String ALREADY = "Already";
     private String processKey;
     private String businessKey;
     private List<TaskConfig> states;

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yk.process.entity.FlowConfig;
 import com.yk.process.entity.NodeConfig;
-import com.yk.process.entity.ProcConst;
 import com.yk.process.entity.TaskConfig;
 import com.yk.process.service.IProcessService;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
@@ -16,7 +15,6 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,12 +25,10 @@ import javax.annotation.Resource;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.format;
 import static org.junit.Assert.assertNotNull;
 
 /**

@@ -1,11 +1,8 @@
 package com.yk.process.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.yk.process.dao.IProcessMapper;
 import com.yk.process.entity.FlowConfig;
 import com.yk.process.entity.NodeConfig;
-import com.yk.process.entity.ProcConst;
 import com.yk.process.entity.TaskConfig;
 import com.yk.process.service.IProcessService;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
@@ -210,13 +207,13 @@ public class ProcessService implements IProcessService {
         for (HashMap<String, Object> processConfiguration : processConfigurations) {
             String id = String.valueOf(processConfiguration.get(ACT_ID_));
             if (taskConfigMap.get(id) != null) {
-                taskConfigMap.get(id).setStatus(ProcConst.ALREADY);
+                taskConfigMap.get(id).setStatus(NodeConfig.ALREADY);
             }
         }
         List<TaskConfig> taskConfigs = this.toTaskConfigList(taskConfigMap);
         for (TaskConfig taskConfig : taskConfigs) {
             if (StringUtils.isBlank(taskConfig.getStatus())) {
-                taskConfig.setStatus(ProcConst.AGENCY);
+                taskConfig.setStatus(NodeConfig.AGENCY);
             }
         }
         // 设置流向状态
@@ -230,16 +227,16 @@ public class ProcessService implements IProcessService {
                 flowConfig.setFrom(taskConfigMap.get(from));// 更新来和去节点状态信息
                 flowConfig.setTo(taskConfigMap.get(to));
                 if (alreadyFrom.equals(from) && alreadyTo.equals(to)) {
-                    flowConfig.setStatus(ProcConst.ALREADY);
+                    flowConfig.setStatus(NodeConfig.ALREADY);
                 }
-                if (flowConfig.getInit() == null && ProcConst.ALREADY.equals(flowConfig.getFrom().getStatus()) && ProcConst.ALREADY.equals(flowConfig.getTo().getStatus())) {
-                    flowConfig.setStatus(ProcConst.ALREADY);// 子流程与开始的连线状态设置
+                if (flowConfig.getInit() == null && NodeConfig.ALREADY.equals(flowConfig.getFrom().getStatus()) && NodeConfig.ALREADY.equals(flowConfig.getTo().getStatus())) {
+                    flowConfig.setStatus(NodeConfig.ALREADY);// 子流程与开始的连线状态设置
                 }
             }
         }
         for (FlowConfig flowConfig : flowConfigs) {
             if (StringUtils.isBlank(flowConfig.getStatus())) {
-                flowConfig.setStatus(ProcConst.AGENCY);
+                flowConfig.setStatus(NodeConfig.AGENCY);
             }
         }
         return nodeConfig;

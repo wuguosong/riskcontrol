@@ -1,13 +1,10 @@
 package com.yk.process.service;
 
-import com.yk.process.entity.FlowConfig;
 import com.yk.process.entity.NodeConfig;
-import com.yk.process.entity.TaskConfig;
 import org.activiti.bpmn.model.BpmnModel;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 流程信息业务接口
@@ -69,6 +66,7 @@ public interface IProcessService {
 
     /**
      * 生成节点配置信息
+     *
      * @param processKey  流程Key
      * @param businessKey 业务Key
      * @return NodeConfig
@@ -77,6 +75,7 @@ public interface IProcessService {
 
     /**
      * 渲染配置信息
+     *
      * @param nodeConfig 渲染前的配置
      * @return NodeConfig
      */

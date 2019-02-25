@@ -87,14 +87,36 @@
 <input type="hidden" id="process_state_info">
 </body>
 <script>
+    // 定义常量
+    const config = {
+        CSS_S: "S",
+        CSS_L: "L",
+        LABEL_START: "开始",
+        LABEL_END: "结束",
+        START_EVENT: "StartEvent",
+        END_EVENT: "EndEvent",
+        USER_TASK: "UserTask",
+        INCLUSIVE_GATEWAY: "InclusiveGateway",
+        EXCLUSIVE_GATEWAY: "ExclusiveGateway",
+        SUB_PROCESS: "SubProcess",
+        STATUS_ALREADY: "Already",
+        STATUS_AGENCY: "Agency",
+        SHAPE_CIRCLE: "circle",
+        SHAPE_RECT: "rect",
+        SHAPE_DIAMOND: "diamond",
+        DIR_LR: "LR",
+        DIR_RL: "RL",
+        DIR_TB: "TB",
+        DIR_BT: "BT"
+    };
     var data = test_process_allConfig();
     var map = eval(data.nodes);
     for (var key in map) {
         console.log(key);
         if (key === "subprocess1") {
-            data = map[key];// 子流程1
+             data = map[key];// 子流程1
         } else {
-            // data = map[key];// 主流程
+             // data = map[key];// 主流程
         }
         // if else 注释掉,主流程和子流程同时展示
     }
@@ -105,31 +127,34 @@
         var json = {};
         json.index = stateArray[index].index;
         var option = {};
-        if (stateArray[index].type == 'StartEvent') {
-            option.label = "开始";
-            option.shape = "circle";
+        if (stateArray[index].type == config.START_EVENT) {
+            option.label = config.LABEL_START;
+            option.shape = config.SHAPE_CIRCLE;
+            // 设置宽高，数据来源：activi流程模型或者前端自定义
+            // option.width = 100;
+            // option.height = 100;
         }
-        if (stateArray[index].type == 'EndEvent') {
-            option.label = "结束";
-            option.shape = "circle";
+        if (stateArray[index].type == config.END_EVENT) {
+            option.label = config.LABEL_END;
+            option.shape = config.SHAPE_CIRCLE;
         }
-        if (stateArray[index].type == 'UserTask') {
+        if (stateArray[index].type == config.USER_TASK) {
             option.label = stateArray[index].name;
-            option.shape = "rect";
+            option.shape = config.SHAPE_RECT;
         }
-        if (stateArray[index].type == "InclusiveGateway") {
+        if (stateArray[index].type == config.INCLUSIVE_GATEWAY) {
             option.label = stateArray[index].id;
-            option.shape = "diamond";
+            option.shape = config.SHAPE_DIAMOND;
         }
-        if (stateArray[index].type == "ExclusiveGateway") {
+        if (stateArray[index].type == config.EXCLUSIVE_GATEWAY) {
             option.label = stateArray[index].id;
-            option.shape = "diamond";
+            option.shape = config.SHAPE_DIAMOND;
         }
-        if (stateArray[index].type == "SubProcess") {
+        if (stateArray[index].type == config.SUB_PROCESS) {
             option.label = stateArray[index].id;
-            option.shape = "circle";
+            option.shape = config.SHAPE_CIRCLE;
         }
-        option.class = "S" + stateArray[index].status;
+        option.class = config.CSS_S + stateArray[index].status;
         option.status = stateArray[index].status;
         option.id = stateArray[index].id;
         option.data = stateArray[index];
@@ -145,16 +170,13 @@
         json.to = edgeArray[index].to.index;
         var option = {};
         option.label = edgeArray[index].id;
-        option.class = "L" + edgeArray[index].status;
+        option.class = config.CSS_L + edgeArray[index].status;
         option.data = edgeArray[index];
         json.option = option;
         edges.push(json);
     }
     // 3.创建画布对象
-    // 默认从上到下
-    // LR 从左到右
-    // RL 从右到左
-    var g = new dagreD3.graphlib.Graph().setGraph({rankdir: 'LR'}).setDefaultEdgeLabel(function () {
+    var g = new dagreD3.graphlib.Graph().setGraph({rankdir: config.DIR_LR}).setDefaultEdgeLabel(function () {
         return {};
     });
     // 4.设置节点
@@ -195,9 +217,8 @@
     // 为每个节点添加鼠标右击事件
     for (var index in states) {
         var state = states[index];
-        console.log(state);
-        if (state.option.data.type == 'UserTask') {
-            if (state.option.data.status == 'Already') {
+        if (state.option.data.type == config.USER_TASK) {
+            if (state.option.data.status == config.STATUS_ALREADY) {
                 var element = document.getElementById(state.option.id);
                 element.setAttribute("state", JSON.stringify(state));
                 element.addEventListener('mousedown', function (event) {
