@@ -171,7 +171,7 @@
                     }
                 })
                 .state("index.dicList", {
-                    url: "/dic",
+                    url: "/dicList",
                     views: {
                         'business': {
                             templateUrl: BUSINESS_PATH + 'sys/dic/dicList.html',
