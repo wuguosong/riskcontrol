@@ -1,5 +1,6 @@
 package com.yk.process.controller;
 
+import com.yk.process.entity.NodeConfig;
 import com.yk.process.service.IProcessService;
 import common.Constants;
 import common.Result;
@@ -11,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 流程信息控制器,用于获取流程节点信息,将流程以进度条方式展示
@@ -87,8 +85,10 @@ public class ProcessController {
 
     @RequestMapping(value = "allConfig", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> allConfig(String processKey, String businessKey) {
-        Map<String, Object> data = processService.renderProcessProgress(processKey, businessKey);
-        return data;
+    public NodeConfig allConfig(String processKey, String businessKey) {
+        NodeConfig nodeConfig = processService.createNodeConfig(processKey, businessKey);
+        // 渲染所有节点
+        nodeConfig = processService.renderNodeConfig(nodeConfig);
+        return nodeConfig;
     }
 }

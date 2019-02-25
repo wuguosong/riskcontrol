@@ -1,6 +1,7 @@
 package com.yk.process.entity;
 
 import com.alibaba.fastjson.JSON;
+import org.activiti.bpmn.model.FlowElement;
 
 /**
  * ExclusiveGateway、UserTask、StartEvent、EndEvent、InclusiveGateway在这里都被认为是一个TaskConfig，SequenceFlow不包含其中
@@ -14,6 +15,7 @@ public class TaskConfig {
     private String name;// 节点名称
     private String type;// 节点类型
     private String status;// 节点状态
+    private FlowElement init;// 原始信息
 
     public String getProcess() {
         return process;
@@ -69,6 +71,14 @@ public class TaskConfig {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public FlowElement getInit() {
+        return init;
+    }
+
+    public void setInit(FlowElement init) {
+        this.init = init;
     }
 
     @Override

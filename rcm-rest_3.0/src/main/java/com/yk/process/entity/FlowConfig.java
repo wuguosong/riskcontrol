@@ -1,6 +1,7 @@
 package com.yk.process.entity;
 
 import com.alibaba.fastjson.JSON;
+import org.activiti.bpmn.model.FlowElement;
 
 /**
  * Created by LiPan on 2019/2/21.
@@ -11,6 +12,7 @@ public class FlowConfig {
     private TaskConfig from;// 来节点
     private TaskConfig to;// 去节点
     private String status;// 节点状态
+    private FlowElement init;// 原始信息
 
     public String getId() {
         return id;
@@ -50,6 +52,14 @@ public class FlowConfig {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public FlowElement getInit() {
+        return init;
+    }
+
+    public void setInit(FlowElement init) {
+        this.init = init;
     }
 
     @Override

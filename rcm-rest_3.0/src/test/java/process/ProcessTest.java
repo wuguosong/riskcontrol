@@ -1,18 +1,22 @@
 package process;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.yk.process.entity.FlowConfig;
+import com.yk.process.entity.NodeConfig;
+import com.yk.process.entity.ProcConst;
 import com.yk.process.entity.TaskConfig;
 import com.yk.process.service.IProcessService;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.bpmn.model.ExtensionElement;
-import org.activiti.bpmn.model.FlowElement;
+import org.activiti.bpmn.model.*;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,10 +27,12 @@ import javax.annotation.Resource;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.format;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -157,15 +163,19 @@ public class ProcessTest {
     public void testSimpleProcess(){
         String proDefId = String.valueOf(processService.listLastProcessDefinition("preAssessment", "58c7909122ddf2207a7cd6c9").get(0).get("ID_"));
         BpmnModel bpmnModel = processService.getBpmnModel(proDefId);
+        //System.out.println("Process->" + bpmnModel.getProcesses().size());
         Process mainProcess = bpmnModel.getMainProcess();
-        System.out.println("Process->");
+        //System.out.println("mainProcess->");
         // System.out.println(JSON.toJSONString(mainProcess));
         System.out.println("FlowElement->");
         Collection<FlowElement> list = mainProcess.getFlowElements();
+        int index = 0;
         for (FlowElement ele : list){
-            System.out.println(ele.getId() + ", " + ele.getName() + ">" + ele.getClass().getSimpleName());
+            System.out.println(index + "," + ele.getId() + ", " + ele.getName() + ">" + ele.getClass().getSimpleName());
+            index ++;
         }
         System.out.println(list.size());
+        //System.out.println(JSON.toJSONString(bpmnModel.getProcesses().get(0)));
     }
 
     @Test
@@ -176,22 +186,84 @@ public class ProcessTest {
         System.out.println(last.size());
     }
 
+
+
+
     @Test
-    public void testTaskConfig(){
-        List<TaskConfig> taskConfigs = processService.createTaskConfig("bulletin", "519398fa6ec3456fbd89d68738a9dd5a");
-        for(TaskConfig taskConfig : taskConfigs){
-            System.out.println(taskConfig);
+    public void testSubProcess(){
+        HashMap<String, Object> data = processService.listLastProcessDefinition("preAssessment","58c7909122ddf2207a7cd6c9").get(0);
+        BpmnModel bpmnModel = processService.getBpmnModel(String.valueOf(data.get("ID_")));
+        Process mainProcess = bpmnModel.getMainProcess();
+        String mainProcessJsonStr = JSON.toJSONString(mainProcess);
+        JSONObject mainProcessJsonObject = JSON.parseObject(mainProcessJsonStr, JSONObject.class);
+        JSONArray flowElements = mainProcessJsonObject.getJSONArray("flowElements");
+        System.out.println(flowElements.size());
+    }
+
+    @Test
+    public void testSubProcessByApi(){
+        HashMap<String, Object> data = processService.listLastProcessDefinition("preAssessment","58c7909122ddf2207a7cd6c9").get(0);
+        BpmnModel bpmnModel = processService.getBpmnModel(String.valueOf(data.get("ID_")));
+        Process process = bpmnModel.getProcessById("subprocess1");
+        System.out.println(process);
+        FlowElement flowElement = bpmnModel.getFlowElement("subprocess1");
+        System.out.println(flowElement);
+        SubProcess subProcess =(SubProcess)flowElement;
+        System.out.println(subProcess);
+        Collection<FlowElement> flowElements = subProcess.getFlowElements();
+        int index = 0;
+        for (FlowElement ele : flowElements){
+            System.out.println(index + "," + ele.getId() + ", " + ele.getName() + ">" + ele.getClass().getSimpleName());
+            index ++;
         }
-        System.out.println(taskConfigs.size());
+        System.out.println("0000000000000000000000000000000000000000000000000000");
+        System.out.println(flowElements.size() + bpmnModel.getMainProcess().getFlowElements().size());
     }
 
     @Test
-    public void testFlowConfig(){
-        processService.createFlowConfig("bulletin", "519398fa6ec3456fbd89d68738a9dd5a");
+    public void testSubProcessFlowByXML(){
     }
 
     @Test
-    public void testRenderProcess(){
-        processService.renderProcessProgress("formalReview", "5a96192022ddf260e1f73ecb");
+    public void testFlowConfigByApi(){
+        HashMap<String, Object> data = processService.listLastProcessDefinition("preAssessment","58c7909122ddf2207a7cd6c9").get(0);
+        BpmnModel bpmnModel = processService.getBpmnModel(String.valueOf(data.get("ID_")));
+        Process mainProcess = bpmnModel.getMainProcess();
+        Collection<FlowElement> flowElements = mainProcess.getFlowElements();
+        int index = 0;
+        for (FlowElement flowElement : flowElements){
+            // System.out.println(index + "," + flowElement.getId() + ", " + flowElement.getName() + ">" + flowElement.getClass().getSimpleName());
+            index ++;
+            if("SequenceFlow".equals(flowElement.getClass().getSimpleName())){
+                SequenceFlow sequenceFlow = (SequenceFlow)flowElement;
+                System.out.println(sequenceFlow);
+                System.out.println(sequenceFlow.getConditionExpression());
+                System.out.println(sequenceFlow.getSkipExpression());
+                System.out.println(sequenceFlow.getDocumentation());
+                System.out.println(sequenceFlow.getId());
+                System.out.println(sequenceFlow.getName());
+                System.out.println("000000000000000000000000");
+            }
+        }
+    }
+
+    @Test
+    public void testNodeConfig(){
+        NodeConfig nodeConfig = processService.createNodeConfig("preAssessment","58c7909122ddf2207a7cd6c9");
+        List<TaskConfig> taskConfigs = nodeConfig.getStates();
+        System.out.println("======TaskConfig=======");
+        for(TaskConfig taskConfig : taskConfigs){
+            System.out.println(taskConfig.getId() + "--> [" + taskConfig.getName() + "," + taskConfig.getType() + "]");
+        }
+        System.out.println("======FlowConfig=======");
+        List<FlowConfig> flowConfigs = nodeConfig.getEdges();
+        for(FlowConfig flowConfig : flowConfigs){
+            System.out.println(flowConfig.getId() + "--> [" + flowConfig.getFrom().getId() + "," + flowConfig.getTo().getId() +"]");
+        }
+    }
+
+    @Test
+    public void testSub(){
+        processService.createNodeConfig("preAssessment","58c7909122ddf2207a7cd6c9");
     }
 }

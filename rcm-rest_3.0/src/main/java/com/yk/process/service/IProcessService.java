@@ -1,6 +1,7 @@
 package com.yk.process.service;
 
 import com.yk.process.entity.FlowConfig;
+import com.yk.process.entity.NodeConfig;
 import com.yk.process.entity.TaskConfig;
 import org.activiti.bpmn.model.BpmnModel;
 
@@ -65,30 +66,19 @@ public interface IProcessService {
      */
     BpmnModel getBpmnModel(String processDefinitionId);
 
-    /**
-     * 生成流程图节点信息
-     *
-     * @param processKey  流程Key
-     * @param businessKey 业务Key
-     * @return List<TaskConfig>
-     */
-    List<TaskConfig> createTaskConfig(String processKey, String businessKey);
 
     /**
-     * 生成流程图流向信息
-     *
+     * 生成节点配置信息
      * @param processKey  流程Key
      * @param businessKey 业务Key
-     * @return List<FlowConfig>
+     * @return NodeConfig
      */
-    List<FlowConfig> createFlowConfig(String processKey, String businessKey);
+    NodeConfig createNodeConfig(String processKey, String businessKey);
 
     /**
-     * 渲染流程进度
-     *
-     * @param processKey  流程Key
-     * @param businessKey 业务Key
-     * @return Map<String, Object> 渲染后的结果，包括：节点和流向
+     * 渲染配置信息
+     * @param nodeConfig 渲染前的配置
+     * @return NodeConfig
      */
-    Map<String, Object> renderProcessProgress(String processKey, String businessKey);
+    NodeConfig renderNodeConfig(NodeConfig nodeConfig);
 }

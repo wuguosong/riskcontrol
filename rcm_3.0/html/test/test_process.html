@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/html/assets/stylesheets/bootstrap.css" type="text/css"/>
     <script type="text/javascript" src="/html/assets/javascripts/bootstrap.js"></script>
     <script type="text/javascript" src="/html/assets/javascripts/popWindow.js"></script>
-    <script type="text/javascript" src="test_process.js?t=new Date().getTime()"></script>
+    <script type="text/javascript" src="test_process.js?t=1"></script>
     <style id="css">
         /*文字样式*/
         text {
@@ -95,20 +95,32 @@
         var json = {};
         json.index = stateArray[index].index;
         var option = {};
-        if(stateArray[index].type != 'ExclusiveGateway' && stateArray[index].type != "InclusiveGateway"){
+        if(stateArray[index].type == 'StartEvent'){
+            option.label = "开始";
+            option.shape = "circle";
+        }
+        if(stateArray[index].type == 'EndEvent'){
+            option.label = "结束";
+            option.shape = "circle";
+        }
+        if(stateArray[index].type == 'UserTask'){
             option.label = stateArray[index].name;
-        }else{
-            option.label = "网关";
+            option.shape = "rect";
+        }
+        if(stateArray[index].type == "InclusiveGateway"){
+            option.label = stateArray[index].id;
+            option.shape = "diamond";
+        }
+        if(stateArray[index].type == "ExclusiveGateway"){
+            option.label = stateArray[index].id;
+            option.shape = "diamond";
+        }
+        if(stateArray[index].type == "SubProcess"){
+            option.label = "子流程";
+            option.shape = "circle";
         }
         option.class = "S" + stateArray[index].status;
         option.status = stateArray[index].status;
-        if(stateArray[index].type == 'ExclusiveGateway' || stateArray[index].type == "InclusiveGateway"){
-            option.shape = "diamond";
-        }else if(stateArray[index].type == 'UserTask'){
-            option.shape = "rect";
-        }else{
-            option.shape = "circle";
-        }
         option.id = stateArray[index].id;
         option.data = stateArray[index];
         json.option = option;
@@ -122,7 +134,7 @@
         json.from = edgeArray[index].from.index;
         json.to = edgeArray[index].to.index;
         var option = {};
-        option.label = "";
+        option.label = edgeArray[index].id;
         option.class = "L" + edgeArray[index].status ;
         json.option = option;
         edges.push(json);
@@ -173,7 +185,7 @@
     for(var index in states){
         var state = states[index];
         console.log(state);
-        if(state.option.id != 'Start' && state.option.id != 'End'){
+        if(state.option.type != 'StartEvent' && state.option.type != 'EndEvent'){
             if(state.option.status == 'Already'){
                 var element = document.getElementById(state.option.id);
                 element.setAttribute("state", JSON.stringify(state));

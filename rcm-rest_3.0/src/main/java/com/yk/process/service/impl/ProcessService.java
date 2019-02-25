@@ -1,16 +1,15 @@
 package com.yk.process.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yk.process.dao.IProcessMapper;
 import com.yk.process.entity.FlowConfig;
+import com.yk.process.entity.NodeConfig;
 import com.yk.process.entity.ProcConst;
 import com.yk.process.entity.TaskConfig;
 import com.yk.process.service.IProcessService;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.bpmn.model.FlowElement;
+import org.activiti.bpmn.model.*;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -80,86 +79,134 @@ public class ProcessService implements IProcessService {
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
-        BpmnModel bpmnModel = converter.convertToBpmnModel((XMLStreamReader) reader);
+        BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
         return bpmnModel;
     }
 
     @Override
-    public List<TaskConfig> createTaskConfig(String processKey, String businessKey) {
+    public NodeConfig createNodeConfig(String processKey, String businessKey) {
         List<HashMap<String, Object>> list = this.listLastProcessDefinition(processKey, businessKey);
         if (CollectionUtils.isEmpty(list)) {
             throw new RuntimeException("没有找到[" + processKey + "," + businessKey + "]的流程模型!");
         }
+        NodeConfig nodeConfig = new NodeConfig();
         HashMap<String, Object> data = list.get(0);
         BpmnModel bpmnModel = this.getBpmnModel(String.valueOf(data.get(ID_)));
         Process mainProcess = bpmnModel.getMainProcess();
-        Collection<FlowElement> flowElements = mainProcess.getFlowElements();
-        List<TaskConfig> taskConfigs = new ArrayList<TaskConfig>();
+        Collection<FlowElement> flowElements = this.recursionFlowElements(mainProcess.getFlowElements());
+        List<TaskConfig> taskConfigs = new ArrayList<TaskConfig>();// 流程节点List
+        List<FlowConfig> flowConfigs = new ArrayList<FlowConfig>();// 流程流向List
         int index = 1;
-        for (FlowElement flowElement : flowElements) {
-            String type = flowElement.getClass().getSimpleName();
-            String id = flowElement.getId();
-            String name = flowElement.getName();
-            if (!ProcConst.SEQUENCE_FLOW.equals(type)) {// 过滤掉流向，只记录：任务/网关/开始/结束
+        for (FlowElement flowElement : flowElements) {// 过滤非流向对象
+            if (!(flowElement instanceof SequenceFlow)) {
                 TaskConfig taskConfig = new TaskConfig();
                 taskConfig.setProcess(String.valueOf(data.get(ID_)));
                 taskConfig.setDeployment(new Long(String.valueOf(data.get(DEPLOYMENT_ID_))));
                 taskConfig.setIndex(index);
-                taskConfig.setName(name);
-                taskConfig.setId(id);
-                taskConfig.setType(type);
+                taskConfig.setName(flowElement.getName());
+                taskConfig.setId(flowElement.getId());
+                taskConfig.setType(flowElement.getClass().getSimpleName());
+                taskConfig.setInit(flowElement);
                 taskConfigs.add(taskConfig);
                 index++;
             }
         }
-        return taskConfigs;
-    }
-
-
-    @Override
-    public List<FlowConfig> createFlowConfig(String processKey, String businessKey) {
-        List<FlowConfig> flowConfigs = new ArrayList<FlowConfig>();
-        List<HashMap<String, Object>> list = this.listLastProcessDefinition(processKey, businessKey);
-        if (CollectionUtils.isEmpty(list)) {
-            throw new RuntimeException("没有找到[" + processKey + "," + businessKey + "]的流程模型!");
+        Map<String, TaskConfig> taskConfigMap = this.toTaskConfigMap(taskConfigs);
+        for (FlowElement flowElement : flowElements) {// 过滤流向元素对象
+            if (flowElement instanceof SequenceFlow) {
+                SequenceFlow sequenceFlow = (SequenceFlow) flowElement;
+                FlowConfig flowConfig = new FlowConfig();
+                flowConfig.setId(flowElement.getId());
+                flowConfig.setName(flowElement.getName());
+                flowConfig.setFrom(taskConfigMap.get(sequenceFlow.getSourceRef()));
+                flowConfig.setTo(taskConfigMap.get(sequenceFlow.getTargetRef()));
+                flowConfig.setInit(flowElement);
+                flowConfigs.add(flowConfig);
+            }
         }
-        Map<String, TaskConfig> taskConfigMap = this.toTaskConfigMap(this.createTaskConfig(processKey, businessKey));
-        HashMap<String, Object> data = list.get(0);
-        BpmnModel bpmnModel = this.getBpmnModel(String.valueOf(data.get(ID_)));
-        Process mainProcess = bpmnModel.getMainProcess();
-        String mainProcessJsonStr = JSON.toJSONString(mainProcess);
-        JSONObject mainProcessJsonObject = JSON.parseObject(mainProcessJsonStr, JSONObject.class);
-        JSONArray flowElements = mainProcessJsonObject.getJSONArray(ProcConst.FLOW_ELEMENTS);
-        for (int i = 0; i < flowElements.size(); i++) {
-            JSONObject flowElement = flowElements.getJSONObject(i);
-            JSONArray outgoingFlows = flowElement.getJSONArray(ProcConst.OUTGOING_FLOWS);
-            TaskConfig taskConfig = taskConfigMap.get(flowElement.getString(ProcConst.ID));
-            if (taskConfig != null) {
-                if (ProcConst.SEQUENCE_FLOW.equals(taskConfig.getType()) || ProcConst.END_EVENT.equals(taskConfig.getType())) {
-                    continue;// 流向和结束不需要进行计算，其他类型只计算流出方向
-                } else {
-                    for (int j = 0; j < outgoingFlows.size(); j++) {
-                        JSONObject outgoingFlow = outgoingFlows.getJSONObject(j);
-                        if (outgoingFlow != null) {
-                            FlowConfig flowConfig = new FlowConfig();
-                            flowConfig.setId(outgoingFlow.getString(ProcConst.ID));
-                            flowConfig.setName(outgoingFlow.getString(ProcConst.NAME));
-                            flowConfig.setFrom(taskConfigMap.get(flowElement.getString(ProcConst.ID)));
-                            flowConfig.setTo(taskConfigMap.get(outgoingFlow.getString(ProcConst.TARGET_REF)));
-                            flowConfigs.add(flowConfig);
+        for (TaskConfig taskConfig : taskConfigs) { // 单独创建内部子流程之间的节点
+            if (SubProcess.class.getSimpleName().equals(taskConfig.getType())) {
+                Map<String, Collection<FlowElement>> subFlowsMap = this.getSubProcessFlowElements(mainProcess.getFlowElements(), taskConfig.getId());
+                if (subFlowsMap != null) {
+                    Set<Map.Entry<String, Collection<FlowElement>>> entrySet = subFlowsMap.entrySet();
+                    for (Iterator<Map.Entry<String, Collection<FlowElement>>> iterator = entrySet.iterator(); iterator.hasNext(); ) {
+                        Map.Entry<String, Collection<FlowElement>> entry = iterator.next();
+                        String key = entry.getKey();
+                        Collection<FlowElement> value = entry.getValue();
+                        for (FlowElement flowElement : value) {
+                            if (flowElement instanceof StartEvent) {
+                                FlowConfig flowConfig = new FlowConfig();
+                                flowConfig.setId(key + ":" + flowElement.getId());
+                                flowConfig.setName(key + "-->" + flowElement.getId());
+                                flowConfig.setFrom(taskConfigMap.get(key));
+                                flowConfig.setTo(taskConfigMap.get(flowElement.getId()));
+                                flowConfig.setInit(null);
+                                flowConfigs.add(flowConfig);
+                                System.out.println(flowConfigs.size());
+                            }
                         }
+                        // 构造子流程流向集合
+                        Map<String, FlowConfig> flowConfigMap = this.toFlowConfigMap(flowConfigs);
+                        List<FlowConfig> subFlowConfigs = new ArrayList<FlowConfig>();
+                        List<TaskConfig> subTaskConfigs = new ArrayList<TaskConfig>();
+                        for (FlowElement flowElement : value) {
+                            if (flowElement instanceof SequenceFlow) {
+                                subFlowConfigs.add(flowConfigMap.get(flowElement.getId()));
+                            } else {
+                                subTaskConfigs.add(taskConfigMap.get(flowElement.getId()));
+                            }
+                        }
+                        NodeConfig subNodeConfig = new NodeConfig();
+                        subNodeConfig.setProcessKey(processKey);
+                        subNodeConfig.setBusinessKey(businessKey);
+                        subNodeConfig.setEdges(subFlowConfigs);
+                        subNodeConfig.setStates(subTaskConfigs);
+                        nodeConfig.getNodes().put(key, subNodeConfig);
                     }
                 }
             }
         }
-        return flowConfigs;
+        nodeConfig.setStates(taskConfigs);
+        nodeConfig.setEdges(flowConfigs);
+        nodeConfig.setBusinessKey(businessKey);
+        nodeConfig.setProcessKey(processKey);
+        // 设置主流程节点信息
+        Map<String, NodeConfig> nodes = nodeConfig.getNodes();
+        List<FlowConfig> mainFlowConfigs = new ArrayList<FlowConfig>();
+        mainFlowConfigs.addAll(flowConfigs);
+        List<TaskConfig> mainTaskConfigs = new ArrayList<TaskConfig>();
+        mainTaskConfigs.addAll(taskConfigs);
+        Set<Map.Entry<String, NodeConfig>> entrySet = nodes.entrySet();
+        for (Iterator<Map.Entry<String, NodeConfig>> iterator = entrySet.iterator(); iterator.hasNext(); ) {
+            Map.Entry<String, NodeConfig> entry = iterator.next();
+            NodeConfig value = entry.getValue();
+            List<FlowConfig> otherFlowConfigs = value.getEdges();
+            List<TaskConfig> otherTaskConfigs = value.getStates();
+            mainFlowConfigs.removeAll(otherFlowConfigs);
+            mainTaskConfigs.removeAll(otherTaskConfigs);
+        }
+        // 主流流程节点需要移除虚拟的流向元素
+        for (Iterator<FlowConfig> iterator = mainFlowConfigs.listIterator(); iterator.hasNext(); ) {
+            FlowConfig mainFlowConfig = iterator.next();
+            if (mainFlowConfig.getInit() == null) {
+                iterator.remove();
+            }
+        }
+        NodeConfig mainNodeConfig = new NodeConfig();
+        mainNodeConfig.setStates(mainTaskConfigs);
+        mainNodeConfig.setEdges(mainFlowConfigs);
+        mainNodeConfig.setBusinessKey(businessKey);
+        mainNodeConfig.setProcessKey(processKey);
+        nodes.put(processKey, mainNodeConfig);
+        System.out.println(flowConfigs.size());
+        return nodeConfig;
     }
 
     @Override
-    public Map<String, Object> renderProcessProgress(String processKey, String businessKey) {
-        List<HashMap<String, Object>> processConfigurations = this.listProcessConfiguration(processKey, businessKey);
+    public NodeConfig renderNodeConfig(NodeConfig nodeConfig) {
+        List<HashMap<String, Object>> processConfigurations = this.listProcessConfiguration(nodeConfig.getProcessKey(), nodeConfig.getBusinessKey());
         // 设置节点状态
-        Map<String, TaskConfig> taskConfigMap = this.toTaskConfigMap(this.createTaskConfig(processKey, businessKey));
+        Map<String, TaskConfig> taskConfigMap = this.toTaskConfigMap(nodeConfig.getStates());
         for (HashMap<String, Object> processConfiguration : processConfigurations) {
             String id = String.valueOf(processConfiguration.get(ACT_ID_));
             if (taskConfigMap.get(id) != null) {
@@ -173,28 +220,87 @@ public class ProcessService implements IProcessService {
             }
         }
         // 设置流向状态
-        List<FlowConfig> flowConfigs = this.createFlowConfig(processKey, businessKey);
-        for(int i = 1; i < processConfigurations.size(); i++){
+        List<FlowConfig> flowConfigs = nodeConfig.getEdges();
+        for (int i = 1; i < processConfigurations.size(); i++) {
             String alreadyFrom = String.valueOf(processConfigurations.get(i - 1).get(ACT_ID_));
             String alreadyTo = String.valueOf(processConfigurations.get(i).get(ACT_ID_));
-            for(FlowConfig flowConfig : flowConfigs){
-                String from = flowConfig.getFrom().getId();
+            for (FlowConfig flowConfig : flowConfigs) {
                 String to = flowConfig.getTo().getId();
-                if(alreadyFrom.equals(from) && alreadyTo.equals(to)){
+                String from = flowConfig.getFrom().getId();
+                flowConfig.setFrom(taskConfigMap.get(from));// 更新来和去节点状态信息
+                flowConfig.setTo(taskConfigMap.get(to));
+                if (alreadyFrom.equals(from) && alreadyTo.equals(to)) {
                     flowConfig.setStatus(ProcConst.ALREADY);
+                }
+                if (flowConfig.getInit() == null && ProcConst.ALREADY.equals(flowConfig.getFrom().getStatus()) && ProcConst.ALREADY.equals(flowConfig.getTo().getStatus())) {
+                    flowConfig.setStatus(ProcConst.ALREADY);// 子流程与开始的连线状态设置
                 }
             }
         }
-        for(FlowConfig flowConfig : flowConfigs){
-            if(StringUtils.isBlank(flowConfig.getStatus())){
+        for (FlowConfig flowConfig : flowConfigs) {
+            if (StringUtils.isBlank(flowConfig.getStatus())) {
                 flowConfig.setStatus(ProcConst.AGENCY);
             }
         }
-        // 封装数据
-        Map<String, Object> data = new HashMap<String, Object>();
-        data.put(ProcConst.STATES, taskConfigs);
-        data.put(ProcConst.EDGES, flowConfigs);
-        return data;
+        return nodeConfig;
+    }
+
+    /**
+     * 流向List转流向Map
+     *
+     * @param flowConfigs
+     * @return
+     */
+    private Map<String, FlowConfig> toFlowConfigMap(List<FlowConfig> flowConfigs) {
+        Map<String, FlowConfig> flowConfigMap = new HashMap<String, FlowConfig>();
+        for (FlowConfig flowConfig : flowConfigs) {
+            flowConfigMap.put(flowConfig.getId(), flowConfig);
+        }
+        return flowConfigMap;
+    }
+
+    /**
+     * 迭代子流程下面的节点和流向
+     *
+     * @param flowElements
+     * @param subProcessId
+     * @return
+     */
+    private Map<String, Collection<FlowElement>> getSubProcessFlowElements(Collection<FlowElement> flowElements, String subProcessId) {
+        Map<String, Collection<FlowElement>> allSubFlowElementsMap = new LinkedHashMap<String, Collection<FlowElement>>();
+        if (CollectionUtils.isNotEmpty(flowElements)) {
+            for (FlowElement flowElement : flowElements) {
+                if (flowElement instanceof SubProcess) {
+                    SubProcess subProcess = (SubProcess) flowElement;
+                    Collection<FlowElement> subFlowElements = subProcess.getFlowElements();
+                    allSubFlowElementsMap.put(subProcessId, subFlowElements);
+                    this.getSubProcessFlowElements(subFlowElements, flowElement.getId());
+                }
+            }
+        }
+        return allSubFlowElementsMap;
+    }
+
+    /**
+     * 迭代流程元素(如果一个流程有内部流程时候)
+     *
+     * @param flowElements
+     * @return Collection<FlowElement> 迭代结果
+     */
+    private Collection<FlowElement> recursionFlowElements(Collection<FlowElement> flowElements) {
+        Collection<FlowElement> allFlowElements = new ArrayList<FlowElement>();
+        if (CollectionUtils.isNotEmpty(flowElements)) {
+            allFlowElements.addAll(flowElements);
+            for (FlowElement flowElement : flowElements) {
+                if (flowElement instanceof SubProcess) {
+                    SubProcess subProcess = (SubProcess) flowElement;
+                    Collection<FlowElement> subFlowElements = subProcess.getFlowElements();
+                    allFlowElements.addAll(subFlowElements);
+                    this.recursionFlowElements(subFlowElements);
+                }
+            }
+        }
+        return allFlowElements;
     }
 
     /**
@@ -225,35 +331,5 @@ public class ProcessService implements IProcessService {
             taskConfigs.add(entry.getValue());
         }
         return taskConfigs;
-    }
-
-    /**
-     * 将流向List变成流向Map
-     *
-     * @param flowConfigs 流向List
-     * @return Map<String, FlowConfig>
-     */
-    private Map<String, FlowConfig> toFlowConfigMap(List<FlowConfig> flowConfigs) {
-        Map<String, FlowConfig> flowConfigMap = new LinkedHashMap<String, FlowConfig>();
-        for (FlowConfig flowConfig : flowConfigs) {
-            flowConfigMap.put(flowConfig.getId(), flowConfig);
-        }
-        return flowConfigMap;
-    }
-
-    /**
-     * 将流向Map变成流向List
-     *
-     * @param flowConfigMap 流向List
-     * @return List<FlowConfig>
-     */
-    private List<FlowConfig> toFlowConfigList(Map<String, FlowConfig> flowConfigMap) {
-        List<FlowConfig> flowConfigs = new ArrayList<FlowConfig>();
-        Set<Map.Entry<String, FlowConfig>> entrySet = flowConfigMap.entrySet();
-        for (Iterator<Map.Entry<String, FlowConfig>> iterator = entrySet.iterator(); iterator.hasNext(); ) {
-            Map.Entry<String, FlowConfig> entry = iterator.next();
-            flowConfigs.add(entry.getValue());
-        }
-        return flowConfigs;
     }
 }
