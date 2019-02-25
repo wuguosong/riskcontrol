@@ -56,6 +56,7 @@ ctmApp.register.controller('formalAssessmentCreate', ['$http','$scope','$locatio
     $scope.initCreate = function () {
         $scope.pfr.apply.createby = $scope.credentials.UUID;
         $scope.pfr.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
+        $scope.pfr.apply.reportingUnit = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};
     }
     
     // 初始化修改、查看数据

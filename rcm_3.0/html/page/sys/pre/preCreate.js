@@ -60,6 +60,7 @@ ctmApp.register.controller('preCreate', ['$http','$scope','$location','$routePar
         $scope.pre.create_date = $scope.getDate();
         $scope.pre.apply.createby = $scope.credentials.UUID;
         $scope.pre.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
+        $scope.pre.apply.pertainArea = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};
     }
     
     // 初始化修改、查看数据
@@ -119,6 +120,8 @@ ctmApp.register.controller('preCreate', ['$http','$scope','$location','$routePar
             onClick:function(event, treeId, treeNode){
                 accessScope("#pertainArea", function(scope){
                     scope.pre.apply.pertainArea = {"VALUE":treeNode.name,KEY:treeNode.id};
+                    // 保存reportingUnit，提交流程时会验证
+                    scope.pre.apply.reportingUnit = {"VALUE":treeNode.name,KEY:treeNode.id};
                     $("#pertainArea").val(name);
                     $("label[for='pertainArea']").remove();
                 });

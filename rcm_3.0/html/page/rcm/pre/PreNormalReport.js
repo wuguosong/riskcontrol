@@ -335,4 +335,22 @@ ctmApp.register.controller('PreNormalReport',['$http','$scope','$location','$rou
     }
   
     $scope.initData();
+
+    // 给项目名称赋值
+    $scope.setDirectiveOrgList = function (id, name) {
+        var params=$scope.columnName;
+        if(params=="tenderCompany"){
+            $scope.pre.reviewReport.essentialInformation.tenderCompany = {name:name,value:id};
+            $("#tenderCompanyName").val(name);
+            $("label[for='tenderCompanyName']").remove();
+        } else if (params == "invertmentUnit") {
+            $scope.pre.reviewReport.essentialInformation.invertmentUnit = {name:name,value:id};
+            $("#invertmentUnitName").val(name);
+            $("label[for='invertmentUnitName']").remove();
+        } else if (params == "operationsUnit") {
+            $scope.pre.reviewReport.essentialInformation.operationsUnit = {name:name,value:id};
+            $("#operationsUnitName").val(name);
+            $("label[for='operationsUnitName']").remove();
+        }
+    }
 }]);
