@@ -25,6 +25,12 @@ require.config({
             ],
             exports: 'angular',
         },
+        'ui-bootstrap': {
+            deps: [
+                'jquery',
+            ],
+            exports: 'ui-bootstrap',
+        },
         'ui-tpls': {
             deps: [
                 'angular',
@@ -49,8 +55,8 @@ require.config({
             deps: ['ui-router']
         }
     }
-})
+});
 // 初始化myModule模块
-require(['jquery', 'angular', 'app', 'ng-animate', 'ui-tpls', 'Constants'], function () {
-    angular.bootstrap(document, ['myModule'])
-})
+require(['jquery', 'angular', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive'], function () {
+    angular.bootstrap(document, ['myModule']);
+});

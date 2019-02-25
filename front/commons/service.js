@@ -11,9 +11,14 @@ define(['app', 'ComCtrl'], function (app) {
                         //if ((document.getElementById("windowAlert")) != null) return;
                         return $uibModal.open({
                             template: '<div class="modal-header dialog-header-confirm"><div class="modal-title">' + warn + '</div></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-visa btn-visa-md" ng-click="confirm()"></button></div>',
-                            controller: 'alert',
+                            // controller: 'alert',
                             backdrop: false,
-                            size: 'sm'
+                            size: 'sm',
+                            controller: function ($scope, $uibModalInstance) {
+                                $scope.confirm = function () {
+                                    $uibModalInstance.dismiss("0");
+                                };
+                            }
                         });
                     }
                 }

@@ -1,5 +1,5 @@
 ﻿define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
-    var app = angular.module("myModule", ['ui.router', 'ngCookies', 'ngAnimate', 'ui.bootstrap'])
+    var app = angular.module("myModule", ['ui.router', 'ngCookies', 'ngAnimate', 'ui.bootstrap']);
     app
         .config(["$httpProvider", function ($httpProvider) {
             $httpProvider.interceptors.push('httpInterceptor');
@@ -42,7 +42,7 @@
             };
         })
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.otherwise('/index/');
+            // $urlRouterProvider.otherwise('/index/');
             $stateProvider
                 .state("index", {
                     url: "/index",
@@ -142,6 +142,70 @@
                             //异步加载controller／directive/filter/service
                             require([
                                 BUSINESS_PATH + 'demo/demoCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                .state("index.dic", {
+                    url: "/dic",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/dic/dicList.html',
+                            controller: 'dicListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/dic/dicListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                .state("index.dicList", {
+                    url: "/dic",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/dic/dicList.html',
+                            controller: 'dicListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/dic/dicListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //数据字典项列表
+                .state("index.dicOptionList", {
+                    url: "/dicOptionList/:UUID",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/dic/dicOptionList.html',
+                            controller: 'dicOptionListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/dic/dicOptionListCtrl.js'
                             ], function () {
                                 deferred.resolve();
                             });
