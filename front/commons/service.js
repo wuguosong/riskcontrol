@@ -1,7 +1,7 @@
 define(['app', 'ComCtrl'], function (app) {
     //Service比较特殊，加载后还需要手动注入控制器
     app.register
-        .service('booksService', ['$uibModal',
+        .service('Alert', ['$uibModal',
             function ($uibModal) {
                 return {
                     login: function (password) {
@@ -11,9 +11,14 @@ define(['app', 'ComCtrl'], function (app) {
                         //if ((document.getElementById("windowAlert")) != null) return;
                         return $uibModal.open({
                             template: '<div class="modal-header dialog-header-confirm"><div class="modal-title">' + warn + '</div></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-visa btn-visa-md" ng-click="confirm()"></button></div>',
-                            controller: 'alert',
+                            // controller: 'alert',
                             backdrop: false,
-                            size: 'sm'
+                            size: 'sm',
+                            controller: function ($scope, $uibModalInstance) {
+                                $scope.confirm = function () {
+                                    $uibModalInstance.dismiss("0");
+                                };
+                            }
                         });
                     }
                 }
