@@ -1,0 +1,52 @@
+<div class="">
+    <form  name="myForm" class="form-horizontal ng-pristine ng-valid" ng-submit="save()" novalidate>
+        <div class="panel-body"     >
+            <div class="panel">
+                <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">{{title}}<i class="i-triangle"></i></span></div></div>
+                <div class="panel-body special-form">
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">菜单名称：</label>
+                        <input type="hidden" name="FUNC_ID"  ng-model="sysfun.FUNC_ID" value="{{sysfun.FUNC_ID}}">
+                        <input type="hidden" name="FUNC_PID" ng-model="sysfun.FUNC_PID" value="{{sysfun.FUNC_PID}}">
+                        <div class="col-sm-4">
+                            <input type="text" name="CODE"  id="FUNC_NAME" required  ng-model="sysfun.FUNC_NAME"  ng-minlength="2" class="form-control ng-pristine ng-untouched ng-valid" />
+                            <span style="color:red" ng-show="myForm.FUNC_NAME.$dirty && myForm.FUNC_NAME.$invalid">
+                                <p ng-show="myForm.FUNC_NAME.$error.required" class="help-block">名称必填</p>
+                                <p ng-show="myForm.ADDRESS.$error.minlength" class="help-block">请准确填写菜单,2-20个字符</p>
+                                <p ng-show="myForm.ADDRESS.$error.maxlength" class="help-block">请准确填写菜单,2-20个字符</p>
+                            </span>
+                            <!--  <p ng-show="myForm.code.$invalid && !myForm.code.$pristine" class="help-block">Code is required.</p>-->
+                        </div>
+                        <label class="col-sm-2 control-label">菜单描述：</label>
+                        <div class="col-sm-4"><input type="text"  name="FUNC_DESC" id="FUNC_DESC"   action="post" ng-model="sysfun.FUNC_DESC"   class="form-control ng-pristine ng-untouched ng-valid" />
+                            <span style="color:red" ng-show="myForm.FUNC_DESC.$dirty && myForm.FUNC_DESC.$invalid"></span>
+                        </div>
+                        <!-- <p ng-show="myForm.name.$invalid && !myForm.name.$pristine" class="help-block">Name is required.</p>-->
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">连接：</label>
+                        <div class="col-sm-4"><input type="text"  name="URL" id="URL" ng-model="sysfun.URL"   class="form-control ng-pristine ng-untouched ng-valid" />
+                            <span style="color:red" ng-show="myForm.URL.$dirty && myForm.URL.$invalid">
+                                <p ng-show="myForm.URL.$error.required" class="help-block">此项必填</p>
+                            </span>
+                        </div>
+                        <label class="col-sm-2 control-label">状态：</label>
+                        <div class="col-sm-4"><select   name="STATE" id="STATE"  ng-model="sysfun.STATE" class="form-control ">
+                            <option value=" "></option>
+                            <option value="1">启用</option>
+                            <option value="2">禁用</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group row last-group">
+                        <div class="txc">
+                            <button class="btn btn-info" type="button" id="cancelbtn" ng-click="cancel()">取消</button>
+                            <button class="btn btn-info" type="submit"   id="savebtn">确定</button>
+                            <button class="btn btn-info" style="display: none;" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

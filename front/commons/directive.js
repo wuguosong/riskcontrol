@@ -70,7 +70,6 @@ define(['app'], function (app) {
                 link: function (scope, element, attrs) {
 
                     var conf = scope.conf;
-                    console.log(conf);
 
                     // 默认分页长度
                     var defaultPagesLength = 9;

@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div>
+    <form  name="myForm" class="form-horizontal ng-pristine ng-valid" ng-submit="save()" novalidate>
+        <div class="panel-body">
+            <div class="header">
+                <img src="assets/images/icons/sysUser.png" width="41" height="41" alt="" title="" />
+                <span class="hd-title">用户角色分配</span>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-hd-cont"><span class="panel-title">用户角色分配<i class="i-triangle"></i></span></div>
+                </div>
+                <div class="panel-body" style="min-height: 450px;">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+                            <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>序号</th>
+                                <th>角色名称</th>
+                                <th>角色描述</th>
+                                <!-- 	                                <th>编号</th> -->
+                                <th>类型</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="u in roleList" on-finish-render-filters>
+                                <td>
+                                    <label class="checkbox-inline">
+                                        <input class="px" type="checkbox" name="checkRole" ng-checked="roleStr.indexOf(u.ROLE_ID)>=0" class="ng-pristine ng-untouched ng-valid" value="{{u}}"/>
+                                        <span class="lbl">&nbsp;</span>
+                                    </label>
+                                </td>
+                                <td>{{$index+1}}</td>
+                                <td>{{u.ROLE_NAME}}</td>
+                                <td>
+                                    <span ng-if="u.EXPLAIN.length > 20" data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white" title="{{u.EXPLAIN}}">{{u.EXPLAIN | limitTo:20}}...</span>
+                                    <span ng-if="u.EXPLAIN.length <= 20">{{u.EXPLAIN}}</span>
+                                </td>
+                                <!-- 	                                <td>{{u.CODE}}</td> -->
+                                <td>
+                                    <font ng-if="u.TYPE == '0'" data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white" title="功能菜单角色"><i class="i-funcRole"></i>功能</font>
+                                    <font ng-if="u.TYPE == '1'" data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white" title="具体业务含义角色"><i class="i-servRole"></i>业务</font>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class=" row ">
+                <div class="option">
+                    <button class="btn btn-info" type="button" ng-click="return()" id="returnbtn"><i class="fa fa-save"></i>返回</button>
+                    <button class="btn btn-info" type="button" ng-click="save()" id="savebtn"><i class="fa fa-save"></i>保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,7 +1,7 @@
 define(['app', 'ComCtrl'], function (app) {
     //Service比较特殊，加载后还需要手动注入控制器
     app.register
-        .service('WindowAlert', ['$uibModal', '$rootScope',
+        .service('Window', ['$uibModal', '$rootScope',
             function ($uibModal, $rootScope) {
                 return {
                     login: function (password) {
@@ -10,7 +10,7 @@ define(['app', 'ComCtrl'], function (app) {
                     alert: function (warn) {
                         //if ((document.getElementById("windowAlert")) != null) return;
                         return $uibModal.open({
-                            template: '<div class="modal-header dialog-header-confirm"><div class="modal-title">' + warn + '</div></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-visa btn-visa-md" ng-click="confirm()"></button></div>',
+                            template: '<div class="modal-header dialog-header-confirm"><div class="modal-title">' + warn + '</div></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-visa btn-visa-md" ng-click="confirm()">确定</button></div>',
                             // controller: 'alert',
                             backdrop: false,
                             size: 'sm',
