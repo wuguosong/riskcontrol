@@ -2,7 +2,7 @@
  * Created by gl on 2016/8/16.
  */
 define(['app', 'Service'], function (app) {
-    app.register.controller('RoleAndFunCtrl', ['$http', '$scope', '$location', '$stateParams', function ($http, $scope, $location, $stateParams) {
+    app.register.controller('RoleAndFunCtrl', ['$http', '$scope', '$location', '$stateParams','Window', function ($http, $scope, $location, $stateParams, Window) {
         $scope.roleId = $stateParams.roleId;
         $scope.roleCode = $stateParams.roleCode;
         $scope.oldUrl = $stateParams.url;
@@ -22,7 +22,7 @@ define(['app', 'Service'], function (app) {
                 url: SRV_URL + "role/createOrUpdateRoleAndFunc.do",
                 data: $.param({"UUID": str, "ROLE_ID": $scope.roleId, 'ROLE_CODE': $scope.roleCode})
             }).success(function (result) {
-                alert("保存成功！");
+                Window.alert("保存成功！");
             });
         };
         //根据roleId获取菜单列表

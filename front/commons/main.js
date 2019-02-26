@@ -23,9 +23,6 @@ require.config({
         'Constants': COMMONS_PATH + 'constants'
     },
     shim: {
-        'dtree': {
-            exports: 'dtree'
-        },
         'angular': {
             deps: [
                 'jquery',
@@ -63,8 +60,7 @@ require.config({
             exports: 'ng-router',
         },
         'app': {
-            deps: ['ui-router',
-                'dtree']
+            deps: ['ui-router']
         }
     }
 });

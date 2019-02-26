@@ -1,5 +1,5 @@
 define(['app', 'Service'], function (app) {
-    app.register.controller('SysRoleInfoCtrl', ['$http', '$scope', '$location', '$stateParams', function ($http, $scope, $location, $stateParams) {
+    app.register.controller('SysRoleInfoCtrl', ['$http', '$scope', '$location', '$stateParams','Window', function ($http, $scope, $location, $stateParams, Window) {
         $scope.role = {};
         $scope.roleId = $stateParams.roleId;
         $scope.action = $stateParams.action;
@@ -19,11 +19,11 @@ define(['app', 'Service'], function (app) {
 
         $scope.saveRole = function () {
             if ($scope.role.ROLE_NAME == null || $scope.role.ROLE_NAME == "") {
-                alert("角色名称必填!");
+                Window.alert("角色名称必填!");
                 return false;
             }
             if ($scope.role.CODE == null || $scope.role.CODE == "") {
-                alert("编码必填!");
+                Window.alert("编码必填!");
                 return false;
             }
             var isShowPublicSearch = $("input[name='isShowPublicSearch']:checked").val();
@@ -44,14 +44,14 @@ define(['app', 'Service'], function (app) {
                 $scope.hide_mask();
                 if (result.success) {
                     $scope.role.ID = result.result_data;
-                    alert("保存成功!");
+                    Window.alert("保存成功!");
                 }
                 else {
-                    alert(result.result_name);
+                    Window.alert(result.result_name);
                 }
             }).error(function (data, status, headers, config) {
                 $scope.hide_mask();
-                alert(status);
+                Window.alert(status);
             });
         };
 

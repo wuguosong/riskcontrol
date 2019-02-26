@@ -1,5 +1,5 @@
 define(['app','Service'], function (app) {
-    app.register.controller('SysRoleListCtrl', ['$http', '$scope', '$location', '$stateParams', '$timeout',function ($http, $scope, $location, $stateParams, $timeout) {
+    app.register.controller('SysRoleListCtrl', ['$http', '$scope', '$location', '$stateParams', '$timeout','Window',function ($http, $scope, $location, $stateParams, $timeout, Window) {
         //分配菜单
         $scope.funcCheck = function (role_id, code) {
             $location.path(PATH_URL_INDEX + "/RoleAndFun/" + role_id + "/" + code + "/oldUrl");
@@ -31,10 +31,10 @@ define(['app','Service'], function (app) {
                 uid = uid.substring(1, uid.length);
             }
             if (num == 0) {
-                alert("未选中修改的数据！");
+                Window.alert("未选中修改的数据！");
                 return false;
             } else if (num > 1) {
-                alert("只能选择其中一条数据进行编辑！");
+                Window.alert("只能选择其中一条数据进行编辑！");
                 return false;
             } else {
                 $location.path(PATH_URL_INDEX + "/SysRoleInfo/update/" + uid);
@@ -53,7 +53,7 @@ define(['app','Service'], function (app) {
                 uid = uid.substring(1, uid.length);
             }
             if (num == 0) {
-                alert("请选择其中一条数据进行删除！");
+                Window.alert("请选择其中一条数据进行删除！");
                 return false;
             } else {
                 $http({
@@ -62,21 +62,21 @@ define(['app','Service'], function (app) {
                     data: $.param({"id": uid})
                 }).success(function (result) {
                     if (result.success) {
-                       if(confirm("确定要删除吗？")){
-                           $http({
-                               method: 'post',
-                               url: SRV_URL + "role/deleteRoleById.do",
-                               data: $.param({"id": uid})
-                           }).success(function (result) {
-                               if (result.success) {
-                                   $scope.queryRoleListByPage();
-                               } else {
-                                   alert(result.result_name);
-                               }
-                           });
-                       };
+                        Window.confirm('确认', '确定要删除吗?').result.then(function(){
+                            $http({
+                                method: 'post',
+                                url: SRV_URL + "role/deleteRoleById.do",
+                                data: $.param({"id": uid})
+                            }).success(function (result) {
+                                if (result.success) {
+                                    $scope.queryRoleListByPage();
+                                } else {
+                                    Window.alert(result.result_name);
+                                }
+                            });
+                        });
                     } else {
-                        alert(result.result_name);
+                        Window.alert(result.result_name);
                     }
                 });
             }
@@ -99,7 +99,7 @@ define(['app','Service'], function (app) {
                         });
                     }, 10);
                 } else {
-                    alert(result.result_name);
+                    Window.alert(result.result_name);
                 }
             });
         };

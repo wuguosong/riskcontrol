@@ -1,5 +1,5 @@
-define(['app', 'Service'], function (app) {
-    app.register.controller('RoleAndUserCtrl', ['$http', '$scope', '$location', '$stateParams', function ($http, $scope, $location, $stateParams) {
+define(['app','dtree', 'dtree-menu','Service'], function (app) {
+    app.register.controller('RoleAndUserCtrl', ['$http', '$scope', '$location', '$stateParams','Window',function ($http, $scope, $location, $stateParams,Window) {
         $scope.roleId = $stateParams.roleId;
         $scope.roleCode = $stateParams.roleCode;
         $scope.oldUrl = $stateParams.url;
@@ -31,7 +31,7 @@ define(['app', 'Service'], function (app) {
                     $scope.queryRoleUserListByPage();
                     $scope.checkedUsers = [];
                 } else {
-                    alert(result.result_name);
+                    Window.alert(result.result_name);
                 }
             });
         };
@@ -53,10 +53,10 @@ define(['app', 'Service'], function (app) {
                 uid = uid.substring(1, uid.length);
             }
             if (num == 0) {
-                alert("请选择其中一条数据进行删除！");
+                Window.alert("请选择其中一条数据进行删除！");
                 return false;
             } else {
-                if(confirm("确定要删除吗?")){
+                Window.confirm('确认', '确定要删除吗?').result.then(function(){
                     $http({
                         method: 'post',
                         url: SRV_URL + "role/deleteRoleUserById.do",
@@ -65,10 +65,10 @@ define(['app', 'Service'], function (app) {
                         if (result.success) {
                             $scope.queryRoleUserListByPage();
                         } else {
-                            alert(result.result_name);
+                            Window.alert(result.result_name);
                         }
                     });
-                };
+                });
             }
         }
 
@@ -82,7 +82,7 @@ define(['app', 'Service'], function (app) {
                     $scope.userList = result.result_data.list;
                     $scope.paginationConf.totalItems = result.result_data.totalItems;
                 } else {
-                    alert(result.result_name);
+                    Window.alert(result.result_name);
                 }
             });
         };
