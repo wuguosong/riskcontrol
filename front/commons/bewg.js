@@ -1,5 +1,4 @@
-﻿﻿
-define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
+﻿﻿define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
     var app = angular.module("myModule", ['ui.router', 'ngCookies', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
     app.config(["$httpProvider", function ($httpProvider) {
         $httpProvider.interceptors.push('httpInterceptor');
