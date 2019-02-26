@@ -1,4 +1,4 @@
-define(['app','dtree', 'dtree-menu','Service'], function (app) {
+define(['app', 'Service'], function (app) {
     app.register.controller('RoleAndUserCtrl', ['$http', '$scope', '$location', '$stateParams','Window',function ($http, $scope, $location, $stateParams,Window) {
         $scope.roleId = $stateParams.roleId;
         $scope.roleCode = $stateParams.roleCode;

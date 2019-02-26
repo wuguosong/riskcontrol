@@ -1,7 +1,7 @@
 /**
  * Created by gl on 2016/8/16.
  */
-define(['app', 'Service'], function (app) {
+define(['app', 'Service', 'dtree', 'dtree-menu'], function (app) {
     app.register.controller('RoleAndFunCtrl', ['$http', '$scope', '$location', '$stateParams','Window', function ($http, $scope, $location, $stateParams, Window) {
         $scope.roleId = $stateParams.roleId;
         $scope.roleCode = $stateParams.roleCode;
