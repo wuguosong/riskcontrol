@@ -1,8 +1,8 @@
 define(['app', 'ComCtrl'], function (app) {
     //Service比较特殊，加载后还需要手动注入控制器
     app.register
-        .service('Alert', ['$uibModal',
-            function ($uibModal) {
+        .service('WindowAlert', ['$uibModal', '$rootScope',
+            function ($uibModal, $rootScope) {
                 return {
                     login: function (password) {
                         console.log("bbbbb" + password);
@@ -20,7 +20,24 @@ define(['app', 'ComCtrl'], function (app) {
                                 };
                             }
                         });
-                    }
+                    },
+                    confirm: function (title, msg) {
+                        $rootScope.msg = msg;
+                        // if ((document.getElementById("windowAlert")) != null) return;
+                        return $uibModal.open({
+                            template: '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="close()">&times;</button><div class="modal-title">' + title + '</div></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-visa btn-visa-md" ng-click="confirm()">确定</button><button type="button" class="btn btn-visa btn-visa-md" ng-click="close()">取消</button></div>',
+                            controller:  function ($scope, $uibModalInstance) {
+                                $scope.confirm = function () {
+                                    $uibModalInstance.close();
+                                };
+                                $scope.close = function () {
+                                    $uibModalInstance.dismiss("0");
+                                };
+                            },
+                            backdrop: false,
+                            size: 'sm'
+                        });
+                    },
                 }
             }])
 });

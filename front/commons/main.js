@@ -6,6 +6,7 @@ require.config({
     paths: {
         'jquery': LIBS_PATH + 'jquery/jquery-3.1.0.min',
         'angular': LIBS_PATH + 'angular-1.5.8/angular.min',
+        'ngSanitize': LIBS_PATH + 'angular-1.5.8/angular-sanitize',
         'ng-animate': LIBS_PATH + 'angular-1.5.8/angular-animate',
         'ng-cookies': LIBS_PATH + 'angular-1.5.8/angular-cookies',
         'ui-router': LIBS_PATH + 'ui-router/angular-ui-router',
@@ -43,6 +44,10 @@ require.config({
             deps: ['angular'],
             exports: 'ng-animate',
         },
+        'ngSanitize': {
+            deps: ['angular'],
+            exports: 'ngSanitize',
+        },
         'ng-cookies': {
             deps: ['angular'],
             exports: 'ng-cookies',
@@ -57,6 +62,6 @@ require.config({
     }
 });
 // 初始化myModule模块
-require(['jquery', 'angular', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive'], function () {
+require(['jquery', 'angular', 'ngSanitize', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive'], function () {
     angular.bootstrap(document, ['myModule']);
 });
