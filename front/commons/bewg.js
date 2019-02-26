@@ -1,9 +1,9 @@
-﻿﻿define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
+﻿﻿
+define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
     var app = angular.module("myModule", ['ui.router', 'ngCookies', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-    app
-        .config(["$httpProvider", function ($httpProvider) {
-            $httpProvider.interceptors.push('httpInterceptor');
-        }])
+    app.config(["$httpProvider", function ($httpProvider) {
+        $httpProvider.interceptors.push('httpInterceptor');
+    }])
         .factory("httpInterceptor", ["$q", "$rootScope", '$location', function ($q, $rootScope, $location) {
             return {
                 request: function (config) {
@@ -272,6 +272,50 @@
                             //异步加载controller／directive/filter/service
                             require([
                                 BUSINESS_PATH + 'sys/user/userInfoCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //菜单列表页面
+                .state("index.sysFunList", {
+                    url: "/sysFunList/:funcId",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/sysFun/sysFunList.html',
+                            controller: 'sysFunListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/sysFun/sysFunListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //菜单详情页面
+                .state("index.sysFunInfo", {
+                    url: "/sysFunInfo/:action/:funcId",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/sysFun/sysFunInfo.html',
+                            controller: 'sysFunInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/sysFun/sysFunInfoCtrl.js'
                             ], function () {
                                 deferred.resolve();
                             });
