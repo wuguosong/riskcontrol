@@ -1,0 +1,121 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/sysRole.png" width="41" height="41" alt="" title=""/>
+        <span class="hd-title">角色管理</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+        <div class="panel">
+            <div class="panel-heading search-box">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication"
+                   href="/#searchbox">查询</a>
+            </div>
+            <div id="searchbox" class="panel-collapse collapse">
+                <div class="panel-body search-body">
+                    <div class="form-group row sm-row">
+                        <label class="col-sm-2 col-md-1 control-label">角色名称</label>
+                        <div class="col-sm-4 col-md-3 sm-col"><input type="text"
+                                                                     ng-model="paginationConf.queryObj.roleName"
+                                                                     class="form-control ng-pristine ng-untouched ng-valid"/>
+                        </div>
+                        <label class="col-sm-2 col-md-1 control-label">角色类型</label>
+                        <div class="col-sm-4 col-md-3 sm-col">
+                            <select class="form-control ng-pristine ng-valid ng-touched"
+                                    ng-model="paginationConf.queryObj.type">
+                                <option value=""></option>
+                                <option value="0">功能角色</option>
+                                <option value="1">业务角色</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-md-4">
+                            <div class="col-sm-2 col-md-2 search">
+                                <button type="button" class="btn btn-info" ng-click="execQuerRoleListByPage()"><i
+                                        class="glyphicon glyphicon-search"></i>查询
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading">
+                <div class="panel-hd-cont"><span class="panel-title">角色列表<i class="i-triangle"></i></span></div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <div class="txl">
+                        <button type="button" ng-click="createRole()" class="btn btn-info"><i
+                                class="glyphicon glyphicon-plus"></i>新增
+                        </button>
+                        <button type="button" ng-click="updateRole()" class="btn btn-info"><i
+                                class="glyphicon glyphicon-edit"></i>修改
+                        </button>
+                        <button type="button" ng-click="deleteRole()" class="btn btn-info"><i
+                                class="glyphicon glyphicon-trash"></i>删除
+                        </button>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0"
+                               class="table table-text-mid table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>类型</th>
+                                <th>描述</th>
+                                <th>分配菜单</th>
+                                <th>分配用户</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="r in roleList">
+                                <td>
+                                    <label class="checkbox-inline">
+                                        <input class="px" type="checkbox" name="checkbox"
+                                               class="ng-pristine ng-untouched ng-valid" value="{{r.ROLE_ID}}"/>
+                                        <span class="lbl">&nbsp;</span>
+                                    </label>
+                                </td>
+                                <td>{{$index+1}}</td>
+                                <td>
+                                    <!--<a href="#/SysRoleView/{{r.ROLE_ID}}/{{('#/SysRoleList') |encodeURI}}">{{r.ROLE_NAME}}</a>-->
+                                    <a href="javascript:void(0);" ng-click="roleView(r.ROLE_ID)">{{r.ROLE_NAME}}</a>
+                                </td>
+                                <td>
+                                    <font ng-if="r.TYPE == '0'" data-toggle="tooltip" data-placement="top"
+                                          data-html="true" data-backColor="white" title="功能菜单角色"><i
+                                            class="i-funcRole"></i>功能</font>
+                                    <font ng-if="r.TYPE == '1'" data-toggle="tooltip" data-placement="top"
+                                          data-html="true" data-backColor="white" title="具体业务含义角色"><i
+                                            class="i-servRole"></i>业务</font>
+                                </td>
+                                <td>
+                                    <span ng-if="r.EXPLAIN.length > 20" data-toggle="tooltip" data-placement="top"
+                                          data-html="true" data-backColor="white" title="{{r.EXPLAIN}}">{{r.EXPLAIN | limitTo:20}}...</span>
+                                    <span ng-if="r.EXPLAIN.length <= 20">{{r.EXPLAIN}}</span>
+                                </td>
+                                <td>
+                                    <!--<a class="allot" href="#/RoleAndFun/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配菜单</a>-->
+                                    <a class="allot" href="javascript:void(0);" ng-click="funcCheck(r.ROLE_ID, r.CODE)">分配菜单</a>
+                                </td>
+                                <td>
+                                    <!--<a class="allot"
+                                       href="#/RoleAndUser/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配用户</a>-->
+                                    <a class="allot"
+                                       href="javascript:void(0);" ng-click="roleCheck(r.ROLE_ID, r.CODE)">分配用户</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+                <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+    </form>
+</div>

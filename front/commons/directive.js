@@ -299,4 +299,131 @@ define(['app'], function (app) {
                 }
             };
         }])
+        /***用户多选弹窗指令开始[Add By LiPan 2019-02-26]***/
+        .directive('directUserMultiDialog', function () {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/directUserMultiDialog.html',
+                replace: true,
+                scope: {
+                    //必填,该指令所在modal的id，在当前页面唯一
+                    id: "@",
+                    //对话框的标题，如果没设置，默认为“人员选择”
+                    title: "@",
+                    url: "@",
+                    //查询参数
+                    queryParams: "=",
+                    //默认选中的用户,数组类型，[{NAME:'张三',VALUE:'user.uuid'},{NAME:'李四',VALUE:'user.uuid'}]
+                    checkedUsers: "=",
+                    //映射的key，value，{nameField:'username',valueField:'uuid'}，
+                    //默认为{nameField:'NAME',valueField:'VALUE'}
+                    mappedKeyValue: "=",
+                    callback: "="
+                    //移除选中的人员，调用父scope中的同名方法
+                    // removeSelectedUser: "&"
+                },
+                controller: function ($scope, $http, $element) {
+                    if ($scope.url == null || '' == $scope.url) {
+                        $scope.url = "user/queryUserForSelected.do";
+                    }
+                    $scope.paginationConf = {
+                        lastCurrentTimeStamp: '',
+                        currentPage: 1,
+                        totalItems: 0,
+                        itemsPerPage: 10,
+                        pagesLength: 10,
+                        queryObj: {},
+                        perPageOptions: [10, 20, 30, 40, 50],
+                        onChange: function () {
+                        }
+                    };
+                    if (null != $scope.queryParams) {
+                        $scope.paginationConf.queryObj = $scope.queryParams;
+                    }
+                    $scope.queryUser = function () {
+                        $http({
+                            method: 'post',
+                            url: SRV_URL + $scope.url,
+                            data: $.param({"page": JSON.stringify($scope.paginationConf)})
+                        }).success(function (data) {
+                            if (data.success) {
+                                $scope.users = data.result_data.list;
+                                $scope.paginationConf.totalItems = data.result_data.totalItems;
+                            } else {
+                                $.alert(data.result_name);
+                            }
+                        });
+                    }
+                    $scope.removeSelectedUser = function (user) {
+                        for (var i = 0; i < $scope.tempCheckedUsers.length; i++) {
+                            if (user.VALUE == $scope.tempCheckedUsers[i].VALUE) {
+                                $scope.tempCheckedUsers.splice(i, 1);
+                                break;
+                            }
+                        }
+                    };
+                    $scope.isChecked = function (user) {
+                        for (var i = 0; i < $scope.tempCheckedUsers.length; i++) {
+                            if (user.UUID == $scope.tempCheckedUsers[i].VALUE) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    };
+                    $scope.toggleChecked = function (user) {
+                        //是否选中
+                        var isChecked = $("#chk_" + $scope.id + "_" + user.UUID).prop("checked");
+                        //是否已经存在
+                        var flag = false;
+                        for (var i = 0; i < $scope.tempCheckedUsers.length; i++) {
+                            if (user.UUID == $scope.tempCheckedUsers[i].VALUE) {
+                                flag = true;
+                                if (!isChecked) {
+                                    $scope.tempCheckedUsers.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+                        if (isChecked && !flag) {
+                            //如果已经选中，但是不存在，添加
+                            $scope.tempCheckedUsers.push({"VALUE": user.UUID, "NAME": user.NAME});
+                        }
+                    };
+
+                    $scope.cancelSelected = function () {
+                        $scope.initData();
+                    }
+                    $scope.saveSelected = function () {
+                        var cus = $scope.tempCheckedUsers;
+                        $scope.checkedUsers.splice(0, $scope.checkedUsers.length)
+                        for (var i = 0; i < cus.length; i++) {
+                            var user = {};
+                            user[$scope.mappedKeyValue.nameField] = cus[i].NAME;
+                            user[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
+
+                            $scope.checkedUsers.push(user);
+                            delete user.$$hashKey;
+                        }
+                        if ($scope.callback != null) {
+                            $scope.callback();
+                        }
+                    }
+                    $scope.initData = function () {
+                        var cus = $.parseJSON(JSON.stringify($scope.checkedUsers));
+                        $scope.tempCheckedUsers = [];
+                        for (var i = 0; i < cus.length; i++) {
+                            var user = {};
+                            user.NAME = cus[i][$scope.mappedKeyValue.nameField];
+                            user.VALUE = cus[i][$scope.mappedKeyValue.valueField];
+                            $scope.tempCheckedUsers.push(user);
+                        }
+                        $scope.paginationConf.queryObj.username = '';
+                        $scope.queryUser();
+                    }
+                    $scope.$watch('checkedUsers', $scope.initData, true);
+                    $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryUser);
+                }
+            };
+        })
+    /***用户多选弹窗结束[Add By LiPan 2019-02-26]***/
 });

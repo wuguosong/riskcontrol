@@ -1,7 +1,8 @@
 const LIBS_PATH = '/libs/';
 const COMMONS_PATH = '/commons/';
 const BUSINESS_PATH = '/business/';
-
+const SRV_URL = "/rcm-rest";
+const PATH_URL_INDEX = "/index";
 require.config({
     paths: {
         'jquery': LIBS_PATH + 'jquery/jquery-3.1.0.min',
@@ -12,6 +13,7 @@ require.config({
         'ui-router': LIBS_PATH + 'ui-router/angular-ui-router',
         'ui-bootstrap': LIBS_PATH + 'ui-bootstrap/js/bootstrap.min',
         'ui-tpls': LIBS_PATH + 'ui-bootstrap/js/ui-bootstrap-tpls-1.3.3.min',
+        'dTree': LIBS_PATH + "dtree/dtree",
         'app': COMMONS_PATH + 'bewg',
         'Service': COMMONS_PATH + 'service',
         'Directive': COMMONS_PATH + 'directive',
@@ -20,6 +22,9 @@ require.config({
         'Constants': COMMONS_PATH + 'constants'
     },
     shim: {
+        'dTree': {
+            exports: 'dTree'
+        },
         'angular': {
             deps: [
                 'jquery',
@@ -57,7 +62,8 @@ require.config({
             exports: 'ng-router',
         },
         'app': {
-            deps: ['ui-router']
+            deps: ['ui-router',
+                'dTree']
         }
     }
 });

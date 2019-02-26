@@ -279,6 +279,113 @@
                         }]
                     }
                 })
+                /**********系统角色开始[Add By LiPan 2019-02-26]**************/
+                /**角色列表页面**/
+                .state("index.SysRoleList", {
+                    url: "/SysRoleList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/role/SysRoleList.html',
+                            controller: 'SysRoleListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/role/SysRoleListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**角色新增或者更新页面**/
+                .state("index.SysRoleInfo", {
+                    url: "/SysRoleInfo/:action/:roleId",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/role/SysRoleInfo.html',
+                            controller: 'SysRoleInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/role/SysRoleInfoCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**角色查看页面**/
+                .state("index.SysRoleView", {
+                    url: "/SysRoleView/:roleId/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/role/SysRoleView.html',
+                            controller: 'SysRoleViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/role/SysRoleViewCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**分配菜单页面**/
+                .state("index.RoleAndFun", {
+                    url: "/RoleAndFun/:roleId/:roleCode/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/role/RoleAndFun.html',
+                            controller: 'RoleAndFunCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/role/RoleAndFunCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**分配用户页面**/
+                .state("index.RoleAndUser", {
+                    url: "/RoleAndUser/:roleId/:roleCode/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/role/RoleAndUser.html',
+                            controller: 'RoleAndUserCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/role/RoleAndUserCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+            /**********系统角色结束[Add By LiPan 2019-02-26]**************/
         }]);
     return app;
 });
