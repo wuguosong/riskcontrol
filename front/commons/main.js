@@ -12,6 +12,8 @@ require.config({
         'ui-router': LIBS_PATH + 'ui-router/angular-ui-router',
         'ui-bootstrap': LIBS_PATH + 'ui-bootstrap/js/bootstrap.min',
         'ui-tpls': LIBS_PATH + 'ui-bootstrap/js/ui-bootstrap-tpls-1.3.3.min',
+        'dtree': LIBS_PATH + 'javascripts/dtree/js/dtree',
+        'dtree-menu': LIBS_PATH + 'javascripts/dtree/js/dtree-menu',
         'app': COMMONS_PATH + 'bewg',
         'Service': COMMONS_PATH + 'service',
         'Directive': COMMONS_PATH + 'directive',
