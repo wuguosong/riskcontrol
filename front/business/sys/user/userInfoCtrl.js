@@ -1,4 +1,4 @@
-define(['app'], function (app) {
+define(['app', 'Service'], function (app) {
     app
         .register.controller('userInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
         function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {

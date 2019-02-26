@@ -322,6 +322,28 @@
                         }]
                     }
                 })
+                //终止流程列表
+                .state("index.endFlowList", {
+                    url: "/endFlowList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/endFlow/endFlowList.html',
+                            controller: 'endFlowListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/endFlow/endFlowListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
                 /**********系统角色开始[Add By LiPan 2019-02-26]**************/
                 /**角色列表页面**/
                 .state("index.SysRoleList", {

@@ -1,0 +1,115 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt=""
+             title="" /> <span class="hd-title">终止流程</span>
+    </div>
+
+    <div class="tab-content tab-content-bordered">
+        <div class="tab-pane active" id="bs-tabdrop-tab1">
+            <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+                <div id="notificationList" class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading search-box">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse"
+                               data-parent="#notificationList" href="/#searchbox">查询</a>
+                        </div>
+                        <div id="searchbox" class="panel-collapse collapse">
+                            <div class="panel-body search-body">
+                                <div class="form-group row sm-row">
+                                    <label class="col-sm-2 col-md-1 control-label">项目名称：</label>
+                                    <div class="col-sm-4 col-md-2 sm-col">
+                                        <input type="text" name="NAME" id="NAME"
+                                               ng-model="paginationConf.queryObj.projectName"
+                                               class="form-control ng-pristine ng-untouched ng-valid" />
+                                    </div>
+                                    <div class="col-sm-4 col-md-2 search">
+                                        <button type="button" class="btn btn-info"
+                                                ng-click="getProjectList()">
+                                            <i class="glyphicon glyphicon-search"></i>查询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-hd-cont">
+                            <span class="panel-title">项目列表<i class="i-triangle"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div
+                                class="form-group row nobottom-mar table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0"
+                                   class="table table-hover datatable first-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目名称</th>
+                                    <th>评审类型</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in pList track by $index" on-finish-render-filters>
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <!--<a href="#/BulletinMattersAuditView/{{p.BUSINESS_ID}}/{{'#/endFlow'|encodeURI}}" ng-if="p.PROJECT_TYPE == 'bulletin'">{{p.PROJECT_NAME}}</a>
+                                        <a href="#/FormalAssessmentDetailView/{{p.BUSINESS_ID}}/{{'#/endFlow'|encodeURI}}" ng-if="p.PROJECT_TYPE == 'pfr'">{{p.PROJECT_NAME}}</a>
+                                        <a href="#/PreDetailView/{{p.BUSINESS_ID}}/{{'#/endFlow'|encodeURI}}" ng-if="p.PROJECT_TYPE == 'pre'">{{p.PROJECT_NAME}}</a>-->
+                                        <a ng-click="toProjectInfo(p.BUSINESS_ID, p.PROJECT_TYPE)">{{p.PROJECT_NAME}}</a>
+                                    </td>
+                                    <td>{{p.TYPENAME}}</td>
+                                    <td>
+                                        <button type="button"  id="compareBtn" ng-click="endFlowPop(p)"
+                                        class="btn btn-info" title="">终止
+                                        </button>
+                                        <!-- 											<button class="btn-danger" ng-click="">终止</button> -->
+                                        <!--<button type="button" data-toggle="modal" data-target="#addModal{{$index}}" id="compareBtn"
+                                                class="btn btn-info" title="">终止
+                                        </button>-->
+                                        <!--<div id="addModal{{$index}}" class="modal" tabindex="-1" role="dialog"
+                                             style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content special-form">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×</button>
+                                                        <h4 class="modal-title" id="myModalLabel">终止流程</h4>
+                                                    </div>
+                                                    <div class="modal-body special-form">
+                                                        <div class="row">
+                                                            <label class="col-sm-2 control-label select-mode">原因：</label>
+                                                            <div class="col-sm-8">
+                                                                <textarea class="form-control" rows="4" cols="" ng-model="p.reason"></textarea>
+                                                                <span class="required">备注：流程终止后无法恢复，请谨慎操作！</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default btn-cancel"
+                                                                data-dismiss="modal">取消</button>
+                                                        <button type="button" ng-click="endFlow(p.PROJECT_TYPE,p.BUSINESS_ID,p.reason)"
+                                                                class="btn btn-primary btn-confirm" id="forportid" data-dismiss="modal">确定</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer clearfix">
+                        <tm-pagination conf="paginationConf"></tm-pagination>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -27,5 +27,9 @@ define(['app'], function (app) {
             SaveSysFun: "fnd/SysFunction/createSysFunction",
             UpdateSysFun: "fnd/SysFunction/updateSysFunction",
             ValidateSysFunForm : "fnd/SysFunction/Validate",
+
+            // 终止流程
+            SelectProjectListEndFlow: srvUrl + "bpmn/queryProjectListByPage.do",
+            doEndFlow: srvUrl + "bpmn/endFlow.do",
         });
 });

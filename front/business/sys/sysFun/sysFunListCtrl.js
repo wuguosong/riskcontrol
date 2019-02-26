@@ -1,4 +1,4 @@
-define(['app', 'dtree', 'dtree-menu'], function (app) {
+define(['app', 'Service', 'dtree', 'dtree-menu'], function (app) {
     app
         .register.controller('sysFunListCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
         function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {

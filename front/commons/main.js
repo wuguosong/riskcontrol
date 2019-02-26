@@ -15,6 +15,7 @@ require.config({
         'ui-tpls': LIBS_PATH + 'ui-bootstrap/js/ui-bootstrap-tpls-1.3.3.min',
         'dtree': LIBS_PATH + "javascripts/dtree/js/dtree",
         'dtree-menu': LIBS_PATH + 'javascripts/dtree/js/dtree-menu',
+        'require': LIBS_PATH + 'requirejs/require',
         'app': COMMONS_PATH + 'bewg',
         'Service': COMMONS_PATH + 'service',
         'Directive': COMMONS_PATH + 'directive',
