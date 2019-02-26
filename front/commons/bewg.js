@@ -1,4 +1,4 @@
-﻿﻿define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
+﻿define(['angular', 'ui-router', 'ng-cookies', 'ui-tpls'], function () {
     var app = angular.module("myModule", ['ui.router', 'ngCookies', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
     app.config(["$httpProvider", function ($httpProvider) {
         $httpProvider.interceptors.push('httpInterceptor');
@@ -236,7 +236,7 @@
                 })
                 //给用户分配角色
                 .state("index.userRole", {
-                    url: "/userRole/:id",
+                    url: "/userRole/:userId",
                     views: {
                         'business': {
                             templateUrl: BUSINESS_PATH + 'sys/user/userRole.html',
@@ -258,7 +258,7 @@
                 })
                 //用户详情信息
                 .state("index.userInfo", {
-                    url: "/userInfo/:action/:id",
+                    url: "/userInfo/:action/:userId",
                     views: {
                         'business': {
                             templateUrl: BUSINESS_PATH + 'sys/user/userInfo.html',

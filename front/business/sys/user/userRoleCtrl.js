@@ -11,7 +11,7 @@ define(['app'], function (app) {
             $scope.getAllRole = function() {
                 $http({
                     method : 'post',
-                    url : BEWG_URL.srvUrl + 'user/getAllRole.do'
+                    url : BEWG_URL.SelectAllRoleUser
                 }).success(function(data) {
                     if (data.success) {
                         $scope.roleList = data.result_data;
@@ -25,7 +25,7 @@ define(['app'], function (app) {
             $scope.getUserRole = function() {
                 $http({
                     method : 'post',
-                    url : BEWG_URL.srvUrl + 'user/getRoleByUserId.do',
+                    url : BEWG_URL.SelectUserRole,
                     data : $.param({
                         "userId" : $scope.userId
                     })
@@ -55,7 +55,7 @@ define(['app'], function (app) {
                 }
                 $http({
                     method : 'post',
-                    url : BEWG_URL.srvUrl + 'user/saveUserRole.do',
+                    url : BEWG_URL.SaveOrUpdateUserRole,
                     traditional: true,
                     data : $.param({
                         "userId" : $scope.userId,

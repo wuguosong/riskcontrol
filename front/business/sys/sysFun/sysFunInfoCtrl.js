@@ -13,13 +13,10 @@ define(['app'], function (app) {
             //保存操作
             $scope.save = function () {
                 var postObj;
-                var url ='';
                 if(typeof $scope.sysfun.FUNC_ID!=null  && $scope.sysfun.FUNC_ID!=''  && $scope.sysfun.FUNC_ID!="undefined"){
-                    url = 'fnd/SysFunction/updateSysFunction';
-                    postObj=$scope.httpData(url,$scope.sysfun);
+                    postObj=$scope.httpData(BEWG_URL.UpdateSysFun,$scope.sysfun);
                 }else{
-                    url = 'fnd/SysFunction/createSysFunction';
-                    postObj=$scope.httpData(url,$scope.sysfun);
+                    postObj=$scope.httpData(BEWG_URL.SaveSysFun,$scope.sysfun);
                 }
                 postObj.success(function(data){
                         if(data.result_code === 'S'){
@@ -37,8 +34,7 @@ define(['app'], function (app) {
             };
             //表单验证
             $scope.getSysUserByID = function (func_id) {
-                var aMethed = 'fnd/SysFunction/Validate';
-                $scope.httpData(aMethed,code).success(
+                $scope.httpData(BEWG_URL.ValidateSysFunForm,code).success(
                     function (data, status, headers, config) {
                         $scope.sysfun != data.result_data;
                     }
@@ -56,8 +52,7 @@ define(['app'], function (app) {
             };
             //查询一个用户
             $scope.getSysFunctionByID = function (func_id) {
-                var aMethed = 'fnd/SysFunction/getSysFunctionByID';
-                $scope.httpData(aMethed,func_id).success(
+                $scope.httpData(BEWG_URL.SelectSysFunById,func_id).success(
                     function (data, status, headers, config) {
                         $scope.sysfun = data.result_data;
                         uid=$scope.sysfun.FUNC_PID;

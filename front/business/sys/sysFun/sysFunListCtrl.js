@@ -101,16 +101,14 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                     /* }else if(num>1) {
                           alert("请选择其中一条数据进行删除！");*/
                 } else{
-                    var aMethed = 'fnd/SysFunction/SelectCode';
-                    $scope.httpData(aMethed, uid).success(
+                    $scope.httpData(BEWG_URL.SelectSysFunCode, uid).success(
                         function (data, status, headers, config) {
                             if (data.result_data == false) {
                                 Window.alert('子目录未删除！');
                                 return false;
                             } else {
                                 Window.confirm('注意', "确定要删除？").result.then(function (btn) {
-                                    var aMethed = 'fnd/SysFunction/delectSysFunctionByID';
-                                    $scope.httpData(aMethed, uid).success(
+                                    $scope.httpData(BEWG_URL.DeleteSysFunById, uid).success(
                                         function (data, status, headers, config) {
                                             $scope.queryList();
                                             $scope.getOrgAll2();
@@ -147,11 +145,10 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                         return false;
                     }else{
                         statevar={"func_id": uid,"state":state};
-                        var url = 'fnd/SysFunction/updateSysFunctionState';
-                        $scope.httpData(url,statevar).success(function(data){
+                        $scope.httpData(BEWG_URL.UpdateSysFunStateById,statevar).success(function(data){
                             $scope.getAll();
                         });
-                        $scope.httpData(url,statevar).success(
+                        $scope.httpData(BEWG_URL.UpdateSysFunStateById,statevar).success(
                             function (data, status, headers, config) {
                                 $scope.getAll();
 
@@ -167,10 +164,9 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                 var func_name=$("#FUNC_NAME").val();
                 var url=$("#URL").val();
                 $scope.conf={currentPage:$scope.paginationConf.currentPage,pageSize:$scope.paginationConf.itemsPerPage,queryObj:{'ORGID':orgs,'FUNC_NAME':func_name,'URL':url}};
-                var  url = 'fnd/SysFunction/getAll';
 
                 var cc= orgs;
-                $scope.httpData(url,$scope.conf).success(function(data){
+                $scope.httpData(BEWG_URL.SelectAllSysFun,$scope.conf).success(function(data){
                     // 变更分页的总数
                     $scope.sysfun  = data.result_data.list;
                     $scope.paginationConf.totalItems = data.result_data.totalItems;
@@ -187,8 +183,7 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
             $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage',  $scope.ListAll);
             //获取组织结构角色
             $scope.getOrgAll2=function(){
-                var  url =  'fnd/SysFunction/getOrg';
-                $scope.httpData(url,{}).success(function(data){
+                $scope.httpData(BEWG_URL.SelectAllOrgSysFun,{}).success(function(data){
                     var  orgArr  = data.result_data;
                     dtrees2 = new dtreeMenu('dtrees2');
                     dtrees2.add(0,-1,'系统菜单管理',"#/index/sysFunList/0");

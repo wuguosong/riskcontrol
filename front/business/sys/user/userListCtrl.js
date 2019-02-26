@@ -49,7 +49,7 @@ define(['app'], function (app) {
                 $scope.paginationConf.queryObj = $scope.queryObj;
                 $http({
                     method:'post',
-                    url: BEWG_URL.srvUrl + "user/getAll.do",
+                    url: BEWG_URL.SelectAllUser,
                     data:$.param({"page":JSON.stringify($scope.paginationConf)})
                 }).success(function(data){
                     console.log(data.result_data.list);
