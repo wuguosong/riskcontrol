@@ -1,7 +1,7 @@
 define(['app', 'dtree', 'dtree-menu'], function (app) {
     app
-        .register.controller('sysFunListCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Alert',
-        function ($http, $scope, $location, $stateParams, BEWG_URL, Alert) {
+        .register.controller('sysFunListCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
+        function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {
             console.log('sysFunList');
 
             //查义所有的操作
@@ -45,11 +45,11 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                     uid=uid.substring(1,uid.length);
                 }
                 if(num==0){
-                    Alert.alert("请选择编辑的数据！");
+                    Window.alert("请选择编辑的数据！");
                     //$location.path("/sysFunList/0");
                     $scope.queryList();
                 }else if(num>1){
-                    Alert.alert("只能选择其中一条数据进行编辑！");
+                    Window.alert("只能选择其中一条数据进行编辑！");
                     return false;
                 }else{
                     $location.path("/index/sysFunInfo/Update/"+uid);
@@ -71,10 +71,10 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                     uid=uid.substring(1,uid.length);
                 }
                 if(num==0){
-                    Alert.alert("请选择查看的数据！");
+                    Window.alert("请选择查看的数据！");
                     $scope.queryList();
                 }else if (num>1){
-                    Alert.alert("只能选择其中一条数据查看！");
+                    Window.alert("只能选择其中一条数据查看！");
                     return false;
                 }else{
                     location.href="#/index/sysFunInfo/View/"+uid;
@@ -96,7 +96,7 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                     uid=uid.substring(1,uid.length);
                 }
                 if(num==0){
-                    Alert.alert("未选择删除的数据！");
+                    Window.alert("未选择删除的数据！");
                     return false;
                     /* }else if(num>1) {
                           alert("请选择其中一条数据进行删除！");*/
@@ -105,10 +105,10 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                     $scope.httpData(aMethed, uid).success(
                         function (data, status, headers, config) {
                             if (data.result_data == false) {
-                                Alert.alert('子目录未删除！');
+                                Window.alert('子目录未删除！');
                                 return false;
                             } else {
-                                Alert.confirm('注意', "确定要删除？").result.then(function (btn) {
+                                Window.confirm('注意', "确定要删除？").result.then(function (btn) {
                                     var aMethed = 'fnd/SysFunction/delectSysFunctionByID';
                                     $scope.httpData(aMethed, uid).success(
                                         function (data, status, headers, config) {
@@ -116,7 +116,7 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                                             $scope.getOrgAll2();
                                         }
                                     ).error(function (data, status, headers, config) {
-                                        Alert.alert(status);
+                                        Window.alert(status);
                                     });
                                 });
                             }
@@ -143,7 +143,7 @@ define(['app', 'dtree', 'dtree-menu'], function (app) {
                         uid=uid.substring(1,uid.length);
                     }
                     if(num==0){
-                        Alert.alert("请选择其中一条或多条数据启用！");
+                        Window.alert("请选择其中一条或多条数据启用！");
                         return false;
                     }else{
                         statevar={"func_id": uid,"state":state};

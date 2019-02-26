@@ -1,7 +1,7 @@
 define(['app'], function (app) {
     app
-        .register.controller('userInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Alert',
-        function ($http, $scope, $location, $stateParams, BEWG_URL, Alert) {
+        .register.controller('userInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
+        function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {
             console.log("userInfo");
 
             var uid=0;
@@ -21,7 +21,7 @@ define(['app'], function (app) {
                         if(data.result_code === 'S'){
                             $location.path("index/userList");
                         }else{
-                            Alert.alert(data.result_name);
+                            Window.alert(data.result_name);
                         }
                     }
                 )
@@ -46,7 +46,7 @@ define(['app'], function (app) {
                         $scope.userPotition = data.result_data.postition;
                         uid=$scope.sysUser.ORG_CODE;
                     }else{
-                        Alert.alert(data.result_name);
+                        Window.alert(data.result_name);
                     }
                 });
             };

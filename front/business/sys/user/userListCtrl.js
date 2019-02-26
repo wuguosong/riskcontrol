@@ -1,7 +1,7 @@
 define(['app'], function (app) {
     app
-        .register.controller('userListCtrl', ['$http', '$scope', '$location', 'BEWG_URL', 'Alert',
-        function ($http, $scope, $location, BEWG_URL, Alert) {
+        .register.controller('userListCtrl', ['$http', '$scope', '$location', 'BEWG_URL', 'Window',
+        function ($http, $scope, $location, BEWG_URL, Window) {
             console.log("user");
             
             //查义所有的操作
@@ -34,11 +34,11 @@ define(['app'], function (app) {
                 if(uid!=''){
                     uid=uid.substring(1,uid.length);
                 }else {
-                    Alert.alert("请选择其中一条数据查看！");
+                    Window.alert("请选择其中一条数据查看！");
                     return false;
                 }
                 if(num>1){
-                    Alert.alert("只能选择其中一条数据查看！");
+                    Window.alert("只能选择其中一条数据查看！");
                     return false;
                 }else{
                     location.href="#/index/userInfo/View/"+uid;
@@ -59,7 +59,7 @@ define(['app'], function (app) {
                         $scope.sysUser  = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
                     }else{
-                        Alert.alert(data.result_name);
+                        Window.alert(data.result_name);
                     }
                 });
             };

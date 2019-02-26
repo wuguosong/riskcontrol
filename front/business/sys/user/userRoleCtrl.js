@@ -1,7 +1,7 @@
 define(['app'], function (app) {
     app
-        .register.controller('userRoleCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Alert',
-        function ($http, $scope, $location, $stateParams, BEWG_URL,  Alert) {
+        .register.controller('userRoleCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
+        function ($http, $scope, $location, $stateParams, BEWG_URL,  Window) {
             console.log("userRole");
 
             $scope.userId = $stateParams.userId;
@@ -18,7 +18,7 @@ define(['app'], function (app) {
                         // 获取用户角色关联
                         $scope.getUserRole();
                     } else {
-                        Alert.alert(data.result_name);
+                        Window.alert(data.result_name);
                     }
                 });
             }
@@ -43,7 +43,7 @@ define(['app'], function (app) {
                         });
 
                     } else {
-                        Alert.alert(data.result_name);
+                        Window.alert(data.result_name);
                     }
                 });
             }
@@ -63,10 +63,10 @@ define(['app'], function (app) {
                     })
                 }).success(function(data) {
                     if (data.success) {
-                        Alert.alert(data.result_name);
+                        Window.alert(data.result_name);
                         $scope.getAllRole();
                     } else {
-                        Alert.alert(data.result_name);
+                        Window.alert(data.result_name);
                     }
                 });
             }

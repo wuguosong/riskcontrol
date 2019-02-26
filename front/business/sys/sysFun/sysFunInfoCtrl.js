@@ -1,7 +1,7 @@
 define(['app'], function (app) {
     app
-        .register.controller('sysFunInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Alert',
-        function ($http, $scope, $location, $stateParams, BEWG_URL, Alert) {
+        .register.controller('sysFunInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
+        function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {
             console.log('sysFunInfo');
 
             var uid=0;
@@ -30,7 +30,7 @@ define(['app'], function (app) {
                             }
 
                         }else{
-                            Alert.alert("菜单名称重复!");
+                            Window.alert("菜单名称重复!");
                         }
                     }
                 )
@@ -43,7 +43,7 @@ define(['app'], function (app) {
                         $scope.sysfun != data.result_data;
                     }
                 ).error(function (data, status, headers, config) {
-                    Alert.alert("此组织编码已存在");
+                    Window.alert("此组织编码已存在");
                 });
             };
 
