@@ -9,13 +9,10 @@ define(['app'], function (app) {
             //保存操作
             $scope.save = function () {
                 var postObj;
-                var url ='';
                 if(typeof $scope.sysUser.UUID!=null  && $scope.sysUser.UUID!=''  && $scope.sysUser.UUID!="undefined"){
-                    url = 'fnd/SysUser/updateSysUser';
-                    postObj=$scope.httpData(url,$scope.sysUser);
+                    postObj=$scope.httpData(BEWG_URL.UpdateUser,$scope.sysUser);
                 }else{
-                    url = 'fnd/SysUser/createSysUser';
-                    postObj=$scope.httpData(url,$scope.sysUser);
+                    postObj=$scope.httpData(BEWG_URL.SaveUser,$scope.sysUser);
                 }
                 postObj.success(function(data){
                         if(data.result_code === 'S'){
@@ -37,7 +34,7 @@ define(['app'], function (app) {
             $scope.getSysUserByID = function (uuid) {
                 $http({
                     method:'post',
-                    url: BEWG_URL.srvUrl + "user/getSysUserByID.do",
+                    url: BEWG_URL.SelectUserById,
                     data:$.param({"id":uuid})
                 }).success(function(data){
                     if(data.success){
@@ -64,9 +61,11 @@ define(['app'], function (app) {
             if (action == 'Update') {
                 //初始化状态
                 $scope.getSysUserByID(uuid);
+                console.log(uuid)
                 //编辑状态则初始化下拉列表内容
             } else if (action == 'View') {
                 $scope.getSysUserByID(uuid);
+                console.log(uuid)
                 $('#savebtn').hide();
                 $('#cancelbtn').hide();
                 $('#viewlbtn').show();
