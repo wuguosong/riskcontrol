@@ -28,8 +28,7 @@
             <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">字典管理<i class="i-triangle"></i></span></div></div>
             <div class="panel-body">
                 <div class="row">
-                    <!--<button type="button" class="btn btn-info"  ng-click="back()"><i class="fa fa-reply"></i>返回</button>-->
-                    <button type="button" class="btn btn-info"  ng-click="Create('create')"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                    <button type="button" class="btn btn-info"  ng-click="CreateOrEdit('create')"><i class="glyphicon glyphicon-plus"></i>新增</button>
                     <button type="button" class="btn btn-info"  ng-click="updateDictionary()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
                     <!-- 					<button type="button" class="btn btn-info"  ng-click="deleteDictionary()"><i class="glyphicon glyphicon-trash"></i>删除</button> -->
                 </div>
@@ -55,14 +54,14 @@
                                     </label>
                                 </td>
                                 <td>{{$index+1}}</td>
-                                <td><a href="#/DataDictionaryView/{{t.UUID}}">{{t.DICTIONARY_NAME}}</a></td>
+                                <td><a ng-click="CreateOrEdit('View',t.UUID )">{{t.DICTIONARY_NAME}}</a></td>
                                 <td>{{t.DICTIONARY_CODE}}</td>
                                 <td>
                                     <span ng-if="t.DICTIONARY_DESC.length > 20" data-toggle="tooltip" data-placement="top" data-html="true" title="{{t.DICTIONARY_DESC}}">{{t.DICTIONARY_DESC | limitTo:20}}...</span>
                                     <span ng-if="t.DICTIONARY_DESC.length <= 20">{{t.DICTIONARY_DESC}}</span>
                                 </td>
                                 <td>
-                                    <a ng-click="aaa(t.UUID)" title="" class="btn btn-sm btn-info">管理</a></td>
+                                    <a ng-click="toDicOptionList(t.UUID)" title="" class="btn btn-sm btn-info">管理</a></td>
                             </tr>
 
                             </tbody>

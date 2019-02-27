@@ -1,0 +1,58 @@
+<div class="panel-body">
+    <div class="header">
+        <span class="hd-title">字典项管理</span>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-hd-cont"><span class="panel-title">字典项管理<i class="i-triangle"></i></span></div>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal ng-pristine ng-valid" name="myForm" ng-submit="save()">
+                <div class="special-form">
+                    <div class="row">
+                        <label class="col-sm-2 control-label"><span class="required-r">*</span>序号</label>
+                        <div class="col-sm-4">
+                            <input ng-disabled="hide" type="text" name="orderNum" id="orderNum"
+                                   ng-model="item.CUST_NUMBER01"
+                                   class="form-control"
+                                   onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                        </div>
+                        <input type="hidden" name="FK_DICTIONARY_UUID" ng-model="item.FK_DICTIONARY_UUID">
+                        <input type="hidden" name="UUID" ng-model="item.UUID" value="{{item.UUID}}">
+                        <label class="col-sm-2 control-label"><span class="required-r">*</span>名称</label>
+                        <div class="col-sm-4">
+                            <input ng-disabled="hide" type="text" ng-model="item.ITEM_NAME" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-sm-2 control-label"><span class="required-r">*</span>编码</label>
+                    <div class="col-sm-4">
+                        <input ng-disabled="hide" type="text" ng-model="item.ITEM_CODE" class="form-control"/>
+                    </div>
+                    <label class="col-sm-2 control-label">是否被启用</label>
+                    <div class="col-sm-4">
+                        <select ng-disabled="hide" name="IS_ENABLED" id="IS_ENABLED" ng-model="item.IS_ENABLED"
+                                class="form-control">
+                            <option value="1" selected="selected">启用</option>
+                            <option value="2">禁用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-sm-2 control-label">描述</label>
+                    <div class="col-sm-4">
+                        <textarea ng-disabled="hide" rows="4" cols="" class="form-control" ng-model="item.BUSINESS_TYPE"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group-gap txl">
+                        <button type="button" ng-click="close()" class="btn btn-info"><i class="fa fa-reply"></i>返回
+                        </button>
+                        <button ng-hide="hide" type="submit" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

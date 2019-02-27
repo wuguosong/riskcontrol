@@ -1,9 +1,9 @@
-﻿define(['app'], function (app) {
+﻿define(['app', 'Service'], function (app) {
     app
-        .register.controller('dicListCtrl', ['$http', '$scope', '$location', '$uibModal',
-        function ($http, $scope, $location, $uibModal) {
+        .register.controller('dicListCtrl', ['$http', '$scope', '$location', '$uibModal', 'Window',
+        function ($http, $scope, $location, $uibModal, Window) {
 
-            $scope.aaa = function (uuid) {
+            $scope.toDicOptionList = function (uuid) {
                 $location.path("index/dicOptionList/" + uuid);
             };
 
@@ -36,22 +36,25 @@
                         $scope.dictionary = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
                     } else {
-                        $.alert(data.result_name);
+                        Window.alert(data.result_name);
                     }
                 });
             };
 
             //新建操作
-            $scope.Create = function (type) {
+            $scope.CreateOrEdit = function (type, uuid) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     backdrop: false,
                     controller: 'CreateOrEditCtrl',
-                    templateUrl: 'business/sys/dic/createOrEdit.html',
+                    templateUrl: 'business/sys/dic/createOrEditDic.html',
                     windowClass: 'big-dialog',
                     resolve: {
                         type: function () {
                             return type;
+                        },
+                        uuid: function () {
+                            return uuid;
                         }
                     }
                 });
@@ -76,18 +79,16 @@
                     uid = uid.substring(1, uid.length);
                 }
                 if (num == 0) {
-                    $.alert("未选择编辑的数据！");
+                    Window.alert("未选择编辑的数据！");
                     return false;
                 } else if (num > 1) {
-                    $.alert("请选择一条数据编辑！");
+                    Window.alert("请选择一条数据编辑！");
                     return false;
                 } else {
-                    $location.path("/DataDictionaryEdit/Update/" + uid);
+                    $scope.CreateOrEdit("Update", uid);
                 }
-            }
-            $scope.back = function () {
-                $scope.queryList();
-            }
+            };
+
             $scope.deleteDictionary = function () {
                 var chk_list = document.getElementsByName("checkbox");
                 var uid = "", num = 0;
@@ -101,7 +102,7 @@
                     uid = uid.substring(1, uid.length);
                 }
                 if (num == 0) {
-                    $.alert("未选择删除的数据！");
+                    Window.alert("未选择删除的数据！");
                     return false;
                 } else {
                     $http({
@@ -124,11 +125,11 @@
                                 });
                             });
                         } else {
-                            $.alert(data.result_name);
+                            Window.alert(data.result_name);
                         }
                     });
                 }
-            }
+            };
 
             // 配置分页基本参数
             $scope.paginationConf = {
@@ -137,37 +138,78 @@
                 perPageOptions: [10, 20, 30, 40, 50]
             };
             $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.ListAll);
-        }])
+
+        }]);
     app
-        .register.controller('CreateOrEditCtrl', ['$http', '$scope', '$location', '$uibModal', '$uibModalInstance', 'BEWG_URL',
-            function ($http, $scope, $location, $uibModal, $uibModalInstance, BEWG_URL) {
-                // 关闭弹出框按钮
-                $scope.close = function () {
-                    $uibModalInstance.dismiss();
-                };
-
-
-                //保存操作
-                $scope.save = function () {
-                    if($scope.dictionary.DICTIONARY_NAME == null || $scope.dictionary.DICTIONARY_NAME == ""){
-                        $.alert("字典名称必填!");return false;
+        .register.controller('CreateOrEditCtrl', ['$http', '$scope', '$location', '$uibModal', '$uibModalInstance', 'BEWG_URL', 'type', 'uuid',
+        function ($http, $scope, $location, $uibModal, $uibModalInstance, BEWG_URL, type, uuid) {
+            var uid = 0;
+            var srvUrl = "/rcm-rest";
+            //回显数据
+            $scope.getDictionaryByID = function (uuid) {
+                $http({
+                    method: 'post',
+                    url: srvUrl + "dict/getDictTypeById.do",
+                    data: $.param({"uuid": uuid})
+                }).success(function (data) {
+                    if (data.success) {
+                        $scope.dictionary = data.result_data;
                     }
-                    if($scope.dictionary.DICTIONARY_CODE == null || $scope.dictionary.DICTIONARY_CODE == ""){
-                        $.alert("字典编码必填!");return false;
+                    else {
+                        $.alert(data.result_name);
                     }
-                    $http({
-                        method:'post',
-                        url: BEWG_URL.SaveOrUpdateDict,
-                        data: $.param({"json": JSON.stringify($scope.dictionary)})
-                    }).success(function (data) {
-                        if (data.success) {
-                            $uibModalInstance.close();
-                        }
-                        else{
-                            $.alert(data.result_name);
-                        }
-                    });
-                };
+                });
+            };
+            //初始化
+            //定义窗口action
+            if (type == 'Update') {
+                //初始化状态f
+                $scope.getDictionaryByID(uuid);
+                //编辑状态则初始化下拉列表内容
+            } else if (type == 'View') {
+                $scope.getDictionaryByID(uuid);
+                $scope.hide = true;
+                console.log($scope.hide);
 
-            }])
+            } else if (type == 'Create') {
+                uid = uuid;
+                //取默认值
+                $scope.dictionary.DICTIONARY_NAME = '';
+                $scope.dictionary.DICTIONARY_CODE = '';
+                $scope.dictionary.DICTIONARY_DESC = '';
+                $scope.dictionary.UUID = '';
+            }
+            ;
+
+            // 关闭弹出框按钮
+            $scope.close = function () {
+                $uibModalInstance.dismiss();
+            };
+
+
+            //保存操作
+            $scope.save = function () {
+                if ($scope.dictionary.DICTIONARY_NAME == null || $scope.dictionary.DICTIONARY_NAME == "") {
+                    Window.alert("字典名称必填!");
+                    return false;
+                }
+                if ($scope.dictionary.DICTIONARY_CODE == null || $scope.dictionary.DICTIONARY_CODE == "") {
+                    Window.alert("字典编码必填!");
+                    return false;
+                }
+                $http({
+                    method: 'post',
+                    url: BEWG_URL.SaveOrUpdateDict,
+                    data: $.param({"json": JSON.stringify($scope.dictionary)})
+                }).success(function (data) {
+                    if (data.success) {
+                        $uibModalInstance.close();
+                    }
+                    else {
+                        Window.alert(data.result_name);
+                    }
+                });
+            };
+        }]);
+
 });

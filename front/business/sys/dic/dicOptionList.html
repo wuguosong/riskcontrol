@@ -1,6 +1,5 @@
 <div class="panel-body">
     <div class="header">
-        <img src="assets/images/icons/DictionaryManagement.png" width="41" height="41" alt="" title="" />
         <span class="hd-title">字典项管理</span>
     </div>
     <form ng-submit="ListAll()" class="form-horizontal ng-pristine ng-valid">
@@ -29,8 +28,8 @@
             <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">字典项管理<i class="i-triangle"></i></span></div></div>
             <div class="panel-body">
                 <div class="row">
-                    <a href="#/DataDictionaryList" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
-                    <button type="button" class="btn btn-info"  ng-click="Create(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                    <a ng-click="back()" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+                    <button type="button" class="btn btn-info"  ng-click="CreateOrEditOption('Create', '', fk_id)"><i class="glyphicon glyphicon-plus"></i>新增</button>
                     <button type="button" class="btn btn-info"  ng-click="updateItem()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
                     <button type="button" class="btn btn-info"  ng-click="deleteItem()"><i class="glyphicon glyphicon-trash"></i>删除</button>
                 </div>
@@ -56,7 +55,7 @@
                                     </label>
                                 </td>
                                 <td>{{t.CUST_NUMBER01}}</td>
-                                <td><a href="#/DataOptionView/{{t.UUID}}/{{fk_id}}">{{t.ITEM_NAME}}</a></td>
+                                <td><a ng-click="CreateOrEditOption('View', t.UUID, fk_id)">{{t.ITEM_NAME}}</a></td>
                                 <td>{{t.ITEM_CODE}}</td>
                                 <td>
                                     <span ng-if="t.BUSINESS_TYPE.length > 20" data-toggle="tooltip" data-placement="top" data-html="true" title="{{t.BUSINESS_TYPE}}">{{t.BUSINESS_TYPE | limitTo:20}}...</span>
