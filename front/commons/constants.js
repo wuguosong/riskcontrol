@@ -31,5 +31,14 @@ define(['app'], function (app) {
             // 终止流程
             SelectProjectListEndFlow: srvUrl + "bpmn/queryProjectListByPage.do",
             doEndFlow: srvUrl + "bpmn/endFlow.do",
+
+            // 流程人员变更
+            SelectTaskPerson: srvUrl + "bpmn/getTaskPerson.do",
+            SelectPfrByIdChangeBpmnUser: srvUrl + "formalAssessmentInfo/getFormalAssessmentByID.do",
+            SelectPreByIdChangeBpmnUser: srvUrl + "preInfo/getPreByID.do",
+            SelectPfrAuditLogsByIdChangeBpmnUser: srvUrl + "formalAssessmentAudit/queryAuditedLogsById.do",
+            SelectPreAuditLogsByIdChangeBpmnUser: srvUrl + "preAudit/queryAuditedLogsById.do",
+            SelectBulletinAuditLogsByIdChangeBpmnUser: srvUrl + "bulletinInfo/queryViewDefaultInfo.do",
+            UpdateAuditUser: srvUrl + "bpmn/changeAuditUser.do",
         });
 });

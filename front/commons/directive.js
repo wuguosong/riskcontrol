@@ -2,6 +2,7 @@
  * Created by gaohe on 2016/06/06.
  */
 define(['app'], function (app) {
+    var srvUrl = "/rcm-rest";
     app
     /*使输入的数字自动加上千位符*/
         .directive('toChange', ['$parse',
@@ -425,4 +426,390 @@ define(['app'], function (app) {
             };
         })
     /***用户多选弹窗结束[Add By LiPan 2019-02-26]***/
+
+    // 用户单选弹窗
+    .directive('directUserSingleSelect', function() {
+        return {
+            restrict: 'E',
+            templateUrl: BUSINESS_PATH + 'directive/common/directUserSingleSelect.html',
+            replace: true,
+            scope:{
+                //必填,该指令所在modal的id，在当前页面唯一
+                id: "@",
+                //对话框的标题，如果没设置，默认为“人员选择”
+                title: "@",
+                //查询参数
+                queryParams: "=",
+                //是否可编辑
+                isEditable:"=",
+                //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
+                checkedUser: "=",
+                //映射的key，value，{nameField:'username',valueField:'uuid'}，
+                //默认为{nameField:'NAME',valueField:'VALUE'}
+                mappedKeyValue: "=",
+                callback: "="
+            },
+            controller:function($scope,$http,$element){
+                if($scope.mappedKeyValue == null){
+                    $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+                }
+                if($scope.checkedUser == null){
+                    $scope.checkedUser = {};
+                }
+                $scope.initDefaultData = function(){
+                    if($scope.title==null){
+                        $scope.title = "人员选择";
+                    }
+                    if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                        $scope.isEditable = "true";
+                    }
+                };
+                $scope.removeSelectedUser = function(){
+                    $scope.checkedUser = {};
+                };
+                $scope.initDefaultData();
+            }
+        };
+    })
+    .directive('directUserSingleDialog', function() {
+        return {
+            restrict: 'E',
+            templateUrl: BUSINESS_PATH + 'directive/common/directUserSingleDialog.html',
+            replace: true,
+            scope:{
+                //必填,该指令所在modal的id，在当前页面唯一
+                id: "@",
+                //对话框的标题，如果没设置，默认为“人员选择”
+                title: "@",
+                //查询参数
+                queryParams: "=",
+                //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
+                checkedUser: "=",
+                //映射的key，value，{nameField:'username',valueField:'uuid'}，
+                //默认为{nameField:'NAME',valueField:'VALUE'}
+                mappedKeyValue: "=",
+                callback: "="
+                //移除选中的人员，调用父scope中的同名方法
+//        	removeSelectedUser: "&"
+            },
+            controller:function($scope,$http,$element){
+                $scope.initData = function(){
+                    var cus = $.parseJSON(JSON.stringify($scope.checkedUser));
+                    $scope.tempCheckedUser = {};
+                    $scope.tempCheckedUser.NAME = cus[$scope.mappedKeyValue.nameField];
+                    $scope.tempCheckedUser.VALUE = cus[$scope.mappedKeyValue.valueField];
+                }
+                $scope.paginationConf = {
+                    lastCurrentTimeStamp:'',
+                    currentPage: 1,
+                    totalItems: 0,
+                    itemsPerPage: 10,
+                    pagesLength: 10,
+                    queryObj:{},
+                    perPageOptions: [10, 20, 30, 40, 50],
+                    onChange: function(){
+                    }
+                };
+                $scope.queryUser = function(){
+                    $http({
+                        method:'post',
+                        url:srvUrl+"user/queryUserForSelected.do",
+                        data: $.param({"page":JSON.stringify($scope.paginationConf)})
+                    }).success(function(data){
+                        /*hide_Mask();*/
+                        if(data.success){
+                            $scope.users = data.result_data.list;
+                            $scope.paginationConf.totalItems = data.result_data.totalItems;
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
+                }
+                $scope.removeSelectedUser = function(){
+                    $scope.tempCheckedUser = {};
+                };
+                $scope.isChecked = function(user){
+                    if(user.UUID == $scope.tempCheckedUser.VALUE){
+                        return true;
+                    }
+                    return false;
+                };
+                $scope.toggleChecked = function(user){
+                    //是否选中
+                    var isChecked = $("#chk_"+$scope.id+"_"+user.UUID).prop("checked");
+                    //是否已经存在
+                    var flag = false;
+                    if(user.UUID == $scope.tempCheckedUser.VALUE){
+                        flag = true;
+                        if(!isChecked){
+                            $scope.tempCheckedUser = {};
+                        }
+                    }
+                    if(isChecked && !flag){
+                        //如果已经选中，但是不存在，添加
+                        $scope.tempCheckedUser = {"VALUE":user.UUID,"NAME":user.NAME};
+                    }
+                };
+
+                $scope.cancelSelected = function(){
+                    $scope.initData();
+                }
+                $scope.saveSelected = function(){
+                    var cus = $scope.tempCheckedUser;
+                    if(cus.VALUE==null||cus.VALUE==""){
+                        delete $scope.checkedUser[$scope.mappedKeyValue.nameField];
+                        delete $scope.checkedUser[$scope.mappedKeyValue.valueField];
+                    }else{
+                        $scope.checkedUser[$scope.mappedKeyValue.nameField] = cus.NAME;
+                        $scope.checkedUser[$scope.mappedKeyValue.valueField] = cus.VALUE;
+                    }
+                    if($scope.callback != null){
+                        $scope.callback();
+                    }
+                }
+                $scope.$watch('checkedUser', $scope.initData);
+                $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryUser);
+            }
+        };
+    })
+
+    // 选择项目
+    .directive('directReportOrgSelect', function() {
+        return {
+            restrict: 'E',
+            templateUrl:BUSINESS_PATH + 'directive/common/directReportOrgSelect.html',
+            replace: true,
+            scope:{
+                //必填,该指令所在modal的id，在当前页面唯一
+                id: "@",
+                //对话框的标题，如果没设置，默认为“单位选择”
+                title: "@",
+                //必填，查询的url
+                url: "@",
+                //是否可编辑，默认为true
+                isEditable:"=",
+                //是否分页，默认为false
+                isPage:"=",
+                //查询参数，非必填
+                queryParams: "=",
+                //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
+                checkedOrg: "=",
+                //映射的key，value，如果checkedOrg的键不是默认的，该字段需给出，{nameField:'orgname',valueField:'uuid'}，
+                //默认键应为{nameField:'NAME',valueField:'VALUE'}
+                mappedKeyValue: "=",
+                //其它附加字段的key组成的数组，非必填，例：["orgFzr","orgParent","orgPertainArea"]
+                otherFields:"=",
+                //必填，表格的列
+                columns:"=",
+                //确定按钮的回调方法，非必填
+                callback: "="
+            },
+            controller:function($scope,$http,$element){
+                if($scope.mappedKeyValue == null){
+                    $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+                }
+                if($scope.isPage == null){
+                    $scope.isPage = "false";
+                }
+                if($scope.checkedOrg == null){
+                    $scope.checkedOrg = {};
+                }
+                $scope.initDefaultData = function(){
+                    if($scope.title==null){
+                        $scope.title = "单位选择";
+                    }
+                    if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                        $scope.isEditable = "true";
+                    }
+                };
+                $scope.removeSelectedOrg = function(){
+//        		delete $scope.checkedOrg[$scope.mappedKeyValue.nameField];
+//    			delete $scope.checkedOrg[$scope.mappedKeyValue.valueField];
+//    			for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+//    				delete $scope.checkedOrg[$scope.otherFields[i]];
+//        		}
+                    $scope.checkedOrg = {};
+                };
+                $scope.initDefaultData();
+            }
+        };
+    })
+
+    .directive('directReportOrgDialog', function() {
+        return {
+            restrict: 'E',
+            templateUrl: BUSINESS_PATH + 'directive/common/directReportOrgDialog.html',
+            replace: true,
+            scope:{
+                //必填,该指令所在modal的id，在当前页面唯一
+                id: "@",
+                //对话框的标题，如果没设置，默认为“人员选择”
+                title: "@",
+                url: "@",
+                //查询参数
+                queryParams: "=",
+                isPage:"=",
+                //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
+                checkedOrg: "=",
+                //映射的key，value，如果checkedOrg的键不是默认的，该字段需给出，{nameField:'orgname',valueField:'uuid'}，
+                //默认键应为{nameField:'NAME',valueField:'VALUE'}
+                mappedKeyValue: "=",
+                //其它附加字段的key组成的数组，非必填，例：["orgFzr","orgParent","orgPertainArea"]
+                otherFields:"=",
+                //必填，表格的列
+                columns:"=",
+                callback: "="
+            },
+            controller:function($scope,$http,$element){
+                $scope.initData = function(){
+                    var cus = $.parseJSON(JSON.stringify($scope.checkedOrg));
+                    $scope.tempCheckedOrg = {};
+                    $scope.tempCheckedOrg.NAME = cus[$scope.mappedKeyValue.nameField];
+                    $scope.tempCheckedOrg.VALUE = cus[$scope.mappedKeyValue.valueField];
+                    for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                        $scope.tempCheckedOrg[$scope.otherFields[i]] = cus[$scope.otherFields[i]];
+                    }
+                    $scope.queryOrg();
+                }
+                $scope.paginationConf = {
+                    lastCurrentTimeStamp:'',
+                    currentPage: 1,
+                    totalItems: 0,
+                    itemsPerPage: 10,
+                    pagesLength: 10,
+                    queryObj:{},
+                    perPageOptions: [10, 20, 30, 40, 50],
+                    onChange: function(){
+                    }
+                };
+                /*$scope.queryOrg = function(){
+                    $http({
+                        method:'post',
+                        url:srvUrl+"user/queryUserForSelected.do",
+                        data: $.param({"page":JSON.stringify($scope.paginationConf)})
+                    }).success(function(data){
+                        if(data.success){
+                            $scope.users = data.result_data.list;
+                            $scope.paginationConf.totalItems = data.result_data.totalItems;
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
+                }*/
+                $scope.queryOrg = function(){
+                    var config = {
+                        method:'post',
+                        url:srvUrl + $scope.url
+                    };
+                    if("true" == $scope.isPage){
+                        //分页
+                        if($scope.queryParams != null){
+                            $scope.paginationConf.queryObj = $scope.queryParams;
+                        }
+                        config.data = $.param({"page":JSON.stringify($scope.paginationConf)})
+                    }else{
+                        //不分页
+                        if($scope.queryParams != null){
+                            config.data = $.param($scope.queryParams)
+                        }
+                    }
+                    $http(config).success(function(data){
+                        if(data.success){
+                            if("true" == $scope.isPage){
+                                $scope.orgs = data.result_data.list;
+                                $scope.paginationConf.totalItems = data.result_data.totalItems;
+                            }else{
+                                $scope.orgs = data.result_data;
+                            }
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
+                }
+                $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage',  $scope.queryOrg);
+                $scope.removeSelectedOrg = function(){
+                    $scope.tempCheckedOrg = {};
+                };
+                $scope.isChecked = function(org){
+                    if($scope.tempCheckedOrg != null && $scope.tempCheckedOrg.VALUE != null
+                        && org[$scope.mappedKeyValue.valueField] == $scope.tempCheckedOrg.VALUE){
+                        return true;
+                    }
+                    return false;
+                };
+                $scope.toggleChecked = function(org){
+                    //是否选中
+                    var isChecked = $("#chk_"+$scope.id+"_"+org[$scope.mappedKeyValue.valueField]).prop("checked");
+                    //是否已经存在
+                    var flag = false;
+                    if($scope.tempCheckedOrg != null && $scope.tempCheckedOrg.VALUE != null &&
+                        org[$scope.mappedKeyValue.valueField] == $scope.tempCheckedOrg.VALUE){
+                        flag = true;
+                        if(!isChecked){
+                            $scope.tempCheckedOrg = {};
+                        }
+                    }
+                    if(isChecked && !flag){
+                        //如果已经选中，但是不存在，添加
+                        $scope.tempCheckedOrg = {"VALUE":org[$scope.mappedKeyValue.valueField],"NAME":org[$scope.mappedKeyValue.nameField]};
+                        for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                            $scope.tempCheckedOrg[$scope.otherFields[i]] = org[$scope.otherFields[i]];
+                        }
+                    }
+                };
+
+                $scope.cancelSelected = function(){
+                    $scope.initData();
+                }
+                $scope.saveSelected = function(){
+                    var cus = $scope.tempCheckedOrg;
+                    if(cus.VALUE==null||cus.VALUE==""){
+                        delete $scope.checkedOrg[$scope.mappedKeyValue.nameField];
+                        delete $scope.checkedOrg[$scope.mappedKeyValue.valueField];
+                        for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                            delete $scope.checkedOrg[$scope.otherFields[i]];
+                        }
+                    }else{
+                        $scope.checkedOrg[$scope.mappedKeyValue.nameField] = cus.NAME;
+                        $scope.checkedOrg[$scope.mappedKeyValue.valueField] = cus.VALUE;
+                        for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                            $scope.checkedOrg[$scope.otherFields[i]] = cus[$scope.otherFields[i]];
+                        }
+                    }
+                    if($scope.callback != null){
+                        $scope.callback(cus);
+                    }
+                }
+                $scope.$watch('checkedOrg', $scope.initData);
+            }
+        };
+    })
+
+    /******* 正式评审项目相关指令 ********/
+    // 正式评审项目详情
+    .directive('directiveProjectFormalAssessmentInfo', function() {
+        return {
+            restrict: 'E',
+            templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveProjectFormalAssessmentInfo.html',
+            replace: true,
+            link:function(scope,element,attr){
+            },
+            controller:function($scope,$http,$element){
+            }
+        };
+    })
+
+    /******* 投标评审项目相关指令 ********/
+    // 投标评审项目详情
+    .directive('directiveProjectPreReviewView', function() {
+        return {
+            restrict: 'E',
+            templateUrl: BUSINESS_PATH + 'directive/business/pre/directiveProjectPreReviewView.html',
+            replace: true,
+            link:function(scope,element,attr){
+            },
+            controller:function($scope,$http,$element){
+            }
+        };
+    })
 });

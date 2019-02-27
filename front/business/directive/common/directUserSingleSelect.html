@@ -1,0 +1,24 @@
+<div class="row nobottom-mar">
+	<div  class="col-sm-12 noleft-pad noright-pad">
+		<div id="{{id}}">
+			<div id="model1"  data-toggle="modal" data-target="#userSinDialog_{{id}}"  class="select2-success">
+				<div id="s2id_projectModel2" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+					<ul class="select2-choices" style="{{isEditable=='false'?'background: rgb(238, 238, 238);':''}}">
+						<li class="select2-search-choice" ng-if="null != checkedUser[mappedKeyValue.nameField]">
+							<div>{{checkedUser[mappedKeyValue.nameField]}}</div>
+							<a ng-if="isEditable=='true'" class="select2-search-choice-close" tabindex="-1" ng-click="removeSelectedUser()"></a>
+							<div ng-if="isEditable=='true'" class="full-drop"></div>
+						</li>
+						<li style="height:29px;"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-if="isEditable=='true'" id="userSinDialog_{{id}}"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+		<direct-user-single-dialog id="{{id}}" title="{{title}}" checked-user="checkedUser"
+		remove-selected-user="removeSelectedUser()" callback="callback" 
+		mapped-key-value="mappedKeyValue"></direct-user-single-dialog>
+	</div>
+</div>
+

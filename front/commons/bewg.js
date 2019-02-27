@@ -344,6 +344,28 @@
                         }]
                     }
                 })
+                //流程人员变更列表
+                .state("index.changeBpmnUserList", {
+                    url: "/changeBpmnUserList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/changeBpmnUser/changeBpmnUserList.html',
+                            controller: 'changeBpmnUserListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/changeBpmnUser/changeBpmnUserListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
                 /**********系统角色开始[Add By LiPan 2019-02-26]**************/
                 /**角色列表页面**/
                 .state("index.SysRoleList", {
