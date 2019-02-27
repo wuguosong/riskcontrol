@@ -1,0 +1,74 @@
+<div class="">
+    <form  name="myForm" class="form-horizontal ng-pristine ng-valid"  novalidate>
+        <div class="panel-body" >
+            <div class="header">
+                <img src="assets/images/icons/group.png" width="41" height="41" alt="" title="" />
+                <span class="hd-title">区域、直接负责人管理</span>
+            </div>
+            <div class="panel">
+                <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">基本信息<i class="i-triangle"></i></span></div></div>
+                <div class="panel-body special-form">
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">单位名称</label>
+                        <div class="col-sm-4 reporting-unit">
+                            <div class="full-drop">
+                                <input type="hidden" name="ID" id="ID" ng-model="user.ID">
+                                <input type="text" required class="form-control" data-toggle="modal" data-target="#myModal" id="reportingUnitName" name="reportingUnitName" ng-model="user.REPORTINGUNIT_NAME">
+                                <input type="hidden" class="form-control" id="reportingUnitValue" name="reportingUnitValue" ng-model="user.REPORTINGUNIT_ID">
+                                <div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" ng-click="" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 class="modal-title">所属大区选择</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="drop-menu one-choice">
+                                                    <div id="treeID1" class="ztree"></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="" class="col-sm-2 control-label">区域负责人</label>
+                        <div class="col-sm-4">
+                        	<direct-user-single-select id="investmentPerson" checked-user="user" mapped-key-value="investmentPersonMapped"></direct-user-single-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2 control-label">直接负责人</label>
+                        <div class="col-sm-4">
+                            <div class="full-drop">
+                            	<direct-user-single-select id="directPerson" checked-user="user" mapped-key-value="directPersonMapped"></direct-user-single-select>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label">项目类型</label>
+                        <div class="col-sm-4">
+                          <div class="select2-success">
+                              <select name="oneservicetypeboxName" id="oneservicetypeboxName" class="form-control" ng-model="user.TYPE">
+                                <option ng-repeat="sy in Syncbusinessmodel track by sy.KEY"  value="{{sy.KEY}}">{{sy.VALUE}}</option>
+                              </select>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <div class="row">
+                    <div class="option">
+                        <a class="btn btn-info" href="javascript:void(0);" ng-click="backList()"><i class="glyphicon glyphicon-chevron-left"></i>返回</a>
+                        <button class="btn btn-info" type="button" ng-click="save()" id="savebtn"><i class="glyphicon glyphicon-floppy-disk"></i>保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<directive-user-radio-list></directive-user-radio-list>
+

@@ -1,5 +1,5 @@
-define(['app','Service'], function (app) {
-    app.register.controller('SysRoleListCtrl', ['$http', '$scope', '$location', '$stateParams', '$timeout','Window',function ($http, $scope, $location, $stateParams, $timeout, Window) {
+define(['app', 'Service'], function (app) {
+    app.register.controller('SysRoleListCtrl', ['$http', '$scope', '$location', '$stateParams', '$timeout', 'Window', function ($http, $scope, $location, $stateParams, $timeout, Window) {
         //分配菜单
         $scope.funcCheck = function (role_id, code) {
             $location.path(PATH_URL_INDEX + "/RoleAndFun/" + role_id + "/" + code + "/oldUrl");
@@ -13,7 +13,7 @@ define(['app','Service'], function (app) {
             $location.path(PATH_URL_INDEX + "/SysRoleInfo/create/0");
         };
         // 查看
-        $scope.roleView = function(role_id){
+        $scope.roleView = function (role_id) {
             $location.path(PATH_URL_INDEX + "/SysRoleView/" + role_id + "/oldUrl");
         }
 
@@ -62,7 +62,7 @@ define(['app','Service'], function (app) {
                     data: $.param({"id": uid})
                 }).success(function (result) {
                     if (result.success) {
-                        Window.confirm('确认', '确定要删除吗?').result.then(function(){
+                        Window.confirm('确认', '确定要删除吗?').result.then(function () {
                             $http({
                                 method: 'post',
                                 url: SRV_URL + "role/deleteRoleById.do",

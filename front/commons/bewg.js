@@ -473,6 +473,176 @@
                     }
                 })
             /**********系统角色结束[Add By LiPan 2019-02-26]**************/
+                /**********组织管理开始[Add By LiPan 2019-02-26]**************/
+                /**组织列表页面**/
+                .state("index.GroupList", {
+                    url: "/GroupList/:orgId",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/group/GroupList.html',
+                            controller: 'GroupListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/group/GroupListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**组织详情页面**/
+                .state("index.GroupAdd", {
+                    url: "/GroupAdd/:action/:uuid",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/group/GroupAdd.html',
+                            controller: 'GroupAddCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/group/GroupAddCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**区域、直接负责人列表页面**/
+                .state("index.DirectUserReportingUnitList", {
+                    url: "/DirectUserReportingUnitList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitList.html',
+                            controller: 'DirectUserReportingUnitListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**区域、直接负责人详情页面**/
+                .state("index.DirectUserReportingUnit", {
+                    url: "/DirectUserReportingUnit/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnit.html',
+                            controller: 'DirectUserReportingUnitCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**单位负责人列表页面**/
+                .state("index.GroupUserRepoUnitList", {
+                    url: "/GroupUserRepoUnitList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/groupUser/GroupUserRepoUnitList.html',
+                            controller: 'GroupUserRepoUnitListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/groupUser/GroupUserRepoUnitListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**单位负责人详情页面**/
+                .state("index.GroupUserRepoUnit", {
+                    url: "/GroupUserRepoUnit/:action/:id/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/groupUser/GroupUserRepoUnit.html',
+                            controller: 'GroupUserRepoUnitCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/groupUser/GroupUserRepoUnitCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**业务区负责人列表页面**/
+                .state("index.PertainAreaLeaderList", {
+                    url: "/PertainAreaLeaderList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/pertainArea/PertainAreaLeaderList.html',
+                            controller: 'PertainAreaLeaderListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/pertainArea/PertainAreaLeaderListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**业务区负责人详情页面**/
+                .state("index.PertainAreaDetail", {
+                    url: "/PertainAreaDetail/:action/:id/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/pertainArea/PertainAreaDetail.html',
+                            controller: 'PertainAreaDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/pertainArea/PertainAreaDetailCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+            /**********组织管理结束[Add By LiPan 2019-02-26]**************/
         }]);
     return app;
 });

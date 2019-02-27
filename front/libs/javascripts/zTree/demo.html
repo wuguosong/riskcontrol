@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/demo.css" type="text/css">
+	<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.excheck.min.js"></script>
+	<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			async: {
+				enable: true,
+				url:"http://localhost:8080/rcm-rest/fnd/Group/getOrg",
+				autoParam:["id=parentId"],
+				//otherParam:{"otherParam":"zTreeAsyncTest"},
+				dataFilter: filter
+			},
+			check: {
+				enable: true,
+				chkStyle: "checkbox"
+			},
+			callback:{
+				onClick:function(){
+					alert();
+				},
+				
+				onAsyncSuccess:function(event, treeId, treeNode, msg){
+					if(typeof (treeNode) == 'undefined'){
+						var treeObj = $.fn.zTree.getZTreeObj(treeId);
+						treeObj.expandNode(treeObj.getNodes()[0]);
+					}
+				}
+			}
+		};
+
+		function filter(treeId, parentNode, data) {
+			if (!data || data.result_code != 'S') return null;
+			var retList = data.result_data;
+			if(retList<1) return null;
+			for(var i=0;i<retList.length;i++){
+				curNode = retList[i];
+				var iconUrl = 'css/zTreeStyle/img/department.png';
+				if(curNode.cat && curNode.cat=='Org'){
+					iconUrl = 'css/zTreeStyle/img/org.png';
+				}
+				curNode.icon = iconUrl;
+				//retList[i].checked=true;
+			}
+			return retList;
+		}
+		
+		//获取所有选中节点的值
+		function GetCheckedAll() {
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			var nodes = treeObj.getCheckedNodes(true);
+			var msg = "name--id--pid\n";
+			for (var i = 0; i < nodes.length; i++) {
+				msg += nodes[i].name+"--"+nodes[i].id+"--"+nodes[i].pid+"\n";
+			}
+			return msg;
+		} 
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting);
+		});
+		//-->
+	</SCRIPT>
+ </head>
+ <body>
+  <div class="zTreeDemoBackground left">
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+
+ </body>
+</html>
+<script>
+	/*var setting = {
+	 async: {
+	 enable: true,
+	 url:"http://localhost:8080/rcm-rest/fnd/Group/getOrg",
+	 autoParam:["id=parentId"],
+	 dataFilter: filter
+	 },
+	 callback:{
+	 onClick:function(event, treeId, treeNode){
+	 accessScope("#ORGID",function(scope){
+	 scope.queryObj = {};
+	 scope.queryObj.ORGID = treeNode.id;
+	 });
+	 },
+	 onAsyncSuccess:function(event, treeId, treeNode, msg){
+	 if(typeof (treeNode) == 'undefined'){
+	 var treeObj = $.fn.zTree.getZTreeObj(treeId);
+	 treeObj.expandNode(treeObj.getNodes()[0]);
+	 }
+	 }
+	 }
+	 };
+	 //部门和公司使用不同的图标
+	 function filter(treeId, parentNode, data) {
+	 if (!data || data.result_code != 'S') return null;
+	 var retList = data.result_data;
+	 if(retList<1) return null;
+	 for(var i=0;i<retList.length;i++){
+	 curNode = retList[i];
+	 var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
+	 if(curNode.cat && curNode.cat=='Org'){
+	 iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
+	 }
+	 curNode.icon = iconUrl;
+	 }
+	 return retList;
+	 }*/
+</script>

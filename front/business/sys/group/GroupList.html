@@ -1,0 +1,166 @@
+<div class="wrap-menu">
+    <div class="menu-hd"><h3 class="title">组织管理</h3></div>
+    <div id="treeID5" class="ztree">
+
+    </div>
+</div>
+<div class="wrap-info wrap-info-list">
+    <form ng-submit="queryList()" class="form-horizontal ng-pristine ng-valid">
+        <div class="panel-body">
+            <div class="header">
+                <img src="assets/images/icons/group.png" width="41" height="41" alt="" title=""/>
+                <span class="hd-title">组织管理</span>
+            </div>
+            <div class="panel panel-group">
+                <input type="hidden" name="ORGID" id="ORGID" ng-model="queryObj.ORGID"/>
+                <div class="panel-heading search-box">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="" href="/#searchbox">查询</a>
+                </div>
+                <div id="searchbox" class="panel-collapse collapse">
+                    <div class="panel-body special-form">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-md-2 control-label">组织编码：</label>
+                            <div class="col-sm-4"><input type="text" name="CODE" id="CODE" ng-model="queryObj.CODE"
+                                                         class="form-control ng-pristine ng-untouched ng-valid"/></div>
+                            <label class="col-sm-2 col-md-1 control-label">法人：</label>
+                            <div class="col-sm-4"><input type="text" name="LEGALPERSON" id="LEGALPERSON"
+                                                         ng-model="queryObj.LEGALPERSON"
+                                                         class="form-control ng-pristine ng-untouched ng-valid"/></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">组织名称：</label>
+                            <div class="col-sm-4"><input type="text" name="NAME" id="NAME" ng-model="queryObj.NAME"
+                                                         class="form-control ng-pristine ng-untouched ng-valid"/></div>
+                        </div>
+
+                        <div class="form-group row last-group search">
+                            <button type="button" class="btn btn-info" ng-click="queryList()"><i
+                                    class="glyphicon glyphicon-search"></i>查询
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-hd-cont"><span class="panel-title">查询结果<i class="i-triangle"></i></span></div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group row">
+                        <div class="txl">
+                            <!--<button  type="button" ng-click="queryList()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>返回</button>-->
+                            <!--<a  ng-herf="#/GroupList/0"  class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>返回</a>-->
+                           <!-- <button type="button" class="btn btn-info" id="createbtn" ng-click="Create(0)"><i
+                                    class="glyphicon glyphicon-plus"></i>新增
+                            </button>
+                            <button type="button" ng-click="updateGroup()" class="btn btn-info"><i
+                                    class="glyphicon glyphicon-edit"></i>修改
+                            </button>
+                            <button type="button" ng-click="deleteGroup()" class="btn btn-info"><i
+                                    class="glyphicon glyphicon-trash"></i>删除
+                            </button>-->
+                            <button type="button" ng-click="viewGroup()" class="btn btn-info"><i
+                                    class="glyphicon glyphicon-ok-circle"></i>查看
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group row nobottom-mar">
+                        <div class="table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0"
+                                   class="table table-hover datatable fs-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>选择</th>
+                                    <th>序号</th>
+                                    <th>组织编码</th>
+                                    <th>名称</th>
+                                    <th>上属公司</th>
+                                    <th>法人</th>
+                                    <th>联系电话</th>
+                                    <th>状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr ng-repeat="g in group">
+                                    <td>
+                                        <label class="checkbox-inline">
+                                            <input class="px" type="checkbox" name="checkbox"
+                                                   class="ng-pristine ng-untouched ng-valid" value="{{g.ORGPKVALUE}}"/>
+                                            <span class="lbl">&nbsp;</span>
+                                        </label>
+                                    </td>
+                                    <td>{{$index+1}}</td>
+                                    <td>{{g.CODE}}</td>
+                                    <td>{{g.NAME}}</td>
+                                    <td>{{g.PARENTCODE}}</td>
+                                    <td>{{g.LEGALPERSON}}</td>
+                                    <td>{{g.TELEPHONE }}</td>
+                                    <td>
+                                        <div ng-if="'2'== g.STATE"><span class="status-y">启用</span></div>
+                                        <div ng-if="'3'== g.STATE"><span class="status-n">禁用</span></div>
+                                    </td>
+
+                                    <!--   <td><span class="allot"  ng-click="roleClick('{{u.UUID}}')">分配角色</span></td>-->
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-footer clearfix">
+                    <tm-pagination conf="paginationConf"></tm-pagination>
+                </div>
+            </div>
+        </div>
+    </form>
+    <i class="menuico glyphicon glyphicon-menu-left"></i>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var wrapInfoHeight = $(".wrap-info").height();
+        $(".wrap-menu").css({"height": 828});
+
+        //查询关闭&展示
+        $(".panel-heading").find(".ico-dorp").click(function () {
+            $(this).toggleClass("fa-plus");
+            $(this).toggleClass("fa-minus");
+            $(this).parents(".panel-heading").siblings(".panel-body").stop().slideToggle(300);
+        });
+        //菜单关闭&展示
+        $(".wrap-info .menuico").toggle(function () {
+            $(this).addClass("glyphicon-menu-right").removeClass("glyphicon-menu-left");
+            $(this).parents(".wrapper").stop().animate({"margin-left": "-200px"}, 300);
+        }, function () {
+            $(this).addClass("glyphicon-menu-left").removeClass("glyphicon-menu-right");
+            $(this).parents(".wrapper").stop().animate({"margin-left": "0"}, 300);
+        });
+        //二级菜单关闭&展示
+        $(".menu-bd .list").children("li").click(function () {
+            var dropDown = $(this).find(".sub-list");
+            var togClass = $(this).find(".ico");
+            $(".menu-bd .list li .sub-list").not(dropDown).slideUp(300);
+            $(".menu-bd .list li .ico").not(togClass).removeClass("fa-minus");
+            dropDown.slideToggle(300);
+            togClass.toggleClass("fa-minus");
+        });
+        //收藏
+        $(".ico-wrap .fa-star").click(function () {
+            $(this).toggleClass("red-star");
+        });
+        //分配角色弹层
+        $(".allot").click(function () {
+            Visa.NoticePopup.show();
+        });
+        $("#pub-notice .ico-x").click(function () {
+            $("#js-index-popup").hide(300);
+            $("#_Dialog_maskwrap").hide(100);
+        });
+    });
+    var name, value;
+    var str = location.href; //取得整个地址栏
+    var num = str.lastIndexOf("/");
+    str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+    $("#createbtn").attr('ng-click', "Create(" + str + ")");
+</script>

@@ -1,26 +1,30 @@
 <div class="row nobottom-mar">
-	<div  class="col-sm-12 noleft-pad noright-pad">
-		<div id="{{id}}">
-			<div id="model1_{{id}}"  data-toggle="modal" data-target="#repOrgDialog_{{id}}"  class="select2-success">
-				<div id="s2id_2_{{id}}" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
-					<ul class="select2-choices" style="{{isEditable=='false'?'background: rgb(238, 238, 238);':''}}">
-						<li class="select2-search-choice" ng-if="null != checkedOrg[mappedKeyValue.nameField]">
-							<div>{{checkedOrg[mappedKeyValue.nameField]}}</div>
-							<a  ng-if="isEditable=='true'" class="select2-search-choice-close" tabindex="-1" ng-click="removeSelectedOrg()"></a>
-							<div  ng-if="isEditable=='true'" class="full-drop"></div>
-						</li>
-						<li style="height:29px;"></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div  ng-if="isEditable=='true'" id="repOrgDialog_{{id}}"  class="modal" style="overflow:visible;" tabindex="-1" role="dialog" style="display: none;">
-		<direct-report-org-dialog id="{{id}}" title="{{title}}" url="{{url}}" checked-org="checkedOrg" 
-		remove-selected-org="removeSelectedOrg()" callback="callback" 
-		mapped-key-value="mappedKeyValue" other-fields="otherFields" is-page="isPage" query-params="queryParams" 
-		  columns="columns"></direct-fzr-single-dialog>
-	</div>
+    <div class="col-sm-12 noleft-pad noright-pad">
+        <div id="{{id}}">
+            <div id="model1_{{id}}" data-toggle="modal" data-target="#repOrgDialog_{{id}}" class="select2-success">
+                <div id="s2id_2_{{id}}"
+                     class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                    <ul class="select2-choices" style="{{isEditable=='false'?'background: rgb(238, 238, 238);':''}}">
+                        <li class="select2-search-choice" ng-if="null != checkedOrg[mappedKeyValue.nameField]">
+                            <div>{{checkedOrg[mappedKeyValue.nameField]}}</div>
+                            <a ng-if="isEditable=='true'" class="select2-search-choice-close" tabindex="-1"
+                               ng-click="removeSelectedOrg()"></a>
+                            <div ng-if="isEditable=='true'" class="full-drop"></div>
+                        </li>
+                        <li style="height:29px;"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="isEditable=='true'" id="repOrgDialog_{{id}}" class="modal" style="overflow:visible;" tabindex="-1"
+         role="dialog" style="display: none;">
+        <direct-report-org-dialog id="{{id}}" title="{{title}}" url="{{url}}" checked-org="checkedOrg"
+                                  remove-selected-org="removeSelectedOrg()" callback="callback"
+                                  mapped-key-value="mappedKeyValue" other-fields="otherFields" is-page="isPage"
+                                  query-params="queryParams"
+                                  columns="columns"></direct-report-org-dialog>
+    </div>
 </div>
 
 
