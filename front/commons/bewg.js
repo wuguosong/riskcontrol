@@ -366,6 +366,138 @@
                         }]
                     }
                 })
+                //流程控制
+                .state("index.bpmn", {
+                    url: "/bpmn",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/bpmn/bpmn.html',
+                            controller: 'bpmnCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/bpmn/bpmnCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //错误日志列表
+                .state("index.journalList", {
+                    url: "/journalList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/journal/journalList.html',
+                            controller: 'journalListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/journal/journalListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //错误日志详情
+                .state("index.journalInfo", {
+                    url: "/journalInfo/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/journal/journalInfo.html',
+                            controller: 'journalInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/journal/journalInfoCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //错误日志详情
+                .state("index.journalDetail", {
+                    url: "/journalDetail/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/journal/journalDetail.html',
+                            controller: 'journalDetailCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/journal/journalListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //接口重调列表
+                .state("index.wscallList", {
+                    url: "/wscallList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/wscall/wscallList.html',
+                            controller: 'wscallListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/wscall/wscallListCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                //接口重调详情
+                .state("index.wscallInfo", {
+                    url: "/wscallInfo/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'sys/wscall/wscallInfo.html',
+                            controller: 'wscallInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            //异步加载controller／directive/filter/service
+                            require([
+                                BUSINESS_PATH + 'sys/wscall/wscallInfoCtrl.js'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
                 /**********系统角色开始[Add By LiPan 2019-02-26]**************/
                 /**角色列表页面**/
                 .state("index.SysRoleList", {

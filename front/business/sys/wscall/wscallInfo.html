@@ -1,0 +1,60 @@
+<div class="panel-body">
+    <form id="Experience"  class="form-horizontal" name="Experience"  >
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">接口详细信息</span>
+            </div>
+            <div class="panel">
+                <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">接口详细信息<i class="i-triangle"></i></span></div></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered   table-striped">
+                                <tbody>
+                                <tr>
+                                    <td width="10%">接口类型</td>
+                                    <td>
+                                        <div class="has-feedback word-wrap " >{{log.TYPE}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>创建时间</td>
+                                    <td><div class="has-feedback ">{{log.CREATETIME}}</div></td>
+                                </tr>
+                                <tr>
+                                    <td>更新时间</td>
+                                    <td><div class="has-feedback ">{{log.UPDATETIME}}</div></td>
+                                </tr>
+                                <tr>
+                                    <td>调用状态</td>
+                                    <td>
+                                        <div class="has-feedback ">{{log.SUCCESS=='1'?'成功':log.SUCCESS=='0'?'失败':''}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>返回信息</td>
+                                    <td>
+                                        <div class="has-feedback ">{{log.RECEIVE}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>参数信息</td>
+                                    <td><div class="has-feedback  word-wrap">{{log.CONTENT}}</div></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option txl">
+                    <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                    <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -40,5 +40,24 @@ define(['app'], function (app) {
             SelectPreAuditLogsByIdChangeBpmnUser: srvUrl + "preAudit/queryAuditedLogsById.do",
             SelectBulletinAuditLogsByIdChangeBpmnUser: srvUrl + "bulletinInfo/queryViewDefaultInfo.do",
             UpdateAuditUser: srvUrl + "bpmn/changeAuditUser.do",
+
+            // 流程控制
+            DeployBpmn: srvUrl + "bpmn/deploy.do",
+            StopProcessBpmn: srvUrl + "bpmn/stopProcess.do",
+            ClearBpmn: srvUrl + "bpmn/clear.do",
+            RepeatCallByNoticeIdBpmn: srvUrl + "wscall/repeatCallByNoticeId.do",
+            InitReportStatusBpmn: srvUrl + "wscall/initReportStatus.do",
+            SendTaskBpmn: srvUrl + "wscall/sendTask.do",
+            InitWithJsonBpmn: srvUrl + "wscall/initWithJson.do",
+
+            // 错误日志
+            SelectAllJournal: srvUrl + "journal/queryByPage.do",
+            SelectJournalById: srvUrl + "journal/queryById.do",
+            SelectJournalDetailById: "exception/Journal/getByID",
+
+            // 接口重调
+            SelectAllWscall: srvUrl + "wscall/queryByPage.do",
+            SelectRepeatCallOneWscall: srvUrl + "wscall/repeatCallOne.do",
+            SelectWscallById: srvUrl + "wscall/queryById.do",
         });
 });

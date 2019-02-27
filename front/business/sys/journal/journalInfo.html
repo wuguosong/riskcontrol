@@ -1,0 +1,55 @@
+<div class="panel-body">
+    <form id="Experience"  class="form-horizontal" name="Experience"  >
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">日志详细信息</span>
+            </div>
+            <div class="panel">
+                <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">日志详细信息<i class="i-triangle"></i></span></div></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light basic-info">
+                                <tbody>
+                                <tr>
+                                    <td width="20%">异常类型</td>
+                                    <td>
+                                        <div class="has-feedback" name="type" id="type"  >{{log.TYPE}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>访问时间</td>
+                                    <td><div class="has-feedback" name="accesstime" id="accesstime" >{{log.ACCESSTIME}}</div></td>
+                                </tr>
+                                <tr>
+                                    <td>操作用户</td>
+                                    <td><div class="has-feedback" name="request_userid" id="request_userid"  >{{log.REQUEST_USERID}}</div></td>
+                                </tr>
+                                <tr>
+                                    <td>请求URL</td>
+                                    <td>
+                                        <div class="has-feedback" name="request_url" id="request_url"  >{{log.REQUEST_URL}}</div>
+                                        <!-- 										<textarea  rows="" cols=""  name="request_url" id="request_url" ng-model="log.REQUEST_URL" class="form-control"></textarea> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>异常信息</td>
+                                    <td><div class="has-feedback" name="content" id="content"  >{{log.CONTENT}}</div></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option txl">
+                    <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                    <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

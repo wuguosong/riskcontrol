@@ -1,0 +1,78 @@
+<div class="panel-body">
+    <form  class="form-horizontal ng-pristine ng-valid">
+        <div class="header">
+            <img src="assets/images/icons/group.png" width="41" height="41" alt="" title="" />
+            <span class="hd-title">系统-业务日志</span>
+        </div>
+        <div class="panel panel-group">
+            <div class="panel-heading search-box">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="" href="/#searchbox">查询</a>
+            </div>
+            <div id="searchbox" class="panel-collapse in">
+                <div class="panel-body search-body">
+                    <div class="form-group row sm-row">
+                        <label class="col-sm-2 col-md-1 control-label">日志类型</label>
+                        <div class="col-sm-4 col-md-2 sm-col">
+                            <input type="text" class="form-control" ng-model="paginationConf.queryObj.TYPE">
+                            <!--                             <select class="form-control" ng-model="paginationConf.queryObj.TYPE"> -->
+                            <!--                                 <option value="">请选择...</option> -->
+                            <!--                                 <option value="1">业务</option> -->
+                            <!--                                 <option value="2">错误</option> -->
+                            <!--                             </select> -->
+                        </div>
+                        <label class="col-sm-2 col-md-1 control-label" style="width:100px;">访问时间范围</label>
+                        <div class="col-sm-4 col-md-2 sm-col">
+                            <input type="text" class="form-control" ng-model="paginationConf.queryObj.accesstime_start">
+                        </div>
+                        <label class="col-sm-2 col-md-1 control-label" style="width:7px;">至</label>
+                        <div class="col-sm-4 col-md-2 sm-col">
+                            <input type="text" class="form-control" ng-model="paginationConf.queryObj.accesstime_end">
+                        </div>
+                        <div class="col-sm-12 col-md-2 search">
+                            <button  type="button" class="btn btn-info" ng-click="listAll()"><i class="glyphicon glyphicon-search"></i>查询</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading">
+                <div class="panel-hd-cont"><span class="panel-title">查询结果<i class="i-triangle"></i></span></div>
+            </div>
+            <div class="panel-body">
+                <!-- <div class="form-group row">
+                     <div class="txl">
+                         <button  type="button" ng-click="updateGroup()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
+                     </div>
+                 </div>-->
+                <div class="form-group row nobottom-mar">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>异常类型</th>
+                                <th>访问时间</th>
+                                <th>操作用户</th>
+                                <th>请求URL</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="l in logs">
+                                <td>{{l.RN}}</td>
+                                <td><a ng-click="toJournalInfo(l.ID)">{{l.TYPE}}</a></td>
+                                <td>{{l.ACCESSTIME}}</td>
+                                <td>{{l.REQUEST_USERID}}</td>
+                                <td>{{l.REQUEST_URL}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+                <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+    </form>
+</div>
