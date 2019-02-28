@@ -1,0 +1,83 @@
+<div class="panel-body">
+    <form id="Notification" class="form-horizontal" name="Notification">
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt=""
+                     title="" /><span class="hd-title">公告平台--查看</span>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-hd-cont">
+                        <span class="panel-title">平台公告<i class="i-triangle"></i></span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="special-form">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">公告主题</label>
+                            <div class="col-sm-4">
+                                <input type="text" readonly="readonly" data-toggle="modal" class="form-control" name="topic" id="topic" ng-model="notificationInfo.TOPIC"/>
+                            </div>
+                            <label class="col-sm-2 control-label">公告类型</label>
+                            <div class="col-sm-4 has-feedback" >
+                                <input type="text" readonly="readonly" data-toggle="modal" class="form-control" name="type" id="type" ng-model="notificationInfo.TYPE">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">公告内容</label>
+                            <div class="col-sm-10 has-feedback">
+                                <textarea rows="6%" cols="100%" readonly="readonly" auto-height data-toggle="modal" class="form-control" name="content" id="content" ng-model="notificationInfo.CONTENT" ></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">过期时间</label>
+                            <div class="col-sm-4 has-feedback">
+                                <input ng-show="!isNotExpire" readonly="readonly"  disabled="disabled" type="text" id="expire_date" name="expire_date" value="{{notificationInfo.EXPIRE_DATE | limitTo:10}}" ng-readonly="notificationInfo.STAGE == '2'" ng-model="notificationInfo.EXPIRE_DATE" class="form-control"/>
+                                <i ng-show="!isNotExpire" class="fa fa-calendar form-control-feedback"></i>
+                                <label class="checkbox-inline">
+                                    <input class="px" type="checkbox" readonly="readonly"  disabled="disabled" ng-model="isNotExpire" ng-click="notificationInfo.EXPIRE_DATE=null"/>
+                                    <span class="lbl">永不过期</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-if="(notificationInfo.FILEPATH != null&&notificationInfo.FILEPATH != undefined) || (notificationInfo.FILENAME != null&&notificationInfo.FILENAME != undefined)">
+                            <div id="attachmentFile">
+                                <label class="col-sm-2 control-label">公告附件</label>
+                                <div class="col-sm-9">
+                                    <div class="row nobottom-mar">
+                                        <div class="col-sm-10 noleft-pad noright-pad">
+                                            <a  href="javascript:void(0);" ng-click="downLoadFile(notificationInfo.FILEPATH,notificationInfo.FILENAME)" style="line-height: 27px;" >{{notificationInfo.FILENAME}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <div class="row">
+                <div class="option txl">
+                    <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                    <button type="button" id="submitbtn" class="btn btn-info"
+                            ng-click="submitNotification()" ng-if="notificationInfo.STAGE != '2'">
+                        <i class="fa fa-cloud-upload"></i>发布
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+       /* $('#expire_date').datepicker(options);*/
+
+    });
+</script>
