@@ -59,5 +59,29 @@ define(['app'], function (app) {
             SelectAllWscall: srvUrl + "wscall/queryByPage.do",
             SelectRepeatCallOneWscall: srvUrl + "wscall/repeatCallOne.do",
             SelectWscallById: srvUrl + "wscall/queryById.do",
+
+            // 修改项目名称
+            SelectAllProject: srvUrl + "updateProjectName/queryAllProject.do",
+            UpdateProjectName: srvUrl + "updateProjectName/updateProject.do",
+
+            // 平台公告
+            SelectAllNotification: srvUrl + "notificationFlatform/queryNotifications.do",
+            SelectDictItemByCodeNotification: srvUrl + "dict/queryDictItemByDictTypeCode.do",
+            DeleteNotification: srvUrl + "notificationFlatform/deleteNotifications.do",
+            SelectNotificationById: srvUrl + "notificationFlatform/queryNotificationInfo.do",
+            SaveNotification: srvUrl + "notificationFlatform/addNotification.do",
+            UpdateNotification: srvUrl + "notificationFlatform/modifyNotification.do",
+            SubmitNotification: srvUrl + "notificationFlatform/submitNotification.do",
+            UploadFileNotification: srvUrl + "file/uploadFile.do",
+            SelectNotificationForViewById: srvUrl + "notificationFlatform/queryNotificationInfoForView.do",
+
+            // 商业模式添加附件
+            SelectAllBusinessModel: "rcm/BusinessModel/getAll",
+            SelectAllBusiness: "rcm/ManageAttachment/listBusiness",
+            SelectAllBusinessType: "rcm/ManageAttachment/SelectType",
+            SelectAllBusinessAndAttachment: "rcm/ManageAttachment/ListBusinessAndAttachment",
+            DeleteBusiness: "rcm/ManageAttachment/Delete",
+            AddBusinessAttachment:"rcm/ManageAttachment/addAttachment",
+            SelectAllManageAttachment: "rcm/ManageAttachment/getAll",
         });
 });

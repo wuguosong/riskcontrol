@@ -148,6 +148,7 @@
                         }]
                     }
                 })
+                /*************************系统管理开始************************/
                 .state("index.dic", {
                     url: "/dic",
                     views: {
@@ -648,48 +649,7 @@
                         }]
                     }
                 })
-                /**区域、直接负责人列表页面**/
-                .state("index.DirectUserReportingUnitList", {
-                    url: "/DirectUserReportingUnitList",
-                    views: {
-                        'business': {
-                            templateUrl: BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitList.html',
-                            controller: 'DirectUserReportingUnitListCtrl'
-                        }
-                    },
-                    resolve: {
-                        loadCtrl: ["$q", function ($q) {
-                            var deferred = $q.defer();
-                            require([
-                                BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitListCtrl.js?_v=3'
-                            ], function () {
-                                deferred.resolve();
-                            });
-                            return deferred.promise;
-                        }]
-                    }
-                })
-                /**区域、直接负责人详情页面**/
-                .state("index.DirectUserReportingUnit", {
-                    url: "/DirectUserReportingUnit/:action/:id",
-                    views: {
-                        'business': {
-                            templateUrl: BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnit.html',
-                            controller: 'DirectUserReportingUnitCtrl'
-                        }
-                    },
-                    resolve: {
-                        loadCtrl: ["$q", function ($q) {
-                            var deferred = $q.defer();
-                            require([
-                                BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitCtrl.js?_v=3'
-                            ], function () {
-                                deferred.resolve();
-                            });
-                            return deferred.promise;
-                        }]
-                    }
-                })
+
                 /**单位负责人列表页面**/
                 .state("index.GroupUserRepoUnitList", {
                     url: "/GroupUserRepoUnitList",
@@ -775,6 +735,200 @@
                     }
                 })
             /**********组织管理结束[Add By LiPan 2019-02-26]**************/
+            /*************************系统管理结束************************/
+
+
+            /*************************基础设置开始************************/
+                /**区域、直接负责人列表页面**/
+                .state("index.DirectUserReportingUnitList", {
+                    url: "/DirectUserReportingUnitList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/directUser/DirectUserReportingUnitList.html',
+                            controller: 'DirectUserReportingUnitListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/directUser/DirectUserReportingUnitListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**区域、直接负责人详情页面**/
+                .state("index.DirectUserReportingUnit", {
+                    url: "/DirectUserReportingUnit/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/directUser/DirectUserReportingUnit.html',
+                            controller: 'DirectUserReportingUnitCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 项目名称修改
+                .state("index.UpdateProjectNameList", {
+                    url: "/UpdateProjectNameList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/updateProjectName/updateProjectNameList.html',
+                            controller: 'updateProjectNameListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/updateProjectName/updateProjectNameListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 平台公告管理列表
+                .state("index.notificationList", {
+                    url: "/notificationList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/notification/notificationList.html',
+                            controller: 'notificationListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/notification/notificationListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 平台公告管理详情
+                .state("index.notificationInfo", {
+                    url: "/notificationInfo/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/notification/notificationInfo.html',
+                            controller: 'notificationInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/notification/notificationInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 平台公告管理查看
+                .state("index.notificationInfoView", {
+                    url: "/notificationInfoView/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/notification/notificationInfoView.html',
+                            controller: 'notificationInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/notification/notificationInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 商业模式添加附件列表
+                .state("index.BusinessModelList", {
+                    url: "/BusinessModelList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/businessModel/businessModelList.html',
+                            controller: 'businessModelListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/businessModel/businessModelListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 商业列表
+                .state("index.ListBusiness", {
+                    url: "/ListBusiness/:UUID/:BUSINESS_NAME/:BUSINESS_TYPE",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/businessModel/listBusiness.html',
+                            controller: 'listBusinessCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/businessModel/listBusinessCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 管理商业附件列表
+                .state("index.ManageAttachmentList", {
+                    url: "/ManageAttachmentList/:yuuid/:ybusiness_name/:business_type",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/businessModel/manageAttachmentList.html',
+                            controller: 'manageAttachmentListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/businessModel/manageAttachmentListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+            /*************************基础设置结束************************/
         }]);
     return app;
 });
