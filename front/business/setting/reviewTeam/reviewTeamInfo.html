@@ -1,0 +1,129 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/teanManage.png" width="41" height="41"
+             alt="" title="" /> <span class="hd-title">小组管理</span>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-hd-cont">
+                <span class="panel-title">小组管理<i class="i-triangle"></i></span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal ng-pristine ng-valid" name="myForm"
+                  novalidate>
+                <div class="special-form">
+                    <div class="row">
+                        <input type="hidden" name="UUID" ng-model="team.UUID"
+                               value="{{team.UUID}}"> <label
+                            class="col-sm-2 control-label"><span class="required">*</span>评审小组</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="TEAM_NAME" id="TEAM_NAME" required
+                                   ng-model="team.TEAM_NAME" class="form-control" /> <span
+                                style="color: red"
+                                ng-show="myForm.TEAM_NAME.$dirty && myForm.TEAM_NAME.$invalid">
+								<p ng-show="myForm.TEAM_NAME.$error.required" class="help-block">名称必填</p>
+							</span>
+                        </div>
+                        <label class="col-sm-2 control-label"><span class="required">*</span>类型</label>
+                        <div class="col-sm-4">
+                            <select name="TYPE" id="TYPE" required ng-model="team.TYPE"
+                                    class="form-control ng-pristine ng-untouched ng-valid">
+                                <option value=""></option>
+                                <option value="1">评审小组</option>
+                                <option value="2">法律评审小组</option>
+                            </select> <span style="color: red"
+                                            ng-show="myForm.TYPE.$dirty && myForm.TYPE.$invalid">
+								<p ng-show="myForm.TYPE.$error.required" class="help-block">名称必填</p>
+							</span>
+                        </div>
+                    </div>
+                    <div class="row" name="groupMember">
+                        <label class="col-sm-2 control-label"><span class="required">*</span>组长</label>
+                        <div class="col-sm-4">
+                            <direct-user-single-select id="{{'leader'}}" callback="teamLeaderCallBack()" checked-user="team.leader" mapped-key-value="teamLeaderMapped"></direct-user-single-select>
+                        </div>
+                        <label class="col-sm-2 control-label"><span class="required">*</span>组员</label>
+                        <div class="col-sm-4">
+                            <direct-user-multi-select id="{{'teamMember'}}" checked-users="teamMemberArr"
+                                                      mapped-key-value="teamMemberMapped" is-editable="'true'"></direct-user-multi-select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-2 control-label"><span class="required">*</span>小组编号</label>
+                        <div class="col-sm-4">
+                            <input type="number" name="TEAM_ORDERNUM" id="TEAM_ORDERNUM" required
+                                   ng-model="team.ORDERNUM" class="form-control" /> <span
+                                style="color: red"
+                                ng-show="myForm.TEAM_ORDERNUM.$dirty && myForm.TEAM_ORDERNUM.$invalid">
+								<p ng-show="myForm.TEAM_ORDERNUM.$error.required" class="help-block">编号必填</p>
+							</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group-gap txl">
+                        <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                        <button type="button" ng-click="save()" class="btn btn-info">
+                            <i class="fa fa-save"></i>保存
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<directive-user-list></directive-user-list>
+<directive-user-radio-list></directive-user-radio-list>
+<script type="text/javascript">
+    $(function() {
+        //二级菜单关闭&展示
+        $(".dropdown-list").children("li").click(function() {
+            var dropDown = $(this).find(".sub-list");
+            var togClass = $(this).find(".ico");
+            $(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+            $(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+            dropDown.slideToggle(300);
+            togClass.toggleClass("fa-minus");
+        });
+        //单选
+        $(".one-choice .sub-list li").click(
+            function() {
+                $(this).children("a").addClass("cur");
+                $(this).parents(".dropdown-list").find(".sub-list li a")
+                    .not($(this).children()).removeClass("cur");
+                return false;
+            });
+        //多选
+        $(".more-choice .sub-list li").click(function() {
+            $(this).children("a").addClass("cur");
+            return false;
+        });
+    });
+
+    function addrow(p) {
+        var obj = $(p).parent().parent();
+        var n = obj.attr("name");
+        var addtr = "<div class=\"row groupMember\" name=\""+n+"\"><label for=\"\" class=\"col-sm-2 control-label\">组员<i class=\"fa fa-times\" onclick=\"delrow(this)\"></i></label><div class=\"col-sm-4\"><input type=\"text\" name=\"\" class=\"form-control\" /></div></div>";
+        $("div[name='" + n + "']:last").after(addtr);
+    }
+
+    function delrow(p) {
+        var obj = $(p).parent().parent();
+        obj.remove();
+    }
+
+    angular
+        .element(document)
+        .ready(
+            function() {
+                var options = {
+                    todayBtn : "linked",
+                    orientation : $('body').hasClass('right-to-left') ? "auto right"
+                        : 'auto auto'
+                }
+                /*$('#bidOpenTime').datepicker(options);*/
+            });
+</script>

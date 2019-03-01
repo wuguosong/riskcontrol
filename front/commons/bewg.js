@@ -928,6 +928,174 @@
                         }]
                     }
                 })
+                // 预评审时间预警设置列表
+                .state("index.PreWarningTimeList", {
+                    url: "/PreWarningTimeList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/preWarningTime/preWarningTimeList.html',
+                            controller: 'preWarningTimeListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/preWarningTime/preWarningTimeListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 预评审时间预警设置详情
+                .state("index.PreWarningTimeInfo", {
+                    url: "/PreWarningTimeInfo/:action/:uuid",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/preWarningTime/preWarningTimeInfo.html',
+                            controller: 'preWarningTimeInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/preWarningTime/preWarningTimeInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 风险案例列表
+                .state("index.riskGuidelinesList", {
+                    url: "/riskGuidelinesList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/riskGuidelines/riskGuidelinesList.html',
+                            controller: 'riskGuidelinesListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/riskGuidelines/riskGuidelinesListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 风险案例已提交列表
+                .state("index.submitRiskGuidelinesList", {
+                    url: "/submitRiskGuidelinesList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/riskGuidelines/submitRiskGuidelinesList.html',
+                            controller: 'submitRiskGuidelinesListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/riskGuidelines/submitRiskGuidelinesListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 风险案例详情
+                .state("index.riskGuidelineInfo", {
+                    url: "/riskGuidelineInfo/:action/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/riskGuidelines/riskGuidelineInfo.html',
+                            controller: 'riskGuidelineInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/riskGuidelines/riskGuidelineInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 风险案例查看
+                .state("index.riskGuidelineInfoView", {
+                    url: "/riskGuidelineInfoView/:action/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/riskGuidelines/riskGuidelineInfoView.html',
+                            controller: 'riskGuidelineInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/riskGuidelines/riskGuidelineInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 评审小组管理列表
+                .state("index.ReviewTeamList", {
+                    url: "/ReviewTeamList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/reviewTeam/reviewTeamList.html',
+                            controller: 'reviewTeamListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/reviewTeam/reviewTeamListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 评审小组管理详情
+                .state("index.ReviewTeamInfo", {
+                    url: "/ReviewTeamInfo/:action/:uuid",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/reviewTeam/reviewTeamInfo.html',
+                            controller: 'reviewTeamInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/reviewTeam/reviewTeamInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
             /*************************基础设置结束************************/
         }]);
     return app;

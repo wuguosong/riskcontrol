@@ -299,6 +299,54 @@ define(['app', 'ztree-core'], function (app) {
                 }
             };
         }])
+        // 用户多选列表
+        .directive('directUserMultiSelect', function () {
+            return {
+                restrict: 'E',
+                templateUrl:BUSINESS_PATH + 'directive/common/directUserMultiSelect.html',
+                replace: true,
+                scope:{
+                    //必填,该指令所在modal的id，在当前页面唯一
+                    id: "@",
+                    //对话框的标题，如果没设置，默认为“人员选择”
+                    title: "@",
+                    //查询参数
+                    queryParams: "=",
+                    isEditable:"=",
+                    //默认选中的用户,数组类型，[{NAME:'张三',VALUE:'user.uuid'},{NAME:'李四',VALUE:'user.uuid'}]
+                    checkedUsers: "=",
+                    //映射的key，value，{nameField:'username',valueField:'uuid'}，
+                    //默认为{nameField:'NAME',valueField:'VALUE'}
+                    mappedKeyValue: "=",
+                    callback: "="
+                },
+                controller:function($scope,$http,$element){
+                    if($scope.mappedKeyValue == null){
+                        $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+                    }
+                    if($scope.checkedUsers == null){
+                        $scope.checkedUsers = [];
+                    }
+                    $scope.initDefaultData = function(){
+                        if($scope.title==null){
+                            $scope.title = "人员选择";
+                        }
+                        if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                            $scope.isEditable = "true";
+                        }
+                    };
+                    $scope.initDefaultData();
+                    $scope.removeSelectedUser = function(user){
+                        for(var i = 0; i < $scope.checkedUsers.length; i++){
+                            if(user[$scope.mappedKeyValue.valueField] == $scope.checkedUsers[i][$scope.mappedKeyValue.valueField]){
+                                $scope.checkedUsers.splice(i, 1);
+                                break;
+                            }
+                        }
+                    };
+                }
+            };
+        })
         /***用户多选弹窗指令开始[Add By LiPan 2019-02-26]***/
         .directive('directUserMultiDialog', function () {
             return {

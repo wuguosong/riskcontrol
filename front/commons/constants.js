@@ -83,5 +83,31 @@ define(['app'], function (app) {
             DeleteBusiness: "rcm/ManageAttachment/Delete",
             AddBusinessAttachment:"rcm/ManageAttachment/addAttachment",
             SelectAllManageAttachment: "rcm/ManageAttachment/getAll",
+
+            // 预评审时间预警设置
+            SelectAllPreWaringConfig: "projectPreReview/ListNotice/listWaringConfig",
+            SelectAllFormalWaringConfig: "projectPreReview/ListNotice/listFormalWaringConfig",
+            UpdateWaringConfig: "projectPreReview/ListNotice/updateWaringConfig",
+            SaveWaringConfigInfo: "rcm/Warning/createWarning",
+            UpdateWaringConfigInfo: "rcm/Warning/updateWarning",
+            SelectPreWaringConfigById: "rcm/Warning/getWarningByID",
+
+            // 风险案例
+            SelectAllRiskGuidelines: srvUrl + "riskGuidelinesform/queryRiskGuidelines.do",
+            DeleteRiskGuidelines: srvUrl+"riskGuidelinesform/deleteRiskGuideline.do",
+            SelectAllSubmitRiskGuidelines: srvUrl + "riskGuidelinesform/queryRiskGuidelinesForSubmit.do",
+            SelectRiskGuidelineById: srvUrl + "riskGuidelinesform/queryRideGuidelineInfo.do",
+            SaveRiskGuideline: srvUrl +  "riskGuidelinesform/addRiskGuideline.do",
+            UpdateRiskGuideline: srvUrl +  "riskGuidelinesform/modifyRiskGuideline.do",
+            SumbitRiskGuideline: srvUrl + "riskGuidelinesform/submitRideGuideline.do",
+            SelectRiskGuidelineByIdForView: srvUrl + "riskGuidelinesform/queryRideGuidelineInfoForView.do",
+
+            //
+            SelectAllReviewTeams: "rcm/Pteam/getAll",
+            SelectAllReviewTeamsForView: "rcm/Pteam/viewAll",
+            DelectReviewTeam: "rcm/Pteam/deleteTeamByID",
+            UpdateReviewTeam: "rcm/Pteam/updateTeam",
+            SaveReviewTeam: "rcm/Pteam/createTeam",
+            SelectReviewTeamById: "rcm/Pteam/getTeamByID",
         });
 });
