@@ -1,0 +1,64 @@
+<div class="panel-body">
+    <form id="Notification" class="form-horizontal" name="Notification">
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt=""
+                     title="" /><span class="hd-title">模板文件--查看</span>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-hd-cont">
+                        <span class="panel-title">模板文件<i class="i-triangle"></i></span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="special-form">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">模板名称</label>
+                            <div class="col-sm-4">
+                                <input type="text" readonly="readonly" data-toggle="modal" class="form-control" name="name" id="name" ng-model="templateFlieInfo.NAME"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">模板内容</label>
+                            <div class="col-sm-10 has-feedback">
+                                <textarea rows="6%" cols="100%" readonly="readonly" auto-height data-toggle="modal" class="form-control" name="content" id="content" ng-model="templateFlieInfo.CONTENT" ></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="attachmentFile">
+                                <label class="col-sm-2 control-label">附件</label>
+                                <div class="col-sm-9">
+                                    <div class="row nobottom-mar">
+                                        <div class="col-sm-10 noleft-pad noright-pad">
+                                            <a  href="javascript:void(0);" ng-click="downLoadFile(templateFlieInfo.FILE_PATH,templateFlieInfo.FILE_NAME)" style="line-height: 27px;" >{{templateFlieInfo.FILE_NAME}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <div class="row">
+                <div class="option txl">
+                    <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!--
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#expire_date').datepicker(options);
+
+    });
+</script>-->

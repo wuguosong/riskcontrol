@@ -48,7 +48,7 @@ define(['app', 'Service'], function (app) {
             }
 
             //保存公告信息
-            $scope.saveNotification = function(callBack){
+            $scope.saveNotification = function(flag){
                 /*if(!$("#Notification").valid()) {
                     return false;
                 }*/
@@ -83,12 +83,16 @@ define(['app', 'Service'], function (app) {
                         if (typeof callBack == 'function') {
                             callBack();
                         } else {
-                            Window.alert(result.result_name);
+                            if (flag != 1){
+                                Window.alert(result.result_name);
+                            }
 //    				$("#savebtn").hide();
                             /*hide_Mask();*/
                         }
                     }else{
-                        Window.alert(result.result_name);
+                        if (flag != 1){
+                            Window.alert(result.result_name);
+                        }
                         /*hide_Mask();*/
                     }
                 }).error(function(data,status,headers,config){
@@ -98,8 +102,8 @@ define(['app', 'Service'], function (app) {
             }
 
             //提交公告信息
-            $scope.submitNotification = function(){
-                $scope.saveNotification(function(){
+            $scope.submitNotification = function(flag){
+                $scope.saveNotification(1);
                     $http({
                         method:'post',
                         url: BEWG_URL.SubmitNotification,
@@ -108,16 +112,15 @@ define(['app', 'Service'], function (app) {
                         if(result.success){
                             Window.alert(result.result_name);
                             $scope.hideOrDisableAttr();
-                            hide_Mask();
+                            /*hide_Mask();*/
                         }else{
                             Window.alert(result.result_name);
-                            hide_Mask();
+                            /*hide_Mask();*/
                         }
                     }).error(function(data,status,headers,config){
                         Window.alert(status);
-                        hide_Mask();
+                        /*hide_Mask();*/
                     });
-                });
             }
 
             //文件上传

@@ -1,14 +1,13 @@
 define(['app', 'Service'], function (app) {
     app
-        .register.controller('riskGuidelineInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
+        .register.controller('regulationsInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
         function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {
-            console.log('riskGuidelineInfo');
+            console.log('regulationsInfo');
 
             $scope.objId =  $stateParams.id;
             $scope.actionpam =$stateParams.action;
-            $scope.flag =$stateParams.flag;
 
-            $scope.rideGuidelineInfo = {};
+            $scope.regulationsInfo = {};
             $scope.Info ={};
             $scope.formatDate = function() {
                 var date = new Date();
@@ -17,51 +16,50 @@ define(['app', 'Service'], function (app) {
                     return num.replace(/^(\d)$/,"0$1");
                 }
                 return date.getFullYear()+""+paddNum(date.getMonth()+1)+""+date.getDate();
-            };
+            }
 
             $scope.init = function(){
                 if ($scope.actionpam == 'Create') {
-                    $scope.titleName = "风险指引--新增";
+                    $scope.titleName = "规章制度--新增";
                 } else if ($scope.actionpam == 'Modify') {
-                    $scope.titleName = "风险指引--修改";
-                    $scope.getRideGuidelineInfo($scope.actionpam);
+                    $scope.titleName = "规章制度--修改";
+                    $scope.getRegulationsInfo($scope.actionpam);
                 }
-            };
+            }
 
-            // 查询风险信息详情
-            $scope.getRideGuidelineInfo = function(id){
-
+            // 查询规章制度详情
+            $scope.getRegulationsInfo = function(id){
                 $http({
                     method:'post',
-                    url: BEWG_URL.SelectRiskGuidelineById,
+                    url: BEWG_URL.SelectRegulationById,
                     data: $.param({"id":$scope.objId})
                 }).success(function(result){
-                    $scope.rideGuidelineInfo = result.result_data;
-                    if($scope.rideGuidelineInfo.CONTENT != undefined || "" != $scope.rideGuidelineInfo.CONTENT){
-                        $scope.rideGuidelineInfo.CONTENT = $scope.rideGuidelineInfo.CONTENT.replace(/<\/br>/g,'\n');
+                    $scope.regulationsInfo = result.result_data;
+                    if($scope.regulationsInfo.CONTENT != undefined || "" != $scope.regulationsInfo.CONTENT){
+                        $scope.regulationsInfo.CONTENT = $scope.regulationsInfo.CONTENT.replace(/<\/br>/g,'\n');
                     }
                 }).error(function(data,status,headers,config){
                     Window.alert(status);
                 });
-            };
+            }
 
-            //保存风险信息
-            $scope.saveRideGuideline = function(flag){
+            //保存规章制度信息
+            $scope.saveRegulationsInfo = function(flag){
                 /*show_Mask();*/
                 var url = "";
                 if($scope.objId == "0"){
-                    url = BEWG_URL.SaveRiskGuideline;
+                    url = BEWG_URL.SaveRegulation;
                 }else{
-                    url = BEWG_URL.UpdateRiskGuideline;
+                    url = BEWG_URL.UpdateRegulation;
                 }
 
                 $http({
                     method:'post',
                     url: url,
-                    data: $.param({"json":JSON.stringify($scope.rideGuidelineInfo)})
+                    data: $.param({"json":JSON.stringify($scope.regulationsInfo)})
                 }).success(function(result){
                     if(result.success){
-                        $scope.rideGuidelineInfo.ID = result.result_data;
+                        $scope.regulationsInfo.ID = result.result_data;
                         $scope.objId = result.result_data ;
                         if (typeof callBack == 'function') {
                             callBack();
@@ -70,7 +68,6 @@ define(['app', 'Service'], function (app) {
                                 Window.alert(result.result_name);
                             }
 
-//    				$("#savebtn").hide();
                             /*hide_Mask();*/
                         }
                     }else{
@@ -83,14 +80,14 @@ define(['app', 'Service'], function (app) {
                     Window.alert(status);
                     /*hide_Mask();*/
                 });
-            }
+            };
 
-            //提交风险信息
-            $scope.submitRideGuideline = function(){
-                $scope.saveRideGuideline(1);
+            //提交规章制度信息
+            $scope.submitRegulationsInfo = function(){
+                $scope.saveRegulationsInfo(1);
                 $http({
                     method:'post',
-                    url: BEWG_URL.SumbitRiskGuideline,
+                    url: BEWG_URL.SubmitRegulation,
                     data: $.param({"id":$scope.objId})
                 }).success(function(result){
                     if(result.success){
@@ -114,13 +111,13 @@ define(['app', 'Service'], function (app) {
                     var errorMsg = fileErrorMsg(errorFile);
                     $scope.errorAttach[idx]={msg:errorMsg};
                 }else if(file){
-                    var fileFolder = "rideGuideline/";
+                    var fileFolder = "regulation/";
 
                     if($scope.actionpam == 'Create'){
                         fileFolder = fileFolder + $scope.formatDate();
                     }else{
                         if($scope.notification != undefined){
-                            fileFolder = $scope.rideGuidelineInfo.filePath;
+                            fileFolder = $scope.notification.filePath;
                         }else{
                             fileFolder = fileFolder + $scope.formatDate();
                         }
@@ -129,11 +126,11 @@ define(['app', 'Service'], function (app) {
                     $scope.errorAttach[idx]={msg:''};
 
                     Upload.upload({
-                        url:srvUrl+'file/uploadFile.do',
+                        url: BEWG_URL.UplodeRegulation,
                         data: {file: file, folder:fileFolder}
                     }).then(function (resp) {
-                        $scope.rideGuidelineInfo.FILE_PATH = resp.data.result_data[0].filePath;
-                        $scope.rideGuidelineInfo.FILE_NAME = resp.data.result_data[0].fileName;
+                        $scope.regulationsInfo.FILE_PATH = resp.data.result_data[0].filePath;
+                        $scope.regulationsInfo.FILE_NAME = resp.data.result_data[0].fileName;
                     }, function (resp) {
                         Window.alert(resp.status);
                     }, function (evt) {
@@ -156,11 +153,11 @@ define(['app', 'Service'], function (app) {
                 $("#submitbtn").hide();
             }
 
-            //将风险内容的换行符替换为</br>
+            //将规章制度;内容的换行符替换为</br>
             $scope.keyUp = function(event){
                 if(event.keyCode == 13){
                     var content = new Array();
-                    content.push($scope.rideGuidelineInfo.CONTENT);
+                    content.push($scope.regulationsInfo.CONTENT);
                     if(content.length > 0){
                         var contents = content[0];
                         $scope.Info.CONTENTS = contents.replace(/\n/g,"</br>");
@@ -170,11 +167,7 @@ define(['app', 'Service'], function (app) {
 
             // 返回列表
             $scope.cancel = function (){
-                if ($scope.flag == 1){
-                    $location.path("/index/riskGuidelinesList");
-                } else {
-                    $location.path("/index/submitRiskGuidelinesList");
-                }
+                $location.path("/index/regulationsList");
             }
             $scope.init();
         }]);

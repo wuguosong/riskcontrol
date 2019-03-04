@@ -1,14 +1,13 @@
 define(['app', 'Service'], function (app) {
     app
-        .register.controller('riskGuidelineInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
+        .register.controller('templateFlieInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
         function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {
-            console.log('riskGuidelineInfo');
+            console.log('templateFlieInfo');
 
             $scope.objId =  $stateParams.id;
             $scope.actionpam =$stateParams.action;
-            $scope.flag =$stateParams.flag;
 
-            $scope.rideGuidelineInfo = {};
+            $scope.templateFlieInfo = {};
             $scope.Info ={};
             $scope.formatDate = function() {
                 var date = new Date();
@@ -17,51 +16,51 @@ define(['app', 'Service'], function (app) {
                     return num.replace(/^(\d)$/,"0$1");
                 }
                 return date.getFullYear()+""+paddNum(date.getMonth()+1)+""+date.getDate();
-            };
+            }
 
             $scope.init = function(){
                 if ($scope.actionpam == 'Create') {
-                    $scope.titleName = "风险指引--新增";
+                    $scope.titleName = "模板文件--新增";
                 } else if ($scope.actionpam == 'Modify') {
-                    $scope.titleName = "风险指引--修改";
-                    $scope.getRideGuidelineInfo($scope.actionpam);
+                    $scope.titleName = "模板文件--修改";
+                    $scope.getTemplateFlieInfo($scope.actionpam);
                 }
-            };
+            }
 
-            // 查询风险信息详情
-            $scope.getRideGuidelineInfo = function(id){
+            // 查询模板文件详情
+            $scope.getTemplateFlieInfo = function(id){
 
                 $http({
                     method:'post',
-                    url: BEWG_URL.SelectRiskGuidelineById,
+                    url: BEWG_URL.SelectTemplateFileById,
                     data: $.param({"id":$scope.objId})
                 }).success(function(result){
-                    $scope.rideGuidelineInfo = result.result_data;
-                    if($scope.rideGuidelineInfo.CONTENT != undefined || "" != $scope.rideGuidelineInfo.CONTENT){
-                        $scope.rideGuidelineInfo.CONTENT = $scope.rideGuidelineInfo.CONTENT.replace(/<\/br>/g,'\n');
+                    $scope.templateFlieInfo = result.result_data;
+                    if($scope.templateFlieInfo.CONTENT != undefined || "" != $scope.templateFlieInfo.CONTENT){
+                        $scope.templateFlieInfo.CONTENT = $scope.templateFlieInfo.CONTENT.replace(/<\/br>/g,'\n');
                     }
                 }).error(function(data,status,headers,config){
                     Window.alert(status);
                 });
-            };
+            }
 
-            //保存风险信息
-            $scope.saveRideGuideline = function(flag){
+            //保存模板文件信息
+            $scope.saveTemalateFile = function(flag){
                 /*show_Mask();*/
                 var url = "";
                 if($scope.objId == "0"){
-                    url = BEWG_URL.SaveRiskGuideline;
+                    url = BEWG_URL.SaveTemplateFile;
                 }else{
-                    url = BEWG_URL.UpdateRiskGuideline;
+                    url = BEWG_URL.UpdateTemplateFile;
                 }
 
                 $http({
                     method:'post',
                     url: url,
-                    data: $.param({"json":JSON.stringify($scope.rideGuidelineInfo)})
+                    data: $.param({"json":JSON.stringify($scope.templateFlieInfo)})
                 }).success(function(result){
                     if(result.success){
-                        $scope.rideGuidelineInfo.ID = result.result_data;
+                        $scope.templateFlieInfo.ID = result.result_data;
                         $scope.objId = result.result_data ;
                         if (typeof callBack == 'function') {
                             callBack();
@@ -69,9 +68,8 @@ define(['app', 'Service'], function (app) {
                             if (flag != 1) {
                                 Window.alert(result.result_name);
                             }
-
 //    				$("#savebtn").hide();
-                            /*hide_Mask();*/
+                           /* hide_Mask();*/
                         }
                     }else{
                         if (flag != 1) {
@@ -81,25 +79,25 @@ define(['app', 'Service'], function (app) {
                     }
                 }).error(function(data,status,headers,config){
                     Window.alert(status);
-                    /*hide_Mask();*/
+                    /*hide_Mask()*/;
                 });
             }
 
-            //提交风险信息
-            $scope.submitRideGuideline = function(){
-                $scope.saveRideGuideline(1);
+            //提交模板文件信息
+            $scope.submitTemalateFile = function(){
+                $scope.saveTemalateFile(1);
                 $http({
                     method:'post',
-                    url: BEWG_URL.SumbitRiskGuideline,
+                    url: BEWG_URL.SubmitTemplateFile,
                     data: $.param({"id":$scope.objId})
                 }).success(function(result){
                     if(result.success){
                         Window.alert(result.result_name);
                         $scope.hideOrDisableAttr();
-                        /*hide_Mask();*/
+                        /* hide_Mask();*/
                     }else{
                         Window.alert(result.result_name);
-                        /*hide_Mask();*/
+                        /* hide_Mask();*/
                     }
                 }).error(function(data,status,headers,config){
                     Window.alert(status);
@@ -114,13 +112,13 @@ define(['app', 'Service'], function (app) {
                     var errorMsg = fileErrorMsg(errorFile);
                     $scope.errorAttach[idx]={msg:errorMsg};
                 }else if(file){
-                    var fileFolder = "rideGuideline/";
+                    var fileFolder = "templateFile/";
 
                     if($scope.actionpam == 'Create'){
                         fileFolder = fileFolder + $scope.formatDate();
                     }else{
                         if($scope.notification != undefined){
-                            fileFolder = $scope.rideGuidelineInfo.filePath;
+                            fileFolder = $scope.notification.filePath;
                         }else{
                             fileFolder = fileFolder + $scope.formatDate();
                         }
@@ -129,11 +127,11 @@ define(['app', 'Service'], function (app) {
                     $scope.errorAttach[idx]={msg:''};
 
                     Upload.upload({
-                        url:srvUrl+'file/uploadFile.do',
+                        url:BEWG_URL.UplodeTemplateFile,
                         data: {file: file, folder:fileFolder}
                     }).then(function (resp) {
-                        $scope.rideGuidelineInfo.FILE_PATH = resp.data.result_data[0].filePath;
-                        $scope.rideGuidelineInfo.FILE_NAME = resp.data.result_data[0].fileName;
+                        $scope.templateFlieInfo.FILE_PATH = resp.data.result_data[0].filePath;
+                        $scope.templateFlieInfo.FILE_NAME = resp.data.result_data[0].fileName;
                     }, function (resp) {
                         Window.alert(resp.status);
                     }, function (evt) {
@@ -156,11 +154,11 @@ define(['app', 'Service'], function (app) {
                 $("#submitbtn").hide();
             }
 
-            //将风险内容的换行符替换为</br>
+            //将模板文件内容的换行符替换为</br>
             $scope.keyUp = function(event){
                 if(event.keyCode == 13){
                     var content = new Array();
-                    content.push($scope.rideGuidelineInfo.CONTENT);
+                    content.push($scope.templateFlieInfo.CONTENT);
                     if(content.length > 0){
                         var contents = content[0];
                         $scope.Info.CONTENTS = contents.replace(/\n/g,"</br>");
@@ -170,11 +168,7 @@ define(['app', 'Service'], function (app) {
 
             // 返回列表
             $scope.cancel = function (){
-                if ($scope.flag == 1){
-                    $location.path("/index/riskGuidelinesList");
-                } else {
-                    $location.path("/index/submitRiskGuidelinesList");
-                }
+                $location.path("/index/templateFlieList");
             }
             $scope.init();
         }]);
