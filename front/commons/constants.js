@@ -2,6 +2,12 @@ define(['app'], function (app) {
     var srvUrl = "/rcm-rest";
     app
         .constant('BEWG_URL', {
+           // 公用地址
+            SelectGroupOrg: "fnd/Group/getOrg",
+            SelectBusinessType: "businessDict/queryBusinessType.do",
+            SelectProjectType: srvUrl+"common/commonMethod/queryAllProjectTypes",
+            SelectSyncBusinessModel: "common/commonMethod/selectsyncbusinessmodel",
+
             // 登录
             LoginUrl: srvUrl + "login/login",
 
@@ -102,12 +108,42 @@ define(['app'], function (app) {
             SumbitRiskGuideline: srvUrl + "riskGuidelinesform/submitRideGuideline.do",
             SelectRiskGuidelineByIdForView: srvUrl + "riskGuidelinesform/queryRideGuidelineInfoForView.do",
 
-            //
+            // 评审小组管理
             SelectAllReviewTeams: "rcm/Pteam/getAll",
             SelectAllReviewTeamsForView: "rcm/Pteam/viewAll",
             DelectReviewTeam: "rcm/Pteam/deleteTeamByID",
             UpdateReviewTeam: "rcm/Pteam/updateTeam",
             SaveReviewTeam: "rcm/Pteam/createTeam",
             SelectReviewTeamById: "rcm/Pteam/getTeamByID",
+
+            // 模板文件管理
+            SelectAllTemplateFile: srvUrl + "templateFileFrom/queryTemplateFiles.do",
+            DeleteAllTemplateFile: srvUrl+"templateFileFrom/deleteTemplateFile.do",
+            SelectTemplateFileById: srvUrl + "templateFileFrom/queryTemalateFileInfo.do",
+            SaveTemplateFile: srvUrl + "templateFileFrom/addTemplateFile.do",
+            UpdateTemplateFile: srvUrl + "templateFileFrom/modifyTemplateFile.do",
+            SubmitTemplateFile: srvUrl + "templateFileFrom/submitTemalateFile.do",
+            UplodeTemplateFile: srvUrl + "file/uploadFile.do",
+            SelectAllSubmitTemplateFile: srvUrl + "templateFileFrom/queryRiskGuidelinesForSubmit.do",
+
+            // 	规章制度管理
+            SelectAllRegulation: srvUrl + "regulationsFrom/queryRegulationsList.do",
+            DeleteRegulation: srvUrl+"regulationsFrom/deleteRegulations.do",
+            SelectAllSubmitRegulation: srvUrl + "regulationsFrom/queryRegulationsForSubmit.do",
+            SaveRegulation: srvUrl + "regulationsFrom/addRegulations.do",
+            UpdateRegulation: srvUrl + "regulationsFrom/modifyRegulations.do",
+            SubmitRegulation: srvUrl + "regulationsFrom/submitRegulations.do",
+            UplodeRegulation: srvUrl + "file/uploadFile.do",
+            SelectRegulationById: srvUrl + "regulationsFrom/queryRegulationsInfo.do",
+
+            // 投标评审申请
+            SelectAllPre: srvUrl + "preInfo/queryPreList.do",
+            SelectAllSubmitPre: srvUrl + "preInfo/queryPreSubmitedList.do",
+            DeletePre: srvUrl + "preInfoCreate/deleteProject.do",
+            SelectPreById: srvUrl + "preInfo/getPreByID.do",
+            SelectPreAuditedLogsById: srvUrl + "preAudit/queryAuditedLogsById.do",
+            SelectPre1ById: "preInfoCreate/getProjectByID.do",
+            SavePre: srvUrl + "preInfoCreate/createProject.do",
+            UpdatePre: srvUrl + "preInfoCreate/updateProject.do",
         });
 });

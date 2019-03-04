@@ -1055,7 +1055,7 @@ define(['app', 'ztree-core'], function (app) {
                      $scope.users = data.result_data.list;
                      $scope.paginationConf.totalItems = data.result_data.totalItems;
                      }else{
-                     $.alert(data.result_name);
+                     Window.alert(data.result_name);
                      }
                      });
                      }*/
@@ -1147,6 +1147,231 @@ define(['app', 'ztree-core'], function (app) {
                         }
                     }
                     $scope.$watch('checkedOrg', $scope.initData);
+                }
+            };
+        })
+        // 流程图相关页面
+        .directive('directiveProcessPage', function() {
+            return {
+                restrict: 'E',
+                templateUrl:  BUSINESS_PATH + 'directive/common/directiveProcessPage.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                    $scope.wf = {};
+                    //获取流程图
+                    $scope.$watch("refreshImg", function(){
+                        if($scope.wfInfo!=null && $scope.wfInfo.businessId != null){
+                            //如果businessId不为空，说明流程已经提交，要获取当前节点位置
+                            $scope.$parent.httpData('bpm/WorkFlow/getActiveActivityIds',$scope.wfInfo).success(function(data){
+                                $scope.wf.currentNodes = data.result_data;
+                            });
+                        }
+                        $scope.$parent.httpData('bpm/WorkFlow/getProcessDefinitionId',$scope.wfInfo).success(function(data){
+                            $scope.wf.processDefinitionId = data.result_data.processDefinitionId;
+                        });
+                    });
+                }
+            };
+        })
+        // 相关资源列表
+        .directive('directiveFileList',function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/common/directiveFileList.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                    $scope.selectAll = function(){
+                        if($("#all").attr("checked")){
+                            $(":checkbox[name='choose']").attr("checked",1);
+                        }else{
+                            $(":checkbox[name='choose']").attr("checked",false);
+                        }
+                    }
+                    $scope.batchDownload = function(){
+                        var filenames = "";
+                        var filepaths = "";
+                        $("input[type=checkbox][name=choose]:checked").each(function(){
+                            filenames+=$(this).attr("filename")+",";
+                            filepaths+=$(this).attr("filepath")+",";
+                        });
+                        if(filenames.length == 0 || filepaths.length == 0){
+                            Window.alert("请选择要打包下载的文件！");
+                            return false;
+                        }
+                        filenames = filenames.substring(0, filenames.length - 1);
+                        filepaths = filepaths.substring(0, filepaths.length - 1);
+                        downloadBatch(filenames, filepaths);
+                    }
+
+                    //删除数组
+                    $scope.deleteFile = function(item){
+                        Window.confirm('注意', "确认要删除该文件？").result.then(function (btn) {
+                            //根据UUID和版本号定位删除
+                            $http({
+                                method:'post',
+                                url:srvUrl+"preInfo/deleteAttachment.do",
+                                data: $.param({"json":JSON.stringify({"UUID":item.UUID,"version":item.version,"businessId":$scope.pre.id})})
+                            }).success(function(data){
+                                if(data.success){
+                                    $scope.newAttachment.splice(jQuery.inArray(item,$scope.newAttachment),1);
+                                    $scope.getPreById($scope.pre.id);
+                                    Window.alert("文件删除成功！");
+                                }else{
+                                    Window.alert(data.result_name);
+                                }
+                            });
+                        })
+                    }
+
+                    //新增数组
+                    $scope.addOneNewFile = function(){
+                        function addBlankRow1(array){
+                            var blankRow = {
+                                newFile:true
+                            }
+                            var size = array.length;
+                            array[size]=blankRow;
+                        }
+                        if(undefined==$scope.newAttachment){
+                            $scope.newAttachment={files:[]};
+                        }
+                        addBlankRow1($scope.newAttachment);
+                    }
+
+                    $scope.upload = function (file,errorFile, outId,item) {
+                        if(errorFile && errorFile.length>0){
+                            if(errorFile[0].$error=='maxSize'){
+                                var errorMsg = fileErrorMsg(errorFile);
+                                Window.alert(errorMsg);
+                            }else{
+                                Window.alert("文件错误！");
+                            }
+                        }else if(file){
+
+                            if(item.approved == null || item.approved == "" || item.approved.NAME == null|| item.approved.NAME == ""){
+                                Window.alert("请选择审核人！");
+                                return;
+                            }
+                            if(item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == ""){
+                                Window.alert("请选择编制人！");
+                                return;
+                            }
+
+                            Window.confirm('注意', "是否确认替换？").result.then(function (btn) {
+                                Upload.upload({
+                                    url:srvUrl+'common/RcmFile/upload',
+                                    data: {file: file, folder:'',typeKey:'preAssessmentPath'}
+                                }).then(function (resp) {
+                                    var retData = resp.data.result_data[0];
+
+                                    //根据UUID和版本号定位修改
+                                    $http({
+                                        method:'post',
+                                        url:srvUrl+"preInfo/updateAttachment.do",
+                                        data: $.param({"json":JSON.stringify({
+                                                "UUID":item.UUID,
+                                                "version":item.version,
+                                                "businessId":$scope.pre.id,
+                                                "fileName":retData.fileName,
+                                                "filePath":retData.filePath,
+                                                "programmed":item.programmed,
+                                                "approved":item.approved
+                                            })
+                                        })
+                                    }).success(function(data){
+                                        if(data.success){
+                                            $scope.getPreById($scope.pre.id);
+                                            Window.alert("文件替换成功！");
+                                        }else{
+                                            Window.alert(data.result_name);
+                                        }
+                                    });
+
+                                    $scope.newAttachment[outId].fileName=retData.fileName;
+                                    $scope.newAttachment[outId].filePath=retData.filePath;
+                                }, function (resp) {
+                                    console.log('Error status: ' + resp.status);
+                                }, function (evt) {
+                                    //            			var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                                });
+                            });
+                        }
+                    };
+
+                    $scope.uploadNew = function (file,errorFile, outId,item) {
+                        if(errorFile && errorFile.length>0){
+                            if(errorFile[0].$error=='maxSize'){
+                                var errorMsg = fileErrorMsg(errorFile);
+                                Window.alert(errorMsg);
+                            }else{
+                                Window.alert("文件错误！");
+                            }
+                        }else if(file){
+                            if(item.newItem == null || item.newItem.UUID == null || item.newItem.UUID == ""){
+                                Window.alert("请选择资源类型！");
+                                return;
+                            }
+                            if(item.approved == null || item.approved == "" || item.approved.NAME == null|| item.approved.NAME == ""){
+                                Window.alert("请选择审核人！");
+                                return;
+                            }
+                            if(item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == ""){
+                                Window.alert("请选择编制人！");
+                                return;
+                            }
+                            Upload.upload({
+                                url:srvUrl+'common/RcmFile/upload',
+                                data: {file: file, folder:'',typeKey:'preAssessmentPath'}
+                            }).then(function (resp) {
+                                var retData = resp.data.result_data[0];
+
+                                //根据UUID处理版本号
+                                var v = 0;
+                                for(var i in $scope.newAttachment){
+
+                                    if($scope.newAttachment[i].newFile){
+                                        $scope.newAttachment[i] = $scope.newAttachment[i].newItem;
+                                    }
+                                    if($scope.newAttachment[i].UUID == item.newItem.UUID){
+                                        if($scope.newAttachment[i].version != undefined && $scope.newAttachment[i].version != null && $scope.newAttachment[i].version !=""){
+                                            if($scope.newAttachment[i].version > v){
+                                                v = $scope.newAttachment[i].version;
+                                            }
+                                        }
+
+                                    }
+                                }
+                                v++ ;
+                                item.fileName = retData.fileName;
+                                item.filePath = retData.filePath;
+//            				item.programmed={"NAME":$scope.credentials.userName,"VALUE":$scope.credentials.UUID}
+//            				item.approved={"NAME":$scope.credentials.userName,"VALUE":$scope.credentials.UUID}
+
+                                //根据UUID判断文件所属类别
+                                $http({
+                                    method:'post',
+                                    url:srvUrl+"preInfo/addNewAttachment.do",
+                                    data: $.param({"json":JSON.stringify({"UUID":item.newItem.UUID,"version":v,"businessId":$scope.pre.id,"item":item})})
+                                }).success(function(data){
+                                    if(data.success){
+                                        $scope.getPreById($scope.pre.id);
+                                    }else{
+                                        Window.alert(data.result_name);
+                                    }
+                                });
+                                $scope.newAttachment[outId].fileName=retData.fileName;
+                                $scope.newAttachment[outId].filePath=retData.filePath;
+                            }, function (resp) {
+                                console.log('Error status: ' + resp.status);
+                            }, function (evt) {
+                                //            			var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            });
+                        }
+                    };
                 }
             };
         })

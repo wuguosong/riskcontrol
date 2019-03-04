@@ -1096,7 +1096,241 @@
                         }]
                     }
                 })
+                // 模板文件管理列表
+                .state("index.templateFlieList", {
+                    url: "/templateFlieList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/templateFlie/templateFlieList.html',
+                            controller: 'templateFlieListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/templateFlie/templateFlieListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 模板文件管理已提交列表
+                .state("index.submitTemplateFlieList", {
+                    url: "/submitTemplateFlieList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/templateFlie/submitTemplateFlieList.html',
+                            controller: 'submitTemplateFlieListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/templateFlie/submitTemplateFlieListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 模板文件管理详情
+                .state("index.templateFlieInfo", {
+                    url: "/templateFlieInfo/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/templateFlie/templateFlieInfo.html',
+                            controller: 'templateFlieInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/templateFlie/templateFlieInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 模板文件管理查看
+                .state("index.templateFlieInfoView", {
+                    url: "/templateFlieInfoView/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/templateFlie/templateFlieInfoView.html',
+                            controller: 'templateFlieInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/templateFlie/templateFlieInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 规章制度管理列表
+                .state("index.regulationsList", {
+                    url: "/regulationsList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/regulations/regulationsList.html',
+                            controller: 'regulationsListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/regulations/regulationsListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 规章制度管理已提交列表
+                .state("index.submitRegulationsList", {
+                    url: "/submitRegulationsList",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/regulations/submitRegulationsList.html',
+                            controller: 'submitRegulationsListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/regulations/submitRegulationsListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 模板文件管理详情
+                .state("index.regulationsInfo", {
+                    url: "/regulationsInfo/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/regulations/regulationsInfo.html',
+                            controller: 'regulationsInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/regulations/regulationsInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 模板文件管理查看
+                .state("index.regulationsInfoView", {
+                    url: "/regulationsInfoView/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'setting/regulations/regulationsInfoView.html',
+                            controller: 'regulationsInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'setting/regulations/regulationsInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
             /*************************基础设置结束************************/
+
+            /*************************业务部分开始************************/
+                // 投标评审申请列表
+                .state("index.PreInfoList", {
+                    url: "/PreInfoList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoList.html',
+                            controller: 'preInfoListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审申请详情
+                .state("index.PreInfo", {
+                    url: "/PreInfo/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfo.html',
+                            controller: 'preInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审申请查看
+                .state("index.PreInfoView", {
+                    url: "/PreInfoView/:id/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoView.html',
+                            controller: 'preInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+            /*************************业务部分结束************************/
         }]);
     return app;
 });
