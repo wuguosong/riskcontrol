@@ -1150,31 +1150,6 @@ define(['app', 'ztree-core'], function (app) {
                 }
             };
         })
-        // 流程图相关页面
-        .directive('directiveProcessPage', function () {
-            return {
-                restrict: 'E',
-                templateUrl: BUSINESS_PATH + 'directive/common/directiveProcessPage.html',
-                replace: true,
-                link: function (scope, element, attr) {
-                },
-                controller: function ($scope, $http, $element) {
-                    $scope.wf = {};
-                    //获取流程图
-                    $scope.$watch("refreshImg", function () {
-                        if ($scope.wfInfo != null && $scope.wfInfo.businessId != null) {
-                            //如果businessId不为空，说明流程已经提交，要获取当前节点位置
-                            $scope.$parent.httpData('bpm/WorkFlow/getActiveActivityIds', $scope.wfInfo).success(function (data) {
-                                $scope.wf.currentNodes = data.result_data;
-                            });
-                        }
-                        $scope.$parent.httpData('bpm/WorkFlow/getProcessDefinitionId', $scope.wfInfo).success(function (data) {
-                            $scope.wf.processDefinitionId = data.result_data.processDefinitionId;
-                        });
-                    });
-                }
-            };
-        })
         // 相关资源列表
         .directive('directiveFileList', function () {
             return {

@@ -6,6 +6,7 @@ const PATH_URL_INDEX = "/index";
 require.config({
     paths: {
         'jquery': LIBS_PATH + 'jquery/jquery-3.1.0.min',
+        'jqvalidate': LIBS_PATH + 'javascripts/jquery.validate-1.11.1/jquery.validate',
         'angular': LIBS_PATH + 'angular-1.5.8/angular.min',
         'ngSanitize': LIBS_PATH + 'angular-1.5.8/angular-sanitize',
         'ng-animate': LIBS_PATH + 'angular-1.5.8/angular-animate',
