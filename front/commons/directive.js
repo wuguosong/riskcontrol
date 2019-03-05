@@ -2640,19 +2640,19 @@ define(['app', 'ztree-core'], function (app) {
                     //必填，查询用户的url
                     url: "@",
                     //是否可编辑
-                    isEditable: "=",
+                    isEditable: "=?bind",
                     //是否分组
                     isGroup: "@",
                     //是否可以多选，'true':可以多选，'false':不可以多选，默认为'false'
                     isMultiSelect: "@",
                     //查询参数
-                    queryParams: "=",
+                    queryParams: "=?bind",
                     //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
-                    checkedUser: "=",
+                    checkedUser: "=?bind",
                     //映射的key，value，{nameField:'username',valueField:'uuid'}，
                     //默认为{nameField:'NAME',valueField:'VALUE'}
-                    mappedKeyValue: "=",
-                    callback: "=",
+                    mappedKeyValue: "=?bind",
+                    callback: "=?bind",
                     //字符串，'true','false',是否默认选中全部，默认为'false'
                     isCheckedAll: "@"
                 },
