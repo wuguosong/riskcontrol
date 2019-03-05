@@ -773,7 +773,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'sys/directUser/DirectUserReportingUnitCtrl.js?_v=3'
+                                BUSINESS_PATH + 'setting/directUser/DirectUserReportingUnitCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1330,6 +1330,138 @@
                         }]
                     }
                 })
+                /**投标评审审批开始**/
+                /**投标评审列表页面**/
+                .state("index.PreAuditList", {
+                    url: "/PreAuditList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preAudit/PreAuditList.html',
+                            controller: 'PreAuditListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/preAudit/PreAuditListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**投标评审审核页面**/
+                .state("index.PreAuditDetailView", {
+                    url: "/PreAuditDetailView/:id/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preAudit/PreAuditDetailView.html',
+                            controller: 'PreAuditDetailViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/preAudit/PreAuditDetailViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**投标评审审批结束**/
+                /**正式评审审批开始**/
+                /**正式评审审核列表页面**/
+                .state("index.FormalAssessmentAuditList", {
+                    url: "/FormalAssessmentAuditList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/FormalAssessmentAuditList.html',
+                            controller: 'FormalAssessmentAuditListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/FormalAssessmentAuditListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**正式评审审核页面**/
+                .state("index.FormalAssessmentAuditDetailView", {
+                    url: "/FormalAssessmentAuditDetailView/:id/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/FormalAssessmentAuditDetailView.html',
+                            controller: 'FormalAssessmentAuditDetailViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/FormalAssessmentAuditDetailViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**正式评审审批结束**/
+                /**其它评审审批开始**/
+                /**其它评审列表页面**/
+                .state("index.BulletinMattersAudit", {
+                    url: "/BulletinMattersAudit/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/BulletinMattersAudit.html',
+                            controller: 'BulletinMattersAuditCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/BulletinMattersAuditCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /**其它评审查看页面**/
+                .state("index.BulletinMattersAuditView", {
+                    url: "/BulletinMattersAuditView/:id/:url",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/BulletinMattersAuditView.html',
+                            controller: 'BulletinMattersAuditViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/BulletinMattersAuditViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+            /**其它评审审批结束**/
             /*************************业务部分结束************************/
         }]);
     return app;

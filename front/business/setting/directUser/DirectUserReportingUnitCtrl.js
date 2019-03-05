@@ -1,4 +1,4 @@
-define(['app', 'commons/service', 'ztree-core'], function (app) {
+define(['app', 'Service', 'ztree-core'], function (app) {
     app.register.controller('DirectUserReportingUnitCtrl', ['$http', '$scope', '$location', '$stateParams', 'Window',
         function ($http, $scope, $location, $stateParams, Window) {
             $scope.columnsName = null;

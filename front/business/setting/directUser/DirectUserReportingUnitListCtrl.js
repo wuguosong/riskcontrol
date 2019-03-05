@@ -1,4 +1,4 @@
-define(['app', 'commons/service'], function (app) {
+define(['app', 'Service'], function (app) {
     app.register.controller('DirectUserReportingUnitListCtrl', ['$http', '$scope', '$location', '$stateParams', 'Window',
         function ($http, $scope, $location, $stateParams, Window) {
             //查看操作

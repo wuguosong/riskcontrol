@@ -1,0 +1,298 @@
+<div class="panel-body">
+    <!--form表单开始-->
+    <form class="form-horizontal" name="myFormPfR" ng-submit="save()"  novalidate>
+        <div class="">
+            <div class="header detail-page">
+                <img src="libs/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">申请信息及审批意见汇总</span>
+            </div>
+            <div id="professionalReviewComments" class="panel-group">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle collapsed" href="/#porjectPreReview" data-parent="#professionalReviewComments" data-toggle="collapse"><span class="text">项目投标评审申请<i class="i-triangle"></i></span></a>
+                    </div>
+                    <div id="porjectPreReview" class="panel-collapse collapsed in ">
+                        <div class="panel-body">
+                            <div id="myTab" class="myTab">
+                                <ul class="nav nav-tabs bs-tabdrop-example">
+                                    <li class="active">
+                                        <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+                                    </li>
+                                    <li>
+                                        <a href="/#flow_chart" data-toggle="tab">流程图</a>
+                                    </li>
+                                    <li>
+                                        <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-content-bordered">
+                                <div class="tab-pane in active" id="contracts_file_info">
+                                    <directive-project-pre-review-view></directive-project-pre-review-view>
+                                </div>
+                                <div class="tab-pane" id="flow_chart">
+                                    <!-- 新流程图 -->
+                                    <directive-process-page ng-if="!isOldFlow"></directive-process-page>
+                                    <!-- 旧流程图 -->
+                                    <directive-process-list ng-if="isOldFlow"></directive-process-list>
+                                </div>
+                                <div class="tab-pane" id="contracts_resources">
+									<directive-file-list></directive-file-list>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            	
+            	<!--测算意见-->
+                <div class="panel" ng-if="pre.cesuanFileOpinion != null &&pre.cesuanFileOpinion != ''">
+					    <div class="panel-heading">
+					        <a class="accordion-toggle collapsed" href="/#cesuanyijian" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">投资测算意见<i class="i-triangle"></i></span></a>
+					    </div>
+						 <div id="cesuanyijian" class="panel-collapse collapse">
+						 	<div class="panel-body">
+						         <label for="" class="col-sm-2 control-label">投资中心/水环境投资中心意见</label>
+						         <div class="col-sm-10 ">
+						             <div class="reason"><textarea class="form-control" readonly  name="reason" auto-height>{{pre.cesuanFileOpinion}}</textarea></div>
+						         </div>
+					         </div>
+					     </div>
+                </div>
+                <!--协议意见-->
+                <div class="panel" ng-if="pre.tzProtocolOpinion != null &&pre.tzProtocolOpinion != ''">
+                    <div class="panel-heading">
+				        <a class="accordion-toggle collapsed" href="/#xieyiyijian" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">投资协议意见<i class="i-triangle"></i></span></a>
+				    </div>
+					 <div id="xieyiyijian" class="panel-collapse collapse">
+					 	 <div class="panel-body">
+					         <label for="" class="col-sm-2 control-label">一级法务单位审核意见</label>
+					         <div class="col-sm-10 ">
+					             <div class="reason"><textarea class="form-control" readonly  name="reason" auto-height>{{pre.tzProtocolOpinion}}</textarea></div>
+					         </div>
+				         </div>
+				     </div>
+                </div>
+            	<!-- 分配任务 -->
+            	<div class="panel" ng-show="showController.isTask || pre.taskallocation != null && pre.taskallocation !=''" >
+            		<div class="panel-heading">
+						<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+					</div>
+					<div id="taskAssignment1" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="row">
+								<label class="col-sm-2 control-label">评审负责人</label>
+								<div class="col-sm-4">
+									<direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}" checked-user="myTaskallocation.reviewLeader" 
+									 	is-editable="isTaskEdit" url="{{'role/queryReviewUsers.do'}}" >
+									</direct-fzr-single-select>
+								</div>
+							</div>
+						</div>
+					</div>
+            	</div>
+            	
+            	<!--专业评审start-->
+				<div class="panel" ng-show="(approveShow && pre.approveAttachment != null && pre.approveAttachment != '') || showController.isReviewLeader">
+					<div class="panel-heading">
+						<a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">初步评审意见<i class="i-triangle"></i></span></a>
+					</div>
+					<div id="reviewComments" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="row" ng-show="showController.isReviewLeader && hasWaiting">
+								<div class="txl">
+									<button  type="button" class="btn btn-info" ng-click="addFormalComment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button  type="button" class="btn btn-info" ng-click="deleteFormalComment(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="table-responsive">
+									<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center reviewCommentsTable">
+										<thead>
+										<tr>
+											<th>选择</th>
+											<th>序号</th>
+											<th>意见类型</th>
+											<th>具体内容</th>
+											<th>反馈要求</th>
+											<th>投资经理反馈</th>
+										</tr>
+										</thead>
+										<tbody id="commentList">
+										<tr ng-repeat="m in pre.approveAttachment.commentsList">
+											<td class="txc">
+												<label class="checkbox-inline">
+													<input type="checkbox" class="px" ng-disabled="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader "  ng-model="m.selected"  >
+													<span class="lbl">&nbsp;</span>
+												</label>
+											</td>
+											<td class="txc">{{ $index + 1 }}</td>
+											<td>
+												<div class="row">
+													<select ng-model="m.opinionType" ng-disabled="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader "  ng-options="ot.ITEM_NAME for  ot in optionTypeList track by ot.ITEM_CODE"  class="form-control">
+														<option value="">请选择...</option>
+													</select>
+												</div>
+												<div class="row nobottom-mar">
+													<input type="text" style="border:0;width:100%;color:red;background-color:#ffffff;text-align: center;" readonly ng-model="m.commentDate" value="{{m.commentDate}}"/>
+												</div>
+											</td>
+											<td>
+												<textarea auto-heightname=""  ng-readonly="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader " ng-model="m.commentConent"   rows="" cols="" class="form-control" auto-height></textarea>
+											</td>
+											<td>
+												<textarea auto-heightname=""  ng-readonly="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader "  ng-model="m.commentFeedback"  rows="" cols="" class="form-control" auto-height></textarea>
+											</td>
+											<td class="attachmentTd">
+												<div class="row">
+													<textarea auto-heightname="" ng-readonly="m.isInvestmentManagerBackEdit=='0'  || !showController.isInvestmentManagerBack ||!hasWaiting" ng-model="m.commentDepartment"  rows="" cols="" class="form-control" auto-height></textarea>
+												</div>
+												<div class="row nobottom-mar">
+													<div class="col-sm-12 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<input type="hidden" ng-model="pre.approveAttachment.commentsList[$index].files.filePath" />
+														<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
+														<button class="btn btn-info attachmentBtn" ng-disabled="m.isInvestmentManagerBackEdit=='0' || !showController.isInvestmentManagerBack ||!hasWaiting" ngf-max-size="100MB" ngf-select="upload2Review($file,$invalidFiles, $index)">浏览</button>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr class="tr-max">
+											<td colspan="2" rowspan="2"></td>
+											<td>重点风险提示</td>
+											<td colspan="3">
+												<textarea ng-readonly="!showController.isReviewLeader || !hasWaiting"  name="riskWarning" id="riskWarning" rows="" cols="" ng-model="pre.approveAttachment.riskWarning" class="form-control" auto-height></textarea>
+											</td>
+										</tr>
+										<tr class="tr-max">
+											<td>要求反馈时间</td>
+											<td colspan="3">
+												<div class="has-feedback">
+													<input id="approveFeedbackTime" ng-readonly="!showController.isReviewLeader || !hasWaiting" type="text" id="feedbackTime" name="" ng-model="pre.approveAttachment.feedbackTime" class="form-control" />
+													<i class="fa fa-calendar form-control-feedback"></i>
+												</div>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row"  ng-show="showController.isReviewLeader  && hasWaiting">
+								<div class="txl">
+									<button  type="button" class="btn btn-info" ng-click="addFormalAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button  type="button" class="btn btn-info" ng-click="deleteFormalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+							</div>
+							
+							<div class="row">
+								<span class="prompt" ng-if="showController.isReviewLeader  && hasWaiting" >*请选择投资经理需要替换的附件</span>
+								<span class="prompt" ng-if="showController.isInvestmentManagerBack && hasWaiting" >*请替换需要更新的附件</span>
+					        </div>
+							<div class="row">
+								<div class="table-responsive">
+									<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+										<thead>
+										<tr>
+											<th>选择</th>
+											<th>需更新附件</th>
+											<th>编制人</th>
+											<th>审核人</th>
+											<th>最新版本附件</th>
+										</tr>
+										</thead>
+										<tbody id="attachmentList">
+											<tr ng-repeat="am in pre.approveAttachment.attachmentNew">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px"  ng-disabled="!showController.isReviewLeader || am.isReviewLeaderEdit=='0'" ng-model="am.selected" id="selected{{$index}}">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<select id="attachmentNew{{$index}}"  ng-disabled="!showController.isReviewLeader || am.isReviewLeaderEdit=='0'" ng-model="am.attachmentUList"
+															ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
+														<option value="">---请选择---</option>
+													</select>
+<!-- 													<input type="hidden" id="programmed{{$index}}" ng-model="am.programmed.NAME"> -->
+<!-- 													<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE"> -->
+	
+<!-- 													<input type="hidden"  id="approved{{$index}}" ng-model="am.approved.NAME"> -->
+<!-- 													<input type="hidden" class="form-control"  ng-model="am.approved.VALUE"> -->
+												</td>
+												<td>
+													<span ng-if="!showController.isInvestmentManagerBack || am.isInvestmentManagerBackEdit!='1'">{{am.attachment_new.programmed.NAME}}</span>
+													<direct-user-single-select ng-if="showController.isInvestmentManagerBack && am.isInvestmentManagerBackEdit=='1'" id="{{'bzr_'+$index}}" checked-user="am.attachment_new.programmed"></direct-user-single-select>
+												</td>
+												<td>
+													<span ng-if="!showController.isInvestmentManagerBack || am.isInvestmentManagerBackEdit!='1'">{{am.attachment_new.approved.NAME}}</span>
+													<direct-user-single-select ng-if="showController.isInvestmentManagerBack && am.isInvestmentManagerBackEdit=='1'" id="{{'shr_'+$index}}" checked-user="am.attachment_new.approved"></direct-user-single-select>
+												</td>
+												<td class="attachmentTd">
+													<div class="row nobottom-mar">
+														<div class="col-sm-12 noleft-pad noright-pad">
+															<span ng-bind="progress$index"></span>
+															<span style="">{{errorAttach[$index].msg}}</span>
+															<input type="hidden" ng-model="am.attachment_new.filePath" />
+															<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(am.attachment_new)">{{am.attachment_new.fileName}}</a>
+															<button ng-if="!showController.isInvestmentManagerBack && !showController.isReviewLeader" class="btn btn-info attachmentBtn"  ng-disabled=" true" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+															<button ng-if="showController.isInvestmentManagerBack && hasWaiting" class="btn btn-info attachmentBtn"  ng-disabled="am.isInvestmentManagerBackEdit=='0' || !showController.isInvestmentManagerBack" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+															<button ng-if="showController.isReviewLeader && hasWaiting" class="btn btn-info attachmentBtn"  ng-disabled=" !(showController.isReviewLeader && am.isReviewLeaderEdit!='0' )" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														</div>	
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--专业评审end-->
+            	<!-- start -->
+            	<!-- end -->
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option">
+                
+                	<a class="btn btn-info" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='2'" href="#/OverTask/{{'#/IndividualTable'|encodeURI}}"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='4'" href="#/ProjectPreReview"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='5'" href="#/ProjectPreReviewReadOnly"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='8'" href="#/PreInfoList/1"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='9'" href="#/PreAuditList/1"><i class="fa fa-reply"></i>返回</a>
+                    
+                	<directive-return-btn ng-if="!isOldFlow" url="{{oldUrl}}"></directive-return-btn>
+                	
+                	<!-- 保存按钮提供的节点：专业评审、投资经理反馈 -->
+                    <button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+                	<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                	
+                	
+                	<!-- 新提交模态框 -->
+                	<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                		<pre-review-bpmn-pop-win approve="approve"></pre-review-bpmn-pop-win>
+                	</div>
+                	
+                	<!-- 旧提交模态框 -->
+                    <div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                        <approve-pop-win approvearr="approve"></approve-pop-win>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#approveFeedbackTime').datepicker(options);
+    });
+</script>
