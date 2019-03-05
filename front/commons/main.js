@@ -19,7 +19,7 @@ require.config({
         'ztree-check': LIBS_PATH + 'javascripts/zTree/js/jquery.ztree.excheck',
         'ztree-core': LIBS_PATH + 'javascripts/zTree/js/jquery.ztree.core',
         'ztree-hide': LIBS_PATH + 'javascripts/zTree/js/jquery.ztree.exhide',
-        'require': LIBS_PATH + 'requirejs/require',
+        'datepicher': LIBS_PATH + 'javascripts/bootstrap-datepicker-1.3.0/bootstrap-datepicker',
         'app': COMMONS_PATH + 'bewg',
         'Service': COMMONS_PATH + 'service',
         'Directive': COMMONS_PATH + 'directive',
@@ -70,6 +70,6 @@ require.config({
     }
 });
 // 初始化myModule模块
-require(['jquery', 'angular', 'ngSanitize', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive'], function () {
+require(['jquery', 'angular', 'ngSanitize', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive','datepicher'], function () {
     angular.bootstrap(document, ['myModule']);
 });
