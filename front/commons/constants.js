@@ -169,5 +169,19 @@ define(['app'], function (app) {
             SelectById: srvUrl + "bulletinInfo/queryCreateDefaultInfo.do",
             SelectBulletin1ById: srvUrl + "bulletinInfo/queryUpdateDefaultInfo.do",
             SaveOrUpdateBulletin: srvUrl + "bulletinInfo/saveOrUpdate.do",
+
+            // 投标评审报告
+            SelectAllReportPre: srvUrl + "preAuditReport/queryUncommittedReportByPage.do",
+            SelectAllSubmitReportPre: srvUrl + "preAuditReport/querySubmittedReportByPage.do",
+            DeleteReportPre: srvUrl + "preAuditReport/batchDeletePreReport.do",
+            SelectNotNewlyReportPre: srvUrl + "preAuditReport/queryNotNewlyPreAuditProject.do",
+            SelectPreProjectById: srvUrl + "preAuditReport/getPreProjectFormalReviewByID.do",
+            SaveReportPre: srvUrl + "preAuditReport/saveReviewReportById.do",
+            UpdateReportPre: srvUrl + "preAuditReport/updateReviewReport.do",
+            SubmitReportPre: srvUrl +  "preAuditReport/submitAndupdate.do",
+            SelectReportPreById: srvUrl + "preAuditReport/getById.do",
+            CreateReportPreWord: srvUrl + "preAuditReport/getPreWordReport.do",
+            IsSubmitReportPre: srvUrl + "preAuditReport/isPossible2Submit.do",
+            SelectReportPreView: srvUrl + "formalReport/selectPrjReviewView.do",
         });
 });

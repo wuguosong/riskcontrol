@@ -1462,6 +1462,111 @@
                         }]
                     }
                 })
+                // 投标评审报告列表
+                .state("index.PreAuditReportList", {
+                    url: "/PreAuditReportList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preAuditReportList.html',
+                            controller: 'preAuditReportListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preAuditReportListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审报告详情(PreNormalReport)
+                .state("index.PreNormalReport", {
+                    url: "/PreNormalReport/:pmodel/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReport.html',
+                            controller: 'preNormalReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审报告详情(PreOtherReport)
+                .state("index.PreOtherReport", {
+                    url: "/PreOtherReport/:pmodel/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReport.html',
+                            controller: 'preOtherReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审报告详情查看(PreNormalReport)
+                .state("index.PreNormalReportView", {
+                    url: "/PreNormalReportView/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReportView.html',
+                            controller: 'preNormalReportViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReportViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审报告详情查看(PreOtherReport)
+                .state("index.PreOtherReportView", {
+                    url: "/PreOtherReportView/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReportView.html',
+                            controller: 'preOtherReportViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReportViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
                 /**投标评审审批开始**/
                 /**投标评审列表页面**/
                 .state("index.PreAuditList", {
