@@ -605,7 +605,7 @@
                         }]
                     }
                 })
-            /**********系统角色结束[Add By LiPan 2019-02-26]**************/
+                /**********系统角色结束[Add By LiPan 2019-02-26]**************/
                 /**********组织管理开始[Add By LiPan 2019-02-26]**************/
                 /**组织列表页面**/
                 .state("index.GroupList", {
@@ -734,11 +734,11 @@
                         }]
                     }
                 })
-            /**********组织管理结束[Add By LiPan 2019-02-26]**************/
-            /*************************系统管理结束************************/
+                /**********组织管理结束[Add By LiPan 2019-02-26]**************/
+                /*************************系统管理结束************************/
 
 
-            /*************************基础设置开始************************/
+                /*************************基础设置开始************************/
                 /**区域、直接负责人列表页面**/
                 .state("index.DirectUserReportingUnitList", {
                     url: "/DirectUserReportingUnitList",
@@ -1264,9 +1264,9 @@
                         }]
                     }
                 })
-            /*************************基础设置结束************************/
+                /*************************基础设置结束************************/
 
-            /*************************业务部分开始************************/
+                /*************************业务部分开始************************/
                 // 投标评审申请列表
                 .state("index.PreInfoList", {
                     url: "/PreInfoList/:tabIndex",
@@ -1461,7 +1461,50 @@
                         }]
                     }
                 })
-            /**其它评审审批结束**/
+                /**其它评审审批结束**/
+                /*************************投资决策会管理Start************************/
+                // 评审小组管理详情
+                .state("index.meetingArrangement", {
+                    url: "/meetingArrangement/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'meet/meetingArrangement.html',
+                            controller: 'MeetingArrangementCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'meet/meetingArrangementCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                .state("index.meetingSubmit", {
+                    url: "/meetingSubmit",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'meet/meetingSubmit.html',
+                            controller: 'MeetingSubmitCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'meet/meetingSubmitCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+            /*************************投资决策会管理End************************/
             /*************************业务部分结束************************/
         }]);
     return app;
