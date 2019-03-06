@@ -1255,13 +1255,13 @@ define(['app', 'ztree-core'], function (app) {
                     //是否可以多选，'true':可以多选，'false':不可以多选，默认为'false'
                     isMultiSelect: "@",
                     //查询参数
-                    queryParams: "=?bind",
+                    queryParams: "=?",
                     //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
-                    checkedUser: "=?bind",
+                    checkedUser: "=?",
                     //映射的key，value，{nameField:'username',valueField:'uuid'}，
                     //默认为{nameField:'NAME',valueField:'VALUE'}
-                    mappedKeyValue: "=?bind",
-                    callback: "=?bind",
+                    mappedKeyValue: "=?",
+                    callback: "=?",
                     //字符串，'true','false',是否默认选中全部，默认为'false'
                     isCheckedAll: "@"
                 },
@@ -1493,68 +1493,68 @@ define(['app', 'ztree-core'], function (app) {
             };
         })
         // 组织列表
-        .directive('directiveOrgList', function() {
+        .directive('directiveOrgList', function () {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/common/directiveOrgList.html',
                 replace: true,
-                scope:{},
-                controller:function($scope,$http,$element){
+                scope: {},
+                controller: function ($scope, $http, $element) {
                     //获取父作用域
                     var carouselScope = $element.parent().scope();
-                    var paramId=null;
-                    var categoryCode=null;
+                    var paramId = null;
+                    var categoryCode = null;
                     //获取组织结构角色
                     var ztree, setting = {
-                        callback:{
-                            onClick:function(event, treeId, treeNode){
+                        callback: {
+                            onClick: function (event, treeId, treeNode) {
                                 paramId = treeNode.id;
                                 categoryCode = treeNode.name;
                             },
-                            beforeExpand:function(treeId, treeNode){
-                                if(typeof(treeNode.children)=='undefined'){
+                            beforeExpand: function (treeId, treeNode) {
+                                if (typeof(treeNode.children) == 'undefined') {
                                     $scope.addTreeNode(treeNode);
                                 }
                             }
                         }
                     };
-                    $scope.addTreeNode = function (parentNode){
+                    $scope.addTreeNode = function (parentNode) {
                         var pid = '';
-                        if(parentNode && parentNode.id) pid = parentNode.id;
-                        $scope.$parent.httpData('fnd/Group/getCommonOrg', {parentId:pid}).success(function(data){
+                        if (parentNode && parentNode.id) pid = parentNode.id;
+                        $scope.$parent.httpData('fnd/Group/getCommonOrg', {parentId: pid}).success(function (data) {
                             if (!data || data.result_code != 'S') return null;
                             var nodeArray = data.result_data;
-                            if(nodeArray<1) return null;
-                            for(var i=0;i<nodeArray.length;i++){
+                            if (nodeArray < 1) return null;
+                            for (var i = 0; i < nodeArray.length; i++) {
                                 curNode = nodeArray[i];
                                 var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
-                                if(curNode.cat && curNode.cat=='Org'){
+                                if (curNode.cat && curNode.cat == 'Org') {
                                     iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
                                 }
                                 curNode.icon = iconUrl;
                             }
-                            if(pid == ''){//当前加载的是根节点
+                            if (pid == '') {//当前加载的是根节点
                                 ztree.addNodes(null, nodeArray);
                                 var rootNode = ztree.getNodes()[0];
                                 $scope.addTreeNode(rootNode);
                                 rootNode.open = true;
                                 ztree.refresh();
-                            }else{
+                            } else {
                                 ztree.addNodes(parentNode, nodeArray, true);
                             }
                         });
                     }
-                    $scope.cancelBtn=function(){
-                        paramId=null;
-                        categoryCode=null;
+                    $scope.cancelBtn = function () {
+                        paramId = null;
+                        categoryCode = null;
                     }
-                    $scope.saveOrgListforDiretive=function(){
-                        carouselScope.setDirectiveOrgList(paramId,categoryCode);
-                        paramId=null;
-                        categoryCode=null;
+                    $scope.saveOrgListforDiretive = function () {
+                        carouselScope.setDirectiveOrgList(paramId, categoryCode);
+                        paramId = null;
+                        categoryCode = null;
                     }
 
-                    angular.element(document).ready(function() {
+                    angular.element(document).ready(function () {
                         ztree = $.fn.zTree.init($("#treeIDpor1"), setting);
                         $scope.addTreeNode('');
                     });
@@ -2509,54 +2509,57 @@ define(['app', 'ztree-core'], function (app) {
                 }
             };
         })
-    // 投标评审项目详情
-        .directive('directivePreCreateReport', ['$location','$filter', function($location,$filter) {
+        // 投标评审项目详情
+        .directive('directivePreCreateReport', ['$location', '$filter', function ($location, $filter) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/business/pre/directivePreCreateReport.html',
                 replace: true,
-                scope:{btnText:"@btnText",textValue:"@textValue"},
-                link:function(scope,element,attr){
+                scope: {btnText: "@btnText", textValue: "@textValue"},
+                link: function (scope, element, attr) {
                 },
-                controller:function($scope,$http,$element){
-                    $scope.x={};
+                controller: function ($scope, $http, $element) {
+                    $scope.x = {};
                     $scope.listProjectName = function () {
-                        if($scope.$parent.pre && $scope.$parent.pre._id){//如果已经明确知道预评审项目
-                            $scope.pprs = [{BUSINESS_ID:$scope.$parent.pre._id,PROJECT_NAME:$scope.$parent.pre.apply.projectName}];
+                        if ($scope.$parent.pre && $scope.$parent.pre._id) {//如果已经明确知道预评审项目
+                            $scope.pprs = [{
+                                BUSINESS_ID: $scope.$parent.pre._id,
+                                PROJECT_NAME: $scope.$parent.pre.apply.projectName
+                            }];
                             $scope.x.UUID = $scope.$parent.pre._id;
-                        }else{
+                        } else {
                             $http({
-                                method:'post',
-                                url:srvUrl+'preAuditReport/queryNotNewlyPreAuditProject.do'
-                            }).success(function(data){
-                                if(data.success){
+                                method: 'post',
+                                url: srvUrl + 'preAuditReport/queryNotNewlyPreAuditProject.do'
+                            }).success(function (data) {
+                                if (data.success) {
                                     $scope.pprs = data.result_data;
                                 }
-                            }).error(function(data,status,headers, config){
+                            }).error(function (data, status, headers, config) {
                                 Window.alert(status);
                             });
                         }
                         $scope.x.pmodel = "normal";
                     };
-                    $scope.forReport=function(model,uuid,comId){
-                        if(model==null || model==""){
+                    $scope.forReport = function (model, uuid, comId) {
+                        if (model == null || model == "") {
                             Window.alert("请选择项目模式!");
                             return false;
-                        }else if(uuid==null || uuid=="") {
+                        } else if (uuid == null || uuid == "") {
                             Window.alert("请选择项目!");
                             return false;
-                        }else{
+                        } else {
                             $("#addModal").modal('hide');
                             var routePath = "";
-                            if(model == "normal"){
+                            if (model == "normal") {
                                 routePath = "PreNormalReport";
                             }
 
-                            if(model == "other"){
+                            if (model == "other") {
                                 routePath = "PreOtherReport";
                             }
                             /*$location.path("/"+routePath+"/"+model+"/Create/"+uuid+"/"+$filter('encodeURI')('#/PreAuditReportList/0'));*/
-                            $location.path("/"+routePath+"/"+model+"/Create/"+uuid);
+                            $location.path("/" + routePath + "/" + model + "/Create/" + uuid);
                         }
                     }
                 }
@@ -2579,8 +2582,9 @@ define(['app', 'ztree-core'], function (app) {
                     }
 
                     var validCheckedFzr = function () {
+                        debugger;
                         var result = {success: true, result_name: ""};
-
+                        console.log($scope.$parent);
                         if ($scope.$parent.myTaskallocation == null || $scope.$parent.myTaskallocation == "") {
                             result.success = false;
                             result.result_name = "请分配负责人！";
@@ -3773,5 +3777,5 @@ define(['app', 'ztree-core'], function (app) {
                 }
             }
         })
-        /**其它指令[Add By LiPan 2019-03-04]**/
+    /**其它指令[Add By LiPan 2019-03-04]**/
 });
