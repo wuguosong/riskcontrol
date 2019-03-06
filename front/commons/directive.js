@@ -348,7 +348,7 @@ define(['app', 'ztree-core'], function (app) {
             };
         })
         /***用户多选弹窗指令开始[Add By LiPan 2019-02-26]***/
-        .directive('directUserMultiDialog', function () {
+        .directive('directUserMultiDialog', function (Window, CommonService) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/common/directUserMultiDialog.html',
@@ -998,7 +998,7 @@ define(['app', 'ztree-core'], function (app) {
                 }
             };
         })
-        .directive('directReportOrgDialog', function () {
+        .directive('directReportOrgDialog', function (Window, CommonService) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/common/directReportOrgDialog.html',
@@ -1235,7 +1235,6 @@ define(['app', 'ztree-core'], function (app) {
                 }
             };
         })
-
         // 负责人单选框
         .directive('directFzrSingleSelect', function () {
             return {
@@ -1315,7 +1314,7 @@ define(['app', 'ztree-core'], function (app) {
             };
         })
         // 负责人单选框
-        .directive('directFzrSingleDialog', function () {
+        .directive('directFzrSingleDialog', function (Window, CommonService) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/common/directFzrSingleDialog.html',
@@ -1576,7 +1575,7 @@ define(['app', 'ztree-core'], function (app) {
             };
         })
         // 相关资源
-        .directive('directiveProjectFormalFileList', function () {
+        .directive('directiveProjectFormalFileList', function (Window, CommonService) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveProjectFormalFileList.html',
@@ -1597,7 +1596,7 @@ define(['app', 'ztree-core'], function (app) {
                         }
                         filenames = filenames.substring(0, filenames.length - 1);
                         filepaths = filepaths.substring(0, filepaths.length - 1);
-                        downloadBatch(filenames, filepaths);
+                        CommonService.downloadBatch(filenames, filepaths);
                     }
 
                     $scope.selectAll = function () {
@@ -1714,7 +1713,7 @@ define(['app', 'ztree-core'], function (app) {
                     $scope.uploadNew = function (file, errorFile, outId, item) {
                         if (errorFile && errorFile.length > 0) {
                             if (errorFile[0].$error == 'maxSize') {
-                                var errorMsg = fileErrorMsg(errorFile);
+                                var errorMsg = CommonService.fileErrorMsg(errorFile);
                                 Window.alert(errorMsg);
                             } else {
                                 Window.alert("文件错误！");
@@ -1812,7 +1811,7 @@ define(['app', 'ztree-core'], function (app) {
             };
         })
         // 正式评审流程提交弹出窗
-        .directive('formalAssessmentBpmnPopWin', function () {
+        .directive('formalAssessmentBpmnPopWin', function (Window, CommonService) {
             return {
                 restrrict: 'AE',
                 templateUrl: BUSINESS_PATH + 'directive/business/pfr/formalAssessmentBpmnPopWin.html',
@@ -1919,7 +1918,7 @@ define(['app', 'ztree-core'], function (app) {
                                                     }
                                                 }
                                             } else {
-                                                alert(result.result_name);
+                                                Window.alert(result.result_name);
                                                 return;
                                             }
                                         }
@@ -2006,7 +2005,7 @@ define(['app', 'ztree-core'], function (app) {
                     };
                     $scope.submit = function () {
                         var url = srvUrl + "formalAssessmentAudit/startSingleFlow.do";
-                        show_Mask();
+                        CommonService.showMask();
                         $http({
                             method: 'post',
                             url: url,
@@ -2015,7 +2014,7 @@ define(['app', 'ztree-core'], function (app) {
                                 "businessId": $scope.approve.businessId
                             })
                         }).success(function (result) {
-                            hide_Mask();
+                            CommonService.hideMask();
                             if ($scope.approve.callbackSuccess != null && result.success) {
                                 $scope.approve.callbackSuccess(result);
                             } else if ($scope.approve.callbackFail != null && !result.success) {
@@ -2109,7 +2108,7 @@ define(['app', 'ztree-core'], function (app) {
                                 async: false,
                                 success: function (result) {
                                     if (!result.success) {
-                                        alert(result.result_name);
+                                        Window.alert(result.result_name);
                                         return;
                                     }
                                 }
@@ -2195,7 +2194,7 @@ define(['app', 'ztree-core'], function (app) {
                                                 async: false,
                                                 success: function (result) {
                                                     if (!result.success) {
-                                                        alert(result.result_name);
+                                                        Window.alert(result.result_name);
                                                         return;
                                                     }
                                                 }
@@ -2222,7 +2221,7 @@ define(['app', 'ztree-core'], function (app) {
                                                 async: false,
                                                 success: function (result) {
                                                     if (!result.success) {
-                                                        alert(result.result_name);
+                                                        Window.alert(result.result_name);
                                                         return;
                                                     }
                                                 }
@@ -2245,7 +2244,7 @@ define(['app', 'ztree-core'], function (app) {
                                                 async: false,
                                                 success: function (result) {
                                                     if (!result.success) {
-                                                        alert(result.result_name);
+                                                        Window.alert(result.result_name);
                                                         return;
                                                     }
                                                 }
@@ -2267,7 +2266,7 @@ define(['app', 'ztree-core'], function (app) {
                                 "processOption": $("input[name='bpmnProcessOption']:checked").val()
                             })
                         }).success(function (result) {
-                            hide_Mask();
+                            CommonService.hideMask();
                             if ($scope.approve.callbackSuccess != null && result.success) {
                                 $scope.approve.callbackSuccess(result);
                             } else if ($scope.approve.callbackFail != null && !result.success) {
@@ -2296,7 +2295,7 @@ define(['app', 'ztree-core'], function (app) {
             };
         })
         // 相关资源列表
-        .directive('directiveFileList', function () {
+        .directive('directiveFileList', function (Window) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/business/pre/directiveFileList.html',
@@ -2510,7 +2509,7 @@ define(['app', 'ztree-core'], function (app) {
                 }
             };
         })
-        // 投标评审项目详情
+    // 投标评审项目详情
         .directive('directivePreCreateReport', ['$location','$filter', function($location,$filter) {
             return {
                 restrict: 'E',
@@ -2565,7 +2564,7 @@ define(['app', 'ztree-core'], function (app) {
         }])
         /******* 其他评审项目相关指令 ********/
         // 其他评审流程框
-        .directive('bpmnPopWin', function () {
+        .directive('bpmnPopWin', function (Window, CommonService) {
             return {
                 restrrict: 'AE',
                 templateUrl: BUSINESS_PATH + 'directive/business/bulletin/bpmnPopWin.html',
@@ -2637,7 +2636,7 @@ define(['app', 'ztree-core'], function (app) {
                         }
 
                         //执行办结操作
-                        show_Mask();
+                        CommonService.showMask();
                         $http({
                             method: 'post',
                             url: srvUrl + "bulletinAudit/workOver.do",
@@ -2648,7 +2647,7 @@ define(['app', 'ztree-core'], function (app) {
                                 "option": $scope.flowVariables.opinion
                             })
                         }).success(function (result) {
-                            hide_Mask();
+                            CommonService.hideMask();
                             if ($scope.approve.callbackSuccess != null && result.success) {
                                 $scope.approve.callbackSuccess(result);
                             } else if ($scope.approve.callbackFail != null && !result.success) {
@@ -2682,7 +2681,7 @@ define(['app', 'ztree-core'], function (app) {
                             return;
                         }
                         //执行转办操作
-                        show_Mask();
+                        CommonService.showMask();
                         $http({
                             method: 'post',
                             url: srvUrl + "bulletinAudit/changeWork.do",
@@ -2693,7 +2692,7 @@ define(['app', 'ztree-core'], function (app) {
                                 "option": $scope.flowVariables.opinion
                             })
                         }).success(function (result) {
-                            hide_Mask();
+                            CommonService.hideMask();
                             if ($scope.approve.callbackSuccess != null && result.success) {
                                 $scope.approve.callbackSuccess(result);
                             } else if ($scope.approve.callbackFail != null && !result.success) {
@@ -2707,7 +2706,7 @@ define(['app', 'ztree-core'], function (app) {
                     }
                     $scope.submit = function () {
                         var url = srvUrl + "bulletinAudit/startSingleFlow.do";
-                        show_Mask();
+                        CommonService.showMask();
                         $http({
                             method: 'post',
                             url: url,
@@ -2716,7 +2715,7 @@ define(['app', 'ztree-core'], function (app) {
                                 "businessId": $scope.approve.businessId
                             })
                         }).success(function (result) {
-                            hide_Mask();
+                            CommonService.hideMask();
                             if ($scope.approve.callbackSuccess != null && result.success) {
                                 $scope.approve.callbackSuccess(result);
                             } else if ($scope.approve.callbackFail != null && !result.success) {
@@ -2728,6 +2727,7 @@ define(['app', 'ztree-core'], function (app) {
                     };
                     $scope.auditSingle = function () {
                         if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+                            console.log(Window);
                             Window.alert("审批意见不能为空！");
                             return;
                         }
@@ -2796,7 +2796,7 @@ define(['app', 'ztree-core'], function (app) {
                             }
                         }
 
-                        show_Mask();
+                        CommonService.showMask();
                         $http({
                             method: 'post',
                             url: url,
@@ -2807,7 +2807,7 @@ define(['app', 'ztree-core'], function (app) {
                                 "processOption": $("input[name='bpmnProcessOption']:checked").val()
                             })
                         }).success(function (result) {
-                            hide_Mask();
+                            CommonService.hideMask();
                             if ($scope.approve.callbackSuccess != null && result.success) {
                                 $scope.approve.callbackSuccess(result);
                             } else if ($scope.approve.callbackFail != null && !result.success) {
@@ -2822,13 +2822,13 @@ define(['app', 'ztree-core'], function (app) {
         })
         /******* 流程相关指令[Add By LiPan 2019-03-04] ********/
         /**提交审批弹窗指令**/
-        .directive('approvePopWin', function () {
+        .directive('approvePopWin', function (Window, CommonService) {
             return {
                 restrict: 'AE',
                 templateUrl: BUSINESS_PATH + 'directive/common/approvePopWin.html',
                 replace: 'true',
                 scope: {approve: '=', approvearr: '='},
-                controller: function ($scope, $location, Window, CommonService) {
+                controller: function ($scope, $location) {
                     $scope.changeData = function (idx) {
                         $scope.submitInfo = $scope.approve[idx].submitInfo;
                         $scope.toNodeType = $scope.approve[idx].toNodeType;
@@ -2988,13 +2988,13 @@ define(['app', 'ztree-core'], function (app) {
             }
         })
         /**正式审批流程提交弹窗**/
-        .directive('formalAssessmentBpmnPopWin', function () {
+        .directive('formalAssessmentBpmnPopWin', function (Window, CommonService) {
             return {
                 restrict: 'AE',
                 templateUrl: BUSINESS_PATH + 'directive/business/pfr/formalAssessmentBpmnPopWin.html',
                 replace: 'true',
                 scope: {approve: '='},
-                controller: function ($scope, $location, $http, Upload, Window, CommonService) {
+                controller: function ($scope, $location, $http, Upload) {
                     //初始化提示信息框
                     $("[data-toggle='tooltip']").tooltip();
 
@@ -3452,13 +3452,13 @@ define(['app', 'ztree-core'], function (app) {
                 }
             }
         })
-        .directive('preReviewBpmnPopWin', function () {
+        .directive('preReviewBpmnPopWin', function (Window, CommonService) {
             return {
                 restrict: 'AE',
                 templateUrl: BUSINESS_PATH + 'directive/business/pfr/preReviewBpmnPopWin.html',
                 replace: 'true',
                 scope: {approve: '='},
-                controller: function ($scope, $location, $http, Upload, Window, CommonService) {
+                controller: function ($scope, $location, $http, Upload) {
 
                     $scope.pre = {};
                     //默认不上会
