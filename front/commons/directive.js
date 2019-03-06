@@ -1497,7 +1497,7 @@ define(['app', 'ztree-core'], function (app) {
         .directive('directiveOrgList', function() {
             return {
                 restrict: 'E',
-                templateUrl: 'page/sys/directive/directiveOrgList.html',
+                templateUrl: BUSINESS_PATH + 'directive/common/directiveOrgList.html',
                 replace: true,
                 scope:{},
                 controller:function($scope,$http,$element){
