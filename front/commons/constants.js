@@ -7,6 +7,7 @@ define(['app'], function (app) {
             SelectBusinessType: "businessDict/queryBusinessType.do",
             SelectProjectType: srvUrl+"common/commonMethod/queryAllProjectTypes",
             SelectSyncBusinessModel: "common/commonMethod/selectsyncbusinessmodel",
+            SelecttDataDictionByCode: "common/commonMethod/selectDataDictionByCode",
 
             // 登录
             LoginUrl: srvUrl + "login/login",
@@ -142,8 +143,31 @@ define(['app'], function (app) {
             DeletePre: srvUrl + "preInfoCreate/deleteProject.do",
             SelectPreById: srvUrl + "preInfo/getPreByID.do",
             SelectPreAuditedLogsById: srvUrl + "preAudit/queryAuditedLogsById.do",
-            SelectPre1ById: "preInfoCreate/getProjectByID.do",
+            SelectPre1ById: srvUrl + "preInfoCreate/getProjectByID.do",
             SavePre: srvUrl + "preInfoCreate/createProject.do",
             UpdatePre: srvUrl + "preInfoCreate/updateProject.do",
+
+            // 正式评审申请
+            SelectAllPfr: srvUrl + "formalAssessmentInfo/queryFormalAssessmentList.do",
+            SelectAllSubmitPfr: srvUrl + "formalAssessmentInfo/queryFormalAssessmentSubmitedList.do",
+            DeletePfr: "formalAssessmentInfoCreate/deleteProject.do",
+            SelectPfrById: srvUrl + "formalAssessmentInfo/getFormalAssessmentByID.do",
+            SelectPfrAuditedLogsById: srvUrl + "formalAssessmentAudit/queryAuditedLogsById.do",
+            SelectPfr1ById: srvUrl + "formalAssessmentInfoCreate/getProjectByID.do",
+            SavePfr: srvUrl + "formalAssessmentInfoCreate/createProject.do",
+            UpdatePfr: srvUrl + "formalAssessmentInfoCreate/updateProject.do",
+            SelectPfrTaskOpinion: "rcm/ProjectInfo/getTaskOpinion",
+            SelectPfrTaskOpinionTwo: "rcm/ProjectInfo/getTaskOpinionTwo",
+
+            // 其他评审申请
+            SelectBulletinInfo: srvUrl + "bulletinInfo/queryListDefaultInfo.do",
+            SelectAllBulletin: srvUrl + "bulletinInfo/queryApplyList.do",
+            SelectAllSubmitBulletin: srvUrl + "bulletinInfo/queryApplyedList.do",
+            DeleteBulletin: srvUrl + "bulletinInfo/deleteByIds.do",
+            StartBatchFlow: srvUrl+"bulletinAudit/startBatchFlow.do",
+            SelectBulletinById: srvUrl + "bulletinInfo/queryViewDefaultInfo.do",
+            SelectById: srvUrl + "bulletinInfo/queryCreateDefaultInfo.do",
+            SelectBulletin1ById: srvUrl + "bulletinInfo/queryUpdateDefaultInfo.do",
+            SaveOrUpdateBulletin: srvUrl + "bulletinInfo/saveOrUpdate.do",
         });
 });

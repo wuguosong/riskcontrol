@@ -1,0 +1,65 @@
+<div class="panel-body">
+    <!--form表单开始-->
+    <form class="form-horizontal" name="myFormPfR" ng-submit="save()"  novalidate>
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">申请信息及审批意见汇总</span>
+            </div>
+            <div id="professionalReviewComments" class="panel-group">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle collapsed" href="/#porjectPreReview" data-parent="#professionalReviewComments" data-toggle="collapse"><span class="text">项目投标评审申请<i class="i-triangle"></i></span></a>
+                    </div>
+                    <div id="porjectPreReview" class="panel-collapse collapsed in ">
+                        <div class="panel-body">
+                            <div id="myTab" class="myTab">
+                                <ul class="nav nav-tabs bs-tabdrop-example">
+                                    <li class="active">
+                                        <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+                                    </li>
+                                    <li>
+                                        <a href="/#flow_chart" data-toggle="tab">流程图</a>
+                                    </li>
+                                    <li >
+                                        <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-content-bordered">
+                                <div class="tab-pane in active" id="contracts_file_info">
+                                    <directive-project-pre-review-view></directive-project-pre-review-view>
+                                </div>
+                                <div class="tab-pane" id="flow_chart">
+                                    <directive-process-page></directive-process-page>
+                                </div>
+                                <div class="tab-pane" id="contracts_resources">
+                                    <directive-file-list></directive-file-list>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option">
+                    <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+                    <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                    <button ng-show="pre.oracle.WF_STATE=='0'" ng-click="showSubmitModal()" id="submitbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                        <pre-review-bpmn-pop-win approve="approve"></pre-review-bpmn-pop-win>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+    });
+</script>

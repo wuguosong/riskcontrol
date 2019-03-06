@@ -7,8 +7,14 @@
             return {
                 request: function (config) {
                     // console.log(config);
-
-                    config.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+                    var credentials = $.cookie('credentials')
+                    var user = '';
+                    if (credentials != undefined){
+                        var user = JSON.parse(credentials);
+                        config.headers = {'authorization' : user.UUID, 'Content-Type': 'application/x-www-form-urlencoded'};
+                    } else {
+                        config.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+                    }
                     // do something on request success
                     return config || $q.when(config);
                 },
@@ -1323,6 +1329,132 @@
                             var deferred = $q.defer();
                             require([
                                 BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审申请列表
+                .state("index.FormalAssessmentInfoList", {
+                    url: "/FormalAssessmentInfoList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoList.html',
+                            controller: 'formalAssessmentInfoListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审申请详情
+                .state("index.FormalAssessmentInfo", {
+                    url: "/FormalAssessmentInfo/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfo.html',
+                            controller: 'formalAssessmentInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审申请查看
+                .state("index.FormalAssessmentInfoView", {
+                    url: "/FormalAssessmentInfoView/:id/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoView.html',
+                            controller: 'formalAssessmentInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 通报类事项列表
+                .state("index.BulletinMatterList", {
+                    url: "/BulletinMatterList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterList.html',
+                            controller: 'bulletinMatterListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 通报类事项详情
+                .state("index.BulletinMatterInfo", {
+                    url: "/BulletinMatterInfo/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfo.html',
+                            controller: 'bulletinMatterInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 通报类事项查看
+                .state("index.BulletinMatterInfoView", {
+                    url: "/BulletinMatterInfoView/:id/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfoView.html',
+                            controller: 'bulletinMatterInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfoViewCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });

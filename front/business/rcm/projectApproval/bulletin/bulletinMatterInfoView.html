@@ -1,0 +1,191 @@
+
+<div class="panel-body">
+    <!--form表单开始-->
+    <form class="form-horizontal" name="myForm" id="myForm" onsubmit="return false;"  novalidate>
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">其他需决策事项申请单</span><!--<span class="hd-title">{{titleName}}</span>-->
+            </div>
+            <div class="panel">
+                <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">其他需决策事项申请单<i class="i-triangle"></i></span></div></div>
+                <div class="panel-body">
+                    <div id="myTab" class="myTab">
+                        <ul class="nav nav-tabs bs-tabdrop-example" id="tabUl">
+                            <li class="active">
+                                <a href="#contracts_file_info" data-toggle="tab">流程表单</a>
+                            </li>
+                            <li>
+                                <a href="#flow_chart" data-toggle="tab">流程图</a>
+                            </li>
+                            <li>
+                                <a href="#relation_resources" data-toggle="tab">相关资源</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content tab-content-bordered">
+                        <div class="tab-pane in active special-form" id="contracts_file_info">
+                            <div class="row">
+                                <label class="col-sm-2 control-label">所属大区</label>
+                                <div class="col-sm-4 has-feedback reporting-unit">
+                                    <div class="full-drop">
+                                        <input type="text" readonly required class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label"><span class="required"></span>单位负责人</label>
+                                <div class="col-sm-4">
+                                    <input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">申请人</label>
+                                <div class="col-sm-4">
+                                    <input type="text" readonly required class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
+                                </div>
+                                <label class="col-sm-2 control-label">申请时间</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <input type="text" class="form-control" id="createDate" name="createDate" ng-model="bulletin.createTime" readonly />
+                                    <!-- 									<i class="fa fa-calendar form-control-feedback"></i> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"><span class="required">*</span>事项类型</label>
+                                <div class="col-sm-4">
+                                    <input type="text" readonly required class="form-control" id="bulletinType" name="bulletinType" ng-model="bulletin.bulletinType.NAME">
+                                </div>
+                                <label ng-if="bulletin.businessPerson.NAME!=null" class="col-sm-2 control-label">职能部门负责人</label>
+                                <div ng-if="bulletin.businessPerson.NAME!=null" class="col-sm-4">
+                                    <input class="form-control" readonly required id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"><span class="required">*</span>申报事项</label>
+                                <div class="col-sm-10">
+                                    <input type="text" readonly required class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"><span class="required">*</span>事项原因</label>
+                                <div class="col-sm-10">
+                                    <textarea readonly required class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"><span class="required">*</span>申请需求</label>
+                                <div class="col-sm-10">
+                                    <textarea readonly required class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
+                                </div>
+                            </div>
+                            <div ng-show="bulletin.businessOpinion!=null && bulletin.businessOpinion!=''" class="row">
+                                <label class="col-sm-2 control-label">职能部门审核意见</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="businessOpinion" ng-model="bulletin.businessOpinion" placeholder="" readonly auto-height></textarea>
+                                </div>
+                            </div>
+                            <div ng-show="bulletin.windControlOpinion!=null && bulletin.windControlOpinion!=''" class="row">
+                                <label class="col-sm-2 control-label">风控中心审核意见</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="flow_chart">
+                            <directive-process-page></directive-process-page>
+                        </div>
+                        <div class="tab-pane" id="relation_resources">
+                            <div class="row">
+                                <button type="button" ng-click="batchDownload()" id="batchDownloadBtn" class="btn btn-info" title="">
+                                    <i class="fa fa-cloud-download"></i>打包下载</button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                                    <thead>
+                                    <tr>
+                                        <th width="5%">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="all" id="all" ng-click="selectAll()" class="px" />
+                                                <span class="lbl">&nbsp;</span>
+                                            </label>
+                                        </th>
+                                        <th width="30%">附件名称</th>
+                                        <th>上传附件</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in bulletin.fileList track by $index">
+                                        <td class="txc">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="choose" filename="{{item.files.fileName}}" filepath="{{item.files.filePath}}" class="px">
+                                                <span class="lbl">&nbsp;</span>
+                                            </label>
+                                        </td>
+                                        <td><input type="text" readonly ng-model="item.file_content"  class="form-control"></td>
+                                        <td>
+                                            <div class="col-sm-10 noleft-pad noright-pad">
+                                                <a href="javascript:void(0);" ng-click="downLoadFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
+                                            </div>
+                                            <!-- 											<div class="col-sm-2 noright-pad txr"> -->
+                                            <!-- 												<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button> -->
+                                            <!-- 											</div> -->
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel" ng-show="null!=bulletin.mettingSummary  && ''!=bulletin.mettingSummary">
+                <div class="panel-heading">
+                    <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">会议纪要内容<i class="i-triangle"></i></span></div></div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">会议纪要内容</label>
+                            <div class="col-sm-10">
+                                <textarea name="" ng-model="bulletin.mettingSummary" rows="" cols="" class="form-control" auto-height readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option">
+                    <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                    <button ng-if="bulletin.stsge !='4' || bulletin.stsge !='5'" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                        <bpmn-pop-win approve="approve"></bpmn-pop-win>
+                    </div>
+                    <!--<button ng-if="isHide" ng-click="generateApplication()" class="btn btn-info"><i class="fa fa-file-o"></i>导出申请单</button>-->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script  type="text/javascript">
+    $(function() {
+        /* $("#tabUl a:last").tab("show");*/
+        $("#tabUl a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        // validate signup form on keyup and submit
+        $("#myForm").validate({
+            rules: {
+                tbsxType:"required",
+                reason:"required",
+                bulletinName:"required",
+                applyRequirement:"required"
+            },
+            messages: {
+                tbsxType:"此项必填",
+                reason:"此项必填",
+                bulletinName:"此项必填",
+                applyRequirement:"此项必填"
+            }
+        });
+    });
+
+</script>
