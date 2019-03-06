@@ -1278,7 +1278,7 @@
                     url: "/PreInfoList/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoList.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/preReview/preInfoList.html',
                             controller: 'preInfoListCtrl'
                         }
                     },
@@ -1286,7 +1286,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoListCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/preReview/preInfoListCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1299,7 +1299,7 @@
                     url: "/PreInfo/:id/:flag",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfo.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/preReview/preInfo.html',
                             controller: 'preInfoCtrl'
                         }
                     },
@@ -1307,7 +1307,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/preReview/preInfoCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1320,7 +1320,7 @@
                     url: "/PreInfoView/:id/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoView.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/preReview/preInfoView.html',
                             controller: 'preInfoViewCtrl'
                         }
                     },
@@ -1328,7 +1328,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/preReview/preInfoViewCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/preReview/preInfoViewCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1341,7 +1341,7 @@
                     url: "/FormalAssessmentInfoList/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoList.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/formalAssessment/formalAssessmentInfoList.html',
                             controller: 'formalAssessmentInfoListCtrl'
                         }
                     },
@@ -1349,7 +1349,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoListCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/formalAssessment/formalAssessmentInfoListCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1362,7 +1362,7 @@
                     url: "/FormalAssessmentInfo/:id/:flag",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfo.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/formalAssessment/formalAssessmentInfo.html',
                             controller: 'formalAssessmentInfoCtrl'
                         }
                     },
@@ -1370,7 +1370,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/formalAssessment/formalAssessmentInfoCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1383,7 +1383,7 @@
                     url: "/FormalAssessmentInfoView/:id/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoView.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/formalAssessment/formalAssessmentInfoView.html',
                             controller: 'formalAssessmentInfoViewCtrl'
                         }
                     },
@@ -1391,7 +1391,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/formalAssessment/formalAssessmentInfoViewCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/formalAssessment/formalAssessmentInfoViewCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1404,7 +1404,7 @@
                     url: "/BulletinMatterList/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterList.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/bulletin/bulletinMatterList.html',
                             controller: 'bulletinMatterListCtrl'
                         }
                     },
@@ -1412,7 +1412,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterListCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/bulletin/bulletinMatterListCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1425,7 +1425,7 @@
                     url: "/BulletinMatterInfo/:id",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfo.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/bulletin/bulletinMatterInfo.html',
                             controller: 'bulletinMatterInfoCtrl'
                         }
                     },
@@ -1433,7 +1433,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfoCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/bulletin/bulletinMatterInfoCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1446,7 +1446,7 @@
                     url: "/BulletinMatterInfoView/:id/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfoView.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectApplication/bulletin/bulletinMatterInfoView.html',
                             controller: 'bulletinMatterInfoViewCtrl'
                         }
                     },
@@ -1454,7 +1454,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectApproval/bulletin/bulletinMatterInfoViewCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectApplication/bulletin/bulletinMatterInfoViewCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
