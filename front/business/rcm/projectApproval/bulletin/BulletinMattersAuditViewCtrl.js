@@ -1,6 +1,6 @@
-define(['app', 'Service'], function (app) {
-    app.register.controller('BulletinMattersAuditViewCtrl', ['$http', '$scope', '$location', '$stateParams', '$filter', 'Upload', 'CommonService', 'Window',
-        function ($http, $scope, $location, $stateParams, $filter, Upload, CommonService, Window) {
+define(['app', 'Service','jqvalidate','datepicher','ng-file-upload','ng-file-upload-shim'], function (app) {
+    app.register.controller('BulletinMattersAuditViewCtrl', ['$http', '$scope', '$location', '$stateParams', '$filter', 'CommonService', 'Window',
+        function ($http, $scope, $location, $stateParams, $filter, CommonService, Window, Upload) {
             var queryParamId = $stateParams.id;
             $scope.oldUrl = $stateParams.url;
             $scope.showController = {};
@@ -481,7 +481,7 @@ define(['app', 'Service'], function (app) {
                             processOptions: result.result_data,
                             businessId: queryParamId,
                             callbackSuccess: function (result) {
-                                $.alert(result.result_name);
+                                Window.alert(result.result_name);
                                 $('#submitModal').modal('hide');
                                 $("#submitBtn").hide();
                                 $("#saveBtn").hide();
