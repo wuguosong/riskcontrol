@@ -103,6 +103,48 @@ define(['app', 'ComCtrl'], function (app) {
                             $scope.relationUsers = data.result_data;
                         }
                     });
+                },
+                /**批量下载**/
+                downloadBatch: function (filenames, filepaths) {
+                    var isExists = this.validFileExists(filepaths);
+                    if (!isExists) {
+                        $.alert("要下载的文件已经不存在了！");
+                        return;
+                    }
+                    var url = SRV_URL + "file/downloadBatch.do";
+                    var form = $("<form>");//定义一个form表单
+                    form.attr("style", "display:none");
+                    form.attr("target", "");
+                    form.attr("method", "post");
+                    form.attr("action", url);
+                    var input1 = $("<input>");
+                    input1.attr("type", "hidden");
+                    input1.attr("name", "filenames");
+                    input1.attr("value", filenames);
+                    var input2 = $("<input>");
+                    input2.attr("type", "hidden");
+                    input2.attr("name", "filepaths");
+                    input2.attr("value", filepaths);
+                    $("body").append(form);//将表单放置在web中
+                    form.append(input1);
+                    form.append(input2);
+                    form.submit();//表单提交
+                },
+                /**校验文件是否存在**/
+                validFileExists: function (filepaths) {
+                    var result = true;
+                    var url = SRV_URL + "file/validFileExists.do";
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: {filepaths: filepaths},
+                        async: false,
+                        success: function (data) {
+                            result = data.success;
+                        }
+                    });
+                    return result;
                 }
             }
         }]);
