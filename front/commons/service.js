@@ -289,6 +289,13 @@ define(['app'], function (app) {
                         }
                     });
                     return result;
+                },
+                DateDiff: function (values, nowDate) {    //sDate1和sDate2是2006-12-18格式
+                    values = new Date(values.replace(/-/g, "/"));
+                    nowDate = new Date(nowDate.replace(/-/g, "/"));
+                    var days = values.getTime() - nowDate.getTime();
+                    var iDays = parseInt(days / (1000 * 60 * 60 * 24));
+                    return iDays
                 }
             }
         }]);
