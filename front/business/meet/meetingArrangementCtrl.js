@@ -85,7 +85,7 @@ define(['app', 'Service'], function (app) {
                             $scope.queryCanArrangeProjectListByPage();
                             $scope.queryNotSubmitProjectList();
                         } else {
-                            $.alert(result.result_name);
+                            Window.alert(result.result_name);
                         }
                     });
                 };
@@ -102,7 +102,7 @@ define(['app', 'Service'], function (app) {
                         }
                     }
                     if (projectArray.length == 0) {
-                        $.alert("请选择其中一条或多条要移除的项目!");
+                        Window.alert("请选择其中一条或多条要移除的项目!");
                         return false;
                     }
 

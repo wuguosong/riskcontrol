@@ -1,7 +1,7 @@
-define(['app'], function (app) {
+define(['app', 'Service'], function (app) {
     app.register
-        .controller('MeetingSubmitCtrl', ['$http', '$scope', '$location', '$rootScope',
-            function ($http, $scope, $location, $rootScope) {
+        .controller('MeetingSubmitCtrl', ['$http', '$scope', '$location', '$rootScope', 'Window',
+            function ($http, $scope, $location, $rootScope, Window) {
                 //--------------------------------------
                 //待上会—— 查询  所有 暂存未提交的项目
                 //--------------------------------------
@@ -17,7 +17,7 @@ define(['app'], function (app) {
                             $scope.meetingIssue = result.result_data;
                             $scope.meetingIssue.MEETING_TYPE = $scope.meetingIssue.MEETING_TYPE == null || $scope.meetingIssue.MEETING_TYPE == '' ? '4':'7';
                         }else{
-                            $.alert(result.result_name);
+                            Window.alert(result.result_name);
                         }
                     });
                 };

@@ -1,6 +1,6 @@
-define(['app', 'ComCtrl'], function (app) {
+define(['app'], function (app) {
     //Service比较特殊，加载后还需要手动注入控制器
-    app.register
+    app
         .service('Window', ['$uibModal', '$rootScope',
             function ($uibModal, $rootScope) {
                 return {
@@ -40,8 +40,152 @@ define(['app', 'ComCtrl'], function (app) {
                     },
                 }
             }]);
+    app
+        .service('UserSelectDialog', ['$uibModal', '$rootScope', '$http',
+            function ($uibModal, $rootScope, $http) {
+                return {
+                    multi: function (title, msg, checkedUsers, url, mappedKeyValue) {
+                        $rootScope.msg = msg;
+                        // if ((document.getElementById("windowAlert")) != null) return;
+                        return $uibModal.open({
+                            templateUrl: BUSINESS_PATH + 'directive/common/directUserMultiDialog.html',
+                            controller: function ($scope, $uibModalInstance) {
+                                $scope.checkedUsers = checkedUsers;
+                                $scope.mappedKeyValue = mappedKeyValue;
+                                $scope.url = url;
+                                if ($scope.url == null || '' == $scope.url) {
+                                    $scope.url = "user/queryUserForSelected.do";
+                                }
+                                $scope.paginationConf = {
+                                    lastCurrentTimeStamp: '',
+                                    currentPage: 1,
+                                    totalItems: 0,
+                                    itemsPerPage: 10,
+                                    pagesLength: 10,
+                                    queryObj: {},
+                                    perPageOptions: [10, 20, 30, 40, 50],
+                                    onChange: function () {
+                                    }
+                                };
+                                if (null != $scope.queryParams) {
+                                    $scope.paginationConf.queryObj = $scope.queryParams;
+                                }
+                                $scope.queryUser = function () {
+                                    $http({
+                                        method: 'post',
+                                        url: SRV_URL + $scope.url,
+                                        data: $.param({"page": JSON.stringify($scope.paginationConf)})
+                                    }).success(function (data) {
+                                        if (data.success) {
+                                            $scope.users = data.result_data.list;
+                                            $scope.paginationConf.totalItems = data.result_data.totalItems;
+                                        } else {
+                                            Window.alert(data.result_name);
+                                        }
+                                    });
+                                }
+                                $scope.removeSelectedUser = function (user) {
+                                    for (var i = 0; i < $scope.tempCheckedUsers.length; i++) {
+                                        if (user.VALUE == $scope.tempCheckedUsers[i].VALUE) {
+                                            $scope.tempCheckedUsers.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                };
+                                $scope.isChecked = function (user) {
+                                    for (var i = 0; i < $scope.tempCheckedUsers.length; i++) {
+                                        if (user.UUID == $scope.tempCheckedUsers[i].VALUE) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                };
+                                $scope.toggleChecked = function (user) {
+                                    //是否选中
+                                    var isChecked = $("#chk_" + user.UUID).prop("checked");
+                                    console.log(isChecked);
+                                    //是否已经存在
+                                    var flag = false;
+                                    for (var i = 0; i < $scope.tempCheckedUsers.length; i++) {
+                                        if (user.UUID == $scope.tempCheckedUsers[i].VALUE) {
+                                            flag = true;
+                                            if (!isChecked) {
+                                                $scope.tempCheckedUsers.splice(i, 1);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (isChecked && !flag) {
+                                        //如果已经选中，但是不存在，添加
+                                        $scope.tempCheckedUsers.push({"VALUE": user.UUID, "NAME": user.NAME});
+                                    }
+                                    console.log($scope.tempCheckedUsers);
+                                };
+
+                                $scope.cancelSelected = function () {
+                                    $scope.initData();
+                                }
+                                $scope.saveSelected = function () {
+                                    var cus = $scope.tempCheckedUsers;
+                                    $scope.checkedUsers.splice(0, $scope.checkedUsers.length)
+                                    for (var i = 0; i < cus.length; i++) {
+                                        var user = {};
+                                        user[$scope.mappedKeyValue.nameField] = cus[i].NAME;
+                                        user[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
+
+                                        $scope.checkedUsers.push(user);
+                                        delete user.$$hashKey;
+                                    }
+                                    if ($scope.callback != null) {
+                                        $scope.callback();
+                                    }
+                                }
+                                $scope.initData = function () {
+                                    var cus = $.parseJSON(JSON.stringify($scope.checkedUsers));
+                                    $scope.tempCheckedUsers = [];
+                                    for (var i = 0; i < cus.length; i++) {
+                                        var user = {};
+                                        user.NAME = cus[i][$scope.mappedKeyValue.nameField];
+                                        user.VALUE = cus[i][$scope.mappedKeyValue.valueField];
+                                        $scope.tempCheckedUsers.push(user);
+                                    }
+                                    $scope.paginationConf.queryObj.username = '';
+                                    $scope.queryUser();
+                                }
+                                $scope.$watch('checkedUsers', $scope.initData, true);
+                                $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryUser);
+
+
+                                $scope.initData();
+                                $scope.saveSelected = function () {
+                                    var cus = $scope.tempCheckedUsers;
+                                    console.log(cus);
+                                    $scope.checkedUsers.splice(0, $scope.checkedUsers.length);
+                                    for (var i = 0; i < cus.length; i++) {
+                                        var user = {};
+                                        user[$scope.mappedKeyValue.nameField] = cus[i].NAME;
+                                        user[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
+
+                                        $scope.checkedUsers.push(user);
+                                        delete user.$$hashKey;
+                                    }
+                                    if ($scope.callback != null) {
+                                        $scope.callback();
+                                    }
+                                    $uibModalInstance.close($scope.checkedUsers);
+                                };
+                                $scope.cancelSelected = function () {
+                                    $uibModalInstance.dismiss("0");
+                                };
+                            },
+                            backdrop: false,
+                            size: 'lg'
+                        });
+                    },
+                }
+            }]);
     /**公共Service[Add by LiPan 2019-03-04]**/
-    app.register.service('CommonService', [
+    app.service('CommonService', [
         function () {
             return {
                 /**显示遮罩层**/

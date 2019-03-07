@@ -1,7 +1,7 @@
 /**
  * Created by gaohe on 2016/06/06.
  */
-define(['app', 'ztree-core'], function (app) {
+define(['app', 'ztree-core', 'Service'], function (app) {
     var srvUrl = "/rcm-rest";
     app
     /*使输入的数字自动加上千位符*/
@@ -300,7 +300,7 @@ define(['app', 'ztree-core'], function (app) {
             };
         }])
         // 用户多选列表
-        .directive('directUserMultiSelect', function () {
+        .directive('directUserMultiSelect', ['Window', 'UserSelectDialog', function (Window, UserSelectDialog) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/common/directUserMultiSelect.html',
@@ -312,7 +312,7 @@ define(['app', 'ztree-core'], function (app) {
                     title: "@",
                     //查询参数
                     queryParams: "=",
-                    isEditable: "=",
+                    isEditable: "=?bind",
                     //默认选中的用户,数组类型，[{NAME:'张三',VALUE:'user.uuid'},{NAME:'李四',VALUE:'user.uuid'}]
                     checkedUsers: "=",
                     //映射的key，value，{nameField:'username',valueField:'uuid'}，
@@ -320,7 +320,20 @@ define(['app', 'ztree-core'], function (app) {
                     mappedKeyValue: "=",
                     callback: "="
                 },
-                controller: function ($scope, $http, $element) {
+                controller: function ($scope, $http, $element, $timeout) {
+                    $scope.int = 0;
+                    $scope.openSelectedUserDialog = function () {
+                        if ($scope.int === 0) {
+                            console.log("b");
+                            UserSelectDialog.multi('标题', "显示内容", $scope.checkedUsers, '', $scope.mappedKeyValue).result.then(function (data) {
+                                console.log(data);
+                            }, function (btn) {
+                                console.log("这里是取消的逻辑");
+                            });
+                        }
+
+                    };
+
                     if ($scope.mappedKeyValue == null) {
                         $scope.mappedKeyValue = {nameField: 'NAME', valueField: 'VALUE'};
                     }
@@ -337,16 +350,22 @@ define(['app', 'ztree-core'], function (app) {
                     };
                     $scope.initDefaultData();
                     $scope.removeSelectedUser = function (user) {
+                        $scope.int = 1;
+                        console.log("a");
                         for (var i = 0; i < $scope.checkedUsers.length; i++) {
                             if (user[$scope.mappedKeyValue.valueField] == $scope.checkedUsers[i][$scope.mappedKeyValue.valueField]) {
                                 $scope.checkedUsers.splice(i, 1);
                                 break;
                             }
                         }
+                        var toDo = function () {
+                            $scope.int = 0;
+                        };
+                        $timeout(toDo, 100)
                     };
                 }
             };
-        })
+        }])
         /***用户多选弹窗指令开始[Add By LiPan 2019-02-26]***/
         .directive('directUserMultiDialog', function (Window, CommonService) {
             return {
@@ -626,6 +645,10 @@ define(['app', 'ztree-core'], function (app) {
                     callback: "="
                 },
                 controller: function ($scope, $http, $element) {
+                    $scope.aa = function () {
+                        console.log("aaa");
+                    }
+
                     if ($scope.mappedKeyValue == null) {
                         $scope.mappedKeyValue = {nameField: 'NAME', valueField: 'VALUE'};
                     }
@@ -1314,7 +1337,7 @@ define(['app', 'ztree-core'], function (app) {
             };
         })
         // 负责人单选框
-        .directive('directFzrSingleDialog', function (Window, CommonService) {
+        .directive('directFzrSingleDialog', ['Window', function (Window) {
             return {
                 restrict: 'E',
                 templateUrl: BUSINESS_PATH + 'directive/common/directFzrSingleDialog.html',
@@ -1491,7 +1514,7 @@ define(['app', 'ztree-core'], function (app) {
                     $scope.$watch('checkedUser + queryParams', $scope.initData, true);
                 }
             };
-        })
+        }])
         // 组织列表
         .directive('directiveOrgList', function () {
             return {
