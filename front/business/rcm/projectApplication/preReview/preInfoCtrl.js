@@ -1,7 +1,7 @@
 define(['app', 'Service'], function (app) {
     app
-        .register.controller('preInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
-        function ($http, $scope, $location, $stateParams, BEWG_URL, Window) {
+        .register.controller('preInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window', 'CommonService',
+        function ($http, $scope, $location, $stateParams, BEWG_URL, Window, CommonService) {
             console.log('preInfo');
 
             // 获取参数
@@ -122,7 +122,7 @@ define(['app', 'Service'], function (app) {
             var ztree1, setting1 = {
                 callback:{
                     onClick:function(event, treeId, treeNode){
-                        accessScope("#pertainArea", function(scope){
+                        CommonService.accessScope("#pertainArea", function(scope){
                             scope.pre.apply.pertainArea = {"VALUE":treeNode.name,KEY:treeNode.id};
                             // 保存reportingUnit，提交流程时会验证
                             scope.pre.apply.reportingUnit = {"VALUE":treeNode.name,KEY:treeNode.id};
@@ -141,7 +141,7 @@ define(['app', 'Service'], function (app) {
             var ztree2, setting2 = {
                 callback:{
                     onClick:function(event, treeId, treeNode){
-                        accessScope("#pertainAreaName", function(scope){
+                        CommonService.accessScope("#pertainAreaName", function(scope){
                             scope.pre.apply.pertainArea = {"VALUE":treeNode.name,KEY:treeNode.id};
                             $("#pertainAreaName").val(name);
                             $("label[for='pertainAreaName']").remove();
@@ -389,7 +389,7 @@ define(['app', 'Service'], function (app) {
         }]);
     function delObj(o,paramsVal,value,name){
         $(o).parent().remove();
-        accessScope("#"+paramsVal+"Name", function(scope){
+        CommonService.accessScope("#"+paramsVal+"Name", function(scope){
             if(paramsVal=="companyHeader"){
                 scope.pre.apply.companyHeader={NAME:'',VALUE:''};
                 $("#companyHeaderName").val("");
@@ -410,7 +410,7 @@ define(['app', 'Service'], function (app) {
     }
     function delSelect(o,paramsVal,name,id){
         $(o).parent().remove();
-        accessScope("#"+paramsVal+"Name", function(scope){
+        CommonService.accessScope("#"+paramsVal+"Name", function(scope){
             if(paramsVal=="oneservicetypebox"){
                 var names=scope.pre.apply.serviceType;
                 var newNames = $(names).map(function(){

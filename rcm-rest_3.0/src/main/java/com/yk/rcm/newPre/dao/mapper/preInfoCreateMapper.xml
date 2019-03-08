@@ -96,7 +96,7 @@
 	
 	<!-- 通过业务ID删除项目数据 -->
 	<delete id="delete" parameterType="string">
-		delete from rcm_formalassessment_info i where i.businessid = #{id}
+		delete from rcm_pre_info i where i.businessid = #{id}
 	</delete>
 	
 	<!-- 查询新增项目列表 -->
