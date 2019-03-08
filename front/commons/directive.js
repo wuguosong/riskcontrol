@@ -2411,60 +2411,6 @@ define(['app', 'ztree-core', 'Service'], function (app) {
 
             };
         })
-        // 正式评审决策委员会切换模板提示
-        .directive('directPromptBoxFormal', function() {
-            return {
-                restrict: 'E',
-                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directPromptBoxFormal.html',
-                replace: true,
-                scope:{
-                    //必填,该指令所在modal的id，在当前页面唯一
-                    id: "@",
-                    //对话框的标题，如果没设置，默认为“人员选择”
-                    title: "@",
-                    //是否显示
-                    isShow:"=",
-                    // select框数据
-                    summaryTemplate: "=",
-                    // select框留存初始化数据
-                    templateBak: "=",
-                    // select框初始化数据
-                    template: "=",
-                    // 调用的父页面的方法
-                    summaryTemplateChange: "&summaryTemplateChange"
-                },
-                link:function($scope,$element,$attrs){
-                    $scope.change = function(){
-                        if($scope.template.ITEM_CODE != $scope.templateBak.ITEM_CODE){
-                            $scope.isShow = true;
-                        }
-                    };
-                    $scope.submit = function () {
-                        $scope.templateBak = angular.copy($scope.template);
-                        $scope.summaryTemplateChange({type:$scope.template});
-                        $scope.isShow = false;
-                        $('.modal-backdrop').remove();
-                    }
-                },
-                controller: function($scope, $http, $element, Upload){
-                    $scope.initDefaultData = function(){
-                        if($scope.title==null){
-                            $scope.title = "提示信息";
-                        }
-                        if($scope.isShow==null|| ($scope.isShow!="true" && $scope.isShow!="false")){
-                            $scope.isShow = false;
-                        }
-
-                    };
-                    $scope.initDefaultData();
-                    $scope.cancel = function () {
-                        $scope.template = angular.copy($scope.templateBak);
-                        $scope.isShow = false;
-                        $('.modal-backdrop').remove();
-                    }
-                }
-            };
-        })
         // 正式评审决策委员会文件上传
         .directive('directUploadFileTouzi', function() {
             return {
