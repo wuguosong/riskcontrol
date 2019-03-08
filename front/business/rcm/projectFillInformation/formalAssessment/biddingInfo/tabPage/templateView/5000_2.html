@@ -1,0 +1,47 @@
+
+<div class="mcontent content2 content5-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class="text-blue">项目收益</h3>
+    <div class="contentwrap">
+        <div class="mytable">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="30%">指标名称</th>
+                    <th width="70%">本项目指标</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="projectIncome in formalPreview.projectIncomes | orderBy: 'orderno': desc">
+                    <th scope="row">{{projectIncome.value}}</th>
+                    <td style="font-weight:normal">{{projectIncome.indicator}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var content50_2 = $('.content5-2').eq(1),
+            content50_2_wrap = content50_2.children('.contentwrap'),
+            content50_2_cover = content50_2_wrap.children('.table-cover');
+        setTimeout(function(){
+            // console.log(content50_2_wrap.height(),content50_2.height(),content50_2)
+            if(content50_2_wrap.height() < content50_2.height() - 52){
+                content50_2_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

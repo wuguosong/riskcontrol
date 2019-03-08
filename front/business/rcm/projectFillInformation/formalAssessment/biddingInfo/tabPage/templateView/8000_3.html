@@ -1,0 +1,45 @@
+
+<div class="mcontent content2 content8-3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class="text-blue">特殊事项说明</h3>
+    <div class="contentwrap">
+        <div ng-if="formalPreview.desciptions.length > 0">
+            <table class="table table-bordered">
+                <tbody>
+                <tr ng-repeat="desciptionVar in formalPreview.desciptions | orderBy: 'orderno': desc">
+                    <td class="">
+                        {{desciptionVar.desciption}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="formalPreview.desciptions.length <= 0">
+            <h4>特殊事项说明暂未填写</h4>
+        </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var content80_3 = $('.content8-3').eq(1),
+            content80_3_wrap = content80_3.children('.contentwrap'),
+            content80_3_cover = content80_3_wrap.children('.table-cover');
+        setTimeout(function(){
+            //console.log(content80_3_wrap.height(),content80_3.height(),content80_3)
+            if(content80_3_wrap.height() < content80_3.height() - 52){
+                content80_3_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

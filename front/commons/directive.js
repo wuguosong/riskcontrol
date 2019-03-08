@@ -2304,6 +2304,378 @@ define(['app', 'ztree-core', 'Service'], function (app) {
                 }
             }
         })
+        // 正式评审风险及问题总结
+        .directive('directiveFormalReportFxjwtzj', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveFormalReportFxjwtzj.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                }
+            };
+        })
+        // 正式评审结论与建议
+        .directive('directiveFormalReportJlyjy', function() {
+            return {
+                restrict: 'E',
+                templateUrl:  BUSINESS_PATH + 'directive/business/pfr/directiveFormalReportJlyjy.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                }
+            };
+        })
+        // 正式评审后续执行要求
+        .directive('directiveFormalReportHxzxyq', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveFormalReportHxzxyq.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                }
+            };
+        })
+        // 正式评审专业评审意见
+        .directive('directiveFormalReportZypsyj', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveFormalReportZypsyj.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                }
+            };
+        })
+        // 正式评审用成本及费用
+        .directive('directiveFormalReportCbfy', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveFormalReportCbfy.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                }
+            };
+        })
+        // 正式评审是否需要上会
+        .directive('directiveNeedMeeting', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveNeedMeeting.html',
+                replace: true,
+                link:function(scope,element,attr){
+                },
+                controller:function($scope,$http,$element){
+                    $scope.saveNeetMeetingState = function(state,businessId){
+                        $scope.confirmMeetingUrl = $scope.confirmMeetingUrl.replace("{{formalReport._id}}", $scope.formalReport._id);
+                        $scope.confirmMeetingUrl = $scope.confirmMeetingUrl.replace("{{pageFlag}}", $scope.pageFlag);
+                        $scope.$parent.httpData("rcm/ProjectInfo/updateProjectInfo",{needMeeting:state,businessId:businessId}).success(function(data){
+                            window.location.href = $scope.confirmMeetingUrl;
+                        })
+                    }
+                    $scope.confirmMeeting = function(url){
+                        Window.confirm('注意', "确认后将不可更改，确认不上会？").result.then(function (btn) {
+                            $scope.confirmMeetingUrl = url;
+                            $scope.saveNeetMeetingState(1, $scope.formalReport.projectFormalId)
+                        });
+                    }
+                }
+            };
+        })
+        // 正式评审决策委员会第一块内容
+        .directive('directiveFormalJcwyh', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveFormalJcwyh.html',
+                replace: true,
+                link:function(scope,element,attr){
+                }
+
+            };
+        })
+        // 正式评审决策委员会新版第一块内容
+        .directive('directiveFormalJcwyhNew', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directiveFormalJcwyhNew.html',
+                replace: true,
+                link:function(scope,element,attr){
+                }
+
+            };
+        })
+        // 正式评审决策委员会切换模板提示
+        .directive('directPromptBoxFormal', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directPromptBoxFormal.html',
+                replace: true,
+                scope:{
+                    //必填,该指令所在modal的id，在当前页面唯一
+                    id: "@",
+                    //对话框的标题，如果没设置，默认为“人员选择”
+                    title: "@",
+                    //是否显示
+                    isShow:"=",
+                    // select框数据
+                    summaryTemplate: "=",
+                    // select框留存初始化数据
+                    templateBak: "=",
+                    // select框初始化数据
+                    template: "=",
+                    // 调用的父页面的方法
+                    summaryTemplateChange: "&summaryTemplateChange"
+                },
+                link:function($scope,$element,$attrs){
+                    $scope.change = function(){
+                        if($scope.template.ITEM_CODE != $scope.templateBak.ITEM_CODE){
+                            $scope.isShow = true;
+                        }
+                    };
+                    $scope.submit = function () {
+                        $scope.templateBak = angular.copy($scope.template);
+                        $scope.summaryTemplateChange({type:$scope.template});
+                        $scope.isShow = false;
+                        $('.modal-backdrop').remove();
+                    }
+                },
+                controller: function($scope, $http, $element, Upload){
+                    $scope.initDefaultData = function(){
+                        if($scope.title==null){
+                            $scope.title = "提示信息";
+                        }
+                        if($scope.isShow==null|| ($scope.isShow!="true" && $scope.isShow!="false")){
+                            $scope.isShow = false;
+                        }
+
+                    };
+                    $scope.initDefaultData();
+                    $scope.cancel = function () {
+                        $scope.template = angular.copy($scope.templateBak);
+                        $scope.isShow = false;
+                        $('.modal-backdrop').remove();
+                    }
+                }
+            };
+        })
+        // 正式评审决策委员会文件上传
+        .directive('directUploadFileTouzi', function() {
+            return {
+                restrict: 'E',
+                templateUrl: BUSINESS_PATH + 'directive/business/pfr/directUploadFileTouzi.html',
+                replace: true,
+                scope:{
+                    //必填,该指令所在modal的id，在当前页面唯一
+                    id: "@",
+                    //对话框的标题，如果没设置，默认为“人员选择”
+                    title: "@",
+                    //查询参数
+                    queryParams: "=",
+                    //是否可编辑
+                    isEditable:"=",
+                    //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
+                    checkedUser: "=",
+                    //映射的key，value，{nameField:'username',valueField:'uuid'}，
+                    //默认为{nameField:'NAME',valueField:'VALUE'}
+                    mappedKeyValue: "=",
+                    callback: "=",
+                    attach: "=",
+                    fileList: "=",
+                    select: "=",
+                    formalReport: "=",
+                    // 确定按钮是否可用
+                    isUse: "="
+                },
+                controller: function($scope, $http, $element, Upload){
+                    $scope.item = {};// 选项
+                    $scope.item.newItem = null;
+                    $scope.isUse = true;// 确定按钮是否禁用
+                    $scope.isUpload = true;// 上传按钮是否隐藏
+                    $scope.latestAttachmentS = []; // 文件列表
+                    $scope.title = '附件上传';
+                    // 获得时间
+                    $scope.getDate = function () {
+                        var myDate = new Date();
+                        //获取当前年
+                        var year = myDate.getFullYear();
+                        //获取当前月
+                        var month = myDate.getMonth() + 1;
+                        //获取当前日
+                        var date = myDate.getDate();
+                        var h = myDate.getHours(); //获取当前小时数(0-23)
+                        var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+                        var s = myDate.getSeconds();
+                        var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
+                        return now;
+                    }
+
+                    $scope.initFileType = function() {
+                        $scope.item = {};
+                        $scope.item.newItem = null;
+                        $scope.isUse = true;
+                        $scope.isUpload = true;
+                        $scope.latestAttachmentS = [];
+                    }
+
+                    $scope.changeAttach = function (name) {
+                        console.log(name);
+                        if(name.newItem == null) {
+                            $scope.isUpload = true;
+                        } else {
+                            $scope.isUpload = false;
+                        }
+                        $scope.item = name;
+                        // $scope.latestAttachmentS = [];
+
+                        // angular.forEach($scope.attach, function (data, index) {
+                        //     if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
+                        //         if ($scope.latestAttachment) {
+                        //             if ($scope.latestAttachment.upload_date < data.upload_date) {
+                        //                 $scope.latestAttachment = data;
+                        //             }
+                        //         } else {
+                        //             $scope.latestAttachment = data;
+                        //         }
+                        //     }
+                        // });
+                        // angular.forEach($scope.fileList, function (data, index) {
+                        //     if (data.files.ITEM_NAME == name.newItem.ITEM_NAME) {
+                        //         data.files.upload_date.replace(/-/g,"/");
+                        //         if ($scope.latestAttachment) {
+                        //             if ($scope.latestAttachment.upload_date < data.files.upload_date) {
+                        //                 $scope.latestAttachment = data.files;
+                        //             }
+                        //         } else {
+                        //             $scope.latestAttachment = data.files;
+                        //         }
+                        //     }
+                        // });
+                        // if($scope.latestAttachment == null || $scope.latestAttachment.fileName == undefined || $scope.latestAttachment.fileName == ''
+                        //         || $scope.latestAttachment.fileName == null){
+                        //         $scope.isUse = true;
+                        //     } else {
+                        //     $scope.isUse = false;
+                        // }
+                        // if ($scope.latestAttachment.type == "invest") {
+                        //     $scope.latestAttachment.typeValue = "投资部门提供";
+                        // } else {
+                        //     $scope.latestAttachment.typeValue = "业务部门提供";
+                        // }
+                    };
+
+                    // $scope.close = function() {
+                    //    $scope.latestAttachmentS = [];
+                    //    if ($scope.item != null) {
+                    //        if($scope.item.newItem != undefined) {
+                    //            $scope.item = {};
+                    //            $scope.item.newItem = null;
+                    //        }
+                    //    }
+                    // }
+
+                    $scope.submit = function() {
+                        console.log($scope.latestAttachmentS);
+                        if($scope.fileList == undefined || $scope.fileList == null){
+                            $scope.fileList = [];
+                        }
+                        angular.forEach($scope.latestAttachmentS, function (data, index) {
+                            $scope.file = {};
+                            $scope.file.files = {};
+                            $scope.file.files.fileName = data.fileName;
+                            $scope.file.files.filePath = data.filePath;
+                            $scope.file.files.upload_date = data.upload_date;
+                            $scope.file.files.type = data.type;
+                            $scope.file.files.typeValue = data.typeValue;
+                            $scope.file.files.ITEM_NAME = data.ITEM_NAME;
+                            $scope.file.files.UUID = data.UUID;
+                            $scope.fileList.push($scope.file);
+                        });
+                    }
+
+                    $scope.upload = function (file, errorFile, idx) {
+                        console.log(file);
+                        if(file == null) {
+                            return;
+                        }
+                        $scope.status = false;
+                        angular.forEach($scope.fileList, function (data, index) {
+                            if (data.files.fileName == file.name) {
+                                $scope.status = true;
+                            }
+                        });
+                        angular.forEach($scope.latestAttachmentS, function (data, index) {
+                            if (data.fileName == file.name) {
+                                $scope.status = true;
+                            }
+                        });
+                        if($scope.status) {
+                            alert("您上传的文件已存在，请重新选择！");
+                            return;
+                        }
+
+                        var fileSuffixArr = file.name.split('.');
+                        var fileSuffix = fileSuffixArr[fileSuffixArr.length-1];
+                        if (fileSuffix != "docx" && fileSuffix != "xlsx" && fileSuffix != "pptx" && fileSuffix != "pdf" &&
+                            fileSuffix != "jpg" && fileSuffix != "png" && fileSuffix != "gif" && fileSuffix != "tif" &&
+                            fileSuffix != "psd" && fileSuffix != "ppts"){
+                            alert("您上传的文档格式不正确，请重新选择！");
+                            return;
+                        }
+                        $scope.newAttachment = {};
+                        var fileFolder = "formalReport/";
+                        var dates = $scope.formalReport.create_date;
+                        var no = $scope.formalReport.projectNo;
+
+                        var strs = new Array(); //定义一数组
+                        var dates = $scope.getDate();
+                        strs = dates.split("-"); //字符分割
+                        dates = strs[0] + strs[1]; //分割后的字符输出
+                        fileFolder = fileFolder + dates + "/" + no;
+                        console.log(fileFolder);
+
+                        Upload.upload({
+                            url: srvUrl + 'file/uploadFile.do',
+                            data: {file: file, folder: fileFolder}
+                        }).then(function (resp) {
+                            var retData = resp.data.result_data[0];
+                            $scope.newAttachment = {};
+                            $scope.newAttachment.fileName = retData.fileName;
+                            $scope.newAttachment.filePath = retData.filePath;
+                            $scope.newAttachment.upload_date = retData.upload_date;
+                            $scope.newAttachment.upload_date.replace(/-/g,"/");
+                            $scope.newAttachment.type = "invest";
+                            $scope.newAttachment.typeValue = "投资部门提供";
+                            $scope.newAttachment.ITEM_NAME = $scope.item.newItem.ITEM_NAME;
+                            $scope.newAttachment.UUID = $scope.item.newItem.UUID;
+                            $scope.latestAttachmentS.push($scope.newAttachment);
+                            $scope.isUse = false;
+                        }, function (resp) {
+                            $.alert(resp.status);
+                        }, function (evt) {
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope["progress" + idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                        });
+                    };
+
+                    $scope.deleteFile = function(index) {
+                        $scope.latestAttachmentS.splice(index, 1);
+                        console.log($scope.latestAttachmentS.length);
+                        if($scope.latestAttachmentS.length == 0) {
+                            $scope.isUse = true;
+                            console.log($scope.isUse);
+                        }
+                    }
+
+                }
+            };
+        })
         /******* 投标评审项目相关指令 ********/
         // 投标评审项目详情
         .directive('directiveProjectPreReviewView', function () {

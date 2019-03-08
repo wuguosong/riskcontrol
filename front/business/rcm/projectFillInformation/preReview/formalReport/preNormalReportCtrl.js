@@ -335,9 +335,7 @@ define(['app', 'Service'], function (app) {
                         $scope.pre.reviewReport.projectConcernsIssues.agreementPoints = [];
                     }
                 }
-            }
-
-            $scope.initData();
+            };
 
             // 给项目名称赋值
             $scope.setDirectiveOrgList = function (id, name) {
@@ -361,5 +359,7 @@ define(['app', 'Service'], function (app) {
             $scope.cancel = function (){
                 $location.path("/index/PreAuditReportList/0");
             };
+
+            $scope.initData();
         }]);
 });

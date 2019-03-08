@@ -127,7 +127,7 @@ define(['app', 'Service'], function (app) {
                     $scope.errorAttach[idx]={msg:''};
 
                     Upload.upload({
-                        url:BEWG_URL.UplodeTemplateFile,
+                        url:BEWG_URL.UploadFile,
                         data: {file: file, folder:fileFolder}
                     }).then(function (resp) {
                         $scope.templateFlieInfo.FILE_PATH = resp.data.result_data[0].filePath;

@@ -1467,7 +1467,7 @@
                     url: "/PreAuditReportList/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preAuditReportList.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preAuditReportList.html',
                             controller: 'preAuditReportListCtrl'
                         }
                     },
@@ -1475,7 +1475,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preAuditReportListCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preAuditReportListCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1488,7 +1488,7 @@
                     url: "/PreNormalReport/:pmodel/:action/:id",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReport.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preNormalReport.html',
                             controller: 'preNormalReportCtrl'
                         }
                     },
@@ -1496,7 +1496,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReportCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preNormalReportCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1509,7 +1509,7 @@
                     url: "/PreOtherReport/:pmodel/:action/:id",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReport.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preOtherReport.html',
                             controller: 'preOtherReportCtrl'
                         }
                     },
@@ -1517,7 +1517,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReportCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preOtherReportCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1530,7 +1530,7 @@
                     url: "/PreNormalReportView/:id/:flag",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReportView.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preNormalReportView.html',
                             controller: 'preNormalReportViewCtrl'
                         }
                     },
@@ -1538,7 +1538,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preNormalReportViewCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preNormalReportViewCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1551,7 +1551,7 @@
                     url: "/PreOtherReportView/:id/:flag",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReportView.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preOtherReportView.html',
                             controller: 'preOtherReportViewCtrl'
                         }
                     },
@@ -1559,7 +1559,7 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/preOtherReportViewCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/formalReport/preOtherReportViewCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
@@ -1567,6 +1567,363 @@
                         }]
                     }
                 })
+                // 投标评审提交决策会材料列表
+                .state("index.PreBiddingInfoList", {
+                    url: "/PreBiddingInfoList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/biddingInfo/preBiddingInfoList.html',
+                            controller: 'preBiddingInfoListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/biddingInfo/preBiddingInfoListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审提交决策会材料详情
+                .state("index.PreBiddingInfo", {
+                    url: "/PreBiddingInfo/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/biddingInfo/preBiddingInfo.html',
+                            controller: 'preBiddingInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/biddingInfo/preBiddingInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 投标评审提交决策会材料详情查看
+                .state("index.PreBiddingInfoView", {
+                    url: "/PreBiddingInfoView/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/preReview/biddingInfo/preBiddingInfoView.html',
+                            controller: 'preBiddingInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/preReview/biddingInfo/preBiddingInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告列表
+                .state("index.FormalReportList_new", {
+                    url: "/FormalReportList_new/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/formalReportList_new.html',
+                            controller: 'formalReportListCtrl_new'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/formalReportListCtrl_new.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告详情（混合模式）
+                .state("index.FormalReviewReport", {
+                    url: "/FormalReviewReport/:tabIndex/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/formalReviewReport.html',
+                            controller: 'formalReviewReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/formalReviewReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告详情（技改项目）
+                .state("index.TecTransformReport", {
+                    url: "/TecTransformReport/:tabIndex/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/tecTransformReport.html',
+                            controller: 'tecTransformReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/tecTransformReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告详情（退出项目）
+                .state("index.DropOutReport", {
+                    url: "/DropOutReport/:tabIndex/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/dropOutReport.html',
+                            controller: 'dropOutReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/dropOutReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告详情（危废项目）
+                .state("index.HazardousWasteReport", {
+                    url: "/HazardousWasteReport/:tabIndex/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/hazardousWasteReport.html',
+                            controller: 'hazardousWasteReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/hazardousWasteReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告详情（股权收购）
+                .state("index.EquityAcquisitionReport", {
+                    url: "/EquityAcquisitionReport/:tabIndex/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/equityAcquisitionReport.html',
+                            controller: 'equityAcquisitionReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/equityAcquisitionReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告详情（补充投资）
+                .state("index.SupplementReport", {
+                    url: "/SupplementReport/:tabIndex/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/supplementReport.html',
+                            controller: 'supplementReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/supplementReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审报告详情（其它投资）
+                .state("index.OtherReport", {
+                    url: "/OtherReport/:tabIndex/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/otherReport.html',
+                            controller: 'otherReportCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/formalReport/otherReportCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审提交决策会材料列表
+                .state("index.FormalBiddingInfoList", {
+                    url: "/FormalBiddingInfoList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoList.html',
+                            controller: 'formalBiddingInfoListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审提交决策会材料详情
+                .state("index.FormalBiddingInfo", {
+                    url: "/FormalBiddingInfo/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfo.html',
+                            controller: 'formalBiddingInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审提交决策会材料详情查看
+                .state("index.FormalBiddingInfo_view", {
+                    url: "/FormalBiddingInfo_view/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoView.html',
+                            controller: 'formalBiddingInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审提交决策会材料详情查看
+                .state("index.FormalBiddingInfoPreview", {
+                    url: "/FormalBiddingInfoPreview",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoPreview.html',
+                            controller: 'formalBiddingInfoPreviewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoPreviewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 正式评审提交决策会材料详情查看-待决策项目审阅入口
+                .state("index.FormalBiddingInfoPreview.wait", {
+                    url: "/FormalBiddingInfoPreview/:id/:flag",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoPreview.html',
+                            controller: 'formalBiddingInfoPreviewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoPreviewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                /*// 决策通知书草拟列表
+                .state("index.NoticeDecisionDraftList", {
+                    url: "/NoticeDecisionDraftList/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/noticeDecisionDraftList.html',
+                            controller: 'noticeDecisionDraftListCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/noticeDecisionDraftListCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })*/
                 /**投标评审审批开始**/
                 /**投标评审列表页面**/
                 .state("index.PreAuditList", {

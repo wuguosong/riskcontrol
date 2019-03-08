@@ -1,0 +1,45 @@
+
+<div class="mcontent content2 content7-4 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class="text-blue">原审情况说明</h3>
+    <div class="contentwrap">
+        <div ng-if="formalPreview.desciptions.length > 0">
+            <table class="table table-bordered">
+                <tbody>
+                <tr ng-repeat="desciptionVar in formalPreview.desciptions | orderBy: 'orderno': desc">
+                    <td class="">
+                        {{desciptionVar.desciption}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="formalPreview.desciptions.length <= 0">
+            <h4>原评审情况说明暂未填写</h4>
+        </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var content70_4 = $('.content7-4').eq(0),
+            content70_4_wrap = content70_4.children('.contentwrap'),
+            content70_4_cover = content70_4_wrap.children('.table-cover');
+        setTimeout(function(){
+            //console.log(content70_4_wrap.height(),content70_4.height(),content70_4)
+            if(content70_4_wrap.height() < content70_4.height() - 52){
+                content70_4_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

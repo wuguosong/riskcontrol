@@ -145,7 +145,7 @@ define(['app', 'Service'], function (app) {
                     $scope.errorAttach[idx]={msg:''};
 
                     Upload.upload({
-                        url:BEWG_URL.UploadFileNotification,
+                        url:BEWG_URL.UploadFile,
                         data: {file: file, folder:fileFolder}
                     }).then(function (resp) {
                         $scope.notificationInfo.FILEPATH = resp.data.result_data[0].filePath;

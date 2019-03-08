@@ -1,0 +1,28 @@
+<div class="panel-body">
+    <div class="header">
+        <span class="hd-title">提醒</span>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <!-- <div class="panel-hd-cont"><span class="panel-title">终止流程<i class="i-triangle"></i></span></div>-->
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal ng-pristine ng-valid" name="myForm" ng-submit="endFlow()">
+                <div class="special-form">
+                    <div class="row">
+                        <div class="panel-body" style="height: 80px">
+                            <div style="margin-top: 18px;">切换模板时，模板填写数据会清空，是否确定继续切换模板？</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group-gap txl">
+                        <button type="button" class="btn btn-default btn-cancel" ng-click="close()">取消</button>
+                        <button type="button" ng-click="sure()"
+                                class="btn btn-primary btn-confirm" id="forportid">确定</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

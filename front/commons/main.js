@@ -25,6 +25,8 @@ require.config({
         'ztree-core': LIBS_PATH + 'javascripts/zTree/js/jquery.ztree.core',
         'ztree-hide': LIBS_PATH + 'javascripts/zTree/js/jquery.ztree.exhide',
         'datepicher': LIBS_PATH + 'javascripts/bootstrap-datepicker-1.3.0/bootstrap-datepicker',
+        'select2':  LIBS_PATH + 'javascripts/select2-3.4.5/select2',
+        'swiper': LIBS_PATH + 'swiper/swiper',
         'app': COMMONS_PATH + 'bewg',
         'Service': COMMONS_PATH + 'service',
         'Directive': COMMONS_PATH + 'directive',
@@ -70,12 +72,31 @@ require.config({
             deps: ['angular'],
             exports: 'ng-router',
         },
+         'datepicher': {
+             deps: [
+                 'jquery',
+             ],
+             exports: 'datepicher',
+         },
+        'ng-file-upload': {
+            deps: [
+                'jquery',
+                'angular',
+            ],
+            exports: 'ng-file-upload',
+        },
+        'swiper': {
+            deps: [
+                'jquery',
+            ],
+            exports: 'swiper',
+        },
         'app': {
             deps: ['ui-router']
         }
     }
 });
 // 初始化myModule模块
-require(['jquery', 'angular', 'ngSanitize', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive','datepicher'], function () {
+require(['jquery', 'angular', 'ngSanitize', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive','datepicher','swiper'], function () {
     angular.bootstrap(document, ['myModule']);
 });

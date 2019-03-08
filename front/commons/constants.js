@@ -8,6 +8,9 @@ define(['app'], function (app) {
             SelectProjectType: srvUrl+"common/commonMethod/queryAllProjectTypes",
             SelectSyncBusinessModel: "common/commonMethod/selectsyncbusinessmodel",
             SelecttDataDictionByCode: "common/commonMethod/selectDataDictionByCode",
+            SelecttUserRoleByCode: "common/commonMethod/getRoleuserByCode",
+            UploadFile: srvUrl + "uploadFile",
+            UploadRcmFile: srvUrl + 'common/RcmFile/upload',
 
             // 登录
             LoginUrl: srvUrl + "login/login",
@@ -79,7 +82,6 @@ define(['app'], function (app) {
             SaveNotification: srvUrl + "notificationFlatform/addNotification.do",
             UpdateNotification: srvUrl + "notificationFlatform/modifyNotification.do",
             SubmitNotification: srvUrl + "notificationFlatform/submitNotification.do",
-            UploadFileNotification: srvUrl + "file/uploadFile.do",
             SelectNotificationForViewById: srvUrl + "notificationFlatform/queryNotificationInfoForView.do",
 
             // 商业模式添加附件
@@ -124,7 +126,6 @@ define(['app'], function (app) {
             SaveTemplateFile: srvUrl + "templateFileFrom/addTemplateFile.do",
             UpdateTemplateFile: srvUrl + "templateFileFrom/modifyTemplateFile.do",
             SubmitTemplateFile: srvUrl + "templateFileFrom/submitTemalateFile.do",
-            UplodeTemplateFile: srvUrl + "file/uploadFile.do",
             SelectAllSubmitTemplateFile: srvUrl + "templateFileFrom/queryRiskGuidelinesForSubmit.do",
 
             // 	规章制度管理
@@ -134,7 +135,6 @@ define(['app'], function (app) {
             SaveRegulation: srvUrl + "regulationsFrom/addRegulations.do",
             UpdateRegulation: srvUrl + "regulationsFrom/modifyRegulations.do",
             SubmitRegulation: srvUrl + "regulationsFrom/submitRegulations.do",
-            UplodeRegulation: srvUrl + "file/uploadFile.do",
             SelectRegulationById: srvUrl + "regulationsFrom/queryRegulationsInfo.do",
 
             // 投标评审申请
@@ -183,5 +183,37 @@ define(['app'], function (app) {
             CreateReportPreWord: srvUrl + "preAuditReport/getPreWordReport.do",
             IsSubmitReportPre: srvUrl + "preAuditReport/isPossible2Submit.do",
             SelectReportPreView: srvUrl + "formalReport/selectPrjReviewView.do",
+
+            // 投标评审提交决策会材料
+            SelectAllBiddlingPre: srvUrl + "preBidding/queryUncommittedByPage.do",
+            SelectAllSubmitBiddlingPre: srvUrl + "preBidding/querySubmittedByPage.do",
+            SelectBiddlingPreById: srvUrl + "preBidding/getByBusinessId.do",
+            SaveBiddingPre: srvUrl+"preBidding/addPolicyDecision.do",
+
+            // 正式评审报告
+            SelectAllReportPfr: srvUrl + "formalReport/queryUncommittedReportByPage.do",
+            SelectAllSubmitReportPfr: srvUrl + "formalReport/querySubmittedReportByPage.do",
+            DeleteReportPfr: srvUrl + "formalReport/batchDeleteUncommittedReport.do",
+            ExportReportPfrWord: srvUrl + "formalReport/exportReportInfo.do",
+            SelectNotNewlyReportPfr: srvUrl + "formalReport/queryNotNewlyBuiltProject.do",
+            SelectPfrProjectById: srvUrl + "formalReport/selectPrjReviewView.do",
+            SaveReportPfr: srvUrl + "'formalReport/createNewReport.do",
+            UpdateReportPfr: srvUrl + "formalReport/updateReport.do",
+            IsExistReportPfr: srvUrl + "formalReport/isReportExist.do",
+            SubmitReportPfr: srvUrl +  "formalReport/submitAndupdate.do",
+            SelectReportPrfrById: srvUrl + "formalReport/getByID.do",
+            CreateReportPfrWord: srvUrl + "formalReport/getPfrAssessmentWord.do",
+            IsSubmitReportPfr: srvUrl + "formalReport/isPossible2Submit.do",
+            SelectReportPfrView: srvUrl + "formalReport/getProjectFormalReviewByID.do",
+
+            // 正式评审提交决策会材料
+            SelectAllBiddlingPfr: srvUrl + "formalReport/queryUncommittedDecisionMaterialByPage.do",
+            SelectAllSubmitBiddlingPfr: srvUrl + "formalReport/querySubmittedDecisionMaterialByPage.do",
+            SelectFormalAndReport: srvUrl + "formalReport/findFormalAndReport.do",
+            SaveBiddingPfr: srvUrl + "formalReport/addPolicyDecision.do",
+            SelectNoticeDecstionById: srvUrl + "noticeDecisionInfo/getNoticeDecstionByBusinessId.do",
+            SelectMarkById: srvUrl + "formalMark/queryMarks.do",
+            SaveFormalMarkPfr: srvUrl + "formalMark/saveOrUpdate.do",
+            SaveConferenceInformation: srvUrl + "information/addConferenceInformation.do",
         });
 });

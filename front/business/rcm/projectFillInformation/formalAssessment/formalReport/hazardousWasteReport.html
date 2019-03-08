@@ -1,0 +1,1070 @@
+<div class="panel-body" >
+    <form name="HazardousWasteReport" id="HazardousWasteReport" class="form-horizontal ng-pristing ng-valid">
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{title}}</span>
+            </div>
+            <div class="panel-group" id="formalReviewReport">
+                <div class="panel">
+                    <div id="flag1-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#projectOverviewPub">
+                            <span class="text">1.项目概况<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <div id="projectOverviewPub" class="panel-collapse collapse projectOverviewPub">
+                        <div class="panel-body special-form">
+                            <div class="row">
+                                <textarea name="" ng-model="formalReport.projectOverview" rows="1" cols="1" class="form-control"> </textarea>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit">项目背景信息</div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">项目名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" readonly ng-model="formalReport.projectName" class="form-control" id="projectName" name="projectName"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">项目来源</label>
+                                <div class="col-sm-10">
+                                    <textarea name=projectSource" id="projectSource" rows="" cols="" ng-model="formalReport.projectSource" class="form-control" placeholder="公开招投标/协议谈判/已有项目扩建等。以下可填写详细描述"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">区域背景</label>
+                                <div class="col-sm-10">
+                                    <textarea name="" rows="" cols="" ng-model="formalReport.regionalBackground" class="form-control" placeholder="XX市XX年（最近年份）财政可支配财政收入、全省排行、人口等"></textarea>
+                                </div>
+                            </div>
+                            <div id="regionalBackground2" class="row">
+                                <label class="col-sm-2 control-label regionalContext"></label>
+                                <div class="col-sm-10">
+                                    <textarea name="" rows="" cols="" ng-model="formalReport.regionalBackground2" class="form-control" placeholder="项目所在地我方已有项目，或者是当地是否有其他污水处理项目"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>投资单位</label>
+                                <div class="col-sm-4">
+                                    <input type="text" ng-disabled="actionparm=='View'" ng-click="setDirectiveParam('invertmentUnit')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="invertmentUnitName" name="invertmentUnitName" ng-model="formalReport.invertmentUnit.name" value="{{formalReport.invertmentUnit.name}}"  >
+                                    <input type="hidden" class="form-control"  id="invertmentUnitValue" name="invertmentUnitValue"  ng-model="formalReport.invertmentUnit.value"/>
+                                </div>
+                                <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>运营单位</label>
+                                <div class="col-sm-4">
+                                    <input type="text" ng-disabled="actionparm=='View'" ng-click="setDirectiveParam('operationsUnit')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="operationsUnitName" name="operationsUnitName" ng-model="formalReport.operationsUnit.name" value="{{formalReport.operationsUnit.name}}"  >
+                                    <input type="hidden"  class="form-control" id="operationsUnitValue" name="operationsUnitValue"  ng-model="formalReport.operationsUnit.value"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit">项目基础信息</div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">危废处理证照</label>
+                                <div class="col-sm-10">
+                                    <textarea name="" rows="" cols="" ng-model="formalReport.processingAbility" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">技术核心团队</label>
+                                <div class="col-sm-10">
+                                    <textarea name="" rows="" cols="" ng-model="formalReport.technologyCoreTeam" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">主要处理物</label>
+                                <div class="col-sm-10">
+                                    <textarea name="" rows="" cols="" class="form-control" ng-model="formalReport.mianProcessing" ></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">主要产物</label>
+                                <div class="col-sm-10">
+                                    <textarea name="" rows="" cols="" class="form-control" ng-model="formalReport.mianProduct"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit">项目投资信息</div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">投资主体</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group tenderInfo">
+                                    <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>公司名称</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" ng-disabled="actionparm=='View'" ng-click="setDirectiveParam('tenderCompany')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="tenderCompanyName" name="tenderCompanyName" ng-model="formalReport.tenderCompany.name" value="{{formalReport.tenderCompany.name}}"/>
+                                        <input type="hidden" class="form-control"  id="tenderCompanyValue" name="tenderCompanyValue"  ng-model="formalReport.tenderCompany.value"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>北控水务集团持股</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="shareholding" id="shareholding" class="form-control" ng-model="formalReport.bewg"
+                                               onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/><span class="unit-n">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">资金来源</label>
+                            </div>
+                            <div class="row">
+                                <div class="form-group tenderInfo">
+                                    <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>银行贷款</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="bankLoan" id="bankLoan" class="form-control" ng-model="formalReport.bankLoan"
+                                               onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/><span class="unit-n">%</span>
+                                    </div>
+                                    <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>年利率</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="annualInterestRate" id="annualInterestRate" class="form-control" ng-model="formalReport.annualInterestRate"
+                                               onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+                                        <span class="unit-n">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group tenderInfo">
+                                    <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>自有资金</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="privateCapital" id="privateCapital" class="form-control" ng-model="formalReport.ownFunds"
+                                               onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/><span class="unit-n">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">项目总投资</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group tenderInfo">
+                                    <label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>投资总额</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="totleInvestment" id="totleInvestment" class="form-control" ng-model="formalReport.totleInvestment"
+                                               onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                               onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+                                        <span class="unit-my">万元</span>
+                                    </div>
+                                    <label class="col-sm-2 control-label">一类费用</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="" class="form-control" ng-model="formalReport.totleFeesOne" />
+                                        <span class="unit-my">万元</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group tenderInfo">
+                                    <label class="col-sm-2 control-label">二类费用</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="" class="form-control" ng-model="formalReport.totleFeesTwo"/>
+                                        <span class="unit-my">万元</span>
+                                    </div>
+                                    <label class="col-sm-2 control-label">补充调试费</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="" class="form-control" ng-model="formalReport.commissioningCost"/>
+                                        <span class="unit-my">万元</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group tenderInfo">
+                                    <label class="col-sm-2 control-label">辅底流动资金</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="" class="form-control" ng-model="formalReport.liquidity" />
+                                        <span class="unit-my">万元</span>
+                                    </div>
+                                    <label class="col-sm-2 control-label">其他</label>
+                                    <div class="col-sm-4 has-feedback">
+                                        <input type="text" name="" class="form-control" ng-model="formalReport.other" />
+                                        <span class="unit-my">万元</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- / .panel-body -->
+                    </div> <!-- / .collapse -->
+                </div> <!-- / .panel -->
+                <div class="panel">
+                    <div id="flag2-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#marketResearch">
+                            <span class="text">2.市场调研分析<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <div id="marketResearch" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="row-tit">2.1原材料市场分析</div>
+                            </div>
+                            <div class="sub-cont">
+                                <div class="row"><span class="prompt">（1）原材料市场容量分析</span></div>
+                                <div class="row"><textarea name="" rows="1" cols="1" class="form-control" ng-model="formalReport.marketCapacityAnalysis">本项目原材料以XX、XX、XX等，具体原材料市场容量及具体来源如下：</textarea></div>
+                                <div class="row">
+                                    <div class="txl">
+                                        <button  type="button" class="btn btn-info" ng-click="addRawMaterials()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                        <button  type="button" class="btn btn-info" ng-click="commonDdelete(6)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                                    </div>
+                                </div>
+                                <div class="row" id="rawMaterials">
+                                    <div class="table-responsive">
+                                        <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+                                            <thead>
+                                            <tr>
+                                                <th>选择</th>
+                                                <th>原材料名称</th>
+                                                <th colspan="2">具体内容</th>
+                                                <th>资料来源</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody ng-repeat="rm in formalReport.rawMaterial track by $index">
+                                            <tr>
+                                                <td rowspan="3" class="txc">
+                                                    <label class="checkbox-inline">
+                                                        <input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="rm.selected"/>
+                                                        <span class="lbl">&nbsp;</span>
+                                                    </label>
+                                                </td>
+                                                <td rowspan="3"><input type="text" ng-model="rm.rawMaterialName" name="" class="form-control" /></td>
+                                                <td>全国市场容量</td>
+                                                <td><input type="text" name="" class="form-control"  ng-model="rm.marketContent"/></td>
+                                                <td><input type="text" name="" class="form-control"  ng-model="rm.marketDataResource"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>经营区域内容量</td>
+                                                <td><input type="text" name="" class="form-control"  ng-model="rm.areaContent"/></td>
+                                                <td><input type="text" name="" class="form-control"  ng-model="rm.areaDataResource"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>标的公司原材料来源</td>
+                                                <td><input type="text" name="" class="form-control"  ng-model="rm.bidCompanyContent" /></td>
+                                                <td><input type="text" name="" class="form-control"  ng-model="rm.bidCompanyDataResource"/></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row"><span class="prompt">（2）原材料收购价格分析</span></div>
+                                <div class="row"><textarea name="" ng-model="formalReport.materialsPriceAnalysis" rows="" cols="" class="form-control" placeholder="据实填写。但收购价格需要有明确的数据来源。"></textarea></div>
+                                <div class="row"><span class="prompt">（3）结论</span></div>
+                                <div class="row"><textarea name="" ng-model="formalReport.conclusion"  rows="" cols="" class="form-control" placeholder="该部分主要是论述原材料收购的竞争力。"></textarea></div>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit">2.2销售市场分析</div>
+                                <div class="sub-cont">
+                                    <div class="table-responsive">
+                                        <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+                                            <thead>
+                                            <tr>
+                                                <th>分类</th>
+                                                <th>具体数据</th>
+                                                <th>数据来源</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>销售途径及市场需求</td>
+                                                <td><input type="text" name="" class="form-control" ng-model="formalReport.salesApproachContent"/></td>
+                                                <td><input type="text" name="" class="form-control" ng-model="formalReport.salesApproachResource"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>销售价格分析</td>
+                                                <td><input type="text" name="" class="form-control" ng-model="formalReport.salePriceContent"/></td>
+                                                <td><input type="text" name="" class="form-control" ng-model="formalReport.salePriceResource"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>标的公司的预计销售渠道及销售量</td>
+                                                <td><input type="text" name="" class="form-control" ng-model="formalReport.bidCompanySalesChannelsContent"/></td>
+                                                <td><input type="text" name="" class="form-control" ng-model="formalReport.bidCompanySalesChannelsResource"/></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 control-label">结论</label>
+                                <div class="col-sm-11"><textarea name="" rows="" ng-model="formalReport.result" cols="" class="form-control" placeholder="该部分主要是论述销售方面的竞争力。"></textarea></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div id="flag3-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#feasibilityAnalysis">
+                            <span class="text">3.技术可行性分析<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <div id="feasibilityAnalysis" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="row-tit">3.1工艺简介</div>
+                                <div class="col-sm-12"><textarea name=""  ng-model="formalReport.technologicalIntroduction" rows="" cols="" class="form-control"></textarea></div>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit">3.2技术评价——集团技术中心</div>
+                                <div class="col-sm-12"><textarea name="" rows="" cols="" ng-model="formalReport.technologicalEvaluation" class="form-control" placeholder="技术中心或其他第三方出具的技术评价意见。"></textarea></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div id="flag4-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluation"><span class="text">4.收益评估<i class="i-triangle"></i></span></a>
+                    </div>
+                    <div id="incomeEvaluation" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="row-tit">4.1业务基本面评价</div>
+                                <div class="row">
+                                    <div class="txl">
+                                        <button  type="button" class="btn btn-info" ng-click="addbusinessModel()"><i class="glyphicon glyphicon-plus"></i>新增列</button>
+                                    </div>
+                                </div>
+                                <div class="table-light">
+                                    <div class="table-header">
+                                        <div class="table-caption">不同产能下的财务指标表（单位：人民币万元）</div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+                                            <tbody>
+                                            <tr ng-show="actionparm!='View'">
+                                                <td style="font-weight:bold;color:red">操作（删除列）</td>
+                                                <td ng-repeat="m in formalReport.productionScales track by $index">
+                                                    <div class="has-feedback" style="text-align: center;">
+                                                        <i class="fa fa-times del" style="color:red" ng-click="commonbusinessModelDdelete($index)" title="删除列"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>生产规模</td>
+                                                <td ng-repeat="m in formalReport.productionScales track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                        <span class="percent">%</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>年度主营业务收入</td>
+                                                <td ng-repeat="m in formalReport.mainIncomes track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>年度主营业务成本</td>
+                                                <td ng-repeat="m in formalReport.mainCosts track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>原材料成本</td>
+                                                <td ng-repeat="m in formalReport.materialCosts track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>制造费用等其他成本</td>
+                                                <td ng-repeat="m in formalReport.manufacturingCostss track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>折旧摊销</td>
+                                                <td ng-repeat="m in formalReport.AmortizationOfDepreciations track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>年度补贴收入</td>
+                                                <td ng-repeat="m in formalReport.subsidiesIncomes track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>年度净利润</td>
+                                                <td ng-repeat="m in formalReport.annualNetProfits track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control"  ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>流动资金需求</td>
+                                                <td ng-repeat="m in formalReport.workingCapitalNeedss track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control"  ng-model="m.value"  type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>贷款需求（运营）</td>
+                                                <td ng-repeat="m in formalReport.loanDemands track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>项目总投资</td>
+                                                <td ng-repeat="m in formalReport.totalInvestments track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ROI（年度净利润/项目总投资）</td>
+                                                <td ng-repeat="m in formalReport.ROIs track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>收入净利润率</td>
+                                                <td ng-repeat="m in formalReport.recentProfitMarginss track by $index">
+                                                    <div class="has-feedback">
+                                                        <input class="form-control" ng-model="m.value" type="text" name="" value="" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit">4.2投资收益评价</div>
+                                <textarea name="" rows="" cols="" ng-model="formalReport.investmentBenefitEvaluation" class="form-control" placeholder="主要是指采用PE方法，计算出的PE倍数，同时将PE倍数与同行业的其他类似公司进行比较分析；或者是采用DCF方法，计算出本次投资的IRR。"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div id="flag5-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#issuesSummary">
+                            <span class="text">5.风险及问题总结<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <directive-formal-report-fxjwtzj></directive-formal-report-fxjwtzj> <!-- / .collapse -->
+                </div> <!-- / .panel -->
+                <div class="panel">
+                    <div id="flag6-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#potentialSpace">
+                            <span class="text">6.挖潜空间<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <div id="potentialSpace" class="panel-collapse collapse followPoints">
+                        <div class="panel-body">
+                            <div class="row">
+                                <textarea name="" ng-model="formalReport.potentialSpace" rows="" cols="" class="form-control" placeholder="内容说明：此处应填写可量化的挖潜空间"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div id="flag7-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#conclusionSuggest">
+                            <span class="text">7.结论与建议<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <directive-formal-report-jlyjy></directive-formal-report-jlyjy>
+                </div>
+                <div class="panel">
+                    <div id="flag8-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#followRequire">
+                            <span class="text">8.后续执行要求<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <directive-formal-report-hxzxyq></directive-formal-report-hxzxyq>
+                </div>
+                <div class="panel">
+                    <div id="flag9-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#proReviewCom">
+                            <span class="text">附件1：专业评审意见<i class="i-triangle"></i></span>
+                        </a>
+                    </div> <!-- / .panel-heading -->
+                    <div id="proReviewCom" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="row-tit nobottom-mar">法律专业评审意见：</div>
+                            </div>
+                            <div class="row">
+                                <textarea name="" ng-model="formalReport.lawContent" rows="1" cols="1" class="form-control">法律共提出XX条意见，其中认为可以修订但未与对方确认的XX条，对方明确表示不同意修改的XX条。</textarea>
+                            </div>
+                            <div class="row"><span class="prompt">以下标注★的为重要条款，其余为一般条款。</span></div>
+                            <div class="row">
+                                <div class="txl">
+                                    <button  type="button" class="btn btn-info" ng-click="addLaw()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                    <button  type="button" class="btn btn-info" ng-click="commonDdelete(2)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center txc">
+                                        <thead>
+                                        <tr>
+                                            <th>选择</th>
+                                            <th>序号</th>
+                                            <th>法律评审意见及要求</th>
+                                            <th width="125">投资部门承诺可修改，但未经对方确认</th>
+                                            <th width="95">对方明确表示不同意修改</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="lawList">
+
+                                        <tr ng-repeat="m in formalReport.lawList track by $index" on-finish-render-filters>
+                                            <td class="txc">
+                                                <label class="checkbox-inline">
+                                                    <input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="m.selected">
+                                                    <span class="lbl">&nbsp;</span>
+                                                </label>
+                                            </td>
+                                            <td class="txc">{{ $index + 1 }}</td>
+                                            <td><textarea name="" ng-model="m.lawOpinion" rows="" cols="" class="form-control"></textarea></td>
+                                            <td class="switcher-left">
+                                                <input ng-disabled="actionparm=='View'" type="checkbox" ng-model="m.pendingConfirmation"  name="switcher">
+                                            </td>
+                                            <td class="switcher-right">
+                                                <input ng-disabled="actionparm=='View'" type="checkbox" ng-model="m.canNotBeModified"  name="switcher">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit nobottom-mar">技术专业评审意见：</div>
+                            </div>
+                            <div class="row">
+                                <textarea name="" ng-model="formalReport.technicalReviewOpinions" rows="1" cols="1" class="form-control">技术中心共提出XX条意见，主要围绕XX问题，具体如下： </textarea>
+                            </div>
+                            <div class="row">
+                                <div class="txl">
+                                    <button  type="button" class="btn btn-info" ng-click="addTechnology()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                    <button  type="button" class="btn btn-info" ng-click="commonDdelete(3)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+                                        <thead>
+                                        <tr>
+                                            <th>选择</th>
+                                            <th>序号</th>
+                                            <th>技术评审意见及要求</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="technologyList">
+                                        <tr ng-repeat="m in formalReport.technologyList track by $index" on-finish-render-filters>
+                                            <td class="txc">
+                                                <label class="checkbox-inline">
+                                                    <input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="m.selected">
+                                                    <span class="lbl">&nbsp;</span>
+                                                </label>
+                                            </td>
+                                            <td class="txc">{{ $index + 1 }}</td>
+                                            <td class="tr-max"><textarea name="" ng-model="m.technology_opinion" value="{{m.technology_opinion}}" rows="" cols="" class="form-control"></textarea></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row-tit nobottom-mar">财务专业评审意见：</div>
+                            </div>
+                            <div class="row">
+                                <textarea name="" ng-model="formalReport.financialProfessionalReviewOpinion" rows="1" cols="1" class="form-control">财金资源中心共提出XX条意见，主要围绕XX问题，具体如下：</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="txl">
+                                    <button  type="button" class="btn btn-info" ng-click="addFinance()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                    <button  type="button" class="btn btn-info" ng-click="commonDdelete(4)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+                                        <thead>
+                                        <tr>
+                                            <th>选择</th>
+                                            <th>序号</th>
+                                            <th>财务评审意见及要求</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="financeList">
+                                        <tr ng-repeat="m in formalReport.financeList track by $index" on-finish-render-filters>
+                                            <td class="txc">
+                                                <label class="checkbox-inline">
+                                                    <input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="m.selected">
+                                                    <span class="lbl">&nbsp;</span>
+                                                </label>
+                                            </td>
+                                            <td class="txc">{{ $index + 1 }}</td>
+                                            <td class="tr-max"><textarea name="" ng-model="m.finance_opinion" value="{{m.finance_opinion}}" rows="" cols="" class="form-control"></textarea></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div id="flag10-c" class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#estimatedCost">
+                            <span class="text">附件2：评审用成本及费用<i class="i-triangle"></i></span>
+                        </a>
+                        <!--<i class="blue-block"></i>-->
+                    </div>
+                    <div id="estimatedCost" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <directive-formal-report-cbfy></directive-formal-report-cbfy>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="btn-group-gap">
+                    <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+                    <button class="btn btn-info" type="button"  id="viewlbtn" ng-click="cancel()">返回</button>
+                    <!-- <a class="btn btn-info" ng-if="flag=='1'" href="#/ProjectFormalReviewView/Approve/{{reportReturnId}}"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='2'" href="#/FormalReportList_new/0"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='3'" href="#/FormalBiddingInfoList/0"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-info" ng-if="flag=='4'" href="#/FormalBiddingInfoList/1"><i class="fa fa-reply"></i>返回</a> -->
+                    <button type="button" ng-click="saveReport4()" class="btn btn-info" id="savebtn"><i class="fa fa-save"></i>保存</button>
+                    <div class="inline-div">
+                        <button type="button" ng-if="tabIndex=='0'" class="btn btn-info"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+                        <div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                            <directive-need-meeting></directive-need-meeting>
+                        </div>
+                    </div>
+                    <button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<directive-org-list></directive-org-list>
+<script type="text/javascript">
+    <!--
+    $(function(){
+        //二级菜单关闭&展示
+        $(".dropdown-list").children("li").click(function(){
+            var dropDown = $(this).find(".sub-list");
+            var togClass=$(this).find(".ico");
+            $(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+            $(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+            dropDown.slideToggle(300);
+            togClass.toggleClass("fa-minus");
+        });
+        $('#projectOverviewPub').collapse('show');
+        $('#marketResearch').collapse('show');
+        $('#feasibilityAnalysis').collapse('show');
+        $('#incomeEvaluation').collapse('show');
+        $('#issuesSummary').collapse('show');
+        $('#potentialSpace').collapse('show');
+        $('#conclusionSuggest').collapse('show');
+        $('#followRequire').collapse('show');
+        $('#estimatedCost').collapse('show');
+        $('#preSaleWater').collapse('show');
+        $('#proReviewCom').collapse('show');
+        $('#followPoints').collapse({toggle: false});
+        //模拟select功能
+        $(".full-drop").click(function(){
+            $(this).find(".drop-menu").fadeIn(300);
+            $(".drop-menu").not($(this).children('.drop-menu')).fadeOut(300);
+            $(".drop-menu .sub-list li").find("a").click(function(){
+                var inputVaule=$(this).parents(".drop-menu").siblings(".form-control");
+                var aTxet=$(this).children("a").text();
+                var likeSelect=$(this).parents(".drop-menu");
+                if (likeSelect.hasClass("choice-more")){
+                    return false;
+                }else{
+                    inputVaule.attr("value",aTxet)
+                    likeSelect.fadeOut(300);
+                    return false;
+                }
+            });
+            return false;
+        });
+        $(".drop-menu .sub-list li").find("a").click(function(){
+            $(this).toggleClass("cur");
+        });
+        $("body").click(function(){
+            $(".full-drop").find(".drop-menu").fadeOut(300);
+        });
+
+        $("input[name='input-way']").click(function(){
+            var wayValue=$("input[name='input-way']:checked").val();
+            if(wayValue==1){
+                $("input[name='preAssessmentScale']").css({"display":"block"});
+                $("#unit").css({"display":"block"});
+                $("textarea[name='preAssessmentScale']").css({"display":"none"});
+            }else{
+                $("#unit").parent().removeClass("has-feedback");
+                $("input[name='preAssessmentScale']").css({"display":"none"});
+                $("#unit").css({"display":"none"});
+                $("textarea[name='preAssessmentScale']").css({"display":"block"});
+            }
+        });
+
+        $(".mixed-template").css({"display":"none"});
+        $(".mixed-mode .nav-tabs li").css({"display":"none"});
+        $("input[name='projectType']").click(function(){
+            //判断项目类型是否为空
+            var typeChooseCount=0;
+            $("input[name='projectType']").each(function(){
+                if($(this).attr("checked")){
+                    typeChooseCount++;
+                }
+            });
+            if(typeChooseCount==0){
+                $(".mixed-template").css({"display":"none"});
+                $(".mixed-mode .nav-tabs li").css({"display":"none"});
+                $(".num-box .num").val("");
+            }else if(typeChooseCount>0){
+                var pt=$(this).val();
+                if($(this).attr("checked")){
+                    $(this).siblings(".num").val("1");
+                    if(pt==1){
+                        $(".mixed-template").css({"display":"block"});
+                        $(".mixed-mode li[name='bt']").css({"display":"block"});
+                        return;
+                    }
+                    if(pt==2){
+                        $(".mixed-template").css({"display":"block"});
+                        $(".mixed-mode li[name='supply-bot']").css({"display":"block"});
+                        return;
+                    }
+                    if(pt==3){
+                        $(".mixed-template").css({"display":"block"});
+                        $(".mixed-mode li[name='supply-tot']").css({"display":"block"});
+                        return;
+                    }
+                    if(pt==4){
+                        $(".mixed-template").css({"display":"block"});
+                        $(".mixed-mode li[name='sanitation']").css({"display":"block"});
+                        return;
+                    }
+                    if(pt==5){
+                        $(".mixed-template").css({"display":"block"});
+                        $(".mixed-mode li[name='entru-oper']").css({"display":"block"});
+                        return;
+                    }
+                    if(pt==6){
+                        $(".mixed-template").css({"display":"block"});
+                        $(".mixed-mode li[name='slops-bot']").css({"display":"block"});
+                        return;
+                    }
+                    if(pt==7){
+                        $(".mixed-template").css({"display":"block"});
+                        $(".mixed-mode li[name='slops-tot']").css({"display":"block"});
+                        return;
+                    }
+                }else{
+                    $(this).siblings(".num").val("");
+                    if(pt==1){
+                        $(".mixed-mode li[name='bt']").css({"display":"none"});
+                        return;
+                    }
+                    if(pt==2){
+                        $(".mixed-mode li[name='supply-bot']").css({"display":"none"});
+                        return;
+                    }
+                    if(pt==3){
+                        $(".mixed-mode li[name='supply-tot']").css({"display":"none"});
+                        return;
+                    }
+                    if(pt==4){
+                        $(".mixed-mode li[name='sanitation']").css({"display":"none"});
+                        return;
+                    }
+                    if(pt==5){
+                        $(".mixed-mode li[name='entru-oper']").css({"display":"none"});
+                        return;
+                    }
+                    if(pt==6){
+                        $(".mixed-mode li[name='slops-bot']").css({"display":"none"});
+                        return;
+                    }
+                    if(pt==7){
+                        $(".mixed-mode li[name='slops-tot']").css({"display":"none"});
+                        return;
+                    }
+                }
+            }
+        });
+
+        $("input[name='num']").change(function(){
+            if($(this).siblings(".px").attr("checked")){
+                var pt=$(this).sibling(".px").val();
+                var num=$(this).val();
+                if(pt==1){
+                    for(var i=1;i<num;i++){
+
+                    }
+                }
+            }
+        });
+
+        $("#switcher-left").click(function(){
+            //$(".switcher-left").children(".switcher").toggleClass("checked");
+            $(".switcher-right").children(".switcher").toggleClass("checked");
+        });
+        $("#switcher-right").click(function(){
+            //$(".switcher-right").children(".switcher").toggleClass("checked");
+            $(".switcher-left").children(".switcher").toggleClass("checked");
+        });
+    });
+
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#tenderTime').datepicker(options);
+        $('#paymentTime').datepicker(options);
+        $('ul.bs-tabdrop').tabdrop();
+
+        $('#switcher-left').switcher({
+            theme: 'square',
+            on_state_content: '<span class="fa fa-check"></span>',
+            off_state_content: '<span class="fa fa-times"></span>'
+        });
+        $('#switcher-right').switcher({
+            theme: 'square',
+            on_state_content: '<span class="fa fa-check"></span>',
+            off_state_content: '<span class="fa fa-times"></span>'
+        });
+    });
+    $().ready(function() {
+        // validate signup form on keyup and submit
+        $("#HazardousWasteReport").validate({
+            rules: {
+                //	personLiable:"required",
+                annualInterestRate:"required",
+                invertmentUnitName:"required",
+                operationsUnitName:"required",
+                projectSource:"required",
+                totleInvestment:"required",
+                bankLoan:"required",
+                privateCapital:"required",
+                shareholding:"required",
+                tenderCompanyName:"required"
+            },
+            messages: {
+                //	personLiable:"此项必填",
+                annualInterestRate:"请填入数字",
+                invertmentUnitName:"此项必填",
+                operationsUnitName:"此项必填",
+                projectSource:"此项必填",
+                totleInvestment:"此项必填",
+                bankLoan:"请填入数字",
+                privateCapital:"请填入数字",
+                shareholding:"此项必填",
+                tenderCompanyName:"此项必填"
+            }
+        });
+    });
+    //-->
+</script>
+
+<div class="side-catalog hwr">
+    <div class="side-bar">
+        <i class="circle start"></i>
+        <i class="circle end"></i>
+    </div>
+    <div class="catalog-scroller">
+        <ul class="catalog-list">
+            <li id="flag1" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">1</span>
+						<span class="title-link">项目概况</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag2" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">2</span>
+						<span class="title-link">市场调研分析</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag3" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">3</span>
+						<span class="title-link">技术可行性分析</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag4" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">4</span>
+						<span class="title-link">收益评估</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag5" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">5</span>
+						<span class="title-link">风险及问题总结</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag6" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">6</span>
+						<span class="title-link">挖潜空间</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag7" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">7</span>
+						<span class="title-link">结论与建议</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag8" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">8</span>
+						<span class="title-link">后续执行要求</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag9" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">9</span>
+						<span class="title-link">附件1：专业评审意见</span>
+					</span>
+                </a>
+            </li>
+            <li id="flag10" class="catalog-title">
+                <i class="pointer"></i>
+                <a class="title-link" href="javascript:void(0);">
+					<span class="text">
+						<span class="title-index">0</span>
+						<span class="title-link">附件2：评审用成本及费用</span>
+					</span>
+                </a>
+            </li>
+        </ul>
+        <!--<a class="arrow" href="javascript:void(0);"><img alt="arrow" width="21" height="15" src="assets/images/icons/arrow.png"/></a>-->
+    </div>
+    <div class="bottom-wrap">
+        <a class="toggle-button" href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
+        <a class="gotop-button" href="javascript:window.scrollTo( 0, 0 );"><i class="fa fa-chevron-up"></i></a>
+    </div>
+</div>
+<script>
+    $(function(){
+        //侧边目录
+        $(window).scroll(function(){
+            var menuBottom = $(".offset-flag").offset().top;
+            if($(window).scrollTop()>=menuBottom){
+                $(".side-catalog").css("display","block");
+            }
+            else{
+                $(".side-catalog").css("display","none");
+            };
+        });
+        //显示隐藏侧边目录
+        $(".toggle-button").click(function(){
+            $(".side-catalog").toggleClass("collapse");
+        });
+        //点击目录跳到相应模块
+        $(".catalog-list li").click(function(){
+            $(this).addClass("cur").siblings("li").removeClass("cur");
+            var _id = $(this).attr("id");
+            if(typeof $('#'+_id+'-c').offset() !== 'undefined'){
+                var _idTop = $("#"+_id+"-c").offset().top-10;
+                $("html,body").animate({"scrollTop":_idTop},300);
+            }
+        });
+        //滚动响应
+        if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
+            var SideCatalog= {};
+        };
+        SideCatalog.catalogDetail = (function(){
+            // scroll to tab content
+            var _gotoTab = function(){
+                window.onscroll= function(){
+                    SideCatalog.ids = [];
+                    $('.catalog-list li').each(function(){
+                        var id = $(this).attr('id');
+                        if(typeof $('#'+id+'-c').offset() !== 'undefined')
+                        {
+                            SideCatalog[id] = $('#'+id+'-c').offset().top-11;
+                        }
+                        SideCatalog.ids.push(id);
+                    });
+                    var _top = $(document).scrollTop();
+                    //循环ID处理屏幕滚动情况
+                    $.each(SideCatalog.ids,function(key,id){
+                        var next_id = key+1;
+                        var next_tab = SideCatalog.ids[next_id];
+                        if(( _top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id])
+                        {
+                            $('#'+id).addClass('cur').siblings("li").removeClass("cur");
+                        }
+                    });
+                };
+            };
+            function _init(){
+                _gotoTab();
+            }
+            return {
+                init: _init
+            }
+        })();
+        $(document).ready(function() {
+            SideCatalog.catalogDetail.init();
+        });
+        //查看页面不可编辑
+        var href=window.location.href;
+        if(href.indexOf("/View/")>0){
+            $('#content-wrapper input').attr("readonly","readonly");
+            $('textarea').attr("readonly","readonly");
+            $('select').attr("disabled","disabled");
+        }
+    });
+</script>
