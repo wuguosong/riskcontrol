@@ -1,7 +1,7 @@
-define(['app', 'Service', 'select2'], function (app) {
+define(['app', 'Service'], function (app) {
     app
-        .register.controller('formalBiddingInfoCtrl', ['$http', '$scope', '$location', '$stateParams',  '$uibModal', 'BEWG_URL', 'Window',
-        function ($http, $scope, $location, $stateParams, $uibModal, BEWG_URL, Window, Upload) {
+        .register.controller('formalBiddingInfoCtrl', ['$http', '$scope', '$location', '$state', '$stateParams',  '$uibModal', 'BEWG_URL', 'Window',
+        function ($http, $scope, $location, $state, $stateParams, $uibModal, BEWG_URL, Window) {
             console.log('formalBiddingInfo');
 
 
@@ -2251,7 +2251,8 @@ define(['app', 'Service', 'select2'], function (app) {
             // 进入预览页面
             $scope.toPreview = function () {
                 $scope.saveDataToLocalStorage();
-                $location.path("/index/FormalBiddingInfoPreview").search({formalPreview: $scope.previewJson()});
+                $state.go('index.FormalBiddingInfoPreview', {object: JSON.stringify($scope.previewJson())});
+                /*$location.path("/index/FormalBiddingInfoPreview").search({formalPreview: $scope.previewJson()});*/
             }
 
             // 预览时将数据存入浏览器缓存，以便退出预览时使用

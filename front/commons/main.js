@@ -13,8 +13,9 @@ require.config({
         'ng-animate': LIBS_PATH + 'angular-1.5.8/angular-animate',
         'ng-cookies': LIBS_PATH + 'angular-1.5.8/angular-cookies',
         'ng-route': LIBS_PATH + 'angular-1.5.8/angular-route',
-        'ng-file-upload': LIBS_PATH + 'angular-1.5.8/upload/ng-file-upload',
+        'pixel-admin': LIBS_PATH + 'javascripts/pixel-admin/pixel-admin.min',
         'ng-file-upload-shim': LIBS_PATH + 'angular-1.5.8/upload/ng-file-upload-shim',
+        'ng-file-upload': LIBS_PATH + 'angular-1.5.8/upload/ng-file-upload',
         'ui-router': LIBS_PATH + 'ui-router/angular-ui-router',
         'ui-bootstrap': LIBS_PATH + 'ui-bootstrap/js/bootstrap.min',
         'ui-tpls': LIBS_PATH + 'ui-bootstrap/js/ui-bootstrap-tpls-1.3.3.min',
@@ -25,7 +26,7 @@ require.config({
         'ztree-core': LIBS_PATH + 'javascripts/zTree/js/jquery.ztree.core',
         'ztree-hide': LIBS_PATH + 'javascripts/zTree/js/jquery.ztree.exhide',
         'datepicher': LIBS_PATH + 'javascripts/bootstrap-datepicker-1.3.0/bootstrap-datepicker',
-        'select2':  LIBS_PATH + 'javascripts/select2-3.4.5/select2',
+        /*'select2':  LIBS_PATH + 'javascripts/select2-3.4.5/select2',*/
         'swiper': LIBS_PATH + 'swiper/swiper',
         'app': COMMONS_PATH + 'bewg',
         'Service': COMMONS_PATH + 'service',
@@ -97,6 +98,6 @@ require.config({
     }
 });
 // 初始化myModule模块
-require(['jquery', 'angular', 'ngSanitize', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive','datepicher','swiper'], function () {
+require(['jquery', 'angular', 'ngSanitize', 'app', 'ng-animate', 'ui-tpls', 'Constants', 'Directive','datepicher','jqvalidate','pixel-admin'], function () {
     angular.bootstrap(document, ['myModule']);
 });

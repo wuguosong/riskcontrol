@@ -1,15 +1,15 @@
-define(['app', 'Service', 'select2'], function (app) {
+define(['app', 'Service'], function (app) {
     app
-        .register.controller('formalBiddingInfoPreviewCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window',
-        function ($http, $scope, $location, $stateParams, BEWG_URL, Window, Upload) {
+        .register.controller('formalBiddingInfoPreviewCtrl', ['$http', '$scope', '$location', '$state', '$stateParams', 'BEWG_URL', 'Window',
+        function ($http, $scope, $location, $state, $stateParams, BEWG_URL, Window, Upload) {
             console.log('formalBiddingInfoPreview');
 
-
             // 预览传来的参数
-            $scope.formalPreview = $stateParams.formalPreview;
+            $scope.formalPreview = JSON.parse($state.params.object);
             $scope.changeValue = 1;   // 标识切换的页面
             $scope.hideFlagR = false; // 正式评审报告隐藏标识
             $scope.hideFlagS = false; // 项目整体评分隐藏标识
+
 
             // 待决策项目审阅传来的参数
             $scope.waitId = $stateParams.id;
@@ -21,7 +21,7 @@ define(['app', 'Service', 'select2'], function (app) {
                 if ($scope.flag != undefined){
                     $scope.initData();
                 }
-            }
+            };
 
             // 待决策项目传阅 初始化数据
             $scope.initData = function () {

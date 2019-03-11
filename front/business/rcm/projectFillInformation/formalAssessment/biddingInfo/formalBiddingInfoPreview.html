@@ -1,8 +1,8 @@
 <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="../assets/css/style_preview.css">
 <link rel="stylesheet" href="../libs/swiper/swiper.css">
-<!--<script type="text/javascript" src="../libs/swiper/swiper.js"></script>-->
-<div class="preview-contanier">
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.js"></script>-->
+<div class="preview-contanier" ng-controller="formalBiddingInfoPreviewCtrl">
     <div class="mheader row text-blue-name">
         {{ formalPreview.apply.projectName }}
         <a ng-if="flag != 1 && flag != 2 && flag != 3 && flag != 4 && flag != 5 && flag != 6 && flag != 7" class="btn-return" href="#/index/FormalBiddingInfo/{{formalPreview.id}}@2/1">
@@ -208,11 +208,11 @@
 
                         }
                     },
-                    /*transitionStart: function () {
-                        var formalBiddingInfoPreview = document.querySelector('[ng-controller = FormalBiddingInfoPreview]');
+                    transitionStart: function () {
+                        var formalBiddingInfoPreview = document.querySelector('[ng-controller = formalBiddingInfoPreviewCtrl]');
                         var $scope = angular.element(formalBiddingInfoPreview).scope();
                         $scope.changeStyle(this.activeIndex)
-                    }*/
+                    }
                 }
             });
             $('#processReview').click(function(){
