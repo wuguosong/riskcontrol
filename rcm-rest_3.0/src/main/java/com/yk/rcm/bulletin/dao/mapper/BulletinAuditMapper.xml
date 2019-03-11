@@ -37,10 +37,17 @@
 
 	<insert id="save" parameterType="map">
 		insert into rcm_bulletin_log(businessid,audituserid,audittime,
-		opinion,auditstatus,orderby,iswaiting,taskdesc,taskid,executionid,oldUserId)
+		opinion,auditstatus,orderby,iswaiting,taskdesc,taskid,executionid,oldUserId,
+		changeType,
+		lastUserId,
+		notifUsers
+		)
 		values(#{businessId},#{auditUserId,jdbcType=VARCHAR},#{auditTime},#{opinion,jdbcType=VARCHAR},
 		#{auditStatus},#{orderBy},#{isWaiting},#{taskdesc,jdbcType=VARCHAR},
-		#{taskId,jdbcType=VARCHAR},#{executionId,jdbcType=VARCHAR},#{oldUserId,jdbcType=VARCHAR})
+		#{taskId,jdbcType=VARCHAR},#{executionId,jdbcType=VARCHAR},#{oldUserId,jdbcType=VARCHAR},
+		#{changeType,jdbcType=VARCHAR},
+		#{lastUserId,jdbcType=VARCHAR},
+		#{notifUsers,jdbcType=VARCHAR2})
 	</insert>
 
 	<select id="queryAuditLogs" parameterType="string" resultType="hashmap">
