@@ -296,6 +296,39 @@ define(['app'], function (app) {
                     var days = values.getTime() - nowDate.getTime();
                     var iDays = parseInt(days / (1000 * 60 * 60 * 24));
                     return iDays
+                },
+                /**查询审批日志记录列表**/
+                listLogs:function(business_module, business_id){
+                    var url = SRV_URL + "sign/listLogs.do";
+                    var logs = null;
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: {"business_module": business_module,'business_id':business_id},
+                        async: false,
+                        success: function (data) {
+                            logs = data;
+                        }
+                    });
+                    console.log(logs);
+                    return logs;
+                },
+                /**初始化当前审批日志记录**/
+                getCurLog:function(business_module, business_id, curUUID){
+                    console.log(curUUID);
+                    var logs = this.listLogs(business_module, business_id);
+                    var log = null;
+                    for (var i in logs) {
+                        if (logs[i].ISWAITING == '1') {
+                            if (logs[i].AUDITUSERID == curUUID) {
+                                log = logs[i];
+                                break;
+                            }
+                        }
+                    }
+                    console.log(log);
+                    return log;
                 }
             }
         }]);
