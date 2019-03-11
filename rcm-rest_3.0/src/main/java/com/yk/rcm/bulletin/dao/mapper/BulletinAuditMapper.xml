@@ -47,7 +47,7 @@
 		#{taskId,jdbcType=VARCHAR},#{executionId,jdbcType=VARCHAR},#{oldUserId,jdbcType=VARCHAR},
 		#{changeType,jdbcType=VARCHAR},
 		#{lastUserId,jdbcType=VARCHAR},
-		#{notifUsers,jdbcType=VARCHAR2})
+		#{notifUsers,jdbcType=VARCHAR})
 	</insert>
 
 	<select id="queryAuditLogs" parameterType="string" resultType="hashmap">

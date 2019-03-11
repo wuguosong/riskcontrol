@@ -63,7 +63,7 @@
 			#{taskMark,jdbcType=VARCHAR},
 			#{changeType,jdbcType=VARCHAR},
 			#{oldUserId,jdbcType=VARCHAR},
-			#{notifUsers,jdbcType=VARCHAR2}
+			#{notifUsers,jdbcType=VARCHAR}
 			)
 		)
 	</insert>
