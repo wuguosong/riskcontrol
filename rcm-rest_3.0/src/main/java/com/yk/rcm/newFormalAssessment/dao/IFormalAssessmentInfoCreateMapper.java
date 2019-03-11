@@ -6,12 +6,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yk.common.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 
 /**
  * @author Sunny Qi
  *
  */
+@Repository
 public interface IFormalAssessmentInfoCreateMapper extends BaseMapper {
 	
 	/**

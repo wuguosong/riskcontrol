@@ -10,11 +10,13 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yk.common.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author wufucan
  *
  */
+@Repository
 public interface IBulletinInfoMapper extends BaseMapper {
 	/**
 	 * 保存

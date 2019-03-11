@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.yk.common.BaseMapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface IPreAuditLogMapper extends BaseMapper{
 
 	List<Map<String, Object>> queryAuditedLogsById(String businessId);
