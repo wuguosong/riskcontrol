@@ -1,6 +1,3 @@
-/**
- * Created by yaphet on 2017/5/22.
- */
 define(['app', 'Service', 'ng-route', 'require','datepicher'], function (app) {
     app.register.controller('FormalAssessmentAuditListCtrl', ['$http', '$scope', '$stateParams', '$location', 'CommonService', 'Window', function ($http, $scope, $stateParams, $location, CommonService, Window) {
         $scope.buttonControl = SRV_URL == "http://riskcontrol.bewg.net.cn/rcm-rest/";
@@ -28,8 +25,8 @@ define(['app', 'Service', 'ng-route', 'require','datepicher'], function (app) {
         $scope.getWaitFormalAssessmentList = function () {
             $http({
                 method: 'post',
-                url: SRV_URL + "formalAssessmentAudit/queryWaitList.do",
-                data: $.param({"page": JSON.stringify($scope.paginationConf)})
+                url: SRV_URL + "sign/queryAgency.do",
+                data: $.param({"key":"formalAssessment","page": JSON.stringify($scope.paginationConf)})
             }).success(function (result) {
                 $scope.waitFormalAssessmentList = result.result_data.list;
                 $scope.paginationConf.totalItems = result.result_data.totalItems;
@@ -96,7 +93,7 @@ define(['app', 'Service', 'ng-route', 'require','datepicher'], function (app) {
                         Window.alert('报告未删除！删除申请单之前请先删除该项目下的报告单！');
                         return false;
                     } else {
-                        Window.confirm('注意', "确定要删除？").result.then(function (btn) {
+                        $.confirm("确定要删除？", function () {
                             $scope.httpData(aMethed, obj).success(
                                 function (data, status, headers, config) {
                                     $scope.ListAll();
@@ -159,5 +156,10 @@ define(['app', 'Service', 'ng-route', 'require','datepicher'], function (app) {
         $scope.$watch('paginationConfes.currentPage + paginationConfes.itemsPerPage', $scope.getAuditedFormalAssessmentList);
 
         $scope.initData();
+
+        $scope.toView = function(id, url){
+            console.log(url);
+            $location.path(PATH_URL_INDEX + '/FormalAssessmentAuditDetailView/' + id + "/url");
+        }
     }]);
 });

@@ -1,6 +1,14 @@
 define(['app', 'Service'], function (app) {
-    app.register.controller('FormalAssessmentAuditDetailViewCtrl', ['$http', '$scope', '$location', '$stateParams', 'Upload', '$timeout', 'CommonService', 'Window',
-        function ($http, $scope, $location, $stateParams, Upload, $timeout, CommonService, Window) {
+    app.register.controller('FormalAssessmentAuditDetailViewCtrl', ['$http', '$scope', '$location', '$stateParams', '$timeout', 'CommonService', 'Window',
+        function ($http, $scope, $location, $stateParams, $timeout, CommonService, Window) {
+            /*加签功能初始化必需数据*/
+            $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};
+            $scope.checkedUser = {};
+            $scope.callback = function () {
+                $("#userSinDialog").modal('hide');
+                $("#submitModal").modal('show');
+            };
+            /*加签功能初始化必需数据*/
             //初始化
             $scope.businessId = $stateParams.id;
             $scope.taskMark = $stateParams.taskMark;
@@ -1390,6 +1398,10 @@ define(['app', 'Service'], function (app) {
                                 }
                             };
                             $scope.approve.showController = $scope.showController;
+                            if ($scope.curLog.CHANGETYPE != '') {
+                                debugger;
+                                $scope.approve.operateType = "change";
+                            }
                             $('#submitModal').modal('show');
                         });
                     } else {
@@ -1416,10 +1428,13 @@ define(['app', 'Service'], function (app) {
                                 }
                             };
                             $scope.approve.showController = $scope.showController;
+                            if ($scope.curLog.CHANGETYPE != '') {
+                                debugger;
+                                $scope.approve.operateType = "change";
+                            }
                             $('#submitModal').modal('show');
                         });
                     }
-
                 });
             };
 
@@ -1525,12 +1540,14 @@ define(['app', 'Service'], function (app) {
 
                     $scope.fileName = [];
                     var filenames = $scope.pfr.attachment;
-                    for (var i = 0; i < filenames.length; i++) {
-                        var arr = {UUID: filenames[i].UUID, ITEM_NAME: filenames[i].ITEM_NAME};
-                        $scope.fileName.push(arr);
-                    }
-                    if (null != $scope.pfr.apply.expectedContractDate) {
-                        $scope.changDate($scope.pfr.apply.expectedContractDate);
+                    if($scope.pfr.attachment != null){
+                        for (var i = 0; i < filenames.length; i++) {
+                            var arr = {UUID: filenames[i].UUID, ITEM_NAME: filenames[i].ITEM_NAME};
+                            $scope.fileName.push(arr);
+                        }
+                        if (null != $scope.pfr.apply.expectedContractDate) {
+                            $scope.changDate($scope.pfr.apply.expectedContractDate);
+                        }
                     }
                 });
             }
@@ -1541,7 +1558,7 @@ define(['app', 'Service'], function (app) {
                     return num.replace(/^(\d)$/, "0$1");
                 }
                 var nowDate = date.getFullYear() + "-" + paddNum(date.getMonth() + 1) + "-" + paddNum(date.getDate());
-                var d = DateDiff(values, nowDate);
+                var d = CommonService.DateDiff(values, nowDate);
                 $("#shouwdate").text("距离签约时间还差：" + d + "天");
             }
             $scope.getSelectTypeByCodeL = function (typeCode) {
@@ -1568,7 +1585,7 @@ define(['app', 'Service'], function (app) {
                     if (data.result_code === 'S') {
                         $scope.optionTypeList = data.result_data;
                     } else {
-                        alert(data.result_name);
+                        Window.alert(data.result_name);
                     }
                 });
             }
@@ -1917,5 +1934,6 @@ define(['app', 'Service'], function (app) {
                 $scope.getSelectTypeByCodeL("09");
             });
             $scope.initData();
+            $scope.curLog = CommonService.getCurLog("formalAssessment", $stateParams.id, $scope.credentials.UUID);
         }]);
 });

@@ -59,14 +59,14 @@
 								<tr ng-repeat="p in waitFormalAssessmentList" on-finish-render-filters>
 									<td>{{$index+1}}</td>
 									<td>
-										<a ng-if="p.OLDDATA !='1' && TASKMARK != null && TASKMARK !=''" href="#/FormalAssessmentAuditDetailView/{{p.BUSINESSID}}/{{p.TASKMARK}}/{{'#/FormalAssessmentAuditList/0'|encodeURI}}">{{p.PROJECTNAME}}</a>
-										<a ng-if="p.OLDDATA !='1' && (TASKMARK == null || TASKMARK =='')" href="#/FormalAssessmentAuditDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentAuditList/0'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA !='1' && TASKMARK != null && TASKMARK !=''" href="JavaScript:void(0);" ng-click="toView(p.BUSINESSID, 'FormalAssessmentAuditList-1')">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA !='1' && (TASKMARK == null || TASKMARK =='')" href="JavaScript:void(0);" ng-click="toView(p.BUSINESSID, 'FormalAssessmentAuditList-0')">{{p.PROJECTNAME}}</a>
 										<a ng-if="p.OLDDATA =='1'" href="{{p.DETAIL_URL}}@8">{{p.PROJECTNAME}}</a>
 										<img ng-if="p.isUrgent==1" src="libs/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
 									</td>
 									<td>
-										<a ng-if="p.OLDDATA !='1' && TASKMARK != null && TASKMARK !=''" href="#/FormalAssessmentAuditDetailView/{{p.BUSINESSID}}/{{p.TASKMARK}}/{{'#/FormalAssessmentAuditList/0'|encodeURI}}">{{p.PERTAINAREANAME}}</a>
-										<a ng-if="p.OLDDATA !='1' && (TASKMARK == null || TASKMARK =='')" href="#/FormalAssessmentAuditDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentAuditList/0'|encodeURI}}">{{p.PERTAINAREANAME}}</a>
+										<a ng-if="p.OLDDATA !='1' && TASKMARK != null && TASKMARK !=''" href="JavaScript:void(0);" ng-click="toView(p.BUSINESSID, 'FormalAssessmentAuditList-0')">{{p.PERTAINAREANAME}}</a>
+										<a ng-if="p.OLDDATA !='1' && (TASKMARK == null || TASKMARK =='')" href="JavaScript:void(0);" ng-click="toView(p.BUSINESSID, 'FormalAssessmentAuditList-0')">{{p.PERTAINAREANAME}}</a>
 										<a ng-if="p.OLDDATA =='1'" href="{{p.DETAIL_URL}}@8">{{p.PERTAINAREANAME}}</a>
 									</td>
 									<td>{{p.mongoDate.apply.serviceType[0].VALUE}}</td> <!-- 项目类型 -->
@@ -206,7 +206,7 @@
 								<tr ng-repeat="p in auditedFormalAssessmentList" on-finish-render-filters>
 									<td>{{$index+1}}</td>
 									<td>
-										<a ng-if="p.OLDDATA != '1'" href="#/FormalAssessmentAuditDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentAuditList/1'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA != '1'" href="JavaScript:void(0);" ng-click="toView(p.BUSINESSID, 'FormalAssessmentAuditList-1')">{{p.PROJECTNAME}}</a>
 										<a ng-if="p.OLDDATA == '1'" href="{{p.OLDURL}}9">{{p.PROJECTNAME}}</a>
 										<img ng-if="p.isUrgent==1" src="libs/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
 									</td>
