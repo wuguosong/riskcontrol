@@ -126,7 +126,7 @@ define(['app', 'Service', 'dtree', 'dtree-menu'], function (app) {
             }
 
             $scope.updateSysFunctionState=function(state){
-                $.confirm("确定要启用？", function(){
+                Window.confirm('注意', "确定要启用？").result.then(function (btn){
                     var chk_list=document.getElementsByName("checkbox");
                     var uid = "",num=0;
                     for(var i=0;i<chk_list.length;i++)

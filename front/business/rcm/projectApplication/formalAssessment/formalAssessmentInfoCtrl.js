@@ -1,4 +1,4 @@
-define(['app', 'Service', 'datepicher'], function (app) {
+define(['app', 'Service'], function (app) {
     app
         .register.controller('formalAssessmentInfoCtrl', ['$http', '$scope', '$location', '$stateParams', 'BEWG_URL', 'Window', 'CommonService',
         function ($http, $scope, $location, $stateParams, BEWG_URL, Window, CommonService) {

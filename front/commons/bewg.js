@@ -1863,7 +1863,7 @@
                 })
                 // 正式评审提交决策会材料详情查看
                 .state("index.FormalBiddingInfoPreview", {
-                    url: "/FormalBiddingInfoPreview",
+                    url: "/FormalBiddingInfoPreview/:object",
                     views: {
                         'business': {
                             templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/biddingInfo/formalBiddingInfoPreview.html',
@@ -1903,12 +1903,12 @@
                         }]
                     }
                 })
-                /*// 决策通知书草拟列表
+                // 决策通知书草拟列表
                 .state("index.NoticeDecisionDraftList", {
                     url: "/NoticeDecisionDraftList/:tabIndex",
                     views: {
                         'business': {
-                            templateUrl: BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/noticeDecisionDraftList.html',
+                            templateUrl: BUSINESS_PATH + 'rcm/projectNoticeDecision/formalAssessment/noticeDecisionDraftList.html',
                             controller: 'noticeDecisionDraftListCtrl'
                         }
                     },
@@ -1916,14 +1916,56 @@
                         loadCtrl: ["$q", function ($q) {
                             var deferred = $q.defer();
                             require([
-                                BUSINESS_PATH + 'rcm/projectFillInformation/formalAssessment/noticeDecisionDraftListCtrl.js?_v=3'
+                                BUSINESS_PATH + 'rcm/projectNoticeDecision/formalAssessment/noticeDecisionDraftListCtrl.js?_v=3'
                             ], function () {
                                 deferred.resolve();
                             });
                             return deferred.promise;
                         }]
                     }
-                })*/
+                })
+                // 决策通知书草拟详情
+                .state("index.NoticeDecisionDraftInfo", {
+                    url: "/NoticeDecisionDraftInfo/:action/:id",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectNoticeDecision/formalAssessment/noticeDecisionDraftInfo.html',
+                            controller: 'noticeDecisionDraftInfoCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectNoticeDecision/formalAssessment/noticeDecisionDraftInfoCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
+                // 决策通知书草拟详情查看
+                .state("index.NoticeDecisionDraftInfoView", {
+                    url: "/NoticeDecisionDraftInfoView/:action/:id/:tabIndex",
+                    views: {
+                        'business': {
+                            templateUrl: BUSINESS_PATH + 'rcm/projectNoticeDecision/formalAssessment/noticeDecisionDraftInfoView.html',
+                            controller: 'noticeDecisionDraftInfoViewCtrl'
+                        }
+                    },
+                    resolve: {
+                        loadCtrl: ["$q", function ($q) {
+                            var deferred = $q.defer();
+                            require([
+                                BUSINESS_PATH + 'rcm/projectNoticeDecision/formalAssessment/noticeDecisionDraftInfoViewCtrl.js?_v=3'
+                            ], function () {
+                                deferred.resolve();
+                            });
+                            return deferred.promise;
+                        }]
+                    }
+                })
                 /**投标评审审批开始**/
                 /**投标评审列表页面**/
                 .state("index.PreAuditList", {

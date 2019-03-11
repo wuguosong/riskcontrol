@@ -2,6 +2,13 @@ define(['app'], function (app) {
     var srvUrl = "/rcm-rest";
     app
         .constant('BEWG_URL', {
+                // 常量数据
+            //决策评审总投资
+            DICT_JC_PSZTZ:'JC_PSZTZ',
+            //决策会委员
+            DICT_DECISION_LEADERS:'DECISION_LEADERS',
+
+
            // 公用地址
             SelectGroupOrg: "fnd/Group/getOrg",
             SelectBusinessType: "businessDict/queryBusinessType.do",

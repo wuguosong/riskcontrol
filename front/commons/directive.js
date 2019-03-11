@@ -1584,6 +1584,150 @@ define(['app', 'ztree-core', 'Service'], function (app) {
                 }
             };
         })
+        // 决策通知书流程提交弹出框
+        .directive('decisionBpmnPopWin', function () {
+            return {
+                restrict: 'AE',
+                templateUrl: BUSINESS_PATH + 'directive/common/decisionBpmnPopWin.html',
+                replace:'true',
+                scope:{approve:'='},
+                controller:function($scope,$location,$http,Upload){
+                    $scope.errorAttach=[];
+                    $scope.attachment={};
+
+                    $scope.upload = function (file,errorFile, idx) {
+                        if(errorFile && errorFile.length>0){
+                            var errorMsg = fileErrorMsg(errorFile);
+                            $scope.errorAttach[idx]={msg:errorMsg};
+                        }else if(file){
+                            var fileFolder = "noticeOfDecision/";
+                            var myDate = new Date();
+                            //获取当前年
+                            var year=myDate.getFullYear();
+                            //获取当前月
+                            var month=myDate.getMonth()+1;
+                            //处理月份
+                            if((month+"").length==1){
+                                month = "0"+month;
+                            }
+                            dates=year+""+month; //分割后的字符输出
+                            fileFolder=fileFolder+dates;
+                            $scope.errorAttach[idx]={msg:''};
+                            Upload.upload({
+                                url:srvUrl+'common/RcmFile/upload',
+                                data: {file: file, folder:fileFolder}
+                            }).then(function (resp) {
+                                var retData = resp.data.result_data[0];
+                                $scope.attachment=retData;
+                            }, function (resp) {
+                                console.log('Error status: ' + resp.status);
+                            }, function (evt) {
+                                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                                $scope["progress"+idx]=progressPercentage == 100 ? "":progressPercentage+"%";
+                            });
+                        }
+                    };
+                    //判断是否显示上传文件
+                    $scope.showUploadMethod = function(documentation){
+                        if(documentation == "1"){
+                            $scope.showUpload = true;
+                        }else{
+                            $scope.showUpload = false;
+                        }
+                    }
+                    $scope.$watch("approve",function(){
+                        if($scope.approve!=null && $scope.approve.processOptions!=null && $scope.approve.processOptions.length>0){
+                            $scope.showUploadMethod($scope.approve.processOptions[0].documentation);
+                        }
+
+                    });
+                    $scope.submitNext = function(){
+                        if("submit" == $scope.approve.operateType){
+                            $scope.submit();
+                        }else if("audit" == $scope.approve.operateType){
+                            $scope.auditSingle();
+                        }else{
+                            Window.alert("操作状态不明确！");
+                        }
+                    };
+                    $scope.cancel = function(){
+                        $scope.attachment={};
+                    }
+                    $scope.submit = function(){
+                        var url = srvUrl + "noticeDecisionAudit/startSingleFlow.do";
+                        show_Mask();
+                        $http({
+                            method:'post',
+                            url: url,
+                            data: $.param({
+                                "processKey": $scope.approve.processKey,
+                                "businessId": $scope.approve.businessId
+                            })
+                        }).success(function(result){
+                            hide_Mask();
+                            if($scope.approve.callbackSuccess != null && result.success){
+                                $scope.approve.callbackSuccess(result);
+                            }else if($scope.approve.callbackFail!=null && !result.success){
+                                $scope.approve.callbackFail(result);
+                            }else{
+                                Window.alert(result.result_name);
+                            }
+                        });
+                    };
+                    //jquery判断是否对象非空
+                    function isEmptyObject(e) {
+                        var t;
+                        for (t in e)
+                            return !1;
+                        return !0
+                    }
+                    $scope.auditSingle = function(){
+                        if($scope.flowVariables == null ||$scope.flowVariables.opinion == null || $scope.flowVariables.opinion==""){
+                            Window.alert("审批意见不能为空！");
+                            return;
+                        }
+                        if($scope.showUpload){
+                            if(isEmptyObject($scope.attachment)){
+                                Window.alert("附件不能为空！");
+                                return;
+                            }
+                            //保存附件到mongo
+                            $http({
+                                method:'post',
+                                url: srvUrl + "noticeDecisionAudit/updateAttachment.do",
+                                data: $.param({
+                                    "businessId": $scope.approve.businessId,
+                                    "attachment": JSON.stringify($scope.attachment)
+                                })
+                            }).success(function(result){
+                            });
+                        }
+
+                        var url = srvUrl + "noticeDecisionAudit/auditSingle.do";
+                        show_Mask();
+                        $http({
+                            method:'post',
+                            url: url,
+                            data: $.param({
+                                "processKey": $scope.approve.processKey,
+                                "businessId": $scope.approve.businessId,
+                                "opinion":$scope.flowVariables.opinion,
+                                "processOption": $("input[name='bpmnProcessOption']:checked").val()
+                            })
+                        }).success(function(result){
+                            hide_Mask();
+                            if($scope.approve.callbackSuccess != null && result.success){
+                                $scope.approve.callbackSuccess(result);
+                            }else if($scope.approve.callbackFail!=null && !result.success){
+                                $scope.approve.callbackFail(result);
+                            }else{
+                                Window.alert(result.result_name);
+                            }
+                        });
+                    };
+                }
+            }
+        })
         /******* 正式评审项目相关指令 ********/
         // 正式评审项目详情
         .directive('directiveProjectFormalAssessmentInfo', function () {
@@ -2603,7 +2747,7 @@ define(['app', 'ztree-core', 'Service'], function (app) {
                             $scope.latestAttachmentS.push($scope.newAttachment);
                             $scope.isUse = false;
                         }, function (resp) {
-                            $.alert(resp.status);
+                            Window.alert(resp.status);
                         }, function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             $scope["progress" + idx] = progressPercentage == 100 ? "" : progressPercentage + "%";

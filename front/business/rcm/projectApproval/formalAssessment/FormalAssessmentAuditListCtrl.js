@@ -96,7 +96,7 @@ define(['app', 'Service', 'ng-route', 'require','datepicher'], function (app) {
                         Window.alert('报告未删除！删除申请单之前请先删除该项目下的报告单！');
                         return false;
                     } else {
-                        $.confirm("确定要删除？", function () {
+                        Window.confirm('注意', "确定要删除？").result.then(function (btn) {
                             $scope.httpData(aMethed, obj).success(
                                 function (data, status, headers, config) {
                                     $scope.ListAll();

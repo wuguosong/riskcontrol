@@ -37,7 +37,7 @@ define(['app', 'Service'], function (app) {
                 });
             };
             $scope.project_clear = function(){
-                $.confirm("删除后不可恢复，请慎重！",function(a){
+                Window.confirm('注意', "删除后不可恢复，请慎重").result.then(function (btn){
                     var params = {
                         "bpmnType": $scope.project_bpmnType,
                         "businessKey": $scope.project_businessId

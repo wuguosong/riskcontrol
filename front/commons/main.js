@@ -79,6 +79,12 @@ require.config({
              ],
              exports: 'datepicher',
          },
+        'jqvalidate': {
+            deps: [
+                'jquery',
+            ],
+            exports: 'jqvalidate',
+        },
         'ng-file-upload': {
             deps: [
                 'jquery',
