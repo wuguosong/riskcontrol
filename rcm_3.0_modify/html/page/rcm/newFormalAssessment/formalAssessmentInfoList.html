@@ -90,11 +90,19 @@
 					<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目列表<i class="i-triangle"></i></span></div></div>
 					<div class="panel-body">
 						<div class="form-group row">
+							<div class="txl">
+								<!--<button  type="button" ng-click="toback()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>返回主页面</button>-->
+								<button  type="button" class="btn btn-info" id="createbtn" ng-click="createProject(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+								<button  type="button" ng-click="updateProject()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
+								<button  type="button" ng-click="deleteProject()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								<!--<button  type="button" ng-click="viewSysFunction()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>查看</button>-->
+							</div>
 						</div>
 						<div class="form-group row nobottom-mar table-responsive table-list">
 							<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
 								<thead>
 								<tr>
+									<th>选择</th>
 									<th>序号</th>
 									<th>项目名称</th>
 									<th>所属大区</th>
@@ -111,6 +119,13 @@
 								</thead>
 								<tbody>
 								<tr ng-repeat="p in formalAssessmentList" on-finish-render-filters>
+									<td>
+										<label class="checkbox-inline">
+											<input type="checkbox" name="uncommittedReportCheckbox" class="px"
+												   value="{{p.BUSINESSID}}" />
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
 									<td>{{$index+1}}</td> <!-- 序号 -->
 									<td><a href="#/FormalAssessmentDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentInfoList/0'|encodeURI}}">{{p.PROJECTNAME}}</a> <!-- 项目名称 -->
 									<td>
@@ -148,9 +163,9 @@
 		</div>
 		<div class="tab-pane" id="bs-tabdrop-tab2">
 			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
-				<div id="projectPreReview" class="panel-group">
+				<div id="projectPreReview1" class="panel-group">
 					<div class="panel">
-						<input type="hidden"  name="proId" id="proId" ng-model="conf.orgId"/>
+						<input type="hidden"  name="proId" id="proId1" ng-model="conf.orgId"/>
 						<div class="panel-heading search-box">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#projectPreReview" href="/#searchbox1">查询</a>
 						</div>
@@ -159,11 +174,11 @@
 <!-- 								<div class="form-group row sm-row"> -->
 									<label class="col-sm-2 col-md-1 control-label">项目名称</label>
 									<div class="col-sm-4 col-md-2 sm-col">
-										<input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="paginationConfes.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
+										<input type="text" name="PROJECT_NAME" id="PROJECT_NAME1" ng-model="paginationConfes.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
 									</div>
 									<label class="col-sm-2 col-md-1 control-label">所属大区</label>
 									<div class="col-sm-4 col-md-2 sm-col">
-										<input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME" ng-model="paginationConfes.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" />
+										<input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME1" ng-model="paginationConfes.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" />
 									</div>
 								
 <!-- 									<label class="col-sm-2 col-md-1 control-label">投资经理</label> -->
@@ -215,7 +230,7 @@
 									
 									<label class="col-sm-2 col-md-1 control-label">申请状态</label>
 									<div class="col-sm-4 col-md-2">
-										<select name="WF_STATE" id="WF_STATE" class="form-control" ng-model="paginationConfes.queryObj.wf_state">
+										<select name="WF_STATE" id="WF_STATE1" class="form-control" ng-model="paginationConfes.queryObj.wf_state">
 											<option value="">请选择...</option>
 											<option value="1">审批中</option>
 											<option value="2">已审批</option>
@@ -247,7 +262,7 @@
 <!-- 									<th>投资模式</th> -->
 
 									<th>项目类型</th>
-									<th>申请状态<i class="icofunc fa fa-caret-up" id="orderascstate" ng-click="order('state','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdescstate" ng-click="order('state','desc')"></i></th>
+									<th>申请状态<i class="icofunc fa fa-caret-up" id="orderascstate1" ng-click="order('state','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdescstate1" ng-click="order('state','desc')"></i></th>
 									<th>投资经理</th>
 									<th>评审负责人</th>
 									<th>法律负责人</th>
@@ -255,7 +270,7 @@
 									<th>投资模式</th>
 									<th>申请单位</th>
 									
-									<th>申请时间<i class="icofunc fa fa-caret-up" id="orderasc" ng-click="order('time','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdesc" ng-click="order('time','desc')"></i></th>
+									<th>申请时间<i class="icofunc fa fa-caret-up" id="orderasc1" ng-click="order('time','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdesc1" ng-click="order('time','desc')"></i></th>
 																	</tr>
 								</thead>
 								<tbody>

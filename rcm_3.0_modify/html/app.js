@@ -555,8 +555,7 @@ ctmApp.filter('textToHtml', function($sce) {
 //调用该方法可访问scope对象
 function accessScope(node, func) {
     var scope = angular.element(document.querySelector(node)).scope();
-    // 查找菜单栏
-    /*scope.$apply(func);*/
+   /* scope.$apply(func);*/
 }
 //创建一个js命名空间
 function namespace(objPath, scope){

@@ -1,4 +1,4 @@
-ctmApp.register.controller('preCreate', ['$http','$scope','$location','$routeParams', function ($http,$scope,$location,$routeParams) {
+ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParams', function ($http,$scope,$location,$routeParams) {
     // 获取参数
     $scope.id = $routeParams.id;
     $scope.flag = $routeParams.flag;

@@ -353,6 +353,24 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
+            // 投标评审详情
+            //  created Sunny Qi
+            .when('/preInfo/:id/:flag',{
+                controller:'preInfo',
+                templateUrl:'page/rcm/pre/preInfo.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/pre/preInfo.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
             .when('/ProjectPreReviewReadOnly', {
                 controller: 'ProjectPreReviewReadOnly',
                 templateUrl: 'page/rcm/preAssessment/ProjectPreReviewReadOnly.html',
@@ -1915,6 +1933,24 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
             			return deferred.promise;
             		}]
             	}
+            })
+            // 正式评审查看
+            //  created Sunny Qi
+            .when('/formalAssessmentInfo/:id/:flag',{
+                controller:'formalAssessmentInfo',
+                templateUrl:'page/rcm/newFormalAssessment/formalAssessmentInfo.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/newFormalAssessment/formalAssessmentInfo.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
             })
             //新版正式评审基本信息修改
             //author yaphet
