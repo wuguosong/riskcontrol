@@ -64,8 +64,7 @@
 			#{changeType,jdbcType=VARCHAR},
 			#{oldUserId,jdbcType=VARCHAR},
 			#{notifUsers,jdbcType=VARCHAR}
-			)
-		)
+		  )
 	</insert>
 	
 	<update id="updateAuditStatusByBusinessId" parameterType="map">
