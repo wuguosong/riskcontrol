@@ -1,0 +1,136 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt=""
+			title="" /> <span class="hd-title">风险案例管理</span>
+	</div>
+
+	<div class="tab-content tab-content-bordered">
+		<div class="tab-pane active" id="bs-tabdrop-tab1">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div id="notificationList" class="panel-group">
+					<div class="panel">
+						<div class="panel-heading search-box">
+							<a class="accordion-toggle collapsed" data-toggle="collapse"
+								data-parent="#notificationList" href="/#searchbox">查询</a>
+						</div>
+						<div id="searchbox" class="panel-collapse collapse">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">名称</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<input type="text" name="NAME" id="NAME"
+											ng-model="paginationConf.queryObj.name"
+											class="form-control ng-pristine ng-untouched ng-valid" />
+									</div>
+									<!-- 
+									<label class="col-sm-2 col-md-1 control-label">发布人</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<input type="text" name="PUBLISHER_NAME" id="PUBLISHER_NAME"
+											ng-model="paginationConf.queryObj.publisher_name"
+											class="form-control ng-pristine ng-untouched ng-valid" />
+									</div>
+									<label class="col-sm-2 col-md-1 control-label">类型</label>
+									<div class="col-sm-4 col-md-2">
+										<select  name="TYPE" id="TYPE" ng-model="paginationConf.queryObj.type" class="form-control">
+		                                    <option value="">--请选择--</option>
+		                                    <option ng-repeat="o in notificationsDicCode track by $index"  value="{{o.ITEM_CODE}}">{{o.ITEM_NAME}}</option>
+	                                	</select>
+									</div>
+									 -->
+									 <label class="col-sm-2 col-md-1 control-label">状态</label>
+									<div class="col-sm-4 col-md-2">
+										<select name="STATUS" id="STATUS" class="form-control"
+											ng-model="paginationConf.queryObj.status">
+											<option value="">请选择...</option>
+											<option value="1">起草中</option>
+											<option value="2">正式发布</option>
+										</select>
+									</div> 
+									<div class="col-sm-4 col-md-2 search">
+										<button type="button" class="btn btn-info"
+											ng-click="getRiskGuidelinesList()">
+											<i class="glyphicon glyphicon-search"></i>查询
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<div class="panel-heading">
+						<div class="panel-hd-cont">
+							<span class="panel-title">风险指引列表<i class="i-triangle"></i></span>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="form-group row">
+							<div class="txl">
+								<button ng-click="addRiskGuideline()" type="button"
+									id="submitBtn" class="btn btn-info" title="">
+									<i class="glyphicon glyphicon-plus"></i>新增案例
+								</button>
+								<button ng-click="modifyRiskGuideline()" type="button" id="submitBtn"
+									class="btn btn-info" title="">
+									<i class="glyphicon glyphicon-edit"></i>修改案例
+								</button>
+								<button ng-click="deleteRiskGuideline()" type="button" id="submitBtn"
+									class="btn btn-info" title="">
+									<i class="glyphicon glyphicon-trash"></i>删除案例
+								</button>
+							</div>
+						</div>
+						<div
+							class="form-group row nobottom-mar table-responsive table-list">
+							<table border="0" cellspacing="0" cellpadding="0"
+								class="table table-hover datatable first-col-fixed">
+								<thead>
+									<tr>
+										<th>选择</th>
+										<th>序号</th>
+										<th>名称</th>
+										<th>描述</th>
+										<th>创建时间</th>
+										<th>状态</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="p in notifications track by $index"
+										on-finish-render-filters>
+										<td>
+											<label class="checkbox-inline"> <input
+													type="checkbox" name="notifications_checkbox" class="px"
+													value="{{p.ID}}" /> <span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>{{$index+1}}</td>
+										<td>
+											<a href="#/riskGuidelineInfo/Modify/{{p.ID}}/{{'#/riskGuidelinesList'|encodeURI}}">{{p.NAME}}</a>
+										</td>
+										<td>
+											<span ng-if="p.CONTENT.length > 20" data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white" title="{{p.CONTENT}}">{{p.CONTENT | limitTo:20}}...</span>
+											<span ng-if="p.CONTENT.length <= 20">{{p.CONTENT}}</span>
+										</td>
+										<td>{{p.CREATE_DATE}}</td>
+										<td>
+											<div ng-if="'1'== p.STATUS">起草中</div>
+											<div ng-if="'2'== p.STATUS">正式发布</div>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript"
+	src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>

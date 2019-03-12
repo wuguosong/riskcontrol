@@ -1,0 +1,156 @@
+
+<div class="">
+    <form name="myform" ng-submit="queryList()" class="form-horizontal ng-pristine ng-valid">
+        <div class="panel-body">
+            <div class="header">
+                <img src="assets/images/icons/sysRole.png" width="41" height="41" alt="" title="" />
+                <span class="hd-title">流程人员变更</span>
+            </div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">人员变更<i class="i-triangle"></i></span></div>
+				</div>
+				<div id="processDiv" class="panel-collapse in">
+					<div class="panel-body search-body">
+						<div class="form-group row sm-row">
+							<label class="col-sm-4 col-md-4 control-label"><span class="required">*</span>项目名称</label>
+							<div class="col-sm-4 col-md-4 sm-col">
+								<direct-report-org-select id ="{{'rorg'}}" title ="{{'项目选择'}}" url = "{{'bpmn/queryProjectList.do'}}"   mapped-key-value = "mappedKeyValue" 
+										checked-org ="flow.project" 
+										is-editable ="'true'" 
+										is-page="'true'" 
+										other-fields ="otherFields"
+										columns = "columns" callback="confirmCallBack">
+								</direct-report-org-select>
+							</div>
+							<label ng-if="flow.project.BUSINESS_ID != null && flow.project.BUSINESS_ID != ''">业务ID:{{flow.project.BUSINESS_ID}}</label>
+						</div>
+						<div class="form-group row sm-row">
+							<label class="col-sm-4 col-md-4 control-label"><span class="required">*</span>替换节点</label>
+							<div class="col-sm-4 col-md-4 sm-col">
+								<select ng-if="flow.project.PROJECT_TYPE !='pfr' && flow.project.PROJECT_TYPE !='pre' && flow.project.PROJECT_TYPE !='bulletin'" ng-model="flow.task" class="form-control" ng-disabled="true">
+									<option value="">---请选择---</option>
+								</select>
+								<select ng-if="flow.project.PROJECT_TYPE =='pfr'" ng-model="flow.task" class="form-control" ng-disabled="flow.project.PROJECT_TYPE == null">
+									<option value="">---请选择---</option>
+									<option value="{{f.value}}" ng-repeat=" f in formalTaskNodeList" >{{f.name}}</option>
+								</select>
+								<select ng-if="flow.project.PROJECT_TYPE =='pre'" ng-model="flow.task" class="form-control" ng-disabled="flow.project.PROJECT_TYPE == null">
+									<option value="">---请选择---</option>
+									<option value="{{f.value}}" ng-repeat=" f in preTaskNodeList" >{{f.name}}</option>
+								</select>
+								<select ng-if="flow.project.PROJECT_TYPE =='bulletin'" ng-model="flow.task" class="form-control" ng-disabled="flow.project.PROJECT_TYPE == null">
+									<option value="">---请选择---</option>
+									<option  value="{{f.value}}" ng-repeat=" f in bulletinTaskNodeList" >{{f.name}}</option>
+								</select>
+							</div>
+							<label ng-if="resultInfo != null && resultInfo != '' " class="col-sm-4 col-md-4 ">当前人员：{{resultInfo}}</label>
+						</div>
+						<div class="form-group row sm-row">
+							<label class="col-sm-4 col-md-4 control-label"><span class="required">*</span>替换为</label>
+							<div class="col-sm-4 col-md-4 sm-col">
+								<direct-user-single-select id="leader" checked-user="flow.user" mapped-key-value="teamLeaderMapped"></direct-user-single-select>
+							</div>
+						</div>
+						<div class="form-group row sm-row">
+							<label class="col-sm-4 col-md-4 control-label"></label>
+							<div class="col-sm-4 col-md-4 sm-col">
+								<button class="btn btn-info" ng-click="changeAuditUser()" type="button"><i class="fa fa-share-square-o"></i>执行</button>
+							</div>
+						</div>
+						<hr ng-if="flow.project.PROJECT_TYPE =='pfr' || flow.project.PROJECT_TYPE =='pre' || flow.project.PROJECT_TYPE =='bulletin'" />
+						<div id="myTab" class="myTab" ng-if="flow.project.PROJECT_TYPE =='pfr' || flow.project.PROJECT_TYPE =='pre' || flow.project.PROJECT_TYPE =='bulletin'">
+                            <ul class="nav nav-tabs bs-tabdrop-example">
+                                <li class="active">
+                                    <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+                                </li>
+                                <li>
+                                    <a href="/#flow_chart" data-toggle="tab">流程图</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content tab-content-bordered" >
+                            <div class="tab-pane in active" id="contracts_file_info" ng-if="flow.project.PROJECT_TYPE =='pfr' || flow.project.PROJECT_TYPE =='pre' || flow.project.PROJECT_TYPE =='bulletin'">
+                                <!-- 正式评审 -->
+                                <directive-project-formal-assessment-info ng-if="flow.project.PROJECT_TYPE =='pfr'"></directive-project-formal-assessment-info>
+                            	<!-- 投标评审 -->
+                                <directive-project-pre-review-view ng-if="flow.project.PROJECT_TYPE =='pre'"></directive-project-pre-review-view>
+                            	<!-- 其他评审 -->
+                            	<div class="tab-pane in active special-form" id="contracts_file_info" ng-if="flow.project.PROJECT_TYPE =='bulletin'">
+									<div class="row">
+										<label for="" class="col-sm-2 control-label">所属大区</label>
+										<div class="col-sm-4 has-feedback reporting-unit">
+											<div class="full-drop">
+												<input type="text" readonly required class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+											</div>
+										</div>
+										<label for="" class="col-sm-2 control-label"><span class="required"></span>单位负责人</label>
+										<div class="col-sm-4">
+											<input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
+										</div>
+									</div>
+									<div class="row">
+										<label for="" class="col-sm-2 control-label">申请人</label>
+										<div class="col-sm-4">
+											<input type="text" readonly required class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
+										</div>
+										<label for="" class="col-sm-2 control-label">申请时间</label>
+										<div class="col-sm-4 has-feedback">
+											<input type="text" class="form-control" id="createDate" name="createDate" ng-model="bulletin.createTime" readonly />
+										</div>
+									</div>
+									<div class="row">
+										<label class="col-sm-2 control-label"><span class="required">*</span>事项类型</label>
+										<div class="col-sm-4">
+											<input type="text" readonly required class="form-control" id="bulletinType" name="bulletinType" ng-model="bulletin.bulletinType.NAME">
+										</div>
+										<label for="" class="col-sm-2 control-label">职能部门负责人</label>
+										<div class="col-sm-4">
+											<input class="form-control" readonly required id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
+										</div>
+									</div>
+									<div class="row">
+										<label for="" class="col-sm-2 control-label"><span class="required">*</span>申报事项</label>
+										<div class="col-sm-10">
+											<input type="text" readonly required class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
+										</div>
+									</div>
+									<div class="row">
+										<label for="" class="col-sm-2 control-label"><span class="required">*</span>事项原因</label>
+										<div class="col-sm-10">
+											<textarea readonly required class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
+										</div>
+									</div>
+									<div class="row">
+										<label for="" class="col-sm-2 control-label"><span class="required">*</span>申请需求</label>
+										<div class="col-sm-10">
+											<textarea readonly required class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
+										</div>
+									</div>
+									<div ng-show="bulletin.businessOpinion!=null && bulletin.businessOpinion!=''" class="row">
+										<label for="" class="col-sm-2 control-label">职能部门审核意见</label>
+										<div class="col-sm-10">
+											<textarea class="form-control" name="businessOpinion" ng-model="bulletin.businessOpinion" placeholder="" readonly auto-height></textarea>
+										</div>
+									</div>
+									<div ng-show="bulletin.windControlOpinion!=null && bulletin.windControlOpinion!=''" class="row">
+										<label for="" class="col-sm-2 control-label">风控中心审核意见</label>
+										<div class="col-sm-10">
+											<textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
+										</div>
+									</div>
+								</div>
+                            </div>
+                            <div class="tab-pane" id="flow_chart">
+                                <directive-process-page ng-if="flow.project.PROJECT_TYPE =='pfr'"></directive-process-page>
+                                <directive-process-page ng-if="flow.project.PROJECT_TYPE =='pre'"></directive-process-page>
+                                <directive-process-page ng-if="flow.project.PROJECT_TYPE =='bulletin'"></directive-process-page>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </form>
+</div>
+</div>

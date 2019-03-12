@@ -1,0 +1,47 @@
+<div>
+    <div class="">
+        <div class="row"></div>
+        <div class="row nobottom-mar">
+            <div class="row-tit">审批意见</div>
+        </div>
+        <div class="fade widget-followers in active" id="approvalinfo">
+            <ul class="apply-list">
+                <li>
+                    <div class="row" style="font-weight: bold;">
+                        <div class="col-md-1">处理人</div>
+                        <div class="col-md-2">审批状态</div>
+                        <div class="col-md-2">审批环节</div>
+                        <div class="col-md-5">审批意见</div>
+                        <div class="col-md-2">审批时间</div>
+                    </div>
+                </li>
+                <li ng-repeat="hi in auditLogs">
+                    <div class="row">
+                        <div class="col-md-1">{{hi.AUDITUSERNAME}}</div>
+                        
+                        <div ng-if="hi.AUDITSTATUS=='A'" class="col-md-2">提交</div>
+                        <div ng-if="hi.AUDITSTATUS=='B'" class="col-md-2">审批通过</div>
+                        <div ng-if="hi.AUDITSTATUS=='C'" class="col-md-2">审批不通过</div>
+                        <div ng-if="hi.AUDITSTATUS=='D'" class="col-md-2">退回投资经理</div>
+                        <div ng-if="hi.AUDITSTATUS=='E'" class="col-md-2">提交固定小组成员</div>
+                        <div ng-if="hi.AUDITSTATUS=='F'" class="col-md-2">分配任务</div>
+                        <div ng-if="hi.AUDITSTATUS=='9' && hi.TASKDESC !='通过结束' && hi.TASKDESC !='不通过结束'" class="col-md-2">待处理</div>
+                        <div ng-if="hi.AUDITSTATUS=='9' && (hi.TASKDESC =='通过结束' || hi.TASKDESC =='不通过结束')" class="col-md-2"></div>
+                        <div class="col-md-2">{{hi.TASKDESC}}</div>
+                        <div class="col-md-5">{{hi.OPINION}}</div>
+                        <div class="col-md-2">{{hi.AUDITTIME | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="row nobottom-mar">
+            <div class="row-tit"><a href="javaScript:void(0)" ng-click="showImg != null&&showImg == true?showImg = false:showImg = true">显示流程图</a></div>
+        </div>
+        <div class="bpm-img" style="position:relative" ng-show="showImg">
+		    <img  ng-src="{{srvInfo.srvUrl}}bpm/WorkFlow/getBpmImg?processDefinitionId={{wf.processDefinitionId}}">
+		    <div ng-repeat="node in wf.currentNodes" ng-style="{position:'absolute',border:'2px solid','border-color':'red',width:node.width+1,height:node.height,left:node.left-1,top:node.top}"></div>
+	    </div>
+        
+        
+    </div>
+</div>

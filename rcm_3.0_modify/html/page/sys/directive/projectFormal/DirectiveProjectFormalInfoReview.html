@@ -1,0 +1,138 @@
+    <div class="special-form">
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">所属大区</label>
+            <div class="col-sm-4 has-feedback">
+                <div class="full-drop">
+                    <input type="text" readonly class="form-control" id="reportingUnitName" name="reportingUnitName" ng-model="pre.apply.reportingUnit.name">
+                    <input type="hidden" class="form-control" id="reportingUnitValue" name="reportingUnitValue" ng-model="pre.apply.reportingUnit.value">
+                </div>
+            </div>
+            <label for="" class="col-sm-2 control-label">项目编号</label>
+            <div class="col-sm-4">
+                <input type="text" readonly class="form-control" id="projectNo" name="projectNo" ng-model="pre.apply.projectNo" placeholder="" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <!-- <label for="" class="col-sm-2 control-label">单位类别</label>
+            <div class="col-sm-4">
+                <input  readonly  class="form-control" ng-model="pre.apply.companyCategory.ITEM_NAME"/>
+            </div> -->
+            <label for="" class="col-sm-2 control-label">所属战区</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="pertainArea" name="pertainArea" ng-model="pre.apply.pertainArea.VALUE" placeholder="" readonly>
+					<input type="hidden" class="form-control" id="pertainAreaKey" name="pertainAreaKey" ng-model="pre.apply.pertainArea.KEY" >
+				</div>
+            <label for="" class="col-sm-2 control-label">项目归属单位负责人</label>
+            <div class="col-sm-4">
+                <div class="full-drop">
+                    <input type="text" readonly  class="form-control" id="companyHeaderName" name="companyHeaderName" ng-model="pre.apply.companyHeader.name"   >
+                    <input type="hidden"  id="companyHeaderValue" name="companyHeaderValue"  ng-model="pre.apply.companyHeader.value"/>
+               </div>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">投资经理</label>
+            <div class="col-sm-4 has-feedback">
+                <div class="full-drop">
+                    <input type="text" readonly  class="form-control"  id="investmentManagerName" name="investmentManagerName" ng-model="pre.apply.investmentManager.name" >
+                    <input type="hidden"  id="investmentManagerValue" name="investmentManagerValue"  ng-model="pre.apply.investmentManager.value"/>
+                </div>
+            </div>
+            <label for="" class="col-sm-2 control-label">基层法务人员</label>
+            <div class="col-sm-4 has-feedback">
+                <div class="full-drop">
+                    <input type="text" readonly  class="form-control" id="grassrootsLegalStaffName" name="grassrootsLegalStaffName" ng-model="pre.apply.grassrootsLegalStaff.name"   >
+                    <input type="hidden"  id="grassrootsLegalStaffValue" name="grassrootsLegalStaffValue"  ng-model="pre.apply.grassrootsLegalStaff.value"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">项目名称</label>
+            <div class="col-sm-4">
+                <input type="text" readonly  class="form-control" name="projectName" ng-model="pre.apply.projectName" />
+            </div>
+            <label for="" class="col-sm-2  control-label">项目所在地</label>
+            <div class="col-sm-4">
+                <input type="text" readonly  class="form-control" name="projectAddress" ng-model="pre.apply.projectAddress" >
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">业务类型</label>
+            <div id="headerserviceTypebox" class="col-sm-4">
+                <div class="select2-success">
+                    <input name="serviceTypeboxName" readonly id="serviceTypeboxName" class="form-control" ng-model="pre.apply.serviceType">
+                </div>
+            </div>
+            <!-- <label for="projectType" class="col-sm-2 control-label">二级业务类型</label>
+            <div id="headerprojecttypebox" class="col-sm-4">
+                <div class="select2-success">
+                    <input class="form-control" readonly id="projecttypeboxName" name="projecttypeboxName" ng-model="pre.apply.projectType"/>
+                </div>
+            </div> -->
+            <label for="" class="col-sm-2 control-label">项目投资总额</label>
+				<div class="col-sm-4">
+					<input type="text"  class="form-control" required id="investMoney" name="investMoney" ng-model="pre.apply.investMoney" readonly>
+					<!-- <span class="unit-n">万元</span> -->
+				</div>
+        </div>
+        <div class="row">
+            <label for="projectModel" class="col-sm-2 control-label">投资模式</label>
+            <div class="col-sm-1 noright-pad">
+                <label class="checkbox-inline">
+                    <input class="px" disabled type="checkbox" ng-model="pre.apply.investmentModel" id="investmentModel" name="investmentModel">
+                    <span class="lbl">PPP</span>
+                </label>
+            </div>
+            <div id="headerprojectmodebox" class="col-sm-3 noleft-pad">
+                <div class="select2-success">
+                    <input class="form-control" readonly id="projectmodeboxName" name="projectmodeboxName" ng-model="pre.apply.projectModel" />
+                </div>
+            </div>
+            <label for="projectNum" class="col-sm-2 control-label">单体项目数</label>
+            <div class="col-sm-4 has-feedback">
+                <input type="text"  readonly class="form-control" name="projectNum" ng-model="pre.apply.projectNum" placeholder="">
+                <span class="unit-n">个</span>
+            </div>
+        </div>
+        <div class="row">
+            <label for="projectSize" class="col-sm-2 control-label">项目规模</label>
+            <div class="col-sm-4">
+                <textarea readonly  class="form-control" name="projectSize" ng-model="pre.apply.projectSize" placeholder=""></textarea>
+            </div>
+            <label for="" class="col-sm-2 control-label">竞争对手</label>
+            <div class="col-sm-4">
+                <textarea type="text"  readonly class="form-control" id="competitor" name="competitor" ng-model="pre.apply.competitor" ></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">拟投标时间</label>
+            <div class="col-sm-4 has-feedback">
+                <input type="text" readonly  id="tenderTime" name="" ng-model="pre.apply.tenderTime" class="form-control" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+                <span id="showdate" ></span>
+            </div>
+            <label for="" class="col-sm-2 control-label">保证金支付时间</label>
+            <div class="col-sm-4 has-feedback">
+                <input type="text" readonly  id="paymentTime" ng-model="pre.apply.paymentTime" class="form-control" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-sm-2 control-label">投资中心/水环境投资中心项目负责人</label>
+            <div class="col-sm-4">
+                <div class="col-sm-6 noleft-pad noright-pad has-feedback">
+                    <input type="text" readonly  class="form-control" name="investmentPersonName" id="investmentPersonName"   ng-model="pre.apply.investmentPerson.name" >
+                    <input type="hidden" name="investmentPersonValue" ng-model="pre.apply.investmentPerson.value">
+                </div>
+                <div id="directPersonMin" class="col-sm-6 noright-pad has-feedback">
+                    <input type="text"  readonly class="form-control" name="directPersonName" id="directPersonName" ng-model="pre.apply.directPerson.name">
+                    <input type="hidden" name="directPersonValue" ng-model="pre.apply.directPerson.value" >
+                </div>
+            </div>
+            <label for="" class="col-sm-2 control-label">申请填写日期</label>
+            <div class="col-sm-4 has-feedback">
+                <input type="text"  readonly class="form-control"  readonly id="create_date" name="create_date" ng-model="pre.create_date" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+        </div>
+      </div>

@@ -1,0 +1,59 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">法律尽调时间预警信息设置</span>
+	</div>
+	<div class="panel">
+		<div class="panel-heading">
+			<span class="panel-title">法律尽调时间预警信息设置</span>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal ng-pristine ng-valid">
+				<div class="row">
+					<label for="" class="col-sm-2 control-label">模块名称</label>
+					<div class="col-sm-4">
+						<input type="text" name="" class="form-control" />
+					</div>
+					<label for="" class="col-sm-2 control-label">模块编码</label>
+					<div class="col-sm-4">
+						<input type="text" id="" name="" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<label for="" class="col-sm-2 control-label">提醒时间</label>
+					<div class="col-sm-4 has-feedback">
+						<input type="text" id="" name="" class="form-control" />
+						<span class="unit-n">天</span>
+					</div>
+					<label for="" class="col-sm-2 control-label">是否启用</label>
+					<div class="col-sm-4">
+						<label class="radio radio-inline">
+							<input type="radio" checked="checked" name="tenderResults" class="px" value="1"/>
+							<span class="lbl">是</span>
+						</label>
+						<label class="radio radio-inline">
+							<input type="radio" name="tenderResults" class="px" value="2"/>
+							<span class="lbl">否</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="btn-group-gap txl">
+						<a href="#/LawWarningTimeList" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+						<button type="submit" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#bidOpenTime').datepicker(options);
+	});
+</script>

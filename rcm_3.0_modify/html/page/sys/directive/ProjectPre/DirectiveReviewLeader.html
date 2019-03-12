@@ -1,0 +1,22 @@
+<div>
+    <div class="panel-heading">
+        <a class="accordion-toggle collapsed" href="/#taskAssignment" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+    </div>
+    <div id="taskAssignment" class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="row">
+                <label class="col-sm-2 control-label">评审负责人<!--<span class="required">*</span>--></label>
+                <div  class="col-sm-4">
+                    <input type="text" readonly  name="reviewLeadername" id="reviewLeadername" class="form-control" ng-model="pre.taskallocation.reviewLeader.NAME">
+
+                </div>
+                <label class="col-sm-2 control-label">评审小组固定成员<!--<span class="required">*</span>--></label>
+                <div id="headerfixed-member-box" class="col-sm-4">
+                    <div class="select2-success">
+                        <input type="text" readonly class="form-control" id="fixedGroupName" name="fixedGroupName" ng-model="pre.taskallocation.fixedGroup" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

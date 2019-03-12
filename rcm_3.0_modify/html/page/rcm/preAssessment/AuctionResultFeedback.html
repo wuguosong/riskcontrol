@@ -1,0 +1,184 @@
+
+<div class="panel-body">
+	<form name="myFormPfR" id="myFormPfR" class="form-horizontal ng-pristing ng-valid ng-pristine" novalidate>
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{titleName}}</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">投标结果反馈<i class="i-triangle"></i></span></div>
+				</div>
+				<div class="panel-body">
+					<div class="special-form">
+						<div class="row">
+							<input type="hidden"  name="UUID" id="UUID"   class="form-control" value="{{id}}"/>
+							<label for="" class="col-sm-2 control-label">项目名称</label>
+							<div class="col-sm-4">
+								<input type="text" data-toggle="modal" data-target="#companyProjectName-modal" required class="form-control"name="projectName" id="projectName" ng-model="arf.projectName" value="{{arf.projectName}}"/>
+
+								<input type="hidden"  name="projectNo" id="projectNo" ng-model="arf.projectNo" class="form-control"  />
+							</div>
+							<label for="" class="col-sm-2 control-label"><span class="required" ng-if="actionpam=='Create' || actionpam=='Update'">*</span>开标时间</label>
+							<div class="col-sm-4 has-feedback" >
+								<input type="text" id="bidOpenTime"  name="projectOpentime"  ng-model="arf.projectOpentime" class="form-control"/>
+								<i class="fa fa-calendar form-control-feedback"></i>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required" ng-if="actionpam=='Create'||actionpam=='Update'">*</span>我方报价</label>
+							<div class="col-sm-4 has-feedback">
+								<input type="text" name="projectOurprice"  id="projectOurprice" ng-model="arf.projectOurprice" class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+								<span class="unit-my">万元</span>
+							</div>
+<!-- 							<label for="" class="col-sm-2 control-label">主要竞争对手报价</label> -->
+<!-- 							<div class="col-sm-4 has-feedback"> -->
+<!-- 								<input type="text" name="projectOtherprice"  id="projectOtherprice" ng-model="arf.projectOtherprice" class="form-control" -->
+<!-- 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" -->
+<!-- 									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" -->
+<!-- 									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/> -->
+<!-- 								<span class="unit-my">万元</span> -->
+
+<!-- 							</div> -->
+							<label for="" class="col-sm-2 control-label">投标结果</label>
+							<div class="col-sm-4">
+								<label class="radio radio-inline">
+									<input type="radio" checked="checked" id="tenderResults1" name="tenderResults" ng-model="arf.tenderResults" class="px" value="中标"/>
+									<span class="lbl">中标</span>
+								</label>
+								<label class="radio radio-inline">
+									<input type="radio" checked="checked" id="tenderResults2" name="tenderResults" ng-model="arf.tenderResults" class="px" value="未中标"/>
+									<span class="lbl">未中标</span>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div id="notice">
+								<label for="" class="col-sm-2 control-label">中标通知书</label>
+								<div class="col-sm-1 txl">
+									<button class="btn btn-info"   ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
+								</div>
+								<div class="col-sm-9">
+									<div class="row nobottom-mar">
+										<div class="col-sm-10 noleft-pad noright-pad">
+											<span ng-bind="progress$index"></span>
+											<span style="">{{errorAttach[$index].msg}}</span>
+											<input type="hidden" ng-model="arf.projectNoticefile.filePath" />
+											<a href="javascript:void(0);" ng-click="downLoadFile(arf.projectNoticefile)" style="line-height: 27px;">{{arf.projectNoticefile.fileName}}</a>
+										</div>
+									</div>
+								</div>
+
+								<!--<div class="col-sm-3">
+									<input type="file" name="projectNoticefile" id="projectNoticefile" ng-model="arf.projectNoticefile" class="" />
+								</div>
+								<div class="col-sm-1 txr">
+									<button class="btn btn-info" title="">上传</button>
+								</div>-->
+							</div>
+						</div>
+					</div>
+					<div class="row">
+			            <div class="txl">
+			                <button ng-click="addOption()" class="btn btn-info" type="button"><i class="glyphicon glyphicon-plus"></i>新增</button>
+			                <button ng-click="delOption()" class="btn btn-info" type="button"><i class="glyphicon glyphicon-trash"></i>删除</button>
+			            </div>
+			        </div>
+			        <div class="row">
+			            <div class="table-light">
+			                <div class="table-header">
+			                    <div class="table-caption">竞争对手报价</div>
+			                </div>
+			                <div class="table-responsive">
+			                    <table cellspacing="0" cellpadding="0" border="0" class="table table-bordered  table-text-mid table-light table-hd-center txc">
+			                        <thead>
+			                        <tr>
+			                            <th>选择</th>
+			                            <th>序号</th>
+			                            <th>竞争对手</th>
+			                            <th>报价(万元)</th>
+			                        </tr>
+			                        </thead>
+			                        <tbody id="optionList">
+			                        <!-- ngRepeat: m in formalReport.optionList track by $index -->
+			                        <tr ng-repeat="m in arf.projectOtherprice track by $index" repeat-finish="hideCls()" class="ng-scope">
+			                            <td class="txc">
+			                                <label class="checkbox-inline">
+			                                    <input type="checkbox" ng-model="m.selected" class="px ng-pristine ng-untouched ng-valid">
+			                                    <span class="lbl">&nbsp;</span>
+			                                </label>
+			                            </td>
+			                            <td class="ng-binding">{{$index+1}}</td>
+			                            <td><input class="form-control ng-pristine ng-untouched ng-valid" cols="" rows="" value="" ng-model="m.name" name=""></td>
+			                            <td><input class="form-control ng-pristine ng-untouched ng-valid" cols="" rows="" value="" ng-model="m.price" name=""></td>
+			                        </tr><!-- end ngRepeat: m in formalReport.optionList track by $index -->
+			                        </tbody>
+			                    </table>
+			                </div>
+			            </div>
+			        </div>
+<!-- 					<div style="width: 80%; height: 200px; font-size: 14px; margin: 0pt auto; border: 1px solid gray;"> -->
+<!-- 				  		<table style="width: 100%;"> -->
+<!-- 				          <tr style="height: 32px; font-size: 16px;"> -->
+<!-- 				            <td style="text-align:center;"><input type="checkbox" id="chk_all"></td> -->
+<!-- 				            <td style="text-align:center;">竞争对手名称</td> -->
+<!-- 				            <td style="text-align:center;">竞争对手报价</td> -->
+<!-- 				          </tr> -->
+<!-- 				    	</table> -->
+<!-- 				  	</div> -->
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option">
+				<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+<!-- 					<a class="btn btn-info" href="#/FeedbackList"><i class="fa fa-reply"></i>返回</a> -->
+					<button type="button" id="arfbtn" onclick="onsave()"class="btn btn-info" ><i class="fa fa-save"></i>保存</button>
+
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+	<directive-company-list></directive-company-list>
+<script  type="text/javascript">
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#tenderTime').datepicker(options);
+		$('#bidOpenTime').datepicker(options);
+
+		//$("select").select2({minimumResultsForSearch: Infinity});
+
+		$("#headerprojecttypebox select").select2();
+		$("#headerprojectmodebox select").select2();
+	});
+	$().ready(function() {
+		// validate signup form on keyup and submit
+		$("#myFormPfR").validate({
+			rules: {
+				projectOpentime:"required",
+				projectOurprice:"required",
+				projectOtherprice:"required"
+			},
+			messages: {
+				projectOurprice:"请填入数字",
+				projectOtherprice:"请填入数字",
+				projectOpentime:"此项必填"
+			}
+		});
+	});
+	function onsave(){
+		if($("#myFormPfR").valid()){
+			accessScope("#myFormPfR", function(scope){
+				scope.save();
+			});
+		}
+	}
+	</script>

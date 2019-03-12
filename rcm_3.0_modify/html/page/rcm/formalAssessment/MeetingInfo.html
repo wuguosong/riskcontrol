@@ -1,0 +1,276 @@
+<div class="panel-body" ng-controller="myControl">
+	<!--form表单开始-->
+	<form class="form-horizontal" name="myFormPPR" ng-submit="" >
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">提交参会信息</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading"><span class="panel-title">参会信息</span><i class="blue-block"></i></div>
+				<div class="panel-body">
+					<div class="row">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+							<tbody>
+								<tr>
+									<td class="title-column">项目名称</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="title-column">业务类型</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="title-column">项目评级</td>
+									<td colspan="3">
+										<div class="row nobottom-mar">
+											<div class="col-sm-5 noleft-pad">
+												<select name="" id="" class="form-control">
+													<option value="">请选择...</option>
+													<option value="">A级（困难评审）</option>
+													<option value="">B级（中级评审）</option>
+													<option value="">C级（简单评审）</option>
+												</select>
+											</div>
+											<div class="col-sm-1"></div>
+											<div class="col-sm-6 td-checkbox txl">
+												<label class="checkbox-inline">
+													<input type="checkbox" class="px" name="projectType" value="1"/>
+													<span class="lbl">项目简单</span>
+												</label>
+												<label class="checkbox-inline">
+													<input type="checkbox" class="px" name="projectType" value="1"/>
+													<span class="lbl">风险较低</span>
+												</label>
+												<label class="checkbox-inline">
+													<input type="checkbox" class="px" name="projectType" value="1"/>
+													<span class="lbl">收益较好</span>
+												</label>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="title-column">评级理由</td>
+									<td colspan="3"><textarea name="" rows="" cols="" class="form-control"></textarea></td>
+								</tr>
+								<tr>
+									<td class="title-column">其他参会人区域事业部</td>
+									<td colspan="3">
+										<div id="regional-division">
+											<div class="select2-success">
+												<select  multiple="multiple" class="form-control" id="fixed-member" name="fixed-member">
+													<option value="1">XX区域事业部</option>
+													<option value="2">XX区域事业部</option>
+													<option value="3">XX区域事业部</option>
+													<option value="4">XX区域事业部</option>
+													<option value="5">XX区域事业部</option>
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="title-column">投资中心</td>
+									<td colspan="3">
+										<div id="investment-center">
+											<div class="select2-success">
+												<select  multiple="multiple" class="form-control" id="fixed-member" name="fixed-member">
+													<option value="1">XX区域事业部</option>
+													<option value="2">XX区域事业部</option>
+													<option value="3">XX区域事业部</option>
+													<option value="4">XX区域事业部</option>
+													<option value="5">XX区域事业部</option>
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="title-column">联系人</td>
+									<td colspan="3">
+										<div class="row nobottom-mar">
+											<div id="contacts-box" class="col-sm-5 noleft-pad txl">
+												<select class="form-control">
+													<option></option>
+													<option value="1">张三</option>
+													<option value="2">李四</option>
+													<option value="3">王五</option>
+													<option value="4">赵六</option>
+													<option value="5">田七</option>
+												</select>
+											</div>
+											<div class="col-sm-1 noright-pad td-text txr"><span class="text">电话：</span></div>
+											<div class="col-sm-6 noright-pad">
+												<input type="text" name="" class="form-control" />
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="title-column">备注</td>
+									<td colspan="3"><textarea name="" rows="" cols="" class="form-control"></textarea></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="txl">
+							<button  type="button" class="btn btn-info" ng-click="addSchedule()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button  type="button" class="btn btn-info" ng-click="deleteSchedule()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center txc">
+								<thead>
+									<tr>
+										<th>选择</th>
+										<th>评审议程</th>
+										<th>汇报人</th>
+										<th>用时规定</th>
+									</tr>
+								</thead>
+								<tbody id="scheduleList">
+									<tr ng-repeat="m in contract.schedule track by $index">
+										<td>
+											<label class="checkbox-inline">
+												<input type="checkbox" class="px"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>
+											<input name="" ng-model="m.schedule_option" value="{{m.schedule_option}}" class="form-control"/>
+										</td>
+										<td>
+											<input type="text" ng-model="m.schedule_reported" value="{{m.schedule_reported}}" id="nodeExecution" name="" class="form-control" />
+										</td>
+										<td>
+											<div class="has-feedback">
+												<input type="text" ng-model="m.schedule_timecost" value="{{m.schedule_timecost}}" name="" class="form-control" value="7"/>
+												<span class="unit">分钟</span>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<button type="submit" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+					<a href="#/FormalBiddingInfo" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		$('#porjectPreReview').collapse('show');
+		$('#taskAssignment').collapse({toggle: 'show'});
+		//二级菜单关闭&展示
+		$(".dropdown-list").children("li").click(function(){
+			var dropDown = $(this).find(".sub-list");
+			var togClass=$(this).find(".ico");
+			$(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+			$(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+			dropDown.slideToggle(300);
+			togClass.toggleClass("fa-minus");
+		});
+		//tabs切换
+		$(".nav-tabs").children("li:not('.navbar-right')").click(function(){
+			var liIndex=$(this).index();
+			var tabCont=$(this).parents(".myTab").siblings(".tab-content").find(".tab-pane");
+			$(this).addClass("active").siblings("li").removeClass("active");
+			tabCont.eq(liIndex).fadeIn(300).siblings(".tab-pane").fadeOut(0);
+		});
+		//单选
+		$(".one-choice .sub-list li").click(function(){
+			$(this).children("a").addClass("cur");
+			$(this).parents(".dropdown-list").find(".sub-list li a").not($(this).children()).removeClass("cur");
+			return false;
+		});
+		//多选
+		$(".more-choice .sub-list li").click(function(){
+			$(this).children("a").addClass("cur");
+			return false;
+		});
+	});
+
+	$("#compareBtn").click(function(){
+		var chooseCount=0;
+		$("input[name='choose']").each(function(){
+			if($(this).attr("checked")){
+				chooseCount++;
+			}
+		});
+		if(chooseCount==0){
+			alert("请选择要对比的数据！");
+			return;
+		}else if(chooseCount>1){
+			alert("只能选择一条数据！");
+			return;
+		}
+	});
+//-->
+</script>
+<script  type="text/javascript">
+	angular.element(document).ready(function() {
+		var options = {
+			minuteStep: 5,
+			orientation: $('body').hasClass('right-to-left') ? { x: 'right', y: 'auto'} : { x: 'auto', y: 'auto'}
+		}
+		$('#startTime').timepicker(options);
+		$('#endTime').timepicker(options);
+
+		$("#regional-division select").select2();
+		$("#investment-center select").select2();
+		$("#contacts-box select").select2();
+   });
+	
+	ctmApp.register.controller("myControl",function($scope, $http) {
+				//初始化页面
+				(function initPage(){
+                    if(! $scope.contract) $scope.contract = {};
+                })();
+				
+				function addBlankRow(array){
+					var blankRow = {
+						schedule_option:'',
+						schedule_reported:'',
+						schedule_timecost:''
+					}
+					array.push(blankRow);
+				}
+				if(! $scope.contract.schedule) $scope.contract.schedule = [];
+				addBlankRow($scope.contract.schedule);
+
+				$scope.addSchedule = function(){
+					function addBlankRow(array){
+						var blankRow = {
+							commit_option:'',
+							schedule_reported:'',
+							schedule_timecost:''
+						}
+						array.push(blankRow);
+					}
+
+					if(! $scope.contract.schedule) $scope.contract.schedule = [];
+					addBlankRow($scope.contract.schedule);
+				}
+
+				$scope.deleteSchedule = function(){
+					$("#scheduleList").find("input[type='checkbox']:checked").each(function(){
+						$(this).parent().parent().parent().remove();//删除dom对象
+					});
+				}
+    });
+
+</script>

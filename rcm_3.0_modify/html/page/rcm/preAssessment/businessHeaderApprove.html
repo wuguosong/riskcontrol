@@ -1,0 +1,116 @@
+<div class="panel-body">
+	<form class="form-horizontal ng-pristine ng-valid" name="submit1" onsubmit="return false" novalidate>
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">投资中心/水环境投资中心审核</span>
+			</div>
+			<div id="reviewLeader" class="panel-group">
+					<div class="panel">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#porjectPreReview" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">项目预评审申请<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="porjectPreReview" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div id="myTab" class="myTab">
+									<ul class="nav nav-tabs bs-tabdrop-example">
+										<li class="active">
+											<a href="javascript:;" data-toggle="tab">流程表单</a>
+										</li>
+										<li>
+											<a href="javascript:;" data-toggle="tab">流程图</a>
+										</li>
+										<li >
+											<a href="javascript:;" data-toggle="tab">相关资源</a>
+										</li>
+									</ul>
+								</div>
+								<div class="tab-content tab-content-bordered">
+									<div class="tab-pane in active" id="contracts_file_info">
+										<directive-project-pre-review-view></directive-project-pre-review-view>
+									</div>
+									<div class="tab-pane" id="flow_chart">
+										<directive-process-list></directive-process-list>
+									</div>
+									<div class="tab-pane" id="contracts_resources">
+										<directive-file-list></directive-file-list>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="btn-group-gap txl">
+					<div class="full-drop inline-div">
+						<a ng-if="flag=='1'" class="btn btn-info" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
+						<a ng-if="flag=='2'" class="btn btn-info" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
+						<button data-toggle="modal" data-target="#submitModal" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+						<div  id="submitModal"  class="modal"  tabindex="-1" role="dialog" style="display: none;">
+							<approve-pop-win approve="approve"></approve-pop-win>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+<!--
+	$(function(){
+		$('#porjectPreReview').collapse('show');
+		$('#taskAssignment').collapse({toggle: 'show'});
+		//二级菜单关闭&展示
+		$(".dropdown-list").children("li").click(function(){
+			var dropDown = $(this).find(".sub-list");
+			var togClass=$(this).find(".ico");
+			$(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+			$(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+			dropDown.slideToggle(300);
+			togClass.toggleClass("fa-minus");
+		});
+		//tabs切换
+		$(".nav-tabs").children("li:not('.navbar-right')").click(function(){
+			var liIndex=$(this).index();
+			var tabCont=$(this).parents(".myTab").siblings(".tab-content").find(".tab-pane");
+			$(this).addClass("active").siblings("li").removeClass("active");
+			tabCont.eq(liIndex).fadeIn(300).siblings(".tab-pane").fadeOut(0);
+		});
+		//单选
+		$(".one-choice .sub-list li").click(function(){
+			$(this).children("a").addClass("cur");
+			$(this).parents(".dropdown-list").find(".sub-list li a").not($(this).children()).removeClass("cur");
+			return false;
+		});
+		//多选
+		$(".more-choice .sub-list li").click(function(){
+			$(this).children("a").addClass("cur");
+			return false;
+		});
+	});
+
+	$("#compareBtn").click(function(){
+		var chooseCount=0;
+		$("input[name='choose']").each(function(){
+			if($(this).attr("checked")){
+				chooseCount++;
+			}
+		});
+		if(chooseCount==0){
+			alert("请选择要对比的数据！");
+			return;
+		}else if(chooseCount>1){
+			alert("只能选择一条数据！");
+			return;
+		}
+	});
+//-->
+</script>
+<script>
+	angular.element(document).ready(function() {
+		$("#project-type-box select").select2();
+		$("#project-mode-box select").select2();
+		$("#headerfixed-member-box select").select2();
+   });
+</script>

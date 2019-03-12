@@ -1,0 +1,52 @@
+<link href="../styles/style.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="../styles/fullscreen.css">
+<div class="container-fluid tp-container">
+    <a class="logo"></a>
+    <a class="title">
+        <h1>
+            {{ decision.huiYiQiCi }}
+        </h1>
+        <h3>{{ decision.project_name }}</h3>
+    </a>
+
+    <div class="vote-stage row">
+        <div class="content col-md-10">
+            <div class="voted row">
+                <div class="col-md-3 col-sm-3">
+                    <span class="vote-state"></span>
+                </div>
+                <div class="col-md-9 col-sm-9 list">
+                    <span class="col-md-6 col-sm-6 col-xs-12" title="leader.NAME" ng-repeat="leader in yesPeoples">
+                        {{ leader.NAME }}
+                    </span>
+                </div>
+            </div><div class="unvote">
+                <div class="col-md-3 col-sm-3">
+                    <span class="vote-state"></span>
+                </div>
+                <div class="col-md-9 col-sm-9 list">
+                    <span class="col-md-6 col-sm-6 col-xs-12" title="leader.NAME" ng-repeat="leader in noPeoples">
+                         {{ leader.NAME }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!--<div class="voting" ng-if="null != isAdmin && '1' == isAdmin">-->
+            <!--<div class="vote-btn">-->
+                <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    </div>
+    <div ng-if="null != isAdmin && '1' == isAdmin">
+        <div class="vote-return">
+            <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+        </div>
+    </div>
+    <div ng-if="'1' != isAdmin">
+        <div class="vote-return">
+            <a class="btn btn-info" ng-href="/html/index.html#/" ng-click=""><i class="fa fa-reply"></i>返回</a>',
+            <!--<directive-return-btn url="{{oldUrl}}"></directive-return-btn>-->
+        </div>
+    </div>
+</div>

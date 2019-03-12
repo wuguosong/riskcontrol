@@ -1,0 +1,266 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">决策通知书列表</span>
+	</div>
+		<ul class="nav nav-tabs bs-tabdrop-example">
+			<li class="{{tabIndex=='0'?'active':''}}"><a href="/#bs-tabdrop-tab1" data-toggle="tab">待确认</a></li>
+			<li class="{{tabIndex=='1'?'active':''}}"><a href="/#bs-tabdrop-tab2" data-toggle="tab">已确认</a></li>
+		</ul>
+		<div class="tab-content tab-content-bordered">
+			<div class="tab-pane {{tabIndex=='0'?'active':''}}" id="bs-tabdrop-tab1">
+				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+					<div id="report" class="panel-group">
+						<div class="panel">
+							<div class="panel-heading search-box">
+								<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#report" href="/#searchbox">查询</a>
+							</div>
+							<div id="searchbox" class="panel-collapse collapse">
+								<div class="panel-body search-body">
+										<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+										<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="PROJECTNAME" id="PROJECTNAME" ng-model="paginationConf.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+										<label class="col-sm-2 col-md-1 control-label">所属大区</label>
+										<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="PERTAINAREANAME" id="PERTAINAREANAME" ng-model="paginationConf.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+									<div class="form-group row sm-row">
+										<!-- <label class="col-sm-2 col-md-1 control-label">评审状态</label>
+										<div class="col-sm-4 col-md-2">
+											<select name="WF_STATE" id="WF_STATE" class="form-control" ng-model="paginationConf.queryObj.wf_state">
+												<option value="">请选择...</option>
+												<option value="0">起草中</option>
+												<option value="1">审批中</option>
+												<option value="2">已审批</option>
+												<option value="3">已终止</option>
+											</select>
+										</div> -->
+											<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="queryWaitConfirm()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">待确认<i class="i-triangle"></i></span></div></div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="full-drop inline-div">
+									<div  id="addModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h4 class="modal-title" id="myModalLabel">已通过项目</h4>
+												</div>
+												<div class="modal-body">
+													<div class="row">
+														<div class="col-md-12" id="porjectName" >
+															<select class="form-control" ng-model="x.UUID">
+																<option ng-repeat="x in pprs" value="{{x.BUSINESSID}}">{{x.PROJECTNAME}}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+													<a href="#/NoticeDecisionDraftDetail/Create/{{x.UUID}}" type="button" class="btn btn-primary btn-confirm" data-dismiss="modal">确定</a>
+												</div>
+			
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row nobottom-mar">
+								<div class="table-responsive table-list">
+									<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+										<thead>
+										<tr>
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>所属大区</th>
+										<th>投资经理</th>
+										<th>评审负责人</th>
+										<th>法律负责人</th>
+										<th>表决时间</th>
+										<!-- <th>评审状态</th> -->
+										</tr>
+										</thead>
+										<tbody>
+										<tr ng-repeat="p in formalAssessmentList">
+											<td>{{$index+1}}</td>
+											<td>
+												<a href="#/NoticeDecisionDraftCompleteDetail/Submit/{{p.BUSINESSID}}/{{'#/NoticeDecisionConfirmList/0'|encodeURI}}">{{p.PROJECTNAME}}</a>
+												<img ng-if="p.ISURGENT==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
+											</td>
+											<td>{{p.PERTAINAREANAME}}</td>
+											<td>{{p.INVESTMENTNAME}}</td>
+											<td>{{p.REVIEWPERSONNAME}}</td>
+											<td>{{p.LEGALREVIEWPERSONNAME}}</td>
+											<td>{{p.DECISIONDATE}}</td>
+											<!-- <td>
+												<div ng-if="'0'== p.WF_STATE">起草中</div>
+												<div ng-if="'1'== p.WF_STATE">审批中</div>
+												<div ng-if="'2'== p.WF_STATE">已审批</div>
+												<div ng-if="'3'== p.WF_STATE">已终止</div>
+											</td> -->
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="table-footer clearfix">
+							<tm-pagination conf="paginationConf"></tm-pagination>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="tab-pane {{tabIndex=='1'?'active':''}}" id="bs-tabdrop-tab2">
+				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+					<div id="report" class="panel-group">
+						<div class="panel">
+							<div class="panel-heading search-box">
+								<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#report" href="/#searchbox2">查询</a>
+							</div>
+							<div id="searchbox2" class="panel-collapse collapse">
+								<div class="panel-body search-body">
+									<div class="form-group row  sm-row">
+										<label class="col-sm-2 col-md-1 control-label sm-col">项目名称</label>
+										<div class="col-sm-4 col-md-2">
+											<input type="text" name="projectName" id="projectName" ng-model="paginationConfes.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
+										</div>
+										<label class="col-sm-2 col-md-1 control-label">所属大区</label>
+										<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="PERTAINAREANAME" id="PERTAINAREANAME" ng-model="paginationConfes.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+										<!-- <label for="" class="col-sm-2 col-md-1 control-label">投资决策意见</label>
+										<div class="col-sm-4 col-md-2 sm-col">
+											<select name="consentToInvestment" id="consentToInvestment" class="form-control" ng-model="paginationConfes.queryObj.consentToInvestment">
+												<option value="">请选择...</option>
+												<option value="1">同意投资</option>
+												<option value="2">不同意投资</option>
+												<option value="3">同意有条件投资</option>
+												<option value="4">择期决议</option>
+											</select>
+										</div>
+										
+										<label for="" class="col-sm-2 col-md-1 control-label">会议日期</label>
+										<div class="col-sm-4 col-md-2 has-feedback sm-col">
+											<input type="text" id="dateOfMeeting2" name="dateOfMeeting" ng-model="paginationConfes.queryObj.dateOfMeeting" class="form-control"/>
+											<i class="fa fa-calendar form-control-feedback"></i>
+										</div>
+									</div> -->
+									<div class="form-group row sm-row">
+										<!-- <label class="col-sm-2 col-md-1 control-label">评审状态</label>
+										<div class="col-sm-4 col-md-2">
+											<select name="WF_STATE" id="WF_STATE" class="form-control" ng-model="paginationConfes.queryObj.wf_state">
+												<option value="">请选择...</option>
+												<option value="0">起草中</option>
+												<option value="1">审批中</option>
+												<option value="2">已审批</option>
+												<option value="3">已终止</option>
+											</select>
+										</div> -->
+										<div class="col-sm-4 col-md-1 search">
+											<button class="btn btn-info" type="button" ng-click="queryConfirmed()"><i class="glyphicon glyphicon-search"></i>查询</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">已确认<i class="i-triangle"></i></span></div></div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="full-drop inline-div">
+									<div  id="addModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h4 class="modal-title" id="myModalLabel">已通过项目</h4>
+												</div>
+												<div class="modal-body">
+													<div class="row">
+														<div class="col-md-12" id="porjectName" >
+															<select class="form-control" ng-model="x.UUID">
+																<option ng-repeat="x in pprs" value="{{x.BUSINESS_ID}}">{{x.PROJECT_NAME}}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+													<a href="#/NoticeDecisionDetail/{{x.UUID}}" type="button" class="btn btn-primary btn-confirm" data-dismiss="modal">确定</a>
+												</div>
+			
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row nobottom-mar">
+								<div class="table-responsive table-list">
+									<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+										<thead>
+										<tr>
+<!-- 										<th>选择</th> -->
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>所属大区</th>
+										<th>投资经理</th>
+										<th>评审负责人</th>
+										<th>法律负责人</th>
+										<th>确认时间</th>
+										<!-- <th>评审状态</th> -->
+										</tr>
+										</thead>
+										<tbody>
+										<tr ng-repeat="p in formalAssessmentListed">
+										<!-- 	<td>
+												<label class="checkbox-inline">
+													<input type="checkbox" name="checkbox" class="px" ng-if="p.WF_STATE=='0'||p.WF_STATE=='3'" value="{{p.BUSINESSID}}"/>
+													<span class="lbl">&nbsp;</span>
+												</label>
+											</td> -->
+											<td>{{$index+1}}
+											</td>
+											<td>
+												<a href="#/NoticeDecisionConfirmDetailView/1/{{p.BUSINESSID}}/{{'#/NoticeDecisionConfirmList/1'|encodeURI}}">{{p.PROJECTNAME}}</a>
+												<img ng-if="p.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
+											</td>
+											<td>{{p.PERTAINAREANAME}}</td>
+											<td>{{p.INVESTMENTNAME}}</td>
+											<td>{{p.REVIEWPERSONNAME}}</td>
+											<td>{{p.LEGALREVIEWPERSONNAME}}</td>
+											<td>{{p.NOTICE_CONFIRM_TIME | date:'yyyy-MM-dd'}}</td>
+											<!-- <td>
+												<div ng-if="'0'== p.WF_STATE">起草中</div>
+												<div ng-if="'1'== p.WF_STATE">审批中</div>
+												<div ng-if="'2'== p.WF_STATE">已审批</div>
+												<div ng-if="'3'== p.WF_STATE">已终止</div>
+											</td> -->
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="table-footer clearfix">
+							<tm-pagination conf="paginationConfes"></tm-pagination>
+						</div>
+					</div>
+				</form>			
+			
+			</div>
+		</div>
+</div>
+<script>
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#dateOfMeeting').datepicker(options);
+		$('#dateOfMeeting2').datepicker(options);
+		$("#porjectName select").select2({ placeholder: '项目名称' });
+	});
+</script>

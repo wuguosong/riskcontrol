@@ -1,0 +1,31 @@
+
+<div class="panel-body">
+    <div class="panel">
+        <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">调用时间<i class="i-triangle"></i></span></div></div>
+        <div class="panel-body special-form">
+            {{l.ACCESSTIME}}
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">日志类型<i class="i-triangle"></i></span></div></div>
+        <div class="panel-body special-form">
+            <span ng-if="'1'==l.TYPE">业务</span>
+            <span ng-if="'2'==l.TYPE">系统错误</span>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">调用异常信息<i class="i-triangle"></i></span></div></div>
+        <div class="panel-body special-form">
+            {{l.CONTENT}}
+        </div>
+    </div>
+    <div class="button-group">
+        <div class="row">
+            <div class="option">
+                <a class="btn btn-info" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-reply"></i>返回</a>
+            </div>
+        </div>
+    </div>
+</div>

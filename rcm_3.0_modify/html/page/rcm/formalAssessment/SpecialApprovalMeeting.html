@@ -1,0 +1,105 @@
+<div class="panel-body">
+	<!--form表单开始-->
+	<form class="form-horizontal" name="myFormPPR" ng-submit="" >
+		<div class="">
+			<div class="header">
+				<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+				<span class="hd-title">投资项目上会特批</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">投资项目上会特批申请单<i class="i-triangle"></i></span></div></div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light txc">
+								<tbody>
+									<tr>
+										<td width="20%">项目名称</td>
+										<td>
+											{{formalReport.projectName}}
+										</td>
+									</tr>
+									<tr>
+										<td>分类</td>
+										<td><textarea name="" ng-model="formalReport.approvedClassification" rows="" cols="" class="form-control"></textarea></td>
+									</tr>
+									<tr>
+										<td>申请原因</td>
+										<td><textarea name="" ng-model="formalReport.approvedReasonsApplication" rows="" cols="" class="form-control"></textarea></td>
+									</tr>
+									<tr>
+										<td>风控意见</td>
+										<td><textarea name="" ng-model="formalReport.approvedWindControlOpinion" rows="" cols="" class="form-control"></textarea></td>
+									</tr>
+									<tr>
+										<td>业务部门总经理意见</td>
+										<td><textarea name=""ng-model="formalReport.approvedGeneralManagerOpinion"  rows="" cols="" class="form-control"></textarea></td>
+									</tr>
+									<tr>
+										<td>业务部门分管副总裁意见</td>
+										<td><textarea name="" ng-model="formalReport.approvedVicePresidentComments" rows="" cols="" class="form-control"></textarea></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">选择相关附件</div>
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover table-light">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>资源名称</th>
+										<th>附件内容</th>
+										<th>编制人</th>
+										<th>审核人</th>
+										<th>创建时间</th>
+										<th>版本号</th>
+									</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="item in pfr.attachment">
+
+									<td>{{$index+1}}</td>
+									<td>{{item.ITEM_NAME}}</td>
+									<td> <a href="javascript:void(0);" ng-click="downLoadFile(item.files[0])">{{item.files[0].fileName}}</a></td>
+									<td>{{item.programmed}}</td>
+									<td>{{item.approved}}</td>
+									<td>{{pfr.create_date}}</td>
+									<td>1.0</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<a href="#/FormalReportList" type="button"  class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+					<button type="button" ng-click="saveReport()" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+					<a href="#/TaskAssignment" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script  type="text/javascript">
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#bs-datepicker-edit').datepicker();
+		$('#tenderTime').datepicker(options);
+		$('#paymentTime').datepicker(options);
+
+		$("#project-type-box select").select2();
+		$("#project-mode-box select").select2();
+   });
+
+</script>

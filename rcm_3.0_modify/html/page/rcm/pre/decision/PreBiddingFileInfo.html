@@ -1,0 +1,208 @@
+<div class="panel-body">
+	<form class="form-horizontal ng-pristine ng-valid" >	
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">提交决策委员会材料</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont"><span class="panel-title">决策委员会材料<i class="i-triangle"></i></span></div>
+				</div>
+				<div class="panel-body">
+					<directive-pre-jcwyh></directive-pre-jcwyh>
+					<div class="row">
+						<div class="row-tit">2.项目重要边界条件</div>
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+							<tbody>
+							<tr>
+								<td class="title-column"><span class="required">*</span>风控中心评审结论</td>
+								<td ><textarea ng-readonly="!hasWaiting"  name="fkPsResult" id="fkPsResult" rows="" cols="" class="form-control" ng-model="preBidding.fkPsResult" auto-height></textarea></td>
+								<td class="title-column"><span class="required">*</span>风控重点风险提示</td>
+								<td ><textarea ng-readonly="!hasWaiting"  name="fkRiskTip" id="fkRiskTip" rows="" cols="" class="form-control" ng-model="preBidding.fkRiskTip" auto-height></textarea></td>
+							</tr>
+							<tr>
+								<td class="title-column">特殊事项说明</td>
+								<td colspan="3">
+									<textarea ng-readonly="!hasWaiting"  class="form-control" rows="" cols="" id="specialNotice" name="specialNotice" 
+									 ng-model="preBidding.policyDecision.specialNotice" auto-height></textarea>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="row-tit">3.投资正式评审报告_风控部门提供</div>
+						<div class="col-sm-10 mb20">
+							<a ng-click="downLoadFormalBiddingInfoFile(preBidding.reviewReport.filePath,preBidding.apply.projectName)" style="cursor: pointer" title="">{{preBidding.apply.projectName}}-正式评审报告.docx</a>
+						</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadReprot($file,$invalidFiles,$index)">替换</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">附件列表</div>
+						<button   type="button" class="btn btn-info" ng-click="addFileList()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+						<button   type="button" class="btn btn-info" ng-click="commonDdelete()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+					</div>
+					<div class="row">
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+								<thead>
+								<tr>
+									<th width="5%">选择</th>
+									<th>上传附件</th>
+									<th width="20%">上会附件</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="item in preBidding.policyDecision.fileList track by $index">
+									<td class="txc">
+										<label class="checkbox-inline">
+											<input type="checkbox" class="px"  ng-model="item.selected">
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td>
+										<div class="col-sm-9 noleft-pad noright-pad">
+											<span ng-bind="progress$index"></span>
+											<span style="">{{errorAttach[$index].msg}}</span>
+											<a  href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
+										</div>
+										<div class="col-sm-3 noright-pad txr">
+											<button  type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
+										</div>
+									</td>
+									
+									<td ng-show = "preBidding.policyDecision != null">
+										<label class="checkbox-inline">
+											<input type="checkbox" name="choosem" ng-disabled="!hasWaiting" 
+											ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.files.filePath)" 
+											class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td ng-show = "preBidding.policyDecision == null">
+										<label class="checkbox-inline">
+											<input type="checkbox" name="choosem" ng-disabled="!hasWaiting"
+											class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="row-tit">4.业务单位上报评审文件-投资部门提供</div>
+						<button  type="button" class="btn btn-info" ng-click="addFileList1()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+						<button  type="button" class="btn btn-info" ng-click="deleteFileList()"><i class="glyphicon glyphicon-plus"></i>删除</button>
+					</div>	
+					<div class="row">
+						<div class="row table-responsive">
+							<table id = "table" class="table table-bordered table-hover datatable table-text-mid table-light">
+								<thead>
+								<tr>
+									<th>选择</th>
+									<th>序号</th>
+									<th>资源名称</th>
+									<th>附件内容</th>
+									<th>文件替换</th>
+									<th>编制人</th>
+									<th>审核人</th>
+									<th>创建时间</th>
+									<th>版本号</th>
+									<th>上会附件</th>
+								</tr>
+								</thead>
+								<tbody  ng-repeat="item in newAttachment track by $index" ng-init="outerIndex = $index">
+								<tr>
+									<td>
+										<label class="checkbox-inline">
+											<input ng-readonly="!hasWaiting"  ng-if="item.newFile" class="px deleteSelect"  type="checkbox"  name="deleteSelect" value="{{outerIndex}}"/>
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td>{{outerIndex+1}}</td>
+									<td>{{item.ITEM_NAME}}
+										<div ng-if="item.newFile">
+											<select  ng-model="item.newItem" class="newItem"  ng-options="y.ITEM_NAME for y in attach " >
+											</select>
+										</div>
+									</td>
+									<td>
+										<span ng-bind="progress$index"></span>
+										<span style="">{{errorMsg[$index].msg}}</span>
+										<a href="javascript:void(0);"  ng-click="downLoadBiddingFile(item)">
+											{{item.fileName}}
+										</a>
+									</td>
+									<td>
+										<div ng-if="!item.newFile" class="">
+											<button type="button"   class="btn btn-info" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">替换</button>
+										</div>
+										<div ng-if="item.newFile" class="">
+											<button type="button"   class="btn btn-info" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">浏览</button>
+										</div>
+									</td>
+									<td>
+										<direct-user-single-select id="{{'bzr_'+$index}}" is-editable="'true'" checked-user="item.programmed" callback = "hello">
+														</direct-user-single-select>
+									</td>
+									<td>
+									<direct-user-single-select id="{{'shr_'+$index}}" is-editable="'true'" checked-user="item.approved">
+														</direct-user-single-select>
+									</td>
+									<td>{{item.upload_date}}</td>
+									<td>{{item.version}}</td>
+									<td ng-if="preBidding.policyDecision != null">
+										<label class="checkbox-inline">
+											<input ng-if="!item.newFile"  ng-disabled="!hasWaiting"
+											ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.filePath)" 
+											 type="checkbox" name="choose" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+											<input ng-if="item.newFile"  ng-disabled="!hasWaiting" ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.filePath)"  
+											type="checkbox" name="choose" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td ng-if="preBidding.policyDecision == null">
+										<label class="checkbox-inline">
+											<input ng-if="!item.newFile"
+											 type="checkbox" name="choose"  ng-disabled="!hasWaiting" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+											<input ng-if="item.newFile"  
+											type="checkbox" name="choose"  ng-disabled="!hasWaiting" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option">
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+					<button type="button" ng-click="saveOnly()" id="saveOnlyBtn" class="btn btn-info">
+						<i class="fa fa-save"></i>
+						保存
+					</button>
+<!-- 					<button ng-click="submitSave()" ng-if="hasWaiting" id="submitSaveBnt" class="btn btn-info"><i class="fa fa-cloud-upload"></i>提交</button> -->
+<!-- 					<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;"> -->
+<!-- 						<approve-pop-win approve="approve"></approve-pop-win> -->
+<!-- 					</div> -->
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+	angular.element(document).ready(function() {
+		$("#fixed-member-box select").select2();
+   });
+</script>

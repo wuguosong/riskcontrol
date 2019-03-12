@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restful</title>
+    <script type="text/javascript" src="/html/assets/javascripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/html/assets/angularjs/angular-1.4.0/angular.js"></script>
+    <link rel="stylesheet" href="/html/assets/stylesheets/bootstrap.css" type="text/css"/>
+    <script type="text/javascript" src="/html/assets/javascripts/bootstrap.js"></script>
+    <script type="text/javascript" src="/html/assets/javascripts/popWindow.js"></script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body data-ng-app="myApp" ng-controller="myCtrl">
+<form id="restfulForm" name="restfulForm" style="margin-left: 40px;margin-top: 20px;">
+    <b>文章标题</b>&nbsp;<input ng-model="article.name" id="name">
+    <b>文章编号</b>&nbsp;<input ng-model="article.code" id="code">
+    <input type="text" ng-model="article.id" id="id" ng-hide="true">
+    <b>文章类别</b>
+    <span ng-repeat="type in types">
+        <input type="radio" ng-model="article.type" value="{{type.code}}" ng-if="$index == 0" ng-checked="true">
+        <input type="radio" ng-model="article.type" value="{{type.code}}" ng-if="$index != 0">{{type.name}}
+    </span>
+    <b>操作</b>&nbsp;
+    <a ng-click="testPost()" href="javascript:void(0);">新增[POST]</a>&nbsp;
+    <a ng-click="testPut()" href="javascript:void(0);">更新[PUT]</a>&nbsp;
+    <a ng-click="testDelete()" href="javascript:void(0);">删除[DELETE]</a>&nbsp;
+    <a ng-click="testGet()" href="javascript:void(0);">获取[GET]</a>&nbsp;<br>
+    <b>
+        <a ng-click="testAlert()" href="javascript:void(0);">测试提示弹窗</a>
+        <a ng-click="testConfirm()" href="javascript:void(0);">测试确认弹窗</a>
+        <a ng-click="testPrompt()" href="javascript:void(0);">测试交互弹窗</a>
+        <a ng-click="testDialog()" href="javascript:void(0);">测试容器弹窗</a>
+    </b>
+</form>
+<script type="text/javascript">
+    var app = angular.module("myApp", []);
+    app.controller('myCtrl', function ($scope, $http) {
+        /**
+         * 信息初始化
+         */
+        $scope.types = [
+            {code: 'exposition', name: '说明文'},
+            {code: 'argumentation', name: '议论文'},
+            {code: 'narration', name: '记叙文'},
+            {code: 'prose', name: '散文'},
+            {code: 'novel', name: '小说'},
+        ];
+        $scope.article = {};
+        $scope.article.id = 10086;
+        /**
+         * 公共请求方法
+         * @param url 请求路径
+         * @param method 请求方式
+         * @param data 携带数据
+         * @param call 回调方法
+         */
+        $scope.commonHttp = function (url, method, data, call) {
+            $http({
+                method: method,
+                url: url,
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                call(data);
+            });
+        }
+        /**
+         * 测试新增POST方式
+         */
+        $scope.testPost = function () {
+            $scope.commonHttp('http://localhost:8080/rcm-rest/articles/article.do', 'POST', {
+                'method': 'POST',
+                'article': JSON.stringify($scope.article)
+            }, function (data) {
+                console.log(data);
+            });
+        }
+        /**
+         * 测试更新PUT方式
+         */
+        $scope.testPut = function () {
+            $scope.commonHttp('http://localhost:8080/rcm-rest/articles/article.do', 'PUT', {
+                'method': 'PUT',
+                'article': JSON.stringify($scope.article)
+            }, function (data) {
+                console.log(data);
+            });
+        }
+        /**
+         * 测试删除DELETE方式
+         */
+        $scope.testDelete = function () {
+            $scope.commonHttp('http://localhost:8080/rcm-rest/articles/article/10086.do?method=DELETE', 'DELETE', {}, function (data) {
+                console.log(data);
+            });
+        }
+        /**
+         * 测试获取GET方式
+         */
+        $scope.testGet = function () {
+            $scope.commonHttp('http://localhost:8080/rcm-rest/articles/article/10086.do?method=GET', 'GET', {}, function (data) {
+                console.log(data);
+            });
+        }
+
+        /**
+         * 测试alert弹窗
+         */
+        $scope.testAlert = function () {
+            $.alert({
+                title: "提示",
+                message: "你现在选择了提示弹窗",
+                btnOk: "确定",
+                btnCancel: "取消"
+            });
+        };
+        /**
+         * 测试confirm弹窗
+         */
+        $scope.testConfirm = function () {
+            $.confirm({
+                title: "确认",
+                message: "你现在选择了确认弹窗",
+                btnOk: "确定",
+                btnCancel: "取消"
+            }, function () {
+                console.log('确认后才显示');
+            });
+        };
+        /**
+         * 测试prompt弹窗
+         */
+        $scope.testPrompt = function () {
+            $.prompt({
+                title: "信息输入",
+                message: "请输入你的年龄",
+                btnOk: "确定",
+                btnCancel: "取消"
+            }, function (value) {
+                console.log('你输的值是:' + value);
+            });
+        };
+        /**
+         * 测试dialog弹窗
+         */
+        $scope.testDialog = function () {
+            $.dialog({
+                title: "Dialog",
+                url: 'test_dialoginner.html',
+            });
+        };
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<div class="mcontent content2 content_3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue text-blue-out'>相关附件</h3>
+    <div class="contentwrap">
+        <div class="row" ng-if="bulletin.fileList != null && bulletin.fileList.length > 0">
+            <div class="mytable">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="info">
+                        <th width="30%">附件名称</th>
+                        <th>附件</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in bulletin.fileList track by $index">
+                        <th scope="row">{{item.file_content}}</th>
+                        <td> <a href="javascript:void(0);" ng-click="downLoadFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" ng-if="bulletin.fileList == null || bulletin.fileList.length <= 0">
+            <h4>暂未上传相关附件</h4>
+        </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var content_3 = $('.content_3').eq(0),
+            content_3_wrap = content_3.children('.contentwrap'),
+            content_3_cover = content_3_wrap.children('.table-cover');
+        setTimeout(function(){
+            if(content_3_wrap.height() < content_3.height() - 52){
+                content_3_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

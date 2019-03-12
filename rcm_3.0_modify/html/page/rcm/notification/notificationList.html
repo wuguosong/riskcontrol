@@ -1,0 +1,116 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">平台公告</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading search-box">
+				<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
+			</div>
+			<div id="searchbox" class="panel-collapse collapse">
+				<div class="panel-body search-body">
+					<div class="form-group row sm-row">
+						<label class="col-sm-2 col-md-1 control-label">主题</label>
+						<div class="col-sm-4 col-md-2 sm-col">
+							<input type="text" name="TOPIC" id="TOPIC"
+								ng-model="paginationConf.queryObj.topic"
+								class="form-control ng-pristine ng-untouched ng-valid" />
+						</div>
+						<label class="col-sm-2 col-md-1 control-label">发布人</label>
+						<div class="col-sm-4 col-md-2 sm-col">
+							<input type="text" name="PUBLISHER_NAME" id="PUBLISHER_NAME"
+								ng-model="paginationConf.queryObj.publisher_name"
+								class="form-control ng-pristine ng-untouched ng-valid" />
+						</div>
+						<label class="col-sm-2 col-md-1 control-label">类型</label>
+						<div class="col-sm-4 col-md-2">
+							<select  name="TYPE" id="TYPE" ng-model="paginationConf.queryObj.type" class="form-control">
+                                   <option value="">--请选择--</option>
+                                   <option ng-repeat="o in notificationsDicCode track by $index"  value="{{o.ITEM_CODE}}">{{o.ITEM_NAME}}</option>
+                              	</select>
+						</div>
+						<div class="col-sm-12 col-md-2 search">
+							<button type="button" class="btn btn-info"
+								ng-click="getNotificationsList()">
+								<i class="glyphicon glyphicon-search"></i>查询
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">平台公告列表<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+            	<div class="form-group row">
+					<div class="txl">
+						<button ng-click="addNotification()" type="button"
+							id="submitBtn" class="btn btn-info" title="">
+							<i class="glyphicon glyphicon-plus"></i>新增公告
+						</button>
+						<button ng-click="modifyNotification()" type="button" id="submitBtn"
+							class="btn btn-info" title="">
+							<i class="glyphicon glyphicon-edit"></i>修改公告
+						</button>
+						<button ng-click="deleteNotifications()" type="button" id="submitBtn"
+							class="btn btn-info" title="">
+							<i class="glyphicon glyphicon-trash"></i>删除公告
+						</button>
+					</div>
+				</div>
+                <div class="">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable first-col-fixed">
+                            <thead>
+								<tr>
+									<th>选择</th>
+									<th>序号</th>
+									<th>主题</th>
+									<th>发布人</th>
+									<th>发布时间</th>
+									<th>类型</th>
+									<th>状态</th>
+									<th>过期时间</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="p in notifications">
+									<td>
+										<label class="checkbox-inline"> <input
+												type="checkbox" name="notifications_checkbox" class="px"
+												value="{{p.ID}}" /> <span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td>{{$index+1}}</td>
+									<td><a
+										href="#/notificationInfoView/View/{{p.ID}}/{{'#/notificationList'|encodeURI}}">
+											{{p.TOPIC}} </a></td>
+									<td>{{p.PUBLISHER_NAME}}</td>
+									<td>
+									<span ng-if="p.PUBDATE == null || p.PUBDATE == ''">尚未发布</span>
+									<span ng-if="p.PUBDATE != null && p.PUBDATE != ''">{{p.PUBDATE}}</span>										
+									</td>
+									<td>
+										{{p.ITEM_NAME}}
+									</td>
+									<td>
+										<span ng-if="p.STAGE == '1'">草稿</span>
+										<span ng-if="p.STAGE == '2'">已发布</span>
+									</td>
+									<td>
+									<span ng-if="p.EXPIRE_DATE == null || p.EXPIRE_DATE == ''">永不过期</span>
+									<span ng-if="p.EXPIRE_DATE != null && p.EXPIRE_DATE != ''">{{p.EXPIRE_DATE.substring(0,10)}}</span>
+									</td>
+								</tr>
+							</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+              <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+    </form>
+</div>

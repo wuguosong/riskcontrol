@@ -1,0 +1,102 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">历史决策会</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading search-box">
+				<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
+			</div>
+			<div id="searchbox" class="panel-collapse collapse">
+				<div class="panel-body search-body">
+					<div class="form-group row sm-row">
+						<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+						<div class="col-sm-4 col-md-3 sm-col"><input type="text" ng-model="paginationConf.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+						<label class="col-sm-1 col-md-1 control-label">会议期次</label>
+						<div class="col-sm-1 col-md-2 sm-col"><input type="text" maxlength="5" ng-model="paginationConf.queryObj.meetingIssue" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+						<label class="col-sm-1 col-md-1 control-label">上会日期</label>
+						<div class="col-sm-1 col-md-2 has-feedback sm-col">
+							<input type="text" id="meetingTime" name="meetingTime" ng-model="paginationConf.queryObj.meetingTime" class="form-control"/>
+							<i class="fa fa-calendar form-control-feedback"></i>
+						</div>
+						<div class="col-sm-1 col-md-2">
+							<div class="col-sm-1 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="executeQueryHistoryDecisionReviewListByPage()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">数据列表<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+                <div class="">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                               	<th>序号</th>
+								<th>项目类型</th>
+								<th>项目名称</th>
+								<th>上会时间</th>
+								<th>会议期次</th>
+<!-- 								<th>表决时间</th> -->
+								<th>表决结果</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="dr in historyDecisionReviewList">
+                                <td>{{$index+1}}</td>
+                                <td>
+									<!--<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{dr.BUSINESS_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
+									<a ng-if="'bulletin' == dr.PROJECT_TYPE" href="#/BulletinReviewDetail/{{dr.BUSINESS_ID}}_0/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>-->
+									<a ng-if="'pre' == dr.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{dr.BUSINESS_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}">{{dr.PROJECT_NAME}}</a>
+									<!--<a ng-if="'pfr' == dr.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{dr.BUSINESS_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) | encodeURI}}/7">{{dr.PROJECT_NAME}}</a>-->
+									<a ng-if="'pfr' == dr.PROJECT_TYPE" ng-click="getInfo(dr.BUSINESS_ID)">{{dr.PROJECT_NAME}}</a>
+									<a ng-if="'bulletin' == dr.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{dr.BUSINESS_ID}}_0/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}/7">{{dr.PROJECT_NAME}}</a>
+								</td>
+								<td>
+                                	<font ng-if="'pfr' == dr.PROJECT_TYPE">正式评审</font>
+									<font ng-if="'bulletin' == dr.PROJECT_TYPE">其他评审</font>
+									<font ng-if="'pre' == dr.PROJECT_TYPE">投标评审</font>
+                                </td>
+                                <td>{{dr.MEETING_TIME | limitTo:10}}</td>
+                                <td>{{dr.MEETING_ISSUE}}</td>
+<!-- 								<td>{{dr.DECISION_DATE}}</td> -->
+								<td>
+									<font ng-if="0 == dr.VOTE_STATUS || 0 == dr.DECISION_RESULT">未表决</font>
+									<a ng-if="0 != dr.VOTE_STATUS" href="#/MeetingVoteResult/{{dr.DECISION_ID}}/{{('#/historyDecisionReviewList/'+oldUrl) |encodeURI}}">
+									<span ng-if="1 == dr.DECISION_RESULT">同意</span>
+									<span ng-if="2 == dr.DECISION_RESULT">不同意</span>
+									<span ng-if="3 == dr.DECISION_RESULT">有条件同意</span>
+									<span ng-if="4 == dr.DECISION_RESULT">择期决议</span>
+									</a>
+								</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+              <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+            	<div class="option">
+            		<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+            	</div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#meetingTime').datepicker(options);
+    });
+</script>

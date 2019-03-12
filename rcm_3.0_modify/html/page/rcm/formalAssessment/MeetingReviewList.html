@@ -1,0 +1,214 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">决策会审阅</span>
+	</div>
+	<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div id="meetingAnnou" class="panel-group">
+			<div class="panel">
+				<div class="panel-heading search-box">
+					<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingAnnou" href="/#searchbox1">查询</a>
+				</div>
+				<div id="searchbox1" class="panel-collapse collapse">
+					<div class="panel-body search-body">
+						<div class="form-group row sm-row">
+							<input type="hidden" ng-model="conf.user_id">
+							<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+							<div class="col-sm-4 col-md-2 sm-col">
+								<input type="text" id="projectName1" name="" ng-model="projectName1" class="form-control" />
+							</div>
+							<label for="" class="col-sm-2 col-md-1 control-label">项目类型</label>
+							<div class="col-sm-4 col-md-2 has-feedback sm-col">
+								<!-- <input type="text" id="projectType1" name="projectType1" ng-model="projectType1" class="form-control"/> -->
+								<select name="projectType1" ng-model="projectType1" 
+									id="projectType1" class="form-control" ng-options="item.ITEM_NAME as item.ITEM_NAME for item in projectType">
+									<option value=''>-- 请选择 --</option>
+								</select>
+							</div>
+							<label class="col-sm-2 col-md-1 control-label">所属大区</label>
+							<div class="col-sm-4 col-md-2">
+								<input type="text" id="reportingUnit1" name="" ng-model="reportingUnit1" class="form-control" />
+							</div>
+							<label class="col-sm-2 col-md-1 control-label">所属大区</label>
+							<div class="col-sm-4 col-md-2">
+								<input type="text" id="" name="" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group row sm-row">
+							<label class="col-sm-2 col-md-1 control-label">项目规模</label>
+							<div class="col-sm-4 col-md-2">
+								<input type="text" id="projectSizelt" name="" ng-model="projectSizelt" class="form-control" />
+							</div>
+							<label class="col-sm-2 col-md-1 control-label">至</label>
+							<div class="col-sm-4 col-md-2">
+								<input type="text" id="projectSizegt" name="" ng-model="projectSizegt" class="form-control" />
+							</div>
+							<!-- <label class="col-sm-2 col-md-1 control-label">&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-12 col-md-12 search">
+								<button class="btn btn-info" type="button" ng-click="myClickMethod()"><i class="glyphicon glyphicon-search"></i>查询</button>
+								<button class="btn btn-info" type="button" ng-click="clearSelector()" ><i class="glyphicon glyphicon-remove"></i>清除</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-review">
+			<ul id="myTab" class="nav nav-tabs bs-tabdrop-example">
+				<li><a href="/#bs-tabdrop-tab1" data-toggle="tab">待决策</a></li>
+				<li><a href="/#bs-tabdrop-tab2" data-toggle="tab">已决策</a></li>
+			</ul>
+			<div class="tab-content tab-content-bordered">
+				<div class="tab-pane active" id="bs-tabdrop-tab1">
+					<div class="panel-body">
+						<div class="row">
+							<!--<div class="col-sm-2 noleft-pad noright-pad"><button type="button" ng-click="importtwo()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>导出</button></div>-->
+							<div class="col-sm-12 decision-total">
+								<span class="total-tit">今年已决策项目规模总和：</span>
+								<span class="total-account">{{projectSizeTotal1}} 万吨</span>
+								<span class="total-tit">今年已决策项目投资金额总和：</span>
+								<span class="total-account">{{investmentAmountTotal1}} {{isYiyuan1?'亿元':'万元'}}</span>
+								<span class="total-tit">今年已决策环卫项目：</span>
+								<span class="total-account">{{huanweiNum1}} 个</span>
+							</div>
+						</div>
+						<div class="row nobottom-mar">
+							<div class="table-responsive table-list">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+									<thead>
+									<tr>
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>项目类型</th>
+										<th>项目大区</th>
+										<th>项目规模(万吨)<i class="icofunc fa fa-caret-up" id="tgasc" ng-click="ordertwo('g','1')"></i><i class="icofunc cur fa fa-caret-down" id="tgdesc" ng-click="ordertwo('g','-1')"></i></th>
+										<th>投资金额(万元)<i class="icofunc fa fa-caret-up" id="tjasc" ng-click="ordertwo('j','1')"></i><i class="icofunc cur fa fa-caret-down" id="tjdesc" ng-click="ordertwo('j','-1')"></i></th>
+										<th>业务类型</th>
+										<th>所属大区</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="m in meetingcall">
+										<td>{{$index+1}}</td>
+										<td>
+											<a href="#/FormalBiddingInfoReview/{{m._id}}/0" title="">{{m.projectName}}</a>
+											<img ng-if="m.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
+											<img src="assets/images/icons/tick.png" ng-if="jsonStringify(m.decisionOpinionList).indexOf(credentials.UUID)>0" width="16" height="16" alt="" title="" class="tick"/>
+										</td>
+										<td>{{m.formalInfo.apply.pertainArea.VALUE}}
+										<td>{{m.formalInfo.apply.pertainArea.VALUE}}
+										<td>{{m.policyDecision.projectSize}}</td>
+										<td>{{m.policyDecision.investmentAmount}}</td>
+										<td>{{m.policyDecision.projectType.ITEM_NAME}}</td>
+										<td>{{m.reportingUnit}}</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+<!-- 						<tm-paginationes confes="paginationConfes"></tm-paginationes> -->
+						<tm-pagination conf="paginationConfes"></tm-pagination>
+					</div>
+				</div>
+				<div class="tab-pane" id="bs-tabdrop-tab2">
+					<!--<div id="meetingApplication" class="panel-group">
+						<div class="panel">
+							<div class="panel-heading search-box">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
+							</div>
+							<div id="searchbox" class="panel-collapse in">
+								<div class="panel-body search-body">
+									<div class="form-group row sm-row">
+										<input type="hidden" ng-model="conf.user_id">
+										<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+										<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="projectName" name="" ng-model="projectName" class="form-control" /></div>
+										<label for="" class="col-sm-2 col-md-1 control-label">项目类型</label>
+										<div class="col-sm-4 col-md-2 has-feedback sm-col">
+											<input type="text" id="projectType" name="projectType" ng-model="projectType" class="form-control"/>
+										</div>
+										<label class="col-sm-2 col-md-1 control-label">所属大区</label>
+										<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="reportingUnit" name="" ng-model="reportingUnit" class="form-control" /></div>
+										<div class="col-sm-12 col-md-2 search">
+											<button class="btn btn-info" type="button" ng-click="ListAll()"><i class="glyphicon glyphicon-search"></i>查询</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>-->
+					<div class="panel-body">
+						<div class="row">
+							<!--<div class="col-sm-2 noleft-pad noright-pad"><button  type="button" ng-click="import()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>导出</button></div>-->
+							<div class="col-sm-12 decision-total">
+								<span class="total-tit">今年已决策项目规模总和：</span>
+								<span class="total-account">{{projectSizeTotal}} 万吨</span>
+								<span class="total-tit">今年已决策项目投资金额总和：</span>
+								<span class="total-account">{{investmentAmountTotal}} {{isYiyuan?'亿元':'万元'}}</span>
+								<span class="total-tit">今年已决策环卫项目：</span>
+								<span class="total-account">{{huanweiNum}} 个</span>
+							</div>
+						</div>
+						<div class="row nobottom-mar">
+							<div class="table-responsive table-list">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+									<thead>
+									<tr>
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>所属大区</th>
+										<th>项目规模(万吨)<i class="icofunc fa fa-caret-up" id="gasc" ng-click="order('g','1')"></i><i class="icofunc cur fa fa-caret-down" id="gdesc" ng-click="order('g','-1')"></i></th>
+										<th>投资金额(万元)<i class="icofunc fa fa-caret-up" id="jasc" ng-click="order('j','1')"></i><i class="icofunc cur fa fa-caret-down" id="jdesc" ng-click="order('j','-1')"></i></th>
+										<th>项目类型</th>
+										<th>所属大区</th>
+										<th>上报评审时间</th>
+										<!-- 										<th>是否紧急上会</th> -->
+										<th>项目评级</th>
+										<th>提交日期<i class="icofunc fa fa-caret-up" id="tasc" ng-click="order('t','1')"></i><i class="icofunc cur fa fa-caret-down" id="tdesc" ng-click="order('t','-1')"></i></th>
+										<th>上会日期</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="m in pfrReport">
+										<td>{{$index+1}}</td>
+										<td>
+											<a href="#/FormalBiddingInfoReview/{{m._id}}/0" title="">
+											{{m.projectName}}
+											</a>
+											<img ng-if="m.isUrgent=='1'" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
+										</td>
+										<td>{{m.formalInfo.apply.pertainArea.VALUE}}</td>
+										<td>{{m.policyDecision.projectSize}}</td>
+										<td>{{m.policyDecision.investmentAmount}}</td>
+										<td>{{m.policyDecision.projectType.ITEM_NAME}}</td>
+										<td>{{m.reportingUnit}}</td>
+										<td>{{m.policyDecision.submitDate}}</td>
+										<td>{{m.projectRating.name}}</td>
+										<td>{{m.policyDecision.submitDate}}</td>
+										<td>{{m.meetingTime==null?'无需上会':m.meetingTime}}</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#meetingTime').datepicker(options);
+	});
+</script>

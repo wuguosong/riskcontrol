@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Sign In - PixelAdmin</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+	<!-- Open Sans font from Google CDN -->
+	<!--<link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">-->
+
+	<!-- Pixel Admin's stylesheets -->
+	<link href="assets/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/pages.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/rtl.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/themes.min.css" rel="stylesheet" type="text/css">
+
+	<!--[if lt IE 9]>
+	<script src="assets/javascripts/ie.min.js"></script>
+	<![endif]-->
+
+
+	<script type="text/javascript" src="assets/javascripts/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="assets/javascripts/jquery.cookie.js"></script>
+	<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular.js"></script>
+	<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-cookies.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+	<script src="assets/javascripts/popWindow.js"></script>
+
+<body class="theme-default page-signin">
+
+<script>
+	var init = [];
+
+	var app = angular.module("applogin", ['ngCookies']);
+	app.config(function($httpProvider) {
+		$httpProvider.defaults.headers.post = {"Content-Type":"application/x-www-form-urlencoded"};
+	});
+	app.controller("ctrlLogin", ['$http','$scope','$location','$cookies',function ($http,$scope,$location,$cookies) {
+
+		$scope.myTxt = "你还没有点击提交!";
+
+		$scope.credentials = {
+			userID: '',
+			password: ''
+		};
+
+		//登录服务端验班上
+		$scope.doLogin = function () {
+
+		   //服务端验证登录是否
+			var aUrl=srvUrl+"fnd/User/Create";
+			$http.post(aUrl, $scope.user)
+					.success(
+							function (data, status, headers, config) {
+								//$scope.users = data.result_data;
+								alert(data.result_name);
+								self.location = "UserList.html";
+
+							}
+					).error(function (data, status, headers, config) {
+				alert(status);
+
+			});
+		};
+
+		//登录
+		$scope.login=function() {
+			$http({
+      			method:'POST',  
+      		    url: srvUrl + "user/getAUser.do",
+      		    data:$.param({"json":JSON.stringify($scope.credentials)})
+      		}).success(function(data){
+            	if(data.success){
+   					$cookies.put('credentials', JSON.stringify(data.result_data));
+
+   					var Days = 1/24;
+   					var exp = new Date();
+   					exp.setTime(exp.getTime() + Days*24*60*60*1000);
+   					$cookies.put('loged', 'true',{'expires':exp.toGMTString()});
+   					//进入首页
+   					window.location.href="index.html";
+            	}else{
+            		$.alert(data.result_name);
+            	}
+            });
+		}
+
+
+//		$scope.login=function() {
+//			$cookies.put('credentials', JSON.stringify($scope.credentials));
+//
+//
+//			var Days = 1 / 24;
+//			var exp = new Date();
+//			exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+//			$cookies.put('loged', 'true', {'expires': exp.toGMTString()});
+//			//进入首页
+//			window.location.href = "index.html";
+//		}
+
+
+
+
+	}]);
+
+
+</script>
+
+<!-- Container -->
+<div class="signin-container">
+
+	<!-- Left side -->
+	<div class="signin-info">
+		<a href="index.html" class="logo">
+			<img src="assets/demo/logo-big.png" alt="" style="margin-top: -5px;">&nbsp;
+			风险管控系统
+		</a> <!-- / .logo -->
+		<div class="slogan">
+			简单. 灵活. 强大.
+		</div> <!-- / .slogan -->
+		<ul>
+			<li><i class="fa fa-sitemap signin-icon"></i> 灵活的微服务架构</li>
+			<li><i class="fa fa-file-text-o signin-icon"></i> 支持多种业务类型</li>
+			<li><i class="fa fa-outdent signin-icon"></i> 与Office系统集成</li>
+			<li><i class="fa fa-heart signin-icon"></i> 强大的流程引擎</li>
+		</ul> <!-- / Info list -->
+	</div>
+	<!-- / Left side -->
+
+	<!-- Right side -->
+	<div class="signin-form" ng-app="applogin" ng-controller="ctrlLogin">
+
+		<!-- Form -->
+		<form ng-submit="login()" id="signin-form_id">
+			<div class="signin-text">
+				<span>登录风险管控信息化管理系统</span>
+			</div> <!-- / .signin-text -->
+
+			<div class="form-group w-icon">
+				<input type="text" name="signin_username" id="username_id" class="form-control input-lg" placeholder="用户名/邮箱/手机" ng-model="credentials.userID">
+				<span class="fa fa-user signin-form-icon"></span>
+			</div> <!-- / Username -->
+
+			<div class="form-group w-icon">
+				<input type="password" name="signin_password" id="password_id" class="form-control input-lg" ng-model="credentials.password" placeholder="密码">
+				<span class="fa fa-lock signin-form-icon"></span>
+			</div> <!-- / Password -->
+
+			<div class="form-actions">
+				<input type="submit" value="登录" class="signin-btn bg-primary">
+				<a href="#" class="forgot-password" id="forgot-password-link">忘记密码?</a>
+			</div> <!-- / .form-actions -->
+		</form>
+		<!-- / Form -->
+
+		<!-- "Sign In with" block -->
+	<!--	<div class="signin-with">
+			&lt;!&ndash; Facebook &ndash;&gt;
+			<a href="index.html" class="signin-with-btn" style="background:#4f6faa;background:rgba(79, 111, 170, .8);">登录用<span>微信</span></a>
+		</div>-->
+		<!-- / "Sign In with" block -->
+
+		<!-- Password reset form -->
+		<div class="password-reset-form" id="password-reset-form">
+			<div class="header">
+				<div class="signin-text">
+					<span>密码重置</span>
+					<div class="close">&times;</div>
+				</div> <!-- / .signin-text -->
+			</div> <!-- / .header -->
+
+			<!-- Form -->
+			<form action="index.html" id="password-reset-form_id">
+				<div class="form-group w-icon">
+					<input type="text" name="password_reset_email" id="p_email_id" class="form-control input-lg" placeholder="输入你的EMail">
+					<span class="fa fa-envelope signin-form-icon"></span>
+				</div> <!-- / Email -->
+
+				<div class="form-actions">
+					<input type="submit" value="发送密码重置链接" class="signin-btn bg-primary">
+				</div> <!-- / .form-actions -->
+			</form>
+			<!-- / Form -->
+		</div>
+		<!-- / Password reset form -->
+	</div>
+	<!-- Right side -->
+</div>
+<!-- / Container -->
+
+<div class="not-a-member">
+	没有用户名? <a href="signup.html">现在注册</a>
+</div>
+
+<!-- Get jQuery from Google CDN -->
+<!--[if !IE]> -->
+<script type="text/javascript"> window.jQuery || document.write('<script src="assets/javascripts/jquery-1.8.3.min.js">'+"<"+"/script>"); </script>
+<!-- <![endif]-->
+<!--[if lte IE 9]>
+<script type="text/javascript"> window.jQuery || document.write('<script src="assets/javascripts/jquery-1.8.3.min.js">'+"<"+"/script>"); </script>
+<![endif]-->
+
+
+<!-- Pixel Admin's javascripts -->
+<script src="assets/javascripts/bootstrap.min.js"></script>
+<script src="assets/javascripts/pixel-admin.min.js"></script>
+
+
+
+
+</body>
+</html>

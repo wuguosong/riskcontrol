@@ -1,0 +1,107 @@
+<div>
+    <div  data-toggle="modal" data-target="#commonUser-modal"  class="select2-success">
+        <div  class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+            <ul class="select2-choices">
+
+                <li class="select2-search-choice" ng-repeat="t in param track by $index">
+                    <div>  {{t.name}} </div>
+                    <a class="select2-search-choice-close" tabindex="-1" ng-click="deleteObjectForWeb($event,t)" ></a>
+                </li>
+                <li class="select2-search-field" ng-if="null==param || undefined==param || 0==param.length">
+                    <div class="full-drop">
+                        <input class="select2-input" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" placeholder="区域团队负责人">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <input type="hidden" id="userName" name="userName" ng-model="param.name"  class="form-control" value="{{param}}" />
+
+     <div  id="commonUser-modal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog selection-pop">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">人员选择(多选)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="wrap-menu" >
+                        <div class="menu-hd"><h3 class="title">组织列表</h3></div>
+                        <div id="directiveDtreeID">
+                            <div id="treeID5" class="ztree"></div>
+                        </div>
+                    </div>
+
+                    <div class="wrap-info">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label noleft-pad txl">已选负责人</label>
+                                    <div class="col-sm-10 noleft-pad noright-pad">
+                                        <div id="selectedName">
+                                            <div class="select2-success">
+                                                <div id="s2id_projectModel" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                                                    <ul class="select2-choices" >
+                                                        <li class="select2-search-choice" ng-repeat="t in selectedNameValue track by $index">
+                                                            <div>  {{t.name}} </div>
+                                                            <a class="select2-search-choice-close" tabindex="-1" ng-click="deleteObject(t.name,t.value)" ></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                <form name="formDirectivve"  class="form-horizontal ng-pristine ng-valid" novalidate>
+                                    <input type="hidden"  name="ORGID" id="ORGID" ng-model="queryObj.ORGID"/>
+                                    <input type="hidden"  ng-model="queryObj.categoryCode"/>
+                                    <div class="search-input has-feedback">
+                                        <input type="text" name="name" ng-model="queryObj.NAME" class="in-t form-control" placeholder="请输入负责人姓名" />
+                                        <button class="fa fa-search form-control-feedback" style="background-color:transparent;border: 0;" ng-click="queryUserList()"></button>
+                                    </div>
+                                </form>
+                                </div>
+                                <div class="row"></div>
+                                <div class="panel nobottom-mar">
+                                    <div class="panel-body">
+                                        <div class="form-group row table-list">
+                                            <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable pop-first-col-fixed">
+                                                <thead>
+                                                <tr>
+                                                    <th>选择</th>
+                                                    <th>登录名</th>
+                                                    <th>姓名<i class="icofunc fa fa-caret-up"></i><i class="icofunc cur fa fa-caret-down"></i></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="userListTbody">
+                                                <tr ng-repeat="u in sysUserList">
+                                                    <td>
+                                                        <label class="checkbox-inline">
+                                                            <input class="px" type="checkbox" id="{{u.UUID}}" name="{{u.NAME}}" ng-checked="isSelected(u.UUID)" ng-click="updateSelection($event,u.UUID)"/>
+                                                            <span class="lbl">&nbsp;</span>
+                                                        </label>
+                                                        <input type="hidden" value="{{u.NAME}}">
+                                                    </td>
+                                                    <td>{{u.ACCOUNT}}</td>
+                                                    <td>{{u.NAME}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="table-footer clearfix">
+                                        <tm-pagination conf="paginationConf"></tm-pagination>
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="resetUserList()" data-dismiss="modal">取消</button>
+                    <button type="button" ng-click="saveUserListforDiretive()" class="btn btn-primary" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

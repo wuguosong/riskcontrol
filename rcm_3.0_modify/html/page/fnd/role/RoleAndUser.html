@@ -1,0 +1,82 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">角色用户列表</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div class="panel">
+			<div class="panel-heading search-box">
+				<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
+			</div>
+			<div id="searchbox" class="panel-collapse collapse">
+				<div class="panel-body search-body">
+					<div class="form-group row sm-row">
+						<label class="col-sm-2 col-md-1 control-label">姓名</label>
+						<div class="col-sm-4 col-md-3 sm-col"><input type="text" ng-model="paginationConf.queryObj.name" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+						<div class="col-sm-2 col-md-4">
+							<div class="col-sm-2 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="execRoleUserListByPage()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">角色用户列表<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+            	<div class="form-group row">
+                    <div class="txl">
+                    	<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                        <button  type="button" data-toggle="modal" data-target="#roleUserMulti" class="btn btn-info"><i class="glyphicon glyphicon-ok-circle"></i>添加</button>
+                        <button  type="button" ng-click="removeRoleUser()" class="btn btn-info"><i class="glyphicon glyphicon-ok-circle"></i>删除</button>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                               <th>选择</th>
+                               <th>序号</th>
+                               <th>登录名</th>
+                               <th>姓名</th>
+                               <th>组织/部门</th>
+                               <th>联系电话</th>
+                               <th>Email地址</th>
+<!--                                <th>岗位</th> -->
+                               <th>状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            	<tr ng-repeat="u in userList">
+                                    <td>
+                                        <input type="hidden" value="{{$index}}">
+                                        <label class="checkbox-inline">
+                                            <input class="px" type="checkbox" name="checkbox" class="ng-pristine ng-untouched ng-valid" value="{{u.USER_ROLE_ID}}"/>
+                                            <span class="lbl">&nbsp;</span>
+                                        </label>
+                                    </td>
+                                    <td>{{$index+1}}</td>
+                                    <td>{{u.ACCOUNT}}</td>
+                                    <td>{{u.NAME}}</td>
+                                    <td>{{u.ORGNAME}}</td>
+                                    <td>{{u.CONTACT1}}</td>
+                                    <td>{{u.EMAIL}}</td>
+<!--                                     <td>{{u.POSITIONNAME}}</td> -->
+                                    <td><div ng-if="'2'== u.STATE"><span class="status-y">启用</span></div>
+                                        <div ng-if="'3'== u.STATE"><span class="status-n">禁用</span></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+                <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="roleUserMulti" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-multi-dialog id="{{'roleUserMultiDialog'}}" title="{{'用户列表'}}" url="{{'role/queryRoleAddUserByPage.do'}}" mapped-key-value="mappedKeyValue" query-params="queryParams" checked-users="checkedUsers" callback="addRoleUser"></direct-user-multi-dialog>
+</div>

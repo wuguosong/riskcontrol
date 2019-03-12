@@ -1,0 +1,116 @@
+<div class="panel-body">
+	<div class="header detail-page">
+		<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">决策委员会材料</span>
+	</div>
+	<div class="panel">
+		<div class="panel-heading">
+			<div class="panel-hd-cont"><span class="panel-title">决策委员会材料<i class="i-triangle"></i></span></div>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal ng-pristine ng-valid" >		
+				<div class="row">
+					<div class="row-tit">1.投资预评审报告</div>
+					<div class="col-sm-10">
+						<a ng-click="downLoadFileReport(ppr.filePath,ppr.apply.projectName)" style="cursor: pointer" title="">{{ppr.apply.projectName}}-预评审报告.doc</a>
+
+					</div>
+				</div>
+				<div class="row">
+					<div class="row-tit">2.审核意见汇总表</div>
+					<div class="table-light">
+						<div class="table-header">
+							<div class="table-caption">投标项目预评审意见汇总表</div>
+						</div>
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+								<tbody>
+									<tr>
+										<td class="title-column">所属大区</td>
+										<td>{{ppr.apply.reportingUnit.name}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">单位负责人</td>
+										<td>{{ppr.apply.companyHeader.name}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">投资经理</td>
+										<td>{{ppr.apply.investmentManager.name}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">项目名称</td>
+										<td>{{ppr.apply.projectName}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">竞争对手</td>
+										<td>{{ppr.apply.competitor}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">拟投标时间</td>
+										<td>{{ppr.apply.tenderTime}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">投标上线的收益率</td>
+										<td style="text-align:start;">{{ppr.profitInvestment}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">一级单位审核意见</td>
+										<td style="text-align: left">{{yjdw}}</td>
+									</tr>
+									<tr>
+										<td class="title-column">投资评审小组审核意见</td>
+										<td><div  ng-repeat="gd in gdcy">{{gd.USERNAME}} : {{gd.OPINION}}</div> </td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="row-tit">3.相关附件</div>
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover table-light">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>资源名称</th>
+										<th>附件内容</th>
+										<th>编制人</th>
+										<th>审核人</th>
+										<th>创建时间</th>
+										<th>版本号</th>
+									</tr>
+								</thead>
+								<tbody >
+								<tr ng-repeat="item in ppr.decisionMakingCommitteeStaffFiles " >
+									<td>{{$index+1}}</td>
+									<td>{{item.ITEM_NAME}}</td>
+									<td> <a href="javascript:void(0);" ng-click="downLoadFile(item)">{{item.fileName}}</a> </td>
+									<td>{{item.programmed}}</td>
+									<td>{{item.approved}}</td>
+									<td>{{item.upload_date}}</td>
+									<td>{{item.version}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					<!--<div class="table-footer clearfix">-->
+						<!--<tm-pagination conf="paginationConf"></tm-pagination>-->
+					<!--</div>-->
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="button-group">
+		<div class="row">
+			<div class="option">
+				<a class="btn btn-info" href="#/ReviewList"><i class="fa fa-reply"></i>返回</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	angular.element(document).ready(function() {
+		$("#fixed-member-box select").select2();
+   });
+</script>

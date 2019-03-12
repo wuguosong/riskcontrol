@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="row-tit">1.项目过程回顾</div>
+        <fieldset disabled="disabled">
+            <div class="table-responsive">
+                <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                    <tbody>
+                    <tr>
+                        <td colspan="2" class="title-column">项目名称</td>
+                        <td colspan="2">{{pfr.apply.projectName}}
+                            <img ng-if="meetInfo.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title-column">提交申请时间</td>
+                        <!-- <td>{{pfr.taskallocation.dataCompleteTime}}</td> -->
+                        <td>{{applyDate}}</td>
+                        <td class="title-column">评审报告出具时间</td>
+                        <td>{{formalReport.submit_date}}</td>
+                    </tr>
+                    <tr>
+                        <td class="title-column">所属大区</td>
+                        <td ng-if="pfr.apply.pertainArea.VALUE!=null">{{pfr.apply.pertainArea.VALUE}}</td>
+                        <td ng-if="pfr.apply.pertainArea==null||pfr.apply.pertainArea.VALUE==null">{{pfr.apply.reportingUnit.VALUE}}</td>
+                        <td class="title-column">投资经理</td>
+                        <td>{{pfr.apply.investmentManager.NAME}}</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="title-column">投资中心/水环境投资中心意见</td>
+                        <td colspan="3"><span class="font-w">投资测算意见：</span><div>{{pfr.cesuanFileOpinion}}</div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><span class="font-w">投资协议意见：</span><div>{{pfr.tzProtocolOpinion}}</div></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3" class="title-column">风控中心审批意见</td>
+                        <!-- <td colspan="3"><span class="font-w">风控中心评审结论：</span><div>{{formalReport.fkPsResult}}</div></td> -->
+                    </tr>
+                    <!-- <tr>
+                        <td colspan="3"><span class="font-w">风控重点风险提示：</span><div>{{formalReport.fkRiskTip}}</div></td>
+                    </tr> -->
+                    <tr>
+                        <td colspan="3">
+                            <div class="col-sm-6 noleft-pad"><span class="font-w">风控中心审批次数：{{pfr.approveAttachment.commentsList.length}}</span></div>
+                            <div class="col-sm-6 noright-pad"><span class="font-w">风控中心法律评审意见条数：{{pfr.approveLegalAttachment.commentsList.length}}</span></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <div class="row-tit">2.项目评级</div>
+    <fieldset disabled="disabled">
+        <div class="table-responsive">
+            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                <tbody>
+                    <tr>
+                        <td class="title-column">评审负责人</td>
+                        <td>{{pfr.taskallocation.reviewLeader.NAME}}</td>
+                        <td class="title-column">法律负责人</td>
+                        <td>{{pfr.taskallocation.legalReviewLeader.NAME}}</td>
+                    </tr>
+                    <tr>
+                        <td class="title-column">评审难度评级</td>
+                        <td>{{meetInfo.projectRating.name}}</td>
+                        <td class="title-column"><span class="required">*</span>是否紧急上会</td>
+                        <td>
+                            <div class="col-sm-12">
+                                <label class="radio radio-inline">
+                                    <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px" ng-checked="true"/><span class="lbl">否</span>
+                                </label>
+                                <label class="radio radio-inline">
+                                    <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="1" class="px"/><span class="lbl">是</span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title-column">评级理由</td>
+                        <td colspan="3">
+                            <div class="row tr-max">
+                                <textarea readonly="readonly" name=""  rows="" cols="" class="form-control" auto-height>{{meetInfo.ratingReason}}</textarea>
+                            </div>
+                            <div class="row nobottom-mar">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType1" name="projectType" value="1"/>
+                                    <span class="lbl">项目简单</span>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType2" name="projectType" value="2"/>
+                                    <span class="lbl">风险较低</span>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType3" name="projectType" value="2"/>
+                                    <span class="lbl">收益较好</span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title-column">投资建议</td>
+                        <td colspan="3">
+                            XXXXXXXXXXXX
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</div>

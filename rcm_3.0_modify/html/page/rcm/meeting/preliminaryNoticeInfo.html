@@ -1,0 +1,98 @@
+<div class="panel-body">
+	<form id="Notification" class="form-horizontal" name="Notification">
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt=""
+					title="" /><span class="hd-title">拟上会通知</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont">
+						<span class="panel-title">{{title}}<i class="i-triangle"></i></span>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="special-form">
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required">*</span>主题</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" ng-model="noticeInfo.TITLE"/>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required">*</span>会议地址</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" ng-model="noticeInfo.CONTENT"/>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required">*</span>发布时间</label>
+							<div class="col-sm-4 has-feedback">
+								<input type="text" id="releaseTime" class="form-control" ng-model="noticeInfo.RELEASE_TIME" value="{{noticeInfo.RELEASE_TIME | limitTo:10}}"/>
+								<i class="fa fa-calendar form-control-feedback"></i>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required">*</span>项目详情</label>
+							<div class="col-sm-1 has-feedback">
+								<button class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadAttachmentFile($file,$invalidFiles, $index,$event)">浏览</button>
+							</div>
+							<div class="col-sm-9 has-feedback">
+								<a href="javascript:void(0);" ng-click="downLoadFile(noticeInfo.ATTACHMENT_OBJECT)" style="line-height: 27px;">{{noticeInfo.ATTACHMENT_OBJECT.fileName}}</a>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label"><span class="required">*</span>决策会委员</label>
+							<div class="col-sm-10 has-feedback">
+								<direct-fzr-single-select id="{{'noticeWyUser'}}" is-multi-select="{{'true'}}" checked-user="noticeInfo.noticeWyUser"
+										mapped-key-value="noticeWyUserMapped" url="role/queryRoleuserByCode.do?code=DECISION_LEADERS">
+								</direct-fzr-single-select>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label">风控人员</label>
+							<div class="col-sm-10 has-feedback">
+								<direct-fzr-single-select id="{{'noticeFkUser'}}" is-multi-select="{{'true'}}" checked-user="noticeInfo.noticeFkUser"
+										mapped-key-value="noticeFkUserMapped" url="dict/queryDictItemByDictTypeCode.do?code=FKRY">
+								</direct-fzr-single-select>
+							</div>
+						</div>
+						<div class="row">
+							<label for="" class="col-sm-2 control-label">其他人员</label>
+							<div class="col-sm-10 has-feedback">
+								<direct-user-multi-select id="{{'noticeQtUser'}}" checked-users="noticeInfo.noticeQtUser"
+										mapped-key-value="noticeQtUserMapped">
+								</direct-user-multi-select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+					<button type="button" class="btn btn-info" 
+						ng-click="save()">
+						<i class="fa fa-save"></i>保存
+					</button>
+					<button type="button" class="btn btn-info"
+						ng-click="submit()">
+						<i class="fa fa-cloud-upload"></i>提交
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	angular.element(document).ready(function() {
+		var optionsDate = {
+			todayBtn : "linked",
+			orientation : $('body').hasClass('right-to-left') ? "auto right"
+					: 'auto auto'
+		}
+		$('#releaseTime').datepicker(optionsDate);
+	});
+</script>

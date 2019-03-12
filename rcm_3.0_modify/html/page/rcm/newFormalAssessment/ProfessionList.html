@@ -1,0 +1,100 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/BasicSet.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">专业评审负责人管理</span>
+	</div>
+	<form class="form-horizontal ng-pristine ng-valid" name="myForm" id="myForm"   novalidate>
+		<div id="reviewTeam" class="panel-group">
+			<div class="panel">
+				<div class="panel-heading search-box">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="reviewTeam" href="/#searchbox">查询</a>
+				</div>
+				<div id="searchbox" class="panel-collapse in">
+					<div class="panel-body search-body">
+						<div class="row nobottom-mar sm-row">
+							<label class="col-sm-2 col-md-1 control-label">部门名称</label>
+							<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="review_type" name="review_type" ng-model="paginationConf.queryObj.review_type" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							<label class="col-sm-2 col-md-1 control-label">组长</label>
+							<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="review_leader" name="review_leader" ng-model="paginationConf.queryObj.review_leader" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getProfessionList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-heading">
+				<div class="panel-hd-cont"><span class="panel-title">专业评审负责人管理<i class="i-triangle"></i></span></div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group row">
+					<div class="txl">
+						<button  type="button" class="btn btn-info" id="createbtn" ng-click="Create(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+						<button  type="button" ng-click="updateTeam()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
+						<button  type="button" ng-click="disableTeam()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>禁用</button>
+					</div>
+					
+				</div>
+				<div class="form-group row nobottom-mar">
+					<div class="table-responsive table-list">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+							<thead>
+							<tr>
+								<th>选择</th>
+								<th>序号</th>
+								<th>部门名称</th>
+								<th>组长</th>
+								<th>查看成员</th>
+								<th>是否禁用</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="t in professionList" on-finish-render-filters>
+								<td>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="checkbox" class="px ng-pristine ng-untouched ng-valid" value="{{t.UUID}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td>{{$index+1}}</td>
+								<td>{{t.REVIEW_TYPE}}</td>
+								<td>{{t.REVIEW_LEADER}}</td>
+								<td>
+									<button type="button" class="btn btn-info" ng-click="viewAll(t.UUID)"  placeholder="查看成员" data-toggle="modal" data-target="#myModal" >查看成员</button>
+									<div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title">小组成员</h4>
+												</div>
+												<div class="modal-body">
+													<div class="row"><label class="col-sm-12">成员姓名：</label></div>
+													<div class="row">
+														<div class="col-sm-3" ng-repeat="up in teamUserList"  on-finish-render-filters>
+															<div>{{up.REVIEW_TEAM_MEMBERNAME}}</div>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div ng-if="'1'==t.STATUS">启用</div>
+									<div ng-if="'2'==t.STATUS">禁用</div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="table-footer clearfix">
+				<tm-pagination conf="paginationConf"></tm-pagination>
+			</div>
+		</div>
+	</form>
+</div>
