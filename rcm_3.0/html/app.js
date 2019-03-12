@@ -747,3 +747,50 @@ function fileErrorMsg(errorFile){
 	
 	return errorMap[key];
 }
+
+/**流程相关的一些公共方法开始**/
+/**
+ * 根据流程Key和业务Id获取任务日志列表
+ * @param business_module 业务单元,这里以流程Key进行区分
+ * @param business_id 业务Id
+ * @returns {*}
+ * @private
+ */
+function _wf_taskLogList(business_module, business_id){
+    var url = srvUrl + "sign/listLogs.do";
+    var logs = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"business_module": business_module,'business_id':business_id},
+        async: false,
+        success: function (data) {
+            logs = data;
+        }
+    });
+    return logs;
+}
+
+/**
+ * 获取当前任务日志
+ * @param business_module 业务单元,这里以流程Key进行区分
+ * @param business_id 业务Id
+ * @param uuid 当前登录用户ID
+ * @returns {*}
+ * @private
+ */
+function _wf_taskLog(business_module, business_id, uuid){
+    var logs = this._wf_taskLogList(business_module, business_id);
+    var log = null;
+    for (var i in logs) {
+        if (logs[i].ISWAITING == '1') {
+            if (logs[i].AUDITUSERID == uuid) {
+                log = logs[i];
+                break;
+            }
+        }
+    }
+    return log;
+}
+/**流程相关的一些公共方法结束**/
