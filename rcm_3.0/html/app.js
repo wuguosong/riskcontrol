@@ -754,9 +754,9 @@ function fileErrorMsg(errorFile){
  * @param business_module 业务单元,这里以流程Key进行区分
  * @param business_id 业务Id
  * @returns {*}
- * @private
+ * @public
  */
-function _wf_taskLogList(business_module, business_id){
+function wf_listTaskLog(business_module, business_id){
     var url = srvUrl + "sign/listLogs.do";
     var logs = null;
     $.ajax({
@@ -778,10 +778,10 @@ function _wf_taskLogList(business_module, business_id){
  * @param business_id 业务Id
  * @param uuid 当前登录用户ID
  * @returns {*}
- * @private
+ * @public
  */
-function _wf_taskLog(business_module, business_id, uuid){
-    var logs = this._wf_taskLogList(business_module, business_id);
+function wf_getTaskLog(business_module, business_id, uuid){
+    var logs = this.wf_listTaskLog(business_module, business_id);
     var log = null;
     for (var i in logs) {
         if (logs[i].ISWAITING == '1') {
