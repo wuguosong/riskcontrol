@@ -14,12 +14,12 @@
 							<div class="row nobottom-mar sm-row">
 							<label class="col-sm-2 col-md-1 control-label">项目名称</label>
 							<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="projectName" ng-model="paginationConf.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
-							<label for="" class="col-sm-2 col-md-1 control-label">开标时间</label>
+							<label class="col-sm-2 col-md-1 control-label">开标时间</label>
 							<div class="col-sm-4 col-md-2 has-feedback sm-col">
 								<input type="text" id="projectOpentime" name="projectOpentime" ng-model="paginationConf.queryObj.projectOpentime" class="form-control"/>
 								<i class="fa fa-calendar form-control-feedback"></i>
 							</div>
-							<label for="" class="col-sm-2 col-md-1 control-label">投标结果</label>
+							<label class="col-sm-2 col-md-1 control-label">投标结果</label>
 							<div class="col-sm-4 col-md-2 sm-col">
 								<select name="tenderResults" id="tenderResults" ng-model="paginationConf.queryObj.tenderResults" class="form-control">
 									<option value="">请选择...</option>
@@ -75,7 +75,7 @@
 						<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
 							<thead>
 								<tr>
-									<th>选择</th>
+									<!--<th>选择</th>-->
 									<th>序号</th>
 									<th>项目名称</th>
 									<th>投标结果</th>
@@ -85,12 +85,12 @@
 							</thead>
 							<tbody>
 							<tr ng-repeat="p in ppr">
-								<td>
+								<!--<td>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="checkbox" ng-if="p.create_by==credentials.UUID" class="px" value="{{p._id}}"/>
 										<span class="lbl">&nbsp;</span>
 									</label>
-								</td>
+								</td>-->
 								<td>{{$index+1}}</td>
 								<td><a href="#/AuctionResultFeedback/View/{{p._id}}/{{'#/FeedbackList'|encodeURI}}">{{p.projectName}}</a></td>
 								<td>{{p.tenderResults}}</td>

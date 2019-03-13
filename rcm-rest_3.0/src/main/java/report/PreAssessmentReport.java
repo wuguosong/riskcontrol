@@ -64,6 +64,42 @@ public class PreAssessmentReport extends BaseReport{
 		"incomeTaxYear","incomeTaxTonsWater","incomeTaxRemarks","incomeTaxExplain"
 	};
 	
+	private static final String[] test1 = {
+			"projectName","create_date","create_name","operationsUnitName"
+	};
+	
+	/**
+	 * 测试word导出用法
+	 * */
+	public String testReport(String id){
+		long startTime = System.currentTimeMillis();
+		wordFile.setTemplate(Path.TEST_EXPORT);
+		getData(id);
+		wordFile.replaceTableTexts(test1, reportData);
+		String outputPath = Path.preAssessmentReportPath() + "PreAssessmentReport"+id+System.currentTimeMillis()+".docx";
+		wordFile.saveAs(outputPath);
+		logger.info("---end " + (System.currentTimeMillis() - startTime) + "---");
+		logger.info("The report is generated at '" + outputPath + "'.");
+		return outputPath;
+	}
+	
+	private void getData(String id){
+		connectMongoDB();
+		
+		ProjectPreReview dataSource = new ProjectPreReview();
+		Document projectData = (Document) dataSource.getProjectPreReviewByID(id);
+		reportData = (Document) projectData.get(MongoKeys.PreAssessmentReport);
+		
+		Document essentialInformation = (Document) reportData.get("essentialInformation");
+		Document operationsUnit = (Document) essentialInformation.get("operationsUnit");
+		reportData.put("operationsUnitName", operationsUnit.get("name"));
+		
+		Document applyInfo = (Document)projectData.get(MongoKeys.ApplyInfo);
+		reportData.put("projectName", applyInfo.get(MongoKeys.ProjectName));
+		
+		closeMongoDB();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	/**
@@ -99,10 +135,13 @@ public class PreAssessmentReport extends BaseReport{
 		ProjectPreReview dataSource = new ProjectPreReview();
 		Document projectData = (Document) dataSource.getProjectPreReviewByID(id);
 		reportData = (Document) projectData.get(MongoKeys.PreAssessmentReport);
+		System.out.print(reportData.get(MongoKeys.ProjectCreateName));
+		System.out.print(reportData.get(MongoKeys.ProjectCreateDate));
 		
 		Document applyInfo = (Document)projectData.get(MongoKeys.ApplyInfo);
 		reportData.put("projectName", applyInfo.get(MongoKeys.ProjectName));
-		reportData.put("createName", projectData.get(MongoKeys.ProjectCreateName));
+		
+		reportData.put("createName", reportData.getString("create_name"));
 		dateFormate(reportData, "create_date");
 		if(reportData.containsKey("update_date")){
 			reportData.put("create_date", getStandardDateFormate(reportData.getString("update_date")));

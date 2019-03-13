@@ -16,6 +16,8 @@ public final class Path {
 		TEMPLATE_FILE=Path.class.getResource("/Template").getPath();
 	}
 
+	public static String TEST_EXPORT = TEMPLATE_FILE + "testExport.docx";
+	
 	public static String PRE_ASSESSMENT_REPORT = TEMPLATE_FILE + "PreAssessmentReport.docx";
 	public static String PRE_APPLICATION = TEMPLATE_FILE + "PreApplication.docx";
 	
