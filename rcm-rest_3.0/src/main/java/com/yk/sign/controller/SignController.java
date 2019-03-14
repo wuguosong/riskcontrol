@@ -76,6 +76,12 @@ public class SignController {
         return logs;
     }
 
+    /**
+     * 查询代办
+     * @param key
+     * @param page
+     * @return
+     */
     @RequestMapping("/queryAgency")
     @ResponseBody
     public Result queryAgency(String key, String page) {
@@ -99,7 +105,7 @@ public class SignController {
 
 
     /**
-     * 执行加签
+     * 结束加签
      *
      * @param business_module
      * @param business_id
@@ -109,14 +115,14 @@ public class SignController {
      */
     @RequestMapping("/endSign")
     @ResponseBody
-    public Result endSign(String type, String business_module, String business_id, String task_id, String option) {
+    public Result endSign(String business_module, String business_id, String task_id, String option) {
         Result result = new Result();
         try {
-            signService.endSign(type, business_module, business_id, task_id, option);
+            signService.endSign(business_module, business_id, task_id, option);
             result.setSuccess(true);
             result.setResult_code(Constants.S);
             result.setResult_name("加签结束成功!");
-            logger.debug("加签结束成功:" + type + " " + business_module + " " + business_id + " " + task_id + " " + option);
+            logger.debug("加签结束成功:" + business_module + " " + business_id + " " + task_id + " " + option);
         } catch (Exception e) {
             logger.error("加签结束失败:" + e.getMessage());
             result.setResult_code(Constants.R);

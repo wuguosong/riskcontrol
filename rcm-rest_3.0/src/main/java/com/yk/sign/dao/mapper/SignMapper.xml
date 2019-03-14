@@ -4,7 +4,7 @@
 <mapper namespace="com.yk.sign.dao.ISignMapper">
     <select id="queryAgencyList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         /*正式评审审批*/
-        <if test="key != null and key != '' and key == 'formalAssessment'">
+        <if test="key != null and key != '' and key == 'formalReview'">
             select dat.*,
             dat.businessid as business_id,
             lg.taskmark,
@@ -40,7 +40,7 @@
     </select>
     <select id="queryAlreadyList" resultType="java.util.HashMap">
         /*正式评审审批*/
-        <if test="key != null and key != '' and key == 'formalAssessment'">
+        <if test="key != null and key != '' and key == 'formalReview'">
 
         </if>
         /*投标评审审批*/
@@ -50,6 +50,41 @@
         /*其它评审审批*/
         <if test="key != null and key != '' and key == 'bulletin'">
 
+        </if>
+    </select>
+    <select id="getCurrentTaskInfo" resultType="java.util.HashMap">
+        /*正式评审审批*/
+        <if test="key != null and key != '' and key == 'formalReview'">
+            select
+            lg.*,
+            ac.*
+            from rcm_formalassessment_log lg
+            left join act_ru_task ac on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            where lg.iswaiting = '1'
+            and lg.businessid = #{business_id}
+        </if>
+        /*投标评审审批*/
+        <if test="key != null and key != '' and key == 'preAssessment'">
+            select
+            lg.*,
+            ac.*
+            from rcm_pre_log lg
+            left join act_ru_task ac on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            where lg.iswaiting = '1'
+            and lg.businessid = #{business_id}
+        </if>
+        /*其它评审审批*/
+        <if test="key != null and key != '' and key == 'bulletin'">
+            select
+            lg.*,
+            ac.*
+            from rcm_bulletin_log lg
+            left join act_ru_task ac on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            where lg.iswaiting = '1'
+            and lg.businessid = #{business_id}
         </if>
     </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.yk.sign.service;
 
 import common.PageAssistant;
+import org.activiti.engine.impl.task.TaskDefinition;
 
 import java.util.List;
 import java.util.Map;
@@ -42,11 +43,18 @@ public interface ISignService {
 
     /**
      * 结束加签
-     * @param type
      * @param business_module
      * @param business_id
      * @param task_id
      * @param option
      */
-    void endSign(String type, String business_module, String business_id, String task_id, String option);
+    void endSign(String business_module, String business_id, String task_id, String option);
+
+    /**
+     * 获取下一个审批节点
+     * @param key
+     * @param business_id
+     * @return
+     */
+    TaskDefinition getNextTaskInfo(String key, String business_id);
 }
