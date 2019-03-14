@@ -2,9 +2,12 @@ package com.yk.process.service;
 
 import com.yk.process.entity.NodeConfig;
 import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.FlowElement;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 流程信息业务接口
@@ -80,4 +83,50 @@ public interface IProcessService {
      * @return NodeConfig
      */
     NodeConfig renderNodeConfig(NodeConfig nodeConfig);
+
+    /**
+     * 递归流程图的所有节点元素
+     * @param flowElements
+     * @return
+     */
+    Collection<FlowElement> recursionFlowElements(Collection<FlowElement> flowElements);
+
+    /**
+     * List转Map
+     * @param flowElements
+     * @return
+     */
+    Map<String, FlowElement> listToMap(Collection<FlowElement> flowElements);
+
+    /**
+     * 拆分模型元素为List
+     * @param flowElements
+     * @return
+     */
+    Map<Class, List<FlowElement>> demergeFlowElements(Collection<FlowElement> flowElements);
+
+    /**
+     * 拆分模型元素为Map
+     * @param flowElements
+     * @return
+     */
+    Map<Class, Map<String, FlowElement>> demergeFlowElementsMap(Collection<FlowElement> flowElements);
+
+    /**
+     * 获取到达下一个节点需要经过的线条元素
+     * @param procDefId
+     * @param start
+     * @param end
+     * @return
+     */
+    List<FlowElement> getNextTaskFlowElement(String procDefId, String start, String end);
+
+    /**
+     * 获取到达下一个节点需要经过的线条元素中的变量
+     * @param procDefId
+     * @param start
+     * @param end
+     * @return
+     */
+    Map<String,Object> getNextTaskFlowElementVariable(String procDefId, String start, String end);
 }

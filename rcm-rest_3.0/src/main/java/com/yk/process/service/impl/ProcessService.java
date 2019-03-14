@@ -11,6 +11,7 @@ import org.activiti.bpmn.model.Process;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -284,7 +285,8 @@ public class ProcessService implements IProcessService {
      * @param flowElements
      * @return Collection<FlowElement> 迭代结果
      */
-    private Collection<FlowElement> recursionFlowElements(Collection<FlowElement> flowElements) {
+    @Override
+    public Collection<FlowElement> recursionFlowElements(Collection<FlowElement> flowElements) {
         Collection<FlowElement> allFlowElements = new ArrayList<FlowElement>();
         if (CollectionUtils.isNotEmpty(flowElements)) {
             allFlowElements.addAll(flowElements);
@@ -328,5 +330,127 @@ public class ProcessService implements IProcessService {
             taskConfigs.add(entry.getValue());
         }
         return taskConfigs;
+    }
+
+    @Override
+    public Map<String, FlowElement> listToMap(Collection<FlowElement> flowElements) {
+        Map<String, FlowElement> map = new LinkedHashMap<String, FlowElement>();
+        for (FlowElement flowElement : flowElements) {
+            map.put(flowElement.getId(), flowElement);
+        }
+        return map;
+    }
+
+    @Override
+    public Map<Class, List<FlowElement>> demergeFlowElements(Collection<FlowElement> flowElements) {
+        Map<Class, List<FlowElement>> map = new LinkedHashMap<Class, List<FlowElement>>();
+        List<FlowElement> subProcess = new ArrayList<FlowElement>();
+        List<FlowElement> exclusiveGateway = new ArrayList<FlowElement>();
+        List<FlowElement> parallelGateway = new ArrayList<FlowElement>();
+        List<FlowElement> sequenceFlow = new ArrayList<FlowElement>();
+        List<FlowElement> userTask = new ArrayList<FlowElement>();
+        List<FlowElement> startEvent = new ArrayList<FlowElement>();
+        List<FlowElement> endEvent = new ArrayList<FlowElement>();
+        for (FlowElement flowElement : flowElements) {
+            if (flowElement instanceof SubProcess) {
+                subProcess.add(flowElement);
+            }
+            if (flowElement instanceof ExclusiveGateway) {
+                exclusiveGateway.add(flowElement);
+            }
+            if (flowElement instanceof ParallelGateway) {
+                parallelGateway.add(flowElement);
+            }
+            if (flowElement instanceof SequenceFlow) {
+                sequenceFlow.add(flowElement);
+            }
+            if (flowElement instanceof UserTask) {
+                userTask.add(flowElement);
+            }
+            if (flowElement instanceof StartEvent) {
+                startEvent.add(flowElement);
+            }
+            if (flowElement instanceof EndEvent) {
+                endEvent.add(flowElement);
+            }
+        }
+        map.put(SubProcess.class, subProcess);
+        map.put(ExclusiveGateway.class, exclusiveGateway);
+        map.put(ParallelGateway.class, parallelGateway);
+        map.put(SequenceFlow.class, sequenceFlow);
+        map.put(UserTask.class, userTask);
+        map.put(StartEvent.class, startEvent);
+        map.put(EndEvent.class, endEvent);
+        return map;
+    }
+
+    @Override
+    public Map<Class, Map<String, FlowElement>> demergeFlowElementsMap(Collection<FlowElement> flowElements) {
+        Map<Class, List<FlowElement>> map = this.demergeFlowElements(flowElements);
+        Map<Class, Map<String, FlowElement>> all = new LinkedHashMap<Class, Map<String, FlowElement>>();
+        for (Iterator<Map.Entry<Class, List<FlowElement>>> iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry<Class, List<FlowElement>> entry = iterator.next();
+            Class key = entry.getKey();
+            List<FlowElement> value = entry.getValue();
+            Map<String, FlowElement> sub = new LinkedHashMap<String, FlowElement>();
+            for (FlowElement flowElement : value) {
+                sub.put(flowElement.getId(), flowElement);
+            }
+            all.put(key, sub);
+        }
+        return all;
+    }
+
+    @Override
+    public List<FlowElement> getNextTaskFlowElement(String procDefId, String start, String end) {
+        Collection<FlowElement> flowElements = this.getBpmnModel(procDefId).getMainProcess().getFlowElements();
+        return this.getNextTaskFlowElement(flowElements, null, start, end);
+    }
+
+    private List<FlowElement> getNextTaskFlowElement(Collection<FlowElement> flowElements, List<FlowElement> filter, String start, String end) {
+        List<FlowElement> finalFilter = new ArrayList<FlowElement>();
+        if (CollectionUtils.isNotEmpty(filter)) {
+            finalFilter.addAll(filter);
+        }
+        Map<String, FlowElement> flowElementMap = this.listToMap(flowElements);
+        Map<Class, List<FlowElement>> demergeFlowElements = this.demergeFlowElements(flowElements);
+        List<FlowElement> list = demergeFlowElements.get(SequenceFlow.class);
+        for (FlowElement flowElement : list) {
+            SequenceFlow sequenceFlow = (SequenceFlow) flowElement;
+            String sourceRef = sequenceFlow.getSourceRef();
+            String targetRef = sequenceFlow.getTargetRef();
+            FlowElement target = flowElementMap.get(targetRef);
+            if (start.equals(sourceRef)) {
+                if (!(target instanceof EndEvent)) {
+                    if (end.equals(targetRef)) {
+                        finalFilter.add(flowElement);
+                    } else {
+                        if (!(target instanceof UserTask)) {
+                            finalFilter.add(flowElement);
+                            finalFilter = this.getNextTaskFlowElement(flowElements, finalFilter, targetRef, end);
+                        }
+                    }
+                }
+            }
+        }
+        return finalFilter;
+    }
+
+    @Override
+    public Map<String, Object> getNextTaskFlowElementVariable(String procDefId, String start, String end) {
+        List<FlowElement> flowElements = this.getNextTaskFlowElement(procDefId, start, end);
+        Map<String, Object> variable = new HashMap<String, Object>();
+        for(FlowElement flowElement : flowElements){
+            SequenceFlow sequenceFlow = (SequenceFlow)flowElement;
+            String conditionExpression =  sequenceFlow.getConditionExpression();
+            if(StringUtils.isNotBlank(conditionExpression)){
+                conditionExpression = conditionExpression.replaceAll("[$|'{'|'|'}']+", "");
+                String[] array = conditionExpression.split("==");
+                if(ArrayUtils.isNotEmpty(array) && array.length > 1){
+                    variable.put(array[0], array[1]);
+                }
+            }
+        }
+        return variable;
     }
 }
