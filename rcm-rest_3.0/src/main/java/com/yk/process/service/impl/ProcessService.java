@@ -403,7 +403,7 @@ public class ProcessService implements IProcessService {
 
     @Override
     public List<FlowElement> getNextTaskFlowElement(String procDefId, String start, String end) {
-        Collection<FlowElement> flowElements = this.getBpmnModel(procDefId).getMainProcess().getFlowElements();
+        Collection<FlowElement> flowElements = this.recursionFlowElements(this.getBpmnModel(procDefId).getMainProcess().getFlowElements());
         return this.getNextTaskFlowElement(flowElements, null, start, end);
     }
 
@@ -417,6 +417,7 @@ public class ProcessService implements IProcessService {
         List<FlowElement> list = demergeFlowElements.get(SequenceFlow.class);
         for (FlowElement flowElement : list) {
             SequenceFlow sequenceFlow = (SequenceFlow) flowElement;
+            String key = sequenceFlow.getId();
             String sourceRef = sequenceFlow.getSourceRef();
             String targetRef = sequenceFlow.getTargetRef();
             FlowElement target = flowElementMap.get(targetRef);
@@ -424,9 +425,14 @@ public class ProcessService implements IProcessService {
                 if (!(target instanceof EndEvent)) {
                     if (end.equals(targetRef)) {
                         finalFilter.add(flowElement);
+                        System.out.println(key + " " + sourceRef + " " + targetRef);
+                        if(target instanceof UserTask){
+                            break;
+                        }
                     } else {
                         if (!(target instanceof UserTask)) {
                             finalFilter.add(flowElement);
+                            System.out.println(key + " " + sourceRef + " " + targetRef);
                             finalFilter = this.getNextTaskFlowElement(flowElements, finalFilter, targetRef, end);
                         }
                     }
