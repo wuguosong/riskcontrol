@@ -63,6 +63,42 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                 }
             })
 
+            //帮助页面
+            .when('/Help',{
+                controller:'Help',
+                templateUrl:'page/rcm/help/Help.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/help/Help.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 工作面板-默认
+            .when('/', {
+                controller:'IndividualTable',
+                templateUrl:'page/rcm/homePage/IndividualTable.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/homePage/IndividualTable.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             //员工工作情况
             //tabIndex类型分别有0、1、2、3
             .when('/PersonnelWork/:type/:id/:lx/:tabIndex',{
@@ -2286,6 +2322,24 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     resolver:['$q','$rootScope',function($q,$rootScope){
                         var deferred = $q.defer();
                         require(['page/rcm/projectBoard/bulletinReportBoardListMore.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 项目看板（新）
+            .when('/projectBoardList',{
+                controller:'projectBoardList',
+                templateUrl:'page/rcm/projectBoard/projectBoardList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/projectBoardList.js?_v='+_version],function(){
                             $rootScope.$apply(function(){
                                 deferred.resolve();
                             });

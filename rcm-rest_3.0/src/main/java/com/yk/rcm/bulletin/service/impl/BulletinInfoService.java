@@ -25,6 +25,7 @@ import com.mongodb.client.MongoCursor;
 import com.yk.common.IBaseMongo;
 import com.yk.common.SpringUtil;
 import com.yk.flow.util.JsonUtil;
+import com.yk.power.dao.IRoleMapper;
 import com.yk.power.service.IOrgService;
 import com.yk.power.service.IUserService;
 import com.yk.rcm.bulletin.dao.IBulletinInfoMapper;
@@ -59,6 +60,8 @@ public class BulletinInfoService implements IBulletinInfoService {
 	private IOrgService orgService;
 	@Resource
 	private IDaxtService daxtService;
+	@Resource
+	private IRoleMapper roleMapper;
 	
 	/* (non-Javadoc)
 	 * @see com.yk.bulletin.service.IBulletinInfoService#save(java.lang.String)
@@ -85,6 +88,39 @@ public class BulletinInfoService implements IBulletinInfoService {
 		data.put("status", "0");
 		data.put("stage", "1");
 		this.bulletinInfoMapper.save(data);
+		this.saveDefaultProRole((Document)doc);
+	}
+	
+	/**
+	 * 新建项目时创建默认项目角色
+	 * author Sunny Qi
+	 * 2019-03-14
+	 * */
+	private void saveDefaultProRole(Document doc){
+		HashMap<String, Object> params = new HashMap<String,Object>();
+		
+		ArrayList<String> roleIds = new ArrayList<String>();
+		roleIds.add("11911d2638f141c3b2e3f75805e58c75");
+		roleIds.add("54c42dd0585140dd9e0770eb88da4b34");
+		
+		for(int i=0; i < roleIds.size(); i++){
+			params.put("id", Util.getUUID());
+			params.put("businessId", doc.get("_id").toString());
+			
+			/*Document apply = (Document) doc.get("apply");
+			Document pertainArea = (Document) apply.get("pertainArea");
+			String pertainAreaName = pertainArea.getString("VALUE");*/
+			/*if (pertainAreaName == "东部大区") {
+				
+			}*/
+			params.put("roleId", roleIds.get(i));
+			Document applyUser = (Document) doc.get("applyUser");
+			params.put("createBy", applyUser.get("VALUE"));
+			params.put("create_date", doc.get("createTime"));
+			params.put("projectType", "bulletin");
+			
+			this.roleMapper.insertProRole(params);
+		}
 	}
 
 	/* (non-Javadoc)

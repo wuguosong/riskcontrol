@@ -18,6 +18,7 @@ import util.Util;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yk.common.IBaseMongo;
+import com.yk.power.dao.IRoleMapper;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.newFormalAssessment.dao.IFormalAssessmentInfoCreateMapper;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
@@ -34,6 +35,8 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	@Resource
 	private IFormalAssessmentInfoCreateMapper formalAssessmentInfoCreateMapper;
 	@Resource
+	private IRoleMapper roleMapper;
+	@Resource
 	private IBaseMongo baseMongo;
 	
 	@Override
@@ -44,6 +47,39 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		Map<String, Object> dataForOracle = this.packageDataForOracle(doc);
 		this.formalAssessmentInfoCreateMapper.insert(dataForOracle);
 		this.baseMongo.save(doc, Constants.RCM_FORMALASSESSMENT_INFO);
+		this.saveDefaultProRole(doc);
+	}
+	
+	/**
+	 * 新建项目时创建默认项目角色
+	 * author Sunny Qi
+	 * 2019-03-14
+	 * */
+	private void saveDefaultProRole(Document doc){
+		HashMap<String, Object> params = new HashMap<String,Object>();
+		
+		ArrayList<String> roleIds = new ArrayList<String>();
+		roleIds.add("11911d2638f141c3b2e3f75805e58c75");
+		roleIds.add("54c42dd0585140dd9e0770eb88da4b34");
+		
+		for(int i=0; i < roleIds.size(); i++){
+			params.put("id", Util.getUUID());
+			params.put("businessId", doc.get("_id").toString());
+			
+			Document apply = (Document) doc.get("apply");
+			Document pertainArea = (Document) apply.get("pertainArea");
+			String pertainAreaName = pertainArea.getString("VALUE");
+			/*if (pertainAreaName == "东部大区") {
+				
+			}*/
+			params.put("roleId", roleIds.get(i));
+			Document createby = (Document) apply.get("investmentManager");
+			params.put("createBy", createby.getString("VALUE"));
+			params.put("create_date", doc.get("create_date"));
+			params.put("projectType", "pfr");
+			
+			this.roleMapper.insertProRole(params);
+		}
 	}
 	
 	@Override

@@ -242,4 +242,11 @@ public interface IRoleMapper extends BaseMapper {
 	 */
 	public Map<String, Object> queryRoleUserByRoleId(Map<String, Object> params);
 	
+	/**
+	 * 插入项目角色数据
+	 * @param dataForProRole
+	 * @return
+	 */
+	public void insertProRole(Map<String, Object> dataForProRole);
+	
 }

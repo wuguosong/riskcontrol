@@ -334,4 +334,23 @@
 	<select id="queryRoleUserByRoleId" resultType="map" parameterType="map">
 		select * from sys_user u,sys_user_role ur where u.UUID = ur.user_id and ur.role_id= #{roleId}
 	</select>
+	
+	<!-- 新增数据到ProRole -->
+	<insert id="insertProRole" parameterType="map">
+		insert into SYS_PROJECT_ROLE (
+		    ID,
+			BUSINESS_ID,
+			role_id,
+			create_by,
+			create_date,
+			PROJECT_TYPE
+		) values (
+		    #{id},
+			#{businessId},
+			#{roleId},
+			#{createBy},
+			to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+			#{projectType}
+		)
+	</insert>
 </mapper>
