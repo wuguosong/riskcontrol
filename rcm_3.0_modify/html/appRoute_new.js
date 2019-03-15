@@ -247,6 +247,24 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                 }
             })
 
+            // 给角色分配项目
+            .when('/RoleAndProject/:roleId/:roleCode/:url', {
+                controller: 'RoleAndProject',
+                templateUrl: 'page/fnd/role/RoleAndProject.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/fnd/role/RoleAndProject.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 角色详情
             .when('/SysRoleInfo/:action/:roleId', {
                 controller: 'SysRoleInfo',

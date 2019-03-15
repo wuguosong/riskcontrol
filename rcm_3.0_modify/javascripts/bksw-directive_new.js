@@ -740,6 +740,379 @@ ctmApp.directive('directFzrSingleDialog', function() {
         }
     };
 });
+// 带组织的人员单选框
+ctmApp.directive('directiveUserList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directiveUserList.html',
+        replace: true,
+        scope:{},
+        controller:function($scope,$http,$element){
+            //获取父作用域
+            var carouselScope = $element.parent().scope();
+            $scope.selected = [];
+            $scope.selectedTags = [];
+            $scope.selectedNameValue = [];
+            $("#arrUserName").val("");
+            var updateSelected = function(action,id,name){
+                if(action == 'add' && $scope.selected.indexOf(id) == -1){
+                    var objs={name:name,value:id};    /*封装成Object对象*/
+                    $scope.selected.push(id);
+                    $scope.selectedTags.push(name);
+                    $scope.selectedNameValue.push(objs);
+                }
+                if(action == 'remove' && $scope.selected.indexOf(id)!=-1){
+                    var objs={name:name,value:id};
+                    var idx = $scope.selected.indexOf(id);
+                    $scope.selected.splice(idx,1);
+                    $scope.selectedTags.splice(idx,1);
+                    $scope.selectedNameValue.splice(objs,1);
+                }
+                var  arrName=$scope.selectedTags;
+                var arrNameToString=arrName.join(",");                 //将数组 [] 转为 String
+                $("#arrUserName").val(arrNameToString);
+                var arrIDD= $scope.selected;
+                arrIDD=arrIDD.join(",");
+
+                $("#selectedName").find(".select2-choices").html("<li class=\"select2-search-field\"><input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\"> </li>");
+                var selectedName = [];
+                var selectedId=[];
+                selectedName =arrNameToString.split(",");
+                selectedId = arrIDD.split(",");
+                var leftstr="<li class=\"select2-search-choice\"><div>";
+                var centerstr="</div><a class=\"select2-search-choice-close\" tabindex=\"-1\" onclick=\"delDom(this)\" href=\"javascript:delCommonname('";
+                var addID="');\"></a><input type=\"hidden\" id=\"\"  value=\"";
+                var rightstr="\"></li>";
+                for(var i=0;i<selectedName.length;i++){
+                    $("#selectedName").find(".select2-search-field").before(leftstr+selectedName[i]+centerstr+selectedId[i]+addID+selectedId[i]+rightstr);
+                }
+            }
+
+            $scope.updateSelection = function($event, id){
+                var checkbox = $event.target;
+                var action = (checkbox.checked?'add':'remove');
+                updateSelected(action,id,checkbox.name);
+            }
+
+            $scope.isSelected = function(id){
+                return $scope.selected.indexOf(id)>=0;
+            }
+            $scope.paginationConf = {
+                currentPage: 1,
+                itemsPerPage: 10,
+                queryObj:{},
+                perPageOptions: [10]
+            };
+            $scope.queryUserList = function(){
+                var cp = $scope.paginationConf.currentPage;
+                if(cp == 1){
+                    $scope.queryUser();
+                }else{
+                    $scope.paginationConf.currentPage = 1;
+                }
+            }
+            $scope.queryUser=function(){
+                $scope.paginationConf.queryObj = $scope.queryObj;
+                var  url = 'fnd/SysUser/getAll';
+                $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
+                    // 变更分页的总数
+                    if(data.result_code == "S") {
+                        $scope.sysUserList = data.result_data.list;
+                        $scope.paginationConf.totalItems = data.result_data.totalItems;
+                    }
+                });
+            };
+            $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage + queryObj.ORGID', $scope.queryUser);
+            //获取组织结构角色
+            var ztree, setting = {
+                callback:{
+                    onClick:function(event, treeId, treeNode){
+                        accessScope("#ORGID",function(scope){
+                            scope.queryObj = {};
+                            scope.queryObj.ORGID = treeNode.id;
+                            scope.queryObj.categoryCode = treeNode.cat;
+                        });
+                    },
+                    beforeExpand:function(treeId, treeNode){
+                        if(typeof(treeNode.children)=='undefined'){
+                            $scope.addTreeNode(treeNode);
+                        }
+                    }
+                }
+            };
+            $scope.addTreeNode = function (parentNode){
+                var pid = '';
+                if(parentNode && parentNode.id) pid = parentNode.id;
+                $scope.$parent.httpData('fnd/Group/getOrg', {parentId:pid}).success(function(data){
+                    if (!data || data.result_code != 'S') return null;
+                    var nodeArray = data.result_data;
+                    if(nodeArray<1) return null;
+                    for(var i=0;i<nodeArray.length;i++){
+                        curNode = nodeArray[i];
+                        var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
+                        if(curNode.cat && curNode.cat=='Org'){
+                            iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
+                        }
+                        curNode.icon = iconUrl;
+                    }
+                    if(pid == ''){//当前加载的是根节点
+                        ztree.addNodes(null, nodeArray);
+                        var rootNode = ztree.getNodes()[0];
+                        $scope.addTreeNode(rootNode);
+                        rootNode.open = true;
+                        ztree.refresh();
+                    }else{
+                        ztree.addNodes(parentNode, nodeArray, true);
+                    }
+                });
+            }
+
+            $scope.resetUserList=function(){
+                $scope.selected = [];
+                $scope.selectedTags = [];
+                $scope.selectedNameValue = [];
+                $("#arrUserName").val("");
+                var d=" <div class=\"select2-success\">";
+                d+="<div id=\"s2id_projectModel\" class=\"select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse\">";
+                d+="<ul class=\"select2-choices\"> <li class=\"select2-search-field\">";
+                d+="<input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\">";
+                d+=" </li></ul></div></div>";
+                $("#selectedName").html(d);
+                $scope.queryObj = {};
+                $scope.queryObj.ORGID = null;
+                $scope.queryObj.categoryCode = null;
+            }
+            $scope.saveUserListforDiretive=function(){
+                var  arrUserIDs=$scope.selected;
+                var arrUserNames= $scope.selectedTags;
+                var arrUserNamesValue= $scope.selectedNameValue;
+                carouselScope.setDirectiveUserList(arrUserIDs,arrUserNames,arrUserNamesValue);
+                $scope.selected = [];
+                $scope.selectedTags = [];
+                $scope.selectedNameValue = [];
+                $("#arrUserName").val("");
+                var d=" <div class=\"select2-success\">";
+                d+="<div id=\"s2id_projectModel\" class=\"select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse\">";
+                d+="<ul class=\"select2-choices\"> <li class=\"select2-search-field\">";
+                d+="<input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\">";
+                d+=" </li></ul></div></div>";
+                $("#selectedName").html(d);
+                $scope.queryObj = {};
+                $scope.queryObj.ORGID = null;
+                $scope.queryObj.categoryCode = null;
+            }
+
+            angular.element(document).ready(function() {
+                ztree = $.fn.zTree.init($("#treeID5"), setting);
+                $scope.addTreeNode('');
+
+                $scope.selected = [];
+                $scope.selectedTags = [];
+                $scope.selectedNameValue = [];
+                $("#arrUserName").val("");
+                $scope.queryObj = {};
+                $scope.queryObj.ORGID = null;
+                $scope.queryObj.categoryCode = null;
+            });
+        }
+    };
+});
+function  delCommonname(id){
+    accessScope("#ORGID", function(scope){
+        if(scope.selected.indexOf(id)!=-1){
+            var idx = scope.selected.indexOf(id);
+            scope.selected.splice(idx,1);
+            scope.selectedTags.splice(idx,1);
+            scope.selectedNameValue.splice(idx,1);
+        }
+    });
+}
+function delDom(dom){
+    $(dom).parent("li").remove();
+}
+ctmApp.directive('directiveUserRadioList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/DirectiveUserRadioList.html',
+        replace: true,
+        scope:{},
+        controller:function($scope,$http,$element){
+            //获取父作用域
+            var carouselUserScope = $element.parent().scope();
+            $scope.selectUserCode =null;
+            $scope.selectUserName = null;
+            $scope.setSelection = function(code,name){
+                $scope.selectUserCode=code;
+                $scope.selectUserName=name;
+            }
+            $scope.paginationConfes = {
+                currentPage: 1,
+                queryObj:{},
+                itemsPerPage: 10,
+                perPageOptions: [10]
+            };
+            $scope.queryuserradioList = function(){
+                var cp = $scope.paginationConfes.currentPage;
+                if(cp == 1){
+                    $scope.queryuserradio();
+                }else{
+                    $scope.paginationConfes.currentPage = 1;
+                }
+            }
+            $scope.queryuserradio=function(){
+                $scope.paginationConfes.queryObj = $scope.queryObj;
+
+                $http({
+                    method:'post',
+                    url: srvUrl + "user/getDirectiveUserAll.do",
+                    data:$.param({"page":JSON.stringify($scope.paginationConfes)})
+                }).success(function(data){
+                    // 变更分页的总数
+                    if(data.success) {
+                        $scope.sysUserradio = data.result_data.list;
+                        $scope.paginationConfes.totalItems = data.result_data.totalItems;
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            };
+
+            $scope.$watch('paginationConfes.currentPage + paginationConfes.itemsPerPage + queryObj.ORGIDRADIO', $scope.queryuserradio);
+            //获取组织结构角色
+            var ztree3, setting3 = {
+                callback:{
+                    onClick:function(event, treeId, treeNode){
+                        accessScope("#ORGIDRADIO",function(scope){
+                            scope.queryObj = {};
+                            scope.queryObj.ORGIDRADIO = treeNode.id;
+                            scope.queryObj.categoryCode = treeNode.cat;
+                        });
+                    },
+                    beforeExpand:function(treeId, treeNode){
+                        if(typeof(treeNode.children)=='undefined'){
+                            $scope.addTreeNode3(treeNode);
+                        }
+                    }
+                }
+            };
+            $scope.addTreeNode3 = function (parentNode){
+                var pid = '';
+                if(parentNode && parentNode.id) pid = parentNode.id;
+                $scope.$parent.httpData('fnd/Group/getOrg', {parentId:pid}).success(function(data){
+                    if (!data || data.result_code != 'S') return null;
+                    var nodeArray = data.result_data;
+                    if(nodeArray<1) return null;
+                    for(var i=0;i<nodeArray.length;i++){
+                        curNode = nodeArray[i];
+                        var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
+                        if(curNode.cat && curNode.cat=='Org'){
+                            iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
+                        }
+                        curNode.icon = iconUrl;
+                    }
+                    if(pid == ''){//当前加载的是根节点
+                        ztree3.addNodes(null, nodeArray);
+                        var rootNode = ztree3.getNodes()[0];
+                        $scope.addTreeNode3(rootNode);
+                        rootNode.open = true;
+                        ztree3.refresh();
+                    }else{
+                        ztree3.addNodes(parentNode, nodeArray, true);
+                    }
+                });
+            }
+
+            $scope.resetRadioUserList=function(){
+                $scope.selectUserCode =null;
+                $scope.selectUserName = null
+                $("input[name='RaidoNAME']").removeAttr("checked");
+
+                $scope.queryObj = {};
+                $scope.queryObj.ORGIDRADIO = null;
+                $scope.queryObj.categoryCode = null;
+
+            }
+            $scope.saveUserRadioListforDiretive=function(){
+                carouselUserScope.setDirectiveRadioUserList($scope.selectUserCode,$scope.selectUserName);
+                $scope.selectUserCode =null;
+                $scope.selectUserName = null;
+                $("input[name='RaidoNAME']").removeAttr("checked");
+                $scope.queryObj = {};
+                $scope.queryObj.ORGIDRADIO = null;
+                $scope.queryObj.categoryCode = null;
+            }
+            angular.element(document).ready(function() {
+                ztree3 = $.fn.zTree.init($("#treeIDuser5"), setting3);
+                $scope.addTreeNode3('');
+                $scope.selectUserCode =null;
+                $scope.selectUserName = null;
+                $scope.queryObj = {};
+                $scope.queryObj.ORGIDRADIO = null;
+                $scope.queryObj.categoryCode = null;
+            });
+        }
+    };
+});
+// 项目列表弹出框
+ctmApp.directive('directiveCompanyList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/DirectiveCompanyList.html',
+        replace: true,
+        scope:{},
+        controller:function($scope,$http,$element){
+            //获取父作用域
+            var carouselScope = $element.parent().scope();
+            $scope.selectCode =null;
+            $scope.selectName = null;
+            $scope.getSelection = function(code,name){
+                $scope.selectCode=code;
+                $scope.selectName=name;
+            }
+            $scope.paginationConf = {
+                currentPage: 1,
+                itemsPerPage: 10,
+                queryObj:{},
+                perPageOptions: [10]
+            };
+            $scope.queryCompanyList = function(){
+                var cp = $scope.paginationConf.currentPage;
+                if(cp == 1){
+                    $scope.queryCompany();
+                }else{
+                    $scope.paginationConf.currentPage = 1;
+                }
+            }
+            $scope.queryCompany=function(){
+                $scope.paginationConf.queryObj = $scope.queryObj;
+                var  url = 'common/commonMethod/getDirectiveCompanyList';
+                $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
+                    // 变更分页的总数
+                    if(data.result_code == "S") {
+                        $scope.sysCompany = data.result_data.list;
+                        $scope.paginationConf.totalItems = data.result_data.totalItems;
+                    }
+                });
+            };
+
+            $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryCompany);
+            $scope.resetCompanyList=function(){
+                $scope.selectCode =null;
+                $scope.selectName = null;
+            }
+            $scope.saveCompanyListforDiretive=function(){
+                carouselScope.setDirectiveCompanyList($scope.selectCode,$scope.selectName);
+                $scope.selectCode =null;
+                $scope.selectName = null;
+            }
+            angular.element(document).ready(function() {
+                $scope.selectCode =null;
+                $scope.selectName = null;
+            });
+        }
+    };
+});
+
 // 会议纪要新增弹出框
 ctmApp.directive('mettingSummaryBpmnPopWin', function(){
     return {
@@ -803,7 +1176,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
             select: "=",
             formalReport: "=",
             // 确定按钮是否可用
-            isUse: "="
+            isUse: "=?bind"
         },
         controller: function($scope, $http, $element, Upload){
             $scope.item = {};// 选项
@@ -1571,7 +1944,7 @@ ctmApp.directive('directPromptBoxFormal', function() {
             //对话框的标题，如果没设置，默认为“人员选择”
             title: "@",
             //是否显示
-            isShow:"=",
+            isShow:"=?bind",
             // select框数据
             summaryTemplate: "=",
             // select框留存初始化数据

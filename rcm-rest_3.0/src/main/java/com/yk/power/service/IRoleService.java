@@ -227,4 +227,30 @@ public interface IRoleService {
 	 * @return
 	 */
 	public Map<String, Object> queryRoleUserByRoleId(String roleId);
+	
+	
+	
+	/**
+	 * 分页查询角色项目
+	 * @param page
+	 */
+	public void queryRoleProjectListByPage(PageAssistant page);
+	
+	/**
+	 * 查询角色可以添加项目
+	 * @param page
+	 */
+	public void queryRoleAddProjectByPage(PageAssistant page);
+	
+	/**
+	 * 添加角色项目
+	 * @param roleUsers
+	 */
+	public void addRoleProject(List<Map<String, Object>> roleUsers);
+	
+	/**
+	 * 根据ID删除角色项目
+	 * @param ids
+	 */
+	public void deleteRoleProjectById(String[] ids);
 }

@@ -356,4 +356,47 @@ public class RoleService implements IRoleService {
 	}
 	
 	
+	
+	
+	@Override
+	public void queryRoleProjectListByPage(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page);
+		if (page.getParamMap() != null) {
+			params.putAll(page.getParamMap());
+		}
+		params.put("orgCodeRoot", Constants.SYS_ORG_CODE_ROOT);
+		List<Map<String, Object>> list = roleMapper
+				.queryRoleProjectListByPage(params);
+		page.setList(list);
+	}
+	
+	@Override
+	public void queryRoleAddProjectByPage(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page);
+		if (page.getParamMap() != null) {
+			params.putAll(page.getParamMap());
+		}
+		params.put("orgCodeRoot", Constants.SYS_ORG_CODE_ROOT);
+		List<Map<String, Object>> list = roleMapper
+				.queryRoleAddProjectByPage(params);
+		page.setList(list);
+	}
+
+	@Override
+	public void addRoleProject(List<Map<String, Object>> roleUsers) {
+		for (Map<String, Object> map : roleUsers) {
+			Map<String, Object> resutlData = roleMapper.queryByRoleProject(map);
+			if(Util.isEmpty(resutlData)){
+				roleMapper.addRoleProject(map);
+			}
+		}
+	}
+	
+	@Override
+	public void deleteRoleProjectById(String[] ids) {
+		roleMapper.deleteRoleProjectById(ids);
+	}
+	
 }

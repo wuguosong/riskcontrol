@@ -52,6 +52,7 @@
 <!--                                 <th>角色状态</th> -->
                                 <th>分配菜单</th>
                                 <th>分配用户</th>
+                                <!--<th>分配项目</th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -78,11 +79,14 @@
 <!--                                    <div ng-if="'2'== r.STATE"><span class="status-n">禁用</span></div> -->
 <!--                                 </td> -->
                                 <td>
-                                <a class="allot" href="#/RoleAndFun/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配菜单</a>
+                                    <a class="allot" href="#/RoleAndFun/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配菜单</a>
                                 </td>
-                                 <td>
-                                <a class="allot" href="#/RoleAndUser/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配用户</a>
+                                <td>
+                                    <a class="allot" href="#/RoleAndUser/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配用户</a>
                                 </td>
+                                <!--<td>
+                                    <a class="allot" href="#/RoleAndProject/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配项目</a>
+                                </td>-->
                             </tr>
                             </tbody>
                         </table>

@@ -429,4 +429,19 @@ public class RoleController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 分页查询角色项目
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/queryRoleProjectListByPage")
+	@ResponseBody
+	public Result queryRoleProjectListByPage(HttpServletRequest request) {
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		Result result = new Result();
+		roleService.queryRoleProjectListByPage(page);
+		result.setResult_data(page);
+		return result;
+	}
 }

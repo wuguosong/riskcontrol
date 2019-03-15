@@ -249,4 +249,43 @@ public interface IRoleMapper extends BaseMapper {
 	 */
 	public void insertProRole(Map<String, Object> dataForProRole);
 	
+	
+	
+	
+	
+	
+	/**
+	 * 根据角色类型和项目ID，查询角色项目信息(添加用户角色之前调用)
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> queryByRoleProject(Map<String, Object> map);
+	/**
+	 * 分页查询角色项目
+	 * @param request
+	 * @return
+	 */
+	public List<Map<String, Object>> queryRoleProjectListByPage(
+			Map<String, Object> params);
+	
+	/**
+	 * 分页查询角色可以添加的项目
+	 * @param request
+	 * @return
+	 */
+	public List<Map<String, Object>> queryRoleAddProjectByPage(
+			Map<String, Object> params);
+	
+	/**
+	 * 添加角色项目
+	 * @param roleUsers
+	 */
+	public void addRoleProject(Map<String, Object> user);
+	
+	/**
+	 * 根据ID删除角色项目
+	 * @param ids
+	 */
+	public void deleteRoleProjectById(@Param("ids")String[] ids);
+	
 }
