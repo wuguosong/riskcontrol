@@ -81,6 +81,28 @@
                 </tr>
                 </tbody>
             </table>
+            <div ng-repeat="incomeTable in formalPreview.incomeTables">
+                <div>项目收益表{{$index + 1}}</div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="info">
+                        <th width="20%">收益项</th>
+                        <th width="80%">收益内容</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>
+                            {{incomeTable.incomeName}}
+                        </td>
+                        <td>
+                            {{incomeTable.incomeContent}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="table-cover" ng-hide="hideFlagS">
             <div class="more">

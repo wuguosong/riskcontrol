@@ -1146,7 +1146,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             financialROE: null,
             financialROI: null,
             indicatorCash: null
-        }
+        };
+
+        // 常量（类型：1000,2000,3000） ==项目收益新增表格
+        $scope.incomeTableVar = {
+            incomeName: null, // 标题
+            incomeContent: null // 内容
+        };
 
         // 常量（类型：1000,2000,3000,4000,5000,6000）==风险提示-重点关注/风险提示-一般关注
         $scope.risk = {
@@ -2085,6 +2091,19 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.newDecisionMaking = angular.copy($scope.decisionMakingVar);
             $scope.newDecisionMaking.orderno = $scope.projectSummary.decisionMakings.length;
             $scope.projectSummary.decisionMakings.push($scope.newDecisionMaking);
+        };
+
+        // 新增项目收益表格
+        $scope.addIncomeTable = function () {
+            $scope.newIncomeTable = angular.copy($scope.incomeTableVar);
+            if (!$scope.projectSummary.hasOwnProperty('incomeTables')) {
+                $scope.projectSummary.incomeTables = [];
+                $scope.projectSummary.count = [0];
+            } else {
+                var tab = $scope.projectSummary.count.length - 1;
+                $scope.projectSummary.count.push($scope.projectSummary.count[tab] + 1);
+            }
+            $scope.projectSummary.incomeTables.push($scope.newIncomeTable);
         };
 
         // 升序方法

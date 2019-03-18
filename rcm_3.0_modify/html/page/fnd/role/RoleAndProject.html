@@ -27,7 +27,7 @@
                     <div class="txl">
                         <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
                         <button  type="button" data-toggle="modal" data-target="#roleProjectMulti" class="btn btn-info"><i class="glyphicon glyphicon-ok-circle"></i>添加</button>
-                        <button  type="button" ng-click="removeRoleUser()" class="btn btn-info"><i class="glyphicon glyphicon-ok-circle"></i>删除</button>
+                        <button  type="button" ng-click="removeRoleProject()" class="btn btn-info"><i class="glyphicon glyphicon-ok-circle"></i>删除</button>
                     </div>
                 </div>
                 <div class="">
@@ -78,5 +78,5 @@
     </form>
 </div>
 <div id="roleProjectMulti" class="modal" tabindex="-1" role="dialog" style="display: none;">
-    <direct-user-multi-dialog id="{{'roleUserMultiDialog'}}" title="{{'用户列表'}}" url="{{'role/queryRoleAddUserByPage.do'}}" mapped-key-value="mappedKeyValue" query-params="queryParams" checked-users="checkedUsers" callback="addRoleUser"></direct-user-multi-dialog>
+    <direct-project-multi-dialog id="{{'roleProjectMultiDialog'}}" title="{{'项目列表'}}" url="{{'role/queryRoleAddProjectByPage.do'}}" mapped-key-value="mappedKeyValue" query-params="queryParams" checked-projects="checkedProjects" callback="addRoleProject"></direct-project-multi-dialog>
 </div>
