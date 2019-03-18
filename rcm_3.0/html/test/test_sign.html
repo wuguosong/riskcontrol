@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加签测试</title>
+    <script type="text/javascript" src="/javascripts/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+Key
+<select name="key" id="key">
+    <option value="bulletin">bulletin</option>
+    <option value="formalAssessment">formalAssessment</option>
+    <option value="preAssessment">preAssessment</option>
+</select>
+Type
+<select name="type" id="type">
+    <option value="before">before</option>
+    <option value="after">after</option>
+</select>
+<input onclick="doSign()" type="button" value="doSign">
+<input onclick="endSign()" type="button" value="endSign">
+<input onclick="nextTask()" type="button" value="nextTask">
+<script type="text/javascript">
+    var url = "http://localhost:8080/rcm-rest/";
+    var business_id = '5c85f98d5544cd2dec58a1fd';
+    var task_id = '322505';
+    var user_id = '0001A41000000017Q1XU';
+    function doSign() {
+        console.log($('#key').val());
+        console.log($('#type').val());
+        $.ajax({
+            url: url + "sign/doSign.do",
+            type: "POST",
+            dataType: "json",
+            data: {
+                'user_json': JSON.stringify({
+                    'VALUE': user_id
+                }),
+                'type': $('#type').val(),
+                'business_module': $('#key').val(),
+                'business_id': business_id,
+                'task_id': task_id,
+                'option': '加签进行中...'
+            },
+            async: false,
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+    function endSign() {
+        console.log($('#key').val());
+        console.log($('#type').val());
+        $.ajax({
+            url: url + "sign/endSign.do",
+            type: "POST",
+            dataType: "json",
+            data: {
+                'type': $('#type').val(),
+                'business_module': $('#key').val(),
+                'business_id': business_id,
+                'task_id': task_id,
+                'option': '加签结束...'
+            },
+            async: false,
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function nextTask(){
+        alert('nextTask');
+    }
+</script>
+</body>
+</html>

@@ -16,9 +16,9 @@ ctmApp.register.controller('FormalAssessmentAuditList', ['$http','$scope','$rout
 	}
 	$scope.getWaitFormalAssessmentList = function(){
 		$http({
-			method:'post',  
-		    url: srvUrl + "formalAssessmentAudit/queryWaitList.do",
-		    data: $.param({"page":JSON.stringify($scope.paginationConf)})
+            method: 'post',
+            url: srvUrl + "sign/queryAgency.do",
+            data: $.param({"key":"formalAssessment","page": JSON.stringify($scope.paginationConf)})
 		}).success(function(result){
 			$scope.waitFormalAssessmentList = result.result_data.list;
 			$scope.paginationConf.totalItems = result.result_data.totalItems;

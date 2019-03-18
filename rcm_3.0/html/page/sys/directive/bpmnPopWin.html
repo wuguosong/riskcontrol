@@ -32,12 +32,16 @@
                             </label>
                             <!--<input type="radio" name="toNodeIndex" ng-model="$parent.toNodeIndex" value="{{$index}}" ng-change="changeToNodeIndex()"/>-->
                         </div>
-                        <div ng-show="approve.document.change == '1'">
+                        <!--<div ng-show="approve.document.change == '1'">-->
+                        <div>
                             <label class="radio radio-inline">
-                                <input class="px" type="radio" name="bpmnProcessOption" id="change" ng-click="showSelectPerson()"/>
+                                <input class="px" type="radio" name="bpmnProcessOption" id="change"  value="CHANGE" ng-click="showSelectPerson()"/>
                                 <span class="lbl">
-                                    <div class="text">转办&nbsp;&nbsp;&nbsp;&nbsp;<span ng-show="$parent.checkedUser.NAME != null && $parent.checkedUser.NAME !=''">{{$parent.checkedUser.NAME}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="javaScript:void(0)" ng-click="showSelectPerson()">重新选择</a></span></div>
-<!--                                     <direct-user-single-select id="changeUser" checkedUser="changeUser" mappedKeyValue="changeUserMapper"></direct-user-single-select> -->
+                                    <div class="text">加签&nbsp;&nbsp;
+                                        <select ng-model="changeTypeSelected">
+                                            <option ng-repeat="changeType in changeTypes" value="{{changeType.key}}">{{changeType.value}}</option>
+                                        </select>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span ng-show="$parent.checkedUser.NAME != null && $parent.checkedUser.NAME !=''">{{$parent.checkedUser.NAME}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="javaScript:void(0)" ng-click="showSelectPerson()">重新选择</a></span></div>
                                 </span>
                             </label>
                         </div>
@@ -103,7 +107,7 @@
                     <div class="col-sm-9">
                     	<div>
                             <label class="radio radio-inline">
-                                <input class="px" type="radio" name="bpmnProcessOption"  id="workOver"/>
+                                <input class="px" type="radio" name="bpmnProcessOption"  id="workOver" value="WORKOVER"/>
                                 <span class="lbl">
                                     <div class="text">完结</div>
                                 </span>
@@ -111,9 +115,13 @@
                         </div>
                         <div>
                             <label class="radio radio-inline">
-                                <input class="px" type="radio" name="bpmnProcessOption" id="change" ng-click="showSelectPerson()"/>
+                                <input class="px" type="radio" name="bpmnProcessOption" id="change"  value="CHANGE" ng-click="showSelectPerson()"/>
                                 <span class="lbl">
-                                    <div class="text">转办&nbsp;&nbsp;&nbsp;&nbsp;<span ng-show="$parent.checkedUser.NAME != null && $parent.checkedUser.NAME !=''">{{$parent.checkedUser.NAME}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="javaScript:void(0)" ng-click="showSelectPerson()">重新选择</a></span></div>
+                                    <div class="text">加签&nbsp;&nbsp;
+                                        <select ng-model="changeTypeSelected">
+                                            <option ng-repeat="changeType in changeTypes" value="{{changeType.key}}">{{changeType.value}}</option>
+                                        </select>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span ng-show="$parent.checkedUser.NAME != null && $parent.checkedUser.NAME !=''">{{$parent.checkedUser.NAME}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="javaScript:void(0)" ng-click="showSelectPerson()">重新选择</a></span></div>
                                 </span>
                             </label>
                         </div>

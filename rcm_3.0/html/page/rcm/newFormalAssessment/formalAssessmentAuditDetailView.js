@@ -1,5 +1,13 @@
 ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','$location','$routeParams','Upload','$timeout', 
  function ($http,$scope,$location,$routeParams,Upload,$timeout) {
+	 /*加签功能初始化必需数据*/
+     $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};
+     $scope.checkedUser = {};
+     $scope.callback = function () {
+         $("#userSinDialog").modal('hide');
+         $("#submitModal").modal('show');
+     };
+	 /*加签功能初始化必需数据*/
 	//初始化
 	$scope.businessId = $routeParams.id;
 	$scope.taskMark = $routeParams.taskMark;
@@ -1356,6 +1364,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							}
 					};
 					$scope.approve.showController = $scope.showController;
+                    if ($scope.curLog.CHANGETYPE != '') {
+                        $scope.approve.operateType = "change";
+                    }
 					$('#submitModal').modal('show');
 				});
 			}else{
@@ -1382,6 +1393,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							}
 					};
 					$scope.approve.showController = $scope.showController;
+                    if ($scope.curLog.CHANGETYPE != '') {
+                        $scope.approve.operateType = "change";
+                    }
 					$('#submitModal').modal('show');
 				});
 			}
@@ -1879,4 +1893,5 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		$scope.getSelectTypeByCodeL("09");
 	});
 	$scope.initData();
+	$scope.curLog = wf_getTaskLog("formalAssessment", $routeParams.id, $scope.credentials.UUID);
 }]);

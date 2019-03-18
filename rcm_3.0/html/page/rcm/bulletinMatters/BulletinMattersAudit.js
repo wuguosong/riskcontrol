@@ -530,8 +530,8 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
     		
     		$scope.errorAttach[idx]={msg:''};
     		Upload.upload({
-    			url:srvUrl+'file/uploadFile.do',
-    			data: {file: file, folder:fileFolder}
+                url:srvUrl+'file/uploadFile.do',
+                data: {file: file, folder:fileFolder}
     		}).then(function (resp) {
     			var retData = resp.data.result_data[0];
     			$scope.bulletin.riskLeaderAttachment[idx]=retData;
@@ -573,9 +573,13 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 					},
 					document:$scope.document
 				};
-	    		if($scope.curLog.OLDUSERID != null && $scope.curLog.OLDUSERID != ''){
+	    		/*if($scope.curLog.OLDUSERID != null && $scope.curLog.OLDUSERID != '' && $scope.curLog.OLDUSERID != $scope.credentials.UUID){
 	    			$scope.approve.operateType="change";
-	    		}
+	    		}*/
+                if ($scope.curLog.CHANGETYPE != '') {
+                    debugger;
+                    $scope.approve.operateType = "change";
+                }
 				$('#submitModal').modal('show');
 	    	});
 		});
@@ -588,4 +592,5 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			$(":checkbox[name='choose']").attr("checked",false);
 		}
 	}
+
 }]);

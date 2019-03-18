@@ -197,6 +197,7 @@ public class SignService implements ISignService {
         Map<String, Object> deleteLog = new HashMap<String, Object>();
         deleteLog.put("businessId", business_id);
         deleteLog.put("isWaiting", "1");
+        deleteLog.put("currentUserId", lastUserId);
         this.bulletinAuditMapper.deleteWaitlog(deleteLog);
         // 插入已办日志
         int orderByReady = bulletinAuditMapper.queryMaxOrderNum(business_id);
@@ -288,6 +289,7 @@ public class SignService implements ISignService {
         Map<String, Object> deleteLog = new HashMap<String, Object>();
         deleteLog.put("businessId", business_id);
         deleteLog.put("isWaiting", "1");
+        deleteLog.put("currentUserId", lastUserId);
         this.formalAssessmentAuditMapper.deleteWaitlogs(deleteLog);
         // 插入已办日志
         int orderByReady = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
@@ -436,6 +438,7 @@ public class SignService implements ISignService {
         deleteLog.put("businessId", business_id);
         deleteLog.put("isWaiting", "1");
         deleteLog.put("taskId", task_id);
+        deleteLog.put("currentUserId", lastUserId);
         formalAssessmentAuditMapper.deleteWaitlogs(deleteLog);
         // 插入转办初始人已办日志
         int orderByAlready = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
@@ -510,6 +513,7 @@ public class SignService implements ISignService {
         delLog.put("businessId", business_id);
         delLog.put("isWaiting", "1");
         delLog.put("taskId", task_id);
+        delLog.put("currentUserId", lastUserId);
         bulletinAuditMapper.deleteWaitlog(delLog);
         // 插入已办日志
         int orderByAlready = bulletinAuditMapper.queryMaxOrderNum(business_id);
