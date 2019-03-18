@@ -27,22 +27,27 @@
                         </label>
                     </td>
                     <td>
-                        <div class="col-sm-9 noleft-pad noright-pad">
-                            <span ng-bind="progress$index"></span>
+                        <div class="col-sm-8 noleft-pad noright-pad">
+                            <span ng-bind="_progress_$index"></span>
                             <span style="">{{errorAttach[$index].msg}}</span>
                             <span class="required">*</span>
                             <a href="javascript:void(0);" ng-click="_download(_file.download3d)" style="line-height: 27px;">{{_file.filename}}</a>
                         </div>
-                        <div class="col-sm-3 noright-pad txr">
+                        <div class="col-sm-4 noright-pad txr">
                             <button type="button" class="btn btn-info"
                                     ngf-max-size="100MB"
-                                    ngf-select="_uploadThat($file, $index)">浏览
+                                    ngf-select="_uploadThat($file, $index)"
+                                    ng-show="{{showUpload=='true'}}"
+                            >浏览
                             </button>
-                            <button type="button" class="btn btn-info" ng-click="_review(_file.preview3d)">
+                            <button type="button" class="btn btn-info" ng-click="_review(_file.preview3d)" ng-show="{{showReview=='true'}}">
                                 预览
                             </button>
-                            <button type="button" class="btn btn-info" ng-click="_download(_file.download3d)">
+                            <button type="button" class="btn btn-info" ng-click="_download(_file.download3d)" ng-show="{{showDownload=='true'}}">
                                 下载
+                            </button>
+                            <button type="button" class="btn btn-info" ng-click="_delete(_file.fileid)" ng-show="{{showDelete=='true'}}">
+                                删除
                             </button>
                         </div>
                     </td>

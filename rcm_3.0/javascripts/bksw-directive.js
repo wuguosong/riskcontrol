@@ -5383,19 +5383,17 @@ ctmApp.directive('commonAttachments', function () {
             id: "@",// 组件ID,确保唯一性
             docType: "@",// 业务类型
             docCode: "@",// 业务单据编号或者UUID
-            pageLocation: "@"// 组件在页面的位置,保证唯一性,可以与组件ID保持及一致
+            pageLocation: "@",// 组件在页面的位置,保证唯一性,可以与组件ID保持及一致
+            showUpload:"@",// 是否展示浏览按钮
+            showReview:"@",// 是否展示预览按钮
+            showDownload:"@",// 是否展示下载按钮
+            showDelete:"@"// 是否展示删除按钮
         },
         link: function (scope, element, attr) {
         },
         controller: function ($scope, Upload) {
-            // 初始化文件列表
-            console.log($scope.id);
-            console.log($scope.docType);
-            console.log($scope.docCode);
-            console.log($scope.pageLocation);
             // 初始化
             $scope._init = function () {
-                debugger;
                 $scope._files = attach_list($scope.docType, $scope.docCode, $scope.pageLocation).result_data;
             };
             $scope._init();
@@ -5454,7 +5452,7 @@ ctmApp.directive('commonAttachments', function () {
                     $.alert(resp.status);
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope["progress" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                    $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
                 });
                 $scope._init();
             };
@@ -5468,6 +5466,11 @@ ctmApp.directive('commonAttachments', function () {
             $scope._download = function (uri) {
                 window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
+
+            $scope._delete = function(file_id){
+                attach_delete(file_id);
+                $scope._init();
+            }
         }
     };
 });
