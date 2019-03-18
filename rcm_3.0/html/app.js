@@ -794,3 +794,69 @@ function wf_getTaskLog(business_module, business_id, uuid){
     return log;
 }
 /**流程相关的一些公共方法结束**/
+/**附件相关的一些公共方法开始**/
+/**
+ * 上传附件
+ * @param docType
+ * @param docCode
+ * @param pageLocation
+ * @returns {*}
+ */
+function attach_upload(docType, docCode, pageLocation){
+    var url = srvUrl + "cloud/upload.do";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"docType": docType,'docCode':docCode,'pageLocation':pageLocation},
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+}
+/**
+ * 删除附件
+ * @param fileId
+ * @returns {*}
+ */
+function attach_delete(fileId){
+    var url = srvUrl + "cloud/delete.do";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"fileId": fileId},
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+}
+/**
+ * 查询附件
+ * @param docType
+ * @param docCode
+ * @param pageLocation
+ * @returns {*}
+ */
+function attach_list(docType, docCode, pageLocation){
+    var url = srvUrl + "cloud/list.do";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"docType": docType,'docCode':docCode,'pageLocation':pageLocation},
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+}
+/**附件相关的一些公共方法结束**/
