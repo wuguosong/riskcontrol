@@ -385,11 +385,11 @@ public class RoleService implements IRoleService {
 	}
 
 	@Override
-	public void addRoleProject(List<Map<String, Object>> roleUsers) {
-		for (Map<String, Object> map : roleUsers) {
+	public void addRoleProject(List<Map<String, Object>> roleProjects) {
+		for (Map<String, Object> map : roleProjects) {
 			Map<String, Object> resutlData = roleMapper.queryByRoleProject(map);
 			if(Util.isEmpty(resutlData)){
-				roleMapper.addRoleProject(map);
+				roleMapper.insertProRole(map);
 			}
 		}
 	}

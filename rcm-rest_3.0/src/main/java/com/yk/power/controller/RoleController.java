@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import util.ThreadLocalUtil;
 import util.Util;
 
 import com.yk.flow.util.JsonUtil;
@@ -442,6 +443,47 @@ public class RoleController {
 		Result result = new Result();
 		roleService.queryRoleProjectListByPage(page);
 		result.setResult_data(page);
+		return result;
+	}
+	
+	/**
+	 * 分页查询角色可以添加的项目
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/queryRoleAddProjectByPage")
+	@ResponseBody
+	public Result queryRoleAddProjectByPage(HttpServletRequest request) {
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		Result result = new Result();
+		roleService.queryRoleAddProjectByPage(page);
+		result.setResult_data(page);
+		return result;
+	}
+	
+	/**
+	 * 添加角色项目
+	 * @param roleId
+	 * @param json
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/addRoleProject")
+	@ResponseBody
+	public Result addRoleProject(String roleId, String create_date,String json,HttpServletRequest request) {
+		List<Map<String,Object>> roleProjects = JsonUtil.fromJson(json, List.class);
+		Result result = new Result();
+		Map<String, Object> roleInfo = roleService.queryById(roleId);
+		for (Map<String, Object> map : roleProjects) {
+			Object projectId = map.get("BUSINESSID");
+			map.put("id", Util.getUUID());
+			map.put("businessId", projectId);
+			map.put("roleId", roleId);
+			map.put("createBy", ThreadLocalUtil.getUser().get("NAME"));
+			map.put("create_date", create_date);
+			map.put("projectType", map.get("PROJECT_TYPE"));
+		}
+		roleService.addRoleProject(roleProjects);
 		return result;
 	}
 }

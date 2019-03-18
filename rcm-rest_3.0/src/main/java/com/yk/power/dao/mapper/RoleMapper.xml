@@ -355,7 +355,7 @@
 	</insert>
 	
 	<!-- 查询角色项目列表-分页 -->
-<select id="queryRoleProjectListByPage" resultType="map" useCache="false">
+    <select id="queryRoleProjectListByPage" resultType="map" useCache="false">
     SELECT *
       FROM (SELECT FI.ID,
                    FI.BUSINESSID,
@@ -419,5 +419,67 @@
         and T.PROJECTNAME like '%${name}%'
     </if>
     ORDER BY T.CREATE_DATE DESC
-</select>
+    </select>
+    
+    
+    <!-- 查询角色项目列表-分页 -->
+    <select id="queryRoleAddProjectByPage" resultType="map" useCache="false">
+    SELECT *
+      FROM (SELECT FI.ID,
+                   FI.BUSINESSID,
+                   FI.PROJECTNAME,
+                   'pfr' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
+                   FI.CREATE_DATE,
+                   FI.WF_STATE,
+                   FI.OLDDATA,
+                   FI.APPLY_DATE,
+                   FI.STAGE
+              FROM RCM_FORMALASSESSMENT_INFO FI
+
+            UNION ALL
+
+            SELECT PI.ID,
+                   PI.BUSINESSID,
+                   PI.PROJECTNAME,
+                   'pre' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
+                   PI.CREATE_DATE,
+                   PI.WF_STATE,
+                   PI.OLDDATA,
+                   PI.APPLY_DATE,
+                   PI.STAGE
+              FROM RCM_PRE_INFO PI
+            
+            UNION ALL
+            
+            SELECT BI.ID,
+                   BI.BUSINESSID,
+                   BI.BULLETINNAME PROJECTNAME,
+                   'bulletin' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
+                   BI.CREATETIME CREATE_DATE,
+                   BI.AUDITSTATUS WF_STATE,
+                   '0' OLDDATA,
+                   BI.APPLYTIME APPLY_DATE,
+                   BI.STAGE
+              FROM RCM_BULLETIN_INFO BI) T
+     WHERE 1 = 1
+       AND T.BUSINESSID NOT IN (SELECT PR.BUSINESS_ID FROM SYS_PROJECT_ROLE PR WHERE PR.ROLE_ID = #{roleId})
+    
+    <if test="name != null and '' != name">
+        and T.PROJECTNAME like '%${name}%'
+    </if>
+    ORDER BY T.CREATE_DATE DESC
+    </select>
+    <select id="queryByRoleProject" resultType="map" useCache="false" parameterType="map">
+		SELECT PR.* from SYS_PROJECT_ROLE PR
+		WHERE PR.BUSINESS_ID = #{businessId} AND PR.ROLE_ID = #{roleId} 
+	</select>
 </mapper>

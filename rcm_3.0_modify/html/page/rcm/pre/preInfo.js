@@ -28,15 +28,12 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         var year = myDate.getFullYear();
         //获取当前月
         var month = myDate.getMonth() + 1;
-        if (month < 10){
-            month = "0" + month;
-        }
         //获取当前日
         var date = myDate.getDate();
         var h = myDate.getHours(); //获取当前小时数(0-23)
         var m = myDate.getMinutes(); //获取当前分钟数(0-59)
         var s = myDate.getSeconds();
-        var now = year + '-' + month + "-" + date;
+        var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
         return now;
     }
 

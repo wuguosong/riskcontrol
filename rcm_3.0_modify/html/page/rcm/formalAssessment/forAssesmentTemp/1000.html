@@ -23,10 +23,10 @@
                               name="{{ 'projectOverview_content' + $index }}"
                               ng-model="projectOverview.content"
                               class="form-control ng-pristine ng-valid ng-touched" ng-required="projectOverview.modify === '1'"></textarea>
-                        <div class="error-messages"
-                             ng-if="interacted(formalReportForm['projectOverview_content' + $index])">
-                            这里是必填项
-                        </div>
+                    <div class="error-messages"
+                         ng-if="interacted(formalReportForm['projectOverview_content' + $index])">
+                        这里是必填项
+                    </div>
                 </td>
                 <td>
                     <button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"
@@ -189,6 +189,40 @@
             </tr>
             </tbody>
         </table>
+        <div ng-repeat="incomeTable in projectSummary.incomeTables">
+            <div>项目收益表{{$index + 1}}</div>
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="20%">收益项</th>
+                    <th width="80%">收益内容</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>
+                        <input class="form-control" type="text" name="{{ 'incomeName' + $index }}" ng-model="incomeTable.incomeName" required/>
+                        <div class="error-messages"
+                             ng-if="interacted(['incomeName' + $index])">
+                            这里是必填项
+                        </div>
+                    </td>
+                    <td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="incomeTable.incomeContent" name="{{ 'incomeContent' + $index }}" required></textarea>
+                        <div class="error-messages"
+                             ng-if="interacted(formalReportForm['incomeContent' + $index])">
+                            这里是必填项
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row" align="center">
+            <button class="btn-add1" ng-click="addIncomeTable()"/>
+        </div>
     </div>
 </div>
 
@@ -234,6 +268,7 @@
             </tr>
             </tbody>
         </table>
+
         <div class="row" align="center">
             <button class="btn-add1" ng-click="addRisk('seriousRisks')"/>
         </div>

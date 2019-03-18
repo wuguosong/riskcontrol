@@ -1361,6 +1361,137 @@ ctmApp.directive('directUploadFileTouzi', function() {
         }
     };
 });
+// 项目多选
+ctmApp.directive('directProjectMultiDialog', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directProjectMultiDialog.html',
+        replace: true,
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            url: "@",
+            //查询参数
+            queryParams: "=",
+            //默认选中的用户,数组类型，[{NAME:'张三',VALUE:'user.uuid'},{NAME:'李四',VALUE:'user.uuid'}]
+            checkedProjects: "=",
+            //映射的key，value，{nameField:'username',valueField:'uuid'}，
+            //默认为{nameField:'NAME',valueField:'VALUE'}
+            mappedKeyValue: "=",
+            callback: "="
+            //移除选中的人员，调用父scope中的同名方法
+//        	removeSelectedUser: "&"
+        },
+        controller:function($scope,$http,$element){
+           /* if($scope.url == null || '' == $scope.url){
+                $scope.url = "user/queryProjectForSelected.do";
+            }*/
+            $scope.paginationConf = {
+                lastCurrentTimeStamp:'',
+                currentPage: 1,
+                totalItems: 0,
+                itemsPerPage: 10,
+                pagesLength: 10,
+                queryObj:{},
+                perPageOptions: [10, 20, 30, 40, 50],
+                onChange: function(){
+                }
+            };
+            if(null != $scope.queryParams){
+                $scope.paginationConf.queryObj = $scope.queryParams;
+            }
+            $scope.queryProject = function(){
+                $http({
+                    method:'post',
+                    url:srvUrl+$scope.url,
+                    data: $.param({"page":JSON.stringify($scope.paginationConf)})
+                }).success(function(data){
+                    debugger
+                    if(data.success){
+                        $scope.projects = data.result_data.list;
+                        $scope.paginationConf.totalItems = data.result_data.totalItems;
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            }
+            $scope.removeSelectedProject = function(project){
+                for(var i = 0; i < $scope.tempCheckedProjects.length; i++){
+                    if(project.VALUE == $scope.tempCheckedProjects[i].VALUE){
+                        $scope.tempCheckedProjects.splice(i, 1);
+                        break;
+                    }
+                }
+            };
+            $scope.isChecked = function(project){
+                for(var i = 0; i < $scope.tempCheckedProjects.length; i++){
+                    if(project.ID    == $scope.tempCheckedProjects[i].VALUE){
+                        return true;
+                    }
+                }
+                return false;
+            };
+            $scope.toggleChecked = function(project){
+                debugger
+                //是否选中
+                var isChecked = $("#chk_"+$scope.id+"_"+project.ID).prop("checked");
+                //是否已经存在
+                var flag = false;
+                for(var i = 0; i < $scope.tempCheckedProjects.length; i++){
+                    if(project.ID == $scope.tempCheckedProjects[i].VALUE){
+                        flag = true;
+                        if(!isChecked){
+                            $scope.tempCheckedProjects.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                if(isChecked && !flag){
+                    //如果已经选中，但是不存在，添加
+                    $scope.tempCheckedProjects.push({"VALUE":project.BUSINESSID,"NAME":project.PROJECTNAME,"PROJECT_TYPE":project.PROJECT_TYPE});
+                }
+            };
+
+            $scope.cancelSelected = function(){
+                $scope.initData();
+            }
+            $scope.saveSelected = function(){
+                debugger
+                var cus = $scope.tempCheckedProjects;
+                $scope.checkedProjects.splice(0,$scope.checkedProjects.length)
+                for(var i = 0; i < cus.length; i++){
+                    var project = {};
+                    project[$scope.mappedKeyValue.nameField] = cus[i].NAME;
+                    project[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
+                    project[$scope.mappedKeyValue.typeField] = cus[i].PROJECT_TYPE;
+
+                    $scope.checkedProjects.push(project);
+                    delete project.$$hashKey;
+                }
+                if($scope.callback != null){
+                    $scope.callback();
+                }
+            }
+            $scope.initData = function(){
+                var cus = $.parseJSON(JSON.stringify($scope.checkedProjects));
+                $scope.tempCheckedProjects = [];
+                for(var i = 0; i < cus.length; i++){
+                    var project = {};
+                    project.NAME = cus[i][$scope.mappedKeyValue.nameField];
+                    project.VALUE = cus[i][$scope.mappedKeyValue.valueField];
+                    project.PROJECT_TYPE = cus[i][$scope.mappedKeyValue.typeField];
+                    $scope.tempCheckedProjects.push(project);
+                }
+                $scope.paginationConf.queryObj.name = '';
+                $scope.queryProject();
+            }
+            $scope.$watch('checkedProjects', $scope.initData, true);
+            $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryProject);
+        }
+    };
+});
 /*******************************************************公共指令结束***************************************************/
 
 

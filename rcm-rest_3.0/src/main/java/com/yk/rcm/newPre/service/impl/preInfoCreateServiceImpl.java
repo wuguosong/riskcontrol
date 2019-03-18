@@ -16,6 +16,7 @@ import util.Util;
 
 import com.yk.common.IBaseMongo;
 import com.yk.power.dao.IRoleMapper;
+import com.yk.power.service.IOrgService;
 import com.yk.rcm.newPre.dao.IPreInfoCreateMapper;
 import com.yk.rcm.newPre.service.IPreInfoCreateService;
 
@@ -34,6 +35,8 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 	private IRoleMapper roleMapper;
 	@Resource
 	private IBaseMongo baseMongo;
+	@Resource
+	private IOrgService orgService;
 	
 	@Override
 	public void createProject(String json) {
@@ -110,6 +113,10 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		
 		Document reportingUnit = (Document) apply.get("pertainArea");
 		params.put("reportingUnit_id", reportingUnit.getString("KEY"));
+		
+		//根据申报单位初始化大区ID
+		Map<String, Object> pertainAreaDocument = orgService.queryPertainArea(reportingUnit.get("VALUE").toString());
+		params.put("pertainAreaId", pertainAreaDocument.get("ORGPKVALUE"));
 		
 		List<Document> serviceType = (List<Document>) apply.get("serviceType");
 		if(Util.isNotEmpty(serviceType) && serviceType.size()>0){
