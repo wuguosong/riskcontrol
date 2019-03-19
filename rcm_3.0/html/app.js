@@ -781,7 +781,7 @@ function wf_listTaskLog(business_module, business_id){
  * @public
  */
 function wf_getTaskLog(business_module, business_id, uuid){
-    var logs = this.wf_listTaskLog(business_module, business_id);
+    var logs = wf_listTaskLog(business_module, business_id);
     var log = null;
     for (var i in logs) {
         if (logs[i].ISWAITING == '1') {
