@@ -3722,7 +3722,7 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     url: srvUrl + "sign/doSign.do",
                     data: $.param({
                         'type': $scope.changeTypeSelected,
-                        'business_module': 'formalAssessment',
+                        'business_module': 'formalReview',
                         "business_id": $scope.approve.businessId,
                         "user_json": JSON.stringify($scope.$parent.checkedUser),
                         "task_id": $scope.$parent.curLog.TASKID,
@@ -5382,7 +5382,7 @@ ctmApp.directive('commonAttachments', function () {
         scope: {
             id: "@",// 组件ID,确保唯一性
             docType: "@",// 业务类型
-            docCode: "@",// 业务单据编号或者UUID
+            docCode: "=",// 业务单据编号或者UUID
             pageLocation: "@",// 组件在页面的位置,保证唯一性,可以与组件ID保持及一致
             showUpload:"@",// 是否展示浏览按钮
             showReview:"@",// 是否展示预览按钮
@@ -5394,6 +5394,7 @@ ctmApp.directive('commonAttachments', function () {
         controller: function ($scope, Upload) {
             // 初始化
             $scope._init = function () {
+                console.log($scope.docCode);
                 $scope._files = attach_list($scope.docType, $scope.docCode, $scope.pageLocation).result_data;
             };
             $scope._init();
