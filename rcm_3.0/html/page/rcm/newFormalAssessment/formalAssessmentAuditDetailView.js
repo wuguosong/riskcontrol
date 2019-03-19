@@ -1364,8 +1364,10 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							}
 					};
 					$scope.approve.showController = $scope.showController;
-                    if ($scope.curLog.CHANGETYPE != '') {
-                        $scope.approve.operateType = "change";
+                    if ($scope.curLog.CHANGETYPE) {
+                    	if($scope.curLog.CHANGETYPE != ''){
+                            $scope.approve.operateType = "change";
+                        }
                     }
 					$('#submitModal').modal('show');
 				});
@@ -1393,8 +1395,10 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							}
 					};
 					$scope.approve.showController = $scope.showController;
-                    if ($scope.curLog.CHANGETYPE != '') {
-                        $scope.approve.operateType = "change";
+                    if ($scope.curLog.CHANGETYPE) {
+                        if($scope.curLog.CHANGETYPE != ''){
+                            $scope.approve.operateType = "change";
+                        }
                     }
 					$('#submitModal').modal('show');
 				});
@@ -1893,5 +1897,5 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		$scope.getSelectTypeByCodeL("09");
 	});
 	$scope.initData();
-	$scope.curLog = wf_getTaskLog("formalAssessment", $routeParams.id, $scope.credentials.UUID);
+	$scope.curLog = wf_getTaskLog("formalReview", $routeParams.id, $scope.credentials.UUID);
 }]);

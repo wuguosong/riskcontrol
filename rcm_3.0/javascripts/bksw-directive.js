@@ -3755,7 +3755,7 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     method: 'post',
                     url: srvUrl + "sign/endSign.do",
                     data: $.param({
-                        "business_module": "formalAssessment",
+                        "business_module": "formalReview",
                         "business_id": $scope.approve.businessId,
                         "task_id": $scope.$parent.curLog.TASKID,
                         "option": $scope.flowVariables.opinion
