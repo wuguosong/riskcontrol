@@ -486,4 +486,133 @@ public class RoleController {
 		roleService.addRoleProject(roleProjects);
 		return result;
 	}
+	
+	/**
+	 * 根据ID删除角色项目
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("deleteRoleProjectById")
+	@ResponseBody
+	public Result deleteRoleProjectById(String id){
+		Result result = new Result();
+		roleService.deleteRoleProjectById(id.split(","));
+		return result;
+	}
+	
+	
+	/**
+	 * 分页查询角色组织
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/queryRoleOrgListByPage")
+	@ResponseBody
+	public Result Org(HttpServletRequest request) {
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		Result result = new Result();
+		roleService.queryRoleOrgListByPage(page);
+		result.setResult_data(page);
+		return result;
+	}
+	
+	/**
+	 * 分页查询角色可以添加的组织
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/queryRoleAddOrgByPage")
+	@ResponseBody
+	public Result queryRoleAddOrgByPage(HttpServletRequest request) {
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		Result result = new Result();
+		roleService.queryRoleAddOrgByPage(page);
+		result.setResult_data(page);
+		return result;
+	}
+	
+	/**
+	 * 添加角色组织
+	 * @param roleId
+	 * @param json
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/addRoleOrg")
+	@ResponseBody
+	public Result addRoleOrg(String roleId, String create_date,String json,HttpServletRequest request) {
+		List<Map<String,Object>> roleOrgs = JsonUtil.fromJson(json, List.class);
+		Result result = new Result();
+		Map<String, Object> roleInfo = roleService.queryById(roleId);
+		for (Map<String, Object> map : roleOrgs) {
+			map.put("id", Util.getUUID());
+			map.put("orgId", map.get("ORGID"));
+			map.put("roleId", roleId);
+			map.put("createBy", ThreadLocalUtil.getUser().get("NAME"));
+			map.put("create_date", create_date);
+		}
+		roleService.addRoleOrg(roleOrgs);
+		return result;
+	}
+	
+	/**
+	 * 根据ID删除角色组织
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("deleteRoleOrgById")
+	@ResponseBody
+	public Result deleteRoleOrgById(String id){
+		Result result = new Result();
+		roleService.deleteRoleOrgById(id.split(","));
+		return result;
+	}
+	
+	
+	
+	/*@RequestMapping("queryOrg")
+	@ResponseBody
+	public Result queryOrg(){
+		Result result = new Result();
+		List<Map<String, Object>> list = roleService.queryOrg();
+		result.setResult_data(list);
+		return result;
+	}
+	
+	@RequestMapping("getRoleAndOrg")
+	@ResponseBody
+	public Result getRoleAndOrg(String roleId){
+		Result result = new Result();
+		List<Map<String, Object>> list = roleService.getRoleAndOrg(roleId);
+		result.setResult_data(list);
+		return result;
+	}
+	
+	@RequestMapping("createOrUpdateRoleAndOrg")
+	@ResponseBody
+	public Result createOrUpdateRoleAndOrg(String UUID,String ROLE_ID, String CREATE_DATE,String ROLE_CODE){
+		Result result = new Result();
+		//先删除已经保存的组织id
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("role_id", ROLE_ID);
+		roleService.deleteRoleAndOrg(paramMap);
+		//重新保存组织id
+		String arrId= UUID;
+		String[] array={};
+		if(null!=arrId && !"".equals(arrId)){
+			array=arrId.split(",");
+			for(String id :array){
+				Map<String, Object> paramMap2 = new HashMap<String, Object>();
+				paramMap2.put("id", Util.getUUID());
+				paramMap2.put("orgId", id);
+				paramMap2.put("roleId", ROLE_ID);
+				paramMap2.put("createBy", ThreadLocalUtil.getUser().get("NAME"));
+				paramMap2.put("create_date", CREATE_DATE);
+				roleService.insertRoleAndOrg(paramMap2);
+			}
+		}
+		return result;
+	}*/
 }

@@ -65,7 +65,7 @@ ctmApp.register.controller('RoleAndProject', ['$http','$scope','$location','$rou
 	     		    data: $.param({"id":uid})
 	     		}).success(function(result){
 	     			if(result.success){
-	     				$scope.queryRoleUserListByPage();
+	     				$scope.queryRoleProjectListByPage();
 	     			}else{
 	     				$.alert(result.result_name);
 	     			}

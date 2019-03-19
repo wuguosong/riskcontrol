@@ -478,8 +478,124 @@
     </if>
     ORDER BY T.CREATE_DATE DESC
     </select>
+    
     <select id="queryByRoleProject" resultType="map" useCache="false" parameterType="map">
 		SELECT PR.* from SYS_PROJECT_ROLE PR
 		WHERE PR.BUSINESS_ID = #{businessId} AND PR.ROLE_ID = #{roleId} 
 	</select>
+	
+	<delete id="deleteRoleProjectById" parameterType="string">
+		DELETE FROM SYS_PROJECT_ROLE WHERE ID IN
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>  
+	</delete>
+	
+	
+	
+	
+	
+	<!-- 新增数据到ProRole -->
+	<insert id="insertOrgRole" parameterType="map">
+		insert into SYS_ORG_ROLE (
+		    ID,
+			ORG_ID,
+			ROLE_ID,
+			create_by,
+			create_date
+		) values (
+		    #{id},
+			#{orgId},
+			#{roleId},
+			#{createBy},
+			to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')
+		)
+	</insert>
+	
+	<!-- 查询角色项目列表-分页 -->
+    <select id="queryRoleOrgListByPage" resultType="map" useCache="false">
+    SELECT *
+      FROM (SELECT O.ORGPKVALUE,
+                   O.NAME,
+                   SOR.ID ORG_ROLE_ID,
+                   (SELECT NAME FROM SYS_ORG SO WHERE SO.ORGPKVALUE = O.PARENTPKVALUE) PARENTNAME
+              FROM SYS_ORG_ROLE SOR, SYS_ORG O
+             WHERE SOR.ORG_ID = O.ORGPKVALUE
+               AND SOR.ROLE_ID = #{roleId}) T
+    
+    <if test="name != null and '' != name">
+        and T.NAME like '%${name}%'
+    </if>
+    </select>
+    
+    
+    <!-- 查询角色项目列表-分页 -->
+    <select id="queryRoleAddOrgByPage" resultType="map" useCache="false">
+    SELECT *
+      FROM (SELECT O.ID,
+			       O.NAME,
+			       O.ORGPKVALUE,
+			       (SELECT NAME FROM SYS_ORG SO WHERE SO.ORGPKVALUE = O.PARENTPKVALUE) PARENTNAME
+              FROM SYS_ORG O) T
+     WHERE 1 = 1
+       AND T.ORGPKVALUE NOT IN (SELECT SOR.ORG_ID FROM SYS_ORG_ROLE SOR WHERE SOR.ROLE_ID = #{roleId})
+    
+    <if test="name != null and '' != name">
+        and T.NAME like '%${name}%'
+    </if>
+    </select>
+    
+    <select id="queryByRoleOrg" resultType="map" useCache="false" parameterType="map">
+		SELECT SOR.* from SYS_ORG_ROLE SOR
+		WHERE SOR.ORG_ID = #{orgId} AND SOR.ROLE_ID = #{roleId} 
+	</select>
+	
+	<delete id="deleteRoleOrgById" parameterType="string">
+		DELETE FROM SYS_ORG_ROLE WHERE ID IN
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>  
+	</delete>
+	
+	
+	<select id="queryRoleIdByOrgId" resultType="map" useCache="false">
+        SELECT SOR.ROLE_ID FROM SYS_ORG_ROLE SOR WHERE SOR.ORG_ID = #{orgId}
+    </select>
+	
+	<!-- <select id="queryOrg" resultType="map" useCache="false">
+		select o.ORGPKVALUE as id, o.PARENTPKVALUE as pid, o.NAME, o.ISPARENT, o.CATEGORYCODE from sys_org_ext o where 1=1
+		<choose>
+			<when test="parentId!=null and parentId != ''">
+				and o.PARENTPKVALUE = #{parentId} 
+			</when>
+			<otherwise>
+				and o.PARENTPKVALUE is null
+			</otherwise>
+		</choose>
+			order by o.CATEGORYCODE, o.CODE
+	</select>
+	
+	<select id="getRoleAndOrg" resultType="String" useCache="false">
+		 SELECT ORG_ID FROM SYS_ORG_ROLE WHERE ROLE_ID=#{roleId}
+	</select>
+	
+	<delete id="deleteRoleAndOrg" parameterType="String">
+		DELETE FROM SYS_ORG_ROLE WHERE ROLE_ID = #{role_id}
+	</delete>
+	
+	<insert id="insertRoleAndOrg" parameterType="map">
+		insert into SYS_ORG_ROLE (
+		    ID,
+			ORG_ID,
+			ROLE_ID,
+			create_by,
+			create_date
+		) values (
+		    #{id},
+			#{orgId},
+			#{roleId},
+			#{createBy},
+			to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')
+		)
+	</insert> -->
 </mapper>

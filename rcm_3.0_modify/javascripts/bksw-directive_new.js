@@ -1408,7 +1408,6 @@ ctmApp.directive('directProjectMultiDialog', function() {
                     url:srvUrl+$scope.url,
                     data: $.param({"page":JSON.stringify($scope.paginationConf)})
                 }).success(function(data){
-                    debugger
                     if(data.success){
                         $scope.projects = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
@@ -1434,7 +1433,6 @@ ctmApp.directive('directProjectMultiDialog', function() {
                 return false;
             };
             $scope.toggleChecked = function(project){
-                debugger
                 //是否选中
                 var isChecked = $("#chk_"+$scope.id+"_"+project.ID).prop("checked");
                 //是否已经存在
@@ -1458,7 +1456,6 @@ ctmApp.directive('directProjectMultiDialog', function() {
                 $scope.initData();
             }
             $scope.saveSelected = function(){
-                debugger
                 var cus = $scope.tempCheckedProjects;
                 $scope.checkedProjects.splice(0,$scope.checkedProjects.length)
                 for(var i = 0; i < cus.length; i++){
@@ -1489,6 +1486,133 @@ ctmApp.directive('directProjectMultiDialog', function() {
             }
             $scope.$watch('checkedProjects', $scope.initData, true);
             $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryProject);
+        }
+    };
+});
+
+// 组织多选
+ctmApp.directive('directOrgMultiDialog', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directOrgMultiDialog.html',
+        replace: true,
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            url: "@",
+            //查询参数
+            queryParams: "=",
+            //默认选中的用户,数组类型，[{NAME:'张三',VALUE:'user.uuid'},{NAME:'李四',VALUE:'user.uuid'}]
+            checkedOrgs: "=",
+            //映射的key，value，{nameField:'username',valueField:'uuid'}，
+            //默认为{nameField:'NAME',valueField:'VALUE'}
+            mappedKeyValue: "=",
+            callback: "="
+            //移除选中的人员，调用父scope中的同名方法
+//        	removeSelectedUser: "&"
+        },
+        controller:function($scope,$http,$element){
+            /* if($scope.url == null || '' == $scope.url){
+                 $scope.url = "user/queryProjectForSelected.do";
+             }*/
+            $scope.paginationConf = {
+                lastCurrentTimeStamp:'',
+                currentPage: 1,
+                totalItems: 0,
+                itemsPerPage: 10,
+                pagesLength: 10,
+                queryObj:{},
+                perPageOptions: [10, 20, 30, 40, 50],
+                onChange: function(){
+                }
+            };
+            if(null != $scope.queryParams){
+                $scope.paginationConf.queryObj = $scope.queryParams;
+            }
+            $scope.queryOrg = function(){
+                $http({
+                    method:'post',
+                    url:srvUrl+$scope.url,
+                    data: $.param({"page":JSON.stringify($scope.paginationConf)})
+                }).success(function(data){
+                    if(data.success){
+                        $scope.orgs = data.result_data.list;
+                        $scope.paginationConf.totalItems = data.result_data.totalItems;
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            }
+            $scope.removeSelectedOrg = function(org){
+                for(var i = 0; i < $scope.tempCheckedOrgs.length; i++){
+                    if(org.VALUE == $scope.tempCheckedOrgs[i].VALUE){
+                        $scope.tempCheckedOrgs.splice(i, 1);
+                        break;
+                    }
+                }
+            };
+            $scope.isChecked = function(org){
+                for(var i = 0; i < $scope.tempCheckedOrgs.length; i++){
+                    if(org.ID    == $scope.tempCheckedOrgs[i].VALUE){
+                        return true;
+                    }
+                }
+                return false;
+            };
+            $scope.toggleChecked = function(org){
+                //是否选中
+                var isChecked = $("#chk_"+$scope.id+"_"+org.ID).prop("checked");
+                //是否已经存在
+                var flag = false;
+                for(var i = 0; i < $scope.tempCheckedOrgs.length; i++){
+                    if(org.ID == $scope.tempCheckedOrgs[i].VALUE){
+                        flag = true;
+                        if(!isChecked){
+                            $scope.tempCheckedOrgs.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                if(isChecked && !flag){
+                    //如果已经选中，但是不存在，添加
+                    $scope.tempCheckedOrgs.push({"VALUE":org.ORGPKVALUE,"NAME":org.NAME});
+                }
+            };
+
+            $scope.cancelSelected = function(){
+                $scope.initData();
+            }
+            $scope.saveSelected = function(){
+                var cus = $scope.tempCheckedOrgs;
+                $scope.checkedOrgs.splice(0,$scope.checkedOrgs.length)
+                for(var i = 0; i < cus.length; i++){
+                    var org = {};
+                    org[$scope.mappedKeyValue.nameField] = cus[i].NAME;
+                    org[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
+
+                    $scope.checkedOrgs.push(org);
+                    delete org.$$hashKey;
+                }
+                if($scope.callback != null){
+                    $scope.callback();
+                }
+            }
+            $scope.initData = function(){
+                var cus = $.parseJSON(JSON.stringify($scope.checkedOrgs));
+                $scope.tempCheckedOrgs = [];
+                for(var i = 0; i < cus.length; i++){
+                    var org = {};
+                    org.NAME = cus[i][$scope.mappedKeyValue.nameField];
+                    org.VALUE = cus[i][$scope.mappedKeyValue.valueField];
+                    $scope.tempCheckedOrgs.push(org);
+                }
+                $scope.paginationConf.queryObj.name = '';
+                $scope.queryOrg();
+            }
+            $scope.$watch('checkedOrgs', $scope.initData, true);
+            $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryOrg);
         }
     };
 });

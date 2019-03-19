@@ -3,6 +3,7 @@
  */
 package com.yk.power.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import util.DbUtil;
 import util.ThreadLocalUtil;
 import util.Util;
 
@@ -398,5 +400,84 @@ public class RoleService implements IRoleService {
 	public void deleteRoleProjectById(String[] ids) {
 		roleMapper.deleteRoleProjectById(ids);
 	}
+	
+	@Override
+	public void deleteRoleOrgById(String[] ids) {
+		roleMapper.deleteRoleOrgById(ids);
+	}
+	
+	@Override
+	public void queryRoleOrgListByPage(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page);
+		if (page.getParamMap() != null) {
+			params.putAll(page.getParamMap());
+		}
+		params.put("orgCodeRoot", Constants.SYS_ORG_CODE_ROOT);
+		List<Map<String, Object>> list = roleMapper
+				.queryRoleOrgListByPage(params);
+		page.setList(list);
+	}
+	
+	@Override
+	public void queryRoleAddOrgByPage(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page);
+		if (page.getParamMap() != null) {
+			params.putAll(page.getParamMap());
+		}
+		params.put("orgCodeRoot", Constants.SYS_ORG_CODE_ROOT);
+		List<Map<String, Object>> list = roleMapper
+				.queryRoleAddOrgByPage(params);
+		page.setList(list);
+	}
+
+	@Override
+	public void addRoleOrg(List<Map<String, Object>> roleProjects) {
+		for (Map<String, Object> map : roleProjects) {
+			Map<String, Object> resutlData = roleMapper.queryByRoleProject(map);
+			if(Util.isEmpty(resutlData)){
+				roleMapper.insertOrgRole(map);
+			}
+		}
+	}
+	
+	/*@Override
+	public List<Map<String, Object>> queryOrg() {
+		List<Map<String, Object>> list = roleMapper.queryOrg();
+		List<Map<String, Object>>  retList = new ArrayList<Map<String, Object>>();
+	    if(Util.isNotEmpty(list)){
+	    	for(Map<String, Object> map : list){
+	    		String id = (String)map.get("ID");
+	    		String pid = (String)map.get("PID");
+	    		String name = (String)map.get("NAME");
+	    		Boolean isParent = Boolean.valueOf((String)map.get("ISPARENT"));
+	    		Map<String, Object> retMap = new HashMap<String, Object>();
+	    		retMap.put("id", id);
+	    		retMap.put("pid", pid);
+	    		retMap.put("name", name);
+	    		retMap.put("isParent", isParent);
+	    		retMap.put("cat", map.get("CATEGORYCODE"));
+	    		retList.add(retMap);
+	    	}
+	    }
+	    return retList;
+		return roleMapper.queryOrg();
+	}
+	
+	@Override
+	public List<Map<String, Object>> getRoleAndOrg(String roleId) {
+		return roleMapper.getRoleAndOrg(roleId);
+	}
+	
+	@Override
+	public void deleteRoleAndOrg(Map<String, Object> param) {
+		roleMapper.deleteRoleAndOrg(param);
+	}
+	
+	@Override
+	public void insertRoleAndOrg(Map<String, Object> param) {
+		roleMapper.insertRoleAndOrg(param);
+	}*/
 	
 }

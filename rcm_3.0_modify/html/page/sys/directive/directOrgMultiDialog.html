@@ -1,0 +1,78 @@
+ <div class="modal-dialog selection-pop">
+     <div class="modal-content">
+         <div class="modal-header">
+             <button type="button" class="close" ng-click="cancelSelected()" data-dismiss="modal" aria-hidden="true">×</button>
+             <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
+         </div>
+         <div class="modal-body">
+				<div class="panel-body">
+					<div class="row">
+					    <label class="col-sm-1 control-label noleft-pad txl">已选</label>
+					    <div class="col-sm-11 noleft-pad noright-pad">
+					         <!--<input type="text" class="form-control" name="arrUserName" id="arrUserName" />-->
+					                   <div>
+					                       <div class="select2-success">
+					                           <div id="s2id_projectModel" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+					                               <ul class="select2-choices">
+					<li class="select2-search-choice" ng-repeat="org in tempCheckedOrgs">
+					           <div>{{org.NAME}}</div>
+							<a class="select2-search-choice-close" tabindex="-1" ng-click="removeSelectedOrg(org)"></a>
+							<div class="full-drop"><input type="hidden" id="" value="{{org.VALUE}}"></div>
+					</li>
+					<li style="height:29px;"></li>
+					                    </ul>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					<div>
+<!-- 					   <form name="formDirectivve" class="form-horizontal ng-pristine ng-valid" novalidate> -->
+					       <div class="search-input has-feedback">
+					           <input type="text" name="name" ng-model="paginationConf.queryObj.name" class="in-t form-control"/>
+					           <!--<button class="fa fa-search form-control-feedback" style="background-color:transparent;border: 0;" ng-click="queryUser()" ></button>-->
+                               <button type="button" ng-click="queryOrg()" class="btn btn-info">查询</button>
+					       </div>
+<!-- 					   </form> -->
+					</div>
+					<div class="row"></div>
+					<div class="panel nobottom-mar">
+                         <div class="panel-body">
+                             <div class="form-group row table-list">
+                                 <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable pop-first-col-fixed">
+                                     <thead>
+                                     <tr>
+                                         <th>选择</th>
+                                         <th>组织名称</th>
+                                         <th>上级组织名称</th>
+                                     </tr>
+                                     </thead>
+                                     <tbody>
+                                     <tr ng-repeat="o in orgs">
+                                         <td>
+                                            <!-- <input type="checkbox" name="checkboxUser" ng-click="getcheck($event)" id="Ids"  class="ng-pristine ng-untouched ng-valid" value="{{u.UUID}}"/>
+                                             <input type="hidden" id="cid" value='{{u.NAME}}'>-->
+                                             <label class="checkbox-inline">
+                                                 <input class="px" type="checkbox" id="chk_{{id}}_{{o.ID}}" name="{{p.NAME}}" ng-checked="isChecked(o)" ng-click="toggleChecked(o)"/>
+                                                 <span class="lbl">&nbsp;</span>
+                                             </label>
+                                         </td>
+                                         <td>{{o.NAME}}</td>
+                                         <td>{{o.PARENTNAME}}</td>
+                                     </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                         <div class="table-footer clearfix">
+                             <tm-pagination conf="paginationConf"></tm-pagination>
+                         </div>
+                     </div>
+             	</div>
+         </div>
+         <div class="modal-footer">
+             <button type="button" class="btn btn-default" ng-click="cancelSelected()" data-dismiss="modal">取消</button>
+             <button type="button" class="btn btn-primary" ng-click="saveSelected()" data-dismiss="modal">确定</button>
+         </div>
+     </div>
+ </div>

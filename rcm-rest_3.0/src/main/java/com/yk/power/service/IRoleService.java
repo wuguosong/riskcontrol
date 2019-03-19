@@ -253,4 +253,54 @@ public interface IRoleService {
 	 * @param ids
 	 */
 	public void deleteRoleProjectById(String[] ids);
+	
+	/**
+	 * 分页查询角色组织
+	 * @param page
+	 */
+	public void queryRoleOrgListByPage(PageAssistant page);
+	
+	/**
+	 * 查询角色可以添加组织
+	 * @param page
+	 */
+	public void queryRoleAddOrgByPage(PageAssistant page);
+	
+	/**
+	 * 添加角色组织
+	 * @param roleUsers
+	 */
+	public void addRoleOrg(List<Map<String, Object>> roleUsers);
+	
+	/**
+	 * 根据ID删除角色组织
+	 * @param ids
+	 */
+	public void deleteRoleOrgById(String[] ids);
+	
+/*	*//**
+	 * 查询所有组织
+	 *//*
+	public List<Map<String, Object>> queryOrg();
+	
+	*//**
+	 * 查询角色组织ID
+	 * @param roleId
+	 * @return
+	 *//*
+	public List<Map<String, Object>> getRoleAndOrg(String roleId);
+	
+	*//**
+	 * 删除角色组织
+	 * @param roleId
+	 * @return
+	 *//*
+	public void deleteRoleAndOrg(Map<String, Object> paramMap);
+	
+	*//**
+	 * 添加角色组织
+	 * @param roleId
+	 * @return
+	 *//*
+	public void insertRoleAndOrg(Map<String, Object> paramMap);*/
 }

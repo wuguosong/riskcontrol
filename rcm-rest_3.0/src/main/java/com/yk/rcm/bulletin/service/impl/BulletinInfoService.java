@@ -99,21 +99,17 @@ public class BulletinInfoService implements IBulletinInfoService {
 	private void saveDefaultProRole(Document doc){
 		HashMap<String, Object> params = new HashMap<String,Object>();
 		
-		ArrayList<String> roleIds = new ArrayList<String>();
-		roleIds.add("11911d2638f141c3b2e3f75805e58c75");
-		roleIds.add("54c42dd0585140dd9e0770eb88da4b34");
+		HashMap<String, Object> params1 = new HashMap<String,Object>();
+		Document apply = (Document) doc.get("apply");
+		Document pertainArea = (Document) apply.get("pertainArea");
+		String pertainAreaId = pertainArea.getString("KEY");
+		params1.put("orgId", pertainAreaId);
+		List<Map<String, Object>> roleIds = roleMapper.queryRoleIdByOrgId(params1);
 		
 		for(int i=0; i < roleIds.size(); i++){
 			params.put("id", Util.getUUID());
 			params.put("businessId", doc.get("_id").toString());
-			
-			/*Document apply = (Document) doc.get("apply");
-			Document pertainArea = (Document) apply.get("pertainArea");
-			String pertainAreaName = pertainArea.getString("VALUE");*/
-			/*if (pertainAreaName == "东部大区") {
-				
-			}*/
-			params.put("roleId", roleIds.get(i));
+			params.put("roleId", roleIds.get(i).get("ROLE_ID"));
 			Document applyUser = (Document) doc.get("applyUser");
 			params.put("createBy", applyUser.get("VALUE"));
 			params.put("create_date", doc.get("createTime"));

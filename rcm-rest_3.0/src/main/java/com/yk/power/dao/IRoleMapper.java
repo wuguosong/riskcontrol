@@ -288,4 +288,81 @@ public interface IRoleMapper extends BaseMapper {
 	 */
 	public void deleteRoleProjectById(@Param("ids")String[] ids);
 	
+	
+	/**
+	 * 根据角色类型和组织ID，查询角色组织信息(添加用户角色之前调用)
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> queryByRoleOrg(Map<String, Object> map);
+	/**
+	 * 分页查询角色组织
+	 * @param request
+	 * @return
+	 */
+	public List<Map<String, Object>> queryRoleOrgListByPage(
+			Map<String, Object> params);
+	
+	/**
+	 * 分页查询角色可以添加的组织
+	 * @param request
+	 * @return
+	 */
+	public List<Map<String, Object>> queryRoleAddOrgByPage(
+			Map<String, Object> params);
+	
+	/**
+	 * 添加角色组织
+	 * @param roleUsers
+	 */
+	public void addRoleOrg(Map<String, Object> user);
+	
+	/**
+	 * 根据ID删除角色项目
+	 * @param ids
+	 */
+	public void deleteRoleOrgById(@Param("ids")String[] ids);
+	
+	/**
+	 * 插入组织角色数据
+	 * @param dataForOrgRole
+	 * @return
+	 */
+	public void insertOrgRole(Map<String, Object> dataForProRole);
+	
+	
+	/**
+	 * 通过组织查组织对应的角色ID
+	 * @param request
+	 * @return
+	 */
+	public List<Map<String, Object>> queryRoleIdByOrgId(
+			Map<String, Object> params);
+	
+	/**
+	 * 查询所有组织
+	 *//*
+	public List<Map<String, Object>> queryOrg();
+	
+	*//**
+	 * 查询角色组织ID
+	 * @param roleId
+	 * @return
+	 *//*
+	public List<Map<String, Object>> getRoleAndOrg(@Param("roleId")String roleId);
+	
+	*//**
+	 * 删除角色组织
+	 * @param roleId
+	 * @return
+	 *//*
+	public void deleteRoleAndOrg(Map<String, Object> param);
+	
+	*//**
+	 * 添加角色组织
+	 * @param roleId
+	 * @return
+	 *//*
+	public void insertRoleAndOrg(Map<String, Object> param);*/
+	
 }

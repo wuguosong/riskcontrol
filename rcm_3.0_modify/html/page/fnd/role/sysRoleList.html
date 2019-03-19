@@ -53,6 +53,7 @@
                                 <th>分配菜单</th>
                                 <th>分配用户</th>
                                 <th>分配项目</th>
+                                <th>分配组织</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -86,6 +87,9 @@
                                 </td>
                                 <td>
                                     <a class="allot" href="#/RoleAndProject/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配项目</a>
+                                </td>
+                                <td>
+                                    <a class="allot" href="#/RoleAndOrg/{{r.ROLE_ID}}/{{r.CODE}}/{{('#/SysRoleList') |encodeURI}}">分配组织</a>
                                 </td>
                             </tr>
                             </tbody>
