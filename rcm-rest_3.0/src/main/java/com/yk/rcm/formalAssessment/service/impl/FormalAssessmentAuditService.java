@@ -11,6 +11,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,8 +60,8 @@ public class FormalAssessmentAuditService implements IFormalAssessmentAuditServi
 		String userId = ThreadLocalUtil.getUserId();
 		
 		List<Task> queryTaskInfo = null;
+		List<Map<String, Object>> queryWaitingLogsById = formalAssessmentAuditLogService.queryWaitingLogsById(businessId);
 		if(Util.isNotEmpty(taskMark)){
-			List<Map<String, Object>> queryWaitingLogsById = formalAssessmentAuditLogService.queryWaitingLogsById(businessId);
 			for (Map<String, Object> map : queryWaitingLogsById) {
 				if(Util.isNotEmpty(map.get("TASKMARK"))){
 					if(map.get("TASKMARK").equals(taskMark)){
@@ -70,6 +71,17 @@ public class FormalAssessmentAuditService implements IFormalAssessmentAuditServi
 				}
 			}
 		}else{
+			/****add by lipan 改变userid的指向****/
+			if(CollectionUtils.isNotEmpty(queryWaitingLogsById)){
+				for (Map<String, Object> map : queryWaitingLogsById) {
+					if(Util.isNotEmpty(map.get("AUDITUSERID"))){
+						if(map.get("AUDITUSERID").equals(userId)){
+							userId = (String)map.get("OLDUSERID");
+						}
+					}
+				}
+			}
+			/****add by lipan****/
 			queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
 		}
 		

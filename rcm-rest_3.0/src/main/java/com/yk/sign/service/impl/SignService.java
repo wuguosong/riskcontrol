@@ -8,6 +8,7 @@ import com.yk.rcm.bulletin.dao.IBulletinAuditMapper;
 import com.yk.rcm.bulletin.dao.IBulletinInfoMapper;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentAuditMapper;
 import com.yk.rcm.newFormalAssessment.dao.IFormalAssessmentInfoCreateMapper;
+import com.yk.rcm.newPre.dao.IPreInfoCreateMapper;
 import com.yk.rcm.pre.dao.IPreAuditLogMapper;
 import com.yk.sign.dao.ISignMapper;
 import com.yk.sign.service.ISignService;
@@ -55,6 +56,8 @@ public class SignService implements ISignService {
     private IFormalAssessmentInfoCreateMapper formalAssessmentInfoCreateMapper;
     @Resource
     private IPreAuditLogMapper preAuditLogMapper;
+    @Resource
+    private IPreInfoCreateMapper preInfoCreateMapper;
     @Resource
     private IBpmnService bpmnService;
     @Resource
@@ -174,7 +177,7 @@ public class SignService implements ISignService {
         Map<String, Object> delMap = logs.get(logs.size() - 1);
         // 根据当前审批日志,判断该结束的是前加签还是后加签
         String changeType = String.valueOf(delMap.get("CHANGETYPE"));
-        try{
+        try {
             if ("after".equalsIgnoreCase(changeType)) {
                 // 所有正向的表达式
                 Task curTask = taskService.createTaskQuery().taskId(task_id).singleResult();
@@ -185,7 +188,7 @@ public class SignService implements ISignService {
                 taskService.complete(task_id, variable);
                 return;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             // 此时发生时,是因为不确定下一个节点
             e.printStackTrace();
         }
@@ -194,14 +197,15 @@ public class SignService implements ISignService {
         Task task = list.get(0);
         String executionId = task.getExecutionId();
         // 删除待办日志
-        Map<String, Object> deleteLog = new HashMap<String, Object>();
+       /* Map<String, Object> deleteLog = new HashMap<String, Object>();
         deleteLog.put("businessId", business_id);
         deleteLog.put("isWaiting", "1");
-        deleteLog.put("currentUserId", lastUserId);
+        deleteLog.put("currentUserId", lastUserId);*/
+        Map<String, Object> deleteLog = this.createDelLog(business_id, null, null, lastUserId);
         this.bulletinAuditMapper.deleteWaitlog(deleteLog);
         // 插入已办日志
         int orderByReady = bulletinAuditMapper.queryMaxOrderNum(business_id);
-        Map<String, Object> alreadyLog = new HashMap<String, Object>();
+        /*Map<String, Object> alreadyLog = new HashMap<String, Object>();
         alreadyLog.put("businessId", business_id);
         alreadyLog.put("auditUserId", lastUserId);
         alreadyLog.put("auditTime", Util.now());
@@ -213,11 +217,12 @@ public class SignService implements ISignService {
         alreadyLog.put("executionId", executionId);
         alreadyLog.put("lastUserId", delMap.get("LASTUSERID"));
         alreadyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        alreadyLog.put("changeType", delMap.get("CHANGETYPE"));
+        alreadyLog.put("changeType", delMap.get("CHANGETYPE"));*/
+        Map<String, Object> alreadyLog = this.createAlreadyLog(business_id, lastUserId, option, ++orderByReady,  task.getName(), executionId, delMap.get("LASTUSERID"), delMap.get("OLDUSERID"), delMap.get("CHANGETYPE"));
         this.bulletinAuditMapper.save(alreadyLog);
         // 插入当前人待办日志
-        Map<String, Object> agencyLog = new HashMap<String, Object>();
         int orderByAgency = bulletinAuditMapper.queryMaxOrderNum(business_id);
+        /*Map<String, Object> agencyLog = new HashMap<String, Object>();
         agencyLog.put("businessId", business_id);
         agencyLog.put("auditUserId", delMap.get("OLDUSERID"));
         agencyLog.put("auditTime", Util.now());
@@ -230,7 +235,8 @@ public class SignService implements ISignService {
         agencyLog.put("executionId", executionId);
         agencyLog.put("lastUserId", delMap.get("AUDITUSERID"));
         agencyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        agencyLog.put("changeType", "");
+        agencyLog.put("changeType", "");*/
+        Map<String, Object> agencyLog = this.createAgencyLog(business_id, delMap.get("OLDUSERID"), ++orderByAgency, task_id, task.getName(), executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), "");
         bulletinAuditMapper.save(agencyLog);
         String oldUrl = "#/BulletinMattersAudit/1";
         String out = Util.encodeUrl(oldUrl);
@@ -293,7 +299,7 @@ public class SignService implements ISignService {
         this.formalAssessmentAuditMapper.deleteWaitlogs(deleteLog);
         // 插入已办日志
         int orderByReady = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
-        Map<String, Object> alreadyLog = new HashMap<String, Object>();
+        /*Map<String, Object> alreadyLog = new HashMap<String, Object>();
         alreadyLog.put("businessId", business_id);
         alreadyLog.put("auditUserId", lastUserId);
         alreadyLog.put("auditTime", Util.now());
@@ -305,11 +311,12 @@ public class SignService implements ISignService {
         alreadyLog.put("executionId", executionId);
         alreadyLog.put("lastUserId", delMap.get("LASTUSERID"));
         alreadyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        alreadyLog.put("changeType", delMap.get("CHANGETYPE"));
+        alreadyLog.put("changeType", delMap.get("CHANGETYPE"));*/
+        Map<String, Object> alreadyLog = this.createAlreadyLog(business_id, lastUserId, option, ++orderByReady, task.getName(), executionId, delMap.get("LASTUSERID"), delMap.get("OLDUSERID"), delMap.get("CHANGETYPE"));
         this.formalAssessmentAuditMapper.save(alreadyLog);
         // 插入当前人待办日志
-        Map<String, Object> agencyLog = new HashMap<String, Object>();
         int orderByAgency = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
+        /*Map<String, Object> agencyLog = new HashMap<String, Object>();
         agencyLog.put("businessId", business_id);
         agencyLog.put("auditUserId", delMap.get("OLDUSERID"));
         agencyLog.put("auditTime", Util.now());
@@ -322,7 +329,8 @@ public class SignService implements ISignService {
         agencyLog.put("executionId", executionId);
         agencyLog.put("lastUserId", delMap.get("AUDITUSERID"));
         agencyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        agencyLog.put("changeType", "");
+        agencyLog.put("changeType", "");*/
+        Map<String, Object> agencyLog = this.createAgencyLog(business_id, delMap.get("OLDUSERID"), ++orderByAgency, task_id, task.getName(), executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), "");
         formalAssessmentAuditMapper.save(agencyLog);
         String oldUrl = "#/FormalAssessmentAuditList/1";
         String out = Util.encodeUrl(oldUrl);
@@ -338,19 +346,80 @@ public class SignService implements ISignService {
      * @param option
      */
     private void endPreSign(String business_id, String task_id, String option) {
-        // TODO 实现代码
-    }
-
-
-    /**
-     * 结束投标项目审批后加签
-     *
-     * @param business_id
-     * @param task_id
-     * @param option
-     */
-    private void endPreAfterSign(String business_id, String task_id, String option) {
-        // TODO 实现代码
+        String lastUserId = ThreadLocalUtil.getUserId();
+        Map<String, Object> bulletinOracle = preInfoCreateMapper.getProjectByID(business_id);
+        // 获取节点日志描述信息
+        List<Map<String, Object>> logs = preAuditLogMapper.queryAuditedLogsById(business_id);
+        // 将当前人待办变已办，新增待办日志
+        List<Task> list = taskService.createTaskQuery().taskId(task_id).processDefinitionKey(Constants.PRE_ASSESSMENT).processInstanceBusinessKey(business_id).list();
+        Task task = list.get(0);
+        String executionId = task.getExecutionId();
+        String taskName = task.getName();
+        Map<String, Object> delMap = logs.get(logs.size() - 1);
+        // 根据当前审批日志,判断该结束的是前加签还是后加签
+        String changeType = String.valueOf(delMap.get("CHANGETYPE"));
+        try {
+            if ("after".equalsIgnoreCase(changeType)) {
+                // 所有正向的表达式
+                Task curTask = taskService.createTaskQuery().taskId(task_id).singleResult();
+                String curTaskKey = curTask.getTaskDefinitionKey();
+                String nexTaskKey = this.getNextTaskInfo(Constants.PRE_ASSESSMENT, business_id).getKey();
+                Map<String, Object> variable = processService.getNextTaskFlowElementVariable(curTask.getProcessDefinitionId(), curTaskKey, nexTaskKey);
+                // 结束本次任务,开始下个节点
+                taskService.complete(task_id, variable);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 删除转办初始人待办日志
+        /*HashMap<String, Object> deleteLog = new HashMap<String, Object>();
+        deleteLog.put("businessId", business_id);
+        deleteLog.put("isWaiting", "1");
+        deleteLog.put("executionId", executionId);
+        deleteLog.put("currentUserId", lastUserId);*/
+        HashMap<String, Object> deleteLog = (HashMap<String, Object>)this.createDelLog(business_id, executionId, null, lastUserId);
+        preAuditLogMapper.deleteWaitlogs(deleteLog);
+        // 插入转办初始人已办日志
+        int orderByAlready = preAuditLogMapper.queryMaxOrderNum(business_id);
+        /*Map<String, Object> alreadyLog = new HashMap<String, Object>();
+        alreadyLog.put("businessId", business_id);
+        alreadyLog.put("auditUserId", lastUserId);
+        alreadyLog.put("auditTime", Util.now());
+        alreadyLog.put("opinion", option);
+        alreadyLog.put("auditStatus", "B");
+        alreadyLog.put("orderBy", ++orderByAlready);
+        alreadyLog.put("isWaiting", "0");
+        alreadyLog.put("taskdesc", taskName);
+        alreadyLog.put("executionId", executionId);
+        alreadyLog.put("lastUserId", delMap.get("LASTUSERID"));
+        alreadyLog.put("oldUserId", delMap.get("OLDUSERID"));
+        alreadyLog.put("changeType", delMap.get("CHANGETYPE"));*/
+        Map<String, Object> alreadyLog = this.createAlreadyLog(business_id, lastUserId, option, ++orderByAlready, taskName, executionId, delMap.get("LASTUSERID"), delMap.get("OLDUSERID"), delMap.get("CHANGETYPE"));
+        preAuditLogMapper.save(alreadyLog);
+        // 插入转办人待办日志
+        int orderByAgency = preAuditLogMapper.queryMaxOrderNum(business_id);
+        /*Map<String, Object> agencyLog = new HashMap<String, Object>();
+        agencyLog.put("businessId", business_id);
+        agencyLog.put("auditUserId", delMap.get("OLDUSERID"));
+        agencyLog.put("auditTime", Util.now());
+        agencyLog.put("opinion", "");
+        agencyLog.put("auditStatus", "9");
+        agencyLog.put("orderBy", ++orderByAgency);
+        agencyLog.put("isWaiting", "1");
+        agencyLog.put("taskId", task_id);
+        agencyLog.put("taskdesc", taskName);
+        agencyLog.put("executionId", executionId);
+        agencyLog.put("lastUserId", delMap.get("AUDITUSERID"));
+        agencyLog.put("oldUserId", delMap.get("OLDUSERID"));
+        agencyLog.put("changeType", "");*/
+        Map<String, Object> agencyLog = this.createAgencyLog(business_id, delMap.get("OLDUSERID"), ++orderByAgency, task_id, taskName, executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), "");
+        preAuditLogMapper.save(agencyLog);
+        // 发送待办
+        String oldUrl = "#/PreAuditReportList/1";
+        String out = Util.encodeUrl(oldUrl);
+        String url = "/PreOtherReportView/" + business_id + "/" + out;
+        bpmnService.sendWaitingToPotal(task_id, url, Util.format(Util.now()), (String) bulletinOracle.get("PROJECTNAME"), String.valueOf(delMap.get("OLDUSERID")), "1", lastUserId);
     }
 
     /**
@@ -427,22 +496,24 @@ public class SignService implements ISignService {
         // 查询转办初始人
         Map<String, Object> firMap = logs.get(0);
         Map<String, Object> delMap = logs.get(logs.size() - 1);
-        if (delMap.get("LASTUSERID") == null) {
+        /*if (delMap.get("LASTUSERID") == null) {
             delMap.put("LASTUSERID", firMap.get("AUDITUSERID"));
         }
         if (delMap.get("OLDUSERID") == null) {
             delMap.put("OLDUSERID", lastUserId);
-        }
+        }*/
+        this.initDelMap(firMap, delMap, lastUserId);
         // 删除转办初始人待办日志
-        Map<String, Object> deleteLog = new HashMap<String, Object>();
+        /*Map<String, Object> deleteLog = new HashMap<String, Object>();
         deleteLog.put("businessId", business_id);
         deleteLog.put("isWaiting", "1");
         deleteLog.put("taskId", task_id);
-        deleteLog.put("currentUserId", lastUserId);
+        deleteLog.put("currentUserId", lastUserId);*/
+        Map<String, Object> deleteLog = this.createDelLog(business_id, null, task_id, lastUserId);
         formalAssessmentAuditMapper.deleteWaitlogs(deleteLog);
         // 插入转办初始人已办日志
         int orderByAlready = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
-        Map<String, Object> alreadyLog = new HashMap<String, Object>();
+        /*Map<String, Object> alreadyLog = new HashMap<String, Object>();
         alreadyLog.put("businessId", business_id);
         alreadyLog.put("auditUserId", lastUserId);
         alreadyLog.put("auditTime", Util.now());
@@ -454,11 +525,12 @@ public class SignService implements ISignService {
         alreadyLog.put("executionId", executionId);
         alreadyLog.put("lastUserId", delMap.get("LASTUSERID"));
         alreadyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        alreadyLog.put("changeType", type);
+        alreadyLog.put("changeType", type);*/
+        Map<String, Object> alreadyLog = this.createAlreadyLog(business_id, lastUserId, option, ++orderByAlready, taskName, executionId, delMap.get("LASTUSERID"), delMap.get("OLDUSERID"), type);
         formalAssessmentAuditMapper.save(alreadyLog);
         // 插入转办人待办日志
         int orderByAgency = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
-        Map<String, Object> agencyLog = new HashMap<String, Object>();
+        /*Map<String, Object> agencyLog = new HashMap<String, Object>();
         agencyLog.put("businessId", business_id);
         agencyLog.put("auditUserId", userId);
         agencyLog.put("auditTime", Util.now());
@@ -471,7 +543,8 @@ public class SignService implements ISignService {
         agencyLog.put("executionId", executionId);
         agencyLog.put("lastUserId", delMap.get("AUDITUSERID"));
         agencyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        agencyLog.put("changeType", type);
+        agencyLog.put("changeType", type);*/
+        Map<String, Object> agencyLog = this.createAgencyLog(business_id, userId, ++orderByAgency, task_id, taskName, executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), type);
         formalAssessmentAuditMapper.save(agencyLog);
         // 发送待办
         String oldUrl = "#/FormalAssessmentAuditList/1";
@@ -481,7 +554,7 @@ public class SignService implements ISignService {
     }
 
     /**
-     * 其它项目审批前加签
+     * 其它项目审批加签
      *
      * @param business_id
      * @param user_json
@@ -502,22 +575,24 @@ public class SignService implements ISignService {
         String taskName = task.getName();
         Map<String, Object> firMap = logs.get(0);
         Map<String, Object> delMap = logs.get(logs.size() - 1);
-        if (delMap.get("LASTUSERID") == null) {
+        /*if (delMap.get("LASTUSERID") == null) {
             delMap.put("LASTUSERID", firMap.get("AUDITUSERID"));
         }
         if (delMap.get("OLDUSERID") == null) {
             delMap.put("OLDUSERID", lastUserId);
-        }
+        }*/
+        this.initDelMap(firMap, delMap, lastUserId);
         // 删除待办日志
-        Map<String, Object> delLog = new HashMap<String, Object>();
+        /*Map<String, Object> delLog = new HashMap<String, Object>();
         delLog.put("businessId", business_id);
         delLog.put("isWaiting", "1");
         delLog.put("taskId", task_id);
-        delLog.put("currentUserId", lastUserId);
+        delLog.put("currentUserId", lastUserId);*/
+        Map<String, Object> delLog = this.createDelLog(business_id, null, task_id, lastUserId);
         bulletinAuditMapper.deleteWaitlog(delLog);
         // 插入已办日志
         int orderByAlready = bulletinAuditMapper.queryMaxOrderNum(business_id);
-        Map<String, Object> alreadyLog = new HashMap<String, Object>();
+        /*Map<String, Object> alreadyLog = new HashMap<String, Object>();
         alreadyLog.put("businessId", business_id);
         alreadyLog.put("auditUserId", lastUserId);
         alreadyLog.put("auditTime", Util.now());
@@ -529,11 +604,12 @@ public class SignService implements ISignService {
         alreadyLog.put("executionId", executionId);
         alreadyLog.put("lastUserId", delMap.get("LASTUSERID"));
         alreadyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        alreadyLog.put("changeType", type);
+        alreadyLog.put("changeType", type);*/
+        Map<String, Object> alreadyLog = this.createAlreadyLog(business_id, lastUserId, option, orderByAlready + 1, taskName, executionId, delMap.get("LASTUSERID"), delMap.get("OLDUSERID"), type);
         bulletinAuditMapper.save(alreadyLog);
         // 插入待办日志
         int orderByAgency = bulletinAuditMapper.queryMaxOrderNum(business_id);
-        Map<String, Object> agencyLog = new HashMap<String, Object>();
+        /*Map<String, Object> agencyLog = new HashMap<String, Object>();
         agencyLog.put("businessId", business_id);
         agencyLog.put("auditUserId", userId);
         agencyLog.put("auditTime", Util.now());
@@ -546,7 +622,8 @@ public class SignService implements ISignService {
         agencyLog.put("executionId", executionId);
         agencyLog.put("lastUserId", delMap.get("AUDITUSERID"));
         agencyLog.put("oldUserId", delMap.get("OLDUSERID"));
-        agencyLog.put("changeType", type);
+        agencyLog.put("changeType", type);*/
+        Map<String, Object> agencyLog = this.createAgencyLog(business_id, userId, orderByAgency + 1, task_id, taskName, executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), type);
         bulletinAuditMapper.save(agencyLog);
         // 转办人发送待办
         String oldUrl = "#/BulletinMattersAudit/1";
@@ -564,8 +641,135 @@ public class SignService implements ISignService {
      * @param option
      */
     private void preSign(String type, String business_id, String user_json, String task_id, String option) {
-        // TODO 实现代码
+        Document userDoc = Document.parse(user_json);
+        String userId = userDoc.getString("VALUE");
+        Map<String, Object> bulletinOracle = preInfoCreateMapper.getProjectByID(business_id);
+        String lastUserId = ThreadLocalUtil.getUserId();
+        // 获取节点日志描述信息
+        List<Map<String, Object>> logs = preAuditLogMapper.queryAuditedLogsById(business_id);
+        // 将当前人待办变已办，新增待办日志
+        List<Task> list = taskService.createTaskQuery().taskId(task_id).processDefinitionKey(Constants.PRE_ASSESSMENT).processInstanceBusinessKey(business_id).list();
+        Task task = list.get(0);
+        String executionId = task.getExecutionId();
+        String taskName = task.getName();
+        // 查询转办初始人
+        Map<String, Object> firMap = logs.get(0);
+        Map<String, Object> delMap = logs.get(logs.size() - 1);
+        /*if (delMap.get("LASTUSERID") == null) {
+            delMap.put("LASTUSERID", firMap.get("AUDITUSERID"));
+        }
+        if (delMap.get("OLDUSERID") == null) {
+            delMap.put("OLDUSERID", lastUserId);
+        }*/
+        initDelMap(firMap, delMap, lastUserId);
+        // 删除转办初始人待办日志
+        /*HashMap<String, Object> deleteLog = new HashMap<String, Object>();
+        deleteLog.put("businessId", business_id);
+        deleteLog.put("isWaiting", "1");
+        deleteLog.put("executionId", executionId);
+        deleteLog.put("currentUserId", lastUserId);*/
+        HashMap<String, Object> deleteLog = (HashMap<String, Object>) this.createDelLog(business_id, executionId, null, lastUserId);
+        preAuditLogMapper.deleteWaitlogs(deleteLog);
+        // 插入转办初始人已办日志
+        int orderByAlready = preAuditLogMapper.queryMaxOrderNum(business_id);
+        /*Map<String, Object> alreadyLog = new HashMap<String, Object>();
+        alreadyLog.put("businessId", business_id);
+        alreadyLog.put("auditUserId", lastUserId);
+        alreadyLog.put("auditTime", Util.now());
+        alreadyLog.put("opinion", option);
+        alreadyLog.put("auditStatus", "B");
+        alreadyLog.put("orderBy", ++orderByAlready);
+        alreadyLog.put("isWaiting", "0");
+        alreadyLog.put("taskdesc", taskName);
+        alreadyLog.put("executionId", executionId);
+        alreadyLog.put("lastUserId", delMap.get("LASTUSERID"));
+        alreadyLog.put("oldUserId", delMap.get("OLDUSERID"));
+        alreadyLog.put("changeType", type);*/
+        Map<String, Object> alreadyLog = this.createAlreadyLog(business_id, lastUserId, option, ++orderByAlready, taskName, executionId, delMap.get("LASTUSERID"), delMap.get("OLDUSERID"), type);
+        preAuditLogMapper.save(alreadyLog);
+        // 插入转办人待办日志
+        int orderByAgency = preAuditLogMapper.queryMaxOrderNum(business_id);
+        /*Map<String, Object> agencyLog = new HashMap<String, Object>();
+        agencyLog.put("businessId", business_id);
+        agencyLog.put("auditUserId", userId);
+        agencyLog.put("auditTime", Util.now());
+        agencyLog.put("opinion", "");
+        agencyLog.put("auditStatus", "9");
+        agencyLog.put("orderBy", ++orderByAgency);
+        agencyLog.put("isWaiting", "1");
+        agencyLog.put("taskId", task_id);
+        agencyLog.put("taskdesc", taskName);
+        agencyLog.put("executionId", executionId);
+        agencyLog.put("lastUserId", delMap.get("AUDITUSERID"));
+        agencyLog.put("oldUserId", delMap.get("OLDUSERID"));
+        agencyLog.put("changeType", type);*/
+        Map<String, Object> agencyLog = this.createAgencyLog(business_id, userId, ++orderByAgency, task_id, taskName, executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), type);
+        preAuditLogMapper.save(agencyLog);
+        // 发送待办
+        String oldUrl = "#/PreAuditReportList/1";
+        String out = Util.encodeUrl(oldUrl);
+        String url = "/PreOtherReportView/" + business_id + "/" + out;
+        bpmnService.sendWaitingToPotal(task_id, url, Util.format(Util.now()), (String) bulletinOracle.get("PROJECTNAME"), userId, "1", lastUserId);
     }
+
+    private void initDelMap(Map<String, Object> firMap, Map<String, Object> delMap, String lastUserId) {
+        if (delMap.get("LASTUSERID") == null) {
+            delMap.put("LASTUSERID", firMap.get("AUDITUSERID"));
+        }
+        if (delMap.get("OLDUSERID") == null) {
+            delMap.put("OLDUSERID", lastUserId);
+        }
+    }
+
+    private Map<String, Object> createDelLog(String businessId, String executionId, String taskId, String currentUserId) {
+        Map<String, Object> delLog = new HashMap<String, Object>();
+        delLog.put("businessId", businessId);
+        delLog.put("isWaiting", "1");
+        if (StringUtils.isNotBlank(taskId)) {
+            delLog.put("taskId", taskId);
+        }
+        if (StringUtils.isNotBlank(executionId)) {
+            delLog.put("executionId", executionId);
+        }
+        delLog.put("currentUserId", currentUserId);
+        return delLog;
+    }
+
+    private Map<String, Object> createAgencyLog(Object businessId, Object auditUserId, int orderBy, Object taskId, Object taskdesc, Object executionId, Object lastUserId, Object oldUserId, Object changeType) {
+        Map<String, Object> agencyLog = new HashMap<String, Object>();
+        agencyLog.put("businessId", businessId);
+        agencyLog.put("auditUserId", auditUserId);
+        agencyLog.put("auditTime", Util.now());
+        agencyLog.put("opinion", "");
+        agencyLog.put("auditStatus", "9");
+        agencyLog.put("orderBy", orderBy);
+        agencyLog.put("isWaiting", "1");
+        agencyLog.put("taskId", taskId);
+        agencyLog.put("taskdesc", taskdesc);
+        agencyLog.put("executionId", executionId);
+        agencyLog.put("lastUserId", lastUserId);
+        agencyLog.put("oldUserId", oldUserId);
+        agencyLog.put("changeType", changeType);
+        return agencyLog;
+    }
+
+    private Map<String, Object> createAlreadyLog(Object businessId, Object auditUserId, Object option, int orderBy, Object taskdesc, Object executionId, Object lastUserId, Object oldUserId, Object changeType) {
+        Map<String, Object> alreadyLog = new HashMap<String, Object>();
+        alreadyLog.put("businessId", businessId);
+        alreadyLog.put("auditUserId", auditUserId);
+        alreadyLog.put("auditTime", Util.now());
+        alreadyLog.put("opinion", option);
+        alreadyLog.put("auditStatus", "B");
+        alreadyLog.put("orderBy", orderBy);
+        alreadyLog.put("isWaiting", "0");
+        alreadyLog.put("taskdesc", taskdesc);
+        alreadyLog.put("executionId", executionId);
+        alreadyLog.put("lastUserId", lastUserId);
+        alreadyLog.put("oldUserId", oldUserId);
+        alreadyLog.put("changeType", changeType);
+        return alreadyLog;
+    }
+
 
     @Override
     public TaskDefinition getNextTaskInfo(String key, String business_id) {
