@@ -4,3 +4,39 @@
             opacity:0.5; -moz-opacity:0.5;     
 			display:none;
 }
+
+.text-left {
+    text-align: left;
+    font-weight:normal
+}
+
+.text-right {
+    text-align: right;
+    font-weight:normal
+}
+
+.msg {
+    font-size: small;
+    color: blue;
+}
+
+.blue {
+    color: blue;
+    font-size: smaller;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.content{
+    font-size: 12px;
+}
+
+.aaa {
+    margin-left: 40px;
+}
