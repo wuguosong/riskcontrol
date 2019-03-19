@@ -5474,3 +5474,251 @@ ctmApp.directive('commonAttachments', function () {
         }
     };
 });
+ctmApp.directive('bbsChat', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/DirectiveBbsPage.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+
+            $scope.conf = [];
+
+            $scope.queryMessage = function (procInstId, parentId) {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/tree.do',
+                    data: $.param({
+                        'procInstId': procInstId,
+                        'parentId': parentId
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope.messages = data.result_data;
+                });
+            }
+
+            // 初始化留言表单
+            $scope.message = {};
+            $scope.queryMessage(1008611, 0);
+            $scope.message.originalId = 0;
+            $scope.message.parentId = 0;
+            $scope.message.procInstId = 1008611;
+            $scope.message.repliedBy = '';
+            $scope.message.repliedName = '';
+            // 展示留言表单
+            $scope.showMessageForm = function (originalId, parentId, repliedBy, repliedName) {
+                $scope.message.originalId = originalId;
+                $scope.message.parentId = parentId;
+                $scope.message.procInstId = 1008611;
+                $scope.message.repliedBy = repliedBy;
+                $scope.message.repliedName = repliedName;
+            }
+            // 更新已阅
+            $scope.updateRead = function () {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/read.do',
+                    data: $.param({'messageId': 10109}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    document.write(data.result_data);
+                });
+            }
+            // 获取叶子留言
+            $scope.getChildren = function () {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/leaves.do',
+                    data: $.param({'parentId': 10109}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    document.write(JSON.stringify(data.result_data));
+                });
+            }
+
+            // 提交留言表单
+            $scope.submitMessage = function () {
+                console.log($scope.message);
+                if ($scope.message.messageContent == null || $scope.message.messageContent == '') {
+                    alert('留言内容不能为空!');
+                    return;
+                }
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/add.do',
+                    data: $.param($scope.message),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    console.log(data);
+                    window.location.reload(true);
+                });
+            }
+
+            $scope.recursionHtml = function (messageId, list) {
+                // 先清空之前加载的
+                $('#leaves_li_' + messageId + '>ul').each(function (i, e) {
+                    $(e).remove();
+                });
+                var li = $('#leaves_li_' + messageId);
+                var appendStr = '<ul>';
+                for (var i = 0; i < list.length; i++) {
+                    var o = list[i];
+                    console.log(o);
+                    appendStr +=
+                        '<li class="aaa" id="leaves_li_' + o.messageId + '">'
+                        + '<b>|</b>&nbsp;<span class="msg">'
+                        + o.createdName
+                        + '</span>&nbsp;'
+                        + '<span class="blue">'
+                        + '回复'
+                        + '</span>&nbsp;'
+                        + '<span class="msg">'
+                        + o.repliedName
+                        + '</span>&nbsp;'
+                        + '<span class="blue">'
+                        + '发表于&nbsp;'
+                        + o.messageDate
+                        + '</span>'
+                        + '&nbsp;'
+                        + '<a href="javascript:void(0);" onclick="getChildrenListOuter(' + o.originalId + ',' + o.messageId + ', \'' + o.createdBy + '\',\'' + o.createdName + '\', ' + o.messageId + ')">&nbsp;'
+                        + '<span class="content">(' + o.children.length + ')</span></a>'
+                        + '<br>'
+                        + '<span class="content">'
+                        + o.messageContent
+                        + '</span>'
+                        + '</li>';
+                }
+                li.append(appendStr + '</<ul>');
+            }
+
+            $scope.executeLeavesQuery = function (messageId) {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/tree.do',
+                    data: $.param({
+                        'procInstId': 1008611,
+                        'parentId': messageId
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope.recursionHtml(messageId, data.result_data);
+                });
+            }
+
+            $scope.getChildrenList = function (originalId, parentId, repliedBy, repliedName, messageId) {
+                $scope.message.originalId = originalId;
+                $scope.message.parentId = parentId;
+                $scope.message.procInstId = 1008611;
+                $scope.message.repliedBy = repliedBy;
+                $scope.message.repliedName = repliedName;
+                $scope.executeLeavesQuery(messageId);
+            }
+
+            $scope.deleteMessage = function (messageId) {
+                if (confirm('确认删除?')) {
+                    $http({
+                        method: 'post',
+                        url: '/rcm-rest/message/delete.do',
+                        data: $.param({
+                            'messageId': messageId
+                        }),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    }).success(function (data) {
+                        console.log(data);
+                        window.location.reload(true);
+                    });
+                }
+            }
+
+            $scope.showMore = function () {
+                alert('more');
+            }
+
+            function getChildrenListOuter(originalId, parentId, repliedBy, repliedName, messageId) {
+                // 重点!!!!!!!
+                var appElement = document.querySelector('[ng-controller=myCtrl]');
+                var $scope = angular.element(appElement).scope();
+                $scope.message.originalId = originalId;
+                $scope.message.parentId = parentId;
+                $scope.message.procInstId = 1008611;
+                $scope.message.repliedBy = repliedBy;
+                $scope.message.repliedName = repliedName;
+                console.log(originalId + '=' + parentId + '=' + repliedBy + '=' + repliedName + '=' + messageId)
+                $.ajax({
+                    url: "/message/tree.do",
+                    type: "post",
+                    data: {
+                        'procInstId': 1008611,
+                        'parentId': messageId
+                    },
+                    async: false,
+                    success: function (result) {
+                        var list = result.result_data;
+                        console.log(messageId);
+                        console.log($('#leaves_li_' + messageId + '>ul').html());
+                        $('#leaves_li_' + messageId + '>ul').each(function (i, e) {
+                            $(e).remove();
+                        });
+                        var li = $('#leaves_li_' + messageId);
+                        var appendStr = '<ul>';
+                        for (var i = 0; i < list.length; i++) {
+                            var o = list[i];
+                            console.log(o);
+                            appendStr +=
+                                '<li id="leaves_li_' + o.messageId + '">'
+                                + '<b>|</b>&nbsp;<span class="msg">'
+                                + o.createdName
+                                + '</span>&nbsp;'
+                                + '<span class="blue">'
+                                + '回复'
+                                + '</span>&nbsp;'
+                                + '<span class="msg">'
+                                + o.repliedName
+                                + '</span>&nbsp;'
+                                + '<span class="blue">'
+                                + '发表于&nbsp;'
+                                + o.messageDate
+                                + '</span>'
+                                + '&nbsp;'
+                                + '<a href="javascript:void(0);" onclick="getChildrenListOuter(' + o.originalId + ',' + o.messageId + ',\'' + o.createdBy + '\',\'' + o.createdName + '\', ' + o.messageId + ')">&nbsp;'
+                                + '<span class="content">(' + o.children.length + ')</span></a>'
+                                + '<br>'
+                                + '<span class="content">'
+                                + o.messageContent
+                                + '</span>'
+                                + '</li>';
+                        }
+                        li.append(appendStr + '</<ul>');
+                        console.log(appendStr);
+                    },
+                    error: function () {
+                    }
+                });
+            }
+
+            $scope.replayQuestion = function (msg) {
+                console.log(msg);
+                $scope.msg = {};
+                $scope.msg.messageType = msg.messageType;
+                $scope.msg.procInstId = msg.procInstId;
+                $scope.msg.parentId = msg.messageId;
+                $scope.msg.originalId = msg.originalId;
+                $scope.msg.repliedBy = msg.createdBy;
+                $scope.msg.repliedName = msg.createdName;
+                $scope.msg.messageContent = msg.replay;
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/add.do',
+                    data: $.param($scope.msg),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    console.log(data);
+                    window.location.reload(true);
+                });
+                console.log($scope.msg);
+            }
+        }
+    };
+});
