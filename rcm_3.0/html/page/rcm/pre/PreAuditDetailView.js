@@ -12,7 +12,14 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 	$scope.pre={};
 	$scope.pre.apply = {};
 	$scope.pre.taskallocation={};
-	
+	/*加签功能初始化必需数据*/
+    $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};
+    $scope.checkedUser = {};
+    $scope.callback = function () {
+        $("#userSinDialog").modal('hide');
+        $("#submitModal").modal('show');
+    };
+	/*加签功能初始化必需数据*/
 	
 	//判断新旧流程
 	if(businessId.indexOf("@")>0){
@@ -186,6 +193,7 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 	//新流程相关
 	$scope.initPage = function(){
 		if($scope.isOldFlow){
+			debugger;
 			//旧流程
 			$scope.oldFlowTask();
 			if(typeof (params[1])=='string' && typeof (params[2])=='string' && params[1]!='' && params[2]!=''){//已经启动流程
@@ -922,6 +930,11 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 					}
 				};
 	    		$scope.approve.showController = $scope.showController;
+                if ($scope.curLog.CHANGETYPE) {
+                    if($scope.curLog.CHANGETYPE != ''){
+                        $scope.approve.operateType = "change";
+                    }
+                }
 	    		$('#submitModal').modal('show');
 	    	});
 		});
@@ -1075,5 +1088,5 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 	 };
 	
 	$scope.initData();
-	
+    $scope.curLog = wf_getTaskLog("preReview", $routeParams.id, $scope.credentials.UUID);
 }]);

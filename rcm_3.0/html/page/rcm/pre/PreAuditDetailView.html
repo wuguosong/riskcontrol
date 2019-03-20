@@ -287,6 +287,13 @@
         </div>
     </form>
 </div>
+<!--加签功能选择用户标签-->
+<div id="userSinDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-single-dialog id="userSinDialog1" title="{{title}}" checked-user="checkedUser"
+							   remove-selected-user="removeSelectedUser()" callback="callback"
+							   mapped-key-value="changeUserMapper"></direct-user-single-dialog>
+</div>
+<!--加签功能选择用户标签-->
 <script  type="text/javascript">
     angular.element(document).ready(function() {
         var options = {

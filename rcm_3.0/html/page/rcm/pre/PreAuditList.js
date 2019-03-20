@@ -15,9 +15,9 @@ ctmApp.register.controller('PreAuditList', ['$routeParams','$http','$scope','$lo
 	//查询正式评审列表--待办
 	$scope.getPreWaitList = function(){
 		$http({
-			method:'post',  
-		    url: srvUrl + "preAudit/queryWaitList.do",
-		    data: $.param({"page":JSON.stringify($scope.paginationConf)})
+            method: 'post',
+            url: srvUrl + "sign/queryAgency.do",
+            data: $.param({"key":"preReview","page": JSON.stringify($scope.paginationConf)})
 		}).success(function(result){
 			$scope.preWaitList = result.result_data.list;
 			$scope.paginationConf.totalItems = result.result_data.totalItems;
