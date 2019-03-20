@@ -147,9 +147,12 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 			
 			$scope.fileName=[];
 			var filenames=$scope.pfr.attachment;
-			for(var i=0;i<filenames.length;i++){
-				var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
-				$scope.fileName.push(arr);
+			console.log(filenames);
+			if (filenames != null && filenames != [] && filenames != undefined) {
+                for(var i=0;i<filenames.length;i++){
+                    var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
+                    $scope.fileName.push(arr);
+                }
 			}
 			if (null != $scope.pfr.apply.expectedContractDate) {
 				$scope.changDate($scope.pfr.apply.expectedContractDate);
@@ -276,7 +279,7 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 		};
 		$('#submitModal').modal('show');
 	};
-	
+
 	$scope.initData();
 
 	angular.element(document).ready(function() {

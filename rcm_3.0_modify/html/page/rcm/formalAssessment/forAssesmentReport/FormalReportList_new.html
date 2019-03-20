@@ -6,10 +6,12 @@
 
 	<div>
 		<ul class="nav nav-tabs bs-tabdrop-example">
-			<li class="{{tabIndex=='0'?'active':''}}"><a
+			<a class="btn tab tab-90 active" href="/#bs-tabdrop-tab1" data-toggle="tab">起草中</a>
+			<a class="btn tab tab-90" href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a>
+			<!--<li class="{{tabIndex=='0'?'active':''}}"><a
 				href="/#bs-tabdrop-tab1" data-toggle="tab">待提交</a></li>
 			<li class="{{tabIndex=='1'?'active':''}}"><a
-				href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a></li>
+				href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a></li>-->
 		</ul>
 		<div class="tab-content tab-content-bordered">
 			<div class="tab-pane {{tabIndex=='0'?'active':''}}"
@@ -29,14 +31,14 @@
 										<input type="text" class="form-control" id="PROJECT_NAME" 
 											name="PROJECT_NAME" ng-model="paginationConf.queryObj.projectName"/>
 									</div>
-										<label for="" class="col-sm-2 col-md-1 control-label">所属大区</label>
+										<label class="col-sm-2 col-md-1 control-label">所属大区</label>
 										<div class="col-sm-4 col-md-2 sm-col">
 											<input type="text" id="PERTAINAREANAME"
 												name="PERTAINAREANAME"
 												ng-model="paginationConf.queryObj.pertainareaname" class="form-control" />
 										</div>
 										<div class="col-sm-12 col-md-2 search">
-											<button type="button" class="btn btn-info"
+											<button type="button" class="btn btn-primary"
 												ng-click="initUncommittedReport()">
 												<i class="glyphicon glyphicon-search"></i>查询
 											</button>
@@ -58,7 +60,7 @@
 								<div class="full-drop inline-div">
 									<button type="button" ng-click="listNotNewlyBuiltProject()"
 										data-toggle="modal" data-target="#addModal" id="compareBtn"
-										class="btn btn-info" title="">
+										class="btn btn-primary" title="">
 										<i class="glyphicon glyphicon-plus"></i>新增
 									</button>
 									<div id="addModal" class="modal" tabindex="-1" role="dialog"
@@ -139,15 +141,15 @@
 									</div>
 								</div>
 								<button type="button" ng-click="updateReportInfo()"
-									class="btn btn-info">
+									class="btn btn-primary">
 									<i class="glyphicon glyphicon-edit"></i>修改
 								</button>
 								<button type="button" ng-click="batchDeleteFormalReport()"
-									class="btn btn-info">
+									class="btn btn-primary">
 									<i class="glyphicon glyphicon-trash"></i>删除
 								</button>
 								<!-- <button type="button" ng-click="exportReportInfo()"
-									class="btn btn-info">
+									class="btn btn-primary">
 									<i class="glyphicon glyphicon-export"></i>导出
 								</button> -->
 							</div>
@@ -212,17 +214,17 @@
 									<div class="form-group row sm-row">
 									<label class="col-sm-2 col-md-1 control-label">项目名称</label>
 									<div class="col-sm-4 col-md-2 sm-col">
-										<input type="text" class="form-control" id="PROJECT_NAME" 
+										<input type="text" class="form-control" id="PROJECT_NAME1"
 											name="PROJECT_NAME" ng-model="paginationConfes.queryObj.projectName"/>
 									</div>
 										<label class="col-sm-2 col-md-1 control-label">所属大区</label>
 										<div class="col-sm-1 col-md-2">
-											<input type="text" id="PERTAINAREANAME"
+											<input type="text" id="PERTAINAREANAME1"
 												name="PERTAINAREANAME"
 												ng-model="paginationConfes.queryObj.pertainareaname"
 												class="form-control" />
 										</div>
-										<div class="col-sm-4 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="initSubmittedReport()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+										<div class="col-sm-4 col-md-2 search"><button  type="button" class="btn btn-primary" ng-click="initSubmittedReport()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
 									</div>
 								</div>
 							</div>

@@ -2384,6 +2384,42 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
+
+            // 正式评审项目信息查看（新）
+            .when('/projectInfoAllBoardView/:id/:url',{
+                controller:'ProjectInfoAllBoardView',
+                templateUrl:'page/rcm/projectBoard/projectInfoAllBoardView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/projectInfoAllBoardView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 投标评审项目信息查看（新）
+            .when('/projectPreInfoAllBoardView/:id/:url',{
+                controller:'ProjectPreInfoAllBoardView',
+                templateUrl:'page/rcm/projectBoard/projectPreInfoAllBoardView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/projectPreInfoAllBoardView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
             /*********************************项目看板结束******************************/
 
             /*********************************决策会开始******************************/

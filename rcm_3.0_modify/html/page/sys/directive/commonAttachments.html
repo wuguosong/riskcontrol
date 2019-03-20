@@ -1,0 +1,60 @@
+<div>
+    <div class="row">
+        <div class="row-tit">附件列表</div>
+        <!--<input id="code" ng-model="docCode" readonly/>-->
+        <button type="button" class="btn btn-info"
+                ng-click="_addAttachment()"><i class="glyphicon glyphicon-plus"></i>新增
+        </button>
+        <button type="button" class="btn btn-info"
+                ng-click="_removeAttachment()"><i class="glyphicon glyphicon-trash"></i>删除
+        </button>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                <thead>
+                <tr>
+                    <th width="5%">选择</th>
+                    <th>上传附件</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="_file in _files track by $index">
+                    <td class="txc">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" class="px"
+                                   ng-model="_file.selected">
+                            <span class="lbl">&nbsp;</span>
+                        </label>
+                    </td>
+                    <td>
+                        <div class="col-sm-8 noleft-pad noright-pad">
+                            <span ng-bind="_progress_$index"></span>
+                            <span style="">{{errorAttach[$index].msg}}</span>
+                            <span class="required">*</span>
+                            <a href="javascript:void(0);" ng-click="_download(_file.download3d)" style="line-height: 27px;">{{_file.filename}}</a>
+                        </div>
+                        <div class="col-sm-4 noright-pad txr">
+                            <button type="button" class="btn btn-info"
+                                    ngf-max-size="100MB"
+                                    ngf-select="_uploadThat($file, $index)"
+                                    ng-show="showUpload=='true'"
+                            >浏览
+                            </button>
+                            <button type="button" class="btn btn-info" ng-click="_review(_file.preview3d)" ng-show="showReview=='true'">
+                                预览
+                            </button>
+                            <button type="button" class="btn btn-info" ng-click="_download(_file.download3d)" ng-show="showDownload=='true'">
+                                下载
+                            </button>
+                            <button type="button" class="btn btn-info" ng-click="_delete(_file.fileid)" ng-show="showDelete=='true'">
+                                删除
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

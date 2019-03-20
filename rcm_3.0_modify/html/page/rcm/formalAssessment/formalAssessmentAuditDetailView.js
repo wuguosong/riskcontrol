@@ -1491,10 +1491,12 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			
 			$scope.fileName=[];
 			var filenames=$scope.pfr.attachment;
-			for(var i=0;i<filenames.length;i++){
-				var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
-				$scope.fileName.push(arr);
-			}
+            if (filenames != null && filenames != [] && filenames != undefined) {
+                for(var i=0;i<filenames.length;i++){
+                    var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
+                    $scope.fileName.push(arr);
+                }
+            }
 			if (null != $scope.pfr.apply.expectedContractDate) {
 				$scope.changDate($scope.pfr.apply.expectedContractDate);
 			}

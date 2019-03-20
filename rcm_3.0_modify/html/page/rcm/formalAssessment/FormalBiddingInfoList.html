@@ -6,12 +6,14 @@
 
 	<div>
 		<ul class="nav nav-tabs bs-tabdrop-example">
-			<li class="{{tabIndex=='0'?'active':''}}"> 
+			<a class="btn tab tab-90 active" href="/#bs-tabdrop-tab1" data-toggle="tab">起草中</a>
+			<a class="btn tab tab-90" href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a>
+			<!--<li class="{{tabIndex=='0'?'active':''}}">
 				<a href="/#bs-tabdrop-tab1" data-toggle="tab">待提交</a>
 			</li>
 			<li class="{{tabIndex=='1'?'active':''}}">
 				<a href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a>
-			</li>
+			</li>-->
 		</ul>
 		<div class="tab-content tab-content-bordered">
 			<div class="tab-pane {{tabIndex=='0'?'active':''}}" id="bs-tabdrop-tab1">
@@ -37,7 +39,7 @@
 												ng-model="paginationConf.queryObj.pertainareaname" class="form-control" />
 										</div>
 										<div class="col-sm-12 col-md-2 search">
-											<button type="button" class="btn btn-info"
+											<button type="button" class="btn btn-primary"
 												ng-click="initUncommittedDecisionMaterial()">
 												<i class="glyphicon glyphicon-search"></i>查询
 											</button>
@@ -57,7 +59,7 @@
 						<div class="panel-body">
 							<div class="row">
 								<button type="button" ng-click="toFormalBiddingInfo()"
-									class="btn btn-info">
+									class="btn btn-primary">
 									提交决策委员会
 								</button>
 							</div>
@@ -133,7 +135,7 @@
 												class="form-control" />
 										</div>
 										<div class="col-sm-4 col-md-2 search">
-										<button  type="button" class="btn btn-info" ng-click="initSubmittedDecisionMaterial()">
+										<button  type="button" class="btn btn-primary" ng-click="initSubmittedDecisionMaterial()">
 										<i class="glyphicon glyphicon-search"></i>查询</button>
 										</div>
 									</div>
