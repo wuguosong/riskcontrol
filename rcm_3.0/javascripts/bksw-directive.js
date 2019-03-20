@@ -5838,25 +5838,7 @@ ctmApp.directive('uploadFile', function () {
             progressLine: "@"
         },
         controller: function ($scope, $http, $element, $timeout) {
-            console.log($scope.id);
-            console.log($scope.fileList);
-            console.log($scope.startOrStopBtn);
-            console.log($scope.uploader);
-            console.log($scope.choiceForm);
-            console.log($scope.fileBp);
-            var toDo = function () {
-                /*******************初始化参数*********************************/
-                var $list = $("#" + $scope.fileList),//文件列表
-                    $btn = $("#" + $scope.startOrStopBtn),//开始上传按钮
-                    state = 'pending',//初始按钮状态
-                    uploader; //uploader对象
-                var fileMd5;  //文件唯一标识
-                /******************下面的参数是自定义的*************************/
-                var fileName;//文件名称
-                var beforeProgress;//如果该文件之前上传过 已经上传的进度是多少
-                var count = 0;//当前正在上传的文件在数组中的下标，一次上传多个文件时使用
-                var filesArr = new Array();//文件数组：每当有文件被添加进队列的时候 就push到数组中
-                var map = {};//key存储文件id，value存储该文件上传过的进度
+            jQuery(function () {
                 /***************************************************** 监听分块上传过程中的三个时间点 start ***********************************************************/
                 WebUploader.Uploader.register({
                         "before-send-file": "beforeSendFile",//整个文件上传前
@@ -5870,9 +5852,9 @@ ctmApp.directive('uploadFile', function () {
                             var deferred = WebUploader.Deferred();
                             //1、计算文件的唯一标记fileMd5，用于断点续传  如果.md5File(file)方法里只写一个file参数则计算MD5值会很慢 所以加了后面的参数：10*1024*1024
                             (new WebUploader.Uploader()).md5File(file, 0, 10 * 1024 * 1024).progress(function (percentage) {
-                                $('#' + file.id).find('p.state').text('读取MD5信息...' + percentage * 100 + "%");
+                                // $('#' + file.id).find('p.state').text('读取MD5信息...' + percentage * 100 + "%");
                             }).then(function (val) {
-                                $('#' + file.id).find("p.state").text("成功获取文件信息...");
+                                // $('#' + file.id).find("p.state").text("成功获取文件信息...");
                                 fileMd5 = val;
                                 //获取文件信息后进入下一步
                                 deferred.resolve();
@@ -5886,7 +5868,7 @@ ctmApp.directive('uploadFile', function () {
                             var deferred = WebUploader.Deferred();
                             $.ajax({
                                 type: "POST",
-                                url: "/rcm-rest/v2/breakpoint/check.do",  //ajax验证每一个分片
+                                url: "http://localhost:8080/rcm-rest/v2/breakpoint/check.do",  //ajax验证每一个分片
                                 data: {
                                     fileName: fileName,
                                     progressLine: $("#progressLine").val(),
@@ -5918,26 +5900,39 @@ ctmApp.directive('uploadFile', function () {
                             //如果分块上传成功，则通知后台合并分块
                             $.ajax({
                                 type: "POST",
-                                url: "/rcm-rest/v2/breakpoint/merge.do",  //ajax将所有片段合并成整体
+                                url: "http://localhost:8080/rcm-rest/v2/breakpoint/merge.do",  //ajax将所有片段合并成整体
                                 data: {
                                     fileName: fileName,
                                     fileMd5: fileMd5
                                 },
                                 success: function (data) {
-                                    console.log(data);
                                     count++; //每上传完成一个文件 count+1
                                     if (count <= filesArr.length - 1) {
                                         uploader.upload(filesArr[count].id);//上传文件列表中的下一个文件
                                     }
-                                    //合并成功之后的操作
-                                    $('#' + file.id).find('p.state').text('上传成功!');
-                                    $("#startOrStopBtn").show();
                                 }
                             });
                         }
                     });
                 /***************************************************** 监听分块上传过程中的三个时间点 end **************************************************************/
-                /************************************************************ 初始化WebUploader start ******************************************************************/
+
+                var $ = jQuery,
+                    ratio = window.devicePixelRatio || 1,
+                    thumbnailWidth = 100 * ratio,
+                    thumbnailHeight = 100 * ratio;
+                /*******************初始化参数*********************************/
+                var $btn = $('#startOrStopBtn'),//开始上传按钮
+                    state = 'pending',//初始按钮状态
+                    uploader; //uploader对象
+                var fileMd5;  //文件唯一标识
+
+                /******************下面的参数是自定义的*************************/
+                var fileName;//文件名称
+                var beforeProgress;//如果该文件之前上传过 已经上传的进度是多少
+                var count = 0;//当前正在上传的文件在数组中的下标，一次上传多个文件时使用
+                var filesArr = new Array();//文件数组：每当有文件被添加进队列的时候 就push到数组中
+                var map = {};//key存储文件id，value存储该文件上传过的进度
+
                 uploader = WebUploader.create({
                     auto: true,//选择文件后是否自动上传
                     chunked: true,//开启分片上传
@@ -5946,23 +5941,17 @@ ctmApp.directive('uploadFile', function () {
                     threads: 3,//上传并发数。允许同时最大上传进程数[默认值：3]
                     duplicate: true,//是否重复上传（同时选择多个一样的文件），true可以重复上传
                     prepareNextFile: true,//上传当前分片时预处理下一分片
+                    fileNumLimit: 10,
+                    auto: true,
                     swf: '/html/assets/webuploader-0.1.5/Uploader.swf',// swf文件路径
-                    server: '/rcm-rest/v2/breakpoint/save.do',// 文件接收服务端
-                    fileSizeLimit: 6 * 1024 * 1024 * 1024,//6G 验证文件总大小是否超出限制, 超出则不允许加入队列
-                    fileSingleSizeLimit: 3 * 1024 * 1024 * 1024,  //3G 验证单个文件大小是否超出限制, 超出则不允许加入队列
-                    pick: {
-                        id: "#" + $scope.picker, //这个id是你要点击上传文件按钮的外层div的id
-                        multiple: false //是否可以批量上传，true可以同时选择多个文件
-                    },
-                    resize: false,  //不压缩image, 默认如果是jpeg，文件上传前会先压缩再上传！
+                    server: 'http://localhost:8080/rcm-rest/v2/breakpoint/save.do',// 文件接收服务端
+                    pick: '#filePicker',
                     accept: {
                         //允许上传的文件后缀，不带点，多个用逗号分割
                         extensions: "txt,jpg,jpeg,bmp,png,zip,rar,war,pdf,cebx,doc,docx,ppt,pptx,xls,xlsx",
                         mimeTypes: '.txt,.jpg,.jpeg,.bmp,.png,.zip,.rar,.war,.pdf,.cebx,.doc,.docx,.ppt,.pptx,.xls,.xlsx',
                     }
                 });
-
-
                 //当有文件被添加进队列的时候（点击上传文件按钮，弹出文件选择框，选择完文件点击确定后触发的事件）
                 uploader.on('fileQueued', function (file) {
                     console.log("当有文件添加进队列..." + file);
@@ -5981,7 +5970,7 @@ ctmApp.directive('uploadFile', function () {
                     filesArr.push(file);
                     $.ajax({
                         type: "POST",
-                        url: "/rcm-rest/v2/breakpoint/progress.do",  //先检查该文件是否上传过，如果上传过，上传进度是多少
+                        url: "http://localhost:8080/rcm-rest/v2/breakpoint/progress.do",  //先检查该文件是否上传过，如果上传过，上传进度是多少
                         data: {
                             fileName: file.name
                         },
@@ -5990,173 +5979,17 @@ ctmApp.directive('uploadFile', function () {
                         dataType: "json",
                         success: function (data) {
                             //上传过
-                            if (data > 0) {
-                                //上传过的进度的百分比
-                                beforeProgress = data / 100;
-                                //如果上传过 上传了多少
-                                var progressLineStyle = "width:" + data + "%";
-                                $list.append('<div id="' + file.id + '" class="item">' +
-                                    '<h4 class="info">' + file.name + '</h4>' +
-                                    '<p class="state">已上传' + data + '%</p>' +
-                                    '<a href="javascript:void(0);" class="btn btn-primary file_btn btnRemoveFile">删除</a>' +
-                                    '<div class="progress progress-striped active">' +
-                                    '<div class="progress-bar" role="progressbar" style="' + progressLineStyle + '">' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>');
-                                //将上传过的进度存入map集合
-                                map[file.id] = beforeProgress;
-                            } else {//没有上传过
-                                $list.append('<div id="' + file.id + '" class="item">' +
-                                    '<h4 class="info">' + file.name + '</h4>' +
-                                    '<p class="state">等待上传...</p>' +
-                                    '<a href="javascript:void(0);" class="btn btn-primary file_btn btnRemoveFile">删除</a>' +
-                                    '</div>');
-                            }
+
                         }
                     });
                     uploader.stop(true);
                     //删除队列中的文件
-                    $(".btnRemoveFile").bind("click", function () {
-                        console.log("删除队列中的文件...");
-                        var fileItem = $(this).parent();
-                        uploader.removeFile($(fileItem).attr("id"), true);
-                        $(fileItem).fadeOut(function () {
-                            $(fileItem).remove();
-                        });
-
-                        //数组中的文件也要删除
-                        for (var i = 0; i < filesArr.length; i++) {
-                            if (filesArr[i].id == $(fileItem).attr("id")) {
-                                filesArr.splice(i, 1);//i是要删除的元素在数组中的下标，1代表从下标位置开始连续删除一个元素
-                            }
-                        }
-                    });
                 });
-
-                //文件上传过程中创建进度条实时显示
-                uploader.on('uploadProgress', function (file, percentage) {
-                    var $li = $('#' + file.id),
-                        $percent = $li.find('.progress .progress-bar');
-                    //避免重复创建
-                    if (!$percent.length) {
-                        $percent = $('<div class="progress progress-striped active">' +
-                            '<div class="progress-bar" role="progressbar" style="width: 0%">' +
-                            '</div>' +
-                            '</div>').appendTo($li).find('.progress-bar');
-                    }
-
-                    //将实时进度存入隐藏域
-                    $("#progressLine").val(Math.round(percentage * 100));
-
-                    //根据fileId获得当前要上传的文件的进度
-                    var beforeProgressValue = map[file.id];
-
-                    if (percentage < beforeProgressValue && beforeProgressValue != 1) {
-                        $li.find('p.state').text('上传中' + Math.round(beforeProgressValue * 100) + '%');
-                        $percent.css('width', beforeProgressValue * 100 + '%');
-                    } else {
-                        $li.find('p.state').text('上传中' + Math.round(percentage * 100) + '%');
-                        $percent.css('width', percentage * 100 + '%');
-                    }
-                });
-
-                //上传成功后执行的方法
-                uploader.on('uploadSuccess', function (file) {
-                    console.log("文件上传成功后..." + file);
-                    //上传成功去掉进度条
-                    $('#' + file.id).find('.progress').fadeOut();
-                    //隐藏删除按钮
-                    $(".btnRemoveFile").hide();
-                    //隐藏上传按钮
-                    $("#startOrStopBtn").hide();
-                    $('#' + file.id).find('p.state').text('文件已上传成功，系统后台正在处理，请稍后...');
-                });
-
-                //上传出错后执行的方法
-                uploader.on('uploadError', function (file) {
-                    console.log("上传出错后执行..." + file);
-                    $btn.text('开始上传');
-                    uploader.stop(true);
-                    $('#' + file.id).find('p.state').text('上传出错，请检查网络连接');
-                });
-
-                //文件上传成功失败都会走这个方法
-                uploader.on('uploadComplete', function (file) {
-                    console.log("文件上传成功失败都会走这个方法..." + file);
-                });
-
-                uploader.on('all', function (type) {
-                    /**
-                     * uploadAccept
-                     * uploadProgress
-                     * uploadBeforeSend
-                     * stopUpload
-                     */
-                    console.log("uploader.on..." + type);
-                    if (type === 'startUpload') {
-                        state = 'uploading';
-                    } else if (type === 'stopUpload') {
-                        state = 'paused';
-                    } else if (type === 'uploadFinished') {
-                        state = 'done';
-                    } else if (type === "uploadProgress") {
-                        state = "uploading";
-                    }
-
-                    if (state === 'uploading') {
-                        $btn.text('暂停上传');
-                    } else {
-                        $btn.text('开始上传');
-                    }
-                });
-
-                //上传按钮的onclick事件
-                $btn.on('click', function () {
-                    console.log("上传按钮的onclick事件...");
-                    if (state === 'uploading') {
-                        uploader.stop(true);
-                    } else {
-                        //当前上传文件的文件名
-                        var currentFileName;
-                        console.log(filesArr);
-                        //当前上传文件的文件id
-                        var currentFileId;
-                        //count=0 说明没开始传 默认从文件列表的第一个开始传
-                        if (count == 0) {
-                            currentFileName = filesArr[0].name;
-                            currentFileId = filesArr[0].id;
-                        } else {
-                            if (count <= filesArr.length - 1) {
-                                currentFileName = filesArr[count].name;
-                                currentFileId = filesArr[count].id;
-                            }
-                        }
-
-                        //先查询该文件是否上传过 如果上传过已经上传的进度是多少
-                        $.ajax({
-                            type: "POST",
-                            url: "/rcm-rest/v2/breakpoint/progress.do",
-                            data: {
-                                fileName: currentFileName
-                            },
-                            cache: false,
-                            async: false,  // 同步
-                            dataType: "json",
-                            success: function (data) {
-                                //如果上传过 将进度存入map
-                                if (data > 0) {
-                                    map[currentFileId] = data / 100;
-                                }
-                                //执行上传
-                                uploader.upload(currentFileId);
-                            }
-                        });
-                    }
-                });
-
-            };
-            $timeout(toDo, 1000)
+            });
+            $scope.addWebuploadCurrent = function (id) {
+                $(".webupload_current").removeClass("webupload_current");
+                $("#" + id).addClass("webupload_current");
+            }
         }
     };
 });

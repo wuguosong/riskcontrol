@@ -1,18 +1,5 @@
 <div>
     <p style="text-align: center">关于流程审批的建议与意见</p>
-    <div>
-        <form id="messageForm" name="messageForm" style="margin-left: 40px;">
-            <textarea ng-model="message.messageContent" cols="200" rows="5" id="messageContent"></textarea><br>
-            <input type="text" ng-model="message.parentId" id="parentId" ng-hide="true">
-            <input type="text" ng-model="message.originalId" id="originalId" ng-hide="true">
-            <input type="text" ng-model="message.procInstId" id="procInstId" ng-hide="true">
-            <input type="text" ng-model="message.repliedBy" id="repliedBy" ng-hide="true">
-            <input type="text" ng-model="message.repliedName" id="repliedName" ng-hide="true">
-            <button ng-click="submitMessage()">提交留言</button>
-            <button ng-click="updateRead()">更新已阅测试</button>
-            <button ng-click="getChildren()">叶子留言测试</button>
-        </form>
-    </div>
     <!--留言信息-->
     <div id="messagesTestDivPart">
         <ul ng-repeat="msg in messages">
@@ -49,5 +36,18 @@
                 </ul>
             </li>
         </ul>
+    </div>
+    <div>
+        <form id="messageForm" name="messageForm" style="margin-left: 40px;">
+            <textarea ng-model="message.messageContent" cols="200" rows="5" id="messageContent"></textarea><br>
+            <input type="text" ng-model="message.parentId" id="parentId" ng-hide="true">
+            <input type="text" ng-model="message.originalId" id="originalId" ng-hide="true">
+            <input type="text" ng-model="message.procInstId" id="procInstId" ng-hide="true">
+            <input type="text" ng-model="message.repliedBy" id="repliedBy" ng-hide="true">
+            <input type="text" ng-model="message.repliedName" id="repliedName" ng-hide="true">
+            <button ng-click="submitMessage()">提交留言</button>
+            <button ng-click="updateRead()">更新已阅测试</button>
+            <button ng-click="getChildren()">叶子留言测试</button>
+        </form>
     </div>
 </div>
