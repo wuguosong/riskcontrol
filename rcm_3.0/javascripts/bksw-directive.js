@@ -5945,7 +5945,7 @@ ctmApp.directive('uploadFile', function () {
                     auto: true,
                     swf: '/html/assets/webuploader-0.1.5/Uploader.swf',// swf文件路径
                     server: 'http://localhost:8080/rcm-rest/v2/breakpoint/save.do',// 文件接收服务端
-                    pick: '#filePicker',
+                    pick: '.filePicker',
                     accept: {
                         //允许上传的文件后缀，不带点，多个用逗号分割
                         extensions: "txt,jpg,jpeg,bmp,png,zip,rar,war,pdf,cebx,doc,docx,ppt,pptx,xls,xlsx",
