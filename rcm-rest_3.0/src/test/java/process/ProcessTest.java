@@ -328,7 +328,7 @@ public class ProcessTest {
 
     @Test
     public void test3() {
-        BpmnModel model = processService.getBpmnModel("bulletin:8:260004");
+        BpmnModel model = processService.getBpmnModel("preReview:7:392504");
         Process mainProcess = model.getMainProcess();
         Collection<FlowElement> flowElements = processService.recursionFlowElements(mainProcess.getFlowElements());
         Map<Class, List<FlowElement>> map = processService.demergeFlowElements(flowElements);
@@ -367,13 +367,13 @@ public class ProcessTest {
         processService.getNextTaskFlowElementVariable("bulletin:8:260004", "usertask1", "usertask2");
     }
 
-    String task_id = "352502";
-    String business_id = "63bd90dbfac74663ba5d138406c9600c";
+    String task_id = "395008";
+    String business_id = "5c91e1c45544cd3abc49dd88";
     @Test
     public void test6(){
         Task curTask = taskService.createTaskQuery().taskId(task_id).singleResult();
         String curTaskKey = curTask.getTaskDefinitionKey();
-        String nexTaskKey = signService.getNextTaskInfo(Constants.PROCESS_KEY_BULLETIN, business_id).getKey();
+        String nexTaskKey = signService.getNextTaskInfo(Constants.PROCESS_KEY_PREREVIEW, business_id).getKey();
         System.out.println(curTaskKey);
         System.out.println(nexTaskKey);
         Map<String, Object> variable = processService.getNextTaskFlowElementVariable(curTask.getProcessDefinitionId(), curTaskKey, nexTaskKey);

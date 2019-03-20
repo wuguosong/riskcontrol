@@ -6,8 +6,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yk.rcm.pre.dao.IPreAuditLogMapper;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,9 @@ public class PreAuditService implements IPreAuditService{
 	@Resource
 	private IBpmnAuditService bpmnAuditService;
 	
+	@Resource
+	private IPreAuditLogMapper preAuditLogMapper;
+
 	@Resource
 	private IPreAuditMapper preAuditMapper;
 	
@@ -142,11 +147,51 @@ public class PreAuditService implements IPreAuditService{
 	public TaskInfo queryTaskInfoByBusinessId(String businessId,String processKey) {
 		String userId = ThreadLocalUtil.getUserId();
 		List<Task> queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
+		/**Add By LiPan**/
+		List<Map<String, Object>> logs = preAuditLogMapper.queryAuditedLogsById(businessId);
+		if(CollectionUtils.isEmpty(queryTaskInfo)){
+			/**
+			 * 1.依靠当前登录用已经不能从流程相关表中查询到任务记录
+			 * 2.因为当前登录用户可能是转发用户(即被指定的加签用户)
+			 * 3.此时需要使用加签用户的原始用户记录取查询任务信息
+			 * 4.从每个业务日志表中获取当前用户的原始用户信息
+			 * */
+			if (CollectionUtils.isNotEmpty(logs)){
+				for(Map<String, Object> log : logs){
+					String audituserid = String.valueOf(log.get("AUDITUSERID"));
+					String iswaiting = String.valueOf(log.get("ISWAITING"));
+					if("1".equals(iswaiting) && userId.equals(audituserid)){
+						userId = String.valueOf(log.get("OLDUSERID"));
+						break;
+					}
+				}
+				queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
+			}
+		}else{
+			/**
+			 * 1.即使当前用户在流程表中可以查到,也要预防另一种情况发生
+			 * 2.当前用户为原始用户,但是当前用户进行了转办操作,已经转办给另一个用户,且操作完成
+			 * 3.此时不因该被查到任务信息
+			 * 4.对于页面来说,流程已经提交成功,就不能再进行提交操作了
+			 */
+			if (CollectionUtils.isNotEmpty(logs)){
+				for(Map<String, Object> log : logs){
+					String audituserid = String.valueOf(log.get("AUDITUSERID"));
+					String iswaiting = String.valueOf(log.get("ISWAITING"));
+					if("1".equals(iswaiting) && !userId.equals(audituserid)){
+						userId = String.valueOf(log.get("AUDITUSERID"));
+						break;
+					}
+				}
+				queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
+			}
+		}
+		/**Add By LiPan**/
 		TaskInfo taskInfo = new TaskInfo();
 		if(queryTaskInfo.size()>0){
 			taskInfo.setDescription(queryTaskInfo.get(0).getDescription());
 			taskInfo.setAssignee(queryTaskInfo.get(0).getAssignee());
-			taskInfo.setTaskId(queryTaskInfo.get(0).getId());;
+			taskInfo.setTaskId(queryTaskInfo.get(0).getId());
 			taskInfo.setTaskKey(queryTaskInfo.get(0).getTaskDefinitionKey());
 		}
 		return taskInfo;

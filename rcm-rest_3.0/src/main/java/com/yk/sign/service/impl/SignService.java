@@ -27,6 +27,7 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.pvm.process.ProcessDefinitionImpl;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.task.Task;
@@ -113,7 +114,7 @@ public class SignService implements ISignService {
         if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
             this.endFormalSign(business_id, task_id, option);
         }
-        if (Constants.PRE_ASSESSMENT.equalsIgnoreCase(business_module)) {
+        if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
             this.endPreSign(business_id, task_id, option);
         }
     }
@@ -127,7 +128,7 @@ public class SignService implements ISignService {
         if (StringUtils.isBlank(business_id)) {
             throw new BusinessException("BUSINESS_ID不能为空!");
         }
-        if (Constants.PRE_ASSESSMENT.equalsIgnoreCase(business_module)) {
+        if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
             return this.preLogs(business_id);
         } else if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
             return this.formalLogs(business_id);
@@ -351,7 +352,7 @@ public class SignService implements ISignService {
         // 获取节点日志描述信息
         List<Map<String, Object>> logs = preAuditLogMapper.queryAuditedLogsById(business_id);
         // 将当前人待办变已办，新增待办日志
-        List<Task> list = taskService.createTaskQuery().taskId(task_id).processDefinitionKey(Constants.PRE_ASSESSMENT).processInstanceBusinessKey(business_id).list();
+        List<Task> list = taskService.createTaskQuery().taskId(task_id).processDefinitionKey(Constants.PROCESS_KEY_PREREVIEW).processInstanceBusinessKey(business_id).list();
         Task task = list.get(0);
         String executionId = task.getExecutionId();
         String taskName = task.getName();
@@ -363,7 +364,7 @@ public class SignService implements ISignService {
                 // 所有正向的表达式
                 Task curTask = taskService.createTaskQuery().taskId(task_id).singleResult();
                 String curTaskKey = curTask.getTaskDefinitionKey();
-                String nexTaskKey = this.getNextTaskInfo(Constants.PRE_ASSESSMENT, business_id).getKey();
+                String nexTaskKey = this.getNextTaskInfo(Constants.PROCESS_KEY_PREREVIEW, business_id).getKey();
                 Map<String, Object> variable = processService.getNextTaskFlowElementVariable(curTask.getProcessDefinitionId(), curTaskKey, nexTaskKey);
                 // 结束本次任务,开始下个节点
                 taskService.complete(task_id, variable);
@@ -468,7 +469,7 @@ public class SignService implements ISignService {
         if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
             this.formalSign(type, business_id, user_json, task_id, option);
         }
-        if (Constants.PRE_ASSESSMENT.equalsIgnoreCase(business_module)) {
+        if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
             this.preSign(type, business_id, user_json, task_id, option);
         }
     }
@@ -648,7 +649,7 @@ public class SignService implements ISignService {
         // 获取节点日志描述信息
         List<Map<String, Object>> logs = preAuditLogMapper.queryAuditedLogsById(business_id);
         // 将当前人待办变已办，新增待办日志
-        List<Task> list = taskService.createTaskQuery().taskId(task_id).processDefinitionKey(Constants.PRE_ASSESSMENT).processInstanceBusinessKey(business_id).list();
+        List<Task> list = taskService.createTaskQuery().taskId(task_id).processDefinitionKey(Constants.PROCESS_KEY_PREREVIEW).processInstanceBusinessKey(business_id).list();
         Task task = list.get(0);
         String executionId = task.getExecutionId();
         String taskName = task.getName();
@@ -773,8 +774,8 @@ public class SignService implements ISignService {
 
     @Override
     public TaskDefinition getNextTaskInfo(String key, String business_id) {
-        // Map map = signMapper.getCurrentTaskInfo(key, business_id).get(0);
-        HashMap map = this.getCurrentTask(key, business_id);
+        Map map = signMapper.getCurrentTaskInfo(key, business_id).get(0);
+        // HashMap map = this.getCurrentTask(key, business_id);
         if (map != null) {
             return this.getNextTask(String.valueOf(map.get("PROC_INST_ID_")), String.valueOf(map.get("TASK_DEF_KEY_")));
         }
@@ -797,7 +798,7 @@ public class SignService implements ISignService {
         //获取流程所有节点信息
         List<ActivityImpl> activityList = processDefinitionEntity.getActivities();
         //遍历所有节点信息
-        String id = null;
+        /*String id = null;
         for (ActivityImpl activityImpl : activityList) {
             id = activityImpl.getId();
             if (id.equals(activityId)) {
@@ -805,10 +806,38 @@ public class SignService implements ISignService {
                 task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, process_instance_id);
                 break;
             }
-        }
+        }*/
+        task = this.getSubprocessTask(activityList, process_instance_id, activityId);
         return task;
     }
 
+    /**
+     * 迭代子流程
+     * @param activities
+     * @param process_instance_id
+     * @param activityId
+     * @return
+     */
+    public TaskDefinition getSubprocessTask(List<ActivityImpl> activities, String process_instance_id, String activityId){
+        String id = null;
+        TaskDefinition task = null;
+        for (ActivityImpl activityImpl : activities) {
+            id = activityImpl.getId();
+            Object type = activityImpl.getProperty("type");
+            System.out.println(type);
+            if("subProcess".equals(type)){
+                // 获取子流程节点,进行迭代
+                task = this.getSubprocessTask(activityImpl.getActivities(), process_instance_id, activityId);
+            }else{
+                if (id.equals(activityId)) {
+                    //获取下一个节点信息
+                    task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, process_instance_id);
+                    break;
+                }
+            }
+        }
+        return task;
+    }
 
     /**
      * 下一个任务节点信息

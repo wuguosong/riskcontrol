@@ -1,23 +1,4 @@
 package com.yk.rcm.formalAssessment.service.impl;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
-import org.apache.commons.collections4.CollectionUtils;
-import org.bson.Document;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import util.ThreadLocalUtil;
-import util.Util;
 
 import com.yk.bpmn.entity.TaskInfo;
 import com.yk.common.BaseMongo;
@@ -29,10 +10,23 @@ import com.yk.rcm.formalAssessment.dao.IFormalAssessmentAuditMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
-
 import common.Constants;
 import common.PageAssistant;
 import common.Result;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.commons.collections4.CollectionUtils;
+import org.bson.Document;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import util.ThreadLocalUtil;
+import util.Util;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * @author yaphet
  */
@@ -58,34 +52,49 @@ public class FormalAssessmentAuditService implements IFormalAssessmentAuditServi
 	@Override
 	public TaskInfo queryTaskInfoByBusinessId(String businessId,String processKey,String taskMark){
 		String userId = ThreadLocalUtil.getUserId();
-		
-		List<Task> queryTaskInfo = null;
-		List<Map<String, Object>> queryWaitingLogsById = formalAssessmentAuditLogService.queryWaitingLogsById(businessId);
-		if(Util.isNotEmpty(taskMark)){
-			for (Map<String, Object> map : queryWaitingLogsById) {
-				if(Util.isNotEmpty(map.get("TASKMARK"))){
-					if(map.get("TASKMARK").equals(taskMark)){
-						String taskId = (String) map.get("TASKID");
-						queryTaskInfo = bpmnAuditService.queryTaskInfo(taskId);
+
+		List<Task> queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
+		List<Map<String, Object>> logs = formalAssessmentAuditLogService.queryWaitingLogsById(businessId);
+		/****Add By LiPan****/
+		if(CollectionUtils.isEmpty(queryTaskInfo)){
+			/**
+			 * 1.依靠当前登录用已经不能从流程相关表中查询到任务记录
+			 * 2.因为当前登录用户可能是转发用户(即被指定的加签用户)
+			 * 3.此时需要使用加签用户的原始用户记录取查询任务信息
+			 * 4.从每个业务日志表中获取当前用户的原始用户信息
+			 * */
+			if (CollectionUtils.isNotEmpty(logs)){
+				for(Map<String, Object> log : logs){
+					String audituserid = String.valueOf(log.get("AUDITUSERID"));
+					String iswaiting = String.valueOf(log.get("ISWAITING"));
+					if("1".equals(iswaiting) && userId.equals(audituserid)){
+						userId = String.valueOf(log.get("OLDUSERID"));
+						break;
 					}
 				}
+				queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
 			}
 		}else{
-			/****add by lipan 改变userid的指向****/
-			if(CollectionUtils.isNotEmpty(queryWaitingLogsById)){
-				for (Map<String, Object> map : queryWaitingLogsById) {
-					if(Util.isNotEmpty(map.get("AUDITUSERID"))){
-						if(map.get("AUDITUSERID").equals(userId)){
-							userId = (String)map.get("OLDUSERID");
-						}
+			/**
+			 * 1.即使当前用户在流程表中可以查到,也要预防另一种情况发生
+			 * 2.当前用户为原始用户,但是当前用户进行了转办操作,已经转办给另一个用户,且操作完成
+			 * 3.此时不因该被查到任务信息
+			 * 4.对于页面来说,流程已经提交成功,就不能再进行提交操作了
+			 */
+			if (CollectionUtils.isNotEmpty(logs)){
+				for(Map<String, Object> log : logs){
+					String audituserid = String.valueOf(log.get("AUDITUSERID"));
+					String iswaiting = String.valueOf(log.get("ISWAITING"));
+					if("1".equals(iswaiting) && !userId.equals(audituserid)){
+						userId = String.valueOf(log.get("AUDITUSERID"));
+						break;
 					}
 				}
+				queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
 			}
-			/****add by lipan****/
-			queryTaskInfo = bpmnAuditService.queryTaskInfo(processKey, businessId, userId);
 		}
-		
-		
+		/**Add By LiPan**/
+
 		TaskInfo taskInfo = new TaskInfo();
 		if(Util.isNotEmpty(queryTaskInfo) && queryTaskInfo.size()>0){
 			taskInfo.setDescription(queryTaskInfo.get(0).getDescription());
@@ -95,7 +104,7 @@ public class FormalAssessmentAuditService implements IFormalAssessmentAuditServi
 		}
 		return taskInfo;
 	}
-	
+
 	@Override
 	public void queryAuditedList(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();

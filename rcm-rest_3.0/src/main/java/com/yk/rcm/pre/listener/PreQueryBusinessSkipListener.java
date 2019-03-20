@@ -41,9 +41,9 @@ public class PreQueryBusinessSkipListener implements ExecutionListener{
 				
 		//大区过滤
 		Map<String, Object> pertainArea = (Map<String, Object>) apply.get("pertainArea");
-		Map<String, Object> reportingUnit = (Map<String, Object>) apply.get("reportingUnit");
+		// Map<String, Object> reportingUnit = (Map<String, Object>) apply.get("reportingUnit");
 		List<Map<String, Object>> pList = pertainAreaService.queryPertainAreaByOrgPkValue((String)pertainArea.get("KEY"));
-		List<Map<String, Object>> rList = pertainAreaService.queryPertainAreaByOrgPkValue((String)reportingUnit.get("KEY"));
+		// List<Map<String, Object>> rList = pertainAreaService.queryPertainAreaByOrgPkValue((String)reportingUnit.get("KEY"));
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
@@ -60,11 +60,11 @@ public class PreQueryBusinessSkipListener implements ExecutionListener{
 			}
 		}
 		
-		for (Map<String, Object> rmap : rList) {
-			if("2".equals((String)rmap.get("TYPE"))){
-				variables.put("isSkipBusinessArea", "0");
-			}
-		}
+		//for (Map<String, Object> rmap : rList) {
+		//	if("2".equals((String)rmap.get("TYPE"))){
+		//		variables.put("isSkipBusinessArea", "0");
+		//	}
+		//}
 		
 		execution.setVariables(variables);
 	}
