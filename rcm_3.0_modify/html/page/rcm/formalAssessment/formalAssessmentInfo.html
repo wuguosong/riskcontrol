@@ -217,9 +217,12 @@
         <div class="button-group">
             <div class="row">
                 <div class="option txl">
-                    <a class="btn btn-info" href="#/FormalAssessmentInfoList/0"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" href="#/FormalAssessmentInfoList/0">返回</a>
+                    <button class="btn btn-primary" ng-if="flag == 1" type="button" ng-click="save()">保存</button>
+                    <button class="btn btn-primary" ng-if="flag == 2" type="button" ng-click="update()">保存</button>
+                    <!--<a class="btn btn-info" href="#/FormalAssessmentInfoList/0"><i class="fa fa-reply"></i>返回</a>
                     <button ng-if="flag == 1" type="button" ng-click="save()" id="savebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
-                    <button ng-if="flag == 2" type="button" ng-click="update()" id="updatebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+                    <button ng-if="flag == 2" type="button" ng-click="update()" id="updatebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>-->
                     <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
                         <approve-pop-win approve="approve"></approve-pop-win>
                     </div>

@@ -521,7 +521,7 @@ ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$loca
 	$scope.oldUrl = $routeParams.url;
 	$scope.initDefaultData = function(){
 		$scope.wfInfo = {processKey:'bulletin', "businessId":queryParamId};
-		$scope.initData();
+		/*$scope.initData();*/
 	};
 	$scope.initData = function(){
 		var url = srvUrl + "bulletinInfo/queryViewDefaultInfo.do";
@@ -530,6 +530,7 @@ ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$loca
 		    url: url,
 		    data: $.param({"businessId": queryParamId})
 		}).success(function(result){
+			console.log('BulletinMattersDetailView')
 			var data = result.result_data;
 			$scope.bulletinOracle = data.bulletinOracle;
 			$scope.bulletin = data.bulletinMongo;

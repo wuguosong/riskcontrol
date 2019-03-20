@@ -747,3 +747,113 @@ function fileErrorMsg(errorFile){
 	
 	return errorMap[key];
 }
+
+/**
+ * 根据流程Key和业务Id获取任务日志列表
+ * @param business_module 业务单元,这里以流程Key进行区分
+ * @param business_id 业务Id
+ * @returns {*}
+ * @public
+ */
+function wf_listTaskLog(business_module, business_id){
+    var url = srvUrl + "sign/listLogs.do";
+    var logs = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"business_module": business_module,'business_id':business_id},
+        async: false,
+        success: function (data) {
+            logs = data;
+        }
+    });
+    return logs;
+}
+
+/**
+ * 获取当前任务日志
+ * @param business_module 业务单元,这里以流程Key进行区分
+ * @param business_id 业务Id
+ * @param uuid 当前登录用户ID
+ * @returns {*}
+ * @public
+ */
+function wf_getTaskLog(business_module, business_id, uuid){
+    var logs = wf_listTaskLog(business_module, business_id);
+    var log = null;
+    for (var i in logs) {
+        if (logs[i].ISWAITING == '1') {
+            if (logs[i].AUDITUSERID == uuid) {
+                log = logs[i];
+                break;
+            }
+        }
+    }
+    return log;
+}
+/**
+ * 上传附件
+ * @param docType
+ * @param docCode
+ * @param pageLocation
+ * @returns {*}
+ */
+function attach_upload(docType, docCode, pageLocation){
+    var url = srvUrl + "cloud/upload.do";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"docType": docType,'docCode':docCode,'pageLocation':pageLocation},
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+}
+/**
+ * 删除附件
+ * @param fileId
+ * @returns {*}
+ */
+function attach_delete(fileId){
+    var url = srvUrl + "cloud/delete.do";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"fileId": fileId},
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+}
+/**
+ * 查询附件
+ * @param docType
+ * @param docCode
+ * @param pageLocation
+ * @returns {*}
+ */
+function attach_list(docType, docCode, pageLocation){
+    console.log(docCode);
+    var url = srvUrl + "cloud/list.do";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"docType": docType,'docCode':docCode,'pageLocation':pageLocation},
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+}

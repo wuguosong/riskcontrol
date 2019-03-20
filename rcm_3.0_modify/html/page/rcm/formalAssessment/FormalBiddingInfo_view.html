@@ -74,13 +74,13 @@
 							<a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)" style="cursor: pointer" title="">{{formalReport.projectName}}-正式评审报告.docx</a>
 						</div>
 						<div class="col-sm-2">
-							<button type="button" ng-disabled="!hasWaiting"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadReprot($file,$invalidFiles,$index)">替换</button>
+							<button type="button" ng-disabled="!hasWaiting"  class="btn btn-primary" ngf-max-size="100MB" ngf-select="uploadReprot($file,$invalidFiles,$index)">替换</button>
 						</div>
 					</div>
 					<div class="row" ng-if="formalReport.policyDecision.fileList!=null && formalReport.policyDecision.fileList.length>0">
 						<div class="row-tit">附件列表</div>
-						<button  type="button" ng-if="hasWaiting" class="btn btn-info" ng-disabled="isBtnShow" ng-click="addFileList()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-						<button  type="button" ng-if="hasWaiting" class="btn btn-info" ng-disabled="isBtnShow" ng-click="commonDdelete()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+						<button  type="button" ng-if="hasWaiting" class="btn btn-primary" ng-disabled="isBtnShow" ng-click="addFileList()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+						<button  type="button" ng-if="hasWaiting" class="btn btn-primary" ng-disabled="isBtnShow" ng-click="commonDdelete()"><i class="glyphicon glyphicon-trash"></i>删除</button>
 					</div>
 					<div class="row" ng-if="formalReport.policyDecision.fileList!=null && formalReport.policyDecision.fileList.length>0">
 						<div class="table-responsive">
@@ -109,7 +109,7 @@
 											<a href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
 										</div>
 										<div class="col-sm-3 noright-pad txr">
-											<button type="button" ng-disabled="!hasWaiting"  class="btn btn-info" ng-disabled="isBtnShow" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
+											<button type="button" ng-disabled="!hasWaiting"  class="btn btn-primary" ng-disabled="isBtnShow" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
 										</div>
 									</td>
 									
@@ -136,8 +136,8 @@
 
 					<div class="row">
 						<div class="row-tit">4.业务单位上报评审文件-投资部门提供</div>
-						<button ng-if="hasWaiting"  type="button" class="btn btn-info" ng-click="addFileList1()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-						<button ng-if="hasWaiting" type="button" class="btn btn-info" ng-click="deleteFileList()"><i class="glyphicon glyphicon-plus"></i>删除</button>
+						<button ng-if="hasWaiting"  type="button" class="btn btn-primary" ng-click="addFileList1()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+						<button ng-if="hasWaiting" type="button" class="btn btn-primary" ng-click="deleteFileList()"><i class="glyphicon glyphicon-plus"></i>删除</button>
 					</div>	
 					<div class="row">
 						<div class="row table-responsive">
@@ -180,10 +180,10 @@
 									</td>
 									<td>
 										<div ng-if="!item.newFile" class="">
-											<button type="button"  ng-disabled="!hasWaiting" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">替换</button>
+											<button type="button"  ng-disabled="!hasWaiting" class="btn btn-primary" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">替换</button>
 										</div>
 										<div ng-if="item.newFile" class="">
-											<button type="button"  ng-disabled="!hasWaiting" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">浏览</button>
+											<button type="button"  ng-disabled="!hasWaiting" class="btn btn-primary" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">浏览</button>
 										</div>
 									</td>
 									<td>
@@ -421,7 +421,7 @@
 			<div class="row">
 				<div class="option">
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-					<button ng-if="hasWaiting" type="button" ng-click="saveOnly()" id="saveOnlyBtn" class="btn btn-info">
+					<button ng-if="hasWaiting" type="button" ng-click="saveOnly()" id="saveOnlyBtn" class="btn btn-primary">
 						<i class="fa fa-save"></i>
 						保存
 					</button>

@@ -4,8 +4,10 @@
 		<span class="hd-title">项目正式评审审批</span>
 	</div>
 	<ul id="myTab" class="nav nav-tabs bs-tabdrop-example">
-		<li class="active"  ><a href="/#bs-tabdrop-tab1" data-toggle="tab">待审核</a></li>
-		<li ><a href="/#bs-tabdrop-tab2" data-toggle="tab">已审核</a></li>
+		<a class="btn tab tab-90 active" href="/#bs-tabdrop-tab1" data-toggle="tab">待审核</a>
+		<a class="btn tab tab-90" href="/#bs-tabdrop-tab2" data-toggle="tab">已审核</a>
+		<!--<li class="active"  ><a href="/#bs-tabdrop-tab1" data-toggle="tab">待审核</a></li>
+		<li ><a href="/#bs-tabdrop-tab2" data-toggle="tab">已审核</a></li>-->
 	</ul>
 	<div class="tab-content tab-content-bordered">
 		<div class="tab-pane active" id="bs-tabdrop-tab1">
@@ -25,7 +27,7 @@
 									<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME" ng-model="paginationConf.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
 								<div class="form-group row sm-row">
 									<div class="col-sm-12 col-md-3">
-										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getWaitFormalAssessmentList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-primary" ng-click="getWaitFormalAssessmentList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
 									</div>
 								</div>
 							</div>
@@ -99,9 +101,9 @@
 		</div>
 		<div class="tab-pane" id="bs-tabdrop-tab2">
 			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
-				<div id="projectPreReview" class="panel-group">
+				<div id="projectPreReview1" class="panel-group">
 					<div class="panel">
-						<input type="hidden"  name="proId" id="proId" ng-model="conf.orgId"/>
+						<input type="hidden"  name="proId" id="proId1" ng-model="conf.orgId"/>
 						<div class="panel-heading search-box">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#projectPreReview" href="/#searchbox1">查询</a>
 						</div>
@@ -109,9 +111,9 @@
 							<div class="panel-body search-body">
 <!-- 								<div class="form-group row sm-row"> -->
 									<label class="col-sm-2 col-md-1 control-label">项目名称</label>
-									<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="paginationConfes.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+									<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="PROJECT_NAME" id="PROJECT_NAME1" ng-model="paginationConfes.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
 									<label class="col-sm-2 col-md-1 control-label">所属大区</label>
-									<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME" ng-model="paginationConfes.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+									<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME1" ng-model="paginationConfes.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
 <!-- 									<label class="col-sm-2 col-md-1 control-label">投资经理</label> -->
 <!-- 									<div class="col-sm-4 col-md-2"><input type="text" name="INVESTMENT_MANAGER_NAME" id="INVESTMENT_MANAGER_NAME" ng-model="INVESTMENT_MANAGER_NAME" class="form-control ng-pristine ng-untouched ng-valid" /></div> -->
 <!-- 									<label class="col-sm-2 col-md-1 control-label">投资模式</label> -->
@@ -171,7 +173,7 @@
 									</div>
 									
 									<div class="col-sm-12 col-md-3">
-										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getAuditedFormalAssessmentList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-primary" ng-click="getAuditedFormalAssessmentList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
 									</div>
 								</div>
 							</div>
@@ -193,13 +195,13 @@
 									<th>项目名称</th>
 									<th>所属大区</th>
 									<th>项目类型</th>
-									<th>申请状态<i class="icofunc fa fa-caret-up" id="orderascstate" ng-click="order('state','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdescstate" ng-click="order('state','desc')"></i></th>
+									<th>申请状态<i class="icofunc fa fa-caret-up" id="orderascstate1" ng-click="order('state','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdescstate1" ng-click="order('state','desc')"></i></th>
 									<th>投资经理</th>
 									<th>评审负责人</th>
 									<th>法律负责人</th>
 									<th>投资模式</th>
 									<th>申请单位</th>
-									<th>申请时间<i class="icofunc fa fa-caret-up" id="orderasc" ng-click="order('time','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdesc" ng-click="order('time','desc')"></i></th>
+									<th>申请时间<i class="icofunc fa fa-caret-up" id="orderasc1" ng-click="order('time','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdesc1" ng-click="order('time','desc')"></i></th>
 								</tr>
 								</thead>
 								<tbody>

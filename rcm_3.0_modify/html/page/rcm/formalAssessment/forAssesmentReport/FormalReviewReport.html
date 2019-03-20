@@ -2778,7 +2778,7 @@
 								<label class="col-sm-2 control-label">附件上传</label>
 								<div class="col-sm-10"   ng-repeat="item in formalReport.attachment track by $index">
 									<div class="col-sm-2">
-										<button type="button" ng-disabled="actionparm=='View'" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadfformal($file,$invalidFiles, $index)">浏览</button>
+										<button type="button" ng-disabled="actionparm=='View'" class="btn btn-primary" ngf-max-size="100MB" ngf-select="uploadfformal($file,$invalidFiles, $index)">浏览</button>
 									</div>
 									<div class="col-sm-10 noleft-pad">
 										<span ng-bind="progress$index"></span>
@@ -2817,18 +2817,18 @@
 			<div class="row">
 				<div class="btn-group-gap">
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-					<!-- <a class="btn btn-info" ng-if="flag=='1'" href="#/ProjectFormalReviewView/Approve/{{reportReturnId}}"><i class="fa fa-reply"></i>返回</a>
-					<a class="btn btn-info" ng-if="flag=='2'" href="#/FormalReportList_new/0"><i class="fa fa-reply"></i>返回</a>
-					<a class="btn btn-info" ng-if="flag=='3'" href="#/FormalBiddingInfoList/0"><i class="fa fa-reply"></i>返回</a>
-					<a class="btn btn-info" ng-if="flag=='4'" href="#/FormalBiddingInfoList/1"><i class="fa fa-reply"></i>返回</a> -->
-					<button type="button" ng-click="saveReport()" class="btn btn-info" id="savebtn"><i class="fa fa-save"></i>保存</button>
+					<!-- <a class="btn btn-primary" ng-if="flag=='1'" href="#/ProjectFormalReviewView/Approve/{{reportReturnId}}"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='2'" href="#/FormalReportList_new/0"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='3'" href="#/FormalBiddingInfoList/0"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='4'" href="#/FormalBiddingInfoList/1"><i class="fa fa-reply"></i>返回</a> -->
+					<button type="button" ng-click="saveReport()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
 					<div class="inline-div">
-						<button type="button" ng-if="tabIndex=='0'" class="btn btn-info"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+						<button type="button" ng-if="tabIndex=='0'" class="btn btn-primary"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
 						<div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
 							<directive-need-meeting></directive-need-meeting>
 						</div>
 					</div>
-					<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button>
+					<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档</button>
 				</div>
 			</div>
 		</div>

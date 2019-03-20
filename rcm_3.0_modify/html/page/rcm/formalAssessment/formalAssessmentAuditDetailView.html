@@ -13,7 +13,10 @@
                         <div class="panel-body">
                             <div id="myTab" class="myTab">
                                 <ul class="nav nav-tabs bs-tabdrop-example">
-                                    <li class="active">
+									<a class="btn tab tab-90 active" href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+									<a class="btn tab tab-90" href="/#flow_chart" data-toggle="tab">流程图</a>
+									<a class="btn tab tab-90" href="/#contracts_resources" data-toggle="tab">相关资源</a>
+                                    <!--<li class="active">
                                         <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
                                     </li>
                                     <li>
@@ -21,7 +24,7 @@
                                     </li>
                                     <li>
                                         <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </div>
                             <div class="tab-content tab-content-bordered">
@@ -61,8 +64,8 @@
 						<div class="panel-body">
 							<div class="row" ng-show="showController.isReviewLeader && hasWaiting">
 								<div class="txl">
-									<button  type="button" class="btn btn-info" ng-click="addFormalComment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-									<button  type="button" class="btn btn-info" ng-click="deleteFormalComment(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									<button  type="button" class="btn btn-primary" ng-click="addFormalComment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button  type="button" class="btn btn-primary" ng-click="deleteFormalComment(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
 								</div>
 							</div>
 							<div class="row">
@@ -113,7 +116,7 @@
 														<span style="">{{errorAttach[$index].msg}}</span>
 														<input type="hidden" ng-model="pfr.approveAttachment.commentsList[$index].files.filePath" />
 														<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
-														<button class="btn btn-info attachmentBtn" ng-disabled="m.isInvestmentManagerBackEdit=='0' || !showController.isInvestmentManagerBack ||!hasWaiting" ngf-max-size="100MB" ngf-select="upload2Review($file,$invalidFiles, $index)">浏览</button>
+														<button class="btn btn-primary attachmentBtn" ng-disabled="m.isInvestmentManagerBackEdit=='0' || !showController.isInvestmentManagerBack ||!hasWaiting" ngf-max-size="100MB" ngf-select="upload2Review($file,$invalidFiles, $index)">浏览</button>
 													</div>
 												</div>
 											</td>
@@ -140,8 +143,8 @@
 							</div>
 							<div class="row"  ng-show="showController.isReviewLeader  && hasWaiting">
 								<div class="txl">
-									<button  type="button" class="btn btn-info" ng-click="addFormalAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-									<button  type="button" class="btn btn-info" ng-click="deleteFormalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									<button  type="button" class="btn btn-primary" ng-click="addFormalAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button  type="button" class="btn btn-primary" ng-click="deleteFormalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
 								</div>
 							</div>
 							
@@ -184,9 +187,9 @@
 														<span style="">{{errorAttach[$index].msg}}</span>
 														<input type="hidden" ng-model="am.attachment_new.filePath" />
 														<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(am.attachment_new)">{{am.attachment_new.fileName}}</a>
-														<button ng-if="!showController.isInvestmentManagerBack && !showController.isReviewLeader" class="btn btn-info attachmentBtn"  ng-disabled=" true" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
-														<button ng-if="showController.isInvestmentManagerBack && hasWaiting" class="btn btn-info attachmentBtn"  ng-disabled="!(am.isInvestmentManagerBackEdit!='0' || !showController.isInvestmentManagerBack)" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
-														<button ng-if="showController.isReviewLeader && hasWaiting" class="btn btn-info attachmentBtn"  ng-disabled=" !(showController.isReviewLeader && am.isReviewLeaderEdit!='0' )" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														<button ng-if="!showController.isInvestmentManagerBack && !showController.isReviewLeader" class="btn btn-primary attachmentBtn"  ng-disabled=" true" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														<button ng-if="showController.isInvestmentManagerBack && hasWaiting" class="btn btn-primary attachmentBtn"  ng-disabled="!(am.isInvestmentManagerBackEdit!='0' || !showController.isInvestmentManagerBack)" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														<button ng-if="showController.isReviewLeader && hasWaiting" class="btn btn-primary attachmentBtn"  ng-disabled=" !(showController.isReviewLeader && am.isReviewLeaderEdit!='0' )" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
 													</div>	
 												</div>
 											</td>
@@ -209,8 +212,8 @@
 						<div class="panel-body">
 							<div class="row" ng-show="showController.isLegalReviewLeader && hasWaiting">
 								<div class="txl">
-									<button  type="button" class="btn btn-info" ng-click="addFormalLegalComment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-									<button  type="button" class="btn btn-info" ng-click="deleteFormalLegalComment(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									<button  type="button" class="btn btn-primary" ng-click="addFormalLegalComment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button  type="button" class="btn btn-primary" ng-click="deleteFormalLegalComment(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
 								</div>
 							</div>
 							<div class="row">
@@ -262,7 +265,7 @@
 														<span style="">{{errorAttach[$index].msg}}</span>
 														<input type="hidden" ng-model="m.files.filePath" />
 														<a  class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
-														<button class="btn btn-info attachmentBtn" ng-disabled="m.isGrassEdit=='0' || !showController.isGrassRootsLegal ||!hasWaiting" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles, $index)">浏览</button>
+														<button class="btn btn-primary attachmentBtn" ng-disabled="m.isGrassEdit=='0' || !showController.isGrassRootsLegal ||!hasWaiting" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles, $index)">浏览</button>
 													</div>
 												</div>
 											</td>
@@ -271,7 +274,7 @@
 											<td colspan="2" rowspan="2"></td>
 											<td>法律风险提示</td>
 											<td colspan="3">
-												<textarea name="riskWarning" id="riskWarning"  ng-readonly="!showController.isLegalReviewLeader || !hasWaiting" rows="" cols="" ng-model="pfr.approveLegalAttachment.riskWarning" class="form-control" auto-height></textarea>
+												<textarea name="riskWarning" id="riskWarning1"  ng-readonly="!showController.isLegalReviewLeader || !hasWaiting" rows="" cols="" ng-model="pfr.approveLegalAttachment.riskWarning" class="form-control" auto-height></textarea>
 											</td>
 										</tr>
 										<tr class="tr-max">
@@ -289,8 +292,8 @@
 							</div>
 							<div class="row"  ng-show="showController.isLegalReviewLeader  && hasWaiting">
 								<div class="txl">
-									<button  type="button" class="btn btn-info" ng-click="addFormalLegalAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-									<button  type="button" class="btn btn-info" ng-click="deleteFormalLegalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									<button  type="button" class="btn btn-primary" ng-click="addFormalLegalAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button  type="button" class="btn btn-primary" ng-click="deleteFormalLegalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
 								</div>
 								<div class="row">
 									<span class="prompt" ng-if="showController.isLegalReviewLeader  && hasWaiting" >*请选择基层法务需要替换的附件</span>
@@ -307,23 +310,23 @@
 												<th>最新版本附件</th>
 											</tr>
 										</thead>
-										<tbody id="attachmentList">
+										<tbody id="attachmentList1">
 										<tr ng-repeat="am in pfr.approveLegalAttachment.attachmentNew">
 											<td class="txc">
 												<label class="checkbox-inline">
-													<input type="checkbox" class="px" ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader"   ng-model="am.selected" id="selected{{$index}}">
+													<input type="checkbox" class="px" ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader"   ng-model="am.selected" id="selected1{{$index}}">
 													<span class="lbl">&nbsp;</span>
 												</label>
 											</td>
 											<td>
-												<select id="attachmentNew{{$index}}"  ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader" ng-model="am.attachmentUList"
+												<select id="attachmentNew1{{$index}}"  ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader" ng-model="am.attachmentUList"
 														ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
 													<option value="">---请选择---</option>
 												</select>
-												<input type="hidden" id="programmed{{$index}}" ng-model="am.programmed.NAME">
+												<input type="hidden" id="programmed1{{$index}}" ng-model="am.programmed.NAME">
 												<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE">
 
-												<input type="hidden"  id="approved{{$index}}" ng-model="am.approved.NAME">
+												<input type="hidden"  id="approved1{{$index}}" ng-model="am.approved.NAME">
 												<input type="hidden" class="form-control"  ng-model="am.approved.VALUE">
 											</td>
 											<td class="attachmentTd">
@@ -333,9 +336,9 @@
 														<span style="">{{errorAttach[$index].msg}}</span>
 														<input type="hidden" ng-model="am.attachment_new.filePath" />
 														<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(am.attachment_new)">{{am.attachment_new.fileName}}</a>
-														<button ng-if="!showController.isLegalReviewLeader && !showController.isGrassRootsLegal" class="btn btn-info attachmentBtn" ng-disabled="true" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
-														<button ng-if="showController.isGrassRootsLegal && hasWaiting" class="btn btn-info attachmentBtn" ng-disabled="!(am.isGrassEdit!='0' && showController.isGrassRootsLegal)" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
-														<button ng-if="showController.isLegalReviewLeader && hasWaiting" class="btn btn-info attachmentBtn" ng-disabled="!(am.isLegalEdit!='0' && showController.isLegalReviewLeader)" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														<button ng-if="!showController.isLegalReviewLeader && !showController.isGrassRootsLegal" class="btn btn-primary attachmentBtn" ng-disabled="true" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														<button ng-if="showController.isGrassRootsLegal && hasWaiting" class="btn btn-primary attachmentBtn" ng-disabled="!(am.isGrassEdit!='0' && showController.isGrassRootsLegal)" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														<button ng-if="showController.isLegalReviewLeader && hasWaiting" class="btn btn-primary attachmentBtn" ng-disabled="!(am.isLegalEdit!='0' && showController.isLegalReviewLeader)" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
 													</div>
 												</div>
 											</td>
@@ -417,8 +420,8 @@
 <!--                                 		id="tab_{{i.majorApply.VALUE}}" ng-repeat="i in pfr.approveMajorCommonts track by $index" ng-init="outIndex = $index"> -->
 <!-- 									<div class="row" ng-show="showController.isMajorMember != null && showController.isMajorMember != '' "> -->
 <!-- 										<div class="txl"> -->
-<!-- 											<button  type="button" class="btn btn-info" ng-click="addFormalMajorComment(i)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-plus"></i>新增</button> -->
-<!-- 											<button  type="button" class="btn btn-info" ng-click="deleteFormalMajorComment(i, $index)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-trash"></i>删除</button> -->
+<!-- 											<button  type="button" class="btn btn-primary" ng-click="addFormalMajorComment(i)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-plus"></i>新增</button> -->
+<!-- 											<button  type="button" class="btn btn-primary" ng-click="deleteFormalMajorComment(i, $index)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-trash"></i>删除</button> -->
 <!-- 										</div> -->
 <!-- 									</div> -->
 <!-- 									<div class="row"> -->
@@ -500,23 +503,23 @@
         <div class="button-group">
             <div class="row">
                 <div class="btn-group-gap txl">
-                    <a class="btn btn-info" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-info" ng-if="flag=='2'" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-info" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-info" ng-if="flag=='4'" href="#/ProjectFormalReviewList"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-info" ng-if="flag=='5'" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-info" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-info" ng-if="flag=='8'" href="#/FormalAssessmentAuditList/0"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-info" ng-if="flag=='9'" href="#/FormalAssessmentAuditList/1"><i class="fa fa-reply"></i>返回</a>
-                   	<a class="btn btn-info" ng-if="flag=='10'" href="#/FormalAssessmentInfoList/1"><i class="fa fa-reply"></i>返回</a>
-                   	<a class="btn btn-info" ng-if="flag=='11'" href="#/formalReportBoardList"><i class="fa fa-reply"></i>返回</a>
-                   	<a class="btn btn-info" ng-if="flag=='12'" href="#/ConferenceInformation/1"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='2'" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='4'" href="#/ProjectFormalReviewList"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='5'" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='8'" href="#/FormalAssessmentAuditList/0"><i class="fa fa-reply"></i>返回</a>
+                    <a class="btn btn-primary" ng-if="flag=='9'" href="#/FormalAssessmentAuditList/1"><i class="fa fa-reply"></i>返回</a>
+                   	<a class="btn btn-primary" ng-if="flag=='10'" href="#/FormalAssessmentInfoList/1"><i class="fa fa-reply"></i>返回</a>
+                   	<a class="btn btn-primary" ng-if="flag=='11'" href="#/formalReportBoardList"><i class="fa fa-reply"></i>返回</a>
+                   	<a class="btn btn-primary" ng-if="flag=='12'" href="#/ConferenceInformation/1"><i class="fa fa-reply"></i>返回</a>
                    	<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
                    	<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
                    	<!-- 8.22新增 专家评审显示保存按钮 -->
-                    <button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
-                    <button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
-                    <button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+                    <button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
                     <!-- 新提交模态框 -->
                     <div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
 						<formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>

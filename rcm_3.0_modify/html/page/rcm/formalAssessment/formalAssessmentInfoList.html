@@ -4,8 +4,10 @@
 		<span class="hd-title">项目正式评审申请</span>
 	</div>
 	<ul id="myTab" class="nav nav-tabs bs-tabdrop-example">
-			<li class="active"  ><a href="/#bs-tabdrop-tab1" data-toggle="tab">起草中</a></li>
-			<li ><a href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a></li>
+		<a class="btn tab tab-90 active" href="/#bs-tabdrop-tab1" data-toggle="tab">起草中</a>
+		<a class="btn tab tab-90" href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a>
+			<!--<li class="active"  ><a href="/#bs-tabdrop-tab1" data-toggle="tab">起草中</a></li>
+			<li ><a href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a></li>-->
 	</ul>
 	<div class="tab-content tab-content-bordered">
 		<div class="tab-pane active" id="bs-tabdrop-tab1">
@@ -79,7 +81,8 @@
 										</select>
 									</div>
 									<div class="col-sm-12 col-md-3">
-										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getForamlAssessmentList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+										<div class="col-sm-12 col-md-2 search"><button class="btn btn-primary" ng-click="getForamlAssessmentList()"><i class="glyphicon glyphicon-search"></i>>查询</button></div>
+										<!--<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ><i class="glyphicon glyphicon-search"></i>查询</button></div>-->
 									</div>
 								</div>
 							</div>
@@ -91,10 +94,13 @@
 					<div class="panel-body">
 						<div class="form-group row">
 							<div class="txl">
+								<button class="btn btn-primary" ng-click="createProject(0)">新增</button>
+								<button class="btn btn-primary" ng-click="updateProject()">修改</button>
+								<button class="btn btn-primary" ng-click="deleteProject()">删除</button>
 								<!--<button  type="button" ng-click="toback()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>返回主页面</button>-->
-								<button  type="button" class="btn btn-info" id="createbtn" ng-click="createProject(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+								<!--<button  type="button" class="btn btn-info" id="createbtn" ng-click="createProject(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
 								<button  type="button" ng-click="updateProject()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
-								<button  type="button" ng-click="deleteProject()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								<button  type="button" ng-click="deleteProject()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>删除</button>-->
 								<!--<button  type="button" ng-click="viewSysFunction()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>查看</button>-->
 							</div>
 						</div>
@@ -239,7 +245,7 @@
 									</div>
 									
 									<div class="col-sm-12 col-md-3">
-										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getForamlAssessmentSubmitedList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-primary" ng-click="getForamlAssessmentSubmitedList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
 									</div>
 								</div>
 							</div>

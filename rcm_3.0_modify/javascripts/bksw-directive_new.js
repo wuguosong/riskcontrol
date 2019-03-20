@@ -3,7 +3,8 @@ ctmApp.directive('directiveReturnBtn', function() {
     return {
         restrict: 'E',
         //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
-        template: '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
+        template: '<a class="btn btn-primary" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
+        /*template: '<button class="btn btn-primary" ng-href="{{url|decodeURI}}" ng-click="callback()">返回</button>',*/
         replace: true,
         scope:{url:'@',callback:"&"},
         link:function(scope,element,attr){
@@ -152,12 +153,12 @@ ctmApp.directive('directUserSingleSelect', function() {
             //查询参数
             queryParams: "=",
             //是否可编辑
-            isEditable:"=",
+            isEditable:"=?bind",
             //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
             checkedUser: "=",
             //映射的key，value，{nameField:'username',valueField:'uuid'}，
             //默认为{nameField:'NAME',valueField:'VALUE'}
-            mappedKeyValue: "=",
+            mappedKeyValue: "=?bind",
             callback: "="
         },
         controller:function($scope,$http,$element){
@@ -198,7 +199,7 @@ ctmApp.directive('directUserSingleDialog', function() {
             checkedUser: "=",
             //映射的key，value，{nameField:'username',valueField:'uuid'}，
             //默认为{nameField:'NAME',valueField:'VALUE'}
-            mappedKeyValue: "=",
+            mappedKeyValue: "=?bind",
             callback: "="
             //移除选中的人员，调用父scope中的同名方法
 //        	removeSelectedUser: "&"
@@ -518,7 +519,7 @@ ctmApp.directive('directFzrSingleSelect', function() {
             checkedUser: "=",
             //映射的key，value，{nameField:'username',valueField:'uuid'}，
             //默认为{nameField:'NAME',valueField:'VALUE'}
-            mappedKeyValue: "=",
+            mappedKeyValue: "=?bind",
             callback: "=",
             //字符串，'true','false',是否默认选中全部，默认为'false'
             isCheckedAll: "@"
@@ -1148,6 +1149,699 @@ ctmApp.directive('mettingSummaryBpmnPopWin', function(){
             }
         }
     }
+});
+
+// 上传列表
+ctmApp.directive('commonAttachments', function () {
+    return {
+        restrict: 'AE',
+        templateUrl: 'page/sys/directive/commonAttachments.html',
+        replace: true,
+        scope: {
+            id: "@",// 组件ID,确保唯一性
+            docType: "@",// 业务类型
+            docCode: "=",// 业务单据编号或者UUID
+            pageLocation: "@",// 组件在页面的位置,保证唯一性,可以与组件ID保持及一致
+            showUpload:"@",// 是否展示浏览按钮
+            showReview:"@",// 是否展示预览按钮
+            showDownload:"@",// 是否展示下载按钮
+            showDelete:"@"// 是否展示删除按钮
+        },
+        link: function (scope, element, attr) {
+        },
+        controller: function ($scope, Upload) {
+            // 初始化
+            $scope._init = function () {
+                console.log($scope.docCode);
+                $scope._files = attach_list($scope.docType, $scope.docCode, $scope.pageLocation).result_data;
+            };
+            $scope._init();
+            // 新增
+            $scope._addAttachment = function () {
+                function _addBlankRow(_array) {
+                    var blankRow = {
+                        _file_content: ''
+                    };
+                    var size = 0;
+                    for (var idx in _array) {
+                        console.log(idx);
+                        size++;
+                    }
+                    _array[size] = blankRow;
+                }
+
+                if (undefined == $scope._files) {
+                    $scope._files = [];
+                }
+                _addBlankRow($scope._files);
+            };
+
+            // 移除
+            $scope._removeAttachment = function () {
+                var _all_files = $scope._files;
+                if (_all_files != null) {
+                    for (var i = 0; i < _all_files.length; i++) {
+                        if (_all_files[i].selected) {
+                            if (_all_files[i].fileid) {
+                                attach_delete(_all_files[i].fileid);
+                            }
+                            _all_files.splice(i, 1);
+                            i--;
+                        }
+                    }
+                    $scope._init();
+                }
+            };
+
+            // 上传
+            $scope._uploadThat = function (_file, _idx) {
+                debugger;
+                Upload.upload({
+                    url: srvUrl + 'cloud/upload.do',
+                    data: {
+                        file: _file,
+                        "docType": $scope.docType,
+                        'docCode': $scope.docCode,
+                        'pageLocation': $scope.pageLocation
+                    }
+                }).then(function (resp) {
+                    var retData = resp.data.result_data[0];
+                    $scope._files[_idx] = retData;
+                }, function (resp) {
+                    $.alert(resp.status);
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                });
+                $scope._init();
+            };
+
+            // 预览
+            $scope._review = function (uri) {
+                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+
+            // 下载
+            $scope._download = function (uri) {
+                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+
+            $scope._delete = function(file_id){
+                attach_delete(file_id);
+                $scope._init();
+            }
+        }
+    };
+});
+
+// BBS 谈话框
+ctmApp.directive('bbsChat', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/DirectiveBbsPage.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+
+            $scope.conf = [];
+
+            $scope.queryMessage = function (procInstId, parentId) {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/tree.do',
+                    data: $.param({
+                        'procInstId': procInstId,
+                        'parentId': parentId
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope.messages = data.result_data;
+                });
+            }
+
+            // 初始化留言表单
+            $scope.message = {};
+            $scope.queryMessage(1008611, 0);
+            $scope.message.originalId = 0;
+            $scope.message.parentId = 0;
+            $scope.message.procInstId = 1008611;
+            $scope.message.repliedBy = '';
+            $scope.message.repliedName = '';
+            // 展示留言表单
+            $scope.showMessageForm = function (originalId, parentId, repliedBy, repliedName) {
+                $scope.message.originalId = originalId;
+                $scope.message.parentId = parentId;
+                $scope.message.procInstId = 1008611;
+                $scope.message.repliedBy = repliedBy;
+                $scope.message.repliedName = repliedName;
+            }
+            // 更新已阅
+            $scope.updateRead = function () {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/read.do',
+                    data: $.param({'messageId': 10109}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    document.write(data.result_data);
+                });
+            }
+            // 获取叶子留言
+            $scope.getChildren = function () {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/leaves.do',
+                    data: $.param({'parentId': 10109}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    document.write(JSON.stringify(data.result_data));
+                });
+            }
+
+            // 提交留言表单
+            $scope.submitMessage = function () {
+                console.log($scope.message);
+                if ($scope.message.messageContent == null || $scope.message.messageContent == '') {
+                    alert('留言内容不能为空!');
+                    return;
+                }
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/add.do',
+                    data: $.param($scope.message),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    console.log(data);
+                    window.location.reload(true);
+                });
+            }
+
+            $scope.recursionHtml = function (messageId, list) {
+                // 先清空之前加载的
+                $('#leaves_li_' + messageId + '>ul').each(function (i, e) {
+                    $(e).remove();
+                });
+                var li = $('#leaves_li_' + messageId);
+                var appendStr = '<ul>';
+                for (var i = 0; i < list.length; i++) {
+                    var o = list[i];
+                    console.log(o);
+                    appendStr +=
+                        '<li class="aaa" id="leaves_li_' + o.messageId + '">'
+                        + '<b>|</b>&nbsp;<span class="msg">'
+                        + o.createdName
+                        + '</span>&nbsp;'
+                        + '<span class="blue">'
+                        + '回复'
+                        + '</span>&nbsp;'
+                        + '<span class="msg">'
+                        + o.repliedName
+                        + '</span>&nbsp;'
+                        + '<span class="blue">'
+                        + '发表于&nbsp;'
+                        + o.messageDate
+                        + '</span>'
+                        + '&nbsp;'
+                        + '<a href="javascript:void(0);" onclick="getChildrenListOuter(' + o.originalId + ',' + o.messageId + ', \'' + o.createdBy + '\',\'' + o.createdName + '\', ' + o.messageId + ')">&nbsp;'
+                        + '<span class="content">(' + o.children.length + ')</span></a>'
+                        + '<br>'
+                        + '<span class="content">'
+                        + o.messageContent
+                        + '</span>'
+                        + '</li>';
+                }
+                li.append(appendStr + '</<ul>');
+            }
+
+            $scope.executeLeavesQuery = function (messageId) {
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/tree.do',
+                    data: $.param({
+                        'procInstId': 1008611,
+                        'parentId': messageId
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope.recursionHtml(messageId, data.result_data);
+                });
+            }
+
+            $scope.getChildrenList = function (originalId, parentId, repliedBy, repliedName, messageId) {
+                $scope.message.originalId = originalId;
+                $scope.message.parentId = parentId;
+                $scope.message.procInstId = 1008611;
+                $scope.message.repliedBy = repliedBy;
+                $scope.message.repliedName = repliedName;
+                $scope.executeLeavesQuery(messageId);
+            }
+
+            $scope.deleteMessage = function (messageId) {
+                if (confirm('确认删除?')) {
+                    $http({
+                        method: 'post',
+                        url: '/rcm-rest/message/delete.do',
+                        data: $.param({
+                            'messageId': messageId
+                        }),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    }).success(function (data) {
+                        console.log(data);
+                        window.location.reload(true);
+                    });
+                }
+            }
+
+            $scope.showMore = function () {
+                alert('more');
+            }
+
+            function getChildrenListOuter(originalId, parentId, repliedBy, repliedName, messageId) {
+                // 重点!!!!!!!
+                var appElement = document.querySelector('[ng-controller=myCtrl]');
+                var $scope = angular.element(appElement).scope();
+                $scope.message.originalId = originalId;
+                $scope.message.parentId = parentId;
+                $scope.message.procInstId = 1008611;
+                $scope.message.repliedBy = repliedBy;
+                $scope.message.repliedName = repliedName;
+                console.log(originalId + '=' + parentId + '=' + repliedBy + '=' + repliedName + '=' + messageId)
+                $.ajax({
+                    url: "/message/tree.do",
+                    type: "post",
+                    data: {
+                        'procInstId': 1008611,
+                        'parentId': messageId
+                    },
+                    async: false,
+                    success: function (result) {
+                        var list = result.result_data;
+                        console.log(messageId);
+                        console.log($('#leaves_li_' + messageId + '>ul').html());
+                        $('#leaves_li_' + messageId + '>ul').each(function (i, e) {
+                            $(e).remove();
+                        });
+                        var li = $('#leaves_li_' + messageId);
+                        var appendStr = '<ul>';
+                        for (var i = 0; i < list.length; i++) {
+                            var o = list[i];
+                            console.log(o);
+                            appendStr +=
+                                '<li id="leaves_li_' + o.messageId + '">'
+                                + '<b>|</b>&nbsp;<span class="msg">'
+                                + o.createdName
+                                + '</span>&nbsp;'
+                                + '<span class="blue">'
+                                + '回复'
+                                + '</span>&nbsp;'
+                                + '<span class="msg">'
+                                + o.repliedName
+                                + '</span>&nbsp;'
+                                + '<span class="blue">'
+                                + '发表于&nbsp;'
+                                + o.messageDate
+                                + '</span>'
+                                + '&nbsp;'
+                                + '<a href="javascript:void(0);" onclick="getChildrenListOuter(' + o.originalId + ',' + o.messageId + ',\'' + o.createdBy + '\',\'' + o.createdName + '\', ' + o.messageId + ')">&nbsp;'
+                                + '<span class="content">(' + o.children.length + ')</span></a>'
+                                + '<br>'
+                                + '<span class="content">'
+                                + o.messageContent
+                                + '</span>'
+                                + '</li>';
+                        }
+                        li.append(appendStr + '</<ul>');
+                        console.log(appendStr);
+                    },
+                    error: function () {
+                    }
+                });
+            }
+
+            $scope.replayQuestion = function (msg) {
+                console.log(msg);
+                $scope.msg = {};
+                $scope.msg.messageType = msg.messageType;
+                $scope.msg.procInstId = msg.procInstId;
+                $scope.msg.parentId = msg.messageId;
+                $scope.msg.originalId = msg.originalId;
+                $scope.msg.repliedBy = msg.createdBy;
+                $scope.msg.repliedName = msg.createdName;
+                $scope.msg.messageContent = msg.replay;
+                $http({
+                    method: 'post',
+                    url: '/rcm-rest/message/add.do',
+                    data: $.param($scope.msg),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    console.log(data);
+                    window.location.reload(true);
+                });
+                console.log($scope.msg);
+            }
+        }
+    };
+});
+ctmApp.directive('uploadFile', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/uploadFile.html',
+        replace: true,
+        scope: {
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            uploader: "@",
+            picker: "@",
+            fileList: "@",
+            startOrStopBtn: "@",
+            uploader: "@",
+            choiceForm: "@",
+            fileBp: "@",
+            progressLine: "@"
+        },
+        controller: function ($scope, $http, $element, $timeout) {
+            console.log($scope.id);
+            console.log($scope.fileList);
+            console.log($scope.startOrStopBtn);
+            console.log($scope.uploader);
+            console.log($scope.choiceForm);
+            console.log($scope.fileBp);
+            var toDo = function () {
+                /*******************初始化参数*********************************/
+                var $list = $("#" + $scope.fileList),//文件列表
+                    $btn = $("#" + $scope.startOrStopBtn),//开始上传按钮
+                    state = 'pending',//初始按钮状态
+                    uploader; //uploader对象
+                var fileMd5;  //文件唯一标识
+                /******************下面的参数是自定义的*************************/
+                var fileName;//文件名称
+                var beforeProgress;//如果该文件之前上传过 已经上传的进度是多少
+                var count = 0;//当前正在上传的文件在数组中的下标，一次上传多个文件时使用
+                var filesArr = new Array();//文件数组：每当有文件被添加进队列的时候 就push到数组中
+                var map = {};//key存储文件id，value存储该文件上传过的进度
+                /***************************************************** 监听分块上传过程中的三个时间点 start ***********************************************************/
+                WebUploader.Uploader.register({
+                        "before-send-file": "beforeSendFile",//整个文件上传前
+                        "before-send": "beforeSend",  //每个分片上传前
+                        "after-send-file": "afterSendFile",  //分片上传完毕
+                    },
+                    {
+                        //时间点1：所有分块进行上传之前调用此函数
+                        beforeSendFile: function (file) {
+                            console.log("所有分块上传之前调用..." + file);
+                            var deferred = WebUploader.Deferred();
+                            //1、计算文件的唯一标记fileMd5，用于断点续传  如果.md5File(file)方法里只写一个file参数则计算MD5值会很慢 所以加了后面的参数：10*1024*1024
+                            (new WebUploader.Uploader()).md5File(file, 0, 10 * 1024 * 1024).progress(function (percentage) {
+                                $('#' + file.id).find('p.state').text('读取MD5信息...' + percentage * 100 + "%");
+                            }).then(function (val) {
+                                $('#' + file.id).find("p.state").text("成功获取文件信息...");
+                                fileMd5 = val;
+                                //获取文件信息后进入下一步
+                                deferred.resolve();
+                            });
+                            fileName = file.name; //为自定义参数文件名赋值
+                            return deferred.promise();
+                        },
+                        //时间点2：如果有分块上传，则每个分块上传之前调用此函数
+                        beforeSend: function (block) {
+                            console.log("每个分块上传之前调用..." + block);
+                            var deferred = WebUploader.Deferred();
+                            $.ajax({
+                                type: "POST",
+                                url: "/rcm-rest/v2/breakpoint/check.do",  //ajax验证每一个分片
+                                data: {
+                                    fileName: fileName,
+                                    progressLine: $("#progressLine").val(),
+                                    fileMd5: fileMd5,  //文件唯一标记
+                                    chunk: block.chunk,  //当前分块下标
+                                    chunkSize: block.end - block.start//当前分块大小
+                                },
+                                cache: false,
+                                async: false,  // 与js同步
+                                timeout: 10000, //todo 超时的话，只能认为该分片未上传过
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.exist) {
+                                        //分块存在，跳过
+                                        deferred.reject();
+                                    } else {
+                                        //分块不存在或不完整，重新发送该分块内容
+                                        deferred.resolve();
+                                    }
+                                }
+                            });
+                            this.owner.options.formData.fileMd5 = fileMd5;
+                            deferred.resolve();
+                            return deferred.promise();
+                        },
+                        //时间点3：所有分块上传成功后调用此函数
+                        afterSendFile: function (file) {
+                            console.log("所有分块上传成功后调用..." + file);
+                            //如果分块上传成功，则通知后台合并分块
+                            $.ajax({
+                                type: "POST",
+                                url: "/rcm-rest/v2/breakpoint/merge.do",  //ajax将所有片段合并成整体
+                                data: {
+                                    fileName: fileName,
+                                    fileMd5: fileMd5
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                    count++; //每上传完成一个文件 count+1
+                                    if (count <= filesArr.length - 1) {
+                                        uploader.upload(filesArr[count].id);//上传文件列表中的下一个文件
+                                    }
+                                    //合并成功之后的操作
+                                    $('#' + file.id).find('p.state').text('上传成功!');
+                                    $("#startOrStopBtn").show();
+                                }
+                            });
+                        }
+                    });
+                /***************************************************** 监听分块上传过程中的三个时间点 end **************************************************************/
+                /************************************************************ 初始化WebUploader start ******************************************************************/
+                uploader = WebUploader.create({
+                    auto: true,//选择文件后是否自动上传
+                    chunked: true,//开启分片上传
+                    chunkSize: 10 * 1024 * 1024,// 如果要分片，分多大一片？默认大小为5M
+                    chunkRetry: 3,//如果某个分片由于网络问题出错，允许自动重传多少次
+                    threads: 3,//上传并发数。允许同时最大上传进程数[默认值：3]
+                    duplicate: true,//是否重复上传（同时选择多个一样的文件），true可以重复上传
+                    prepareNextFile: true,//上传当前分片时预处理下一分片
+                    swf: '/html/assets/webuploader-0.1.5/Uploader.swf',// swf文件路径
+                    server: '/rcm-rest/v2/breakpoint/save.do',// 文件接收服务端
+                    fileSizeLimit: 6 * 1024 * 1024 * 1024,//6G 验证文件总大小是否超出限制, 超出则不允许加入队列
+                    fileSingleSizeLimit: 3 * 1024 * 1024 * 1024,  //3G 验证单个文件大小是否超出限制, 超出则不允许加入队列
+                    pick: {
+                        id: "#" + $scope.picker, //这个id是你要点击上传文件按钮的外层div的id
+                        multiple: false //是否可以批量上传，true可以同时选择多个文件
+                    },
+                    resize: false,  //不压缩image, 默认如果是jpeg，文件上传前会先压缩再上传！
+                    accept: {
+                        //允许上传的文件后缀，不带点，多个用逗号分割
+                        extensions: "txt,jpg,jpeg,bmp,png,zip,rar,war,pdf,cebx,doc,docx,ppt,pptx,xls,xlsx",
+                        mimeTypes: '.txt,.jpg,.jpeg,.bmp,.png,.zip,.rar,.war,.pdf,.cebx,.doc,.docx,.ppt,.pptx,.xls,.xlsx',
+                    }
+                });
+
+
+                //当有文件被添加进队列的时候（点击上传文件按钮，弹出文件选择框，选择完文件点击确定后触发的事件）
+                uploader.on('fileQueued', function (file) {
+                    console.log("当有文件添加进队列..." + file);
+                    //限制单个文件的大小 超出了提示
+                    if (file.size > 3 * 1024 * 1024 * 1024) {
+                        alert("单个文件大小不能超过3G");
+                        return false;
+                    }
+                    /*************如果一次只能选择一个文件，再次选择替换前一个，就增加如下代码*******************************/
+                    //清空文件队列
+                    // $list.html("");
+                    //清空文件数组
+                    // filesArr = [];
+                    /*************如果一次只能选择一个文件，再次选择替换前一个，就增加以上代码*******************************/
+                    //将选择的文件添加进文件数组
+                    filesArr.push(file);
+                    $.ajax({
+                        type: "POST",
+                        url: "/rcm-rest/v2/breakpoint/progress.do",  //先检查该文件是否上传过，如果上传过，上传进度是多少
+                        data: {
+                            fileName: file.name
+                        },
+                        cache: false,
+                        async: false,  // 同步
+                        dataType: "json",
+                        success: function (data) {
+                            //上传过
+                            if (data > 0) {
+                                //上传过的进度的百分比
+                                beforeProgress = data / 100;
+                                //如果上传过 上传了多少
+                                var progressLineStyle = "width:" + data + "%";
+                                $list.append('<div id="' + file.id + '" class="item">' +
+                                    '<h4 class="info">' + file.name + '</h4>' +
+                                    '<p class="state">已上传' + data + '%</p>' +
+                                    '<a href="javascript:void(0);" class="btn btn-primary file_btn btnRemoveFile">删除</a>' +
+                                    '<div class="progress progress-striped active">' +
+                                    '<div class="progress-bar" role="progressbar" style="' + progressLineStyle + '">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>');
+                                //将上传过的进度存入map集合
+                                map[file.id] = beforeProgress;
+                            } else {//没有上传过
+                                $list.append('<div id="' + file.id + '" class="item">' +
+                                    '<h4 class="info">' + file.name + '</h4>' +
+                                    '<p class="state">等待上传...</p>' +
+                                    '<a href="javascript:void(0);" class="btn btn-primary file_btn btnRemoveFile">删除</a>' +
+                                    '</div>');
+                            }
+                        }
+                    });
+                    uploader.stop(true);
+                    //删除队列中的文件
+                    $(".btnRemoveFile").bind("click", function () {
+                        console.log("删除队列中的文件...");
+                        var fileItem = $(this).parent();
+                        uploader.removeFile($(fileItem).attr("id"), true);
+                        $(fileItem).fadeOut(function () {
+                            $(fileItem).remove();
+                        });
+
+                        //数组中的文件也要删除
+                        for (var i = 0; i < filesArr.length; i++) {
+                            if (filesArr[i].id == $(fileItem).attr("id")) {
+                                filesArr.splice(i, 1);//i是要删除的元素在数组中的下标，1代表从下标位置开始连续删除一个元素
+                            }
+                        }
+                    });
+                });
+
+                //文件上传过程中创建进度条实时显示
+                uploader.on('uploadProgress', function (file, percentage) {
+                    var $li = $('#' + file.id),
+                        $percent = $li.find('.progress .progress-bar');
+                    //避免重复创建
+                    if (!$percent.length) {
+                        $percent = $('<div class="progress progress-striped active">' +
+                            '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+                            '</div>' +
+                            '</div>').appendTo($li).find('.progress-bar');
+                    }
+
+                    //将实时进度存入隐藏域
+                    $("#progressLine").val(Math.round(percentage * 100));
+
+                    //根据fileId获得当前要上传的文件的进度
+                    var beforeProgressValue = map[file.id];
+
+                    if (percentage < beforeProgressValue && beforeProgressValue != 1) {
+                        $li.find('p.state').text('上传中' + Math.round(beforeProgressValue * 100) + '%');
+                        $percent.css('width', beforeProgressValue * 100 + '%');
+                    } else {
+                        $li.find('p.state').text('上传中' + Math.round(percentage * 100) + '%');
+                        $percent.css('width', percentage * 100 + '%');
+                    }
+                });
+
+                //上传成功后执行的方法
+                uploader.on('uploadSuccess', function (file) {
+                    console.log("文件上传成功后..." + file);
+                    //上传成功去掉进度条
+                    $('#' + file.id).find('.progress').fadeOut();
+                    //隐藏删除按钮
+                    $(".btnRemoveFile").hide();
+                    //隐藏上传按钮
+                    $("#startOrStopBtn").hide();
+                    $('#' + file.id).find('p.state').text('文件已上传成功，系统后台正在处理，请稍后...');
+                });
+
+                //上传出错后执行的方法
+                uploader.on('uploadError', function (file) {
+                    console.log("上传出错后执行..." + file);
+                    $btn.text('开始上传');
+                    uploader.stop(true);
+                    $('#' + file.id).find('p.state').text('上传出错，请检查网络连接');
+                });
+
+                //文件上传成功失败都会走这个方法
+                uploader.on('uploadComplete', function (file) {
+                    console.log("文件上传成功失败都会走这个方法..." + file);
+                });
+
+                uploader.on('all', function (type) {
+                    /**
+                     * uploadAccept
+                     * uploadProgress
+                     * uploadBeforeSend
+                     * stopUpload
+                     */
+                    console.log("uploader.on..." + type);
+                    if (type === 'startUpload') {
+                        state = 'uploading';
+                    } else if (type === 'stopUpload') {
+                        state = 'paused';
+                    } else if (type === 'uploadFinished') {
+                        state = 'done';
+                    } else if (type === "uploadProgress") {
+                        state = "uploading";
+                    }
+
+                    if (state === 'uploading') {
+                        $btn.text('暂停上传');
+                    } else {
+                        $btn.text('开始上传');
+                    }
+                });
+
+                //上传按钮的onclick事件
+                $btn.on('click', function () {
+                    console.log("上传按钮的onclick事件...");
+                    if (state === 'uploading') {
+                        uploader.stop(true);
+                    } else {
+                        //当前上传文件的文件名
+                        var currentFileName;
+                        console.log(filesArr);
+                        //当前上传文件的文件id
+                        var currentFileId;
+                        //count=0 说明没开始传 默认从文件列表的第一个开始传
+                        if (count == 0) {
+                            currentFileName = filesArr[0].name;
+                            currentFileId = filesArr[0].id;
+                        } else {
+                            if (count <= filesArr.length - 1) {
+                                currentFileName = filesArr[count].name;
+                                currentFileId = filesArr[count].id;
+                            }
+                        }
+
+                        //先查询该文件是否上传过 如果上传过已经上传的进度是多少
+                        $.ajax({
+                            type: "POST",
+                            url: "/rcm-rest/v2/breakpoint/progress.do",
+                            data: {
+                                fileName: currentFileName
+                            },
+                            cache: false,
+                            async: false,  // 同步
+                            dataType: "json",
+                            success: function (data) {
+                                //如果上传过 将进度存入map
+                                if (data > 0) {
+                                    map[currentFileId] = data / 100;
+                                }
+                                //执行上传
+                                uploader.upload(currentFileId);
+                            }
+                        });
+                    }
+                });
+
+            };
+            $timeout(toDo, 1000)
+        }
+    };
 });
 
 // 投资部门文件
