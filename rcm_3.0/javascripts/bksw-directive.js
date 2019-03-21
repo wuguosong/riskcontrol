@@ -3940,6 +3940,19 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
             $scope.submitInfo = {};
             $scope.submitInfo.currentTaskVar = {};
             $scope.submitNext = function () {
+                /********Add By LiPan
+                 * 此处发现选择了"加签"单选以后,
+                 * $scope.showReviewToConfirm的值依然是true
+                 * 加签操作不起作用,所以加上了该段代码
+                 * ********/
+                if($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE'){
+                    $scope.showReviewToConfirm = false;
+                    $scope.showLegalToConfirm = false;
+                }
+                if($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER'){
+                    $scope.showReviewToConfirm = false;
+                    $scope.showLegalToConfirm = false;
+                }
                 if ("submit" == $scope.approve.operateType) {
                     $scope.submit();
                 } else if ("audit" == $scope.approve.operateType) {
