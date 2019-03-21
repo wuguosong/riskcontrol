@@ -3,6 +3,7 @@ package com.yk.sign.service;
 import common.PageAssistant;
 import org.activiti.engine.impl.task.TaskDefinition;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,4 +58,12 @@ public interface ISignService {
      * @return
      */
     TaskDefinition getNextTaskInfo(String key, String business_id);
+
+    /**
+     * 本步是否可以进行后加签操作
+     * @param key
+     * @param business_id
+     * @return
+     */
+    HashMap<String, Object> validateSign(String key, String business_id);
 }

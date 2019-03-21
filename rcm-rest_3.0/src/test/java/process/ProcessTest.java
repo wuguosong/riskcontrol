@@ -391,4 +391,33 @@ public class ProcessTest {
             System.out.println("result:" + key + " " + sourceRef + " " + targetRef);
         }
     }
+
+
+    @Test
+    public void getNextTask() {
+        String key = "formalReview";
+        String business_id = "5c935f1f5544cd3968bd9fc8";
+        String start = "usertask19";
+        TaskDefinition taskDefinition = null;
+        try {
+            taskDefinition = signService.getNextTaskInfo(key, business_id);
+        }catch(Exception e){
+
+        }
+        if(taskDefinition != null){
+            String end = taskDefinition.getKey();
+            System.out.println("开始节点>\t" + start);
+            System.out.println("结束节点>\t" + end);
+            String procDefId = repositoryService.createProcessDefinitionQuery().processDefinitionKey(key).orderByProcessDefinitionVersion().desc().list().get(0).getId();
+            System.out.println("流程定义ID>\t" + procDefId);
+            List<FlowElement> flowElements = processService.getNextTaskFlowElement(procDefId, start, end);
+            for(FlowElement flowElement :flowElements){
+                System.out.println("流向信息>\t" + flowElement.getId());
+            }
+            Map<String, Object> variable = processService.getNextTaskFlowElementVariable(procDefId, start, end);
+            System.out.println("变量信息>\t" + JSON.toJSONString(variable));
+        }
+        HashMap<String, Object> rejectType = signService.validateSign(key, business_id);
+        System.out.println("拒绝类型>\t" + JSON.toJSONString(rejectType));
+    }
 }

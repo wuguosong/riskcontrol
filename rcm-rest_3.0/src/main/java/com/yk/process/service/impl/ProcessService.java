@@ -425,14 +425,12 @@ public class ProcessService implements IProcessService {
                 if (!(target instanceof EndEvent)) {
                     if (end.equals(targetRef)) {
                         finalFilter.add(flowElement);
-                        System.out.println(key + " " + sourceRef + " " + targetRef);
                         if(target instanceof UserTask){
                             break;
                         }
                     } else {
                         if (!(target instanceof UserTask)) {
                             finalFilter.add(flowElement);
-                            System.out.println(key + " " + sourceRef + " " + targetRef);
                             finalFilter = this.getNextTaskFlowElement(flowElements, finalFilter, targetRef, end);
                         }
                     }

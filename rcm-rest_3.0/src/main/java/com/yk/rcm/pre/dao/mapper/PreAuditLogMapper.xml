@@ -36,7 +36,10 @@
 			taskid,
 			executionid,
 			lastUserId,
-			stage
+			stage,
+			changeType,
+			oldUserId,
+			notifUsers
 		)
 		values(
 			#{businessId},
@@ -50,7 +53,10 @@
 			#{taskId,jdbcType=VARCHAR},
 			#{executionId,jdbcType=VARCHAR},
 			#{lastUserId,jdbcType=VARCHAR},
-			#{stage,jdbcType=VARCHAR}
+			#{stage,jdbcType=VARCHAR},
+			#{changeType,jdbcType=VARCHAR},
+			#{oldUserId,jdbcType=VARCHAR},
+			#{notifUsers,jdbcType=VARCHAR}
 		)
 	</insert>
 	

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -131,5 +132,25 @@ public class SignController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * 校验加签
+     * @param business_module
+     * @param business_id
+     * @return
+     */
+    @RequestMapping("/validateSign")
+    @ResponseBody
+    public HashMap<String, Object> validateSign(String business_module, String business_id) {
+        HashMap<String, Object> validate = null;
+        try {
+            validate = signService.validateSign(business_module, business_id);
+            logger.debug("校验加签成功:" + business_module + " " + business_id);
+        } catch (Exception e) {
+            logger.error("校验加签失败:" + e.getMessage());
+            e.printStackTrace();
+        }
+        return validate;
     }
 }
