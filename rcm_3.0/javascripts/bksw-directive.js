@@ -3375,6 +3375,13 @@ ctmApp.directive('bpmnPopWin', function () {
                     $.alert("审批意见不能超过650字！");
                     return;
                 }
+                if($scope.changeTypeSelected == 'after'){
+                    var validate = wf_validateSign('bulletin', $scope.approve.businessId);
+                    if(!isEmpty(validate.code)){
+                        $.alert(validate.comment);
+                        return;
+                    }
+                }
                 //执行转办操作
                 show_Mask();
                 $http({
@@ -3714,6 +3721,13 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
+                }
+                if($scope.changeTypeSelected == 'after'){
+                    var validate = wf_validateSign('formalReview', $scope.approve.businessId);
+                    if(!isEmpty(validate.code)){
+                        $.alert(validate.comment);
+                        return;
+                    }
                 }
                 //执行转办操作
                 show_Mask();
@@ -4760,6 +4774,13 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     $.alert("审批意见不能超过650字！");
                     return;
                 }
+                if($scope.changeTypeSelected == 'after'){
+                    var validate = wf_validateSign('preReview', $scope.approve.businessId);
+                    if(!isEmpty(validate.code)){
+                        $.alert(validate.comment);
+                        return;
+                    }
+                }
                 //执行转办操作
                 show_Mask();
                 $http({
@@ -4929,6 +4950,18 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
             $scope.submitInfo = {};
             $scope.submitInfo.currentTaskVar = {};
             $scope.submitNext = function () {
+                /********Add By LiPan
+                 * 此处发现选择了"加签"单选以后,
+                 * $scope.showReviewToConfirm的值依然是true
+                 * 加签操作不起作用,所以加上了该段代码
+                 * ********/
+                if($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE'){
+                    $scope.showReviewToConfirm = false;
+                }
+                if($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER'){
+                    $scope.showReviewToConfirm = false;
+                }
+                /********Add By LiPan********/
                 if ("submit" == $scope.approve.operateType) {
                     $scope.submit();
                 } else if ("audit" == $scope.approve.operateType) {
@@ -5479,22 +5512,27 @@ ctmApp.directive('commonAttachments', function () {
         scope: {
             id: "@",// 组件ID,确保唯一性
             docType: "@",// 业务类型
-            docCode: "=",// 业务单据编号或者UUID
+            docCode: "@",// 业务单据编号或者UUID
             pageLocation: "@",// 组件在页面的位置,保证唯一性,可以与组件ID保持及一致
             showUpload:"@",// 是否展示浏览按钮
             showReview:"@",// 是否展示预览按钮
             showDownload:"@",// 是否展示下载按钮
             showDelete:"@"// 是否展示删除按钮
         },
-        link: function (scope, element, attr) {
+        link: function ($scope, element, attr) {
+            console.log($scope);
+            console.log($scope.$parent.toString());
+            console.log(element);
+            console.log(attr);
+            console.log(attr.$attr);
+            // $scope._init();
         },
-        controller: function ($scope, Upload) {
+        controller: function ($scope, Upload, $timeout) {
             // 初始化
             $scope._init = function () {
-                console.log($scope.docCode);
+                console.log('link');
                 $scope._files = attach_list($scope.docType, $scope.docCode, $scope.pageLocation).result_data;
             };
-            $scope._init();
             // 新增
             $scope._addAttachment = function () {
                 function _addBlankRow(_array) {
@@ -5568,7 +5606,8 @@ ctmApp.directive('commonAttachments', function () {
             $scope._delete = function(file_id){
                 attach_delete(file_id);
                 $scope._init();
-            }
+            };
+            // $timeout($scope._init(), 3000);
         }
     };
 });

@@ -793,6 +793,29 @@ function wf_getTaskLog(business_module, business_id, uuid){
     }
     return log;
 }
+
+/**
+ * 校验加签可行性
+ * @param business_module
+ * @param business_id
+ * @returns {*}
+ */
+function wf_validateSign(business_module, business_id){
+    var url = srvUrl + "sign/validateSign.do";
+    var validate = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"business_module": business_module,'business_id':business_id},
+        async: false,
+        success: function (data) {
+            validate = data;
+        }
+    });
+    return validate;
+}
+
 /**流程相关的一些公共方法结束**/
 /**附件相关的一些公共方法开始**/
 /**
@@ -860,3 +883,9 @@ function attach_list(docType, docCode, pageLocation){
     return result;
 }
 /**附件相关的一些公共方法结束**/
+function isEmpty(s) {
+    if (typeof s != "undefined" && s != null && s != '' && s != "") {
+        return false;
+    }
+    return true;
+}
