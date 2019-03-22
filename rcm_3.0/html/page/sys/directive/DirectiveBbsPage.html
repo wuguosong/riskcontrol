@@ -1,53 +1,26 @@
 <div>
     <p style="text-align: center">关于流程审批的建议与意见</p>
     <!--留言信息-->
-    <div id="messagesTestDivPart">
-        <ul ng-repeat="msg in messages">
-            <li ng-if="msg.parentId==0"><!--一级留言-->
+    <div>
+        <div ng-repeat="chatBox in chatBoxes" style="border: 1px solid; margin-bottom: 20px">
+            <div ng-repeat="message in chatBox">
+            <li><!--一级留言-->
                 <b>|</b>
-                <span class="msg">{{msg.createdName}}</span> &nbsp;<span
-                        class="blue">发表于&nbsp;{{msg.messageDate}}</span>&nbsp;
-                <a href="javascript:void(0);"
-                   ng-click="showMessageForm(msg.messageId, msg.messageId, msg.createdBy,msg.createdName)"
-                   ng-if="msg.parentId==0"><span class="content">({{msg.children.length}})</span></a>
-                <!--root-->
-                <a href="javascript:void(0);"
-                   ng-click="showMessageForm(msg.originalId, msg.messageId, msg.createdBy,msg.createdName)"
-                   ng-if="msg.parentId!=0"><span class="content">({{msg.children.length}})</span></a>
-                <!--leaf-->
+                <span class="message">{{message.createdName}}</span> &nbsp;
+                <span class="blue">发表于&nbsp;{{message.messageDate}}</span>&nbsp;
                 <br>
-                <p class="content">{{msg.messageContent}}</p>
-                <input type="text" ng-model="msg.replay"> </input>
-                <button ng-click="replayQuestion(msg)">回复</button>
-                <ul ng-repeat="msg in msg.children" class="aaa"><!--二级留言-->
-                    <li id="leaves_li_{{msg.messageId}}">
-                        <b>|</b>
-                        <span class="msg">{{msg.createdName}}</span> &nbsp;<span class="blue">回复</span>&nbsp;<span
-                            class="msg">{{msg.repliedName}}</span>&nbsp;<span
-                            class="blue">发表于&nbsp;{{msg.messageDate}}</span>&nbsp;
-                        <a href="javascript:void(0);"
-                           ng-click="getChildrenList(msg.originalId, msg.messageId, msg.createdBy,msg.createdName, msg.messageId)"><span class="content">({{msg.children.length}})</span></a><br>
-                        <br>
-                        <p class="content">{{msg.messageContent}}</p>
-                        <input type="text" ng-model="msg.replay"> </input>
-                        <button ng-click="replayQuestion(msg)">回复</button>
-                        <!--三级及以后在此处动态生成-->
-                    </li>
-                </ul>
+                <p class="content">
+                    {{message.messageContent}}
+                </p>
+                <button ng-click="deleteMessage(message.messageId)">撤回</button>
             </li>
-        </ul>
+        </div>
+        <input type="text" ng-model="chatBox.messageContent"></input>
+        <button ng-click="replayQuestion(chatBox)">回复</button>
     </div>
     <div>
-        <form id="messageForm" name="messageForm" style="margin-left: 40px;">
-            <textarea ng-model="message.messageContent" cols="200" rows="5" id="messageContent"></textarea><br>
-            <input type="text" ng-model="message.parentId" id="parentId" ng-hide="true">
-            <input type="text" ng-model="message.originalId" id="originalId" ng-hide="true">
-            <input type="text" ng-model="message.procInstId" id="procInstId" ng-hide="true">
-            <input type="text" ng-model="message.repliedBy" id="repliedBy" ng-hide="true">
-            <input type="text" ng-model="message.repliedName" id="repliedName" ng-hide="true">
-            <button ng-click="submitMessage()">提交留言</button>
-            <button ng-click="updateRead()">更新已阅测试</button>
-            <button ng-click="getChildren()">叶子留言测试</button>
-        </form>
+        <h4>新建留言</h4>
+        <textarea ng-model="messageContent" cols="200" rows="5" id="messageContent"></textarea><br>
+        <button ng-click="replayQuestion()">提交留言</button>
     </div>
 </div>

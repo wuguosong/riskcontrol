@@ -22,6 +22,9 @@
                                     <li>
                                         <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
                                     </li>
+									<li>
+										<a href="/#bbs_chat" data-toggle="tab">聊天窗口</a>
+									</li>
                                 </ul>
                             </div>
                             <div class="tab-content tab-content-bordered">
@@ -38,6 +41,9 @@
                                 <div class="tab-pane" id="contracts_resources">
                                     <directive-project-formal-file-list></directive-project-formal-file-list>
                                 </div>
+								<div class="tab-pane" id="bbs_chat">
+									<bbs-chat business-id="{{ businessId }}"></bbs-chat>
+								</div>
                             </div>
                         </div>
                     </div>

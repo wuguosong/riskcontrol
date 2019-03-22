@@ -109,4 +109,6 @@ public interface IMessageService {
      * @return
      */
     List<JSONObject> messages(String procInstId, String createdBy);
+
+	List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId);
 }

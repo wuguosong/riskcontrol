@@ -147,4 +147,19 @@
         </if>
         order by message_id, message_date asc
     </select>
+    
+     <select id="selectLeavesMessageList" resultMap="messageMap">
+        select
+        <include refid="baseColumn"/>
+        from sys_message
+        where 1 = 1
+        <if test="procInstId != null and procInstId != ''">
+        and proc_inst_id = #{procInstId}
+        </if>
+        <if test="messageId != null and messageId != ''">
+        and original_id = #{messageId}
+        </if>
+        order by message_id, message_date asc
+    </select>
+    
 </mapper>

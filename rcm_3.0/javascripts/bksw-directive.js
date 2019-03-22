@@ -2002,6 +2002,7 @@ ctmApp.directive('directiveUserList', function () {
         }
     };
 });
+
 function delCommonname(id) {
     accessScope("#ORGID", function (scope) {
         if (scope.selected.indexOf(id) != -1) {
@@ -2012,9 +2013,11 @@ function delCommonname(id) {
         }
     });
 }
+
 function delDom(dom) {
     $(dom).parent("li").remove();
 }
+
 ctmApp.directive('directiveUserRadioList', function () {
     return {
         restrict: 'E',
@@ -3375,9 +3378,9 @@ ctmApp.directive('bpmnPopWin', function () {
                     $.alert("审批意见不能超过650字！");
                     return;
                 }
-                if($scope.changeTypeSelected == 'after'){
+                if ($scope.changeTypeSelected == 'after') {
                     var validate = wf_validateSign('bulletin', $scope.approve.businessId);
-                    if(!isEmpty(validate.code)){
+                    if (!isEmpty(validate.code)) {
                         $.alert(validate.comment);
                         return;
                     }
@@ -3616,6 +3619,7 @@ ctmApp.directive('decisionBpmnPopWin', function () {
                     }
                 });
             };
+
             //jquery判断是否对象非空
             function isEmptyObject(e) {
                 var t;
@@ -3722,9 +3726,9 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $.alert("审批意见不能超过650字！");
                     return;
                 }
-                if($scope.changeTypeSelected == 'after'){
+                if ($scope.changeTypeSelected == 'after') {
                     var validate = wf_validateSign('formalReview', $scope.approve.businessId);
-                    if(!isEmpty(validate.code)){
+                    if (!isEmpty(validate.code)) {
                         $.alert(validate.comment);
                         return;
                     }
@@ -3945,11 +3949,11 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                  * $scope.showReviewToConfirm的值依然是true
                  * 加签操作不起作用,所以加上了该段代码
                  * ********/
-                if($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE'){
+                if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
                     $scope.showReviewToConfirm = false;
                     $scope.showLegalToConfirm = false;
                 }
-                if($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER'){
+                if ($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER') {
                     $scope.showReviewToConfirm = false;
                     $scope.showLegalToConfirm = false;
                 }
@@ -4006,6 +4010,7 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     }
                 });
             };
+
             //jquery判断是否对象非空
             function isEmptyObject(e) {
                 var t;
@@ -4675,6 +4680,7 @@ ctmApp.directive('directCommonUpload', function () {
             $scope.cancel = function () {
                 $scope.attachment = {};
             }
+
             //jquery判断是否对象非空
             function isEmptyObject(e) {
                 var t;
@@ -4787,9 +4793,9 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     $.alert("审批意见不能超过650字！");
                     return;
                 }
-                if($scope.changeTypeSelected == 'after'){
+                if ($scope.changeTypeSelected == 'after') {
                     var validate = wf_validateSign('preReview', $scope.approve.businessId);
-                    if(!isEmpty(validate.code)){
+                    if (!isEmpty(validate.code)) {
                         $.alert(validate.comment);
                         return;
                     }
@@ -4968,10 +4974,10 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                  * $scope.showReviewToConfirm的值依然是true
                  * 加签操作不起作用,所以加上了该段代码
                  * ********/
-                if($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE'){
+                if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
                     $scope.showReviewToConfirm = false;
                 }
-                if($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER'){
+                if ($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER') {
                     $scope.showReviewToConfirm = false;
                 }
                 /********Add By LiPan********/
@@ -4986,7 +4992,7 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                         $.confirm("您选择了评审负责人确认选项，意味着您已经和投资经理沟通完毕，流程将进入下一环节！是否确认？", function () {
                             $scope.auditSingle();
                         });
-                    }else if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
+                    } else if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
                         $scope.changeWork();
                     } else if ($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER') {
                         $scope.workOver();
@@ -5028,6 +5034,7 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     }
                 });
             };
+
             //jquery判断是否对象非空
             function isEmptyObject(e) {
                 var t;
@@ -5527,10 +5534,10 @@ ctmApp.directive('commonAttachments', function () {
             docType: "@",// 业务类型
             docCode: "@",// 业务单据编号或者UUID
             pageLocation: "@",// 组件在页面的位置,保证唯一性,可以与组件ID保持及一致
-            showUpload:"@",// 是否展示浏览按钮
-            showReview:"@",// 是否展示预览按钮
-            showDownload:"@",// 是否展示下载按钮
-            showDelete:"@"// 是否展示删除按钮
+            showUpload: "@",// 是否展示浏览按钮
+            showReview: "@",// 是否展示预览按钮
+            showDownload: "@",// 是否展示下载按钮
+            showDelete: "@"// 是否展示删除按钮
         },
         link: function ($scope, element, attr) {
             console.log($scope);
@@ -5616,7 +5623,7 @@ ctmApp.directive('commonAttachments', function () {
                 window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
 
-            $scope._delete = function(file_id){
+            $scope._delete = function (file_id) {
                 attach_delete(file_id);
                 $scope._init();
             };
@@ -5624,69 +5631,50 @@ ctmApp.directive('commonAttachments', function () {
         }
     };
 });
-ctmApp.directive('bbsChat', function() {
+ctmApp.directive('bbsChat', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveBbsPage.html',
         replace: true,
-        link:function(scope,element,attr){
+        scope: {
+            id: "@",// 组件ID,确保唯一性
+            businessId: "@",// 流程实例id
         },
-        controller:function($scope,$http,$element){
+        link: function (scope, element, attr) {
 
-            $scope.conf = [];
+        },
+        controller: function ($scope, $http, $element) {
+            // 初始化留言表单
+            $scope.message = {
+                originalId: null, // 原始节点id
+                parentId: null, // 父节点id
+                procInstId: null, // 流程实例id
+                repliedBy: null, // 被回复人id
+                repliedName: null // 被回复人name
+            };
 
-            $scope.queryMessage = function (procInstId, parentId) {
+            // 监听businessId变化
+            $scope.$watch('businessId', function () {
+                console.log($scope.businessId);
+                // $scope.initMessage($scope.businessId);
+                $scope.initMessage("5afcc2f4ddd03412cebef6e7")
+            });
+
+            $scope.initMessage = function (businessId) {
                 $http({
                     method: 'post',
-                    url: '/rcm-rest/message/tree.do',
+                    url: '/rcm-rest/message/queryMessagesList.do',
                     data: $.param({
-                        'procInstId': procInstId,
-                        'parentId': parentId
+                        'procInstId': businessId,
+                        'parentId': 0
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    $scope.messages = data.result_data;
+                    $scope.chatBoxes = data;
+                    console.log($scope.chatBoxes)
                 });
             }
 
-            // 初始化留言表单
-            $scope.message = {};
-            $scope.queryMessage(1008611, 0);
-            $scope.message.originalId = 0;
-            $scope.message.parentId = 0;
-            $scope.message.procInstId = 1008611;
-            $scope.message.repliedBy = '';
-            $scope.message.repliedName = '';
-            // 展示留言表单
-            $scope.showMessageForm = function (originalId, parentId, repliedBy, repliedName) {
-                $scope.message.originalId = originalId;
-                $scope.message.parentId = parentId;
-                $scope.message.procInstId = 1008611;
-                $scope.message.repliedBy = repliedBy;
-                $scope.message.repliedName = repliedName;
-            }
-            // 更新已阅
-            $scope.updateRead = function () {
-                $http({
-                    method: 'post',
-                    url: '/rcm-rest/message/read.do',
-                    data: $.param({'messageId': 10109}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (data) {
-                    document.write(data.result_data);
-                });
-            }
-            // 获取叶子留言
-            $scope.getChildren = function () {
-                $http({
-                    method: 'post',
-                    url: '/rcm-rest/message/leaves.do',
-                    data: $.param({'parentId': 10109}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (data) {
-                    document.write(JSON.stringify(data.result_data));
-                });
-            }
 
             // 提交留言表单
             $scope.submitMessage = function () {
@@ -5702,69 +5690,9 @@ ctmApp.directive('bbsChat', function() {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
                     console.log(data);
-                    window.location.reload(true);
                 });
             }
 
-            $scope.recursionHtml = function (messageId, list) {
-                // 先清空之前加载的
-                $('#leaves_li_' + messageId + '>ul').each(function (i, e) {
-                    $(e).remove();
-                });
-                var li = $('#leaves_li_' + messageId);
-                var appendStr = '<ul>';
-                for (var i = 0; i < list.length; i++) {
-                    var o = list[i];
-                    console.log(o);
-                    appendStr +=
-                        '<li class="aaa" id="leaves_li_' + o.messageId + '">'
-                        + '<b>|</b>&nbsp;<span class="msg">'
-                        + o.createdName
-                        + '</span>&nbsp;'
-                        + '<span class="blue">'
-                        + '回复'
-                        + '</span>&nbsp;'
-                        + '<span class="msg">'
-                        + o.repliedName
-                        + '</span>&nbsp;'
-                        + '<span class="blue">'
-                        + '发表于&nbsp;'
-                        + o.messageDate
-                        + '</span>'
-                        + '&nbsp;'
-                        + '<a href="javascript:void(0);" onclick="getChildrenListOuter(' + o.originalId + ',' + o.messageId + ', \'' + o.createdBy + '\',\'' + o.createdName + '\', ' + o.messageId + ')">&nbsp;'
-                        + '<span class="content">(' + o.children.length + ')</span></a>'
-                        + '<br>'
-                        + '<span class="content">'
-                        + o.messageContent
-                        + '</span>'
-                        + '</li>';
-                }
-                li.append(appendStr + '</<ul>');
-            }
-
-            $scope.executeLeavesQuery = function (messageId) {
-                $http({
-                    method: 'post',
-                    url: '/rcm-rest/message/tree.do',
-                    data: $.param({
-                        'procInstId': 1008611,
-                        'parentId': messageId
-                    }),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (data) {
-                    $scope.recursionHtml(messageId, data.result_data);
-                });
-            }
-
-            $scope.getChildrenList = function (originalId, parentId, repliedBy, repliedName, messageId) {
-                $scope.message.originalId = originalId;
-                $scope.message.parentId = parentId;
-                $scope.message.procInstId = 1008611;
-                $scope.message.repliedBy = repliedBy;
-                $scope.message.repliedName = repliedName;
-                $scope.executeLeavesQuery(messageId);
-            }
 
             $scope.deleteMessage = function (messageId) {
                 if (confirm('确认删除?')) {
@@ -5776,98 +5704,41 @@ ctmApp.directive('bbsChat', function() {
                         }),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     }).success(function (data) {
-                        console.log(data);
-                        window.location.reload(true);
+                        $scope.initMessage("5afcc2f4ddd03412cebef6e7")
                     });
                 }
             }
 
-            $scope.showMore = function () {
-                alert('more');
-            }
 
-            function getChildrenListOuter(originalId, parentId, repliedBy, repliedName, messageId) {
-                // 重点!!!!!!!
-                var appElement = document.querySelector('[ng-controller=myCtrl]');
-                var $scope = angular.element(appElement).scope();
-                $scope.message.originalId = originalId;
-                $scope.message.parentId = parentId;
-                $scope.message.procInstId = 1008611;
-                $scope.message.repliedBy = repliedBy;
-                $scope.message.repliedName = repliedName;
-                console.log(originalId + '=' + parentId + '=' + repliedBy + '=' + repliedName + '=' + messageId)
-                $.ajax({
-                    url: "/message/tree.do",
-                    type: "post",
-                    data: {
-                        'procInstId': 1008611,
-                        'parentId': messageId
-                    },
-                    async: false,
-                    success: function (result) {
-                        var list = result.result_data;
-                        console.log(messageId);
-                        console.log($('#leaves_li_' + messageId + '>ul').html());
-                        $('#leaves_li_' + messageId + '>ul').each(function (i, e) {
-                            $(e).remove();
-                        });
-                        var li = $('#leaves_li_' + messageId);
-                        var appendStr = '<ul>';
-                        for (var i = 0; i < list.length; i++) {
-                            var o = list[i];
-                            console.log(o);
-                            appendStr +=
-                                '<li id="leaves_li_' + o.messageId + '">'
-                                + '<b>|</b>&nbsp;<span class="msg">'
-                                + o.createdName
-                                + '</span>&nbsp;'
-                                + '<span class="blue">'
-                                + '回复'
-                                + '</span>&nbsp;'
-                                + '<span class="msg">'
-                                + o.repliedName
-                                + '</span>&nbsp;'
-                                + '<span class="blue">'
-                                + '发表于&nbsp;'
-                                + o.messageDate
-                                + '</span>'
-                                + '&nbsp;'
-                                + '<a href="javascript:void(0);" onclick="getChildrenListOuter(' + o.originalId + ',' + o.messageId + ',\'' + o.createdBy + '\',\'' + o.createdName + '\', ' + o.messageId + ')">&nbsp;'
-                                + '<span class="content">(' + o.children.length + ')</span></a>'
-                                + '<br>'
-                                + '<span class="content">'
-                                + o.messageContent
-                                + '</span>'
-                                + '</li>';
-                        }
-                        li.append(appendStr + '</<ul>');
-                        console.log(appendStr);
-                    },
-                    error: function () {
+            $scope.replayQuestion = function (chatBox) {
+                $scope.newMessage = angular.copy($scope.message);
+                if (chatBox) {
+                    $scope.newMessage.procInstId = chatBox[0].procInstId;
+                    $scope.newMessage.messageContent = chatBox[0].messageType;
+                    $scope.newMessage.parentId = chatBox[0].messageId;
+                    if (chatBox[0].parentId == 0) {
+                        $scope.newMessage.originalId = chatBox[0].messageId;
+                    } else {
+                        $scope.newMessage.originalId = chatBox[0].originalId;
                     }
-                });
-            }
-
-            $scope.replayQuestion = function (msg) {
-                console.log(msg);
-                $scope.msg = {};
-                $scope.msg.messageType = msg.messageType;
-                $scope.msg.procInstId = msg.procInstId;
-                $scope.msg.parentId = msg.messageId;
-                $scope.msg.originalId = msg.originalId;
-                $scope.msg.repliedBy = msg.createdBy;
-                $scope.msg.repliedName = msg.createdName;
-                $scope.msg.messageContent = msg.replay;
+                    $scope.newMessage.createdBy = chatBox[0].createdBy;
+                    $scope.newMessage.createdName = chatBox[0].createdName;
+                    $scope.newMessage.messageContent = chatBox.messageContent;
+                } else {
+                    $scope.newMessage.procInstId = '5afcc2f4ddd03412cebef6e7';
+                    $scope.newMessage.messageContent = $scope.messageContent;
+                    $scope.newMessage.parentId = 0;
+                }
+                console.log($scope.newMessage);
                 $http({
                     method: 'post',
-                    url: '/rcm-rest/message/add.do',
-                    data: $.param($scope.msg),
+                    url: '/rcm-restmessage/add.do',
+                    data: $.param($scope.newMessage),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    console.log(data);
-                    window.location.reload(true);
+                    $scope.initMessage("5afcc2f4ddd03412cebef6e7")
                 });
-                console.log($scope.msg);
+
             }
         }
     };
