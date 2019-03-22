@@ -1,5 +1,6 @@
 package com.yk.message.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yk.message.entity.Message;
 
 import java.util.List;
@@ -85,7 +86,7 @@ public interface IMessageService {
     Message updatePush(Long messageId);
 
     /**
-     * 根据创建人查找
+     * 根据创建人查找本人和其他人留言
      * @param procInstId
      * @param createdBy
      * @param notIncludeCreatedBy
@@ -100,4 +101,12 @@ public interface IMessageService {
      * @return
      */
     Map<String, List<Message>> findMessages(String procInstId, String createdBy);
+
+    /**
+     * 根据创建人查找本人和其他人留言
+     * @param procInstId
+     * @param createdBy
+     * @return
+     */
+    List<JSONObject> messages(String procInstId, String createdBy);
 }

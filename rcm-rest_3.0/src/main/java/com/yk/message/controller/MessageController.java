@@ -1,5 +1,6 @@
 package com.yk.message.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import common.Constants;
@@ -246,5 +247,23 @@ public class MessageController {
             e.printStackTrace();
         }
         return map;
+    }
+
+    /**
+     * @param procInstId
+     * @return
+     */
+    @RequestMapping(value = "messages", method = RequestMethod.POST)
+    @ResponseBody
+    public List<JSONObject> messages(String procInstId) {
+        List<JSONObject> messages = null;
+        try {
+            messages = messageService.messages(procInstId, UserUtil.getCurrentUserUuid());
+            logger.info("获取信息成功!");
+        } catch (Exception e) {
+            logger.error("更新已阅失败!" + e.getMessage());
+            e.printStackTrace();
+        }
+        return messages;
     }
 }

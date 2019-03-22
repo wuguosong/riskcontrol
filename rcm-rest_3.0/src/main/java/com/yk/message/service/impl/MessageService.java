@@ -1,5 +1,7 @@
 package com.yk.message.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
@@ -110,5 +112,21 @@ public class MessageService implements IMessageService{
         map.put("left", this.findMessages(procInstId, createdBy, false));
         map.put("right", this.findMessages(procInstId, createdBy, true));
         return map;
+    }
+
+    @Override
+    public List<JSONObject> messages(String procInstId, String createdBy) {
+        List<Message> messages = this.findMessages(procInstId, null, false);
+        List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
+        for(Message message : messages){
+          JSONObject jsonObject = JSON.parseObject(message.toString());
+          if(createdBy.equals(message.getCreatedBy())){
+              jsonObject.put("position", "left");
+          }else{
+              jsonObject.put("position", "right");
+          }
+          jsonObjects.add(jsonObject);
+        }
+        return jsonObjects;
     }
 }

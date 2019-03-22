@@ -1,5 +1,6 @@
 package message;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
@@ -27,7 +28,7 @@ public class MessageTest {
 
     @org.junit.Test
     public void testTree() {
-        List<Message> list = messageService.getMessageTree(1008611L, new Long(0));
+        List<Message> list = messageService.getMessageTree("1008611", new Long(0));
         System.out.println(list.size());
         for (Message message : list) {
             System.out.println(message);
@@ -76,5 +77,28 @@ public class MessageTest {
     public void testRead(){
         Message message = messageService.updateRead(10109L);
         System.out.println(message);
+    }
+
+    @Test
+    public void testList(){
+        List<Message> list = messageService.findMessages("1008611", "0001N6100000000HADK0", true);
+        for(Message message : list){
+
+        }
+        System.out.println(list.size());
+        list = messageService.findMessages("1008611", "0001N6100000000HADK0", false);
+        for(Message message : list){
+
+        }
+        System.out.println(list.size());
+    }
+
+    @Test
+    public void testJSONObjects(){
+        List<JSONObject> list = messageService.messages("1008611", "0001N6100000000HADK0");
+        for(JSONObject message : list){
+            System.out.println(message);
+        }
+        System.out.println(list.size());
     }
 }
