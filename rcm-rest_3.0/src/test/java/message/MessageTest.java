@@ -97,7 +97,7 @@ public class MessageTest {
     public void testJSONObjects(){
         List<JSONObject> list = messageService.messages("1008611", "0001N6100000000HADK0");
         for(JSONObject message : list){
-            System.out.println(message);
+             System.out.println(message);
         }
         System.out.println(list.size());
     }

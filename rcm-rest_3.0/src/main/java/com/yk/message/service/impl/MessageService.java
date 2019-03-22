@@ -8,6 +8,7 @@ import com.yk.message.service.IMessageService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import util.DateUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -125,6 +126,7 @@ public class MessageService implements IMessageService{
           }else{
               jsonObject.put("position", "right");
           }
+          jsonObject.put("messageDate", DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
           jsonObjects.add(jsonObject);
         }
         return jsonObjects;
