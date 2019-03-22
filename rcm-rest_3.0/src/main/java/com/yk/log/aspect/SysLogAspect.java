@@ -83,7 +83,7 @@ public class SysLogAspect {
 		sysLogDto.setIp(IPUtils.getIpAddr(request));
 		//用户名
 		sysLogDto.setUserName(UserUtil.getCurrentUser().getName());
-		sysLogDto.setUser(UserUtil.getCurrentUserId());
+		sysLogDto.setUser(UserUtil.getCurrentUserUuid());
 		sysLogDto.setTime(time);
 		sysLogDto.setSuccess(success);
 		sysLogDto.setCreateDate(DateUtil.getCurrentDate());
