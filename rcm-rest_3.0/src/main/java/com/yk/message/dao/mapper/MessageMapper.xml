@@ -145,6 +145,6 @@
         <if test="createdBy != null and createdBy != '' and notIncludeCreatedBy != null and 'true'.toString() == notIncludeCreatedBy.toString()">
             and created_by <![CDATA[ <> ]]> #{createdBy}
         </if>
-        order by message_date asc
+        by message_id, message_date asc;
     </select>
 </mapper>
