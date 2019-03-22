@@ -1,14 +1,18 @@
-@import "standard";
-// 字体设置
+@import "./standard.scss";
+
+/* 字体设置 */
+
 * {
     font-family: "PingFang SC", "Microsoft Yahei", "SimHei", "sans-serif";
 }
 
-// 字体图标
+
+/* 字体图标 */
+
 @font-face {
     font-family: 'myfonts';
-    src: url('//at.alicdn.com/t/font_1081538_u9twycey1wj.eot');
-    src: url('//at.alicdn.com/t/font_1081538_u9twycey1wj.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.woff2') format('woff2'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.woff') format('woff'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.ttf') format('truetype'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.svg#iconfont') format('svg');
+    src: url('../fonts/iconfont.eot');
+    src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), url('../fonts/iconfont.woff2') format('woff2'), url('../fonts/iconfont.woff') format('woff'), url('../fonts/../fonts/iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
 }
 
 [class^="icon-"],
@@ -19,13 +23,17 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-// 顶部导航图标
+
+/* 顶部导航图标 */
+
 .icon-top {
     color: $blue;
     font-size: 22px;
 }
 
-// 搜索图标
+
+/* 搜索图标 */
+
 .icon-search {
     color: #687e93;
     font-size: 18px;
@@ -77,8 +85,12 @@ p.font-big {
     font-size: 16px;
 }
 
-// 按钮
-// 去边框
+
+/* button按钮 */
+
+
+/* 去边框 */
+
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus,
@@ -90,14 +102,15 @@ p.font-big {
 
 .btn {
     height: 36px;
-    width: 90px;
+    // width: 90px;
+    min-width: 90px;
     border: none;
     border-radius: 4px;
     line-height: 36px;
     text-align: center;
     font-size: 16px;
     box-sizing: border-box;
-    padding: 0;
+    padding: 0 10px;
     outline-style: none;
     outline-color: transparent;
     outline-width: 0;
@@ -108,7 +121,7 @@ p.font-big {
 
 // 按钮颜色
 //蓝色、主色
-.btn.btn-primary {
+button.btn.btn-primary {
     // 一级按钮
     background-color: $blue;
     // 移入
@@ -180,7 +193,7 @@ p.font-big {
 }
 
 //红色
-.btn.btn-danger {
+button.btn.btn-danger {
     // 一级
     background-color: $red;
     // 移入
@@ -273,9 +286,11 @@ p.font-big {
 }
 
 // 页签
-.tab {
+button.tab {
     background-color: #f8f8f8;
     color: $black;
+    cursor: pointer!important;
+    border: none!important;
     // 60px
     &.tab-60 {
         width: 60px;
@@ -292,14 +307,30 @@ p.font-big {
     &.tab-120 {
         width: 120px;
     }
-    // 选中
+    // 选中状态在a标签上
     &.active {
         background-color: $blue;
         color: #fff;
+        &:hover {
+            box-shadow: none;
+        }
+    }
+    //选中状态在li标签上
+    li.active>& {
+        background-color: $blue;
+        color: #fff;
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $blue;
+            color: #fff;
+            box-shadow: none;
+        }
     }
     // 点击
-    &:active {
-        background-color: $blue;
+    &:active,
+    &:focus {
+        background-color: $blue!important;
         color: #fff;
     }
 }
@@ -347,4 +378,492 @@ p.font-big {
 
 .btn-right {
     border-radius: 0 4px 4px 0;
+}
+
+
+/* a标签按钮 */
+
+a:focus,
+a:active:focus,
+a.active:focus,
+a.focus,
+a:active.focus,
+a.active.focus {
+    outline: none;
+    text-decoration: none;
+}
+
+a.btn {
+    height: 36px;
+    // width: 90px;
+    min-width: 90px;
+    border: none;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    outline-style: none;
+    outline-color: transparent;
+    outline-width: 0;
+    &:hover {
+        box-shadow: $btn-shadow;
+    }
+}
+
+
+/* 按钮颜色 */
+
+
+/* 蓝色、主色 */
+
+a.btn-primary {
+    // 一级按钮
+    background-color: $blue;
+    // 移入
+    &:hover {}
+    // 点击
+    &:active {
+        background-color: $dark-blue;
+    }
+    //禁用按钮
+    &.disabled {
+        background-color: $dark-grey;
+        color: #b2b2b2;
+        border: none;
+        &:hover {
+            background-color: $dark-grey;
+            color: #b2b2b2;
+            box-shadow: none;
+        }
+    }
+    // 二级按钮
+    &.erji {
+        background-color: #fff;
+        border: 1px solid $blue;
+        color: $blue;
+        // 移入
+        &:hover {
+            background-color: $grey;
+        }
+        &:active {
+            background-color: $dark-grey;
+        }
+        // 禁用
+        &.disabled {
+            background-color: #fff;
+            border: 1px solid $dark-grey;
+            color: #b2b2b2;
+            &:hover {
+                box-shadow: none;
+                background-color: #fff;
+                border: 1px solid $dark-grey;
+                color: #b2b2b2;
+            }
+        }
+    }
+    // 三级按钮
+    &.sanji {
+        background-color: #fff;
+        border: 1px solid $blue;
+        color: $blue;
+        border-radius: 36px;
+        // 移入
+        &:hover {}
+        // 点击
+        &:active {
+            background-color: $grey;
+        }
+        // 禁用
+        &.disabled {
+            border: 1px solid $dark-grey;
+            color: #b2b2b2;
+            &:hover {
+                box-shadow: none;
+                background-color: #fff;
+                border: 1px solid $dark-grey;
+                color: #b2b2b2;
+            }
+        }
+    }
+}
+
+//红色
+a.btn-danger {
+    // 一级
+    background-color: $red;
+    // 移入
+    &:hover {}
+    // 点击
+    &:active {
+        background-color: $dark-red;
+    }
+    // 禁用
+    &.disabled {
+        background-color: $red-able;
+        color: #fff;
+        &:hover {
+            box-shadow: none;
+            background-color: #efc5c4;
+            color: #fff;
+        }
+    }
+    // 二级
+    &.erji {
+        background-color: #fff;
+        color: $red;
+        border: 1px solid $red;
+        // 移入
+        &:hover {
+            background-color: $light-red;
+        }
+        // 点击
+        &:active {
+            background-color: $red-able;
+            color: $red;
+            border-color: $red;
+        }
+        // 禁用
+        &.disabled {
+            background-color: #fff;
+            color: #b2b2b2;
+            border: 1px solid $dark-grey;
+            &:hover {
+                background-color: #fff;
+                color: #b2b2b2;
+                border: 1px solid $dark-grey;
+            }
+        }
+    }
+    // 三级
+    &.sanji {
+        background-color: #fff;
+        color: $red;
+        border: 1px solid $red;
+        border-radius: 36px;
+        // 移入
+        &:hover {}
+        // 点击
+        &:active {
+            background-color: $light-red;
+            color: $red;
+            border-color: $red;
+        }
+        // 禁用
+        &.disabled {
+            background-color: #fff;
+            color: $red;
+            border: 1px solid $red;
+            box-shadow: none;
+        }
+    }
+}
+
+//黄色
+a.btn-warning {
+    // 一级
+    background-color: $yellow;
+    // 移入
+    &:hover {}
+    // 点击
+    &:active {
+        background-color: $dark-yellow;
+    }
+    // 禁用
+    &.disabled {
+        background-color: $light-yellow;
+        color: #fff;
+        &:hover {
+            box-shadow: none;
+            background-color: $light-yellow;
+            color: #fff;
+        }
+    }
+}
+
+// 页签
+a.tab {
+    background-color: #f8f8f8;
+    color: $black;
+    cursor: pointer!important;
+    border: none!important;
+    // 60px
+    &.tab-60 {
+        width: 60px;
+    }
+    // 90px
+    &.tab-90 {
+        width: 90px;
+    }
+    // 106px
+    &.tab-106 {
+        width: 106px;
+    }
+    // 120px
+    &.tab-120 {
+        width: 120px;
+    }
+    // 选中状态在a标签上
+    &.active {
+        background-color: $blue;
+        color: #fff;
+        &:hover {
+            box-shadow: none;
+        }
+    }
+    //选中状态在li标签上
+    li.active>& {
+        background-color: $blue;
+        color: #fff;
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $blue;
+            color: #fff;
+            box-shadow: none;
+        }
+    }
+    // 点击
+    &:active,
+    &:focus {
+        background-color: $blue!important;
+        color: #fff;
+    }
+}
+
+//其他表单内按钮、小按钮
+a.btn-sm {
+    font-size: 14px;
+    line-height: 26px;
+    width: auto;
+    height: 26px;
+    padding: 0 11px;
+    // 绿色按钮
+    &.btn-success {
+        background-color: $green;
+        color: #fff;
+        // 移入
+        &:hover {}
+        // 点击
+        &:active {
+            background-color: $dark-green;
+        }
+    }
+    // 灰色按钮
+    &.btn-grey {
+        background-color: $dark-grey;
+        color: $black;
+        // 移入
+        &:hover {}
+        // 点击
+        &:active {
+            background-color: #cecece;
+        }
+    }
+}
+
+.btn-left {
+    border-radius: 4px 0 0 4px;
+    margin-right: 1px;
+}
+
+.btn-center {
+    border-radius: 0;
+    margin-right: 1px;
+}
+
+.btn-right {
+    border-radius: 0 4px 4px 0;
+}
+
+
+/* 导航 */
+
+.navbar {
+    background-color: #fff;
+    // box-shadow: 0 0 4px $black;
+    height: 62px;
+    position: relative;
+    // 左边logo
+    .navbar-brand {
+        padding: 0;
+        img {
+            margin-top: 15px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c2c2c;
+            line-height: 62px;
+            margin: 0;
+            padding: 0;
+            margin-left: 10px;
+        }
+    }
+    // 中间搜索
+    form.navbar-center.navbar-form {
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 30%;
+        input {
+            height: 26px;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            line-height: 26px;
+            background-color: $grey;
+            color: $black;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            border: none;
+            text-indent: 2em;
+            display: inline;
+            &::-webkit-input-placeholder {
+                /* WebKit, Blink, Edge */
+                text-align: center;
+                text-indent: 0;
+                color: #929292;
+            }
+            &:-moz-placeholder {
+                /* Mozilla Firefox 4 to 18 */
+                color: #929292;
+                text-align: center;
+                text-indent: 0;
+            }
+            &::-moz-placeholder {
+                /* Mozilla Firefox 19+ */
+                color: #929292;
+                text-align: center;
+                text-indent: 0;
+            }
+            &:-ms-input-placeholder {
+                /* Internet Explorer 10-11 */
+                color: #929292;
+                text-align: center;
+                text-indent: 0;
+            }
+        }
+        i {
+            font-size: 14px;
+            cursor: pointer;
+            position: absolute;
+            top: 4px;
+            right: 2%;
+        }
+    }
+    // 右边部分
+    .collapse.navbar-collapse {
+        // height: 62px!important;
+        a {
+            padding: 0 15px;
+        }
+        .navbar-right {
+            // 菜单部分
+            background-color: #fff;
+            &>.nav-menu {
+                // height: 62px;
+                .dropdown-toggle {
+                    color: $blue;
+                    line-height: 62px;
+                    font-size: 22px;
+                }
+                >ul a {
+                    padding: 10px 15px;
+                }
+            }
+            // 主页按钮
+            .home-btn {
+                a {
+                    line-height: 62px;
+                    height: 62px;
+                    i {
+                        font-size: 22px;
+                    }
+                }
+            }
+            // 用户名部分
+            .uname {
+                a {
+                    line-height: 62px;
+                    height: 62px;
+                    i {
+                        font-size: 22px;
+                    }
+                    span {
+                        font-size: 20px;
+                        line-height: 62px;
+                        color: $blue;
+                    }
+                }
+            }
+            // 设置部分
+            .setup {
+                .dropdown-toggle {
+                    color: $blue;
+                    line-height: 62px;
+                    font-size: 22px;
+                    height: 62px;
+                }
+                >ul.dropdown-menu-left {
+                    right: 0;
+                    left: auto;
+                    a {
+                        padding: 10px 15px;
+                        i {
+                            font-size: 22px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// bootstrap多级下拉菜单
+.dropdown-submenu {
+    position: relative;
+    &>.dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+    &:hover>.dropdown-menu {
+        display: block;
+    }
+    &>a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+    &:hover>a:after {
+        border-left-color: #fff;
+    }
+    &.pull-left {
+        float: none!important;
+        &>.dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+            -webkit-border-radius: 6px 0 6px 6px;
+            -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+        }
+    }
 }

@@ -393,6 +393,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     alert(data.result_name);
                 }
             });
+           /* $scope.projectlisttype = selectDocItem(typeCode);*/
         }
 
         // 定义模板选项变量
@@ -407,6 +408,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     alert(data.result_name);
                 }
             });
+            /*$scope.SUMMARY_TEMPLATE = selectDocItem(typeCode);*/
         }
 
         // 定义投资类型
@@ -420,6 +422,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     alert(data.result_name);
                 }
             });
+            /*$scope.INVESTMENT_TYPE = selectDocItem(typeCode);*/
         }
 
         $scope.downLoadFormalBiddingInfoFile = function (filePath, filename) {

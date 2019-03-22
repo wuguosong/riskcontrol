@@ -6,47 +6,90 @@
 	<title>风险管控信息化管理系统</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 	<link href="assets/ui-bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
 	<link href="assets/swiper/swiper.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="assets/css/theme.css">
+	<link rel="stylesheet" href="assets/webuploader-0.1.5/webuploader.css" type="text/css">
 </head>
 <body class="theme-default main-menu-animated" ng-app="ctmApp">
 
-<div id="main-wrapper"  ng-controller="SysControl" >
-	<div id="main-navbar" class="navbar navbar-inverse" role="navigation">
-		<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>
-		<div class="navbar-inner">
-			<div class="navbar-header">
-				<a href="#/" class="navbar-brand">
-					<div><img alt="Pixel Admin" width="93" height="32" src="assets/images/pixel-admin/bewg-logo.png"></div>风险管控系统
-				</a>
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
-			</div>
-			<div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
-				<div>
-					<div class="right clearfix">
-						<ul class="nav navbar-nav pull-right right-navbar-nav">
-							<li class="login-person">
-								<input style="display: none;" type="text" ng-model="publicProjectName" id="publicProjectName" ng-keyup="publicKeyupSearchProject($event)" placeholder="输入项目名称查询"/>
-								<input style="display: none;" type="button" ng-click="publicSearchProject()" id="publicSearchButton" value="查询"/>
-								<span class="text" ng-bind="credentials.userName"></span><span class="dividing-line">|
-							</span><a href="#/Help" class="help" target="_blank">帮助<i class="fa fa-question-circle"></i></a><span class="dividing-line">|
-							</span><a href="javascript:void(0);" onclick="logout()" class="logout">注销</a>
-							</li>
-						</ul> <!-- / .navbar-nav -->
-					</div>
-				</div>
-			</div>
+<div class="navbar navbar-default" ng-controller="SysControl">
+	<div class="container-fluid">
+		<!-- 左边logo -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-right" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+
+			<a class="navbar-brand clearfix" href="#">
+				<img src="assets/images/img/logo3.png" alt="" class="pull-left">
+				<h1 class="pull-left">风控管理系统</h1>
+			</a>
 		</div>
+		<!-- 中间搜索 -->
+		<form class="navbar-form navbar-nav navbar-center hidden-sm hidden-xs">
+			<input type="text " class="search " ng-model="publicProjectName" id="publicProjectName" ng-keyup="publicKeyupSearchProject($event)"  placeholder="项目名称 ">
+			<i class="icon-search" ng-click="publicSearchProject()">&#xe61e;</i>
+		</form>
+		<!-- 右边部分 -->
+		<div class="collapse navbar-collapse" id="navbar-right">
+			<ul class="nav navbar-nav navbar-right">
+				<!-- 菜单部分 -->
+				<li class="dropdown nav-menu">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">菜单<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<!-- 不带下级的菜单 -->
+						<li ng-repeat="f in func"  ng-if="f.URL!='#'" ng-click="DirectMenuCur($event)" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
+							<a href="#/{{f.URL}}"><i class="{{f.FUNC_DESC}}"></i><span ng-bind="f.FUNC_NAME"></span></a>
+						</li>
+						<!-- 带下级菜单 -->
+						<li class="dropdown-submenu pull-left" ng-repeat="f in func"  ng-if="f.URL=='#'">
+							<a href="#"><i class="{{f.FUNC_DESC}}"></i><span ng-bind="f.FUNC_NAME"></span></a>
+							<ul class="dropdown-menu">
+								<li ng-repeat="fs in f.subFunc"  ng-if="fs.URL!='##'"  id="func{{fs.FUNC_ID}}" ng-click="GoPage($event)" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
+									<a tabindex="-1" href="#/{{fs.URL}}">{{fs.FUNC_NAME}}</a>
+								</li>
+								<li class="dropdown-submenu pull-left" ng-repeat="fs in f.subFunc"  ng-if="fs.URL=='##'"  id="func1{{fs.FUNC_ID}}" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
+									<a href="#">{{fs.FUNC_NAME}}</a>
+									<ul class="dropdown-menu">
+										<li ng-repeat="fss in fs.subsubFunc" ng-if="fss.URL != 'ConferenceInformation/0'" id="func{{fss.FUNC_ID}}"  ng-click="GoPage($event)">
+											<a tabindex="-1" href="#/{{fss.URL}}">{{fss.FUNC_NAME}}</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<!-- 主页按钮部分 -->
+				<li class="home-btn">
+					<a href="# "><i class="icon-top">&#xe625;</i></a>
+				</li>
+				<!-- 用户名部分 -->
+				<li class="uname"><a href="#"><i class="icon-top">&#xe62b;</i> <span ng-bind="credentials.userName"></span></a></li>
+				<!-- 设置部分 -->
+				<li class="setup dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-top">&#xe616;</i><span class="caret"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
 	</div>
 	<div id="content-wrapper" class="wrapper">
 		<div ng-view class="ng-scope">
 		</div>
 	</div>
-	<div id="main-menu-bg"></div>
+	<!-- /.container-fluid -->
 </div>
 
+
 <!-- 遮罩层 -->
-<div id="mask_" class="mask_" style='color:white;font-size:26px;overflow:hidden;border:1px solid #FF0099;text-align:center'  >处理中，请稍后......</div>
+<!--<div id="mask_" class="mask_" style='color:white;font-size:26px;overflow:hidden;border:1px solid #FF0099;text-align:center'  >处理中，请稍后......</div>-->
 
 <!--[if !IE]> -->
 <script type="text/javascript"> window.jQuery || document.write('<script src="assets/javascripts/jquery-1.8.3.min.js">' + "<" + "/script>"); </script>
@@ -66,6 +109,7 @@
 <script type="text/javascript" src="assets/angularjs/upload/ng-file-upload-shim.js"></script>
 <script type="text/javascript" src="assets/angularjs/upload/ng-file-upload.js"></script>
 <script type="text/javascript" src="assets/swiper/swiper.js"></script>
+<script type="text/javascript" src="assets/webuploader-0.1.5/webuploader.js"></script>
 <!-- Pixel Admin's javascripts -->
 <script type="text/javascript" src="assets/javascripts/tree-grid-directive.js"></script>
 <script type="text/javascript" src="assets/javascripts/dtree/dtree.js"></script>
@@ -166,6 +210,13 @@
 
     javascript:window.history.forward(1);
 
+</script>
+<script type="text/javascript">
+    // bootstrap下拉菜单初始化
+    $(function() {
+        // 解决bootstrap下拉菜单第一次点击无反应问题
+        $('.dropdown-toggle').dropdown();
+    });
 </script>
 
 </body>

@@ -92,7 +92,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr scope="row" ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
+			<tr scope="row" ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc" data-ng-init="init()">
 				<th>
 					<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
 					<a class="template-table-font" ng-if="projectOverview.edit == 0" >
@@ -110,11 +110,23 @@
 					</div>
 				</td>
 				<td>
-					<button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"
-							ngf-max-size="100MB"
-							ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
-						<span>添加</span>
-					</button>
+					<!--<button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"-->
+							<!--ngf-max-size="100MB"-->
+							<!--ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">-->
+						<!--<span>添加</span>-->
+					<!--</button>-->
+					<upload-file
+							uploader = "{{'bzr_uploader'+$index}}"
+							id = "{{'bzr_id'+$index}}"
+							picker = "{{'bzr_piker'+$index}}"
+							file-list = "{{'bzr_file_list'+$index}}"
+							start-or-stop-btn = "{{'bzr_file_startOrStopBtn'+$index}}"
+							choice-form = "{{'bzr_file_choiceForm'+$index}}"
+							file-bp = "{{'bzr_file_fileBp'+$index}}"
+							progress-line = "{{'bzr_file_progressLine'+$index}}"
+					>
+					</upload-file>
+
 					<button ng-if="projectOverview.attachmentValue != null" class="btn-add btn-scale"
 							ngf-max-size="100MB"
 							ngf-select="changeAttachment($file, $invalidFiles, $index, projectOverview)">

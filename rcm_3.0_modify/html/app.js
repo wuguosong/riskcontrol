@@ -857,3 +857,28 @@ function attach_list(docType, docCode, pageLocation){
     });
     return result;
 }
+
+/**
+ * 根据code查询数据字典项
+ * @param typeCode
+ * @returns {*}
+ * */
+function selectDocItem(typeCode){
+    var url = srvUrl + "common/commonMethod/selectDataDictionByCode1";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: typeCode,
+        async: false,
+        success: function (data) {
+            if (data.result_code == 'S') {
+                result = data.result_data;
+            } else {
+                alert(data.result_name);
+            }
+        }
+    });
+    return result;
+}
