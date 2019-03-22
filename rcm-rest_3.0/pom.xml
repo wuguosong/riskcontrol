@@ -336,6 +336,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.9</version> <!--可以查查最新版-->
+		</dependency>
 		<!--Add by LiPan[2019-01-11] end-->
 	</dependencies>
 	<repositories>

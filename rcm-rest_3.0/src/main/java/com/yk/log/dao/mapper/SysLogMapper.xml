@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.log.dao.ISysLogMapper">
+    <!-- 字段与属性映射 -->
+    <resultMap id="sysLogMap" type="com.yk.log.entity.SysLogDto">
+        <id column="id" property="id" javaType="java.lang.Long"/>
+        <result column="user" property="user" javaType="java.lang.String"/>
+        <result column="user_name" property="userName" javaType="java.lang.String"/>
+        <result column="module" property="module" javaType="java.lang.String"/>
+        <result column="code" property="code" javaType="java.lang.String"/>
+        <result column="operation" property="operation" javaType="java.lang.String"/>
+        <result column="description" property="description" javaType="java.lang.String"/>
+        <result column="success" property="success" javaType="java.lang.String"/>
+        <result column="method" property="method" javaType="java.lang.String"/>
+        <result column="params" property="params" javaType="java.lang.String"/>
+        <result column="time" property="time" javaType="java.lang.Long"/>
+        <result column="ip" property="ip" javaType="java.sql.Timestamp"/>
+        <result column="create_date" property="createDate" javaType="java.sql.Timestamp"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.yk.log.entity.SysLogDto">
+		insert into sys_log
+		values(
+		sys_log_seq.nextval,
+		#{sysLog.user},
+		#{sysLog.userName},
+		#{sysLog.module},
+		#{sysLog.code},
+		#{sysLog.operation},
+		#{sysLog.description},
+		#{sysLog.success},
+		#{sysLog.method},
+		#{sysLog.params},
+		#{sysLog.time},
+		#{sysLog.ip},
+		#{sysLog.createDate}
+		)
+	</insert>
+</mapper>
