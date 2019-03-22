@@ -37,7 +37,7 @@ public class MessageController {
     public Result tree(String procInstId, String parentId) {
         Result result = new Result();
         try {
-            List<Message> list = messageService.getMessageTree(new Long(procInstId), new Long(parentId));
+            List<Message> list = messageService.getMessageTree(procInstId, new Long(parentId));
             result.setSuccess(true);
             result.setResult_code(Constants.S);
             result.setResult_data(list);

@@ -19,7 +19,7 @@ public interface IMessageMapper extends BaseMapper {
      *
      * @return List<Message>
      */
-    List<Message> selectMessageList(@Param("procInstId") Long procInstId, @Param("parentId") Long parentId);
+    List<Message> selectMessageList(@Param("procInstId") String procInstId, @Param("parentId") Long parentId);
 
     /**
      * 通过ID查询留言

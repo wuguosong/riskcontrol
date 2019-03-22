@@ -15,7 +15,7 @@ public interface IMessageService {
      * @param parentId 父留言ID,不传查询所有
      * @return List<Message>
      */
-    List<Message> list(Long procInstId, Long parentId);
+    List<Message> list(String procInstId, Long parentId);
 
     /**
      * 获取留言
@@ -53,7 +53,7 @@ public interface IMessageService {
      * @param parentId   父留言ID
      * @return List<Message>
      */
-    List<Message> getMessageTree(Long procInstId, Long parentId);
+    List<Message> getMessageTree(String procInstId, Long parentId);
 
     /**
      * 递归删除留言及其下所有的叶子留言

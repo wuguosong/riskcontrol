@@ -21,7 +21,7 @@ public class MessageService implements IMessageService{
     IMessageMapper messageMapper;
 
     @Override
-    public List<Message> list(Long procInstId, Long parentId) {
+    public List<Message> list(String procInstId, Long parentId) {
         return messageMapper.selectMessageList(procInstId, parentId);
     }
 
@@ -50,7 +50,7 @@ public class MessageService implements IMessageService{
     }
 
     @Override
-    public List<Message> getMessageTree(Long procInstId, Long parentId) {
+    public List<Message> getMessageTree(String procInstId, Long parentId) {
         // 获取根节点
         List<Message> roots = messageMapper.selectMessageList(procInstId, parentId);
         List<Message> messages = new ArrayList<Message>();

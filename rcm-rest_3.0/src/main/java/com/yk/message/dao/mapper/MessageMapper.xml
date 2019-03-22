@@ -6,7 +6,7 @@
     <resultMap id="messageMap" type="com.yk.message.entity.Message">
         <id column="message_id" property="messageId" javaType="java.lang.Long"/>
         <result column="message_type" property="messageType" javaType="java.lang.String"/>
-        <result column="proc_inst_id" property="procInstId" javaType="java.lang.Long"/>
+        <result column="proc_inst_id" property="procInstId" javaType="java.lang.String"/>
         <result column="parent_id" property="parentId" javaType="java.lang.Long"/>
         <result column="original_id" property="originalId" javaType="java.lang.Long"/>
         <result column="created_by" property="createdBy" javaType="java.lang.String"/>
@@ -45,7 +45,7 @@
        attri_text04
 	</sql>
     <!-- 查询某个根下的子节点 -->
-    <select id="selectMessageList" resultMap="messageMap" parameterType="long">
+    <select id="selectMessageList" resultMap="messageMap">
         select
         <include refid="baseColumn"/>
         from sys_message

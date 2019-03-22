@@ -14,7 +14,7 @@ import java.util.List;
 public class Message{
     private Long messageId;// 留言id
     private String messageType;// 留言类型(正式评审、其他评审...)
-    private Long procInstId;// 流程实例id
+    private String procInstId;// 流程实例id
     private Long parentId;// 为0时，为根节点
     private Long originalId;// 原始留言id
     private String createdBy;// 留言或者回复人id
@@ -47,11 +47,11 @@ public class Message{
         this.messageType = messageType;
     }
 
-    public Long getProcInstId() {
+    public String getProcInstId() {
         return procInstId;
     }
 
-    public void setProcInstId(Long procInstId) {
+    public void setProcInstId(String procInstId) {
         this.procInstId = procInstId;
     }
 
