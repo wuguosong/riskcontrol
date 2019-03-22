@@ -14,6 +14,7 @@ import util.UserUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LiPan on 2019/1/25.
@@ -227,5 +228,23 @@ public class MessageController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * @param procInstId
+     * @return
+     */
+    @RequestMapping(value = "findMessages", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, List<Message>> findMessages(String procInstId) {
+        Map<String, List<Message>> map = null;
+        try {
+            map = messageService.findMessages(procInstId, UserUtil.getCurrentUserUuid());
+            logger.info("获取信息成功!");
+        } catch (Exception e) {
+            logger.error("更新已阅失败!" + e.getMessage());
+            e.printStackTrace();
+        }
+        return map;
     }
 }

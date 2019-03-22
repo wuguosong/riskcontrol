@@ -1,9 +1,9 @@
 package com.yk.message.service;
 
 import com.yk.message.entity.Message;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LiPan on 2019/1/25.
@@ -83,4 +83,21 @@ public interface IMessageService {
      * @return Message
      */
     Message updatePush(Long messageId);
+
+    /**
+     * 根据创建人查找
+     * @param procInstId
+     * @param createdBy
+     * @param notIncludeCreatedBy
+     * @return
+     */
+    List<Message> findMessages(String procInstId, String createdBy, boolean notIncludeCreatedBy);
+
+    /**
+     * 根据创建人查找本人和其他人留言
+     * @param procInstId
+     * @param createdBy
+     * @return
+     */
+    Map<String, List<Message>> findMessages(String procInstId, String createdBy);
 }

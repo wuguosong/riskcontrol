@@ -130,4 +130,21 @@
         where m.message_id = #{messageId}
         or m.original_id = #{messageId}
     </delete>
+
+    <select id="selectMessages" resultMap="messageMap">
+        select
+        <include refid="baseColumn"/>
+        from sys_message
+        where 1 = 1
+        <if test="procInstId != null and procInstId != ''">
+        and proc_inst_id = #{procInstId}
+        </if>
+        <if test="createdBy != null and createdBy != '' and notIncludeCreatedBy != null and 'false'.toString() == notIncludeCreatedBy.toString()">
+        and created_by = #{createdBy}
+        </if>
+        <if test="createdBy != null and createdBy != '' and notIncludeCreatedBy != null and 'true'.toString() == notIncludeCreatedBy.toString()">
+            and created_by <![CDATA[ <> ]]> #{createdBy}
+        </if>
+        order by message_date asc
+    </select>
 </mapper>

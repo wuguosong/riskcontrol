@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LiPan on 2019/1/25.
@@ -95,5 +97,18 @@ public class MessageService implements IMessageService{
         message.setPushFlag("Y");
         this.update(message);
         return message;
+    }
+
+    @Override
+    public List<Message> findMessages(String procInstId, String createdBy, boolean notIncludeCreatedBy) {
+        return messageMapper.selectMessages(procInstId, createdBy, notIncludeCreatedBy);
+    }
+
+    @Override
+    public Map<String, List<Message>> findMessages(String procInstId, String createdBy) {
+        Map<String, List<Message>> map = new HashMap<String, List<Message>>();
+        map.put("left", this.findMessages(procInstId, createdBy, false));
+        map.put("right", this.findMessages(procInstId, createdBy, true));
+        return map;
     }
 }

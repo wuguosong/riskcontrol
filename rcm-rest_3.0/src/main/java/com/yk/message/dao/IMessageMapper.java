@@ -64,4 +64,6 @@ public interface IMessageMapper extends BaseMapper {
      * @return List<Message>
      */
     List<Message> selectMessageChildren(@Param("parentId") Long parentId);
+
+    List<Message> selectMessages(@Param("procInstId") String procInstId, @Param("createdBy") String createdBy, @Param("notIncludeCreatedBy") boolean notIncludeCreatedBy);
 }
