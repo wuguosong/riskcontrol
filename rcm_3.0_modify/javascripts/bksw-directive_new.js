@@ -205,6 +205,9 @@ ctmApp.directive('directUserSingleDialog', function() {
 //        	removeSelectedUser: "&"
         },
         controller:function($scope,$http,$element){
+            if($scope.mappedKeyValue == null){
+                $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+            }
             $scope.initData = function(){
                 var cus = $.parseJSON(JSON.stringify($scope.checkedUser));
                 $scope.tempCheckedUser = {};
@@ -1515,31 +1518,13 @@ ctmApp.directive('uploadFile', function () {
             picker: "@",
             fileList: "@",
             startOrStopBtn: "@",
-            uploader: "@",
             choiceForm: "@",
             fileBp: "@",
             progressLine: "@"
         },
         controller: function ($scope, $http, $element, $timeout) {
-            console.log($scope.id);
-            console.log($scope.fileList);
-            console.log($scope.startOrStopBtn);
-            console.log($scope.uploader);
-            console.log($scope.choiceForm);
-            console.log($scope.fileBp);
-            var toDo = function () {
-                /*******************初始化参数*********************************/
-                var $list = $("#" + $scope.fileList),//文件列表
-                    $btn = $("#" + $scope.startOrStopBtn),//开始上传按钮
-                    state = 'pending',//初始按钮状态
-                    uploader; //uploader对象
-                var fileMd5;  //文件唯一标识
-                /******************下面的参数是自定义的*************************/
-                var fileName;//文件名称
-                var beforeProgress;//如果该文件之前上传过 已经上传的进度是多少
-                var count = 0;//当前正在上传的文件在数组中的下标，一次上传多个文件时使用
-                var filesArr = new Array();//文件数组：每当有文件被添加进队列的时候 就push到数组中
-                var map = {};//key存储文件id，value存储该文件上传过的进度
+            jQuery(function () {
+                var beforeSendFile = "beforeSendFile" + $scope.id;
                 /***************************************************** 监听分块上传过程中的三个时间点 start ***********************************************************/
                 WebUploader.Uploader.register({
                         "before-send-file": "beforeSendFile",//整个文件上传前
@@ -1553,9 +1538,9 @@ ctmApp.directive('uploadFile', function () {
                             var deferred = WebUploader.Deferred();
                             //1、计算文件的唯一标记fileMd5，用于断点续传  如果.md5File(file)方法里只写一个file参数则计算MD5值会很慢 所以加了后面的参数：10*1024*1024
                             (new WebUploader.Uploader()).md5File(file, 0, 10 * 1024 * 1024).progress(function (percentage) {
-                                $('#' + file.id).find('p.state').text('读取MD5信息...' + percentage * 100 + "%");
+                                // $('#' + file.id).find('p.state').text('读取MD5信息...' + percentage * 100 + "%");
                             }).then(function (val) {
-                                $('#' + file.id).find("p.state").text("成功获取文件信息...");
+                                // $('#' + file.id).find("p.state").text("成功获取文件信息...");
                                 fileMd5 = val;
                                 //获取文件信息后进入下一步
                                 deferred.resolve();
@@ -1569,7 +1554,7 @@ ctmApp.directive('uploadFile', function () {
                             var deferred = WebUploader.Deferred();
                             $.ajax({
                                 type: "POST",
-                                url: "/rcm-rest/v2/breakpoint/check.do",  //ajax验证每一个分片
+                                url: "http://localhost:8080/rcm-rest/v2/breakpoint/check.do",  //ajax验证每一个分片
                                 data: {
                                     fileName: fileName,
                                     progressLine: $("#progressLine").val(),
@@ -1579,7 +1564,7 @@ ctmApp.directive('uploadFile', function () {
                                 },
                                 cache: false,
                                 async: false,  // 与js同步
-                                timeout: 10000, //todo 超时的话，只能认为该分片未上传过
+                                timeout: 10000, // todo 超时的话，只能认为该分片未上传过
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.exist) {
@@ -1601,26 +1586,39 @@ ctmApp.directive('uploadFile', function () {
                             //如果分块上传成功，则通知后台合并分块
                             $.ajax({
                                 type: "POST",
-                                url: "/rcm-rest/v2/breakpoint/merge.do",  //ajax将所有片段合并成整体
+                                url: "http://localhost:8080/rcm-rest/v2/breakpoint/merge.do",  //ajax将所有片段合并成整体
                                 data: {
                                     fileName: fileName,
                                     fileMd5: fileMd5
                                 },
                                 success: function (data) {
-                                    console.log(data);
                                     count++; //每上传完成一个文件 count+1
                                     if (count <= filesArr.length - 1) {
                                         uploader.upload(filesArr[count].id);//上传文件列表中的下一个文件
                                     }
-                                    //合并成功之后的操作
-                                    $('#' + file.id).find('p.state').text('上传成功!');
-                                    $("#startOrStopBtn").show();
                                 }
                             });
                         }
                     });
                 /***************************************************** 监听分块上传过程中的三个时间点 end **************************************************************/
-                /************************************************************ 初始化WebUploader start ******************************************************************/
+
+                var $ = jQuery,
+                    ratio = window.devicePixelRatio || 1,
+                    thumbnailWidth = 100 * ratio,
+                    thumbnailHeight = 100 * ratio;
+                /*******************初始化参数*********************************/
+                var $btn = $('#startOrStopBtn'),//开始上传按钮
+                    state = 'pending',//初始按钮状态
+                    uploader; //uploader对象
+                var fileMd5;  //文件唯一标识
+
+                /******************下面的参数是自定义的*************************/
+                var fileName;//文件名称
+                var beforeProgress;//如果该文件之前上传过 已经上传的进度是多少
+                var count = 0;//当前正在上传的文件在数组中的下标，一次上传多个文件时使用
+                var filesArr = new Array();//文件数组：每当有文件被添加进队列的时候 就push到数组中
+                var map = {};//key存储文件id，value存储该文件上传过的进度
+
                 uploader = WebUploader.create({
                     auto: true,//选择文件后是否自动上传
                     chunked: true,//开启分片上传
@@ -1629,23 +1627,17 @@ ctmApp.directive('uploadFile', function () {
                     threads: 3,//上传并发数。允许同时最大上传进程数[默认值：3]
                     duplicate: true,//是否重复上传（同时选择多个一样的文件），true可以重复上传
                     prepareNextFile: true,//上传当前分片时预处理下一分片
+                    fileNumLimit: 10,
+                    auto: true,
                     swf: '/html/assets/webuploader-0.1.5/Uploader.swf',// swf文件路径
-                    server: '/rcm-rest/v2/breakpoint/save.do',// 文件接收服务端
-                    fileSizeLimit: 6 * 1024 * 1024 * 1024,//6G 验证文件总大小是否超出限制, 超出则不允许加入队列
-                    fileSingleSizeLimit: 3 * 1024 * 1024 * 1024,  //3G 验证单个文件大小是否超出限制, 超出则不允许加入队列
-                    pick: {
-                        id: "#" + $scope.picker, //这个id是你要点击上传文件按钮的外层div的id
-                        multiple: false //是否可以批量上传，true可以同时选择多个文件
-                    },
-                    resize: false,  //不压缩image, 默认如果是jpeg，文件上传前会先压缩再上传！
+                    server: 'http://localhost:8080/rcm-rest/v2/breakpoint/save.do',// 文件接收服务端
+                    pick: '.filePicker',
                     accept: {
                         //允许上传的文件后缀，不带点，多个用逗号分割
                         extensions: "txt,jpg,jpeg,bmp,png,zip,rar,war,pdf,cebx,doc,docx,ppt,pptx,xls,xlsx",
                         mimeTypes: '.txt,.jpg,.jpeg,.bmp,.png,.zip,.rar,.war,.pdf,.cebx,.doc,.docx,.ppt,.pptx,.xls,.xlsx',
                     }
                 });
-
-
                 //当有文件被添加进队列的时候（点击上传文件按钮，弹出文件选择框，选择完文件点击确定后触发的事件）
                 uploader.on('fileQueued', function (file) {
                     console.log("当有文件添加进队列..." + file);
@@ -1664,7 +1656,7 @@ ctmApp.directive('uploadFile', function () {
                     filesArr.push(file);
                     $.ajax({
                         type: "POST",
-                        url: "/rcm-rest/v2/breakpoint/progress.do",  //先检查该文件是否上传过，如果上传过，上传进度是多少
+                        url: "http://localhost:8080/rcm-rest/v2/breakpoint/progress.do",  //先检查该文件是否上传过，如果上传过，上传进度是多少
                         data: {
                             fileName: file.name
                         },
@@ -1673,173 +1665,22 @@ ctmApp.directive('uploadFile', function () {
                         dataType: "json",
                         success: function (data) {
                             //上传过
-                            if (data > 0) {
-                                //上传过的进度的百分比
-                                beforeProgress = data / 100;
-                                //如果上传过 上传了多少
-                                var progressLineStyle = "width:" + data + "%";
-                                $list.append('<div id="' + file.id + '" class="item">' +
-                                    '<h4 class="info">' + file.name + '</h4>' +
-                                    '<p class="state">已上传' + data + '%</p>' +
-                                    '<a href="javascript:void(0);" class="btn btn-primary file_btn btnRemoveFile">删除</a>' +
-                                    '<div class="progress progress-striped active">' +
-                                    '<div class="progress-bar" role="progressbar" style="' + progressLineStyle + '">' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>');
-                                //将上传过的进度存入map集合
-                                map[file.id] = beforeProgress;
-                            } else {//没有上传过
-                                $list.append('<div id="' + file.id + '" class="item">' +
-                                    '<h4 class="info">' + file.name + '</h4>' +
-                                    '<p class="state">等待上传...</p>' +
-                                    '<a href="javascript:void(0);" class="btn btn-primary file_btn btnRemoveFile">删除</a>' +
-                                    '</div>');
-                            }
+
                         }
                     });
                     uploader.stop(true);
                     //删除队列中的文件
-                    $(".btnRemoveFile").bind("click", function () {
-                        console.log("删除队列中的文件...");
-                        var fileItem = $(this).parent();
-                        uploader.removeFile($(fileItem).attr("id"), true);
-                        $(fileItem).fadeOut(function () {
-                            $(fileItem).remove();
-                        });
-
-                        //数组中的文件也要删除
-                        for (var i = 0; i < filesArr.length; i++) {
-                            if (filesArr[i].id == $(fileItem).attr("id")) {
-                                filesArr.splice(i, 1);//i是要删除的元素在数组中的下标，1代表从下标位置开始连续删除一个元素
-                            }
-                        }
-                    });
                 });
-
-                //文件上传过程中创建进度条实时显示
-                uploader.on('uploadProgress', function (file, percentage) {
-                    var $li = $('#' + file.id),
-                        $percent = $li.find('.progress .progress-bar');
-                    //避免重复创建
-                    if (!$percent.length) {
-                        $percent = $('<div class="progress progress-striped active">' +
-                            '<div class="progress-bar" role="progressbar" style="width: 0%">' +
-                            '</div>' +
-                            '</div>').appendTo($li).find('.progress-bar');
-                    }
-
-                    //将实时进度存入隐藏域
-                    $("#progressLine").val(Math.round(percentage * 100));
-
-                    //根据fileId获得当前要上传的文件的进度
-                    var beforeProgressValue = map[file.id];
-
-                    if (percentage < beforeProgressValue && beforeProgressValue != 1) {
-                        $li.find('p.state').text('上传中' + Math.round(beforeProgressValue * 100) + '%');
-                        $percent.css('width', beforeProgressValue * 100 + '%');
-                    } else {
-                        $li.find('p.state').text('上传中' + Math.round(percentage * 100) + '%');
-                        $percent.css('width', percentage * 100 + '%');
-                    }
-                });
-
-                //上传成功后执行的方法
-                uploader.on('uploadSuccess', function (file) {
-                    console.log("文件上传成功后..." + file);
-                    //上传成功去掉进度条
-                    $('#' + file.id).find('.progress').fadeOut();
-                    //隐藏删除按钮
-                    $(".btnRemoveFile").hide();
-                    //隐藏上传按钮
-                    $("#startOrStopBtn").hide();
-                    $('#' + file.id).find('p.state').text('文件已上传成功，系统后台正在处理，请稍后...');
-                });
-
-                //上传出错后执行的方法
-                uploader.on('uploadError', function (file) {
-                    console.log("上传出错后执行..." + file);
-                    $btn.text('开始上传');
-                    uploader.stop(true);
-                    $('#' + file.id).find('p.state').text('上传出错，请检查网络连接');
-                });
-
-                //文件上传成功失败都会走这个方法
-                uploader.on('uploadComplete', function (file) {
-                    console.log("文件上传成功失败都会走这个方法..." + file);
-                });
-
-                uploader.on('all', function (type) {
-                    /**
-                     * uploadAccept
-                     * uploadProgress
-                     * uploadBeforeSend
-                     * stopUpload
-                     */
-                    console.log("uploader.on..." + type);
-                    if (type === 'startUpload') {
-                        state = 'uploading';
-                    } else if (type === 'stopUpload') {
-                        state = 'paused';
-                    } else if (type === 'uploadFinished') {
-                        state = 'done';
-                    } else if (type === "uploadProgress") {
-                        state = "uploading";
-                    }
-
-                    if (state === 'uploading') {
-                        $btn.text('暂停上传');
-                    } else {
-                        $btn.text('开始上传');
-                    }
-                });
-
-                //上传按钮的onclick事件
-                $btn.on('click', function () {
-                    console.log("上传按钮的onclick事件...");
-                    if (state === 'uploading') {
-                        uploader.stop(true);
-                    } else {
-                        //当前上传文件的文件名
-                        var currentFileName;
-                        console.log(filesArr);
-                        //当前上传文件的文件id
-                        var currentFileId;
-                        //count=0 说明没开始传 默认从文件列表的第一个开始传
-                        if (count == 0) {
-                            currentFileName = filesArr[0].name;
-                            currentFileId = filesArr[0].id;
-                        } else {
-                            if (count <= filesArr.length - 1) {
-                                currentFileName = filesArr[count].name;
-                                currentFileId = filesArr[count].id;
-                            }
-                        }
-
-                        //先查询该文件是否上传过 如果上传过已经上传的进度是多少
-                        $.ajax({
-                            type: "POST",
-                            url: "/rcm-rest/v2/breakpoint/progress.do",
-                            data: {
-                                fileName: currentFileName
-                            },
-                            cache: false,
-                            async: false,  // 同步
-                            dataType: "json",
-                            success: function (data) {
-                                //如果上传过 将进度存入map
-                                if (data > 0) {
-                                    map[currentFileId] = data / 100;
-                                }
-                                //执行上传
-                                uploader.upload(currentFileId);
-                            }
-                        });
-                    }
-                });
-
-            };
-            $timeout(toDo, 1000)
+            });
+            $scope.addWebuploadCurrent = function (id) {
+                console.log(id);
+                /*angular.element(".webuploader-container").removeClass('webuploader-container');
+                angular.element("#"+id).addClass('webuploader-container');*/
+                /*angular.element(".webUpload_current").removeClass('webUpload_current');
+                angular.element("#"+id).addClass('webUpload_current');*/
+                $(".webupload_current").removeClass("webupload_current");
+                $("#" + id).addClass("webupload_current");
+            }
         }
     };
 });
@@ -1911,53 +1752,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
                     $scope.isUpload = false;
                 }
                 $scope.item = name;
-                // $scope.latestAttachmentS = [];
-
-                // angular.forEach($scope.attach, function (data, index) {
-                //     if (data.ITEM_NAME == name.newItem.ITEM_NAME) {
-                //         if ($scope.latestAttachment) {
-                //             if ($scope.latestAttachment.upload_date < data.upload_date) {
-                //                 $scope.latestAttachment = data;
-                //             }
-                //         } else {
-                //             $scope.latestAttachment = data;
-                //         }
-                //     }
-                // });
-                // angular.forEach($scope.fileList, function (data, index) {
-                //     if (data.files.ITEM_NAME == name.newItem.ITEM_NAME) {
-                //         data.files.upload_date.replace(/-/g,"/");
-                //         if ($scope.latestAttachment) {
-                //             if ($scope.latestAttachment.upload_date < data.files.upload_date) {
-                //                 $scope.latestAttachment = data.files;
-                //             }
-                //         } else {
-                //             $scope.latestAttachment = data.files;
-                //         }
-                //     }
-                // });
-                // if($scope.latestAttachment == null || $scope.latestAttachment.fileName == undefined || $scope.latestAttachment.fileName == ''
-                //         || $scope.latestAttachment.fileName == null){
-                //         $scope.isUse = true;
-                //     } else {
-                //     $scope.isUse = false;
-                // }
-                // if ($scope.latestAttachment.type == "invest") {
-                //     $scope.latestAttachment.typeValue = "投资部门提供";
-                // } else {
-                //     $scope.latestAttachment.typeValue = "业务部门提供";
-                // }
             };
-
-            // $scope.close = function() {
-            //    $scope.latestAttachmentS = [];
-            //    if ($scope.item != null) {
-            //        if($scope.item.newItem != undefined) {
-            //            $scope.item = {};
-            //            $scope.item.newItem = null;
-            //        }
-            //    }
-            // }
 
             $scope.submit = function() {
                 console.log($scope.latestAttachmentS);
@@ -2102,6 +1897,7 @@ ctmApp.directive('directProjectMultiDialog', function() {
                     url:srvUrl+$scope.url,
                     data: $.param({"page":JSON.stringify($scope.paginationConf)})
                 }).success(function(data){
+                    debugger
                     if(data.success){
                         $scope.projects = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
@@ -2381,6 +2177,7 @@ ctmApp.directive('directiveFileList', function() {
 
             //新增数组
             $scope.addOneNewFile = function(){
+                debugger
                 function addBlankRow1(array){
                     var blankRow = {
                         newFile:true
@@ -2536,6 +2333,241 @@ ctmApp.directive('directivePreJcwyh', function() {
         link:function(scope,element,attr){
         }
 
+    };
+});
+
+// 相关资源（新）
+ctmApp.directive('directiveAccachmentNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directiveAccachmentNew.html',
+        replace: true,
+        scope: {
+            // 项目Oracle数据
+            businessId: "=",
+            wfState: "=",
+            // 附件列表
+            fileList: "=",
+            // 调用父组件操作
+            initUpdate: "&initUpdate"
+        },
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+            $scope._initData = function () {
+                $scope.attachmentType = selectDocItem("ACCACHMENT_TYPE");
+                console.log($scope.attachmentType);
+                $scope.itemType = $scope.selectItemType("LEGAL_TYPE");
+            };
+            $scope.selectItemType = function (docCode) {
+                return selectDocItem(docCode);
+            };
+            $scope._initData();
+            // 全选
+            $scope.selectAll = function(){
+                if($("#all").attr("checked")){
+                    $(":checkbox[name='choose']").attr("checked",1);
+                }else{
+                    $(":checkbox[name='choose']").attr("checked",false);
+                }
+            }
+            // 新增文件
+            $scope.addOneNewFile = function () {
+                function addBlankRow1(array){
+                    var blankRow = {
+                        newFile:true,
+                    };
+                    var size = array.length;
+                    array[size]=blankRow;
+                }
+                if(undefined==$scope.fileList){
+                    $scope.fileList=[];
+                }
+                addBlankRow1($scope.fileList);
+            };
+            // 删除文件
+            $scope.deleteFile = function(item){
+                $scope.fileList.splice(jQuery.inArray(item,$scope.fileList),1);
+                attach_delete();
+                $scope.initUpdate({'id':$scope.businessId});
+                /*$.confirm("您确认要删除该文件吗？",function(){
+                    //根据UUID和版本号定位删除
+                    $http({
+                        method:'post',
+                        url:srvUrl+"preInfo/deleteAttachment.do",
+                        data: $.param({"json":JSON.stringify({"UUID":item.UUID,"version":item.version,"businessId":$scope.pre.id})})
+                    }).success(function(data){
+                        if(data.success){
+                            $scope.fileList.splice(jQuery.inArray(item,$scope.fileList),1);
+                            $scope.initUpdate({'id':$scope.businessId});
+                            $.alert("文件删除成功！");
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
+                })*/
+            };
+
+            // 切换业务类型时查询资源类型的值
+            $scope.changeType = function (type) {
+                console.log(type);
+                $scope.itemType = $scope.selectItemType(type.ITEM_CODE);
+            };
+            // 切换资源类型时修改附件名称逻辑
+            $scope.changeItemType = function (item) {
+                debugger
+                console.log(item);
+                item.fileName = item.itemType.ITEM_NAME;
+            };
+
+
+
+
+
+            $scope.batchDownload = function(){
+                var filenames = "";
+                var filepaths = "";
+                $("input[type=checkbox][name=choose]:checked").each(function(){
+                    filenames+=$(this).attr("filename")+",";
+                    filepaths+=$(this).attr("filepath")+",";
+                });
+                if(filenames.length == 0 || filepaths.length == 0){
+                    $.alert("请选择要打包下载的文件！");
+                    return false;
+                }
+                filenames = filenames.substring(0, filenames.length - 1);
+                filepaths = filepaths.substring(0, filepaths.length - 1);
+                downloadBatch(filenames, filepaths);
+            }
+
+
+            $scope.upload = function (file,errorFile, outId,item) {
+                if(errorFile && errorFile.length>0){
+                    if(errorFile[0].$error=='maxSize'){
+                        var errorMsg = fileErrorMsg(errorFile);
+                        $.alert(errorMsg);
+                    }else{
+                        $.alert("文件错误！");
+                    }
+                }else if(file){
+
+                    if(item.approved == null || item.approved == "" || item.approved.NAME == null|| item.approved.NAME == ""){
+                        $.alert("请选择审核人！");
+                        return;
+                    }
+                    if(item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == ""){
+                        $.alert("请选择编制人！");
+                        return;
+                    }
+
+                    $.confirm("是否确认替换？",function(){
+                        Upload.upload({
+                            url:srvUrl+'common/RcmFile/upload',
+                            data: {file: file, folder:'',typeKey:'preAssessmentPath'}
+                        }).then(function (resp) {
+                            var retData = resp.data.result_data[0];
+
+                            $http({
+                                method:'post',
+                                url:srvUrl+"preInfo/updateAttachment.do",
+                                data: $.param({"json":JSON.stringify({
+                                        "UUID":item.UUID,
+                                        "businessId":$scope.businessId,
+                                        "fileName":retData.fileName,
+                                        "filePath":retData.filePath,
+                                        "programmed":item.programmed,
+                                        "approved":item.approved,
+                                        "type":item.type,
+                                        "itemType":item.itemType,
+                                        "lastUpdateBy":{NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID},
+                                        "lastUpdateData":getDate()
+                                    })
+                                })
+                            }).success(function(data){
+                                if(data.success){
+                                    $scope.initUpdate({'id':$scope.businessId});
+                                    $.alert("文件替换成功！");
+                                }else{
+                                    $.alert(data.result_name);
+                                }
+                            });
+
+                            $scope.fileList[outId].fileName=retData.fileName;
+                            $scope.fileList[outId].filePath=retData.filePath;
+                        }, function (resp) {
+                            console.log('Error status: ' + resp.status);
+                        }, function (evt) {
+                            //            			var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        });
+                    });
+                }
+            };
+
+            $scope.uploadNew = function (file,errorFile, outId,item) {
+                if (errorFile && errorFile.length > 0) {
+                    if (errorFile[0].$error == 'maxSize') {
+                        var errorMsg = fileErrorMsg(errorFile);
+                        $.alert(errorMsg);
+                    } else {
+                        $.alert("文件错误！");
+                    }
+                } else if (file) {
+                    /*if (item.newItem == null || item.newItem.UUID == null || item.newItem.UUID == "") {
+                        $.alert("请选择资源类型！");
+                        return;
+                    }*/
+                    if (item.approved == null || item.approved == "" || item.approved.NAME == null || item.approved.NAME == "") {
+                        $.alert("请选择审核人！");
+                        return;
+                    }
+                    if (item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == "") {
+                        $.alert("请选择编制人！");
+                        return;
+                    }
+                    Upload.upload({
+                        url: srvUrl + 'common/RcmFile/upload',
+                        data: {file: file, folder: '', typeKey: 'preAssessmentPath'}
+                    }).then(function (resp) {
+                        var retData = resp.data.result_data[0];
+
+                        if (item.fileNamSuffix != undefined && item.fileNamSuffix != null) {
+                            item.fileName = item.fileName + "_" + item.fileNamSuffix;
+                        } else {
+                            item.fileName = item.fileName;
+                        }
+                        /*item.fileName = retData.fileName;*/
+                        item.filePath = retData.filePath;
+//            				item.programmed={"NAME":$scope.credentials.userName,"VALUE":$scope.credentials.UUID}
+//            				item.approved={"NAME":$scope.credentials.userName,"VALUE":$scope.credentials.UUID}
+                        item.lastUpdateBy = {"NAME":$scope.credentials.userName,"VALUE":$scope.credentials.UUID};
+                        item.lastUpdateData = getData();
+                        $http({
+                            method: 'post',
+                            url: srvUrl + "preInfo/addfileList.do",
+                            data: $.param({
+                                "json": JSON.stringify({
+                                    "UUID": item.newItem.UUID,
+                                    "businessId": $scope.businessId,
+                                    "item": item
+                                })
+                            })
+                        }).success(function (data) {
+                            if (data.success) {
+                                $scope.initUpdate({'id':$scope.businessId});
+                            } else {
+                                $.alert(data.result_name);
+                            }
+                        });
+                        $scope.fileList[outId].fileName = retData.fileName;
+                        $scope.fileList[outId].filePath = retData.filePath;
+                    }, function (resp) {
+                        console.log('Error status: ' + resp.status);
+                    }, function (evt) {
+                        //            			var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    });
+                }
+            }
+        }
     };
 });
 /************************************投标评审结束*****************************/
@@ -2967,6 +2999,18 @@ ctmApp.directive('directiveProjectFormalBusinessUnitCommit', function() {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalBusinessUnitCommit.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 提交决策会材料模板内容查看
+ctmApp.directive('directiveProjectFormalTempData', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/directiveProjectFormalTempData.html',
         replace: true,
         link:function(scope,element,attr){
         },

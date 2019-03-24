@@ -77,7 +77,7 @@
     </div>
     <!--过程项目回顾-->
 
-    <div class="mcontent content1" id="flag2-c">
+    <div class="mcontent content1" id="flag2-c" ng-if="isReadOnly != 'true'">
         <h3 class="text-blue">项目评级</h3>
         <div class="row normalline">
             <div class="col-md-6 col-sm-6  col-xs-12">
@@ -175,5 +175,90 @@
 
     </div>
     <!--项目评级-->
+
+    <div class="mcontent content1" ng-if="isReadOnly == 'true'">
+        <h3 class="text-blue">项目评级</h3>
+        <div class="row normalline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">评审负责人</span>
+                    <span class="col-md-6 slim">{{pfr.taskallocation.reviewLeader.NAME}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">法律负责人</span>
+                    <span class="col-md-6 slim">{{pfr.taskallocation.legalReviewLeader.NAME}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline selectline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="required" style="color: red" >*</span>
+                    <span class="col-md-6 noPadding">评审难度评级</span>
+                    <span class="col-md-6 slim">
+                        <span class="dropdown">
+                        {{meetInfo.projectRating.name}}
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">是否紧急上会</span>
+                    <span class="col-md-6 slim">
+                        <label class="radio radio-inline">
+                            <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px" ng-checked="true"/><span class="lbl">否</span>
+                        </label>
+                        <label class="radio radio-inline">
+                            <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="1" class="px"/><span class="lbl">是</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class=" row normalline text-arealine">
+            <div class="col-md-3"><span class="required" style="color: red" >*</span>评级理由</div>
+            <div class="col-md-9">
+                <textarea style="resize:vertical;"
+                          name="ratingReason"
+                          ng-model="meetInfo.ratingReason"
+                          class="form-control ng-pristine ng-valid ng-touched" required></textarea>
+                <div class="error-messages"
+                     ng-if="interacted(formalReportForm.ratingReason)">
+                    这里是必填项
+                </div>
+                <div class="radioline">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType1" name="projectType"/>
+                        <span class="lbl">项目简单</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType2" name="projectType"/>
+                        <span class="lbl">风险较低</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType3" name="projectType"/>
+                        <span class="lbl">收益较好</span>
+                    </label>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row normalline selectline">
+            <div class="col-md-3"><span class="required" style="color: red">*</span>投资意见</div>
+            <div class="col-md-9">
+                <span class="dropdown">
+                    {{projectSummary.investmentType.name}}
+                </span>
+            </div>
+        </div>
+
+    </div>
 
 </div>

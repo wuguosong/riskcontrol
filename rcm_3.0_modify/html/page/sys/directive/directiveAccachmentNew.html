@@ -1,0 +1,98 @@
+<div>
+    <div class="row">
+        <div class="full-drop">
+            <div><input ng-model="wfState"/></div>
+            <button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
+            <button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>删除</button>
+            <button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>
+            <div  id="compareModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="input-group">
+                                    <span class="input-group-addon">已选文件</span>
+                                    <input type="text" class="form-control" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row table-responsive">
+        <table class="table table-bordered table-hover datatable table-text-mid table-light">
+            <thead>
+            <tr>
+                <th>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="all" id="all" ng-click="selectAll()" class="px" />
+                        <span class="lbl">&nbsp;</span>
+                    </label>
+                </th>
+                <th>序号</th>
+                <th>业务类型</th>
+                <th>资源类型</th>
+                <th>附件内容</th>
+                <th>编制人</th>
+                <th>审核人</th>
+                <th>最后提交人</th>
+                <th>最后提交时间</th>
+                <th ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined">相关操作</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="item in fileList" ng-init="outerIndex = $index">
+            <tr>
+                <td>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="choose" filename="{{item.fileName}}" filepath="{{item.filePath}}" class="px" value="{{item.UUID}}"/>
+                        <span class="lbl">&nbsp;</span>
+                    </label>
+                </td>
+                <td>{{outerIndex+1}}</td>
+                <td>
+                    <span ng-if="!item.newFile">{{item.ITEM_NAME}}</span>
+                    <div ng-if="item.newFile">
+                        <select ng-model="item.type"  ng-options="y.ITEM_NAME for y in attachmentType" ng-change="changeType(item.type)">
+                            <option value="">-- 请选择 --</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <span ng-if="!item.newFile">{{item.ITEM_NAME}}</span>
+                    <div ng-if="item.newFile">
+                        <select ng-model="item.itemType"  ng-options="y.ITEM_NAME for y in itemType" ng-change="changeItemType(item)">>
+                            <option value="">-- 请选择 --</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" ng-click="downLoadFile(item)">{{item.fileName}}</a>
+                    <span ng-if="item.fileName != undefined || item.fileName != null">_</span>
+                    <input ng-if="item.fileName != undefined || item.fileName != null" ng-model="item.fileNamSuffix"/>
+                </td>
+                <td>
+                    <span ng-if="!showController.isInvestmentManager && wfState !='0'">{{item.programmed.NAME}}</span>
+                    <direct-user-single-select ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" id="{{'bzr_'+$index}}" checked-user="item.programmed" callback="selectPersonCallBack"></direct-user-single-select>
+                </td>
+                <td>
+                    <span ng-if="!showController.isInvestmentManager && wfState !='0'">{{item.approved.NAME}}</span>
+                    <direct-user-single-select ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" id="{{'shr_'+$index}}" checked-user="item.approved" callback="selectPersonCallBack"></direct-user-single-select>
+                </td>
+                <td>{{item.lastUpdateBy}}</td>
+                <td>{{item.lastUpdateData}}</td>
+                <td ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined">
+                    <button ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" type="button" class="btn btn-danger"  ng-click="deleteFile(item)">删除</button>
+                    <button ng-if="item.newFile == null && showController.isInvestmentManager && hasWaiting  ||item.newFile == null && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,outerIndex,item)">替换</button>
+                    <button ng-if="item.newFile && showController.isInvestmentManager  && hasWaiting ||item.newFile && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadNew($file,$invalidFiles,outerIndex,item)">新增</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

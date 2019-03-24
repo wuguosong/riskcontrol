@@ -48,9 +48,9 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             } else {
                 $scope.title = "项目投标评审查看";
             }
-            $scope.initUpdate();
+            $scope.initUpdate($scope.id);
         }
-    }
+    };
 
     // 初始化新增数据
     $scope.initCreate = function () {
@@ -58,19 +58,42 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         $scope.pre.apply.createby = $scope.credentials.UUID;
         $scope.pre.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
         $scope.pre.apply.pertainArea = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};
-    }
+    };
+
+    //处理附件列表
+    $scope.reduceAttachment = function(attachment){
+        $scope.newAttachment = [];
+        for(var i in attachment){
+            var files = attachment[i].files;
+            if(files!=null && undefined!=files){
+                var item_name = attachment[i].ITEM_NAME;
+                var uuid = attachment[i].UUID;
+                for(var j in files){
+                    files[j].ITEM_NAME=item_name;
+                    files[j].UUID=uuid;
+                    $scope.newAttachment.push(files[j]);
+                }
+            }
+
+        }
+    };
     
     // 初始化修改、查看数据
-    $scope.initUpdate = function () {
+    $scope.initUpdate = function (id) {
         var  url = 'preInfoCreate/getProjectByID.do';
         $http({
             method:'post',
             url:srvUrl+url,
-            data: $.param({"id":$scope.id})
+            data: $.param({"id":id})
         }).success(function(data){
-            console.log(data.result_data.mongoData._id);
+            debugger
             $scope.pre  = data.result_data.mongoData;
             $scope.preOracle  = data.result_data.oracleDate;
+
+            //处理附件
+            if (data.result_data.mongo != undefined){
+                $scope.reduceAttachment(data.result_data.mongo.attachment);
+            };
 
             // 回显数据-人员信息
             let paramsVal = "";
@@ -109,7 +132,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
                 commonModelValue2('projectmodebox',$scope.pre.apply.projectModel);
             }
         });
-    }
+    };
 
     // 给申报单位变量赋值
     var ztree1, setting1 = {
@@ -243,7 +266,6 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         var centerstr2="</div><a class=\"select2-search-choice-close\" tabindex=\"-1\" onclick=\"delSelect(this,'";
         var rightstr2="');\"  ></a></li>";
         for(var i=0;i<arr.length;i++){
-            console.log(leftstr2+arr[i].VALUE + centerstr2+paramsVal+"','"+arr[i].VALUE+"','"+arr[i].KEY+rightstr2);
             $("#header"+paramsVal).find(".select2-search-field").before(leftstr2+arr[i].VALUE + centerstr2+paramsVal+"','"+arr[i].VALUE+"','"+arr[i].KEY+rightstr2);
         }
     }
@@ -342,7 +364,6 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     // 修改
     $scope.update = function(){
         $scope.pre.last_update_date = $scope.getDate();
-        console.log($scope.pre);
         $http({
             method:'post',
             url: srvUrl + 'preInfoCreate/updateProject.do',

@@ -189,5 +189,10 @@ public class FormalAssesmentService implements IFormalAssesmentService {
 		str = StringUtils.removeEnd(str, ",");
 		return str;
 	}
+	
+	@Override
+	public Map<String, Object> querySummaryById(String businessId) {
+		return this.baseMongo.queryById(businessId, Constants.RCM_FORMAL_SUMMARY);
+	}
 
 }

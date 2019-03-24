@@ -13,11 +13,13 @@ import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
+import org.bson.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import util.Util;
 
+import com.mongodb.BasicDBObject;
 import com.yk.power.service.IOrgService;
 import com.yk.rcm.noticeofdecision.service.INoticeOfDecisionService;
 import com.yk.rcm.pre.service.IPreAuditReportService;
@@ -28,6 +30,7 @@ import com.yk.rcm.project.service.IDeptworkService;
 import com.yk.rcm.project.service.IFormalAssesmentService;
 import com.yk.rcm.project.service.IPreAssementService;
 
+import common.Constants;
 import common.PageAssistant;
 
 /**
@@ -108,6 +111,11 @@ public class DeptworkService implements IDeptworkService {
 		//6、项目经验总结
 		Map<String, Object> projectExperience = this.formalAssesmentService.queryProjectExperienceById(businessId);
 		map.put("projectExperience", projectExperience);
+		
+		// ------------------------Sunny Qi 2019-03-21 Start------------------------------
+		Map<String, Object> summary = this.formalAssesmentService.querySummaryById(businessId);
+		map.put("summary", summary);
+		// ------------------------Sunny Qi 2019-03-21 End------------------------------
 		return map;
 	}
 
@@ -121,6 +129,7 @@ public class DeptworkService implements IDeptworkService {
 		
 		//1、查正式评审基本信息
 		map.put("projectInfo", mongoData);
+		map.put("oracleData", oracleData);
 		//2、一级业务单位意见
 		String cesuanFileOpinion = (String) mongoData.get("cesuanFileOpinion");
 		String tzProtocolOpinion = (String) mongoData.get("tzProtocolOpinion");

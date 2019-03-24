@@ -228,12 +228,37 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
 				$.alert(result.result_name);
 			}
 		});
-	}
+	};
+
+	$scope.initBadding = function (projectFormalId) {
+        $http({
+            method: 'post',
+				url: srvUrl + "formalReport/findFormalAndReport.do",
+            data: $.param({"projectFormalId": projectFormalId})
+        }).success(function (data) {
+            $scope.formalReport = data.result_data.Report;
+            $scope.meetInfo = data.result_data.MeetInfo;
+            $scope.applyDate = data.result_data.applyDate;
+            $scope.stage = data.result_data.stage;
+            $scope.isReadOnly = 'true';
+
+            // 定义模板数据变量
+            $scope.projectSummary = null;
+            // 模板选择框给默认值 初始化模板数据
+            if (data.result_data.summary != null && data.result_data.summary != undefined) {
+                $scope.projectSummary = data.result_data.summary;
+            }
+            console.log($scope.projectSummary)
+        }).error(function (data, status, header, config) {
+            $.alert(status);
+        });
+	};
 	
 	$scope.initData = function(){
 		$scope.getMarkById(objId);
 		$scope.queryAuditLogsByBusinessId(objId);
-		
+        // 决策会材料模板
+        $scope.initBadding(objId);
 		
 		$scope.initPage(); 
 		$http({
@@ -261,9 +286,13 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
 				$scope.report = data.result_data.report;
 				//5、投资决策通知书
 				$scope.nod = data.result_data.noticeOfDecisionInfo;
-				//7、项目经验总结
-				$scope.arf = data.result_data.projectExperience;
-				//处理附件
+
+				/*// 决策会材料模板
+				if ($scope.pfr.state >= 4){
+                    $scope.initBadding(objId);
+				}*/
+
+				// 处理附件
 	            $scope.reduceAttachment(data.result_data.projectInfo.attachment);
 	            
 	            $timeout(function(){

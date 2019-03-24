@@ -14,31 +14,31 @@
                             <a href="/#flow_chart" data-toggle="tab">流程图</a>
                         </li>
                         <li>
-                            <a href="/#bs-tabdrop-tab8" data-toggle="tab">相关资源</a>
+                            <a href="/#bs-tabdrop-tab2" data-toggle="tab">相关资源</a>
                         </li>
                         <li>
                             <!--                             <a ng-if="firstLevelOpinion==null" href="javascript:void(0);" class="tab-disabled">一级业务单位意见</a> -->
-                            <a ng-if="firstLevelOpinion!=null" href="/#bs-tabdrop-tab2" data-toggle="tab">一级业务单位意见</a>
+                            <a ng-if="firstLevelOpinion!=null" href="/#bs-tabdrop-tab3" data-toggle="tab">一级业务单位意见</a>
                         </li>
                         <li>
                             <!--                             <a ng-if="fengkongOpinion==null" href="javascript:void(0);" class="tab-disabled">风控意见</a> -->
-                            <a ng-if="fengkongOpinion!=null" href="/#bs-tabdrop-tab3" data-toggle="tab">风控意见</a>
+                            <a ng-if="fengkongOpinion!=null" href="/#bs-tabdrop-tab4" data-toggle="tab">风控意见</a>
                         </li>
                         <li>
                             <!--                             <a ng-if="fengkongOpinion==null" href="javascript:void(0);" class="tab-disabled">风控意见</a> -->
-                            <a ng-if="fengkongOpinion!=null" href="/#bs-tabdrop-tab3" data-toggle="tab">能力评价</a>
+                            <a ng-if="fengkongOpinion!=null" href="/#bs-tabdrop-tab5" data-toggle="tab">能力评价</a>
                         </li>
                         <li>
                             <!--                             <a ng-if="report==null" href="javascript:void(0);" class="tab-disabled">投资评审报告</a> -->
-                            <a ng-if="report!=null" href="/#bs-tabdrop-tab4" data-toggle="tab">投资评审报告</a>
+                            <a ng-if="report!=null" href="/#bs-tabdrop-tab6" data-toggle="tab">投资评审报告</a>
                         </li>
                         <li>
                             <!--                             <a ng-if="report==null" href="javascript:void(0);" class="tab-disabled">投资评审报告</a> -->
-                            <a ng-if="report!=null" href="/#bs-tabdrop-tab4" data-toggle="tab">决策会材料</a>
+                            <a ng-if="preBidding!=null" href="/#bs-tabdrop-tab7" data-toggle="tab">决策会材料</a>
                         </li>
                         <li>
                             <!--                             <a ng-if="report==null" href="javascript:void(0);" class="tab-disabled">投资评审报告</a> -->
-                            <a ng-if="report!=null" href="/#bs-tabdrop-tab4" data-toggle="tab">投标结果反馈</a>
+                            <a ng-if="report!=null" href="/#bs-tabdrop-tab8" data-toggle="tab">投标结果反馈</a>
                         </li>
                     </ul>
                 </div>
@@ -52,10 +52,10 @@
                         <!-- 旧流程图 -->
                         <directive-process-list ng-if="isOldFlow"></directive-process-list>
                     </div>
-                    <div class="tab-pane" id="bs-tabdrop-tab8">
+                    <div class="tab-pane" id="bs-tabdrop-tab2">
                         <directive-file-list></directive-file-list>
                     </div>
-                    <div class="tab-pane" id="bs-tabdrop-tab2">
+                    <div class="tab-pane" id="bs-tabdrop-tab3">
                         <div class="row">
                             <label for="" class="col-sm-2 control-label">一级业务单位审核意见</label>
                             <div class="col-sm-10 ">
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="bs-tabdrop-tab3">
+                    <div class="tab-pane" id="bs-tabdrop-tab8">
                         <div class="panel">
                             <div class="panel-heading">
                                 <a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#commentsFeedback" data-toggle="collapse"><span class="text">初步评审意见反馈<i class="i-triangle"></i></span></a>
@@ -192,7 +192,153 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="bs-tabdrop-tab4">
+                    <div class="tab-pane" id="bs-tabdrop-tab5">
+                        能力评价
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab7">
+                        <directive-pre-jcwyh></directive-pre-jcwyh>
+                        <div class="row">
+                            <div class="row-tit">2.项目重要边界条件</div>
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                                <tbody>
+                                <tr>
+                                    <td class="title-column"><span class="required">*</span>风控中心评审结论</td>
+                                    <td ><textarea ng-readonly="hasWaiting"  name="fkPsResult" id="fkPsResult" rows="" cols="" class="form-control" ng-model="preBidding.fkPsResult" auto-height></textarea></td>
+                                    <td class="title-column"><span class="required">*</span>风控重点风险提示</td>
+                                    <td ><textarea ng-readonly="hasWaiting"  name="fkRiskTip" id="fkRiskTip" rows="" cols="" class="form-control" ng-model="preBidding.fkRiskTip" auto-height></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td class="title-column">特殊事项说明</td>
+                                    <td colspan="3">
+									<textarea ng-readonly="hasWaiting"  class="form-control" rows="" cols="" id="specialNotice" name="specialNotice"
+                                              ng-model="preBidding.policyDecision.specialNotice" auto-height></textarea>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="row-tit">3.投标评审报告_风控部门提供</div>
+                            <div class="col-sm-10 mb20">
+                                <a ng-click="downLoadFormalBiddingInfoFile(preBidding.reviewReport.filePath,preBidding.apply.projectName)" style="cursor: pointer" title="">{{preBidding.apply.projectName}}-投标评审报告.docx</a>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="preBidding.policyDecision.fileList!=null && preBidding.policyDecision.fileList.length>0">
+                            <div class="row-tit">附件列表</div>
+                        </div>
+                        <div class="row" ng-if="preBidding.policyDecision.fileList!=null && preBidding.policyDecision.fileList.length>0">
+                            <div class="table-responsive">
+                                <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+                                    <thead>
+                                    <tr>
+                                        <th>上传附件</th>
+                                        <th width="20%">上会附件</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in preBidding.policyDecision.fileList track by $index">
+                                        <!-- 									<td width="20%"><input type="text" ng-model="item.file_content"  class="form-control"></td> -->
+                                        <td>
+                                            <div class="col-sm-9 noleft-pad noright-pad">
+                                                <span ng-bind="progress$index"></span>
+                                                <span style="">{{errorAttach[$index].msg}}</span>
+                                                <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
+                                            </div>
+                                        </td>
+
+                                        <td ng-show = "preBidding.policyDecision != null">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
+                                                       ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.files.filePath)"
+                                                       class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+                                                <span class="lbl">&nbsp;</span>
+                                            </label>
+                                        </td>
+                                        <td ng-show = "preBidding.policyDecision == null">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
+                                                       class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+                                                <span class="lbl">&nbsp;</span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="row-tit">4.业务单位上报评审文件-投资部门提供</div>
+                            <!-- 						<button  type="button" ng-if="!hasWaiting" class="btn btn-info" ng-disabled="isBtnShow" ng-click="addFileList1()"><i class="glyphicon glyphicon-plus"></i>新增</button> -->
+                            <!-- 						<button  type="button" ng-if="!hasWaiting" class="btn btn-info" ng-disabled="isBtnShow" ng-click="deleteFileList()"><i class="glyphicon glyphicon-plus"></i>删除</button> -->
+                        </div>
+                        <div class="row">
+                            <div class="row table-responsive">
+                                <table id = "table" class="table table-bordered table-hover datatable table-text-mid table-light">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>资源名称</th>
+                                        <th>附件内容</th>
+                                        <th>编制人</th>
+                                        <th>审核人</th>
+                                        <th>创建时间</th>
+                                        <th>版本号</th>
+                                        <th>上会附件</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody  ng-repeat="item in newAttachment track by $index" ng-init="outerIndex = $index">
+                                    <tr>
+                                        <td>{{outerIndex+1}}</td>
+                                        <td>{{item.ITEM_NAME}}
+                                            <div ng-if="item.newFile">
+                                                <select  ng-model="item.newItem" class="newItem"  ng-options="y.ITEM_NAME for y in attach " >
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="progress$index"></span>
+                                            <span style="">{{errorMsg[$index].msg}}</span>
+                                            <a href="javascript:void(0);"  ng-click="downLoadBiddingFile(item)">
+                                                {{item.fileName}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <direct-user-single-select id="{{'bzr_'+$index}}" is-editable="selectFlag" checked-user="item.programmed" callback = "hello">
+                                            </direct-user-single-select>
+                                        </td>
+                                        <td>
+                                            <direct-user-single-select id="{{'shr_'+$index}}" is-editable="selectFlag" checked-user="item.approved">
+                                            </direct-user-single-select>
+                                        </td>
+                                        <td>{{item.upload_date}}</td>
+                                        <td>{{item.version}}</td>
+                                        <td ng-if="preBidding.policyDecision != null">
+                                            <label class="checkbox-inline">
+                                                <input ng-if="!item.newFile" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true"
+                                                       ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.filePath)"
+                                                       type="checkbox" name="choose" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+                                                <input ng-if="item.newFile" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true" ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.filePath)"
+                                                       type="checkbox" name="choose" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+                                                <span class="lbl">&nbsp;</span>
+                                            </label>
+                                        </td>
+                                        <td ng-if="preBidding.policyDecision == null">
+                                            <label class="checkbox-inline">
+                                                <input ng-if="!item.newFile"
+                                                       type="checkbox" name="choose" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+                                                <input ng-if="item.newFile"
+                                                       type="checkbox" name="choose" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+                                                <span class="lbl">&nbsp;</span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab6">
                         <div class="row">
                             <label class="col-sm-2 control-label">项目名称</label>
                             <div class="col-sm-10">
@@ -209,7 +355,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="bs-tabdrop-tab5">
+                    <div class="tab-pane" id="bs-tabdrop-tab61">
                         <div class="table-responsive">
                             <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light">
                                 <tbody>

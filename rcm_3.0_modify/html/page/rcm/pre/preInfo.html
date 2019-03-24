@@ -8,8 +8,21 @@
             <div class="panel">
                 <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">{{title}}<i class="i-triangle"></i></span></div></div>
                 <div class="panel-body">
+                    <div id="myTab" class="myTab">
+                        <ul class="nav nav-tabs bs-tabdrop-example">
+                            <li class="active">
+                                <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+                            </li>
+                            <!--<li>
+                                <a href="/#flow_chart" data-toggle="tab">流程图</a>
+                            </li>-->
+                            <li >
+                                <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="tab-content tab-content-bordered">
-                        <div class="tab-pane in active special-form" id="contracts_file_info">
+                        <div class="tab-pane in active" id="contracts_file_info">
                             <div class="row">
                                 <label class="col-sm-2 control-label">所属大区</label>
                                 <div class="col-sm-4 has-feedback reporting-unit">
@@ -181,6 +194,13 @@
                                     <i class="fa fa-calendar form-control-feedback"></i>
                                 </div>
                             </div>
+                        </div>
+                        <!--<div class="tab-pane" id="flow_chart">
+                            <directive-process-page></directive-process-page>
+                        </div>-->
+                        <div class="tab-pane" id="contracts_resources">
+                            <!--<directive-file-list></directive-file-list>-->
+                            <directive-accachment-new business-id="preOracle.BUSINESSID" wf-state="preOracle.WF_STATE" file-list="newAttachment" init-update="initUpdate(id)"></directive-accachment-new>
                         </div>
                     </div>
                 </div>

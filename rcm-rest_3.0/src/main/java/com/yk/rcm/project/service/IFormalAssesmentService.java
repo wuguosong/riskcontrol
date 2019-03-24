@@ -54,4 +54,11 @@ public interface IFormalAssesmentService {
 	 * @param businessId
 	 */
 	public void deleteByIdSyncTz(String businessId);
+	
+	/**
+	 * 根据业务id查询
+	 * @param businessId
+	 * @return
+	 */
+	public Map<String, Object> querySummaryById(String businessId);
 }

@@ -108,6 +108,15 @@ public class commonMethod extends BaseService{
 			DbUtil.close();
 			return list;
 		}
+		
+		public List<Map> selectDataDictionByCode1(String json){
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("code", json);
+			List<Map> list =DbUtil.openSession().selectList("common.selecFunctionType", paramMap);
+			DbUtil.close();
+			return list;
+		}
+		
 		//获取预评审列表
 		public List<Document> getProjectPreReviewList(String json){
 			MongoCursor<Document> cursor= DbUtil.getColl(DocumentNamePre).find().iterator();
