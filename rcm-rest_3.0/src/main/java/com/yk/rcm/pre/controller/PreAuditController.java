@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +39,7 @@ public class PreAuditController {
 	 */
 	@RequestMapping("/queryTaskInfoByBusinessId")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.WORKFLOW, description = "查询待办节点信息")
 	public Result queryTaskInfoByBusinessId(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -52,6 +55,7 @@ public class PreAuditController {
 	 */
 	@RequestMapping("/queryAuditedLogsById")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.WORKFLOW, description = "查询已处理")
 	public Result queryAuditedLogsById(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -66,6 +70,7 @@ public class PreAuditController {
 	 */
 	@RequestMapping("/querySingleProcessOptions")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.WORKFLOW, description = "查询流程选项")
 	public Result querySingleProcessOptions(HttpServletRequest request){
 		String businessId = request.getParameter("businessId");
 		Result querySingleProcessOptions = this.preAuditService.querySingleProcessOptions(businessId);
@@ -78,6 +83,7 @@ public class PreAuditController {
 	 */
 	@RequestMapping("startSingleFlow.do")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.WORKFLOW, description = "提交一个工单")
 	public Result startSingleFlow(String businessId){
 		Result result = this.preAuditService.startSingleFlow(businessId);
 		return result;
@@ -85,6 +91,7 @@ public class PreAuditController {
 	
 	@RequestMapping("auditSingle.do")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.WORKFLOW, description = "提交一个工单")
 	public Result auditSingle(HttpServletRequest request){
 		String businessId = request.getParameter("businessId");
 		String processOption = request.getParameter("processOption");
@@ -100,6 +107,7 @@ public class PreAuditController {
 	 */
 	@RequestMapping("/queryAuditedList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.WORKFLOW, description = "查询已处理")
 	public Result queryAuditedList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -115,6 +123,7 @@ public class PreAuditController {
 	 */
 	@RequestMapping("/queryWaitList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.WORKFLOW, description = "查询待处理")
 	public Result queryWaitList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));

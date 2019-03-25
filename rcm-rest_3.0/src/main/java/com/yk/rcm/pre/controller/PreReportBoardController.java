@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +34,7 @@ public class PreReportBoardController {
 
 	@RequestMapping("/queryPreReportBoardListMore")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询报表前板列表更多")
 	public Result queryInformationListMore(HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -42,6 +45,7 @@ public class PreReportBoardController {
 	
 	@RequestMapping("/queryPreReportBoardList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询报表前板列表更多")
 	public Result queryInformationList(HttpServletRequest request) {
 		Result result = new Result();
 		String stage = request.getParameter("stage");
@@ -61,6 +65,7 @@ public class PreReportBoardController {
 	}
 	@RequestMapping("/getCounts")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询数量")
 	public Result getCounts(HttpServletRequest request) {
 		Result result = new Result();
 		Map<String,Object> data = this.preReportBoardService.getCounts();

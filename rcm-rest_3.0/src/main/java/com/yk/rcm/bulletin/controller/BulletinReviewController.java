@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +36,7 @@ public class BulletinReviewController {
 	 */
 	@RequestMapping("/queryWaitList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.WORKFLOW, description = "查询代办")
 	public Result queryWaitList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -48,6 +51,7 @@ public class BulletinReviewController {
 	 */
 	@RequestMapping("/queryAuditedList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.WORKFLOW, description = "查询已办")
 	public Result queryAuditedList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -61,6 +65,7 @@ public class BulletinReviewController {
 	 */
 	@RequestMapping("/queryListDefaultInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "列表页面数据初始化")
 	public Result queryListDefaultInfo(){
 		Result result = new Result();
 		Map<String, Object> map = this.bulletinReviewService.queryListDefaultInfo();
@@ -73,6 +78,7 @@ public class BulletinReviewController {
 	 */
 	@RequestMapping("/queryViewDefaultInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "审阅详情页面数据初始化")
 	public Result queryViewDefaultInfo(String businessId){
 		Result result = new Result();
 		Map<String, Object> map = this.bulletinReviewService.queryViewDefaultInfo(businessId);

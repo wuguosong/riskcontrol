@@ -6,6 +6,8 @@ package com.yk.rcm.formalAssessment.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +33,7 @@ public class ConferenceInformationController {
 	 */
 	@RequestMapping("/queryInformationList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询未处理会议信息列表")
 	public Result queryInformationList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -45,6 +48,7 @@ public class ConferenceInformationController {
 	 */
 	@RequestMapping("/queryInformationListed")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询已处理会议信息列表")
 	public Result queryInformationListed(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -59,6 +63,7 @@ public class ConferenceInformationController {
 	 */
 	@RequestMapping("/addConferenceInformation")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "新增会议信息")
 	public Result addConferenceInformation(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("information");
@@ -72,6 +77,7 @@ public class ConferenceInformationController {
 	 */
 	@RequestMapping("/noNeedMeeting")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "无需上会")
 	public Result noNeedMeeting(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");

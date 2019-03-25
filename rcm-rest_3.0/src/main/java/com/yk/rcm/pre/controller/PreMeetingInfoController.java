@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +38,7 @@ public class PreMeetingInfoController {
 	 */
 	@RequestMapping("/queryInformationList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询未处理参会信息列表")
 	public Result queryInformationList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -50,6 +53,7 @@ public class PreMeetingInfoController {
 	 */
 	@RequestMapping("/queryInformationListed")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询已处理参会信息列表")
 	public Result queryInformationListed(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -64,6 +68,7 @@ public class PreMeetingInfoController {
 	 */
 	@RequestMapping("/addMeetingInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "新增参会信息")
 	public Result addMeetingInfo(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("information");
@@ -77,6 +82,7 @@ public class PreMeetingInfoController {
 	 */
 	@RequestMapping("/queryMeetingInfoById")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询参会信息")
 	public Result queryMeetingInfoById(HttpServletRequest request){
 		Result result = new Result();
 		String id = request.getParameter("id");
@@ -91,6 +97,7 @@ public class PreMeetingInfoController {
 	 */
 	@RequestMapping("/noNeedMeeting")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.UPDATE, description = "无需上会")
 	public Result noNeedMeeting(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -107,6 +114,7 @@ public class PreMeetingInfoController {
 	 */
 	@RequestMapping("/queryNotMeetingList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "无需上会信息列表")
 	public Result queryNotMeetingList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));

@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,7 @@ public class FormalReportController {
 
 	@RequestMapping("/queryUncommittedReportByPage")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "逐页查询未提交的报表")
 	public Result queryUncommittedReportByPage(String page, String json, HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant pageAssistant = new PageAssistant(page);
@@ -37,6 +40,7 @@ public class FormalReportController {
 
 	@RequestMapping("/querySubmittedReportByPage")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "逐页查询已提交的报表")
 	public Result querySubmittedReportByPage(String page, String json, HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant pageAssistant = new PageAssistant(page);
@@ -48,6 +52,7 @@ public class FormalReportController {
 
 	@RequestMapping("/batchDeleteUncommittedReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.DELETE, description = "批量删除未提交的报告")
 	public Result batchDeleteUncommittedReport(String ids, HttpServletRequest request) {
 		Result result = new Result();
 		String[] businessids = ids.split(",");
@@ -58,6 +63,7 @@ public class FormalReportController {
 
 	@RequestMapping("/exportReportInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.EXPORT, description = "导出报表信息")
 	public Result exportReportFile(HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, String> map = null;
@@ -73,6 +79,7 @@ public class FormalReportController {
 
 	@RequestMapping("/queryNotNewlyBuiltProject")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询非新建项目")
 	public Result queryNotNewlyBuiltProject(HttpServletRequest request) {
 		Result result = new Result();
 		List<Map<String, Object>> map = this.formalReportService.queryNotNewlyBuiltProject();
@@ -83,6 +90,7 @@ public class FormalReportController {
 
 	@RequestMapping("/getProjectFormalReviewByID")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "获取项目正式审核")
 	public Result getProjectFormalReviewByID(String id, HttpServletRequest request) {
 		Result result = new Result();
 		Document doc = this.formalReportService.getProjectFormalReviewByID(id);
@@ -93,6 +101,7 @@ public class FormalReportController {
 
 	@RequestMapping("/isReportExist")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "项目是否存在")
 	public Result isReportExist(String businessid, HttpServletRequest request) {
 		Result result = new Result();
 		int i = this.formalReportService.isReportExist(businessid);
@@ -103,6 +112,7 @@ public class FormalReportController {
 
 	@RequestMapping("/createNewReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "新建项目")
 	public Result createNewReport(String json, HttpServletRequest request) {
 		Result result = new Result();
 		String id = this.formalReportService.createNewReport(json);
@@ -113,6 +123,7 @@ public class FormalReportController {
 
 	@RequestMapping("/updateReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "更新项目")
 	public Result updateReport(String json, HttpServletRequest request) {
 		Result result = new Result();
 		String id = this.formalReportService.updateReport(json);
@@ -123,6 +134,7 @@ public class FormalReportController {
 
 	@RequestMapping("/submitAndupdate")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "提交更新")
 	public Result submitAndupdate(String id, String projectFormalId, HttpServletRequest request) {
 		Result result = new Result();
 		this.formalReportService.submitAndupdate(id, projectFormalId);
@@ -132,6 +144,7 @@ public class FormalReportController {
 
 	@RequestMapping("/isPossible2Submit")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "是否提交")
 	public Result isPossible2Submit(String projectFormalId, HttpServletRequest request) {
 		Result result = new Result();
 		boolean flag = this.formalReportService.isPossible2Submit(projectFormalId);
@@ -142,6 +155,7 @@ public class FormalReportController {
 
 	@RequestMapping("/getPfrAssessmentWord")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "获取正式评审评估词")
 	public Result getPfrAssessmentWord(String id, HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, String> map = this.formalReportService.getPfrAssessmentWord(id);
@@ -152,6 +166,7 @@ public class FormalReportController {
 
 	@RequestMapping("/getByID")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "获取评审报告")
 	public Result getByID(String id, HttpServletRequest request) {
 		Result result = new Result();
 		Document document = this.formalReportService.getByID(id);
@@ -162,6 +177,7 @@ public class FormalReportController {
 
 	@RequestMapping("/selectPrjReviewView")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "提交决策委员会材料")
 	public Result selectPrjReviewView(String businessId, HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, Object> map = this.formalReportService.selectPrjReviewView(businessId);
@@ -172,6 +188,7 @@ public class FormalReportController {
 
 	@RequestMapping("/queryUncommittedDecisionMaterialByPage")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询未提交的决策材料类型")
 	public Result queryUncommittedDecisionMaterialByPage(String page, String json, HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant pageAssistant = new PageAssistant(page);
@@ -183,6 +200,7 @@ public class FormalReportController {
 
 	@RequestMapping("/querySubmittedDecisionMaterialByPage")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询提交的决策材料类型")
 	public Result querySubmittedDecisionMaterialByPage(String page, String json, HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant pageAssistant = new PageAssistant(page);
@@ -194,6 +212,7 @@ public class FormalReportController {
 
 	@RequestMapping("/findFormalAndReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询正式报告")
 	public Result findFormalAndReport(String projectFormalId, HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, Object> map = this.formalReportService.findFormalAndReport(projectFormalId);
@@ -204,6 +223,7 @@ public class FormalReportController {
 
 	@RequestMapping("/addPolicyDecision")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "添加策略决策")
 	public Result addPolicyDecision(String json, String method, HttpServletRequest request) {
 		// 提交的判断项目参会信息是否已填写，如没填写禁止提交，并提示先填写参会信息才能够提交
 //		Result result = new Result();
@@ -214,6 +234,7 @@ public class FormalReportController {
 	}
 	@RequestMapping("/updatePolicyDecision")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "更新政策决策")
 	public Result updatePolicyDecision(String json, String method, HttpServletRequest request) {
 		Result result = new Result();
 		boolean flag = this.formalReportService.updatePolicyDecision(json, method);
@@ -223,6 +244,7 @@ public class FormalReportController {
 	
 	@RequestMapping("/getByBusinessId")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "获取政策决策")
 	public Result getByBusinessId(String businessId, HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, Object> map = this.formalReportService.getOracleByBusinessId(businessId);
@@ -231,6 +253,7 @@ public class FormalReportController {
 	}
 	@RequestMapping("/queryPfrNoticeFileList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询可替换的决策会信息")
 	public Result queryPfrNoticeFileList(HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -242,6 +265,7 @@ public class FormalReportController {
 	
 	@RequestMapping("/saveReportFile")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "保存决策会附件")
 	public Result saveReportFile(HttpServletRequest request) {
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -260,6 +284,7 @@ public class FormalReportController {
 	 */
 	@RequestMapping("/stagingFormalProjectSummary")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "决策会材料提交暂存")
 	public Result stagingFormalProjectSummary(String json, HttpServletRequest request) {
 		Result result = new Result();
 		Document bjson = Document.parse(json);
@@ -270,6 +295,7 @@ public class FormalReportController {
 	
 	@RequestMapping("/findFormalProjectSummary")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "查找正式项目摘要")
 	public Result findFormalProjectSummary(String json, String method, HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, Object> map = this.formalReportService.findFormalProjectSummary();

@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +32,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/getPreByID")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询预评审起草列表")
 	public Result getPreByID(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -42,6 +45,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/queryPreList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询预评审起草列表")
 	public Result queryPreList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -55,6 +59,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/queryPageForExport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询评审台账列表")
 	public Result queryPageForExport(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -67,6 +72,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/queryPreSubmitedList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询预评审提交列表")
 	public Result queryPreSubmitedList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -81,6 +87,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/saveServiceTypeOpinion")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.UPDATE, description = "修改测算意见、投资协议意见")
 	public Result updateServiceTypeOpinion(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("serviceTypeOpinion");
@@ -95,6 +102,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/saveTaskPerson")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "保存任务分配信息")
 	public Result saveTaskPerson(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("task");
@@ -108,6 +116,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/saveReviewInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "保存评审信息")
 	public Result saveReviewInfo(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -124,6 +133,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/addNewAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "新增附件")
 	public Result addNewAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -141,6 +151,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/updateAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.UPDATE, description = "替换附件")
 	public Result updateAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -158,6 +169,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/deleteAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.DELETE, description = "删除附件")
 	public Result deleteAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -172,6 +184,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/saveMajorMemberInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "保存专业评审信息")
 	public Result saveMajorMemberInfo(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -186,6 +199,7 @@ public class PreInfoController {
 	 */
 	@RequestMapping("/saveNeedMeetingAndNeedReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "保存是否需要上会与是否需要提交报告")
 	public Result saveNeedMeetingAndNeedReport(HttpServletRequest request){
 		Result result = new Result();
 		String pre = request.getParameter("pre");

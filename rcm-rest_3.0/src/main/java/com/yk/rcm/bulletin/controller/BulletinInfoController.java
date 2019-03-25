@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryListByPage")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查询列表")
 	public Result queryListByPage(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -49,6 +52,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryApplyList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查询代提交列表")
 	public Result queryApplyList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -64,6 +68,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryApplyedList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查询已提交列表")
 	public Result queryApplyedList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -77,6 +82,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryCreateDefaultInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "新增页面数据初始化")
 	public Result queryCreateDefaultInfo(){
 		String userId = ThreadLocalUtil.getUserId();
 		return this.bulletinInfoService.queryCreateDefaultInfo(userId);
@@ -89,6 +95,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryUpdateDefaultInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "修改页面数据初始化")
 	public Result queryUpdateDefaultInfo(String businessId){
 		Result result = new Result();
 		Map<String, Object> data = this.bulletinInfoService.queryUpdateDefaultInfo(businessId);
@@ -102,6 +109,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/saveOrUpdate")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.CREATE, description = "新增或者修改")
 	public Result saveOrUpdate(String json){
 		Result result = new Result();
 		Document doc = Document.parse(json);
@@ -122,6 +130,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/deleteByIds")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.DELETE, description = "批量删除")
 	public Result deleteByIds(String ids){
 		Result result = new Result();
 		String[] idsArr = ids.split(",");
@@ -134,6 +143,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryListDefaultInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "列表页面初始化")
 	public Result queryListDefaultInfo(){
 		Result result = new Result();
 		Map<String, Object> map = this.bulletinInfoService.queryListDefaultInfo();
@@ -146,6 +156,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryViewDefaultInfo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查看页面初始化")
 	public Result queryViewDefaultInfo(String businessId){
 		Result result = new Result();
 		Map<String, Object> map = this.bulletinInfoService.queryViewDefaultInfo(businessId);
@@ -161,6 +172,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryMettingSummary")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查询未出会议纪要")
 	public Result queryMettingSummary(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -175,6 +187,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/queryMettingSummaryed")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查询已出会议纪要")
 	public Result queryMettingSummaryed(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -189,6 +202,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/saveMettingSummary")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.CREATE, description = "保存附件信息")
 	public Result saveMettingSummary(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -203,6 +217,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/saveLegalLeaderAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.CREATE, description = "保存法律评审提交信息")
 	public Result saveLegalLeaderAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -219,6 +234,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/saveReviewLeaderAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.CREATE, description = "保存业务评审提交信息")
 	public Result saveReviewLeaderAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -234,6 +250,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/saveRiskLeaderAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.CREATE, description = "保存业务评审提交信息")
 	public Result saveRiskLeaderAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -249,6 +266,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/saveTaskPerson")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.CREATE, description = "保存任务分配信息")
 	public Result saveTaskPerson(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -263,6 +281,7 @@ public class BulletinInfoController {
 	 */
 	@RequestMapping("/updateBaseFile")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.UPDATE, description = "修改基础附件")
 	public Result updateBaseFile(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");

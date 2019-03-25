@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/queryNotNewlyPreAuditProject")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "获取还未新建投标评审报告的项目")
 	public Result queryNotNewlyPreAuditProject(HttpServletRequest request) {
 		Result result = new Result();
 
@@ -59,6 +62,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/queryUncommittedReportByPage")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询已新建投资评审报告但未提交报告的项目")
 	public Result queryUncommittedReportByPage(String page, String json, HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant pageAssistant = new PageAssistant(page);
@@ -80,6 +84,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/querySubmittedReportByPage")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询已提交投资评审报告的项目")
 	public Result querySubmittedReportByPage(String page, String json, HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant pageAssistant = new PageAssistant(page);
@@ -99,6 +104,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/batchDeletePreReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.DELETE, description = "删除已新建投资评审报告但未提交报告的项目")
 	public Result batchDeletePreReport(String ids, HttpServletRequest request) {
 		Result result = new Result();
 		String[] businessids = ids.split(",");
@@ -118,6 +124,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/getPreProjectFormalReviewByID")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "获取新建评审报告项目信息")
 	public Result getPreProjectFormalReviewByID(String id, HttpServletRequest request) {
 		Result result = new Result();
 		Document doc = this.preAuditReportService.getPreProjectFormalReviewByID(id);
@@ -137,6 +144,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/saveReviewReportById")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "保存评审报告项目信息")
 	public Result saveReviewReportById(String json, HttpServletRequest request) {
 		Result result = new Result();
 		String id = this.preAuditReportService.saveReviewReportById(json);
@@ -156,6 +164,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/updateReviewReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.UPDATE, description = "修改报告")
 	public Result updateReviewReport(String json, HttpServletRequest request) {
 		Result result = new Result();
 		String id = this.preAuditReportService.updateReviewReport(json);
@@ -175,6 +184,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/submitAndupdate")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.UPDATE, description = "提交报告")
 	public Result submitAndupdate(String businessid, HttpServletRequest request) {
 		Result result = new Result();
 		this.preAuditReportService.submitAndupdate(businessid);
@@ -193,6 +203,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/getById")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询项目信息")
 	public Result getById(String id, HttpServletRequest request) {
 		Result result = new Result();
 		Document document = this.preAuditReportService.getById(id);
@@ -212,6 +223,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/getPreWordReport")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "生成word文档")
 	public Result getPreWordReport(String id, HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, String> map = this.preAuditReportService.getPreWordReport(id);
@@ -231,6 +243,7 @@ public class PreAuditReportController {
 	 */
 	@RequestMapping("/isPossible2Submit")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查看报告是否可提交(如果流程未结束，则不可提交报告)")
 	public Result isPossible2Submit(String businessid, HttpServletRequest request) {
 		Result result = new Result();
 		boolean flag = this.preAuditReportService.isPossible2Submit(businessid);
@@ -240,6 +253,7 @@ public class PreAuditReportController {
 	}
 	@RequestMapping("/getByBusinessId")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "基本信息(投标评审报告表)")
 	public Result getByBusinessId(String businessId, HttpServletRequest request) {
 		Result result = new Result();
 		Map<String, Object> map = this.preAuditReportService.getOracleByBusinessId(businessId);

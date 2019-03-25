@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +39,7 @@ public class ProfessionController {
 	 */
 	@RequestMapping("/queryAllTeams")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询所有的组，不分启用禁用")
 	public Result queryAllTeams(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -51,6 +54,7 @@ public class ProfessionController {
 	 */
 	@RequestMapping("/addTeam")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "新增组")
 	public Result addTeam(HttpServletRequest request){
 		String json = request.getParameter("profession");
 		Result result = this.professionService.addTeam(json);
@@ -63,6 +67,7 @@ public class ProfessionController {
 	 */
 	@RequestMapping("/queryMembersByTeamId")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询组内成员")
 	public Result queryMembersByTeamId(HttpServletRequest request){
 		Result result = new Result();
 		String teamId = request.getParameter("teamId");
@@ -77,6 +82,7 @@ public class ProfessionController {
 	 */
 	@RequestMapping("/getTeamByID")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "询一个用户的数据")
 	public Result getTeamByID(HttpServletRequest request){
 		Result result = new Result();
 		String teamId = request.getParameter("teamId");
@@ -91,6 +97,7 @@ public class ProfessionController {
 	 */
 	@RequestMapping("/updateTeam")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "更新组信息")
 	public Result updateTeam(HttpServletRequest request){
 		String json = request.getParameter("profession");
 		Result result = this.professionService.updateTeam(json);
@@ -103,6 +110,7 @@ public class ProfessionController {
 	 */
 	@RequestMapping("/updateTeamSatusById")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.DELETE, description = "删除成员信息并且修改组为禁用")
 	public Result updateTeamSatusById(HttpServletRequest request){
 		Result result = new Result();
 		String teamId = request.getParameter("teamId");
@@ -115,6 +123,7 @@ public class ProfessionController {
 	 */
 	@RequestMapping("/queryProfessionReview")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询专业评审负责人")
 	public Result queryProfessionReview(){
 		Result result = new Result();
 		List<Map<String, Object>> paramMap = professionService.queryProfessionReview();

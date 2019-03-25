@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +35,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/saveTaskToMongo")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "保存分配任务人员信息")
 	public Result saveTaskToMongo(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("task");
@@ -46,6 +49,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/queryTaskInfoByBusinessId")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.WORKFLOW, description = "查询代办节点")
 	public Result queryTaskInfoByBusinessId(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -65,6 +69,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/queryAuditedLogsById")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.WORKFLOW, description = "查询已办")
 	public Result queryAuditedLogs(HttpServletRequest request){
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
@@ -80,6 +85,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/queryAuditedList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.WORKFLOW, description = "查询已办")
 	public Result queryAuditedList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -95,6 +101,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/queryWaitList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.WORKFLOW, description = "查询代办")
 	public Result queryWaitList(HttpServletRequest request){
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -109,6 +116,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/querySingleProcessOptions")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.WORKFLOW, description = "查询流程选项")
 	public Result querySingleProcessOptions(HttpServletRequest request){
 		String businessId = request.getParameter("businessId");
 		String taskMark = request.getParameter("taskMark");
@@ -123,6 +131,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("startSingleFlow.do")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.WORKFLOW, description = "流程提交(单个)")
 	public Result startSingleFlow(String businessId){
 		Result result = this.formalAssessmentAuditService.startSingleFlow(businessId);
 		return result;
@@ -130,6 +139,7 @@ public class FormalAssessmentAuditController {
 	
 	@RequestMapping("auditSingle.do")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.WORKFLOW, description = "流程提交(单个)")
 	public Result auditSingle(HttpServletRequest request){
 		String businessId = request.getParameter("businessId");
 		String processOption = request.getParameter("processOption");
@@ -149,6 +159,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/addNewAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "新增附件")
 	public Result addNewAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -165,6 +176,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/updateAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "替换附件")
 	public Result updateAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");
@@ -181,6 +193,7 @@ public class FormalAssessmentAuditController {
 	 */
 	@RequestMapping("/deleteAttachment")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.DELETE, description = "删除附件")
 	public Result deleteAttachment(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("json");

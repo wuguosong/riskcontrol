@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +34,7 @@ public class FormalReportBoardController {
 
 	@RequestMapping("/queryFormalReportBoardListMore")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询正式报表板列表")
 	public Result queryInformationListMore(HttpServletRequest request) {
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
@@ -42,6 +45,7 @@ public class FormalReportBoardController {
 	
 	@RequestMapping("/queryFormalReportBoardList")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询正式报表板列表")
 	public Result queryInformationList(HttpServletRequest request) {
 		Result result = new Result();
 		String stage = request.getParameter("stage");
@@ -61,6 +65,7 @@ public class FormalReportBoardController {
 	}
 	@RequestMapping("/getCounts")
 	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "获取数量")
 	public Result getCounts(HttpServletRequest request) {
 		Result result = new Result();
 		Map<String,Object> data = this.formalReportBoardService.getCounts();
