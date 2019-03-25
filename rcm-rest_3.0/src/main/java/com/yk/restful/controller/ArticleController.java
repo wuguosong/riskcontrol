@@ -1,6 +1,7 @@
 package com.yk.restful.controller;
 
 import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "article", method = RequestMethod.POST)
     @ResponseBody
-    @SysLog(module = "SYS", operation = SysLog.CREATE, description = "新增文章")
+    @SysLog(module = "SYS", operation = LogConstant.CREATE, description = "新增文章")
     public String add(String method, String article) {
         System.out.println(method);
         System.out.println(article);
@@ -37,7 +38,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "article", method = RequestMethod.PUT)
     @ResponseBody
-    @SysLog(module = "SYS", operation = SysLog.UPDATE, description = "更新文章")
+    @SysLog(module = "SYS", operation = LogConstant.UPDATE, description = "更新文章")
     public String update(String method, String article) {
         System.out.println(method);
         System.out.println(article);
@@ -53,7 +54,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "article/{id}", method = RequestMethod.GET)
     @ResponseBody
-    @SysLog(module = "SYS", operation = SysLog.QUERY, description = "查询文章")
+    @SysLog(module = "SYS", operation = LogConstant.QUERY, description = "查询文章")
     public String get(String method, @PathVariable String id) {
         System.out.println(method);
         System.out.println(id);
@@ -69,7 +70,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "article/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    @SysLog(module = "SYS", operation = SysLog.DELETE, description = "删除文章")
+    @SysLog(module = "SYS", operation = LogConstant.DELETE, description = "删除文章")
     public String delete(String method, @PathVariable String id) {
         System.out.println(method);
         System.out.println(id);
