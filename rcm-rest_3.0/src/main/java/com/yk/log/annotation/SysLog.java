@@ -16,10 +16,7 @@ import java.lang.annotation.Target;
 @Documented
 @Component
 public @interface SysLog {
-	String CREATE = "CREATE";
-	String UPDATE = "UPDATE";
-	String QUERY = "QUERY";
-	String DELETE = "DELETE";
+
 
 	String module() default "";
 	String code() default "";
