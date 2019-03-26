@@ -1,29 +1,35 @@
 package goukuai;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.alibaba.fastjson.JSON;
 import com.goukuai.constant.YunkuConf;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.goukuai.srv.YunkuFileSrv;
 import com.goukuai.dto.FileDto;
 import com.goukuai.dto.LinkDto;
+import com.goukuai.srv.YunkuFileSrv;
+import com.yk.rcm.file.service.IFileService;
 import com.yunkuent.sdk.ScopeType;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
+import java.util.List;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:/config/applicationContext.xml")
+@ActiveProfiles("local")
 public class Test {
+	@Resource
+	private IFileService fileService;
 	@org.junit.Test
 	public void testUpload() {
-		FileDto fileDto = null;
 		try {
-			fileDto = YunkuFileSrv.getInstance().uploadByBlock("/pics/Love.jpg", "C:\\Users\\mnipa\\Desktop\\Love.jpg",
-					"我就是喜欢吃辣椒", 0);
+			String fullPath = YunkuConf.UPLOAD_ROOT + "/" + "LiPan" + "/" + "10086" + "/";
+			fullPath = fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "");
+			FileDto fileDto = fileService.fileUpload(fullPath + "Love.jpg", "C:\\Users\\mnipa\\Desktop\\Love.jpg","LiPan", "10086", "#1", "lipan", 10000);
+			System.out.println(fileDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(fileDto);
 	}
 
 	@org.junit.Test
@@ -153,5 +159,8 @@ public class Test {
 	@org.junit.Test
 	public void test() {
 		System.out.println(StringUtils.isAnyBlank(null, "n", "c"));
+	}
+
+	public void test2(){
 	}
 }

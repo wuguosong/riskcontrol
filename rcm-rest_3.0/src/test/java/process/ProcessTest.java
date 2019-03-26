@@ -369,8 +369,9 @@ public class ProcessTest {
 
     String task_id = "395008";
     String business_id = "5c91e1c45544cd3abc49dd88";
+
     @Test
-    public void test6(){
+    public void test6() {
         Task curTask = taskService.createTaskQuery().taskId(task_id).singleResult();
         String curTaskKey = curTask.getTaskDefinitionKey();
         String nexTaskKey = signService.getNextTaskInfo(Constants.PROCESS_KEY_PREREVIEW, business_id).getKey();
@@ -401,17 +402,17 @@ public class ProcessTest {
         TaskDefinition taskDefinition = null;
         try {
             taskDefinition = signService.getNextTaskInfo(key, business_id);
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
-        if(taskDefinition != null){
+        if (taskDefinition != null) {
             String end = taskDefinition.getKey();
             System.out.println("开始节点>\t" + start);
             System.out.println("结束节点>\t" + end);
             String procDefId = repositoryService.createProcessDefinitionQuery().processDefinitionKey(key).orderByProcessDefinitionVersion().desc().list().get(0).getId();
             System.out.println("流程定义ID>\t" + procDefId);
             List<FlowElement> flowElements = processService.getNextTaskFlowElement(procDefId, start, end);
-            for(FlowElement flowElement :flowElements){
+            for (FlowElement flowElement : flowElements) {
                 System.out.println("流向信息>\t" + flowElement.getId());
             }
             Map<String, Object> variable = processService.getNextTaskFlowElementVariable(procDefId, start, end);
@@ -419,5 +420,33 @@ public class ProcessTest {
         }
         HashMap<String, Object> rejectType = signService.validateSign(key, business_id);
         System.out.println("拒绝类型>\t" + JSON.toJSONString(rejectType));
+    }
+
+    @Test
+    public void testModel() {
+        String key = "formalReview";
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().processDefinitionKey(key).orderByProcessDefinitionVersion().desc().list();
+        for(ProcessDefinition processDefinition : list){
+            System.out.println(processDefinition);
+        }
+        if (CollectionUtils.isNotEmpty(list)){
+            ProcessDefinition processDefinition = list.get(0);// 最新版本
+            BpmnModel bpmnModel = getModel(processDefinition.getId());
+            System.out.println(bpmnModel);
+        }
+    }
+
+    private BpmnModel getModel(String processDefinitionId) {
+        InputStream inputStream = repositoryService.getProcessModel(processDefinitionId);
+        BpmnXMLConverter converter = new BpmnXMLConverter();
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLStreamReader reader = null;
+        try {
+            reader = factory.createXMLStreamReader(inputStream);
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
+        return bpmnModel;
     }
 }
