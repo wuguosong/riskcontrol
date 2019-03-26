@@ -1,6 +1,5 @@
 package com.yk.rcm.newPre.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -35,7 +34,8 @@ public class preInfoCreateController {
 	public Result create(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("projectInfo");
-		this.preInfoCreateService.createProject(json);
+		String businessId = this.preInfoCreateService.createProject(json);
+		result.setResult_data(businessId);
 		return result;
 	}
 	
@@ -76,6 +76,24 @@ public class preInfoCreateController {
 		String userId = ThreadLocalUtil.getUserId();
 		projectInfo.put("currentUserId", userId);
 		result.setResult_data(projectInfo);
+		return result;
+	}
+	@RequestMapping("/addAttachmengInfoToMongo")
+	@ResponseBody
+	public Result addAttachmengInfoToMongo(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		this.preInfoCreateService.addNewAttachment(json);
+		
+		return result;
+	}
+	@RequestMapping("/deleteAttachmengInfoInMongo")
+	@ResponseBody
+	public Result deleteAttachmengInfoInMongo(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		this.preInfoCreateService.deleteAttachment(json);
+		
 		return result;
 	}
 }

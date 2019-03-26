@@ -4,15 +4,15 @@
 <mapper namespace="com.yk.rcm.project.dao.IProjectMapper">
 
 	<delete id="deleteByBusinessId" parameterType="string">
-		delete from rcm_project_info where business_id=#{businessId}
+		delete from rcm_v_project_info where business_id=#{businessId}
 	</delete>
 	
 	<select id="queryById" parameterType="string" resultType="hashmap">
-		select * from rcm_project_info where business_id=#{businessId}
+		select * from rcm_v_project_info where business_id=#{businessId}
 	</select>
     
     <update id="updateOracleById"  parameterType="map">
-	 	update rcm_project_info set last_update_date=sysdate
+	 	update rcm_v_project_info set last_update_date=sysdate
 	 	<if test="wfState != null and wfState != '' "> , wf_state=#{wfState}</if>
 	 	<if test="applyDate != null"> , apply_date=#{applyDate}</if>
 	 	<if test="completeDate != null"> , complete_date=#{completeDate}</if>
@@ -29,7 +29,7 @@
     
     <!-- 新增 -->
 	<insert id="insert" parameterType="map">
-		insert into rcm_project_info (id, business_id, project_name, project_no, reporting_unit_name, reporting_unit_id,
+		insert into rcm_v_project_info (id, business_id, project_name, project_no, reporting_unit_name, reporting_unit_id,
 		service_type_id, service_type_name, project_type_ids, project_type_names, investment_model, project_model_ids, project_model_names,
 		create_date,type, is_supplement_review,wf_state,istz,pertainareaid) values (#{id}, #{businessId}, #{projectName}, #{projectNo}, 
 		#{reportingUnitName}, #{reportingUnitId}, #{serviceTypeId}, #{serviceTypeName}, #{projectTypeIds}, #{projectTypNames},

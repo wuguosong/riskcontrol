@@ -35,7 +35,8 @@ public class FormalAssessmentInfoCreateController {
 	public Result create(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("projectInfo");
-		this.formalAssessmentInfoCreateService.createProject(json);
+		String businessId = this.formalAssessmentInfoCreateService.createProject(json);
+		result.setResult_data(businessId);
 		return result;
 	}
 	
@@ -76,6 +77,25 @@ public class FormalAssessmentInfoCreateController {
 		String userId = ThreadLocalUtil.getUserId();
 		projectInfo.put("currentUserId", userId);
 		result.setResult_data(projectInfo);
+		return result;
+	}
+	
+	@RequestMapping("/addAttachmengInfoToMongo")
+	@ResponseBody
+	public Result addAttachmengInfoToMongo(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		this.formalAssessmentInfoCreateService.addNewAttachment(json);
+		
+		return result;
+	}
+	@RequestMapping("/deleteAttachmengInfoInMongo")
+	@ResponseBody
+	public Result deleteAttachmengInfoInMongo(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		this.formalAssessmentInfoCreateService.deleteAttachment(json);
+		
 		return result;
 	}
 }

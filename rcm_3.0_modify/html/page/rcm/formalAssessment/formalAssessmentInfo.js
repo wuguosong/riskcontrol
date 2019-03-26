@@ -18,7 +18,6 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     $scope.pfr.taskallocation.reviewLeader=null;
     $scope.investmentPerson=null;
     $scope.directPerson=null;
-    $scope.investmentModel=false;
     $scope.title = "";
 
     // 获取系统当前时间
@@ -48,28 +47,53 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             } else {
                 $scope.title = "项目正式评审查看";
             }
-            $scope.initUpdate();
+            $scope.initUpdate($scope.id);
         }
-    }
+    };
 
     // 初始化新增数据
     $scope.initCreate = function () {
         $scope.pfr.apply.createby = $scope.credentials.UUID;
         $scope.pfr.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
         $scope.pfr.apply.reportingUnit = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};
-    }
+        $scope.pfr.apply.investmentModel='0';
+    };
+
+    //处理附件列表
+    $scope.reduceAttachment = function(attachment, id){
+        $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
+        for(var i in attachment){
+            var file = attachment[i];
+            console.log(file);
+            for (var j in $scope.newAttachment){
+                if (file.fileId == $scope.newAttachment[j].fileid){
+                    $scope.newAttachment[j].fileName = file.fileName;
+                    $scope.newAttachment[j].type = file.type;
+                    $scope.newAttachment[j].itemType = file.itemType;
+                    $scope.newAttachment[j].programmed = file.programmed;
+                    $scope.newAttachment[j].approved = file.approved;
+                    $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                    $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                    break;
+                }
+            }
+
+        }
+    };
     
     // 初始化修改、查看数据
-    $scope.initUpdate = function () {
+    $scope.initUpdate = function (id) {
         var  url = 'formalAssessmentInfoCreate/getProjectByID.do';
         $http({
             method:'post',
             url:srvUrl+url,
-            data: $.param({"id":$scope.id})
+            data: $.param({"id":id})
         }).success(function(data){
-            console.log(data.result_data.mongoData._id);
             $scope.pfr  = data.result_data.mongoData;
             $scope.pfrOracle  = data.result_data.oracleDate;
+
+            // 处理附件
+            $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
             // 回显数据-人员信息
             let paramsVal = "";
@@ -322,14 +346,9 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             url: srvUrl + 'formalAssessmentInfoCreate/createProject.do',
             data: $.param({"projectInfo":JSON.stringify($scope.pfr)})
         }).success(function(result){
-            if (result.result_code === 'S') {
-                $scope.nod._id = result.result_data;
-                if(typeof(showPopWin)=='function'){
-                    showPopWin();
-                }else{
-                    $.alert('保存成功');
-                }
-                $location.path("/formalAssessmentCreateList");
+            if (result.success){
+                $.alert(result.result_name);
+                $location.path("/formalAssessmentInfo/" + result.result_data + "/2");
             } else {
                 $.alert(result.result_name);
             }

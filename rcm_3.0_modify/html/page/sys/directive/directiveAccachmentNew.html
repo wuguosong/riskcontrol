@@ -1,10 +1,9 @@
 <div>
     <div class="row">
         <div class="full-drop">
-            <div><input ng-model="wfState"/></div>
-            <button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
-            <button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>删除</button>
-            <button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>
+            <button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="_addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
+            <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="_deleteFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>删除</button>-->
+            <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>-->
             <div  id="compareModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -29,18 +28,13 @@
         <table class="table table-bordered table-hover datatable table-text-mid table-light">
             <thead>
             <tr>
-                <th>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="all" id="all" ng-click="selectAll()" class="px" />
-                        <span class="lbl">&nbsp;</span>
-                    </label>
-                </th>
+                <th>选择</th>
                 <th>序号</th>
                 <th>业务类型</th>
                 <th>资源类型</th>
                 <th>附件内容</th>
-                <th>编制人</th>
-                <th>审核人</th>
+                <th ng-if="businessType != bulletin">编制人</th>
+                <th ng-if="businessType != bulletin">审核人</th>
                 <th>最后提交人</th>
                 <th>最后提交时间</th>
                 <th ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined">相关操作</th>
@@ -50,31 +44,34 @@
             <tr>
                 <td>
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="choose" filename="{{item.fileName}}" filepath="{{item.filePath}}" class="px" value="{{item.UUID}}"/>
+                        <input type="checkbox" name="fileChoose" class="px" value="{{item.fileid}}"/>
                         <span class="lbl">&nbsp;</span>
                     </label>
                 </td>
                 <td>{{outerIndex+1}}</td>
                 <td>
-                    <span ng-if="!item.newFile">{{item.ITEM_NAME}}</span>
+                    <span ng-if="!item.newFile">{{item.type.ITEM_NAME}}</span>
                     <div ng-if="item.newFile">
-                        <select ng-model="item.type"  ng-options="y.ITEM_NAME for y in attachmentType" ng-change="changeType(item.type)">
+                        <select ng-model="item.type"  ng-options="y.ITEM_NAME for y in attachmentType track by y.ITEM_CODE" ng-change="_changeType(item.type)">
                             <option value="">-- 请选择 --</option>
                         </select>
                     </div>
                 </td>
                 <td>
-                    <span ng-if="!item.newFile">{{item.ITEM_NAME}}</span>
+                    <span ng-if="!item.newFile">{{item.itemType.ITEM_NAME}}</span>
                     <div ng-if="item.newFile">
-                        <select ng-model="item.itemType"  ng-options="y.ITEM_NAME for y in itemType" ng-change="changeItemType(item)">>
+                        <select ng-model="item.itemType"  ng-options="y.ITEM_NAME for y in itemType track by y.ITEM_CODE" ng-change="_changeItemType(item)">>
                             <option value="">-- 请选择 --</option>
                         </select>
                     </div>
                 </td>
                 <td>
-                    <a href="javascript:void(0);" ng-click="downLoadFile(item)">{{item.fileName}}</a>
-                    <span ng-if="item.fileName != undefined || item.fileName != null">_</span>
-                    <input ng-if="item.fileName != undefined || item.fileName != null" ng-model="item.fileNamSuffix"/>
+                    <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="!item.newFile">{{item.fileName}}</a>
+                    <div ng-if="item.fileName != undefined || item.fileName != null">
+                        <span ng-if="item.newFile">{{item.fileName}}</span>
+                        <span ng-if="item.lastUpdateData == null">_</span>
+                        <input ng-if="item.lastUpdateData == null" ng-model="item.fileNamSuffix"/>
+                    </div>
                 </td>
                 <td>
                     <span ng-if="!showController.isInvestmentManager && wfState !='0'">{{item.programmed.NAME}}</span>
@@ -84,12 +81,13 @@
                     <span ng-if="!showController.isInvestmentManager && wfState !='0'">{{item.approved.NAME}}</span>
                     <direct-user-single-select ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" id="{{'shr_'+$index}}" checked-user="item.approved" callback="selectPersonCallBack"></direct-user-single-select>
                 </td>
-                <td>{{item.lastUpdateBy}}</td>
+                <td>{{item.lastUpdateBy.NAME}}</td>
                 <td>{{item.lastUpdateData}}</td>
                 <td ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined">
-                    <button ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" type="button" class="btn btn-danger"  ng-click="deleteFile(item)">删除</button>
-                    <button ng-if="item.newFile == null && showController.isInvestmentManager && hasWaiting  ||item.newFile == null && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,outerIndex,item)">替换</button>
-                    <button ng-if="item.newFile && showController.isInvestmentManager  && hasWaiting ||item.newFile && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadNew($file,$invalidFiles,outerIndex,item)">新增</button>
+                    <button ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" type="button" class="btn btn-danger"  ng-click="_delete(item.fileid)">删除</button>
+                    <button ng-if="item.preview3d != null && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" type="button" class="btn btn-info"  ng-click="_review(item.preview3d)">预览</button>
+                    <!--<button ng-if="item.newFile == null && showController.isInvestmentManager && hasWaiting  ||item.newFile == null && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,outerIndex,item)">替换</button>-->
+                    <button ng-if="item.newFile && showController.isInvestmentManager  && hasWaiting ||item.newFile && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="_uploadThat($file, $index, item)">新增</button>
                 </td>
             </tr>
             </tbody>

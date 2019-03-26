@@ -15,7 +15,7 @@ public interface IFormalAssessmentInfoCreateService {
 	/**
 	 * 新增项目
 	 * */
-	public void createProject(String json);
+	public String createProject(String json);
 	
 	/**
 	 * 修改项目
@@ -36,4 +36,20 @@ public interface IFormalAssessmentInfoCreateService {
 	 * 查询新增项目详情
 	 * */
 	public Map<String, Object> getProjectByID(String id);
+	
+	/**
+	 * 新增附件
+	 * @param json
+	 */
+	void addNewAttachment(String json);
+	/**
+	 * 删除附件
+	 * @param json
+	 */
+	void deleteAttachment(String json);
+	/**
+	 * 替换附件
+	 * @param json
+	 */
+	/*void updateAttachment(String json);*/
 }

@@ -39,7 +39,7 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 	private IOrgService orgService;
 	
 	@Override
-	public void createProject(String json) {
+	public String createProject(String json) {
 		Document doc = Document.parse(json);
 		ObjectId businessid = new ObjectId();
 		doc.put("_id", businessid);
@@ -47,6 +47,7 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		this.preInfoCreateMapper.insert(dataForOracle);
 		this.baseMongo.save(doc, Constants.RCM_PRE_INFO);
 		this.saveDefaultProRole(doc);
+		return (String) dataForOracle.get("businessId");
 	}
 	
 	/**
@@ -226,5 +227,127 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		
 		return result;
 	}
+
+	@SuppressWarnings({ "unchecked", "null" })
+	@Override
+	public void addNewAttachment(String json) {
+		
+		Document doc = Document.parse(json);
+		
+		String businessId = (String) doc.get("businessId");
+		String oldFileName = (String) doc.get("oldFileName");
+		Document item = (Document) doc.get("item");
+		String fileId = (String) item.get("fileId");
+		Document type = (Document) item.get("type");
+		Document itemType = (Document) item.get("itemType");
+		String fileName = (String) item.get("fileName");
+		//申请人信息
+		Document programmed = (Document) item.get("programmed");
+		//审核人信息
+		Document approved = (Document) item.get("approved");
+		//最後提交人信息
+		Document lastUpdateBy = (Document) item.get("lastUpdateBy");
+		String lastUpdateData = (String) item.get("lastUpdateData"); 
+		
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_PRE_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		
+		if (attachmentList == null) {
+			attachmentList = new ArrayList<Map<String, Object>>();
+			Map<String, Object> file = new HashMap<String,Object>();
+			file.put("fileId", fileId);
+			file.put("fileName", fileName);
+			file.put("oldFileName", oldFileName);
+			file.put("type", type);
+			file.put("itemType", itemType);
+			file.put("programmed", programmed);
+			file.put("approved", approved);
+			file.put("lastUpdateBy", lastUpdateBy);
+			file.put("lastUpdateData", lastUpdateData);
+			attachmentList.add(file);
+		} else {
+			Map<String, Object> file = new HashMap<String,Object>();
+			file.put("fileId", fileId);
+			file.put("fileName", fileName);
+			file.put("oldFileName", oldFileName);
+			file.put("type", type);
+			file.put("itemType", itemType);
+			file.put("programmed", programmed);
+			file.put("approved", approved);
+			file.put("lastUpdateBy", lastUpdateBy);
+			file.put("lastUpdateData", lastUpdateData);
+			attachmentList.add(file);
+		}
+
+		
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("attachmentList", attachmentList);
+		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void deleteAttachment(String json) {
+		Document doc = Document.parse(json);
+		String businessId = (String) doc.get("businessId");
+		String fileId = doc.get("fileId") + "";
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_PRE_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		System.out.println("fileId ====" + fileId);
+		for (int i = 0; i < attachmentList.size(); i++) {
+			Document attachment = (Document) attachmentList.get(i);
+			System.out.println("attachment=           " + attachment);
+			System.out.println(attachment.get("fileId"));
+			System.out.println(attachment.get("fileId") .equals(fileId));
+			if (attachment.get("fileId") .equals(fileId)) {
+				attachmentList.remove(i);
+				break;
+			}
+		}
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("attachmentList", attachmentList);
+		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
+	}
+
+	/*@SuppressWarnings("unchecked")
+	@Override
+	public void updateAttachment(String json) {
+		Document doc = Document.parse(json);
+		String uuid = (String) doc.get("UUID");
+		String version = doc.get("version").toString();
+		String businessId = (String) doc.get("businessId");
+		String fileName = (String) doc.get("fileName");
+		String filePath = (String) doc.get("filePath");
+		
+		Document programmed = (Document) doc.get("programmed");
+		
+		Document approved = (Document) doc.get("approved");
+		
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_PRE_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachment");
+		
+		for (Map<String, Object> attachment : attachmentList) {
+			if(attachment.get("UUID").toString().equals(uuid)){
+				List<Map<String, Object>> filesList = (List<Map<String, Object>>) attachment.get("files");
+				if(Util.isNotEmpty(filesList)){
+					for (Map<String, Object> files : filesList) {
+						if(files.get("version").toString().equals(version)){
+							files.put("fileName", fileName);
+							files.put("filePath", filePath);
+							files.put("approved", approved);
+							files.put("programmed", programmed);
+						}
+					}
+				}
+			}
+		}
+		
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("attachment", attachmentList);
+		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
+	}*/
 
 }

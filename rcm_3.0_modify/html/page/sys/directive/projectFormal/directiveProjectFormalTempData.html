@@ -1,6 +1,9 @@
 <div>
     <div class="innertable">
-        <h5>项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType != '4000' && projectSummary.summaryType != '7000' && projectSummary.summaryType != '8000'">项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType == '4000'">原项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType == '7000'">申请事项</h5>
+        <h5 ng-if="projectSummary.summaryType == '8000'">新设公司简介</h5>
         <div class="mytable">
             <table  class="table table-bordered" style="table-layout: fixed">
                 <thead>
@@ -37,7 +40,9 @@
     </div><!--项目概况-->
 
     <div class="innertable" ng-if="projectSummary.projectOverviews1!=undefined && projectSummary.projectOverviews1!=null">
-        <h5>技改项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType == '4000'">技改项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType == '7000'">申请原因</h5>
+        <h5 ng-if="projectSummary.summaryType == '8000'">公司股权结构</h5>
         <div class="mytable">
             <table  class="table table-bordered"  style="table-layout: fixed">
                 <thead>
@@ -412,12 +417,14 @@
     </div>
 
     <div class="innertable" ng-if="projectSummary.desciptions!=undefined && projectSummary.desciptions!=null">
-        <h5>原评审情况说明</h5>
+        <h5 ng-if="projectSummary.summaryType == '7000'">原评审情况说明</h5>
+        <h5 ng-if="projectSummary.summaryType == '8000'">特殊事项说明</h5>
         <div class="mytable">
             <table class="table table-bordered">
                 <thead>
                 <tr class="info">
-                    <th width="80%">原评审情况说明</th>
+                    <th width="80%" ng-if="projectSummary.summaryType == '7000'">原评审情况说明</th>
+                    <th width="80%" ng-if="projectSummary.summaryType == '8000'">原评审情况说明</th>
                 </tr>
                 </thead>
                 <tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">

@@ -60,7 +60,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         $scope.pre.apply.pertainArea = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};
     };
 
-    //处理附件列表
+    /*//处理附件列表
     $scope.reduceAttachment = function(attachment){
         $scope.newAttachment = [];
         for(var i in attachment){
@@ -76,6 +76,28 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             }
 
         }
+    };*/
+
+    //处理附件列表
+    $scope.reduceAttachment = function(attachment, id){
+        $scope.newAttachment = attach_list("preReview", id, "preInfo").result_data;
+        for(var i in attachment){
+            var file = attachment[i];
+            console.log(file);
+            for (var j in $scope.newAttachment){
+                if (file.fileId == $scope.newAttachment[j].fileid){
+                    $scope.newAttachment[j].fileName = file.fileName;
+                    $scope.newAttachment[j].type = file.type;
+                    $scope.newAttachment[j].itemType = file.itemType;
+                    $scope.newAttachment[j].programmed = file.programmed;
+                    $scope.newAttachment[j].approved = file.approved;
+                    $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                    $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                    break;
+                }
+            }
+
+        }
     };
     
     // 初始化修改、查看数据
@@ -86,14 +108,12 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             url:srvUrl+url,
             data: $.param({"id":id})
         }).success(function(data){
-            debugger
             $scope.pre  = data.result_data.mongoData;
             $scope.preOracle  = data.result_data.oracleDate;
 
-            //处理附件
-            if (data.result_data.mongo != undefined){
-                $scope.reduceAttachment(data.result_data.mongo.attachment);
-            };
+            console.log(data.result_data.mongoData.attachmentList)
+            $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
+
 
             // 回显数据-人员信息
             let paramsVal = "";
@@ -347,14 +367,9 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             url: srvUrl + 'preInfoCreate/createProject.do',
             data: $.param({"projectInfo":JSON.stringify($scope.pre)})
         }).success(function(result){
-            if (result.result_code === 'S') {
-                $scope.nod._id = result.result_data;
-                if(typeof(showPopWin)=='function'){
-                    showPopWin();
-                }else{
-                    $.alert('保存成功');
-                }
-                $location.path("/preCreateList");
+            if (result.success){
+                $.alert(result.result_name);
+                $location.path("/preInfo/" + result.result_data + "/2");
             } else {
                 $.alert(result.result_name);
             }
