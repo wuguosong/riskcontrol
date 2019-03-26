@@ -4653,3 +4653,17 @@ ctmApp.directive('bpmnPopWin', function () {
     }
 });
 /*******************************************************流程指令结束***************************************************/
+/*******************************************************资料填写指令开始***************************************************/
+// 其他评审流程弹出框
+ctmApp.directive('fillMaterial', function () {
+    return {
+        restrict: 'AE',
+        templateUrl: 'page/sys/directive/directFillMaterialPage.html',
+        replace: 'true',
+        scope: {approve: '='},
+        controller: function ($scope, $location, $http) {
+
+        }
+    }
+});
+/*******************************************************资料填写指令结束***************************************************/

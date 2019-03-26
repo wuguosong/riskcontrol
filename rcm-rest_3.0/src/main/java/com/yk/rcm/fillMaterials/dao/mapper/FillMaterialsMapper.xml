@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper">
+	<select id="queryNoSubmitList" parameterType="string" resultType="map">
+		select * from RCM_FORMALASSESSMENT_INFO WHERE STAGE IN (3, 3.5, 3.9);
+	</select>
+	
+	<select id="querySubmitList" parameterType="string"  resultType="map">
+		select * from RCM_FORMALASSESSMENT_INFO WHERE STAGE IN (3, 3.5, 3.9);
+	</select>
+	
+	
+</mapper>

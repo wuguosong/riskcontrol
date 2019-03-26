@@ -22,4 +22,5 @@ public interface LogConstant {
     String MODULE_FORMAL_ASSESSMENT = "FORMAL_ASSESSMENT";// 正式评审
     String MODULE_PRE_AUDIT = "PRE_AUDIT"; // 投标评审
     String MODULE_MEETING = "MEETING"; // 会议管理
+    String MODULE_FILL_MATERIALS = "FILL_MATERIALS"; // 资料填写管理
 }
