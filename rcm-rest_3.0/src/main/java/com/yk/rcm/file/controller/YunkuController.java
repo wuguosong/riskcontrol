@@ -50,7 +50,7 @@ public class YunkuController {
     public Result upload(HttpServletRequest request, String docType, String docCode, String pageLocation) {
         Result result = new Result();
         String optName = UserUtil.getCurrentUserName();
-        Integer optId = new Integer(/*UserUtil.getCurrentUserId()*/10000);
+        Integer optId = new Integer(UserUtil.getCurrentUserId());
         try {
             // 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
             CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
