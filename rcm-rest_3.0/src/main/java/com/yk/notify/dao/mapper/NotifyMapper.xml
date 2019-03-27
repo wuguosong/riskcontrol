@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.notify.dao.INotifyMapper">
+    <resultMap id="notifyMap" type="com.yk.notify.entity.Notify">
+        <id column="notify_id" property="notifyId" javaType="java.lang.Long"/>
+        <result column="business_module" property="businessModule" javaType="java.lang.String"/>
+        <result column="business_id" property="businessId" javaType="java.lang.String"/>
+        <result column="associate_id" property="associateId" javaType="java.lang.String"/>
+        <result column="notify_user" property="notifyUser" javaType="java.lang.String"/>
+        <result column="notify_user_name" property="notifyUserName" javaType="java.lang.String"/>
+        <result column="notify_comments" property="notifyComments" javaType="java.lang.String"/>
+        <result column="notify_date" property="notifyDate" javaType="java.sql.Timestamp"/>
+        <result column="notify_status" property="notifyStatus" javaType="java.lang.String"/>
+        <result column="notify_created" property="notifyCreated" javaType="java.lang.String"/>
+        <result column="notify_created_name" property="notifyCreatedName" javaType="java.lang.String"/>
+    </resultMap>
+    <sql id="baseColumn">
+	   notify_id,
+       business_module,
+       business_id,
+       associate_id,
+       notify_user,
+       notify_user_name,
+       notify_comments,
+       notify_date,
+       notify_status,
+       notify_created,
+       notify_created_name
+	</sql>
+    <select id="selectNotifies" resultMap="notifyMap">
+        select
+        <include refid="baseColumn"/>
+        from sys_notify
+        where 1 = 1
+        <if test="business_module != null and business_module != ''">
+            and business_module = #{business_module}
+        </if>
+        <if test="business_id != null and business_id != ''">
+            and business_id = #{business_id}
+        </if>
+        order by notify_id, notify_date desc
+    </select>
+    <select id="selectNotifyById" resultMap="notifyMap">
+        select
+        <include refid="baseColumn"/>
+        from sys_notify
+        where 1 = 1
+        <if test="notify_id != null and notify_id != ''">
+            and notify_id = #{notify_id}
+        </if>
+        order by notify_id, notify_date desc
+    </select>
+    <select id="modifyNotify" parameterType="com.yk.notify.entity.Notify">
+        update sys_notify set
+		business_module = #{notify.businessModule},
+		business_id = #{notify.businessId},
+		associate_id = #{notify.associateId},
+		notify_user = #{notify.notifyUser},
+		notify_user_name = #{notify.notifyUserName},
+		notify_comments = #{notify.notifyComments},
+		notify_date = #{notify.notifyDate},
+		notify_status = #{notify.notifyStatus},
+		notify_created = #{notify.notifyCreated},
+		notify_created_name = #{notify.notifyCreatedName}
+		where notify_id = #{notify.notifyId}
+    </select>
+    <insert id="insertNotify" parameterType="com.yk.notify.entity.Notify">
+		insert into sys_notify
+		values(
+		sys_notify_seq.nextval,
+		#{notify.businessModule},
+		#{notify.businessId},
+		#{notify.associateId},
+		#{notify.notifyUser},
+		#{notify.notifyUserName},
+		#{notify.notifyComments},
+		sysdate,
+		#{notify.notifyStatus},
+		#{notify.notifyCreated},
+		#{notify.notifyCreatedName}
+		)
+	</insert>
+    <delete id="removeNotify">
+      delete from sys_notify
+      where notify_id = #{notify_id}
+    </delete>
+</mapper>
