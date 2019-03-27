@@ -63,12 +63,9 @@ public class NotifyService implements INotifyService {
 
     @Override
     public List<Notify> save(String business_module, String business_id, String notifies_user) {
-        if (StringUtils.isBlank(notifies_user)){
-            throw new BusinessException("NOTIFY_USER NOT NULL!");
-        }
         String[] notifiesUser = notifies_user.split(",");
-        if(ArrayUtils.isNotEmpty(notifiesUser)){
-            notifyMapper.removeNotifyMultipleParameters(business_module, business_id);
+        notifyMapper.removeNotifyMultipleParameters(business_module, business_id);
+        if(StringUtils.isEmpty(notifies_user)){
             Map<String, Object> params = new HashMap<String, Object>();
             String notifyCreated = UserUtil.getCurrentUserUuid();
             String notifyCreatedName = UserUtil.getCurrentUserName();
