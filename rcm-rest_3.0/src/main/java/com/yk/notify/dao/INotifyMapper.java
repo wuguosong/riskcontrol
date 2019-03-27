@@ -44,4 +44,11 @@ public interface INotifyMapper extends BaseMapper {
      * @param notify_id
      */
     void removeNotify(@Param("notify_id") String notify_id);
+
+    /**
+     * 删除知会信息(多参数)
+     * @param business_module
+     * @param business_id
+     */
+    void removeNotifyMultipleParameters(@Param("business_module") String business_module, @Param("business_id") String business_id);
 }

@@ -68,6 +68,7 @@ public class NotifyService implements INotifyService {
         }
         String[] notifiesUser = notifies_user.split(",");
         if(ArrayUtils.isNotEmpty(notifiesUser)){
+            notifyMapper.removeNotifyMultipleParameters(business_module, business_id);
             Map<String, Object> params = new HashMap<String, Object>();
             String notifyCreated = UserUtil.getCurrentUserUuid();
             String notifyCreatedName = UserUtil.getCurrentUserName();
@@ -87,7 +88,7 @@ public class NotifyService implements INotifyService {
                      */
                     notify.setNotifyComments(null);
                     notify.setAssociateId(null);
-                    this.save(notify);
+                    notifyMapper.insertNotify(notify);
                 }
             }
             return notifyMapper.selectNotifies(business_module, business_id);

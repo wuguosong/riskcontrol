@@ -85,4 +85,9 @@
       delete from sys_notify
       where notify_id = #{notify_id}
     </delete>
+    <delete id="removeNotifyMultipleParameters">
+        delete from sys_notify
+        where business_module = #{business_module}
+        and business_id = #{business_id}
+    </delete>
 </mapper>
