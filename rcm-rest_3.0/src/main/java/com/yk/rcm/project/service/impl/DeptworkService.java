@@ -65,6 +65,7 @@ public class DeptworkService implements IDeptworkService {
 		Map<String, Object> map = new  HashMap<String, Object>();
 		Map<String, Object> mongoData = this.formalAssesmentService.queryMongoById(businessId);
 		Map<String, Object> oracleData = this.formalAssesmentService.queryOracleById(businessId);
+		map.put("oracleData", oracleData);
 		
 		//1、查正式评审基本信息
 		map.put("projectInfo", mongoData);

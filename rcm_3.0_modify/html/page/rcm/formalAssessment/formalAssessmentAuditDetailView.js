@@ -1,5 +1,6 @@
-ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','$location','$routeParams','Upload','$timeout', 
- function ($http,$scope,$location,$routeParams,Upload,$timeout) {
+ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','$location','$routeParams','Upload','$timeout', '$filter',
+ function ($http,$scope,$location,$routeParams,Upload,$timeout,$filter) {
+     $scope.url = $routeParams.url;
 	 /*加签功能初始化必需数据*/
      $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};
      $scope.checkedUser = {};
@@ -596,12 +597,17 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //	}
 	//初始化数据
 	$scope.initData = function(){
+        if ($scope.url == $filter('encodeURI')('#/FormalAssessmentAuditList/0')){
+            $scope.WF_STATE = '0';
+        } else {
+            $scope.WF_STATE = '1';
+        }
 		//面板控制器
 		$scope.showController={};
 		//保存按钮控制器
 		$scope.showSaveBtn = false;
 		$scope.initPage();
-		$scope.getFormalAssessmentByID($scope.businessId);
+		$scope.initUpdate($scope.businessId);
 		$scope.getTaskInfoByBusinessId($scope.businessId,$scope.wfInfo.processKey);
 		$scope.queryAuditLogsByBusinessId($scope.businessId);
 //		$scope.getUserByRoleCode("5");
@@ -1406,27 +1412,32 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			
 		});
 	};
-	
-	//处理附件列表
-    $scope.reduceAttachment = function(attachment){
-    	$scope.newAttachment = [];
-    	for(var i in attachment){
-    		var files = attachment[i].files;
-    		if(files!=null && undefined!=files){
-    			var item_name = attachment[i].ITEM_NAME;
-    			var uuid = attachment[i].UUID;
-    			for(var j in files){
-    				files[j].ITEM_NAME=item_name;
-    				files[j].UUID=uuid;
-    				$scope.newAttachment.push(files[j]);
-    			}
-    		}
-    		
-    	}
-    }
-	
-	//初始化数据
-	$scope.getFormalAssessmentByID=function(id){
+
+     //处理附件列表
+     $scope.reduceAttachment = function(attachment, id){
+         $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
+         for(var i in attachment){
+             var file = attachment[i];
+             console.log(file);
+             for (var j in $scope.newAttachment){
+                 if (file.fileId == $scope.newAttachment[j].fileid){
+                     $scope.newAttachment[j].fileName = file.fileName;
+                     $scope.newAttachment[j].type = file.type;
+                     $scope.newAttachment[j].itemType = file.itemType;
+                     $scope.newAttachment[j].programmed = file.programmed;
+                     $scope.newAttachment[j].approved = file.approved;
+                     $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                     $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                     break;
+                 }
+             }
+
+         }
+     };
+
+
+     //初始化数据
+	$scope.initUpdate=function(id){
 		var  url = 'formalAssessmentInfo/getFormalAssessmentByID.do';
 		$http({
 			method:'post',  
@@ -1454,8 +1465,8 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			}
 			
 			$scope.attach = data.result_data.attach;
-			//处理附件
-            $scope.reduceAttachment(data.result_data.formalAssessmentMongo.attachment);
+            // 处理附件
+            $scope.reduceAttachment(data.result_data.formalAssessmentMongo.attachmentList, id);
 			
 			var ptNameArr=[],pmNameArr=[],pthNameArr=[],fgNameArr=[];
 			var pt1NameArr=[];

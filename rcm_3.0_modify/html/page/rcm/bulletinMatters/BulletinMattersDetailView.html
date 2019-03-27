@@ -105,59 +105,14 @@
 								</div>
 							</div>
 						</div>
-						<common-attachments id="commonAttchmentsId" doc-type="bulletin" doc-code="bulletinOracle.BUSINESSID"
-											page-location="pl#1" show-review="true" show-download="true"
-											show-upload="true" show-delete="true" init-data="initData()"></common-attachments>
 						<div class="tab-pane" id="flow_chart">
 							<directive-process-page></directive-process-page>
 						</div>
 						<div class="tab-pane" id="relation_resources">
-							<div class="row">
-								<button type="button" ng-click="batchDownload()" id="batchDownloadBtn"
-										class="btn btn-info" title="">
-									<i class="fa fa-cloud-download"></i>打包下载
-								</button>
-							</div>
-
-							<div class="table-responsive">
-								<table border="0" cellspacing="0" cellpadding="0"
-									   class="table table-bordered table-text-mid table-light">
-									<thead>
-									<tr>
-										<th width="5%">
-											<label class="checkbox-inline">
-												<input type="checkbox" name="all" id="all" ng-click="selectAll()"
-													   class="px"/>
-												<span class="lbl">&nbsp;</span>
-											</label>
-										</th>
-										<th width="30%">附件名称</th>
-										<th>上传附件</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr ng-repeat="item in bulletin.fileList track by $index">
-										<td class="txc">
-											<label class="checkbox-inline">
-												<input type="checkbox" name="choose" filename="{{item.files.fileName}}"
-													   filepath="{{item.files.filePath}}" class="px">
-												<span class="lbl">&nbsp;</span>
-											</label>
-										</td>
-										<td><input type="text" readonly ng-model="item.file_content"
-												   class="form-control"></td>
-										<td>
-											<div class="col-sm-10 noleft-pad noright-pad">
-												<a href="javascript:void(0);" ng-click="downLoadFile(item.files)"
-												   style="line-height: 27px;">{{item.files.fileName}}</a>
-											</div>
-											<!-- 											<div class="col-sm-2 noright-pad txr"> -->
-											<!-- 												<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button> -->
-											<!-- 											</div> -->
-										</td>
-									</tr>
-									</tbody>
-								</table>
+							<div class="tab-pane" id="contracts_resources">
+								<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+														  last-update-by="bulletin.applyUser" wf-state="bulletin.WF_STATE" file-list="newAttachment"
+														  init-update="initUpdate(id)"></directive-accachment-new>
 							</div>
 						</div>
 					</div>

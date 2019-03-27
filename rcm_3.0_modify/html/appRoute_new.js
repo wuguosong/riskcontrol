@@ -2420,6 +2420,24 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
+
+            // 其他评审项目信息查看（新）
+            .when('/projectBulletinInfoAllBoardView/:id/:url',{
+                controller:'projectBulletinInfoAllBoardView',
+                templateUrl:'page/rcm/projectBoard/projectBulletinInfoAllBoardView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/projectBulletinInfoAllBoardView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
             /*********************************项目看板结束******************************/
 
             /*********************************决策会开始******************************/

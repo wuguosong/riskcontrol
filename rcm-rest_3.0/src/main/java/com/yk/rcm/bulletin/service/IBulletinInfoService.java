@@ -21,7 +21,7 @@ public interface IBulletinInfoService {
 	 * 保存
 	 * @param bulletin 
 	 */
-	public void save(Map<String, Object> bulletin);
+	public String save(Map<String, Object> bulletin);
 	/**
 	 * 根据业务id删除
 	 * @param businessId
@@ -68,6 +68,23 @@ public interface IBulletinInfoService {
 	 * @param businessId
 	 */
 	public Map<String, Object> queryViewDefaultInfo(String businessId);
+	
+	/**
+	 * 新增附件
+	 * @param json
+	 */
+	public void addNewAttachment(String json);
+	/**
+	 * 删除附件
+	 * @param json
+	 */
+	public void deleteAttachment(String json);
+	/**
+	 * 替换附件
+	 * @param json
+	 */
+	/*public void updateAttachment(String json);*/
+	
 	/**
 	 * 根据业务id查询
 	 * @param businessId

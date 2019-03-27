@@ -85,7 +85,7 @@ function ($http,$scope,$location,$routeParams) {
 
 ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$location', '$routeParams', '$filter','Upload',
 	function ($http,$scope,$location, $routeParams, $filter,Upload) {
-	var queryParamId = $routeParams.id;
+	$scope.queryParamId = $routeParams.id;
 	$scope.oldUrl = $routeParams.url;
 	$scope.showController = {};
 	//风控负责人
@@ -161,7 +161,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 				method:'post',  
 			    url: srvUrl + "bulletinInfo/saveLegalLeaderAttachment.do",
 			    data:$.param({
-			    	"businessId":queryParamId,
+			    	"businessId":$scope.queryParamId,
 			    	"attachment":JSON.stringify($scope.bulletin.legalLeaderAttachment),
 			    	"opinion":$scope.bulletin.legalLeaderOpinion
 			    })
@@ -205,7 +205,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 				method:'post',  
 			    url: srvUrl + "bulletinInfo/saveRiskLeaderAttachment.do",
 			    data:$.param({
-			    	"businessId":queryParamId,
+			    	"businessId":$scope.queryParamId,
 			    	"attachment":JSON.stringify($scope.bulletin.riskLeaderAttachment),
 			    	"opinion":$scope.bulletin.riskLeaderOpinion
 			    })
@@ -248,7 +248,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 				method:'post',  
 			    url: srvUrl + "bulletinInfo/saveReviewLeaderAttachment.do",
 			    data:$.param({
-			    	"businessId":queryParamId,
+			    	"businessId":$scope.queryParamId,
 			    	"attachment":JSON.stringify($scope.bulletin.reviewLeaderAttachment),
 			    	"opinion":$scope.bulletin.reviewLeaderOpinion
 			    })
@@ -294,21 +294,51 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 				callback();
 			}
 		}
-	}
-	$scope.initDefaultData = function(){
-		$scope.wfInfo = {processKey:'bulletin', "businessId":queryParamId};
-		$scope.initData();
 	};
-	$scope.initData = function(){
+
+	$scope.initDefaultData = function(){
+        if ($scope.oldUrl == $filter('encodeURI')('#/BulletinMattersAudit/0')){
+            $scope.WF_STATE = '0';
+        } else {
+            $scope.WF_STATE = '1';
+        }
+		$scope.wfInfo = {processKey:'bulletin', "businessId":$scope.queryParamId};
+		$scope.initUpdate($scope.queryParamId);
+	};
+
+        //处理附件列表
+        $scope.reduceAttachment = function(attachment, id){
+            $scope.newAttachment = attach_list("bulletin", id, "BulletinMattersDetail").result_data;
+            for(var i in attachment){
+                var file = attachment[i];
+                console.log(file);
+                for (var j in $scope.newAttachment){
+                    if (file.fileId == $scope.newAttachment[j].fileid){
+                        $scope.newAttachment[j].fileName = file.fileName;
+                        $scope.newAttachment[j].type = file.type;
+                        $scope.newAttachment[j].itemType = file.itemType;
+                        $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                        $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                        break;
+                    }
+                }
+
+            }
+        };
+
+	$scope.initUpdate = function(id){
 		var url = srvUrl + "bulletinInfo/queryViewDefaultInfo.do";
 		$http({
 			method:'post',  
 		    url: url,
-		    data: $.param({"businessId": queryParamId})
+		    data: $.param({"businessId": id})
 		}).success(function(result){
 			var data = result.result_data;
 			$scope.bulletinOracle = data.bulletinOracle;
 			$scope.bulletin = data.bulletinMongo;
+
+            // 处理附件
+            $scope.reduceAttachment(data.bulletinMongo.attachmentList, id);
 
 			if(data.bulletinMongo.taskallocation !=null ){
 				if(data.bulletinMongo.taskallocation.reviewLeader!=null){
@@ -323,12 +353,12 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			}
 			$scope.auditLogs = data.logs;
 			$scope.initPage();
-			$scope.getTaskInfoByBusinessId(queryParamId,"bulletin");
+			$scope.getTaskInfoByBusinessId($scope.queryParamId,"bulletin");
 		});
 	};
 	$scope.initDefaultData();
 	$scope.initPage = function(){
-		$scope.wfInfo.businessId = queryParamId;
+		$scope.wfInfo.businessId = $scope.queryParamId;
 		$scope.refreshImg = Math.random()+1;
 	}
 	
@@ -551,7 +581,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 	    		method:'post',  
 			    url: url,
 			    data: $.param({
-			    	"businessId": queryParamId
+			    	"businessId": $scope.queryParamId
 			    })
 	    	}).success(function(result){
 	    		$scope.approve = {
@@ -560,7 +590,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 //					taskId:$scope.taskId,
 					processKey: "bulletin",
 					processOptions: result.result_data,
-					businessId: queryParamId,
+					businessId: $scope.queryParamId,
 					callbackSuccess: function(result){
 						$.alert(result.result_name);
 						$('#submitModal').modal('hide');

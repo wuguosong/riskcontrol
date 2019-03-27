@@ -48,7 +48,10 @@
                         <directive-process-list ng-if="isOldFlow"></directive-process-list>
                     </div>
                     <div class="tab-pane" id="bs-tabdrop-tab2">
-                        <directive-project-formal-file-list></directive-project-formal-file-list>
+                        <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="oracleData.BUSINESSID"
+                                                  last-update-by="pfr.apply.investmentManager" wf-state="oracleData.WF_STATE" file-list="newAttachment"
+                                                  init-update="initUpdate(id)"></directive-accachment-new>
+                        <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
                     </div>
                     <div class="tab-pane" id="bs-tabdrop-tab3">
                         <div class="row">

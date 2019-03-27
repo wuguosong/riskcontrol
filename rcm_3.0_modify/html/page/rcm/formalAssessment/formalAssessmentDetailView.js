@@ -19,7 +19,7 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 	$scope.approveLegalShow = true;
 	//初始化数据
 	$scope.initData = function(){
-		$scope.getFormalAssessmentByID(objId);
+		$scope.initUpdate(objId);
 		$scope.getProjectPreReviewGDCYByID(objId);
 		$scope.initPage();
 		$scope.queryAuditLogsByBusinessId(objId);
@@ -44,7 +44,7 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 	}
 	$scope.wfInfo = {processKey:'formalReview'};
 
-	//处理附件列表
+	/*//处理附件列表
     $scope.reduceAttachment = function(attachment){
     	$scope.newAttachment = [];
     	for(var i in attachment){
@@ -60,10 +60,31 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
     		}
     		
     	}
-    }
+    }*/
+     //处理附件列表
+     $scope.reduceAttachment = function(attachment, id){
+         $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
+         for(var i in attachment){
+             var file = attachment[i];
+             console.log(file);
+             for (var j in $scope.newAttachment){
+                 if (file.fileId == $scope.newAttachment[j].fileid){
+                     $scope.newAttachment[j].fileName = file.fileName;
+                     $scope.newAttachment[j].type = file.type;
+                     $scope.newAttachment[j].itemType = file.itemType;
+                     $scope.newAttachment[j].programmed = file.programmed;
+                     $scope.newAttachment[j].approved = file.approved;
+                     $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                     $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                     break;
+                 }
+             }
+
+         }
+     };
 	
 	
-	$scope.getFormalAssessmentByID=function(id){
+	$scope.initUpdate=function(id){
 		
 		var  url = 'formalAssessmentInfo/getFormalAssessmentByID.do';
 		$http({
@@ -93,8 +114,8 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 			}
 			
 			$scope.attach = data.result_data.attach;
-			//处理附件
-            $scope.reduceAttachment(data.result_data.formalAssessmentMongo.attachment);
+            // 处理附件
+            $scope.reduceAttachment(data.result_data.formalAssessmentMongo.attachmentList, id);
 			
 			var ptNameArr=[],pmNameArr=[],pthNameArr=[],fgNameArr=[];
 			var pt1NameArr=[];

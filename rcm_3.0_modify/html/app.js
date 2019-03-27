@@ -554,7 +554,6 @@ ctmApp.filter('textToHtml', function($sce) {
 });
 //调用该方法可访问scope对象
 function accessScope(node, func) {
-    debugger
     var scope = angular.element(document.querySelector(node)).scope();
     scope.$apply(func);
 }

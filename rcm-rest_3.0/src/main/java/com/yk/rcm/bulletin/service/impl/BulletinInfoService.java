@@ -67,7 +67,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 	 * @see com.yk.bulletin.service.IBulletinInfoService#save(java.lang.String)
 	 */
 	@Override
-	public void save(Map<String, Object> doc) {
+	public String save(Map<String, Object> doc) {
 		String businessId = Util.getUUID();
 		doc.put("_id", businessId);
 		this.baseMongo.save((Document)doc, Constants.RCM_BULLETIN_INFO);
@@ -84,11 +84,14 @@ public class BulletinInfoService implements IBulletinInfoService {
 		Document unitPerson = (Document) doc.get("unitPerson");
 		data.put("unitPersonId", unitPerson.get("VALUE"));
 		data.put("createBy", ThreadLocalUtil.getUserId());
+		data.put("createDate", doc.get("createTime").toString());
 		data.put("auditStatus", "0");
 		data.put("status", "0");
 		data.put("stage", "1");
 		this.bulletinInfoMapper.save(data);
-		this.saveDefaultProRole((Document)doc);
+		this.saveDefaultProRole(data);
+		System.out.println((String)data.get("businessId"));
+		return (String)data.get("businessId");
 	}
 	
 	/**
@@ -96,23 +99,20 @@ public class BulletinInfoService implements IBulletinInfoService {
 	 * author Sunny Qi
 	 * 2019-03-14
 	 * */
-	private void saveDefaultProRole(Document doc){
+	private void saveDefaultProRole(Map<String, Object> doc){
 		HashMap<String, Object> params = new HashMap<String,Object>();
 		
 		HashMap<String, Object> params1 = new HashMap<String,Object>();
-		Document apply = (Document) doc.get("apply");
-		Document pertainArea = (Document) apply.get("pertainArea");
-		String pertainAreaId = pertainArea.getString("KEY");
+		String pertainAreaId = (String)doc.get("pertainareaId");
 		params1.put("orgId", pertainAreaId);
 		List<Map<String, Object>> roleIds = roleMapper.queryRoleIdByOrgId(params1);
 		
 		for(int i=0; i < roleIds.size(); i++){
 			params.put("id", Util.getUUID());
-			params.put("businessId", doc.get("_id").toString());
+			params.put("businessId", doc.get("businessId").toString());
 			params.put("roleId", roleIds.get(i).get("ROLE_ID"));
-			Document applyUser = (Document) doc.get("applyUser");
-			params.put("createBy", applyUser.get("VALUE"));
-			params.put("create_date", doc.get("createTime"));
+			params.put("createBy", doc.get("createBy"));
+			params.put("create_date", doc.get("createDate"));
 			params.put("projectType", "bulletin");
 			
 			this.roleMapper.insertProRole(params);
@@ -632,4 +632,118 @@ public class BulletinInfoService implements IBulletinInfoService {
 	public List<Map<String, Object>> queryAllByDaxt() {
 		return bulletinInfoMapper.queryAllByDaxt();
 	}
+	
+	@SuppressWarnings({ "unchecked", "null" })
+	@Override
+	public void addNewAttachment(String json) {
+		
+		Document doc = Document.parse(json);
+		
+		String businessId = (String) doc.get("businessId");
+		String oldFileName = (String) doc.get("oldFileName");
+		Document item = (Document) doc.get("item");
+		String fileId = (String) item.get("fileId");
+		Document type = (Document) item.get("type");
+		Document itemType = (Document) item.get("itemType");
+		String fileName = (String) item.get("fileName");
+		//最後提交人信息
+		Document lastUpdateBy = (Document) item.get("lastUpdateBy");
+		String lastUpdateData = (String) item.get("lastUpdateData"); 
+		
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		
+		if (attachmentList == null) {
+			attachmentList = new ArrayList<Map<String, Object>>();
+			Map<String, Object> file = new HashMap<String,Object>();
+			file.put("fileId", fileId);
+			file.put("fileName", fileName);
+			file.put("oldFileName", oldFileName);
+			file.put("type", type);
+			file.put("itemType", itemType);
+			file.put("lastUpdateBy", lastUpdateBy);
+			file.put("lastUpdateData", lastUpdateData);
+			attachmentList.add(file);
+		} else {
+			Map<String, Object> file = new HashMap<String,Object>();
+			file.put("fileId", fileId);
+			file.put("fileName", fileName);
+			file.put("oldFileName", oldFileName);
+			file.put("type", type);
+			file.put("itemType", itemType);
+			file.put("lastUpdateBy", lastUpdateBy);
+			file.put("lastUpdateData", lastUpdateData);
+			attachmentList.add(file);
+		}
+
+		
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("attachmentList", attachmentList);
+		baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void deleteAttachment(String json) {
+		Document doc = Document.parse(json);
+		String businessId = (String) doc.get("businessId");
+		String fileId = doc.get("fileId") + "";
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		System.out.println("fileId ====" + fileId);
+		for (int i = 0; i < attachmentList.size(); i++) {
+			Document attachment = (Document) attachmentList.get(i);
+			System.out.println("attachment=           " + attachment);
+			System.out.println(attachment.get("fileId"));
+			System.out.println(attachment.get("fileId") .equals(fileId));
+			if (attachment.get("fileId") .equals(fileId)) {
+				attachmentList.remove(i);
+				break;
+			}
+		}
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("attachmentList", attachmentList);
+		baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
+	}
+
+	/*@SuppressWarnings("unchecked")
+	@Override
+	public void updateAttachment(String json) {
+		Document doc = Document.parse(json);
+		String uuid = (String) doc.get("UUID");
+		String version = doc.get("version").toString();
+		String businessId = (String) doc.get("businessId");
+		String fileName = (String) doc.get("fileName");
+		String filePath = (String) doc.get("filePath");
+		
+		Document programmed = (Document) doc.get("programmed");
+		
+		Document approved = (Document) doc.get("approved");
+		
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachment");
+		
+		for (Map<String, Object> attachment : attachmentList) {
+			if(attachment.get("UUID").toString().equals(uuid)){
+				List<Map<String, Object>> filesList = (List<Map<String, Object>>) attachment.get("files");
+				if(Util.isNotEmpty(filesList)){
+					for (Map<String, Object> files : filesList) {
+						if(files.get("version").toString().equals(version)){
+							files.put("fileName", fileName);
+							files.put("filePath", filePath);
+							files.put("approved", approved);
+							files.put("programmed", programmed);
+						}
+					}
+				}
+			}
+		}
+		
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("attachment", attachmentList);
+		baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
+	}*/
 }

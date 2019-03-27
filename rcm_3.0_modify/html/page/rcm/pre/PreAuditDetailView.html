@@ -36,7 +36,10 @@
                                     <directive-process-list ng-if="isOldFlow"></directive-process-list>
                                 </div>
                                 <div class="tab-pane" id="contracts_resources">
-									<directive-file-list></directive-file-list>
+									<!--<directive-file-list></directive-file-list>-->
+									<directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo" business-id="pre.id"
+															  last-update-by="pre.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
+															  init-update="initUpdate(id)"></directive-accachment-new>
 								</div>
                             </div>
                         </div>
