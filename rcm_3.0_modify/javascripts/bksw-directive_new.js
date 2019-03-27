@@ -303,7 +303,7 @@ ctmApp.directive('directReportOrgSelect', function() {
             //是否可编辑，默认为true
             isEditable:"=",
             //是否分页，默认为false
-            isPage:"=",
+            isPage:"=?bind",
             //查询参数，非必填
             queryParams: "=",
             //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
@@ -2356,7 +2356,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
         },
         link:function(scope,element,attr){
         },
-        controller:function($scope,$http,$element,Upload,$cookies){
+        controller:function($scope,$http,$element,Upload){
             // 获取系统当前时间
             $scope.getDate = function () {
                 var myDate = new Date();
@@ -2438,7 +2438,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 } else if ($scope.businessType == 'formalReview') {
                     url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
                 } else {
-                    url = "preInfo/deleteAttachmengInfoInMongo.do";
+                    url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
                 }
                 $http({
                     method:'post',
@@ -2487,7 +2487,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                     } else if ($scope.businessType == 'formalReview') {
                         url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
                     } else {
-                        url = "preInfo/addAttachmengInfoToMongo.do";
+                        url = "bulletinInfo/addAttachmengInfoToMongo.do";
                     }
                     _item.fileId = _fileList[_fileList.length-1].fileid + "";
                     _item.lastUpdateBy = $scope.lastUpdateBy;
@@ -2534,7 +2534,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 } else if ($scope.businessType == 'formalReview') {
                     url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
                 } else {
-                    url = "preInfo/deleteAttachmengInfoInMongo.do";
+                    url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
                 }
                 $http({
                     method:'post',
@@ -4653,17 +4653,3 @@ ctmApp.directive('bpmnPopWin', function () {
     }
 });
 /*******************************************************流程指令结束***************************************************/
-/*******************************************************资料填写指令开始***************************************************/
-// 其他评审流程弹出框
-ctmApp.directive('fillMaterial', function () {
-    return {
-        restrict: 'AE',
-        templateUrl: 'page/sys/directive/directFillMaterialPage.html',
-        replace: 'true',
-        scope: {approve: '='},
-        controller: function ($scope, $location, $http) {
-
-        }
-    }
-});
-/*******************************************************资料填写指令结束***************************************************/

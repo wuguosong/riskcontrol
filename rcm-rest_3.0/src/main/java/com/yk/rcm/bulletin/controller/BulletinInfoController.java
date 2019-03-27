@@ -115,12 +115,14 @@ public class BulletinInfoController {
 		Document doc = Document.parse(json);
 		if(doc.get("_id") == null){
 			//新增
-			this.bulletinInfoService.save(doc);
+		 	String id = this.bulletinInfoService.save(doc);
+		 	result.setResult_data(id);
 		}else{
 			//修改
 			this.bulletinInfoService.updateByBusinessId(doc);
+			result.setResult_data(doc.get("_id"));
 		}
-		result.setResult_data(doc.get("_id"));
+		
 		return result;
 	}
 	/**
@@ -164,6 +166,25 @@ public class BulletinInfoController {
 		return result;
 	}
 	
+	
+	@RequestMapping("/addAttachmengInfoToMongo")
+	@ResponseBody
+	public Result addAttachmengInfoToMongo(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		this.bulletinInfoService.addNewAttachment(json);
+		
+		return result;
+	}
+	@RequestMapping("/deleteAttachmengInfoInMongo")
+	@ResponseBody
+	public Result deleteAttachmengInfoInMongo(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		this.bulletinInfoService.deleteAttachment(json);
+		
+		return result;
+	}
 //=============================================会议纪要==============================================================
 	/**
 	 * 查询未出会议纪要（流程状态为stage：4）

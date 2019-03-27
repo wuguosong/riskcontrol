@@ -59,7 +59,29 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                 });
             };
 
-            $scope.initData = function(){
+            //处理附件列表
+            $scope.reduceAttachment = function(attachment, id){
+                $scope.newAttachment = attach_list("preReview", id, "preInfo").result_data;
+                for(var i in attachment){
+                    var file = attachment[i];
+                    console.log(file);
+                    for (var j in $scope.newAttachment){
+                        if (file.fileId == $scope.newAttachment[j].fileid){
+                            $scope.newAttachment[j].fileName = file.fileName;
+                            $scope.newAttachment[j].type = file.type;
+                            $scope.newAttachment[j].itemType = file.itemType;
+                            $scope.newAttachment[j].programmed = file.programmed;
+                            $scope.newAttachment[j].approved = file.approved;
+                            $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                            $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                            break;
+                        }
+                    }
+
+                }
+            };
+
+            $scope.initUpdate = function(objId){
                 $scope.queryAuditLogsByBusinessId(objId)
                 $scope.initPage();
                 $http({
@@ -67,13 +89,14 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                     url:srvUrl+"deptwork/queryPreAllViewById.do",
                     data: $.param({"businessId": objId})
                 }).success(function(data){
-                    debugger
                     if(data.success){
                         //1、查正式评审基本信息
                         $scope.pre = data.result_data.projectInfo;
                         $scope.pre.apply.serviceType = $filter("keyValueNames")($scope.pre.apply.serviceType, "VALUE");
                         $scope.pre.apply.projectType = $filter("keyValueNames")($scope.pre.apply.projectType, "VALUE");
                         $scope.pre.apply.projectModel = $filter("keyValueNames")($scope.pre.apply.projectModel, "VALUE");
+                        //处理附件
+                        $scope.reduceAttachment(data.result_data.projectInfo.attachmentList, objId);
                         //2、一级业务单位意见
                         $scope.firstLevelOpinion = data.result_data.firstLevelOpinion;
                         //3、风控意见
@@ -154,5 +177,5 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                 $scope.getSelectTypeByCode("06");
             });
 
-            $scope.initData();
+            $scope.initUpdate(objId);
         }]);

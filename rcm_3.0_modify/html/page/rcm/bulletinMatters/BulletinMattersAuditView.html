@@ -92,7 +92,10 @@
 							<directive-process-page></directive-process-page>
 						</div>
 						<div class="tab-pane" id="relation_resources">
-							<div class="row">
+							<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+													  last-update-by="bulletin.applyUser" wf-state="WF_STATE" file-list="newAttachment"
+													  init-update="initUpdate(id)"></directive-accachment-new>
+							<!--<div class="row">
 								<button type="button" ng-click="batchDownload()" id="batchDownloadBtn" class="btn btn-info" title="">
 									<i class="fa fa-cloud-download"></i>打包下载</button>
 							</div>
@@ -124,14 +127,14 @@
 											<div class="col-sm-10 noleft-pad noright-pad">
 												<a href="javascript:void(0);" ng-click="downLoadFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
 											</div>
-<!-- 											<div class="col-sm-2 noright-pad txr"> -->
-<!-- 												<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button> -->
-<!-- 											</div> -->
+&lt;!&ndash; 											<div class="col-sm-2 noright-pad txr"> &ndash;&gt;
+&lt;!&ndash; 												<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button> &ndash;&gt;
+&lt;!&ndash; 											</div> &ndash;&gt;
 										</td>
 									</tr>
 									</tbody>
 								</table>
-							</div>
+							</div>-->
 						</div>
 					</div>
 				</div>

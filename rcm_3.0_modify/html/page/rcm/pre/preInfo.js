@@ -111,7 +111,6 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             $scope.pre  = data.result_data.mongoData;
             $scope.preOracle  = data.result_data.oracleDate;
 
-            console.log(data.result_data.mongoData.attachmentList)
             $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
 

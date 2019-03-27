@@ -33,8 +33,8 @@
                 <th>业务类型</th>
                 <th>资源类型</th>
                 <th>附件内容</th>
-                <th ng-if="businessType != bulletin">编制人</th>
-                <th ng-if="businessType != bulletin">审核人</th>
+                <th ng-if="businessType != 'bulletin'">编制人</th>
+                <th ng-if="businessType != 'bulletin'">审核人</th>
                 <th>最后提交人</th>
                 <th>最后提交时间</th>
                 <th ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined">相关操作</th>
@@ -73,11 +73,11 @@
                         <input ng-if="item.lastUpdateData == null" ng-model="item.fileNamSuffix"/>
                     </div>
                 </td>
-                <td>
+                <td ng-if="businessType != 'bulletin'">
                     <span ng-if="!showController.isInvestmentManager && wfState !='0'">{{item.programmed.NAME}}</span>
                     <direct-user-single-select ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" id="{{'bzr_'+$index}}" checked-user="item.programmed" callback="selectPersonCallBack"></direct-user-single-select>
                 </td>
-                <td>
+                <td ng-if="businessType != 'bulletin'">
                     <span ng-if="!showController.isInvestmentManager && wfState !='0'">{{item.approved.NAME}}</span>
                     <direct-user-single-select ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" id="{{'shr_'+$index}}" checked-user="item.approved" callback="selectPersonCallBack"></direct-user-single-select>
                 </td>
