@@ -5,7 +5,6 @@ import com.yk.notify.dao.INotifyMapper;
 import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
 import com.yk.power.dao.IUserMapper;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
