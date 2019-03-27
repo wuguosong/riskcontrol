@@ -1,0 +1,62 @@
+<div class="modal-dialog">
+    <div class="modal-content panel">
+        <div class="modal-header panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">加签</h4>
+        </div>
+        <div class="modal-body panel-body">
+            <div class="row">
+                <label class="col-sm-3 control-label">加签形式</label>
+                <div class="col-sm-8">
+                    <select ng-model="changeTypeSelected" class="form-control"
+                            ng-change="_signChangeTypeSelected(changeTypeSelected)">
+                        <option ng-repeat="changeType in changeTypes"
+                                value="{{changeType.key}}" ng-selected="$index==0">{{changeType.value}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 control-label">加签人</label>
+                <div class="col-sm-8">
+                    <div class="select2-success">
+                        <div id="s2id_projectModel"
+                             class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                            <ul class="select2-choices">
+                                <li class="select2-search-choice" ng-if="null != _signTempCheckedUser.NAME">
+                                    <div>{{_signTempCheckedUser.NAME}}</div>
+                                    <a class="select2-search-choice-close" tabindex="-1"
+                                       ng-click="_signRemoveSelectedUser()"></a>
+                                    <div class="full-drop"><input type="hidden" value="{{_signTempCheckedUser.VALUE}}">
+                                    </div>
+                                </li>
+                                <li style="height:29px;"></li>
+                                <li>
+                                    <span style="cursor:pointer;" href="#" data-toggle="modal"
+                                          data-target="#_signUserSinDialog">+添加加签人</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 control-label">加签意见</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" rows="4" cols="" ng-model="_signComments"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="button-group">
+                <div class="row">
+                    <div class="option">
+                        <a href="javascript:void(0);" class="btn btn-primary btn-confirm"
+                           ng-click="_executeSign();">加签</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
