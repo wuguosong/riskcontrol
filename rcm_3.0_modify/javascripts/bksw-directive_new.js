@@ -4653,3 +4653,25 @@ ctmApp.directive('bpmnPopWin', function () {
     }
 });
 /*******************************************************流程指令结束***************************************************/
+
+// 其他评审流程弹出框
+ctmApp.directive('fillMaterial', function () {
+    return {
+        restrict: 'AE',
+        templateUrl: 'page/sys/directive/directFillMaterialPage.html',
+        replace: 'true',
+        controller: function ($scope, $location, $http) {
+            $scope.initData = function () {
+                $http({
+                    method: 'post',
+                    url: srvUrl + "fillMaterials/queryAllList.do",
+                }).success(function (result) {
+                    console.log(result);
+                    $scope.noSubmitList = result.result_data.noSubmitList;
+                    $scope.submitList = result.result_data.submitList;
+                });
+            };
+            $scope.initData();
+        }
+    }
+});

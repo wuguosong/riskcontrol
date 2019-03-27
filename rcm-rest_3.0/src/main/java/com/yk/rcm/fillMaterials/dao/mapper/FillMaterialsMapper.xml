@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper">
-	<select id="queryNoSubmitList" parameterType="string" resultType="map">
-		select * from RCM_FORMALASSESSMENT_INFO WHERE STAGE IN (3, 3.5, 3.9);
+<mapper
+	namespace="com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper">
+	<select id="queryNoSubmitList" resultType="map">
+		SELECT
+				* 
+			FROM
+				(
+			SELECT
+				FI.ID,
+				FI.BUSINESSID,
+				FI.PROJECTNAME,
+				'pfr' PROJECT_TYPE,
+				( SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = FI.PERTAINAREAID ) PERTAINAREANAME,
+				( SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY ) INVESTMENTNAME,
+				FI.APPLY_DATE,
+				FI.STAGE,
+				FI.WF_STATE STATUS 
+			FROM
+				RCM_FORMALASSESSMENT_INFO FI 
+			WHERE
+				FI.STAGE IN ( 3, 3.5, 3.9 ) 
+				AND FI.REVIEWPERSONID = '${userId}' UNION ALL
+			SELECT
+				BI.ID,
+				BI.BUSINESSID,
+				BI.BULLETINNAME PROJECTNAME,
+				'bulletin' PROJECT_TYPE,
+				( SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID ) PERTAINAREANAME,
+				( SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY ) INVESTMENTNAME,
+				BI.APPLYTIME APPLY_DATE,
+				BI.STAGE,
+				BI.STATUS 
+			FROM
+				RCM_BULLETIN_INFO BI 
+			WHERE
+				BI.STAGE IN ( 4 ) 
+				AND BI.REVIEWLEADERID = '${userId}' UNION ALL
+			SELECT
+				PI.ID,
+				PI.BUSINESSID,
+				PI.PROJECTNAME,
+				'pre' PROJECT_TYPE,
+				( SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID ) PERTAINAREANAME,
+				( SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY ) INVESTMENTNAME,
+				PI.APPLY_DATE,
+				PI.STAGE,
+				PI.WF_STATE 
+			FROM
+				RCM_PRE_INFO PI 
+			WHERE
+				PI.STAGE IN ( 3, 3.5, 3.7, 3.9 ) 
+				AND PI.REVIEWPERSONID = '${userId}'
+				) T 
+			WHERE
+				1 = 1 
+			ORDER BY
+				T.APPLY_DATE DESC;
 	</select>
-	
-	<select id="querySubmitList" parameterType="string"  resultType="map">
-		select * from RCM_FORMALASSESSMENT_INFO WHERE STAGE IN (3, 3.5, 3.9);
+
+	<select id="querySubmitList" resultType="map">
+		select * from
+		RCM_FORMALASSESSMENT_INFO WHERE STAGE IN (3, 3.5, 3.9)
 	</select>
-	
-	
+
+
 </mapper>

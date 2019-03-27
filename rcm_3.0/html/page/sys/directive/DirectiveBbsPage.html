@@ -4,23 +4,24 @@
     <div>
         <div ng-repeat="chatBox in chatBoxes" style="border: 1px solid; margin-bottom: 20px">
             <div ng-repeat="message in chatBox">
-            <li><!--一级留言-->
-                <b>|</b>
-                <span class="message">{{message.createdName}}</span> &nbsp;
-                <span class="blue">发表于&nbsp;{{message.messageDate}}</span>&nbsp;
-                <br>
-                <p class="content">
-                    {{message.messageContent}}
-                </p>
-                <button ng-click="deleteMessage(message.messageId)">撤回</button>
-            </li>
+                <li><!--一级留言-->
+                    <b>|</b>
+                    <span class="message">{{message.createdName}}</span> &nbsp;
+                    <span class="blue">发表于&nbsp;{{message.messageDate}}</span>&nbsp;
+                    <br>
+                    <p class="content">
+                        {{message.messageContent}}
+                    </p>
+                    <button ng-click="deleteMessage(message.messageId)">撤回</button>
+                </li>
+            </div>
+            <input type="text" ng-model="chatBox.messageContent"></input>
+            <button ng-click="replayQuestion(chatBox)">回复</button>
         </div>
-        <input type="text" ng-model="chatBox.messageContent"></input>
-        <button ng-click="replayQuestion(chatBox)">回复</button>
-    </div>
-    <div>
-        <h4>新建留言</h4>
-        <textarea ng-model="messageContent" cols="200" rows="5" id="messageContent"></textarea><br>
-        <button ng-click="replayQuestion()">提交留言</button>
+        <div>
+            <h4>新建留言</h4>
+            <textarea ng-model="messageContent" cols="200" rows="5" id="messageContent"></textarea><br>
+            <button ng-click="replayQuestion()">提交留言</button>
+        </div>
     </div>
 </div>
