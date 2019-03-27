@@ -72,7 +72,7 @@ public class NotifyService implements INotifyService {
             String notifyCreated = UserUtil.getCurrentUserUuid();
             String notifyCreatedName = UserUtil.getCurrentUserName();
             for(String notifyUser : notifiesUser){
-                params.put("UUID", notifiesUser);
+                params.put("UUID", notifyUser);
                 Map<String, Object> user = userMapper.selectAUser(params);
                 if(user != null){
                     notify.setNotifyUser(notifyUser);
