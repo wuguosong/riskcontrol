@@ -47,6 +47,7 @@ public class SysLogAspect {
             object = point.proceed();
         } catch (Exception e) {
             success = "N";
+            throw e;
         }
         //执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;
@@ -56,7 +57,7 @@ public class SysLogAspect {
     }
 
     @JsonBackReference
-    private void saveSysLog(ProceedingJoinPoint joinPoint, long time, String success) {
+    private void saveSysLog(ProceedingJoinPoint joinPoint, long time, String success) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         SysLogDto sysLogDto = new SysLogDto();
@@ -81,6 +82,7 @@ public class SysLogAspect {
             params = JSON.toJSONString(args);
             sysLogDto.setParams(params);
         } catch (Exception e) {
+            throw e;
         }
         //获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
@@ -88,8 +90,8 @@ public class SysLogAspect {
             try {
                 Map<String, Object> map = request.getParameterMap();
                 sysLogDto.setParams(JSON.toJSONString(map));
-            }catch (Exception e){
-
+            }catch (Exception ex){
+                throw ex;
             }
         }
         //设置IP地址
