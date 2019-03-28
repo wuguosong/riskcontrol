@@ -2130,6 +2130,24 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
            /*********************************决策通知书结束******************************/
 
            /*********************************会议相关开始******************************/
+            // 会议信息列表
+            .when('/ConferenceInformation/:tabIndex',{
+                controller:'ConferenceInformation',
+                templateUrl:'page/rcm/meeting/ConferenceInformation/ConferenceInformation.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/meeting/ConferenceInformation/ConferenceInformation.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 拟上会通知列表
             .when('/preliminaryNoticeList',{
                 controller:'PreliminaryNoticeList',

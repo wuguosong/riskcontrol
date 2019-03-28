@@ -14,6 +14,7 @@ public interface LogConstant {
     String IMPORT = "IMPORT";// 导入
     String EXPORT = "EXPORT";// 导出
     String WORKFLOW = "WORKFLOW";// 提交审批
+    String REPLACE = "REPLACE"; // 替换
     /**
      * 业务模块
      */
@@ -23,4 +24,6 @@ public interface LogConstant {
     String MODULE_PRE_AUDIT = "PRE_AUDIT"; // 投标评审
     String MODULE_MEETING = "MEETING"; // 会议管理
     String MODULE_FILL_MATERIALS = "FILL_MATERIALS"; // 资料填写管理
+    
+    String MODULE_ATTACHMENT = "ATTACHMENT"; // 附件相关
 }

@@ -86,8 +86,36 @@
                 <td ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined">
                     <button ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" type="button" class="btn btn-danger"  ng-click="_delete(item.fileid)">删除</button>
                     <button ng-if="item.preview3d != null && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" type="button" class="btn btn-info"  ng-click="_review(item.preview3d)">预览</button>
-                    <!--<button ng-if="item.newFile == null && showController.isInvestmentManager && hasWaiting  ||item.newFile == null && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles,outerIndex,item)">替换</button>-->
+                   <!-- <directive-replace-file old-item="item"></directive-replace-file>-->
+                    <!--<button ng-if="item.newFile == null && showController.isInvestmentManager && hasWaiting  ||item.newFile == null && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="_uploadReplace($file,$invalidFiles,item')">替换</button>-->
                     <button ng-if="item.newFile && showController.isInvestmentManager  && hasWaiting ||item.newFile && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="_uploadThat($file, $index, item)">新增</button>
+                    <button type="button" data-toggle="modal" data-target="#addModal{{$index}}" id="compareBtn" class="btn btn-info" ng-click="showModel()"
+                            ng-if="item.preview3d != null && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)">替换
+                    </button>
+                    <div id="addModal{{$index}}" class="modal" tabindex="-1" role="dialog"
+                         style="display: none;" ng-if="isShow">
+                        <div class="modal-dialog">
+                            <div class="modal-content special-form">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">替换文件</h4>
+                                </div>
+                                <div class="modal-body special-form">
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label select-mode">原因：</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" rows="4" cols="" ng-model="item.reason"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default btn-cancel"
+                                            ng-click="cancel()">取消</button>
+                                    <button type="button" ngf-max-size="100MB" ngf-select="_uploadReplace($file,$invalidFiles,item)"
+                                            class="btn btn-primary btn-confirm" id="forportid">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
             </tbody>
