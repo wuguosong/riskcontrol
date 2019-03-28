@@ -93,7 +93,7 @@ ctmApp.register.controller('PreDetailView', ['$routeParams','$http','$scope','$l
 		$scope.approve = {
 			operateType: "submit",
 			processKey: "formalAssessment",
-			businessId: businessId,
+			businessId: $scope.businessId,
 			callbackSuccess: function(result){
 				$.alert(result.result_name);
 				$('#submitModal').modal('hide');
