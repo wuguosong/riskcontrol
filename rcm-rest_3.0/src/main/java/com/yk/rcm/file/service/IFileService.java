@@ -196,4 +196,14 @@ public interface IFileService {
 	 * @return List<FileDto>
 	 */
 	FileDto getFile(String fileId);
+	
+	/**
+	 * @description 执行替换操作时保存操作日志
+	 * @param businessId 项目信息
+	 * @param reason     替换原因
+	 * @param success    成功/失败
+	 * @param ip         操作IP
+	 * @return List<FileDto>
+	 * */
+	void saveSysLog(String businessId, String reason, String success, String ip);
 }

@@ -7,8 +7,6 @@ import com.goukuai.constant.YunkuConf;
 import com.yk.rcm.file.dao.ILogMapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
-import org.apache.poi.hwpf.model.FIBFieldHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +15,15 @@ import com.goukuai.dto.LinkDto;
 import com.goukuai.dto.LogDto;
 import com.goukuai.srv.YunkuFileSrv;
 import com.yk.exception.BusinessException;
+import com.yk.log.constant.LogConstant;
+import com.yk.log.entity.SysLogDto;
+import com.yk.log.service.ISysLogService;
 import com.yk.rcm.file.constant.FileOpt;
 import com.yk.rcm.file.dao.IFileMapper;
 import com.yk.rcm.file.service.IFileService;
+
+import util.DateUtil;
+import util.UserUtil;
 
 import javax.annotation.Resource;
 
@@ -37,6 +41,8 @@ public class FileService implements IFileService {
     private ILogMapper logMapper;
     @Resource
     private IFileMapper fileMapper;
+    @Resource
+    private ISysLogService sysLogService;
 
     @Override
     public FileDto fileUpload(String fullPath, String localFile, String docType, String docCode, String pageLocation, String optName,
@@ -252,5 +258,26 @@ public class FileService implements IFileService {
         logDto.setFullpath(fileDto.getFullpath());
         logDto.setHash(fileDto.getHash());
         return logDto;
+    }
+    
+    public void saveSysLog(String businessId, String reason, String success, String ip) {
+    	SysLogDto sysLogDto = new SysLogDto();
+		sysLogDto.setUser(UserUtil.getCurrentUserUuid());
+		sysLogDto.setUserName(UserUtil.getCurrentUser().getName());
+		sysLogDto.setModule(LogConstant.MODULE_ATTACHMENT);
+		sysLogDto.setOperation(LogConstant.REPLACE);
+		sysLogDto.setCode(businessId);
+		sysLogDto.setDescription(reason);
+		sysLogDto.setCreateDate(DateUtil.getCurrentDate());
+		sysLogDto.setMethod("com.yk.rcm.file.controller.YunkuController.replace()");
+		if(success.equals("S")){
+			sysLogDto.setSuccess("Y");
+		} else {
+			sysLogDto.setSuccess("N");
+		}
+		
+		sysLogDto.setIp(ip);
+		//保存系统日志
+        sysLogService.save(sysLogDto);
     }
 }

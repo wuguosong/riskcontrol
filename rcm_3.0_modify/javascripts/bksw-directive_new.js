@@ -2132,6 +2132,296 @@ ctmApp.directive('directOrgMultiDialog', function() {
         }
     };
 });
+
+// 相关资源（新）
+ctmApp.directive('directiveAccachmentNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directiveAccachmentNew.html',
+        replace: true,
+        scope: {
+            // 唯一标识
+            id: "@",
+            // 业务类型
+            businessType: "@",
+            pageLocation: "@",
+            // 项目Oracle数据
+            businessId: "=",
+            wfState: "=",
+            lastUpdateBy: "=",
+            // 附件列表
+            fileList: "=",
+            // 调用父组件操作
+            initUpdate: "&initUpdate"
+        },
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element,Upload){
+            // 获取系统当前时间
+            $scope.getDate = function () {
+                var myDate = new Date();
+                //获取当前年
+                var year = myDate.getFullYear();
+                //获取当前月
+                var month = myDate.getMonth() + 1;
+                //获取当前日
+                var date = myDate.getDate();
+                var h = myDate.getHours(); //获取当前小时数(0-23)
+                var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+                var s = myDate.getSeconds();
+                var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
+                return now;
+            };
+
+            // 初始化数据
+            $scope._initData = function () {
+                $scope.attachmentType = $scope._selectItemType("ACCACHMENT_TYPE");
+                $scope.itemType = $scope._selectItemType("LEGAL_TYPE");
+                $scope.isShow = false;
+            };
+            $scope._selectItemType = function (docCode) {
+                return selectDocItem(docCode);
+            };
+            $scope._initData();
+            /*// 全选
+            $scope._selectAll = function(){
+                if($("#all").attr("checked")){
+                    $(":checkbox[name='choose']").attr("checked",1);
+                }else{
+                    $(":checkbox[name='choose']").attr("checked",false);
+                }
+            };*/
+
+            // 新增文件
+            $scope._addOneNewFile = function () {
+                function _addBlankRow(_array) {
+                    var blankRow = {
+                        newFile: true,
+                        _file_content: ''
+                    };
+                    var size = 0;
+                    for (var idx in _array) {
+                        console.log(idx);
+                        size++;
+                    }
+                    _array[size] = blankRow;
+                }
+
+                if (undefined == $scope.fileList) {
+                    $scope.fileList = [];
+                }
+                _addBlankRow($scope.fileList);
+            };
+
+            // 删除文件
+            $scope._deleteFile = function(){
+                var chkObjs = $("input[type=checkbox][name=fileChoose]:checked");
+                if(chkObjs.length == 0){
+                    $.alert("请选择要删除的数据！");
+                    return false;
+                }
+                if(chkObjs.length > 1){
+                    $.alert("请只选择一条数据进行删除!");
+                    return false;
+                }
+                var idsStr = "";
+                for(var i = 0; i < chkObjs.length; i++){
+                    idsStr = idsStr + chkObjs[i].value + ",";
+                }
+                idsStr = idsStr.substring(0, idsStr.length - 1);
+                attach_delete(idsStr);
+                var url = '';
+                // 判断文件路径
+                if ($scope.businessType == 'preReview') {
+                    url = "preInfoCreate/deleteAttachmengInfoInMongo.do";
+                } else if ($scope.businessType == 'formalReview') {
+                    url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
+                } else {
+                    url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
+                }
+                $http({
+                    method:'post',
+                    url:srvUrl + url,
+                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":idsStr})})
+                }).success(function(data){
+                    if(data.success){
+                        $.alert(data.result_name);
+                        $scope.initUpdate({'id': $scope.businessId});
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+                var _all_files = $scope.fileList;
+                if (_all_files != null) {
+                    for (var i = 0; i < _all_files.length; i++) {
+                        if (_all_files[i].selected) {
+                            if (_all_files[i].fileid) {
+                                attach_delete(_all_files[i].fileid);
+                            }
+                            _all_files.splice(i, 1);
+                            i--;
+                        }
+                    }
+                    $scope.initUpdate({'id': $scope.businessId});
+                }
+            };
+
+            // 上传
+            $scope._uploadThat = function (_file, _idx, _item) {
+                Upload.upload({
+                    url: srvUrl + 'cloud/upload.do',
+                    data: {
+                        file: _file,
+                        "docType": $scope.businessType,
+                        'docCode': $scope.businessId,
+                        'pageLocation': $scope.pageLocation
+                    }
+                }).then(function (resp) {
+                    var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
+
+                    var url = '';
+                    // 判断文件路径
+                    if ($scope.businessType == 'preReview') {
+                        url = "preInfoCreate/addAttachmengInfoToMongo.do";
+                    } else if ($scope.businessType == 'formalReview') {
+                        url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
+                    } else {
+                        url = "bulletinInfo/addAttachmengInfoToMongo.do";
+                    }
+                    _item.fileId = _fileList[_fileList.length-1].fileid + "";
+                    _item.lastUpdateBy = $scope.lastUpdateBy;
+                    _item.lastUpdateData = $scope.getDate();
+                    if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
+                        _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;
+                    }
+                    $http({
+                        method:'post',
+                        url:srvUrl + url,
+                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
+                    }).success(function(data){
+                        if(data.success){
+                            $scope.initUpdate({'id': $scope.businessId});
+                            $.alert(data.result_name);
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
+                }, function (resp) {
+                    $.alert(resp.status);
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                });
+            };
+
+            // 替换
+            $scope._uploadReplace = function (_file, _idx, _item) {
+                Upload.upload({
+                    url: srvUrl + 'cloud/replace.do',
+                    data: {
+                        file: _file,
+                        "docType": $scope.businessType,
+                        'docCode': $scope.businessId,
+                        'pageLocation': $scope.pageLocation,
+                        "oldFileId": _item.fileid,
+                        "reason": _item.reason
+                    }
+                }).then(function (resp) {
+                    var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
+
+                    var url = '';
+                    // 判断文件路径
+                    if ($scope.businessType == 'preReview') {
+                        url = "preInfoCreate/addAttachmengInfoToMongo.do";
+                    } else if ($scope.businessType == 'formalReview') {
+                        url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
+                    } else {
+                        url = "bulletinInfo/addAttachmengInfoToMongo.do";
+                    }
+                    _item.fileId = _fileList[_fileList.length-1].fileid + "";
+                    _item.lastUpdateBy = $scope.lastUpdateBy;
+                    _item.lastUpdateData = $scope.getDate();
+                    if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
+                        _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;
+                    }
+                    $http({
+                        method:'post',
+                        url:srvUrl + url,
+                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
+                    }).success(function(data){
+                        if(data.success){
+                            $scope.initUpdate({'id': $scope.businessId});
+                            $scope.cancel();
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
+                }, function (resp) {
+                    $.alert(resp.status);
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                });
+            };
+
+            $scope.showModel = function () {
+                $scope.isShow = true;
+            };
+
+            $scope.cancel = function () {
+                $scope.isShow = false;
+                $('.modal-backdrop').remove();
+            };
+
+            // 预览
+            $scope._review = function (uri) {
+                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+
+            // 下载
+            $scope._download = function (uri) {
+                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+
+            // 删除
+            $scope._delete = function(file_id){
+                attach_delete(file_id);
+                var url = '';
+                // 判断文件路径
+                if ($scope.businessType == 'preReview') {
+                    url = "preInfoCreate/deleteAttachmengInfoInMongo.do";
+                } else if ($scope.businessType == 'formalReview') {
+                    url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
+                } else {
+                    url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
+                }
+                $http({
+                    method:'post',
+                    url:srvUrl + url,
+                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
+                }).success(function(data){
+                    if(data.success){
+                        $.alert(data.result_name);
+                        $scope.initUpdate({'id': $scope.businessId});
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            };
+
+            // 切换业务类型时查询资源类型的值
+            $scope._changeType = function (type) {
+                console.log(type);
+                $scope.itemType = $scope._selectItemType(type.ITEM_CODE);
+            };
+            // 切换资源类型时修改附件名称逻辑
+            $scope._changeItemType = function (item) {
+                console.log(item);
+                item.fileName = item.itemType.ITEM_NAME;
+            };
+        }
+    };
+});
 /*******************************************************公共指令结束***************************************************/
 
 
@@ -2361,236 +2651,6 @@ ctmApp.directive('directivePreJcwyh', function() {
     };
 });
 
-// 相关资源（新）
-ctmApp.directive('directiveAccachmentNew', function() {
-    return {
-        restrict: 'E',
-        templateUrl: 'page/sys/directive/directiveAccachmentNew.html',
-        replace: true,
-        scope: {
-            // 唯一标识
-            id: "@",
-            // 业务类型
-            businessType: "@",
-            pageLocation: "@",
-            // 项目Oracle数据
-            businessId: "=",
-            wfState: "=",
-            lastUpdateBy: "=",
-            // 附件列表
-            fileList: "=",
-            // 调用父组件操作
-            initUpdate: "&initUpdate"
-        },
-        link:function(scope,element,attr){
-        },
-        controller:function($scope,$http,$element,Upload){
-            // 获取系统当前时间
-            $scope.getDate = function () {
-                var myDate = new Date();
-                //获取当前年
-                var year = myDate.getFullYear();
-                //获取当前月
-                var month = myDate.getMonth() + 1;
-                //获取当前日
-                var date = myDate.getDate();
-                var h = myDate.getHours(); //获取当前小时数(0-23)
-                var m = myDate.getMinutes(); //获取当前分钟数(0-59)
-                var s = myDate.getSeconds();
-                var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
-                return now;
-            };
-
-            // 初始化数据
-            $scope._initData = function () {
-                $scope.attachmentType = $scope._selectItemType("ACCACHMENT_TYPE");
-                console.log($scope.attachmentType);
-                $scope.itemType = $scope._selectItemType("LEGAL_TYPE");
-                console.log( $scope.itemType);
-            };
-            $scope._selectItemType = function (docCode) {
-                return selectDocItem(docCode);
-            };
-            $scope._initData();
-            /*// 全选
-            $scope._selectAll = function(){
-                if($("#all").attr("checked")){
-                    $(":checkbox[name='choose']").attr("checked",1);
-                }else{
-                    $(":checkbox[name='choose']").attr("checked",false);
-                }
-            };*/
-
-            // 新增文件
-            $scope._addOneNewFile = function () {
-                function _addBlankRow(_array) {
-                    var blankRow = {
-                        newFile: true,
-                        _file_content: ''
-                    };
-                    var size = 0;
-                    for (var idx in _array) {
-                        console.log(idx);
-                        size++;
-                    }
-                    _array[size] = blankRow;
-                }
-
-                if (undefined == $scope.fileList) {
-                    $scope.fileList = [];
-                }
-                _addBlankRow($scope.fileList);
-            };
-
-            // 删除文件
-            $scope._deleteFile = function(){
-                var chkObjs = $("input[type=checkbox][name=fileChoose]:checked");
-                if(chkObjs.length == 0){
-                    $.alert("请选择要删除的数据！");
-                    return false;
-                }
-                if(chkObjs.length > 1){
-                    $.alert("请只选择一条数据进行删除!");
-                    return false;
-                }
-                var idsStr = "";
-                for(var i = 0; i < chkObjs.length; i++){
-                    idsStr = idsStr + chkObjs[i].value + ",";
-                }
-                idsStr = idsStr.substring(0, idsStr.length - 1);
-                attach_delete(idsStr);
-                var url = '';
-                // 判断文件路径
-                if ($scope.businessType == 'preReview') {
-                    url = "preInfoCreate/deleteAttachmengInfoInMongo.do";
-                } else if ($scope.businessType == 'formalReview') {
-                    url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
-                } else {
-                    url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
-                }
-                $http({
-                    method:'post',
-                    url:srvUrl + url,
-                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":idsStr})})
-                }).success(function(data){
-                    if(data.success){
-                        $.alert(data.result_name);
-                        $scope.initUpdate({'id': $scope.businessId});
-                    }else{
-                        $.alert(data.result_name);
-                    }
-                });
-                var _all_files = $scope.fileList;
-                if (_all_files != null) {
-                    for (var i = 0; i < _all_files.length; i++) {
-                        if (_all_files[i].selected) {
-                            if (_all_files[i].fileid) {
-                                attach_delete(_all_files[i].fileid);
-                            }
-                            _all_files.splice(i, 1);
-                            i--;
-                        }
-                    }
-                    $scope.initUpdate({'id': $scope.businessId});
-                }
-            };
-
-            // 上传
-            $scope._uploadThat = function (_file, _idx, _item) {
-                Upload.upload({
-                    url: srvUrl + 'cloud/upload.do',
-                    data: {
-                        file: _file,
-                        "docType": $scope.businessType,
-                        'docCode': $scope.businessId,
-                        'pageLocation': $scope.pageLocation
-                    }
-                }).then(function (resp) {
-                    var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
-
-                    var url = '';
-                    // 判断文件路径
-                    if ($scope.businessType == 'preReview') {
-                        url = "preInfoCreate/addAttachmengInfoToMongo.do";
-                    } else if ($scope.businessType == 'formalReview') {
-                        url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
-                    } else {
-                        url = "bulletinInfo/addAttachmengInfoToMongo.do";
-                    }
-                    _item.fileId = _fileList[_fileList.length-1].fileid + "";
-                    _item.lastUpdateBy = $scope.lastUpdateBy;
-                    _item.lastUpdateData = $scope.getDate();
-                    if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
-                        _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;
-                    }
-                    $http({
-                        method:'post',
-                        url:srvUrl + url,
-                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                    }).success(function(data){
-                        if(data.success){
-                            $scope.initUpdate({'id': $scope.businessId});
-                        }else{
-                            $.alert(data.result_name);
-                        }
-                    });
-                }, function (resp) {
-                    $.alert(resp.status);
-                }, function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
-                });
-            };
-
-            // 预览
-            $scope._review = function (uri) {
-                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
-            };
-
-            // 下载
-            $scope._download = function (uri) {
-                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
-            };
-
-            // 删除
-            $scope._delete = function(file_id){
-                attach_delete(file_id);
-                var url = '';
-                // 判断文件路径
-                if ($scope.businessType == 'preReview') {
-                    url = "preInfoCreate/deleteAttachmengInfoInMongo.do";
-                } else if ($scope.businessType == 'formalReview') {
-                    url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
-                } else {
-                    url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
-                }
-                $http({
-                    method:'post',
-                    url:srvUrl + url,
-                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
-                }).success(function(data){
-                    if(data.success){
-                        $.alert(data.result_name);
-                        $scope.initUpdate({'id': $scope.businessId});
-                    }else{
-                        $.alert(data.result_name);
-                    }
-                });
-            };
-
-            // 切换业务类型时查询资源类型的值
-            $scope._changeType = function (type) {
-                console.log(type);
-                $scope.itemType = $scope._selectItemType(type.ITEM_CODE);
-            };
-            // 切换资源类型时修改附件名称逻辑
-            $scope._changeItemType = function (item) {
-                console.log(item);
-                item.fileName = item.itemType.ITEM_NAME;
-            };
-        }
-    };
-});
 /************************************投标评审结束*****************************/
 
 /************************************正式评审开始*****************************/
