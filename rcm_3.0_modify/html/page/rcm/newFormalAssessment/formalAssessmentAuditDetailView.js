@@ -1,5 +1,6 @@
 ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','$location','$routeParams','Upload','$timeout', '$filter',
  function ($http,$scope,$location,$routeParams,Upload,$timeout,$filter) {
+	debugger;
      $scope.url = $routeParams.url;
 	 /*加签功能初始化必需数据*/
      $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};
@@ -1362,7 +1363,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							businessId:  $scope.businessId,
 							callbackSuccess: function(result){
 								$.alert(result.result_name);
-								$('#submitModal').modal('hide');
+								// $('#submitModal').modal('hide');
 								$scope.initData();
 							},
 							callbackFail: function(result){
@@ -1370,12 +1371,14 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							}
 					};
 					$scope.approve.showController = $scope.showController;
-                    if ($scope.curLog.CHANGETYPE) {
-                    	if($scope.curLog.CHANGETYPE != ''){
-                            $scope.approve.operateType = "change";
+                    if (!isEmpty($scope.curLog)) {
+                        if (!isEmpty($scope.curLog.CHANGETYPE)) {
+                            if($scope.curLog.CHANGETYPE != ''){
+                                $scope.approve.operateType = "change";
+                            }
                         }
                     }
-					$('#submitModal').modal('show');
+					// $('#submitModal').modal('show');
 				});
 			}else{
 				$http({
@@ -1401,12 +1404,14 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							}
 					};
 					$scope.approve.showController = $scope.showController;
-                    if ($scope.curLog.CHANGETYPE) {
-                        if($scope.curLog.CHANGETYPE != ''){
-                            $scope.approve.operateType = "change";
+                    if (!isEmpty($scope.curLog)) {
+                        if (!isEmpty($scope.curLog.CHANGETYPE)) {
+                            if($scope.curLog.CHANGETYPE != ''){
+                                $scope.approve.operateType = "change";
+                            }
                         }
                     }
-					$('#submitModal').modal('show');
+					// $('#submitModal').modal('show');
 				});
 			}
 			
@@ -1911,4 +1916,673 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	});
 	$scope.initData();
 	$scope.curLog = wf_getTaskLog("formalReview", $routeParams.id, $scope.credentials.UUID);
+	/*********************************流程相关代码**********************************/
+     $scope.changeTypeSelected = "";
+     $scope.changeTypes = [{key: 'before', value: '前加签'}, {key: 'after', value: '后加签'}];
+     //初始化提示信息框
+     $("[data-toggle='tooltip']").tooltip();
+     //验证任务人员
+     $scope.callfunction = function (functionName) {
+         var func = eval(functionName);
+         //创建函数对象，并调用
+         return new func(arguments[1]);
+     }
+     /**加签参数初始化add by LiPan 2019-03-08**/
+     $scope.showSelectPerson = function () {
+         $("#submitModal").modal('hide');
+         $("#userSinDialog").modal('show');
+     };
+     $scope.changeWork = function () {
+         console.log($scope.approve);
+         //人员验证
+         if ($scope.checkedUser.NAME == null || $scope.checkedUser.NAME == '') {
+             $.alert("请选择目标人员！");
+             return;
+         }
+         if ($scope.checkedUser.VALUE == $scope.credentials.UUID) {
+             $.alert("不能转办给自己！");
+             return;
+         }
+         if ($scope.checkedUser.VALUE == $scope.curLog.AUDITUSERID) {
+             $.alert("不能转办给最初人员！");
+             return;
+         }
+         if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+             $.alert("审批意见不能为空！");
+             return;
+         }
+         if ($scope.flowVariables.opinion.length > 650) {
+             $.alert("审批意见不能超过650字！");
+             return;
+         }
+         if ($scope.changeTypeSelected == 'after') {
+             var validate = wf_validateSign('formalReview', $scope.approve.businessId);
+             if (!isEmpty(validate.code)) {
+                 $.alert(validate.comment);
+                 return;
+             }
+         }
+         //执行转办操作
+         show_Mask();
+         $http({
+             method: 'post',
+             url: srvUrl + "sign/doSign.do",
+             data: $.param({
+                 'type': $scope.changeTypeSelected,
+                 'business_module': 'formalReview',
+                 "business_id": $scope.approve.businessId,
+                 "user_json": JSON.stringify($scope.checkedUser),
+                 "task_id": $scope.curLog.TASKID,
+                 "option": $scope.flowVariables.opinion
+             })
+         }).success(function (result) {
+             hide_Mask();
+             if ($scope.approve.callbackSuccess != null && result.success) {
+                 $scope.approve.callbackSuccess(result);
+             } else if ($scope.approve.callbackFail != null && !result.success) {
+                 $scope.approve.callbackFail(result);
+             } else {
+                 $.alert(result.result_name);
+             }
+         });
+     };
+     $scope.workOver = function () {
+         //人员验证
+         if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+             $.alert("审批意见不能为空！");
+             return;
+         }
+         if ($scope.flowVariables.opinion.length > 650) {
+             $.alert("审批意见不能超过650字！");
+             return;
+         }
+         //执行办结操作
+         show_Mask();
+         $http({
+             method: 'post',
+             url: srvUrl + "sign/endSign.do",
+             data: $.param({
+                 "business_module": "formalReview",
+                 "business_id": $scope.approve.businessId,
+                 "task_id": $scope.curLog.TASKID,
+                 "option": $scope.flowVariables.opinion
+             })
+         }).success(function (result) {
+             hide_Mask();
+             if ($scope.approve.callbackSuccess != null && result.success) {
+                 $scope.approve.callbackSuccess(result);
+             } else if ($scope.approve.callbackFail != null && !result.success) {
+                 $scope.approve.callbackFail(result);
+             } else {
+                 $.alert(result.result_name);
+             }
+         });
+     };
+     /**加签参数初始化add by LiPan 2019-03-08**/
+
+     //判断是否显示toConfirm的打分项
+     $scope.showMarkMethod = function (documentation) {
+
+         if (documentation != null && documentation != "") {
+             var docObj = JSON.parse(documentation);
+             if (docObj.mark == "reviewPassMark") {
+                 $scope.showReviewToConfirm = true;
+                 $scope.showReviewConfirmToEnd = false;
+                 $scope.showMark = true;
+             }
+             if (docObj.mark == "legalPassMark") {
+                 $scope.showMark = true;
+                 $scope.showLegalToConfirm = true;
+
+             }
+             if (docObj.mark == "toEnd") {
+                 $scope.showMark = false;
+                 $scope.showLegalToConfirm = false;
+                 $scope.showReviewToConfirm = false;
+                 $scope.showReviewConfirmToEnd = true;
+             }
+         } else {
+//					$scope.showMark = false;
+             $scope.showLegalToConfirm = false;
+             $scope.showReviewToConfirm = false;
+             $scope.showReviewConfirmToEnd = false;
+         }
+     }
+
+     $scope.checkMark = function () {
+         if ($scope.approve == null) {
+             return;
+         }
+         var processOptions = $scope.approve.processOptions;
+
+         if (processOptions[0].documentation != null && processOptions[0].documentation != '') {
+             var docObj = JSON.parse(processOptions[0].documentation);
+
+             if (docObj.mark == "reviewPassMark") {
+                 $scope.showReviewToConfirm = true;
+             }
+             if (docObj.mark == "legalPassMark") {
+                 $scope.showLegalToConfirm = true;
+             }
+         }
+
+         //流程选项
+         for (var i in processOptions) {
+             var documentation = processOptions[i].documentation;
+             if (documentation != null && documentation != "") {
+                 var docObj = JSON.parse(documentation);
+                 if (docObj.mark == "toEnd") {
+                     $scope.newEndOption = true;
+                 }
+                 if (docObj.mark == "reviewPassMark" || docObj.mark == "legalPassMark") {
+//							$scope.showMark = true;
+                     if (i == 0) {
+                         $scope.showMark = true;
+                     }
+                     //查询后台的评价记录
+                     $.ajax({
+                         type: 'post',
+                         url: srvUrl + "formalMark/queryMarks.do",
+                         data: $.param({"businessId": $scope.approve.businessId}),
+                         dataType: "json",
+                         async: false,
+                         success: function (result) {
+                             if (result.success) {
+                                 if (result.result_data == null) {
+                                     if (docObj.mark == "reviewPassMark") {
+                                         $scope.showReviewFirstMark = true;
+                                         $scope.showMark = true;
+                                     }
+                                     if (docObj.mark == "legalPassMark") {
+                                         $scope.showLegalFirstMark = true;
+                                         $scope.showMark = true;
+                                     }
+                                 } else {
+                                     if (docObj.mark == "reviewPassMark") {
+                                         if (result.result_data.REVIEWFILEACCURACY == null || result.result_data.REVIEWFILEACCURACY == "" || result.result_data.FLOWMARK == null || result.result_data.FLOWMARK == '') {
+                                             $scope.showReviewFirstMark = true;
+                                         }
+                                     }
+                                     if (docObj.mark == "legalPassMark") {
+                                         if (result.result_data.LEGALFILEACCURACY == null || result.result_data.LEGALFILEACCURACY == "") {
+                                             $scope.showLegalFirstMark = true;
+                                         }
+                                     }
+                                 }
+                             } else {
+                                 alert(result.result_name);
+                                 return;
+                             }
+                         }
+                     });
+                 }
+             }
+         }
+     }
+     var validServiceType = function () {
+         var result = {success: true, result_name: ""};
+
+         if ($scope.pfrOracle.SERVICETYPE_ID != '1401' && $scope.pfrOracle.SERVICETYPE_ID != '1402') {
+             result.success = false;
+             result.result_name = "此项目非传统水务、水环境项目！无法选择该选项	！";
+         }
+         return result;
+     };
+     var validCheckedFzr = function () {
+         var result = {success: true, result_name: ""};
+
+         if ($scope.myTaskallocation == null || $scope.myTaskallocation == "") {
+             result.success = false;
+             result.result_name = "请分配负责人！";
+         }
+         if ($scope.approve.showController.isSignLegal == null || $scope.approve.showController.isSignLegal == '') {
+             if ($scope.myTaskallocation.legalReviewLeader.NAME == null || $scope.myTaskallocation.legalReviewLeader.NAME == "") {
+                 result.success = false;
+                 result.result_name = "请选择法律评审负责人！";
+             }
+         }
+         if ($scope.myTaskallocation.reviewLeader.NAME == null || $scope.myTaskallocation.reviewLeader.NAME == "") {
+             result.success = false;
+             result.result_name = "请选择评审负责人！";
+         }
+         return result;
+     };
+     var validCheckedFLFzr = function () {
+         var result = {success: true, result_name: ""};
+
+         if ($scope.myTaskallocation == null || $scope.myTaskallocation == "") {
+             result.success = false;
+             result.result_name = "请分配负责人！";
+         }
+         if ($scope.myTaskallocation.legalReviewLeader.NAME == null || $scope.myTaskallocation.legalReviewLeader.NAME == "") {
+             result.success = false;
+             result.result_name = "请选择法律评审负责人！";
+         }
+         return result;
+     };
+
+     var validCheckedMajor = function () {
+         var result = {success: true, result_name: ""};
+
+         if ($scope.myTaskallocation.professionalReviewers == null || $scope.myTaskallocation.professionalReviewers == "") {
+             result.success = false;
+             result.result_name = "请选择专业评审人员！";
+         }
+         return result;
+     };
+     $scope.submitInfo = {};
+     $scope.submitInfo.currentTaskVar = {};
+     $scope.submitNext = function () {
+         /********Add By LiPan
+          * 此处发现选择了"加签"单选以后,
+          * $scope.showReviewToConfirm的值依然是true
+          * 加签操作不起作用,所以加上了该段代码
+          * ********/
+         if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
+             $scope.showReviewToConfirm = false;
+             $scope.showLegalToConfirm = false;
+         }
+         if ($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER') {
+             $scope.showReviewToConfirm = false;
+             $scope.showLegalToConfirm = false;
+         }
+         if ("submit" == $scope.approve.operateType) {
+             $scope.submit();
+         } else if ("audit" == $scope.approve.operateType) {
+             if ($scope.showReviewConfirmToEnd) {
+                 $.confirm("您选择了终止项目，意味着您将废弃此项目！是否确认？", function () {
+                     $scope.auditSingle();
+                 });
+             } else if ($scope.showLegalToConfirm) {
+                 $.confirm("您选择了评审负责人确认，意味着您已经和基层法务沟通完毕，流程将进入下一环节！是否确认？", function () {
+                     $scope.auditSingle();
+                 });
+             } else if ($scope.showReviewToConfirm) {
+                 $.confirm("您选择了评审负责人确认选项，意味着您已经和投资经理沟通完毕，流程将进入下一环节！是否确认？", function () {
+                     $scope.auditSingle();
+                 });
+             } else if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
+                 $scope.changeWork();
+             } else if ($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER') {
+                 $scope.workOver();
+             } else {
+                 $scope.auditSingle();
+             }
+         } else if ("change" == $scope.approve.operateType) {
+             if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
+                 $scope.changeWork();
+             } else if ($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER') {
+                 $scope.workOver();
+             }
+         } else {
+             $.alert("操作状态不明确！");
+         }
+     };
+     $scope.submit = function () {
+         var url = srvUrl + "formalAssessmentAudit/startSingleFlow.do";
+         show_Mask();
+         $http({
+             method: 'post',
+             url: url,
+             data: $.param({
+                 "processKey": $scope.approve.processKey,
+                 "businessId": $scope.approve.businessId
+             })
+         }).success(function (result) {
+             hide_Mask();
+             if ($scope.approve.callbackSuccess != null && result.success) {
+                 $scope.approve.callbackSuccess(result);
+             } else if ($scope.approve.callbackFail != null && !result.success) {
+                 $scope.approve.callbackFail(result);
+             } else {
+                 $.alert(result.result_name);
+             }
+         });
+     };
+
+     $(".mark").keyup(function () {
+         if (this.value.length == 1) {
+             this.value = this.value.replace(/[^0-9]/g, '');
+         } else {
+             this.value = this.value.replace(/\D/g, '')
+         }
+         if (this.value > this.attributes.max.value * 1) {
+             this.value = null;
+         }
+     });
+
+     $scope.auditSingle = function () {
+         //打分项验证-start
+         if ($scope.showMark && ($scope.showReviewFirstMark || $scope.showReviewToConfirm || $scope.showLegalToConfirm)) {
+             if (!$scope.mark) {
+                 $.alert("请评分！");
+                 return;
+             }
+             if ($scope.showReviewFirstMark) {
+                 if ($scope.mark.flowMark == null) {
+                     $.alert("请对审批流程熟悉度评分！");
+                     return;
+                 }
+                 if ($scope.mark.moneyCalculate == null) {
+                     $.alert("请对核心财务测算能力评分！");
+                     return;
+                 }
+                 if ($scope.mark.reviewFileAccuracy == null) {
+                     $.alert("请对资料的准确性评分！");
+                     return;
+                 }
+                 if ($scope.mark.planDesign == null) {
+                     $.alert("请对核心的方案设计能力评分！");
+                     return;
+                 }
+             }
+             if ($scope.showLegalFirstMark) {
+             }
+             if ($scope.showReviewToConfirm) {
+                 if ($scope.mark.fileContent == null) {
+                     $.alert("请对资料的完整性评分！");
+                     return;
+                 }
+                 if ($scope.mark.fileTime == null) {
+                     $.alert("请对资料的及时性评分！");
+                     return;
+                 }
+                 if ($scope.mark.riskControl == null) {
+                     $.alert("请对核心风险识别及规避能力评分！");
+                     return;
+                 }
+
+             }
+             if ($scope.showLegalToConfirm) {
+                 if ($scope.mark.legalFileAccuracy == null) {
+                     $.alert("请对资料的准确性评分！");
+                     return;
+                 }
+                 if ($scope.mark.talks == null) {
+                     $.alert("请对核心的协议谈判能力评分！");
+                     return;
+                 }
+             }
+
+             //存分
+             $.ajax({
+                 type: 'post',
+                 url: srvUrl + "formalMark/saveOrUpdate.do",
+                 data: $.param({
+                     "json": JSON.stringify($scope.mark),
+                     "businessId": $scope.approve.businessId
+                 }),
+                 dataType: "json",
+                 async: false,
+                 success: function (result) {
+                     if (!result.success) {
+                         alert(result.result_name);
+                         return;
+                     }
+                 }
+             });
+
+         }
+         //打分项验证-end
+
+         if ($scope.approve.showController.isServiewType) {
+             if ($scope.submitInfo.currentTaskVar == null || $scope.submitInfo.currentTaskVar.cesuanFileOpinion == null || $scope.submitInfo.currentTaskVar.cesuanFileOpinion == "") {
+                 $.alert("测算文件意见不能为空！");
+                 return;
+             }
+             if ($scope.submitInfo.currentTaskVar == null || $scope.submitInfo.currentTaskVar.tzProtocolOpinion == null || $scope.submitInfo.currentTaskVar.tzProtocolOpinion == "") {
+                 $.alert("投资协议意见不能为空！");
+                 return;
+             }
+             else {
+                 //保存意见到mongo
+                 $http({
+                     method: 'post',
+                     url: srvUrl + "formalAssessmentInfo/updateServiceTypeOpinion.do",
+                     data: $.param({
+                         "serviceTypeOpinion": JSON.stringify($scope.submitInfo.currentTaskVar),
+                         "businessId": $scope.approve.businessId
+                     })
+                 }).success(function (result) {
+
+                 });
+             }
+         }
+         if ($scope.flowVariables == null || $scope.flowVariables == 'undefined' || $scope.flowVariables.opinion == undefined || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+             $.alert("审批意见不能为空！");
+             return;
+         }
+         if ($scope.flowVariables.opinion.length > 650) {
+             $.alert("审批意见不能超过650字！");
+             return;
+         }
+         if ($scope.approve.showController.isGroupMember) {
+             //保存小组成员意见到mongo
+
+             var json = {
+                 "opinion": $scope.flowVariables.opinion,
+                 "businessId": $scope.approve.businessId,
+                 "user": $scope.credentials
+             };
+
+             $http({
+                 method: 'post',
+                 url: srvUrl + "formalAssessmentInfo/saveFixGroupOption.do",
+                 data: $.param({"json": JSON.stringify(json)})
+             }).success(function (result) {
+             });
+         }
+         var url = srvUrl + "formalAssessmentAudit/auditSingle.do";
+         var documentation = $("input[name='bpmnProcessOption']:checked").attr("aaa");
+
+         if (documentation != null && documentation != "") {
+             var docObj = JSON.parse(documentation);
+             if (docObj.preAction) {
+                 var preActionArr = docObj.preAction;
+                 for (var i in preActionArr) {
+                     if (preActionArr[i].callback == 'validServiceType') {
+                         var result = $scope.callfunction(preActionArr[i].callback);
+                         if (!result.success) {
+                             $.alert(result.result_name);
+                             return;
+                         }
+                     } else if (preActionArr[i].callback == 'validCheckedFzr') {
+                         var result = $scope.callfunction(preActionArr[i].callback);
+                         if (!result.success) {
+                             $.alert(result.result_name);
+                             return;
+                         } else {
+                             //保存任务人员信息
+                             $scope.myTaskallocation.businessId = $scope.approve.businessId;
+                             $.ajax({
+                                 type: 'post',
+                                 url: srvUrl + "formalAssessmentAudit/saveTaskToMongo.do",
+                                 data: $.param({"task": JSON.stringify($scope.myTaskallocation)}),
+                                 dataType: "json",
+                                 async: false,
+                                 success: function (result) {
+                                     if (!result.success) {
+                                         alert(result.result_name);
+                                         return;
+                                     }
+                                 }
+                             });
+                         }
+                     } else if (preActionArr[i].callback == 'validCheckedMajor') {
+
+                         var result = $scope.callfunction(preActionArr[i].callback);
+                         if (!result.success) {
+                             $.alert(result.result_name);
+                             return;
+                         } else {
+                             //保存专业评审人员信息
+                             if ($scope.approve.showController.isTask && $scope.professionalReviewers.NAME == null || $scope.myTaskallocation.professionalReviewers.NAME == "") {
+                                 $.alert("请选择专业评审人员！");
+                                 return;
+                             }
+                             $scope.myTaskallocation.businessId = $scope.approve.businessId;
+                             $.ajax({
+                                 type: 'post',
+                                 url: srvUrl + "formalAssessmentAudit/saveTaskToMongo.do",
+                                 data: $.param({"task": JSON.stringify($scope.myTaskallocation)}),
+                                 dataType: "json",
+                                 async: false,
+                                 success: function (result) {
+                                     if (!result.success) {
+                                         alert(result.result_name);
+                                         return;
+                                     }
+                                 }
+                             });
+                         }
+                     } else if (preActionArr[i].callback == 'validCheckedFLFzr') {
+
+                         var result = $scope.callfunction(preActionArr[i].callback);
+                         if (!result.success) {
+                             $.alert(result.result_name);
+                             return;
+                         } else {
+                             //保存专业评审人员信息
+                             $scope.myTaskallocation.businessId = $scope.approve.businessId;
+                             $.ajax({
+                                 type: 'post',
+                                 url: srvUrl + "formalAssessmentAudit/saveTaskToMongo.do",
+                                 data: $.param({"task": JSON.stringify($scope.myTaskallocation)}),
+                                 dataType: "json",
+                                 async: false,
+                                 success: function (result) {
+                                     if (!result.success) {
+                                         alert(result.result_name);
+                                         return;
+                                     }
+                                 }
+                             });
+                         }
+                     }
+                 }
+             }
+         }
+
+         show_Mask();
+         $http({
+             method: 'post',
+             url: url,
+             data: $.param({
+                 "processKey": $scope.approve.processKey,
+                 "businessId": $scope.approve.businessId,
+                 "opinion": $scope.flowVariables.opinion,
+                 "processOption": $("input[name='bpmnProcessOption']:checked").val()
+             })
+         }).success(function (result) {
+             hide_Mask();
+             if ($scope.approve.callbackSuccess != null && result.success) {
+                 $scope.approve.callbackSuccess(result);
+             } else if ($scope.approve.callbackFail != null && !result.success) {
+                 $scope.approve.callbackFail(result);
+             } else {
+                 $.alert(result.result_name);
+             }
+         });
+     };
+     $scope.$watch("approve", $scope.checkMark);
+     $scope.showSubmitModal();
+     /***************************知会和加签*******************************/
+     $scope._quickComments = ['同意', '不同意'];// 快捷意见下拉选项初始化
+     $scope._quickFillComments = function(_eleName, _ngModel){// 快捷意见内容改变事件
+         var _quickComments = $('input[name="'+_eleName+'"]:checked').val();
+         eval('$scope.' + _ngModel + '="' + _quickComments + '"');
+         $scope._signComments = _quickComments;
+     };
+     // 选择知会人弹窗用户多选数据初始化
+     $scope._notifyMappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
+     $scope._notifyCheckedUsers = [];
+     $scope._notifyTempCheckedUsers = [];
+     // 移除知会人
+     $scope._notifyRemoveSelectedUser = function (_user) {
+         for (var _i = 0; _i < $scope._notifyTempCheckedUsers.length; _i++) {
+             if (_user.VALUE == $scope._notifyTempCheckedUsers[_i].VALUE) {
+                 $scope._notifyTempCheckedUsers.splice(_i, 1);
+                 break;
+             }
+         }
+         // 保存知会人
+         $scope._notifySaveNotifiesUser($scope.approve.processKey, $scope.approve.businessId, $scope._notifyTempCheckedUsers);
+     };
+     // 指令执行的方法
+     $scope._notifyParentSaveSelected = function(){
+         var _notifyExecuteEval = '';
+         _notifyExecuteEval += '$scope.$parent._notifyCheckedUsers = $scope.checkedUsers;';
+         _notifyExecuteEval += '$scope.$parent._notifyTempCheckedUsers = $scope.tempCheckedUsers;';
+         _notifyExecuteEval += '$scope.$parent._notifySaveNotifiesUser($scope.$parent.approve.processKey, $scope.$parent.approve.businessId, $scope.$parent._notifyTempCheckedUsers);';
+         return _notifyExecuteEval;
+     };
+     // 初始化知会人信息
+     $scope._notifyInitNotifiesUser = function(_business_module, _business_id){
+         $scope._notifyTempCheckedUsers = notify_notifiesCheckedTranslate(_business_module, _business_id);
+         $scope._notifyCheckedUsers.splice(0, $scope._notifyCheckedUsers.length);
+         for (var i = 0; i < $scope._notifyTempCheckedUsers.length; i++) {
+             var user = {};
+             user[$scope._notifyMappedKeyValue.nameField] = $scope._notifyTempCheckedUsers[i].NAME;
+             user[$scope._notifyMappedKeyValue.valueField] = $scope._notifyTempCheckedUsers[i].VALUE;
+             $scope._notifyCheckedUsers.push(user);
+             delete user.$$hashKey;
+         }
+     };
+     // 保存知会人信息
+     $scope._notifySaveNotifiesUser = function(_business_module, _business_id, _notifyTempCheckedUsers){
+         var _notifiesUser = notify_mergeTempCheckedUsers(_notifyTempCheckedUsers);
+         notify_saveNotifies(_business_module, _business_id, _notifiesUser);
+     };
+     // 展示加签弹窗
+     $scope._showSignDialog = function(){
+         $("#_signModalDialog").modal('show');
+     };
+     $scope._signComments = '';// 加签意见初始化
+     // 执行加签
+     $scope._executeSign = function(){
+         $scope.checkedUser = $scope._signTempCheckedUser;// $scope.checkedUser 为流程中选中的加签用户变量
+         // 校验
+         if(isEmpty($scope.changeTypeSelected)){
+             $.alert('请选择加签类型!');
+             return;
+         }
+         if(isEmpty($scope.checkedUser.VALUE) || isEmpty($scope.checkedUser.NAME)){
+             $.alert('请选择加签人员!');
+             return;
+         }
+         $("#_signModalDialog").modal('hide');
+     };
+     // 指令后置方法
+     $scope._signCallback = function(){
+         $("#_signUserSinDialog").modal('hide');
+         $("#_signModalDialog").modal('show');
+     };
+     $scope._signMappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
+     $scope._signCheckedUser = {};
+     $scope._signTempCheckedUser = {};
+     // 向指令传递的方法
+     $scope._signParentSaveSelected = function(){
+         var _signExecuteEval = '';
+         _signExecuteEval += '$scope.$parent._signCheckedUser = $scope.checkedUser;';
+         _signExecuteEval += '$scope.$parent._signTempCheckedUser = $scope.tempCheckedUser;';
+         _signExecuteEval += '$scope.$parent._signCallback();';
+         return _signExecuteEval;
+     };
+     // 移除加签用户
+     $scope._signRemoveSelectedUser = function(){
+         $scope.checkedUser = {};
+         $scope._signTempCheckedUser = {};
+         $scope._signCheckedUser = {};
+     };
+     // 加签类型选择改变时执行的方法
+     $scope._signChangeTypeSelected = function(_changeTypeSelected){
+         $scope.changeTypeSelected = _changeTypeSelected;
+         $('#_signChangeRadio').prop("checked", true);
+     };
+     // 加签意见填充
+     $scope._signFillSignComments = function(_eleId){
+         $scope._signComments = $('#' + _eleId).val();
+     };
+     $scope._notifyInitNotifiesUser("formalReview", $routeParams.id);
+     /***************************知会和加签*******************************/
 }]);
