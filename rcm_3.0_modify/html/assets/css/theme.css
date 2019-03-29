@@ -75,38 +75,38 @@ p.font-big {
 }
 
 /* 添加标签 */
-p.addlabel {
+span.addlabel {
   min-width: 90px;
   padding: 0 15px;
-  height: 30px;
-  line-height: 28px;
+  height: 24px;
+  line-height: 22px;
   box-sizing: border-box;
   background-color: #fff;
-  font-size: 16px;
+  font-size: 13px;
   text-align: center;
-  border-radius: 15px;
+  border-radius: 12px;
   /* 蓝色 */
   /* 绿色 */
   /* 黄色 */
   /* 红色 */
 }
 
-p.addlabel.blue {
+span.addlabel.blue {
   color: #2b679d;
   border: 1px solid #2b679d;
 }
 
-p.addlabel.green {
+span.addlabel.green {
   color: #69bb8e;
   border: 1px solid #69bb8e;
 }
 
-p.addlabel.yellow {
+span.addlabel.yellow {
   border: 1px solid #ecac55;
   color: #ecac55;
 }
 
-p.addlabel.red {
+span.addlabel.red {
   color: #ec4f4b;
   border: 1px solid #ec4f4b;
 }
