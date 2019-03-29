@@ -1,22 +1,24 @@
 <div class="panel-body">
-	<ul class="panel-head font-blue2">
-		<li class="mr10">欢迎</li>
-		<li class="mr10"><font class="font-black">{{credentials.userName}}</font></li>
-		<li class="mr20">来到风险管控系统</li>
-		<li class="mr10">系统时间 : {{now | date : 'yyyy-MM-dd'}}</li>
-		<li>{{week}}</li>
-	</ul>
+    <ul class="panel-head font-blue2">
+        <li class="mr10">欢迎</li>
+        <li class="mr10">
+            <font class="font-black">{{credentials.userName}}</font>
+        </li>
+        <li class="mr20">来到风险管控系统</li>
+        <li class="mr10">系统时间 : {{now | date : 'yyyy-MM-dd'}}</li>
+        <li>{{week}}</li>
+    </ul>
     <div class="mb30 ml20 mr20">
         <div class="panel p-panel">
             <!-- Nav tabs -->
             <div class="p-nav">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="/#todo" data-toggle="tab">
+                    <li role="presentation" class="active"><a href="/#todo" data-toggle="tab" class="btn tab tab-90">
                         待办事项<span class="badge badge-blue">{{myTaskCount}}</span>
                     </a></li>
                     <li role="presentation"><a href="/#havedone" data-toggle="tab">
                         已办事项<span class="badge badge-blue">{{overTaskCount}}</span>
-                    </a></li>
+					</a></li>
                 </ul>
             </div>
             <!-- Tab panes -->
@@ -25,34 +27,29 @@
                     <div class="table-responsive table-list no-selectbox">
                         <table class="table table-hover ">
                             <thead>
-                            <tr>
-                                <th>工单主题</th>
-                                <th>工单类型</th>
-                                <th>当前环节</th>
-                                <th>创建时间</th>
-                            </tr>
+                                <tr>
+                                    <th>工单主题</th>
+                                    <th>工单类型</th>
+                                    <th>当前环节</th>
+                                    <th>创建时间</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="t in myTaskList">
-                                <td>
-                                    <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '')" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                       ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                       ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.FORM_KEY_ == 'noticeDecision'"
-                                       ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a
-                                            ng-if="t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'"
-                                            ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@1">{{t.SUBJECT}}</a>
-                                </td>
-                                <td>{{t.TYPE_TEXT}}</td>
-                                <td>{{t.NAME_}}</td>
-                                <td>{{t.CREATE_TIME_}}</td>
-                                <!-- 									<td>2017-05-04 15:57</td> -->
-                                <!-- 									<td><i class="glyphicon glyphicon-star color1"></i></td> -->
-                            </tr>
+                                <tr ng-repeat="t in myTaskList">
+                                    <td>
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '')" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'" ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@1">{{t.SUBJECT}}</a>
+                                    </td>
+                                    <td>{{t.TYPE_TEXT}}</td>
+                                    <td>{{t.NAME_}}</td>
+                                    <td>{{t.CREATE_TIME_}}</td>
+                                    <!-- 									<td>2017-05-04 15:57</td> -->
+                                    <!-- 									<td><i class="glyphicon glyphicon-star color1"></i></td> -->
+                                </tr>
                             </tbody>
                         </table>
 
@@ -65,38 +62,31 @@
                     <div class="table-responsive table-list no-selectbox">
                         <table class="table table-hover ">
                             <thead>
-                            <tr>
-                                <th>工单主题</th>
-                                <th>工单类型</th>
-                                <th>当前环节</th>
-                                <th>开始时间</th>
-                                <!-- 									<th>接收时间</th> -->
-                                <!-- 									<th>优先级</th> -->
-                            </tr>
+                                <tr>
+                                    <th>工单主题</th>
+                                    <th>工单类型</th>
+                                    <th>当前环节</th>
+                                    <th>开始时间</th>
+                                    <!-- 									<th>接收时间</th> -->
+                                    <!-- 									<th>优先级</th> -->
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat=" t in overTaskList">
-                                <td><a ng-if="t.TYPE_ == 'preAssessment'"
-                                       ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.TYPE_ == 'formalAssessment'"
-                                       ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.TYPE_ == 'formalReview'"
-                                       ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.TYPE_ == 'preReview'"
-                                       ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.TYPE_ == 'noticeOfDecision'"
-                                       ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.TYPE_ == 'noticeDecision'"
-                                       ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                    <a ng-if="t.TYPE_ == 'bulletin'"
-                                       ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                </td>
-                                <td>{{t.TYPE_TEXT}}</td>
-                                <td>{{t.PHASE}}</td>
-                                <td>{{t.START_TIME_}}</td>
-                                <!-- 									<td>2017-05-04 15:57</td> -->
-                                <!-- 									<td><i class="glyphicon glyphicon-star color1"></i></td> -->
-                            </tr>
+                                <tr ng-repeat=" t in overTaskList">
+                                    <td><a ng-if="t.TYPE_ == 'preAssessment'" ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.TYPE_ == 'formalAssessment'" ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.TYPE_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.TYPE_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.TYPE_ == 'noticeOfDecision'" ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.TYPE_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.TYPE_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                    </td>
+                                    <td>{{t.TYPE_TEXT}}</td>
+                                    <td>{{t.PHASE}}</td>
+                                    <td>{{t.START_TIME_}}</td>
+                                    <!-- 									<td>2017-05-04 15:57</td> -->
+                                    <!-- 									<td><i class="glyphicon glyphicon-star color1"></i></td> -->
+                                </tr>
                             </tbody>
                         </table>
 
@@ -108,25 +98,25 @@
             </div>
         </div>
     </div>
-	<fill-material></fill-material>
+    <fill-material></fill-material>
 </div>
 
 
 <script>
-	angular.element(document).ready(function() {
-		$('.widget-tasks .panel-body').pixelTasks().sortable({
-			axis : "y",
-			handle : ".task-sort-icon",
-			stop : function(event, ui) {
-				// IE doesn't register the blur when sorting
-				// so trigger focusout handlers to remove .ui-state-focus
-				ui.item.children(".task-sort-icon").triggerHandler("focusout");
-			}
-		});
-		$('#clear-completed-tasks').click(function() {
-			$('.widget-tasks .panel-body').pixelTasks('clearCompletedTasks');
-		});
-		var _index = $(".platform-info .item-wrap li").index();
-		$(".platform-info .item-wrap li > .index").text(_index);
-	});
+    angular.element(document).ready(function() {
+        $('.widget-tasks .panel-body').pixelTasks().sortable({
+            axis: "y",
+            handle: ".task-sort-icon",
+            stop: function(event, ui) {
+                // IE doesn't register the blur when sorting
+                // so trigger focusout handlers to remove .ui-state-focus
+                ui.item.children(".task-sort-icon").triggerHandler("focusout");
+            }
+        });
+        $('#clear-completed-tasks').click(function() {
+            $('.widget-tasks .panel-body').pixelTasks('clearCompletedTasks');
+        });
+        var _index = $(".platform-info .item-wrap li").index();
+        $(".platform-info .item-wrap li > .index").text(_index);
+    });
 </script>

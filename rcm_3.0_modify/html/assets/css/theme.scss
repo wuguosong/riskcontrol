@@ -89,8 +89,9 @@ p.font-big {
 /* 添加标签 */
 
 span.addlabel {
+    display: inline-block;
     min-width: 90px;
-    padding: 0 15px;
+    padding: 0 12px 0 10px;
     height: 24px;
     line-height: 22px;
     box-sizing: border-box;
@@ -98,6 +99,10 @@ span.addlabel {
     font-size: 13px;
     text-align: center;
     border-radius: 12px;
+    margin: {
+        left: 5px;
+        bottom: 5px;
+    }
     /* 蓝色 */
     &.blue {
         color: $blue;
