@@ -3,6 +3,7 @@
  */
 package com.yk.rcm.pre.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import com.yk.rcm.pre.service.IPreMeetingInfoService;
 
 import common.PageAssistant;
 import common.Result;
+import util.Util;
 
 /**
  * 投标评审参会信息
@@ -80,14 +82,19 @@ public class PreMeetingInfoController {
 	 * @param request
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/queryMeetingInfoById")
 	@ResponseBody
 	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.QUERY, description = "查询参会信息")
 	public Result queryMeetingInfoById(HttpServletRequest request){
 		Result result = new Result();
-		String id = request.getParameter("id");
+		String id = request.getParameter("formalId");
 		Map<String, Object> doc = this.preMeetingInfoService.queryMeetingInfoById(id);
-		result.setResult_data(doc);
+		Map<String, Object> meetingInfo = new HashMap<String, Object>();
+		if (Util.isNotEmpty(doc.get("meetingInfo"))){
+			meetingInfo = (Map<String, Object>) doc.get("meetingInfo");
+		}
+		result.setResult_data(meetingInfo);
 		return result;
 	}
 	/**

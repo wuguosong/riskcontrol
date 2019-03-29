@@ -40,4 +40,10 @@ public interface IFormalAssessmentInfoCreateMapper extends BaseMapper {
 	 * 通过业务ID获取项目数据
 	 * */
 	public Map<String, Object> getProjectByID(String businessId);
+	
+	/**
+	 * 保存之后修改投资经理提交状态
+	 * @param map
+	 */
+	public void updateManagerSubmitState(Map<String, Object> map);
 }

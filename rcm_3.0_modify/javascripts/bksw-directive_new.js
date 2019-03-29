@@ -14,6 +14,53 @@ ctmApp.directive('directiveReturnBtn', function() {
     };
 });
 // 人员多选
+ctmApp.directive('directUserMultiSelect', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directUserMultiSelect.html',
+        replace: true,
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            //查询参数
+            queryParams: "=",
+            isEditable:"=?bind",
+            //默认选中的用户,数组类型，[{NAME:'张三',VALUE:'user.uuid'},{NAME:'李四',VALUE:'user.uuid'}]
+            checkedUsers: "=",
+            //映射的key，value，{nameField:'username',valueField:'uuid'}，
+            //默认为{nameField:'NAME',valueField:'VALUE'}
+            mappedKeyValue: "=",
+            callback: "="
+        },
+        controller:function($scope,$http,$element){
+            if($scope.mappedKeyValue == null){
+                $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+            }
+            if($scope.checkedUsers == null){
+                $scope.checkedUsers = [];
+            }
+            $scope.initDefaultData = function(){
+                if($scope.title==null){
+                    $scope.title = "人员选择";
+                }
+                if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                    $scope.isEditable = "true";
+                }
+            };
+            $scope.initDefaultData();
+            $scope.removeSelectedUser = function(user){
+                for(var i = 0; i < $scope.checkedUsers.length; i++){
+                    if(user[$scope.mappedKeyValue.valueField] == $scope.checkedUsers[i][$scope.mappedKeyValue.valueField]){
+                        $scope.checkedUsers.splice(i, 1);
+                        break;
+                    }
+                }
+            };
+        }
+    };
+});
 ctmApp.directive('directUserMultiDialog', function () {
     return {
         restrict: 'E',
@@ -255,7 +302,6 @@ ctmApp.directive('directUserSingleDialog', function() {
                 });
             }
             $scope.removeSelectedUser = function(){
-                debugger;
                 $scope.tempCheckedUser = {};
             };
             $scope.isChecked = function(user){
@@ -297,7 +343,6 @@ ctmApp.directive('directUserSingleDialog', function() {
                     $scope.callback();
                 }
                 /***父页面进行添加 Add By LiPan****/
-                debugger;
                 if(!isEmpty($scope.parentSaveSelected) && (typeof $scope.parentSaveSelected === 'function')){
                     var executeEval = $scope.parentSaveSelected();
                     if(!isEmpty(executeEval)){
@@ -539,7 +584,7 @@ ctmApp.directive('directFzrSingleSelect', function() {
             //必填，查询用户的url
             url: "@",
             //是否可编辑
-            isEditable:"=",
+            isEditable:"=?bind",
             //是否分组
             isGroup:"@",
             //是否可以多选，'true':可以多选，'false':不可以多选，默认为'false'

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import util.ThreadLocalUtil;
 
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
 
 import common.PageAssistant;
@@ -80,6 +82,11 @@ public class FormalAssessmentInfoCreateController {
 		return result;
 	}
 	
+	/**
+	 * 新增附件信息到Mongo
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/addAttachmengInfoToMongo")
 	@ResponseBody
 	public Result addAttachmengInfoToMongo(HttpServletRequest request){
@@ -89,6 +96,12 @@ public class FormalAssessmentInfoCreateController {
 		
 		return result;
 	}
+	
+	/**
+	 * 删除Mongo附件信息
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/deleteAttachmengInfoInMongo")
 	@ResponseBody
 	public Result deleteAttachmengInfoInMongo(HttpServletRequest request){
@@ -96,6 +109,21 @@ public class FormalAssessmentInfoCreateController {
 		String json = request.getParameter("json");
 		this.formalAssessmentInfoCreateService.deleteAttachment(json);
 		
+		return result;
+	}
+	
+	/**
+	 * 新增会议信息(保存到mongo)
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/addConferenceInformation")
+	@ResponseBody
+	public Result addConferenceInformation(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("information");
+		String method = request.getParameter("method");
+		this.formalAssessmentInfoCreateService.addConferenceInformation(json, method);
 		return result;
 	}
 }

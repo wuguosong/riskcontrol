@@ -15,11 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import util.ThreadLocalUtil;
 import util.Util;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.power.dao.IRoleMapper;
-import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.newFormalAssessment.dao.IFormalAssessmentInfoCreateMapper;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
 
@@ -304,9 +302,6 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		System.out.println("fileId ====" + fileId);
 		for (int i = 0; i < attachmentList.size(); i++) {
 			Document attachment = (Document) attachmentList.get(i);
-			System.out.println("attachment=           " + attachment);
-			System.out.println(attachment.get("fileId"));
-			System.out.println(attachment.get("fileId") .equals(fileId));
 			if (attachment.get("fileId") .equals(fileId)) {
 				attachmentList.remove(i);
 				break;
@@ -356,5 +351,37 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_FORMALASSESSMENT_INFO);
 	}*/
 
-
+	@Override
+	public void addConferenceInformation(String json, String method) {
+		Document meetingInfo = Document.parse(json);
+		String businessId = meetingInfo.getString("formalId");
+		BasicDBObject query = new BasicDBObject();
+		query.put("formalId",businessId);
+		List<Map<String, Object>> queryByConditions = baseMongo.queryByCondition(query,Constants.FORMAL_MEETING_INFO);
+		Map<String, Object> queryByCondition = new HashMap<String, Object>();
+		if (Util.isNotEmpty(queryByConditions)){
+			queryByCondition = queryByConditions.get(0);
+		}
+		
+		if (method.equals("submit")) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("need_meeting", "1");
+			map.put("businessId", businessId);
+			map.put("metting_commit_time", Util.getTime());
+			map.put("is_investmentmanager_submit", "1");
+			this.formalAssessmentInfoCreateMapper.updateManagerSubmitState(map);
+		}
+		
+		//其他会议信息保存到metting表中
+		if (Util.isEmpty(queryByCondition)){
+			meetingInfo.put("user_id", ThreadLocalUtil.getUserId());
+			meetingInfo.put("create_date", Util.getTime());
+			meetingInfo.put("state", "1");
+			this.baseMongo.save(meetingInfo, Constants.FORMAL_MEETING_INFO);
+		} else {
+			String id = queryByCondition.get("_id").toString();
+			meetingInfo.remove("_id");
+			this.baseMongo.updateSetByObjectId(id, meetingInfo, Constants.FORMAL_MEETING_INFO);
+		}
+	}
 }

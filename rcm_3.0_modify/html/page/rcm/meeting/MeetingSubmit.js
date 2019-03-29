@@ -7,7 +7,6 @@
 			method:'post',  
 		    url:srvUrl+"meeting/initQueryNotSubmProjList.do"
 		}).success(function(result){
-			debugger
 			if(result.success){
 				if(result.result_data.MEETING_LEADERS == null){
 					result.result_data.MEETING_LEADERS = [];

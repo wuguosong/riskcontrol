@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import util.DateUtil;
+import util.ThreadLocalUtil;
 import util.UserUtil;
 import util.Util;
 
+import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.log.constant.LogConstant;
 import com.yk.log.entity.SysLogDto;
@@ -355,5 +357,26 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		data.put("attachment", attachmentList);
 		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
 	}*/
-
+	
+	@Override
+	public void addConferenceInformation(String json, String method) {
+		Document meetingInfo = Document.parse(json);
+		String businessId = meetingInfo.getString("formalId");
+		
+		if (method.equals("submit")) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("need_meeting", "1");
+			map.put("businessId", businessId);
+			map.put("metting_commit_time", Util.getTime());
+			map.put("is_investmentmanager_submit", "1");
+			this.preInfoCreateMapper.updateManagerSubmitState(map);
+		}
+		meetingInfo.put("user_id", ThreadLocalUtil.getUserId());
+		meetingInfo.put("create_date", Util.getTime());
+		meetingInfo.put("state", "1");
+		//其他会议信息保存到metting表中
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("meetingInfo", meetingInfo);
+		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
+	}
 }
