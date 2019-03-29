@@ -1,12 +1,11 @@
-@charset "UTF-8";
 * {
   font-family: "PingFang SC", "Microsoft Yahei", "SimHei", "sans-serif";
 }
 
 @font-face {
   font-family: 'myfonts';
-  src: url("../fonts/iconfont.eot");
-  src: url("../fonts/iconfont.eot?#iefix") format("embedded-opentype"), url("../fonts/iconfont.woff2") format("woff2"), url("../fonts/iconfont.woff") format("woff"), url("../fonts/../fonts/iconfont.ttf") format("truetype"), url("iconfont.svg#iconfont") format("svg");
+  src: url("//at.alicdn.com/t/font_1081538_u9twycey1wj.eot");
+  src: url("//at.alicdn.com/t/font_1081538_u9twycey1wj.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_1081538_u9twycey1wj.woff2") format("woff2"), url("//at.alicdn.com/t/font_1081538_u9twycey1wj.woff") format("woff"), url("//at.alicdn.com/t/font_1081538_u9twycey1wj.ttf") format("truetype"), url("//at.alicdn.com/t/font_1081538_u9twycey1wj.svg#iconfont") format("svg");
 }
 
 [class^="icon-"],
@@ -98,137 +97,137 @@ p.font-big {
   box-shadow: 0 2px 10px rgba(86, 98, 109, 0.6);
 }
 
-button.btn.btn-primary {
+.btn.btn-primary {
   background-color: #2b679d;
 }
 
-button.btn.btn-primary:active {
+.btn.btn-primary:active {
   background-color: #1c4c77;
 }
 
-button.btn.btn-primary:disabled {
+.btn.btn-primary:disabled {
   background-color: #ebebeb;
   color: #b2b2b2;
   border: none;
 }
 
-button.btn.btn-primary:disabled:hover {
+.btn.btn-primary:disabled:hover {
   background-color: #ebebeb;
   color: #b2b2b2;
   box-shadow: none;
 }
 
-button.btn.btn-primary.erji {
+.btn.btn-primary.erji {
   background-color: #fff;
   border: 1px solid #2b679d;
   color: #2b679d;
 }
 
-button.btn.btn-primary.erji:hover {
+.btn.btn-primary.erji:hover {
   background-color: #eff2f7;
 }
 
-button.btn.btn-primary.erji:active {
+.btn.btn-primary.erji:active {
   background-color: #ebebeb;
 }
 
-button.btn.btn-primary.erji:disabled {
+.btn.btn-primary.erji:disabled {
   background-color: #fff;
   border: 1px solid #ebebeb;
   color: #b2b2b2;
 }
 
-button.btn.btn-primary.erji:disabled:hover {
+.btn.btn-primary.erji:disabled:hover {
   box-shadow: none;
   background-color: #fff;
   border: 1px solid #ebebeb;
   color: #b2b2b2;
 }
 
-button.btn.btn-primary.sanji {
+.btn.btn-primary.sanji {
   background-color: #fff;
   border: 1px solid #2b679d;
   color: #2b679d;
   border-radius: 36px;
 }
 
-button.btn.btn-primary.sanji:active {
+.btn.btn-primary.sanji:active {
   background-color: #eff2f7;
 }
 
-button.btn.btn-primary.sanji:disabled {
+.btn.btn-primary.sanji:disabled {
   border: 1px solid #ebebeb;
   color: #b2b2b2;
 }
 
-button.btn.btn-primary.sanji:disabled:hover {
+.btn.btn-primary.sanji:disabled:hover {
   box-shadow: none;
   background-color: #fff;
   border: 1px solid #ebebeb;
   color: #b2b2b2;
 }
 
-button.btn.btn-danger {
+.btn.btn-danger {
   background-color: #ec4f4b;
 }
 
-button.btn.btn-danger:active {
+.btn.btn-danger:active {
   background-color: #c83e3a;
 }
 
-button.btn.btn-danger:disabled {
+.btn.btn-danger:disabled {
   background-color: #efc5c4;
   color: #fff;
 }
 
-button.btn.btn-danger:disabled:hover {
+.btn.btn-danger:disabled:hover {
   box-shadow: none;
   background-color: #efc5c4;
   color: #fff;
 }
 
-button.btn.btn-danger.erji {
+.btn.btn-danger.erji {
   background-color: #fff;
   color: #ec4f4b;
   border: 1px solid #ec4f4b;
 }
 
-button.btn.btn-danger.erji:hover {
+.btn.btn-danger.erji:hover {
   background-color: #faf0f0;
 }
 
-button.btn.btn-danger.erji:active {
+.btn.btn-danger.erji:active {
   background-color: #efc5c4;
   color: #ec4f4b;
   border-color: #ec4f4b;
 }
 
-button.btn.btn-danger.erji:disabled {
+.btn.btn-danger.erji:disabled {
   background-color: #fff;
   color: #b2b2b2;
   border: 1px solid #ebebeb;
 }
 
-button.btn.btn-danger.erji:disabled:hover {
+.btn.btn-danger.erji:disabled:hover {
   background-color: #fff;
   color: #b2b2b2;
   border: 1px solid #ebebeb;
 }
 
-button.btn.btn-danger.sanji {
+.btn.btn-danger.sanji {
   background-color: #fff;
   color: #ec4f4b;
   border: 1px solid #ec4f4b;
   border-radius: 36px;
 }
 
-button.btn.btn-danger.sanji:active {
+.btn.btn-danger.sanji:active {
   background-color: #faf0f0;
   color: #ec4f4b;
   border-color: #ec4f4b;
 }
 
-button.btn.btn-danger.sanji:disabled {
+.btn.btn-danger.sanji:disabled {
   background-color: #fff;
   color: #ec4f4b;
   border: 1px solid #ec4f4b;
@@ -323,268 +322,4 @@ button.btn.btn-danger.sanji:disabled {
 
 .btn-right {
   border-radius: 0 4px 4px 0;
-}
-
-/* a标签按钮 */
-a:focus,
-a:active:focus,
-a.active:focus,
-a.focus,
-a:active.focus,
-a.active.focus {
-  outline: none;
-  text-decoration: none;
-}
-
-a {
-  height: 36px;
-  width: 90px;
-  border: none;
-  border-radius: 4px;
-  line-height: 36px;
-  text-align: center;
-  font-size: 16px;
-  box-sizing: border-box;
-  padding: 0;
-  outline-style: none;
-  outline-color: transparent;
-  outline-width: 0;
-}
-
-a:hover {
-  box-shadow: 0 2px 10px rgba(86, 98, 109, 0.6);
-}
-
-/* 按钮颜色 */
-/* 蓝色、主色 */
-a.btn-primary {
-  background-color: #2b679d;
-}
-
-a.btn-primary:active {
-  background-color: #1c4c77;
-}
-
-a.btn-primary.disabled {
-  background-color: #ebebeb;
-  color: #b2b2b2;
-  border: none;
-}
-
-a.btn-primary.disabled:hover {
-  background-color: #ebebeb;
-  color: #b2b2b2;
-  box-shadow: none;
-}
-
-a.btn-primary.erji {
-  background-color: #fff;
-  border: 1px solid #2b679d;
-  color: #2b679d;
-}
-
-a.btn-primary.erji:hover {
-  background-color: #eff2f7;
-}
-
-a.btn-primary.erji:active {
-  background-color: #ebebeb;
-}
-
-a.btn-primary.erji.disabled {
-  background-color: #fff;
-  border: 1px solid #ebebeb;
-  color: #b2b2b2;
-}
-
-a.btn-primary.erji.disabled:hover {
-  box-shadow: none;
-  background-color: #fff;
-  border: 1px solid #ebebeb;
-  color: #b2b2b2;
-}
-
-a.btn-primary.sanji {
-  background-color: #fff;
-  border: 1px solid #2b679d;
-  color: #2b679d;
-  border-radius: 36px;
-}
-
-a.btn-primary.sanji:active {
-  background-color: #eff2f7;
-}
-
-a.btn-primary.sanji.disabled {
-  border: 1px solid #ebebeb;
-  color: #b2b2b2;
-}
-
-a.btn-primary.sanji.disabled:hover {
-  box-shadow: none;
-  background-color: #fff;
-  border: 1px solid #ebebeb;
-  color: #b2b2b2;
-}
-
-a.btn-danger {
-  background-color: #ec4f4b;
-}
-
-a.btn-danger:active {
-  background-color: #c83e3a;
-}
-
-a.btn-danger.disabled {
-  background-color: #efc5c4;
-  color: #fff;
-}
-
-a.btn-danger.disabled:hover {
-  box-shadow: none;
-  background-color: #efc5c4;
-  color: #fff;
-}
-
-a.btn-danger.erji {
-  background-color: #fff;
-  color: #ec4f4b;
-  border: 1px solid #ec4f4b;
-}
-
-a.btn-danger.erji:hover {
-  background-color: #faf0f0;
-}
-
-a.btn-danger.erji:active {
-  background-color: #efc5c4;
-  color: #ec4f4b;
-  border-color: #ec4f4b;
-}
-
-a.btn-danger.erji.disabled {
-  background-color: #fff;
-  color: #b2b2b2;
-  border: 1px solid #ebebeb;
-}
-
-a.btn-danger.erji.disabled:hover {
-  background-color: #fff;
-  color: #b2b2b2;
-  border: 1px solid #ebebeb;
-}
-
-a.btn-danger.sanji {
-  background-color: #fff;
-  color: #ec4f4b;
-  border: 1px solid #ec4f4b;
-  border-radius: 36px;
-}
-
-a.btn-danger.sanji:active {
-  background-color: #faf0f0;
-  color: #ec4f4b;
-  border-color: #ec4f4b;
-}
-
-a.btn-danger.sanji.disabled {
-  background-color: #fff;
-  color: #ec4f4b;
-  border: 1px solid #ec4f4b;
-  box-shadow: none;
-}
-
-a.btn-warning {
-  background-color: #ecac55;
-}
-
-a.btn-warning:active {
-  background-color: #da973f;
-}
-
-a.btn-warning.disabled {
-  background-color: #f7deb8;
-  color: #fff;
-}
-
-a.btn-warning.disabled:hover {
-  box-shadow: none;
-  background-color: #f7deb8;
-  color: #fff;
-}
-
-.tab {
-  background-color: #f8f8f8;
-  color: #000;
-}
-
-.tab.tab-60 {
-  width: 60px;
-}
-
-.tab.tab-90 {
-  width: 90px;
-}
-
-.tab.tab-106 {
-  width: 106px;
-}
-
-.tab.tab-120 {
-  width: 120px;
-}
-
-.tab.active {
-  background-color: #2b679d;
-  color: #fff;
-}
-
-.tab:active {
-  background-color: #2b679d;
-  color: #fff;
-}
-
-a.btn-sm {
-  font-size: 14px;
-  line-height: 26px;
-  width: auto;
-  height: 26px;
-  padding: 0 11px;
-}
-
-a.btn-sm.btn-success {
-  background-color: #69bb8e;
-  color: #fff;
-}
-
-a.btn-sm.btn-success:active {
-  background-color: #6daa88;
-}
-
-a.btn-sm.btn-grey {
-  background-color: #ebebeb;
-  color: #000;
-}
-
-a.btn-sm.btn-grey:active {
-  background-color: #cecece;
-}
-
-.btn-left {
-  border-radius: 4px 0 0 4px;
-  margin-right: 1px;
-}
-
-.btn-center {
-  border-radius: 0;
-  margin-right: 1px;
-}
-
-.btn-right {
-  border-radius: 0 4px 4px 0;
-}
-
-/* 导航 */
-.navbar {
-  height: 62px;
 }

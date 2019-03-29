@@ -7,8 +7,8 @@
 // 字体图标
 @font-face {
     font-family: 'myfonts';
-    src: url('../fonts/iconfont.eot');
-    src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), url('../fonts/iconfont.woff2') format('woff2'), url('../fonts/iconfont.woff') format('woff'), url('../fonts/../fonts/iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_1081538_u9twycey1wj.eot');
+    src: url('//at.alicdn.com/t/font_1081538_u9twycey1wj.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.woff2') format('woff2'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.woff') format('woff'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.ttf') format('truetype'), url('//at.alicdn.com/t/font_1081538_u9twycey1wj.svg#iconfont') format('svg');
 }
 
 [class^="icon-"],
@@ -77,7 +77,7 @@ p.font-big {
     font-size: 16px;
 }
 
-// button按钮
+// 按钮
 // 去边框
 .btn:focus,
 .btn:active:focus,
@@ -108,7 +108,7 @@ p.font-big {
 
 // 按钮颜色
 //蓝色、主色
-button.btn.btn-primary {
+.btn.btn-primary {
     // 一级按钮
     background-color: $blue;
     // 移入
@@ -180,7 +180,7 @@ button.btn.btn-primary {
 }
 
 //红色
-button.btn.btn-danger {
+.btn.btn-danger {
     // 一级
     background-color: $red;
     // 移入
@@ -347,289 +347,4 @@ button.btn.btn-danger {
 
 .btn-right {
     border-radius: 0 4px 4px 0;
-}
-
-
-/* a标签按钮 */
-
-a:focus,
-a:active:focus,
-a.active:focus,
-a.focus,
-a:active.focus,
-a.active.focus {
-    outline: none;
-    text-decoration: none;
-}
-
-a {
-    height: 36px;
-    width: 90px;
-    border: none;
-    border-radius: 4px;
-    line-height: 36px;
-    text-align: center;
-    font-size: 16px;
-    box-sizing: border-box;
-    padding: 0;
-    outline-style: none;
-    outline-color: transparent;
-    outline-width: 0;
-    &:hover {
-        box-shadow: $btn-shadow;
-    }
-}
-
-
-/* 按钮颜色 */
-
-
-/* 蓝色、主色 */
-
-a.btn-primary {
-    // 一级按钮
-    background-color: $blue;
-    // 移入
-    &:hover {}
-    // 点击
-    &:active {
-        background-color: $dark-blue;
-    }
-    //禁用按钮
-    &.disabled {
-        background-color: $dark-grey;
-        color: #b2b2b2;
-        border: none;
-        &:hover {
-            background-color: $dark-grey;
-            color: #b2b2b2;
-            box-shadow: none;
-        }
-    }
-    // 二级按钮
-    &.erji {
-        background-color: #fff;
-        border: 1px solid $blue;
-        color: $blue;
-        // 移入
-        &:hover {
-            background-color: $grey;
-        }
-        &:active {
-            background-color: $dark-grey;
-        }
-        // 禁用
-        &.disabled {
-            background-color: #fff;
-            border: 1px solid $dark-grey;
-            color: #b2b2b2;
-            &:hover {
-                box-shadow: none;
-                background-color: #fff;
-                border: 1px solid $dark-grey;
-                color: #b2b2b2;
-            }
-        }
-    }
-    // 三级按钮
-    &.sanji {
-        background-color: #fff;
-        border: 1px solid $blue;
-        color: $blue;
-        border-radius: 36px;
-        // 移入
-        &:hover {}
-        // 点击
-        &:active {
-            background-color: $grey;
-        }
-        // 禁用
-        &.disabled {
-            border: 1px solid $dark-grey;
-            color: #b2b2b2;
-            &:hover {
-                box-shadow: none;
-                background-color: #fff;
-                border: 1px solid $dark-grey;
-                color: #b2b2b2;
-            }
-        }
-    }
-}
-
-//红色
-a.btn-danger {
-    // 一级
-    background-color: $red;
-    // 移入
-    &:hover {}
-    // 点击
-    &:active {
-        background-color: $dark-red;
-    }
-    // 禁用
-    &.disabled {
-        background-color: $red-able;
-        color: #fff;
-        &:hover {
-            box-shadow: none;
-            background-color: #efc5c4;
-            color: #fff;
-        }
-    }
-    // 二级
-    &.erji {
-        background-color: #fff;
-        color: $red;
-        border: 1px solid $red;
-        // 移入
-        &:hover {
-            background-color: $light-red;
-        }
-        // 点击
-        &:active {
-            background-color: $red-able;
-            color: $red;
-            border-color: $red;
-        }
-        // 禁用
-        &.disabled {
-            background-color: #fff;
-            color: #b2b2b2;
-            border: 1px solid $dark-grey;
-            &:hover {
-                background-color: #fff;
-                color: #b2b2b2;
-                border: 1px solid $dark-grey;
-            }
-        }
-    }
-    // 三级
-    &.sanji {
-        background-color: #fff;
-        color: $red;
-        border: 1px solid $red;
-        border-radius: 36px;
-        // 移入
-        &:hover {}
-        // 点击
-        &:active {
-            background-color: $light-red;
-            color: $red;
-            border-color: $red;
-        }
-        // 禁用
-        &.disabled {
-            background-color: #fff;
-            color: $red;
-            border: 1px solid $red;
-            box-shadow: none;
-        }
-    }
-}
-
-//黄色
-a.btn-warning {
-    // 一级
-    background-color: $yellow;
-    // 移入
-    &:hover {}
-    // 点击
-    &:active {
-        background-color: $dark-yellow;
-    }
-    // 禁用
-    &.disabled {
-        background-color: $light-yellow;
-        color: #fff;
-        &:hover {
-            box-shadow: none;
-            background-color: $light-yellow;
-            color: #fff;
-        }
-    }
-}
-
-// 页签
-.tab {
-    background-color: #f8f8f8;
-    color: $black;
-    // 60px
-    &.tab-60 {
-        width: 60px;
-    }
-    // 90px
-    &.tab-90 {
-        width: 90px;
-    }
-    // 106px
-    &.tab-106 {
-        width: 106px;
-    }
-    // 120px
-    &.tab-120 {
-        width: 120px;
-    }
-    // 选中
-    &.active {
-        background-color: $blue;
-        color: #fff;
-    }
-    // 点击
-    &:active {
-        background-color: $blue;
-        color: #fff;
-    }
-}
-
-//其他表单内按钮、小按钮
-a.btn-sm {
-    font-size: 14px;
-    line-height: 26px;
-    width: auto;
-    height: 26px;
-    padding: 0 11px;
-    // 绿色按钮
-    &.btn-success {
-        background-color: $green;
-        color: #fff;
-        // 移入
-        &:hover {}
-        // 点击
-        &:active {
-            background-color: $dark-green;
-        }
-    }
-    // 灰色按钮
-    &.btn-grey {
-        background-color: $dark-grey;
-        color: $black;
-        // 移入
-        &:hover {}
-        // 点击
-        &:active {
-            background-color: #cecece;
-        }
-    }
-}
-
-.btn-left {
-    border-radius: 4px 0 0 4px;
-    margin-right: 1px;
-}
-
-.btn-center {
-    border-radius: 0;
-    margin-right: 1px;
-}
-
-.btn-right {
-    border-radius: 0 4px 4px 0;
-}
-
-
-/* 导航 */
-
-.navbar {
-    height: 62px;
 }
