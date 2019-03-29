@@ -1,17 +1,17 @@
 package com.yk.rcm.newPre.dao;
 
+import com.yk.common.BaseMapper;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import com.yk.common.BaseMapper;
 
 
 /**
  * @author Sunny Qi
  *
  */
+@Repository
 public interface IPreInfoCreateMapper extends BaseMapper {
 	
 	/**
