@@ -1,13 +1,13 @@
 package com.yk.log.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yk.log.annotation.SysLog;
 import com.yk.log.entity.SysLogDto;
 import com.yk.log.service.ISysLogService;
 import com.yk.log.utils.HttpContextUtils;
 import com.yk.log.utils.IPUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -43,12 +43,7 @@ public class SysLogAspect {
         String success = "Y";
         long beginTime = System.currentTimeMillis();
         //执行方法
-        try {
-            object = point.proceed();
-        } catch (Exception e) {
-            success = "N";
-            throw e;
-        }
+        object = point.proceed();
         //执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;
         //保存日志
@@ -56,8 +51,7 @@ public class SysLogAspect {
         return object;
     }
 
-    @JsonBackReference
-    private void saveSysLog(ProceedingJoinPoint joinPoint, long time, String success) throws Throwable {
+    private void saveSysLog(ProceedingJoinPoint joinPoint, long time, String success) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         SysLogDto sysLogDto = new SysLogDto();
@@ -77,22 +71,17 @@ public class SysLogAspect {
         Object[] args = joinPoint.getArgs();
         String params = "";
         try {
-            System.out.println(args);
             // String params = new Gson().toJson(args);// 遇到request时,堆栈溢出,对象中有对象的互相引用
             params = JSON.toJSONString(args);
-            sysLogDto.setParams(params);
-        } catch (Exception e) {
-            throw e;
+        }catch(Exception e){
+            Logger.getLogger(SysLogAspect.class).error(e.getMessage());
         }
+        sysLogDto.setParams(params);
         //获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         if(StringUtils.isBlank(params)){
-            try {
-                Map<String, Object> map = request.getParameterMap();
-                sysLogDto.setParams(JSON.toJSONString(map));
-            }catch (Exception ex){
-                throw ex;
-            }
+            Map<String, Object> map = request.getParameterMap();
+            sysLogDto.setParams(JSON.toJSONString(map));
         }
         //设置IP地址
         sysLogDto.setIp(IPUtils.getIpAddr(request));
