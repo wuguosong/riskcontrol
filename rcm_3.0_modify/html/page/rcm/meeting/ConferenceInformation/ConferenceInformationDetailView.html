@@ -1,0 +1,116 @@
+<div class="panel-body">
+	<!--form表单开始-->
+	<form class="form-horizontal" name="myFormPPR" id="myFormPPR">
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">项目会议信息</span>
+			</div>
+			<div id="meetingApply">
+				<div class="panel">
+					<div class="panel-heading">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApply" href="/#reviewProject1"><span class="text">项目会议信息<i class="i-triangle"></i></span></a>
+					</div>
+					<div id="reviewProject1" class="panel-collapse">
+						<div class="panel-body">
+							<div class="row table-responsive">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light">
+									<tbody class="tr-max">
+									<input type="hidden"  name="UUID" id="UUID"   class="form-control"  value="{{id}}" />
+									<tr>
+										<td class="title-column">大区人员参会方式</td>
+										<td colspan="3" class="radio-group">
+											<label class="radio radio-inline">
+												<input disabled="disabled" type="radio" class="px" name="participantMode" ng-model="meeting.participantMode" value="1"/>
+												<span class="lbl">现场</span>
+											</label>
+											<label class="radio radio-inline">
+												<input disabled="disabled" type="radio" class="px" name="participantMode" ng-model="meeting.participantMode" value="2"/>
+												<span class="lbl">视频</span>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td class="title-column">大区参会人员</td>
+										<td colspan="3">
+											<div class="row nobottom-mar">
+												<direct-user-multi-select id="{{'formalDivision'}}" checked-users="meeting.division"
+																		  is-editable="false"	mapped-key-value="formalDivisionMapped">
+												</direct-user-multi-select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="title-column">投资中心/水环境参会人员</td>
+										<td colspan="3">
+											<direct-user-multi-select id="{{'formalInvestment'}}" checked-users="meeting.investment"
+																	  is-editable="false" mapped-key-value="formalInvestmentMapped">
+											</direct-user-multi-select>
+										</td>
+									</tr>
+									<tr>
+										<td class="title-column">汇报人</td>
+										<td>
+											<div class="row nobottom-mar">
+												<direct-user-single-select id="{{'projectagenda'}}" checked-user="meeting.agenda"
+																		   is-editable="false"	mapped-key-value="projectAgenda">
+												</direct-user-single-select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="title-column">联系人</td>
+										<td colspan="3">
+											<div class="row nobottom-mar">
+												<direct-user-single-select id="{{'projectcontacts'}}" checked-user="meeting.contacts"
+																		   is-editable="false"	mapped-key-value="projectContacts">
+												</direct-user-single-select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="title-column">电话：</td>
+										<td><input disabled="disabled" type="text" name="telephone" id="telephone" class="form-control" ng-model="meeting.telephone" /></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option">
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<directive-user-list></directive-user-list>
+<directive-user-radio-list></directive-user-radio-list>
+<script type="text/javascript">
+
+</script>
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            minuteStep: 5,
+            orientation: $('body').hasClass('right-to-left') ? { x: 'right', y: 'auto'} : { x: 'auto', y: 'auto'}
+        }
+        $('#startTime').timepicker(options);
+        $('#endTime').timepicker(options);
+        $('#startTime1').timepicker(options);
+        $('#endTime1').timepicker(options);
+
+        var optionsDate = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#meetingDate').datepicker(optionsDate);
+
+        $("#regional-division select").select2();
+        $("#investment-center select").select2();
+        $("#contacts-box select").select2();
+    });
+</script>

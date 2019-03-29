@@ -616,7 +616,11 @@ public class MeetingService implements IMeetingService {
 	public Map<String, Object> queryConferenceInfomationById(String formalId) {
 		BasicDBObject query = new BasicDBObject();
 		query.put("formalId",formalId);
-		Map<String, Object> queryByCondition = baseMongo.queryByCondition(query,Constants.FORMAL_MEETING_INFO).get(0);
+		List<Map<String, Object>> queryByConditions = baseMongo.queryByCondition(query,Constants.FORMAL_MEETING_INFO);
+		Map<String, Object> queryByCondition = new HashMap<String, Object>();
+		if (Util.isNotEmpty(queryByConditions)){
+			queryByCondition = queryByConditions.get(0);
+		}
 		return queryByCondition;
 	}
 	
