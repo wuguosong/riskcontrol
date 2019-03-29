@@ -1255,12 +1255,18 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
                 $scope.showReviewConfirmToEnd = false;
                 $scope.showMark = true;
             }
+            if (docObj.mark == "legalPassMark") {
+                $scope.showMark = true;
+                $scope.showLegalToConfirm = true;
+            }
             if (docObj.mark == "toEnd") {
                 $scope.showMark = false;
+                $scope.showLegalToConfirm = false;
                 $scope.showReviewToConfirm = false;
                 $scope.showReviewConfirmToEnd = true;
             }
         } else {
+            $scope.showLegalToConfirm = false;
             $scope.showReviewToConfirm = false;
             $scope.showReviewConfirmToEnd = false;
         }
@@ -1292,10 +1298,46 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
                 if (docObj.mark == "toEnd") {
                     $scope.newEndOption = true;
                 }
-                if (docObj.mark == "reviewPassMark") {
+                if (docObj.mark == "reviewPassMark" || docObj.mark == "legalPassMark") {
                     if (i == 0) {
                         $scope.showMark = true;
                     }
+                    //查询后台的评价记录
+                    $.ajax({
+                        type: 'post',
+                        url: srvUrl + "preMark/queryMarks.do",
+                        data: $.param({"businessId": $scope.approve.businessId}),
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+                            if (result.success) {
+                                if (result.result_data == null) {
+                                    if (docObj.mark == "reviewPassMark") {
+                                        $scope.showReviewFirstMark = true;
+                                        $scope.showMark = true;
+                                    }
+                                    if (docObj.mark == "legalPassMark") {
+                                        $scope.showLegalFirstMark = true;
+                                        $scope.showMark = true;
+                                    }
+                                } else {
+                                    if (docObj.mark == "reviewPassMark") {
+                                        if (result.result_data.REVIEWFILEACCURACY == null || result.result_data.REVIEWFILEACCURACY == "" || result.result_data.FLOWMARK == null || result.result_data.FLOWMARK == '') {
+                                            $scope.showReviewFirstMark = true;
+                                        }
+                                    }
+                                    if (docObj.mark == "legalPassMark") {
+                                        if (result.result_data.LEGALFILEACCURACY == null || result.result_data.LEGALFILEACCURACY == "") {
+                                            $scope.showLegalFirstMark = true;
+                                        }
+                                    }
+                                }
+                            } else {
+                                alert(result.result_name);
+                                return;
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -1372,6 +1414,74 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
     };
 
     $scope.auditSingle = function () {
+        if ($scope.showMark && ($scope.showReviewFirstMark || $scope.showReviewToConfirm || $scope.showLegalToConfirm)) {
+            if (!$scope.mark) {
+                $.alert("请评分！");
+                return;
+            }
+            if ($scope.showReviewFirstMark) {
+                if ($scope.mark.flowMark == null) {
+                    $.alert("请对审批流程熟悉度评分！");
+                    return;
+                }
+                if ($scope.mark.moneyCalculate == null) {
+                    $.alert("请对核心财务测算能力评分！");
+                    return;
+                }
+                if ($scope.mark.reviewFileAccuracy == null) {
+                    $.alert("请对资料的准确性评分！");
+                    return;
+                }
+                if ($scope.mark.planDesign == null) {
+                    $.alert("请对核心的方案设计能力评分！");
+                    return;
+                }
+            }
+            if ($scope.showLegalFirstMark) {
+            }
+            if ($scope.showReviewToConfirm) {
+                if ($scope.mark.fileContent == null) {
+                    $.alert("请对资料的完整性评分！");
+                    return;
+                }
+                if ($scope.mark.fileTime == null) {
+                    $.alert("请对资料的及时性评分！");
+                    return;
+                }
+                if ($scope.mark.riskControl == null) {
+                    $.alert("请对核心风险识别及规避能力评分！");
+                    return;
+                }
+
+            }
+            if ($scope.showLegalToConfirm) {
+                if ($scope.mark.legalFileAccuracy == null) {
+                    $.alert("请对资料的准确性评分！");
+                    return;
+                }
+                if ($scope.mark.talks == null) {
+                    $.alert("请对核心的协议谈判能力评分！");
+                    return;
+                }
+            }
+            //存分
+            $.ajax({
+                type: 'post',
+                url: srvUrl + "preMark/saveOrUpdate.do",
+                data: $.param({
+                    "json": JSON.stringify($scope.mark),
+                    "businessId": $scope.approve.businessId
+                }),
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (!result.success) {
+                        alert(result.result_name);
+                        return;
+                    }
+                }
+            });
+        }
         //验证确认节点是否选择上会，与报告
         if ($scope.approve.showController.isReviewLeaderConfirm) {
             if ($scope.pre == null || $scope.pre.needMeeting == null) {

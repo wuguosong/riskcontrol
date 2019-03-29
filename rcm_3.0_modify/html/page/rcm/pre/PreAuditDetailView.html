@@ -454,6 +454,225 @@
                                                           ng-model="flowVariables.opinion"></textarea>
                                 </div>
                             </div>
+                            <hr ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" >
+                            <div class="panel nobottom-mar" ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)">
+                                <div class="panel-body pop-first-col-fixed" style="overflow-y: auto;height: 300px;"  >
+                                    <div ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" class="row">
+                                        <!-- 首次进入业务评审节点 -->
+                                        <div ng-show="showReviewFirstMark" >
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    合规-审批流程熟悉度
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="15" ng-model="mark.flowMark" ng-click="validMark(50)">
+                                                    <span class="required">(满分：15分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.flowMarkReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1、合格标准：流程完整为满分。</div><div>2 、缺少一个前置审批流程环节扣3-5分，以此累加，最低分得为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-及时性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="9" ng-model="mark.fileTime">
+                                                    <span class="required">(满分：9分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.fileTimeReason">
+                                                    <a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top" data-html="true"
+                                                       title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-完整性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="9" ng-model="mark.fileContent">
+                                                    <span class="required">(满分：9分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.fileContentReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、每缺少一项资料或资料无相关人员签字确认扣2分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewFirstMark">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-财务测算能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="12" ng-model="mark.moneyCalculate">
+                                                    <span class="required">(满分：12分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.moneyCalculateReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、测算有错误或取值不合理，但测算思路正确，可得8-12分。</div><div>2、测算错误较多，且思路不正确，可得0-8分。</p><p>3、未独立进行测算的项目此项不得分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
+                                        <div ng-show="showReviewFirstMark">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-准确性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="6" ng-model="mark.reviewFileAccuracy">
+                                                    <span class="required">(满分：6分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.reviewFileAccuracyReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-风险识别及规避能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="12" ng-model="mark.riskControl">
+                                                    <span class="required">(满分：12分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.riskControlReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、若投资部门风险识别及规避工作较好，评审阶段无发现新增重大风险，可得6-12分；</div><div>2 、若投资部门开展了风险识别及规避工作，但效果一般，评审阶段发现多个新增重大风险，可得0-6分；</div><div>3 、若投资部门未开展风险识别及规避工作，此项不得分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewFirstMark">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-方案设计能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="4" ng-model="mark.planDesign">
+                                                    <span class="required">(满分：4分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.planDesignReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、若交易结构不合理或无人员安置方案，可扣0-4分，最低分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- -------------------------------评审负责人到确认  end--------------------------------------------- -->
+                                        <!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
+                                        <div ng-show="showLegalToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-准确性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="6" ng-model="mark.legalFileAccuracy">
+                                                    <span class="required">(满分：6分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.legalFileAccuracyReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showLegalToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-协议谈判能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="12" ng-model="mark.talks">
+                                                    <span class="required">(满分：12分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.talksReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、是否依据集团要求在谈判中落实关键条款，若情况较好，得6-10分，若不理想得0-6分，最低分为0分。</div><div>2 、未独立进行谈判或者未能独立起草协议的项目，此项不得分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!--加签阶段-->
                         <div class="panel-body" ng-show="approve.operateType=='change'">
