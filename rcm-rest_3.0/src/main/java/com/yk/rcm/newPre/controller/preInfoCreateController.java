@@ -96,4 +96,19 @@ public class preInfoCreateController {
 		
 		return result;
 	}
+	
+	/**
+	 * 新增会议信息(保存到mongo)
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/addConferenceInformation")
+	@ResponseBody
+	public Result addConferenceInformation(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("information");
+		String method = request.getParameter("method");
+		this.preInfoCreateService.addConferenceInformation(json, method);
+		return result;
+	}
 }

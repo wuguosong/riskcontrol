@@ -52,4 +52,9 @@ public interface IFormalAssessmentInfoCreateService {
 	 * @param json
 	 */
 	/*void updateAttachment(String json);*/
+	/**
+	 * 新增会议信息(保存到mongo)
+	 * @param json
+	 */
+	public void addConferenceInformation(String json, String method);
 }

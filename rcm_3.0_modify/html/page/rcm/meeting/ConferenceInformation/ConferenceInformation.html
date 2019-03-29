@@ -68,7 +68,7 @@
 											</label>
 										</td>
 										<td>{{$index+1}}</td>
-										<td><a href="#/ConferenceInformationCreate/{{p.BUSINESSID}}/{{'#/ConferenceInformation/0'|encodeURI}}">{{p.PROJECTNAME}}</a></td>
+										<td><a href="#/ConferenceInformationCreate/{{p.BUSINESSID}}/{{'#/ConferenceInformation/0'|encodeURI}}/1">{{p.PROJECTNAME}}</a></td>
 										<td>{{p.PERTAINAREANAME}}</td>
 										<td>{{p.INVESTMENTNAME}}</td>
 										<td>{{p.REVIEWPERSONNAME}}</td>
@@ -130,7 +130,7 @@
 										<td >
 											<a ng-if="p.STAGE=='9' && p.NEED_MEETING=='0' && p.OLDDATA == '1'" href="{{p.OLDURL}}12">{{p.PROJECTNAME}}</a>
 											<a ng-if="p.STAGE=='9' && p.NEED_MEETING=='0' && p.OLDDATA != '1'" href="#/FormalAssessmentAuditDetailView/{{p.BUSINESSID}}/{{'#/ConferenceInformation/1'|encodeURI}}">{{p.PROJECTNAME}}</a>
-											<a ng-if="p.STAGE!='9' || p.NEED_MEETING!='0'" href="#/ConferenceInformationDetailView/{{p.BUSINESSID}}/{{'#/ConferenceInformation/1'|encodeURI}}">{{p.PROJECTNAME}}</a>
+											<a ng-if="p.STAGE!='9' || p.NEED_MEETING!='0'" href="#/ConferenceInformationDetailView/{{p.BUSINESSID}}/{{'#/ConferenceInformation/1'|encodeURI}}/1">{{p.PROJECTNAME}}</a>
 										</td>
 										<td>{{p.PERTAINAREANAME}}</td>
 										<td>{{p.INVESTMENTNAME}}</td>
