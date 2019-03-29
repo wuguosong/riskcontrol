@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/* 下拉框颜色 */
+.select2-results .select2-highlighted {
+  color: #666;
+}
+
+/* 单选框颜色 */
+.gt-ie8 input[type=radio].px + .lbl:after {
+  background-color: #333;
+}
