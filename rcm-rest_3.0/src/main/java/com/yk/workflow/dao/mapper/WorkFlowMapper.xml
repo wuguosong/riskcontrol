@@ -4,113 +4,271 @@
 <mapper namespace="com.yk.workflow.dao.IWorkFlowMapper">
 	
 	<select id="getMyTaskCount" resultType="int" parameterType="map">
-	select count(1) from (
-      select t.id_
-	  from act_ru_task     t,
-	       act_hi_procinst p,
-	       act_re_procdef  a
-	 where t.proc_inst_id_ = p.proc_inst_id_
-	   and p.proc_def_id_ = a.id_
-	   and t.assignee_ = #{userId}
-	    and a.key_ not in ('bulletin','noticeDecision','formalReview','preReview')
-	union 
-	   select t.id_ from act_ru_task t, rcm_bulletin_log p
-	   where p.taskid=t.id_
-	   and p.auditstatus='9' and p.audituserid=#{userId}
-	union 
-		select t.id_ from act_ru_task t,rcm_formalassessment_log g  
-    	where g.taskid = t.id_ and t.proc_def_id_ like 'formalReview%' and g.auditstatus='9'
-		and g.audituserid=#{userId}
-	union 
-		select t.id_ from act_ru_task t,rcm_pre_log g  
-    	where g.taskid = t.id_ and t.proc_def_id_ like 'preReview%' and g.auditstatus='9'
-		and g.audituserid=#{userId}
-	    )
+SELECT COUNT(1)
+  FROM (SELECT '' taskmark,
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char(t.form_key_) form_key_,
+               to_char(p.business_key_) business_key_,
+               to_char(a.name_) AS type_text,
+               (SELECT to_char(v.text_)
+                  FROM act_hi_varinst v
+                 WHERE v.name_ = 'subject'
+                   AND v.proc_inst_id_ = t.proc_inst_id_) AS subject,
+               (SELECT to_char(v.text_)
+                  FROM act_hi_varinst v
+                 WHERE v.name_ = 'submitBy'
+                   AND v.task_id_ = t.id_) AS submitby,
+               (SELECT to_char(emergencyLevel)
+                  FROM rcm_formalassessment_info ri
+                 WHERE ri.businessid = p.business_key_) AS emergencyLevel
+          FROM act_ru_task t, act_hi_procinst p, act_re_procdef a
+         WHERE t.proc_inst_id_ = p.proc_inst_id_
+           AND p.proc_def_id_ = a.id_
+           AND t.assignee_ = '${userId}'
+           AND a.key_ NOT IN
+               ('bulletin', 'noticeDecision', 'formalReview', 'preReview')
+        UNION
+        SELECT '',
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char('bulletin') form_key_,
+               to_char(p.businessid) business_key_,
+               to_char('其它需决策事项') type_text,
+               (SELECT bulletinname
+                  FROM rcm_bulletin_info
+                 WHERE businessid = p.businessid) subject,
+               '' submitby,
+               '' emergencyLevel
+          FROM act_ru_task t, rcm_bulletin_log p
+         WHERE p.taskid = t.id_
+           AND p.auditstatus = '9'
+           AND p.audituserid = '${userId}'
+        UNION
+        SELECT '',
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char('preReview') form_key_,
+               to_char(g.businessid) business_key_,
+               to_char('投标评审') type_text,
+               (SELECT projectname
+                  FROM rcm_pre_info
+                 WHERE businessid = g.businessid) subject,
+               '' submitby,
+               decode((SELECT emergencylevel
+                        FROM rcm_pre_info
+                       WHERE businessid = g.businessid),
+                      NULL,
+                      '') emergencylevel
+          FROM act_ru_task t, rcm_pre_log g
+         WHERE g.taskid = t.id_
+           AND t.proc_def_id_ LIKE 'preReview%'
+           AND g.auditstatus = '9'
+           AND g.audituserid = '${userId}'
+        UNION
+        SELECT g.taskmark,
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char('formalReview') form_key_,
+               to_char(g.businessid) business_key_,
+               to_char('正式评审') type_text,
+               (SELECT projectname
+                  FROM rcm_formalassessment_info
+                 WHERE businessid = g.businessid) subject,
+               '' submitby,
+               decode((SELECT emergencylevel
+                        FROM rcm_formalassessment_info
+                       WHERE businessid = g.businessid),
+                      NULL,
+                      '') emergencylevel
+          FROM act_ru_task t, rcm_formalassessment_log g
+         WHERE g.taskid = t.id_
+           AND t.proc_def_id_ LIKE 'formalReview%'
+           AND g.auditstatus = '9'
+           AND g.audituserid = '${userId}'
+        UNION
+        SELECT '' taskmark,
+               Translate('0' USING NCHAR_CS) id_,
+               Translate('0' USING NCHAR_CS) proc_def_id_,
+               Translate('0' USING NCHAR_CS) proc_inst_id_,
+               Translate('填写参会信息' USING NCHAR_CS) name_,
+               RFI.CREATE_DATE,
+               to_char('formalReview') form_key_,
+               RFI.BUSINESSID business_key_,
+               to_char('正式评审') type_text,
+               RFI.PROJECTNAME subject,
+               '' submitby,
+               '' emergencylevel
+          FROM RCM_FORMALASSESSMENT_INFO RFI
+         WHERE RFI.STAGE IN ('3', '3.5', '3.7', '3.9')
+           AND RFI.WF_STATE = '2'
+           AND RFI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
+           AND RFI.CREATEBY = '${userId}'
+        UNION
+        SELECT '' taskmark,
+               Translate('0' USING NCHAR_CS) id_,
+               Translate('0' USING NCHAR_CS) proc_def_id_,
+               Translate('0' USING NCHAR_CS) proc_inst_id_,
+               Translate('填写参会信息' USING NCHAR_CS) name_,
+               RPI.CREATE_DATE,
+               to_char('formalReview') form_key_,
+               RPI.BUSINESSID business_key_,
+               to_char('投标评审') type_text,
+               RPI.PROJECTNAME subject,
+               '' submitby,
+               '' emergencylevel
+          FROM RCM_PRE_INFO RPI
+         WHERE RPI.STAGE IN ('3', '3.5', '3.7', '3.9')
+           AND RPI.WF_STATE = '2'
+           AND RPI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
+           AND RPI.CREATEBY = '${userId}') ta
+ WHERE 1 = 1
 	</select>
 	
 	<select id="queryMyTaskByPage" resultType="map" parameterType="map">
-		select * from (
-	      select '' taskmark ,t.id_,
-		   t.proc_def_id_,
-		   t.proc_inst_id_,
-		   t.name_,
-		   t.create_time_,
-		   to_char(t.form_key_) form_key_,
-		   to_char(p.business_key_) business_key_,
-		   to_char(a.name_) as type_text,
-		   (select to_char(v.text_)
-		      from act_hi_varinst v
-		     where v.name_ = 'subject'
-		       and v.proc_inst_id_ = t.proc_inst_id_) as subject,
-		   (select to_char(v.text_)
-		      from act_hi_varinst v
-		     where v.name_ = 'submitBy'
-		       and v.task_id_ = t.id_) as submitby,
-		   (select to_char(emergencyLevel) from rcm_formalassessment_info ri
-		     where ri.businessid = p.business_key_) as emergencyLevel
-		  from act_ru_task     t,
-		       act_hi_procinst p,
-		       act_re_procdef  a
-		 where t.proc_inst_id_ = p.proc_inst_id_
-		   and p.proc_def_id_ = a.id_
-		   and t.assignee_ = '${userId}'
-		   and a.key_ not in ('bulletin','noticeDecision','formalReview','preReview')
-		union 
-		  select '',
-		   t.id_,
-		   t.proc_def_id_,
-		   t.proc_inst_id_,
-		   t.name_,
-		   t.create_time_,
-		   to_char('bulletin') form_key_,
-		   to_char(p.businessid) business_key_,
-		   to_char('其它需决策事项') type_text,
-		   (select bulletinname from rcm_bulletin_info where businessid=p.businessid) subject,
-		   '' submitby,
-		   '' emergencyLevel
-		   from act_ru_task t, rcm_bulletin_log p
-		   where p.taskid=t.id_
-		   and p.auditstatus='9'
-		   and p.audituserid='${userId}'
-	union 
-		select '',t.id_,
-	       t.proc_def_id_,
-	       t.proc_inst_id_,
-         t.name_,
-         t.create_time_,
-         to_char('preReview') form_key_,
-         to_char(g.businessid) business_key_,
-         to_char('投标评审') type_text,
-         (select projectname
-            from rcm_pre_info
-           where businessid = g.businessid) subject,
-         '' submitby,
-         decode((select emergencylevel
-            from rcm_pre_info
-           where businessid = g.businessid),null,'') emergencylevel
-         from act_ru_task t,rcm_pre_log g  
-    	where g.taskid = t.id_ and t.proc_def_id_ like 'preReview%' and g.auditstatus='9'
-		and g.audituserid='${userId}'
-	union 
-		select g.taskmark,t.id_,
-	       t.proc_def_id_,
-	       t.proc_inst_id_,
-         t.name_,
-         t.create_time_,
-         to_char('formalReview') form_key_,
-         to_char(g.businessid) business_key_,
-         to_char('正式评审') type_text,
-         (select projectname
-            from rcm_formalassessment_info
-           where businessid = g.businessid) subject,
-         '' submitby,
-         decode((select emergencylevel
-            from rcm_formalassessment_info
-           where businessid = g.businessid),null,'') emergencylevel
-         from act_ru_task t,rcm_formalassessment_log g  
-    where g.taskid = t.id_ and t.proc_def_id_ like 'formalReview%' and g.auditstatus='9'
-		and g.audituserid='${userId}'
-    ) ta where 1=1
+SELECT *
+  FROM (SELECT '' taskmark,
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char(t.form_key_) form_key_,
+               to_char(p.business_key_) business_key_,
+               to_char(a.name_) AS type_text,
+               (SELECT to_char(v.text_)
+                  FROM act_hi_varinst v
+                 WHERE v.name_ = 'subject'
+                   AND v.proc_inst_id_ = t.proc_inst_id_) AS subject,
+               (SELECT to_char(v.text_)
+                  FROM act_hi_varinst v
+                 WHERE v.name_ = 'submitBy'
+                   AND v.task_id_ = t.id_) AS submitby,
+               (SELECT to_char(emergencyLevel)
+                  FROM rcm_formalassessment_info ri
+                 WHERE ri.businessid = p.business_key_) AS emergencyLevel
+          FROM act_ru_task t, act_hi_procinst p, act_re_procdef a
+         WHERE t.proc_inst_id_ = p.proc_inst_id_
+           AND p.proc_def_id_ = a.id_
+           AND t.assignee_ = '${userId}'
+           AND a.key_ NOT IN
+               ('bulletin', 'noticeDecision', 'formalReview', 'preReview')
+        UNION
+        SELECT '',
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char('bulletin') form_key_,
+               to_char(p.businessid) business_key_,
+               to_char('其它需决策事项') type_text,
+               (SELECT bulletinname
+                  FROM rcm_bulletin_info
+                 WHERE businessid = p.businessid) subject,
+               '' submitby,
+               '' emergencyLevel
+          FROM act_ru_task t, rcm_bulletin_log p
+         WHERE p.taskid = t.id_
+           AND p.auditstatus = '9'
+           AND p.audituserid = '${userId}'
+        UNION
+        SELECT '',
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char('preReview') form_key_,
+               to_char(g.businessid) business_key_,
+               to_char('投标评审') type_text,
+               (SELECT projectname
+                  FROM rcm_pre_info
+                 WHERE businessid = g.businessid) subject,
+               '' submitby,
+               decode((SELECT emergencylevel
+                        FROM rcm_pre_info
+                       WHERE businessid = g.businessid),
+                      NULL,
+                      '') emergencylevel
+          FROM act_ru_task t, rcm_pre_log g
+         WHERE g.taskid = t.id_
+           AND t.proc_def_id_ LIKE 'preReview%'
+           AND g.auditstatus = '9'
+           AND g.audituserid = '${userId}'
+        UNION
+        SELECT g.taskmark,
+               t.id_,
+               t.proc_def_id_,
+               t.proc_inst_id_,
+               t.name_,
+               t.create_time_,
+               to_char('formalReview') form_key_,
+               to_char(g.businessid) business_key_,
+               to_char('正式评审') type_text,
+               (SELECT projectname
+                  FROM rcm_formalassessment_info
+                 WHERE businessid = g.businessid) subject,
+               '' submitby,
+               decode((SELECT emergencylevel
+                        FROM rcm_formalassessment_info
+                       WHERE businessid = g.businessid),
+                      NULL,
+                      '') emergencylevel
+          FROM act_ru_task t, rcm_formalassessment_log g
+         WHERE g.taskid = t.id_
+           AND t.proc_def_id_ LIKE 'formalReview%'
+           AND g.auditstatus = '9'
+           AND g.audituserid = '${userId}'
+        UNION
+        SELECT '' taskmark,
+               Translate('0' USING NCHAR_CS) id_,
+               Translate('0' USING NCHAR_CS) proc_def_id_,
+               Translate('0' USING NCHAR_CS) proc_inst_id_,
+               Translate('填写参会信息' USING NCHAR_CS) name_,
+               RFI.CREATE_DATE,
+               to_char('formalReview') form_key_,
+               RFI.BUSINESSID business_key_,
+               to_char('正式评审') type_text,
+               RFI.PROJECTNAME subject,
+               '' submitby,
+               '' emergencylevel
+          FROM RCM_FORMALASSESSMENT_INFO RFI
+         WHERE RFI.STAGE IN ('3', '3.5', '3.7', '3.9')
+           AND RFI.WF_STATE = '2'
+           AND RFI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
+           AND RFI.CREATEBY = '${userId}'
+        UNION
+        SELECT '' taskmark,
+               Translate('0' USING NCHAR_CS) id_,
+               Translate('0' USING NCHAR_CS) proc_def_id_,
+               Translate('0' USING NCHAR_CS) proc_inst_id_,
+               Translate('填写参会信息' USING NCHAR_CS) name_,
+               RPI.CREATE_DATE,
+               to_char('formalReview') form_key_,
+               RPI.BUSINESSID business_key_,
+               to_char('投标评审') type_text,
+               RPI.PROJECTNAME subject,
+               '' submitby,
+               '' emergencylevel
+          FROM RCM_PRE_INFO RPI
+         WHERE RPI.STAGE IN ('3', '3.5', '3.7', '3.9')
+           AND RPI.WF_STATE = '2'
+           AND RPI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
+           AND RPI.CREATEBY = '${userId}') ta
+ WHERE 1 = 1
 		<if test="createTime != null and createTime !=''"> and to_char(ta.create_time_,'yyyy-mm-dd')='${createTime}'</if>
 		<if test="processKey != null and processKey != ''">
 			<choose> 
