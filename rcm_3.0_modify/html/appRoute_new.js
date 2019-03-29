@@ -1566,23 +1566,6 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
             })
 
             // 正式评审审批查看
-            // status：0待办1已办
-            .when('/FormalAssessmentAuditDetailView/:id/:url', {
-                controller: 'FormalAssessmentAuditDetailView',
-                templateUrl: 'page/rcm/formalAssessment/formalAssessmentAuditDetailView.html',
-                controllerAs: 'model',
-                resolve: {
-                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
-                        var deferred = $q.defer();
-                        require(['page/rcm/formalAssessment/formalAssessmentAuditDetailView.js?_v='+_version], function () {
-                            $rootScope.$apply(function () {
-                                deferred.resolve();
-                            });
-                        });
-                        return deferred.promise;
-                    }]
-                }
-            })
             // 正式评审报告列表
             .when('/FormalReportList_new/:tabIndex',{
                 controller:'FormalReportList_new',
@@ -2350,6 +2333,39 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
             })
 
             // 正式评审审批
+            .when('/FormalAssessmentAuditDetailView/:id/:url', {
+                controller: 'FormalAssessmentAuditDetailView',
+                templateUrl: 'page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .when('/FormalAssessmentAuditDetailView/:id/:taskMark/:url', {
+                controller: 'FormalAssessmentAuditDetailView',
+                templateUrl: 'page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             .when('/FormalAssessmentAuditDetailView/:id/:taskMark/:url', {
                 controller: 'FormalAssessmentAuditDetailView',
                 templateUrl: 'page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.html',
