@@ -113,7 +113,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 //			$scope.taskId = data.result_data.taskId;
 //			$scope.hasWaiting = data.result_data.taskId==null?false:true;
 
-			/*var logs = $scope.auditLogs;
+			var logs = $scope.auditLogs;
 			for(var i in logs){
 				if(logs[i].ISWAITING == '1'){
 					if(logs[i].AUDITUSERID == $scope.credentials.UUID){
@@ -121,7 +121,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 						$scope.curLog = logs[i];
 					}
 				}
-			}*/
+			}
 
 
 			$scope.taskInfo = data.result_data;
@@ -299,12 +299,12 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 
 	$scope.initDefaultData = function(){
 		debugger;
-        if ($scope.oldUrl == $filter('encodeURI')('#/BulletinMattersAudit/0')){
+        /*if ($scope.oldUrl == $filter('encodeURI')('#/BulletinMattersAudit/0')){
             $scope.WF_STATE = '0';
         } else {
             $scope.WF_STATE = '1';
         }
-        $scope.showSubmit = false;
+        $scope.showSubmit = false;*/
         $scope.wfInfo = {processKey:'bulletin', "businessId":$scope.queryParamId};
 		$scope.initUpdate($scope.queryParamId);
 	};
@@ -613,7 +613,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 	    			$scope.approve.operateType="change";
 	    		}*/
                 if (!isEmpty($scope.curLog)) {
-                    $scope.showSubmit = ($scope.WF_STATE == '0');
+                    // $scope.showSubmit = ($scope.WF_STATE == '0');
                     if (!isEmpty($scope.curLog.CHANGETYPE)) {
                         $scope.approve.operateType = "change";
                     }
