@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.bpmn.dao.IBpmnMapper">
+	<select id="queryProjectList" parameterType="map" resultType="map">
+	select * from (
+select '正式评审' typeName,'pfr' project_type,f.businessid business_id,f.projectname project_name from rcm_formalassessment_info f where f.wf_state = '1' and f.olddata = '0'
+union 
+select '投标评审' typeName,'pre' project_type,p.businessid business_id,p.projectname project_name from rcm_pre_info p where p.wf_state = '1' and p.olddata = '0'
+union 
+select '其他评审' typeName,'bulletin' project_type,b.businessid business_id,b.bulletinname project_name from rcm_bulletin_info b where b.auditstatus = '1'
+		) ta where 1 = 1
+		<if test="projectName != null and projectName != ''"> and ta.project_name like '%${projectName}%'</if>
+		<if test="PROJECT_NAME != null and PROJECT_NAME != ''"> and ta.project_name like '%${PROJECT_NAME}%'</if>
+	</select>
+	<select id="getProcInstIdByBusinessId" parameterType="string" resultType="map">
+		select * from act_ru_execution e where e.business_key_ = #{businessId}
+	</select>
+	
+	<select id="getHiProcInstIdByBusinessId" parameterType="string" resultType="map">
+		select * from act_hi_procinst e where e.business_key_ = #{businessId}
+	</select>
+	<update id="updateActTask" parameterType="string">
+		update act_ru_task t set t.assignee_ = #{newUser} 
+		where  t.execution_id_ = #{executionId}
+	</update>
+	<update id="updateActVariable" parameterType="string">
+		update act_ru_variable t set t.text_ = #{newUser} 
+		where t.proc_inst_id_ = #{procInstId} and t.name_ = #{variableKey}
+	</update>
+	<select id="queryVariableByProcInstId" parameterType="string" resultType="map">
+		select * from act_ru_variable v where v.proc_inst_id_ = #{procInstId}
+	</select>
+	<select id="queryActRuTaskByTaskId" parameterType="string" resultType="map">
+		select * from act_ru_task t where t.id_  = #{taskId}
+	</select>
+	<select id="queryActTaskByProcInstId" parameterType="string" resultType="map">
+		select * from act_ru_task t where t.proc_inst_id_ = #{procInstId}
+	</select>
+</mapper>

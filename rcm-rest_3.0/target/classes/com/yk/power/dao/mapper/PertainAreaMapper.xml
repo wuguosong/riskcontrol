@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.power.dao.IPertainAreaMapper">
+	
+	<select id="queryPertainAreaByOrgPkValue" resultType="map" parameterType="map">
+		select * from rcm_pertain_person p where p.orgpkvalue = #{orgPkValue}
+	</select>
+	
+	<update id="updatePersonByPertainAreaId" parameterType="map">
+		update rcm_pertain_person p set p.leaderid = #{newUserId} 
+		where p.orgpkvalue = #{pid}  and p.type = #{type} 
+	</update>
+	<update id="updatePersonById" parameterType="map">
+		update rcm_pertain_person p set p.leaderid = #{newUserId} 
+		where p.id = #{id} 
+	</update>
+	
+	<delete id="deleteByUserId" parameterType="map">
+		delete from rcm_pertain_person p where p.leaderId = #{userId}
+	</delete>
+	
+	<delete id="deleteByOrgPkValue" parameterType="map">
+		delete from rcm_pertain_person p where p.orgpkvalue = #{id}
+	</delete>
+	
+	<insert id="save" parameterType="map">
+		insert into rcm_pertain_person (orgpkvalue,leaderid,type,serviceType) 
+		values (#{orgId},#{userId},#{type},#{serviceType,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateById" parameterType="map">
+		update rcm_pertain_person p set p.leaderid = #{userId},p.orgpkvalue = #{orgId} ,p.type = #{type} 
+		<if test="serviceType == null or serviceType == ''">
+			,p.servicetype = null 
+		</if>
+		<if test="serviceType != null and serviceType != ''">
+			,p.servicetype = #{serviceType,jdbcType=VARCHAR} 
+		</if>
+		
+		where p.id = #{id} 
+	</update>
+	<select id="queryList" resultType="map" parameterType="map">
+		select * from (select leaderid,leadername,orgname,to_char(wm_concat(servicetype)) servicetype,typename from (
+      select p.leaderid,u.NAME leaderName, o.name orgName,decode(p.type,'1','分管领导','2','业务区负责人') typename  
+      ,decode(p.servicetype,'all','所有类型',(select d.item_name from sys_dictionary_item d where d.item_code = p.servicetype)) servicetype
+      from rcm_pertain_person p 
+      left join sys_user u on  p.leaderid = u.UUID 
+      left join sys_org o on p.orgpkvalue = o.ORGPKVALUE 
+      order by p.type,p.orgpkvalue,p.leaderid
+) tt group by tt.leadername,tt.orgname,tt.leaderid,tt.typename order by typename desc, orgname,leadername  ) ta where  1 = 1 
+		<if test="leaderName !=null and leaderName !=''"> and ta.leadername = #{leaderName}</if>
+		<if test="pertainName !=null and pertainName !=''"> and ta.orgname = #{pertainName}</if>
+		 
+	</select>
+	
+	<select id="getByUserId" resultType="map" parameterType="map">
+		select tt.*,(select u.NAME from sys_user u where u.UUID = tt.leaderid) leadername ,
+			  (select o.name from sys_org o where o.ORGPKVALUE = tt.orgpkvalue) orgname
+			  from (
+			  select p.orgpkvalue,p.leaderid,p.type,to_char(wm_concat(servicetype)) servicetype
+			  from rcm_pertain_person p 
+			  group by p.leaderid,p.orgpkvalue,p.type
+			  ) tt
+		where tt.leaderid = #{userId} 
+	</select>
+	<select id="queryAll" resultType="map" parameterType="map">
+		select * from rcm_pertain_person p 
+	</select>
+</mapper>

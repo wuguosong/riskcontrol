@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.templateFile.dao.ITemplateFileformMapper">
+
+	<select id="queryTemplateFilesByPage" parameterType="map" resultType="hashmap">
+		SELECT * 
+	  FROM RCM_TEMPLATE_FILE RTF 
+	  WHERE 1 = 1 
+    	<if test="name != null and name != ''"> AND RTF.NAME LIKE '%${name}%' </if>
+    	<if test="type != null and type != ''"> AND RTF.TYPE = #{type,jdbcType=VARCHAR} </if>
+    	<if test="status != null and status != ''"> AND	RTF.STATUS = ${status}</if>
+    	<if test="orderBy != null and orderBy != ''"> ORDER BY ${orderBy}</if>
+    	<if test="create_by != null and create_by != ''"> AND RTF.CREATE_BY LIKE '%${create_by}%'</if>
+	</select>	
+	
+	<insert id="addTemplateFile" parameterType="map">
+		INSERT INTO RCM_TEMPLATE_FILE (
+			id ,
+			NAME,
+			CONTENT,
+			FILE_PATH,
+			FILE_NAME,
+			status,
+			create_By,
+			create_Date
+			) values(
+			#{id,jdbcType=VARCHAR},
+			#{NAME,jdbcType=VARCHAR},
+			#{CONTENT,jdbcType=VARCHAR},
+			#{FILE_PATH,jdbcType=VARCHAR},
+		    #{FILE_NAME,jdbcType=VARCHAR},
+		    #{status,jdbcType=VARCHAR},
+		    #{create_by,jdbcType=VARCHAR},
+		    #{create_date,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<update id="modifyTemplateFile" parameterType="map">
+		update RCM_TEMPLATE_FILE r  <trim prefix="set" suffixOverrides=",">
+			<if test="NAME != null and NAME != ''"> r.name = #{NAME,jdbcType=VARCHAR},</if>
+			<if test="CONTENT != null and CONTENT != ''"> r.content = #{CONTENT,jdbcType=VARCHAR},</if>
+			<if test="FILE_PATH != null and FILEPATH != ''"> r.file_path = #{FILE_PATH,jdbcType=VARCHAR} ,</if>
+			<if test="FILE_NAME != null and FILENAME != ''"> r.file_name = #{FILE_NAME,jdbcType=VARCHAR} ,</if>
+			<if test="STATUS != null and STATUS != ''"> r.status = #{STATUS,jdbcType=VARCHAR} ,</if>
+		 </trim>
+		where id = #{ID,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="deleteTemplateFile" parameterType="java.lang.String">
+		delete from RCM_TEMPLATE_FILE r where r.id in 
+		 <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+	</delete>
+	
+	<select id="queryTemalateFileInfo" parameterType="java.lang.String" resultType="hashmap">
+		SELECT RRG.ID,
+	       RRG.NAME,
+	       RRG.CONTENT,
+	       RRG.FILE_PATH,
+	       RRG.FILE_NAME,
+	       RRG.STATUS,
+	       RRG.CREATE_BY,
+	       RRG.CREATE_DATE 
+	  FROM RCM_TEMPLATE_FILE RRG  
+	  WHERE RRG.ID = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryRideGuidelineInfoForView" parameterType="java.lang.String" resultType="hashmap">
+		SELECT RRG.ID,
+	       RRG.NAME,
+	       RRG.CONTENT,
+	       RRG.FILE_PATH,
+	       RRG.FILE_NAME,
+	       RRG.STATUS,
+	       RRG.CREATE_BY,
+	       RRG.CREATE_DATE 
+	  FROM RCM_TEMPLATE_FILE RRG  
+	  WHERE RRG.ID = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="submitTemalateFile" parameterType="map">
+		UPDATE RCM_TEMPLATE_FILE R SET R.STATUS = #{STATUS,jdbcType=VARCHAR} WHERE R.ID = #{ID,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="queryIndividualNotificationList" parameterType="map" resultType="hashmap">
+		SELECT T.* FROM (
+			SELECT RNF.ID,
+	       RNF.TOPIC,
+	       RNF.CONTENT,
+	       RNF.FILEPATH,
+	       RNF.FILENAME,
+	       RNF.TYPE,
+	       (SELECT SDI.ITEM_NAME FROM SYS_DICTIONARY_ITEM SDI WHERE SDI.ITEM_CODE = RNF.TYPE) ITEM_NAME,
+	       ( CASE RNF.STATUS  WHEN '1' THEN '正常' WHEN '2' THEN '过期' END) STATUS,
+	       RNF.PUBLISHER,
+	       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RNF.PUBLISHER) PUBLISHER_NAME,
+	       RNF.PUBDATE,
+	       RNF.EXPIRE_DATE ,
+	       RNF.STAGE 
+		  FROM RCM_NOTIFICATION_FLATFORM RNF 
+		  WHERE 1 = 1  
+		  AND RNF.STAGE = '2' 
+    	<if test="topic != null and topic != ''"> AND RNF.TOPIC LIKE '%${topic}%' </if>
+    	<if test="type != null and type != ''"> AND RNF.TYPE = #{type,jdbcType=VARCHAR} </if>
+    	<if test="status != null and status != ''"> AND	RNF.STATUS = ${status}</if>
+    	<if test="orderBy != null and orderBy != ''"> ORDER BY ${orderBy}</if>
+    	) T
+    	WHERE 1 = 1
+    	<if test="publisher_name != null and publisher_name != ''"> AND T.PUBLISHER_NAME LIKE '%${publisher_name}%'</if>
+	</select>
+	
+	<select id="queryForIndividualTable" resultType="hashmap">
+		SELECT RNF.ID, RNF.TOPIC, RNF.PUBDATE FROM RCM_NOTIFICATION_FLATFORM RNF  WHERE RNF.STATUS = '1' AND RNF.STAGE = '2' ORDER BY RNF.PUBDATE DESC
+	</select>
+</mapper>

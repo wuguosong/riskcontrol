@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.power.dao.IUserMapper">
+
+	<select id="queryById" parameterType="map" resultType="hashmap">
+		select decode(orgcode,'${rootCode}',(select name from sys_org o where o.ORGPKVALUE=u.DEPTPKVALUE),
+		(select name from sys_org o where o.ORGPKVALUE=u.ORGPKVALUE)) orgname, u.* 
+		from sys_user u where u.UUID=#{userId}
+	</select>
+	
+	<select id="queryByCondition" parameterType="map" resultType="hashmap">
+      select decode(u.orgcode, '000001', o2.name, o1.name) as orgname,
+                       u.*
+                  from sys_user u, sys_org o1, sys_org o2
+                 where 1 = 1
+                   and u.state = '2'
+                   and u.ORGPKVALUE = o1.ORGPKVALUE(+)
+                   and u.DEPTPKVALUE = o2.ORGPKVALUE(+)
+                   <if test="username!=null and username!=''"> and u.name like '%${username}%' </if>
+		           <if test="account!=null and account!=''"> and u.account like '%${account}%' </if>
+                 order by ${orderBy}
+	</select>
+	
+	
+	<select id="selectUser" resultType="map" useCache="false">
+		 select u.*,decode(oo.CODE ,'000001',
+              (select o.name
+                 from sys_org o
+                where o.ORGPKVALUE = u.DEPTPKVALUE),
+              oo.name) orgname  from sys_user u,sys_org oo where 1=1 and u.ORGPKVALUE = oo.ORGPKVALUE 
+            <if test="ORGID!=null and ORGID!='' "> 
+            	<choose>
+            		<when test="categoryCode != null and categoryCode != ''">
+            			and u.DEPTPKVALUE in (
+						       select o.ORGPKVALUE from sys_org o where o.CATEGORYCODE = 'Dept'
+						       start with o.PARENTPKVALUE='${ORGID}' connect by prior o.ORGPKVALUE=o.PARENTPKVALUE
+						       union select '${ORGID}' from dual
+						)
+            		</when>
+            		<otherwise>
+            			and u.orgpkvalue='${ORGID}'
+            		</otherwise>
+            	</choose>
+             </if> 
+			<if test="ACCOUNT!=null and ACCOUNT!='' "> and u.account like '%${ACCOUNT}%' </if>
+			<if test="NAME!=null and NAME!='' "> and u.name like '%${NAME}%' </if>
+			<if test="STATE!=null and STATE!='' "> and u.state=${STATE} </if>
+			 order by u.code asc
+	</select>
+	
+	
+	<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
+	<select id="directiveUser" resultType="map" useCache="false">
+		 select u.*, up.JOBNAME as job_name from sys_user u, sys_user_position up where u.PSNPKVALUE = up.PSNPKVALUE(+) and u.ACCOUNT is not null and u.state='2' 
+            <if test="ORGID!=null and ORGID!='' "> 
+            	<choose>
+            		<when test="categoryCode != null and categoryCode != ''">
+            			and u.DEPTPKVALUE in (
+						       select o.ORGPKVALUE from sys_org o where o.CATEGORYCODE = 'Dept'
+						       start with o.PARENTPKVALUE='${ORGID}' connect by prior o.ORGPKVALUE=o.PARENTPKVALUE
+						       union select '${ORGID}' from dual
+						)
+            		</when>
+            		<otherwise>
+            			and u.orgpkvalue='${ORGID}'
+            		</otherwise>
+            	</choose>
+             </if>
+             <if test="ORGIDRADIO!=null and ORGIDRADIO!='' "> 
+            	<choose>
+            		<when test="categoryCode != null and categoryCode != ''">
+            			and u.DEPTPKVALUE in (
+						       select o.ORGPKVALUE from sys_org o where o.CATEGORYCODE = 'Dept'
+						       start with o.PARENTPKVALUE='${ORGIDRADIO}' connect by prior o.ORGPKVALUE=o.PARENTPKVALUE
+						       union select '${ORGIDRADIO}' from dual
+						)
+            		</when>
+            		<otherwise>
+            			and u.orgpkvalue='${ORGIDRADIO}'
+            		</otherwise>
+            	</choose>
+             </if> 
+			<if test="code!=null and code!='' "> and u.code like '%${code}%' </if>
+			<if test="name!=null and name!='' "> and u.name like '%${name}%' </if>
+			<if test="state!=null and state!='' "> and u.state=${state} </if>
+			 order by u.code asc
+	</select>
+	
+	<select id="selectOneUser" resultType="map"  useCache="false">
+		select decode(orgcode,'${rootCode}',(select name from sys_org o where o.ORGPKVALUE=u.DEPTPKVALUE),
+		(select name from sys_org o where o.ORGPKVALUE=u.ORGPKVALUE)) orgname,u.* from sys_user u where  u.uuid=#{uuid}
+	</select>
+	
+	<select id="selectUserPosition" resultType="map" useCache="false">
+		select up.* from sys_user_position up where up.jobcode=#{jobcode}
+	</select>
+	
+	<select id="selectIsAdmin" parameterType="string" resultType="int">
+		select count(*) num from sys_user_role ur where ur.user_id=#{userId} and ur.role_id in
+		(select role_id from sys_role r where r.code='1')
+	</select>
+	
+	<select id="selectAUser" resultType="map">
+		select u.UUID, u.ACCOUNT, u.NAME, u.ORGPKVALUE,
+		       (SELECT S.NAME FROM SYS_ORG S WHERE S.ORGPKVALUE = U.ORGPKVALUE) ORGNAME,
+		       u.DEPTPKVALUE, (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = U.DEPTPKVALUE) DEPTNAME,
+			   u.POSTPKVALUE, u.POSITIONNAME, u.PSNPKVALUE from sys_user u 
+			where 1=1 
+			<if test="userID!=null and userID!='' "> and u.ACCOUNT=#{userID} </if> 
+			<if test="UUID!=null and UUID!='' "> and u.UUID=#{UUID} </if>
+			 and  rownum = 1
+	</select>
+	
+	<select id="queryRoleByUser" resultType="map" parameterType="map">
+		select sr.code,sr.role_name 
+		from sys_role sr 
+		left join sys_user_role ur  
+		on sr.role_id = ur.role_id 
+		where ur.user_id  = #{userId} 
+	</select>
+	
+	<select id="getAllRole" resultType="map" parameterType="map">
+		select * from sys_role r order by r.type,r.role_name
+	</select>
+	
+	<select id="getRoleByUserId" resultType="map" parameterType="map">
+		select * from sys_user_role u where u.user_id = #{userId}
+	</select>
+	
+	<delete id="deleteUserRoleByUserId" parameterType="map">
+		delete from sys_user_role u where u.user_id = #{userId}
+	</delete>
+	
+	<insert id="saveUserRole">
+		insert into sys_user_role (user_role_id,user_id,role_id,create_date,state,code) values(
+			#{user_role_id},#{user_id},#{role_id},TO_DATE(#{create_date},'yyyy-MM-dd HH24:mi:ss'),#{state},#{code}
+		)
+	</insert>
+</mapper>

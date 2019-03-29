@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.sign.dao.ISignMapper">
+    <select id="queryAgencyList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        /*正式评审审批*/
+        <if test="key != null and key != '' and key == 'formalReview'">
+            select dat.*,
+            dat.businessid as business_id,
+            lg.taskmark,
+            (select o.NAME from sys_org o where o.ORGPKVALUE = dat.pertainareaid) pertainareaName,
+            (select u.name from sys_user u where u.uuid = dat.createby) investManagerName,
+            (select u.name from sys_user u where u.uuid = dat.reviewpersonid) reviewLeaderName,
+            (select u.name from sys_user u where u.uuid = dat.legalreviewpersonid) investlegalReviewLeaderName
+            from RCM_FORMALASSESSMENT_INFO dat
+            join RCM_FORMALASSESSMENT_LOG lg
+            on dat.BUSINESSID = lg.BUSINESSID
+            and lg.audituserid = '${userId}'
+            and lg.iswaiting = '1'
+            join act_ru_task ac
+            on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            /*and ac.assignee_ = lg.lastuserid*/
+            <if test="projectUnitName != null and projectUnitName != ''">
+                and dat.pertainareaName like '%${projectUnitName}%'
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and dat.projectName like '%${projectName}%'
+            </if>
+            order by dat.apply_date desc
+        </if>
+        /*投标评审审批*/
+        <if test="key != null and key != '' and key == 'preReview'">
+            select dat.*,
+            dat.businessid as business_id,
+            (select o.NAME from sys_org o where o.ORGPKVALUE = dat.pertainareaid) pertainareaName,
+            (select o.NAME
+            from sys_org o
+            where o.ORGPKVALUE = dat.reportingunit_id) reportingunitName,
+            (select u.name from sys_user u where u.uuid = dat.createby) investManagerName,
+            (select u.name from sys_user u where u.uuid = dat.reviewpersonid) reviewLeaderName
+            from rcm_pre_info dat
+            join rcm_pre_log lg
+            on dat.businessid = lg.businessid
+            and lg.audituserid = '${userId}'
+            and lg.iswaiting = '1'
+            join act_ru_task ac
+            on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            <if test="projectUnitName != null and projectUnitName != ''">
+                and dat.pertainareaName like '%${projectUnitName}%'
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and	dat.projectName like '%${projectName}%'
+            </if>
+            order by dat.apply_date desc
+        </if>
+        /*其它评审审批*/
+        <if test="key != null and key != '' and key == 'bulletin'">
+
+        </if>
+    </select>
+    <select id="queryAlreadyList" resultType="java.util.HashMap">
+        /*正式评审审批*/
+        <if test="key != null and key != '' and key == 'formalReview'">
+
+        </if>
+        /*投标评审审批*/
+        <if test="key != null and key != '' and key == 'preReview'">
+
+        </if>
+        /*其它评审审批*/
+        <if test="key != null and key != '' and key == 'bulletin'">
+
+        </if>
+    </select>
+    <select id="getCurrentTaskInfo" resultType="java.util.HashMap">
+        /*正式评审审批*/
+        <if test="key != null and key != '' and key == 'formalReview'">
+            select
+            lg.*,
+            ac.*
+            from rcm_formalassessment_log lg
+            left join act_ru_task ac on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            where lg.iswaiting = '1'
+            and lg.businessid = #{business_id}
+        </if>
+        /*投标评审审批*/
+        <if test="key != null and key != '' and key == 'preReview'">
+            select
+            lg.*,
+            ac.*
+            from rcm_pre_log lg
+            left join act_ru_task ac on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            where lg.iswaiting = '1'
+            and lg.businessid = #{business_id}
+        </if>
+        /*其它评审审批*/
+        <if test="key != null and key != '' and key == 'bulletin'">
+            select
+            lg.*,
+            ac.*
+            from rcm_bulletin_log lg
+            left join act_ru_task ac on ac.id_ = lg.taskid
+            and ac.execution_id_ = lg.executionid
+            where lg.iswaiting = '1'
+            and lg.businessid = #{business_id}
+        </if>
+    </select>
+</mapper>

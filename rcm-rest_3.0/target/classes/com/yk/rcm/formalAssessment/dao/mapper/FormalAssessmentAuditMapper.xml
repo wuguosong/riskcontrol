@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.formalAssessment.dao.IFormalAssessmentAuditMapper">
+	<update id="updateOptionById" parameterType="map">
+		update rcm_formalassessment_log  l set l.opinion = #{option} 
+		where  1 = 1  and l.id = #{id} 
+	</update>
+	<update id="updateWaitingPerson" parameterType="map">
+		update rcm_formalassessment_log  l set l.audituserid = #{newUserId} 
+		where  1 = 1  and l.id = #{id} 
+	</update>
+	<select id="queryFirstLevelLawyersIdsByServiceTypeIds" parameterType="map" resultType="string">
+		select l.lawyerid from rcm_firstlevel_lawyer l where l.servicetypekey in ( ${servicetype_ids} )
+		  and l.lawyerid is not null
+	</select>
+	<select id="queryUsersByRoleId" parameterType="string" resultType="hashmap">
+		select * from sys_user u where u.state='2' and u.uuid in(
+		select user_id from sys_user_role where role_id=#{roleId})
+	</select>
+	
+	<select id="queryMaxOrderNum" parameterType="string"  resultType="int">
+		select nvl(max(orderby), 1) nextorder from rcm_formalassessment_log
+		where businessid=#{businessId} and auditstatus != '9'
+	</select>
+	
+	<select id="queryNextOrderNum" parameterType="string" resultType="int">
+		select nvl(max(orderby)+1, 2) nextorder from rcm_formalassessment_log where businessid=#{businessId}
+	</select>
+	
+	<insert id="save"  parameterType="map">
+		insert into 
+		rcm_formalassessment_log (
+			businessid,
+			audituserid,
+			audittime,
+			opinion,
+			auditstatus,
+			orderby,
+			iswaiting,
+			taskdesc,
+			taskid,
+			executionid,
+			lastUserId,
+			stage,taskMark,
+			changeType,
+			oldUserId,
+			notifUsers
+		)
+		values(
+			#{businessId},
+			#{auditUserId,jdbcType=VARCHAR},
+			#{auditTime},
+			#{opinion,jdbcType=VARCHAR},
+			#{auditStatus},
+			#{orderBy},
+			#{isWaiting},
+			#{taskdesc,jdbcType=VARCHAR},
+			#{taskId,jdbcType=VARCHAR},
+			#{executionId,jdbcType=VARCHAR},
+			#{lastUserId,jdbcType=VARCHAR},
+			#{stage,jdbcType=VARCHAR},
+			#{taskMark,jdbcType=VARCHAR},
+			#{changeType,jdbcType=VARCHAR},
+			#{oldUserId,jdbcType=VARCHAR},
+			#{notifUsers,jdbcType=VARCHAR}
+		  )
+	</insert>
+	
+	<update id="updateAuditStatusByBusinessId" parameterType="map">
+		update rcm_formalassessment_info 
+		set wf_state=#{wf_state} where businessid=#{businessId}
+	</update>
+	
+	<select id="queryAuditedLogsById" parameterType="string" resultType="map">
+		select t.*,
+		 (select  i.project_name from rcm_project_info i where  i.business_id=t.businessid) bulletinName,
+		 (select name from sys_user where uuid=t.audituserid) auditUserName 
+		from rcm_formalassessment_log t where t.businessid=#{businessId} order by iswaiting asc,orderby asc 		
+	</select>
+	
+	<!-- 查待办 -->
+	<select id="queryWaitList" parameterType="map" resultType="map">
+		select * from (
+			select ta.*,(select l.taskmark from rcm_formalassessment_log  l where l.taskid = ta.taskid) taskmark,
+			(
+				select o.NAME from sys_org o where o.ORGPKVALUE = ta.pertainareaid
+			) pertainareaName ,
+			(
+				select u.name from sys_user u where u.uuid = ta.createby
+			) investManagerName ,
+			(
+				select u.name from sys_user u where u.uuid = ta.reviewpersonid
+			) reviewLeaderName ,
+			(
+				select u.name from sys_user u where u.uuid = ta.legalreviewpersonid
+			) investlegalReviewLeaderName 
+			from (
+				select decode(i.OLDDATA,'1',xyz.url_,'') detail_url,i.*,id_ taskid from rcm_formalassessment_info i
+				,(select to_char('#' || x.form_key_ || '/' || x.business_key_ || '@' ||
+				           x.proc_def_id_ || '@' || x.proc_inst_id_ || '@' || x.id_) url_,
+				          x.business_key_ ,x.id_          
+				from (select t.*,
+				          (select business_key_ from act_ru_execution 
+				           where business_key_ is not null 
+				           and proc_inst_id_=t.proc_inst_id_) business_key_ 
+				   from act_ru_task t, act_re_procdef a where 
+				  t.proc_def_id_=a.id_
+				  and t.assignee_='${userId}'
+				  and a.key_ in('formalAssessment','formalReview')) x) xyz
+			    where xyz.business_key_(+)=i.businessid and i.wf_state = '1' and (i.businessid in ( ${assignSql1} ) 
+			    or
+			    i.businessid in ( ${assignSql2} ) 
+			    )
+		   ) ta 
+		 ) tt where 1 = 1	
+		 <if test="projectUnitName != null and projectUnitName != ''"> and	tt.pertainareaName like '%${projectUnitName}%'</if>
+    	 <if test="projectName != null and projectName != ''"> and	tt.projectName like '%${projectName}%' </if>
+    	 order by tt.apply_date desc
+	</select>
+	
+	<!-- 查已办 -->
+	<select id="queryAuditedList" parameterType="map" resultType="map">
+		select * from (
+		select info.*,
+		(
+				select o.NAME from sys_org o where o.ORGPKVALUE = info.pertainareaid
+		) pertainareaName ,
+		(
+				select u.name from sys_user u where u.uuid = info.createby
+		) investManagerName ,
+		(
+				select u.name from sys_user u where u.uuid = info.reviewpersonid
+		) reviewLeaderName ,
+		(
+			select u.name from sys_user u where u.uuid = info.legalreviewpersonid
+		) legalReviewLeaderName ,
+		(select to_char('#/ProjectFormalReviewDetailView/view/' || hp.business_key_ || '@' ||
+                               hp.proc_def_id_ || '@' || hp.proc_inst_id_ || '@@') url
+                  from act_hi_procinst hp
+                 where hp.proc_inst_id_ in
+                       (select proc_inst_id_
+                          from act_hi_taskinst
+                         where assignee_ = '${assignUserId}')
+                   and hp.proc_def_id_ in
+                       (select id_
+                          from act_re_procdef
+                         where key_ = 'formalAssessment')
+                   and hp.business_key_ =info.businessid) oldurl
+		  from rcm_formalassessment_info info
+		 where info.businessid in
+		       (select to_char(f.businessid)
+		          from rcm_formalassessment_log f
+		         where f.iswaiting = '0'
+		           and f.audituserid = '${assignUserId}'
+		        union
+		        select to_char(business_key_)
+		          from act_hi_procinst hp
+		         where hp.proc_inst_id_ in
+		               (select proc_inst_id_
+		                  from act_hi_taskinst ht
+		                 where ht.end_time_ is not null
+		                   and ht.proc_def_id_ in
+		                       (select id_
+		                          from act_re_procdef
+		                         where key_ = 'formalAssessment')
+		                   and ht.assignee_ = '${assignUserId}'))
+		 ) tt where 1=1
+		 <if test="projectUnitName != null and projectUnitName != ''"> and	tt.pertainareaName like '%${projectUnitName}%'</if>
+    	 <if test="projectName != null and projectName != ''"> and	tt.projectName like '%${projectName}%' </if>
+    	 <if test="wf_state != null and wf_state != ''"> and	tt.wf_state = #{wf_state}</if>
+    	  order by tt.apply_date desc
+	</select>
+	
+	<update id="updateWaitLog" parameterType="map">
+		 update 
+		 rcm_formalassessment_log set 
+		 taskdesc=#{taskdesc},
+		 audituserid=#{nextUserId,jdbcType=VARCHAR},
+		 audittime=#{now},
+		 orderby=#{orderBy},
+		 taskid=#{taskId,jdbcType=VARCHAR},
+		 executionid=#{executionId,jdbcType=VARCHAR}
+		 
+		 where iswaiting='1' and businessid=#{businessId} 
+		 <if test="executionId !=null and executionId !=''">
+			  and executionId =  #{executionId}
+		 </if>
+		 <if test="currentUserId !=null and currentUserId !=''">
+			  and audituserid =  #{currentUserId}
+		 </if>
+	</update>
+	
+	<select id="isExistWaitLog" parameterType="map" resultType="int">
+		select count(1) from rcm_formalassessment_log where iswaiting='1' and
+		businessid=#{businessId}
+	</select>
+	<delete id="deleteWaitlogs" parameterType="map" >
+		delete from rcm_formalassessment_log l where 
+		l.businessid=#{businessId} 
+		<if test="currentUserId != null and currentUserId != ''">
+			and l.audituserid = #{currentUserId} 
+		</if>
+		<if test="isWaiting !=null and isWaiting !=''">
+			and l.iswaiting = #{isWaiting}
+		</if>
+		<if test="executionId !=null and executionId !=''">
+			and l.executionid = #{executionId}
+		</if>
+	</delete>
+	
+	<update id="updateAuditStageByBusinessId" parameterType="map" >
+		update rcm_formalassessment_info set stage = #{stage} where businessid = #{businessId}
+	</update>
+	
+	<update id="updateWaitLogsFormWaitT2FinishedByBusinessId"  parameterType="map" >
+		update rcm_formalassessment_log l set 
+		orderby=#{orderBy},
+		taskid=#{taskId,jdbcType=VARCHAR},
+		executionid=#{executionId,jdbcType=VARCHAR},
+		audittime = #{auditTime},
+		opinion = #{opinion,jdbcType=VARCHAR},
+		iswaiting = #{isWaiting},
+		auditstatus = #{auditStatus},
+		taskdesc = #{taskdesc,jdbcType=VARCHAR}
+		where l.businessid=#{businessId} and l.audituserid = #{currentUserId} and iswaiting = '1'
+	</update>
+	<select id="queryWaitingLogs" parameterType="map" resultType="map">
+		 select * from rcm_formalassessment_log  l where l.iswaiting = 1 
+		 <if test="auditUserId != null and auditUserId != ''"> and l.audituserid = #{auditUserId} </if>
+	</select>
+	<select id="queryWaitingLogsById" parameterType="map" resultType="map">
+		 select * from rcm_formalassessment_log  l where l.iswaiting = 1 
+		 <if test="businessId != null and businessId != ''"> and l.businessId = #{businessId} </if>
+	</select>
+	
+	<select id="queryMaxAuditLogById" parameterType="string" resultType="map">
+		select * from rcm_formalassessment_log ll where ll.orderby = (
+		select max(l.orderby) from rcm_formalassessment_log l where l.businessid = #{businessId} and l.iswaiting = 0)
+		and ll.businessid = #{businessId} and ll.iswaiting = 0	
+	</select>
+	
+	<delete id="deleteHuiQianTaskByExecutionId" parameterType="map">
+		delete from rcm_formalassessment_log l where l.iswaiting = '1' and l.executionid in (
+			select ee.id_ from act_ru_execution ee where ee.parent_id_ = (
+				select e.parent_id_ from act_ru_execution e where e.id_ = #{executionId}
+			)
+		)
+	</delete>
+</mapper>

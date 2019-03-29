@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.power.dao.IRoleMapper">
+	
+	<select id="queryById" parameterType="string" resultType="hashmap">
+		select * from sys_role r where r.role_id=#{roleId}
+	</select>
+	
+	<select id="queryByCode" parameterType="string" resultType="hashmap">
+		select * from sys_role r where r.CODE=#{code}
+	</select>
+	
+	<select id="queryUserById" parameterType="string" resultType="hashmap">
+		select * from sys_user u where u.state='2' and u.uuid in(
+		select user_id from sys_user_role where role_id=#{roleId})
+	</select>
+	
+	<select id="selectUserByRoleCode" resultType="map">
+		select u.uuid as value, u.name 
+		from sys_user u,sys_user_role ur 
+		where u.UUID = ur.user_id 
+		and u.state = '2' and ur.code = #{code,jdbcType=VARCHAR}
+		order by ur.ORDER_BY 
+	</select>
+	
+	<select id="queryUsersByRoleCodes" resultType="map">
+		select u.uuid as value,u.name from sys_user u,sys_user_role ur 
+		where ur.user_id=u.uuid and u.state='2' and ur.code in
+		<foreach collection="codes" item="code" open="(" close=")" separator=",">
+			#{code}
+		</foreach>
+	</select>
+	
+	<select id="queryPsfzrUsers" resultType="hashmap">
+			 select * from ( 
+		    select t.team_name name , t.uuid value ,'' pid,'1' isgroup , '' isLeader ,t.ordernum,1 seq from team t where t.type in 
+			<foreach collection="psfzrTypes" item="type" open="(" close=")" separator=",">
+				#{type}
+			</foreach>   
+		    union 
+		    select tt.team_leader name , tt.team_leader_id value,tt.uuid pid ,'0' isgroup , '1' isLeader ,tt.ordernum,2 seq from team tt where tt.type in 
+			<foreach collection="psfzrTypes" item="type" open="(" close=")" separator=",">
+				#{type}
+			</foreach>    
+		    union 
+		    select it.team_member_name name, 
+		       it.team_member_id value,it.team_id pid,
+		       '0' isgroup,
+		       '0' isLeader,
+		       rownum ordernum,
+		       3 seq 
+		  from team_item it 
+		 where it.team_id in (select uuid from team where type in 
+			<foreach collection="psfzrTypes" item="type" open="(" close=")" separator=",">
+				#{type}
+			</foreach>  
+			) and it.team_member_id not in (
+		       select TEAM_LEADER_ID from team  
+		       where type in 
+			<foreach collection="psfzrTypes" item="type" open="(" close=")" separator=",">
+				#{type}
+			</foreach>  
+		 )
+		    ) ta order by ta.seq , isgroup desc,isleader desc,ordernum 
+	</select>
+	
+	<select id="ifRoleContainUser" parameterType="map" resultType="int">
+		select count(1) 
+		from sys_user u, sys_user_role ur 
+		where u.UUID = ur.user_id 
+		and u.state = '2' 
+		and ur.code = #{code} 
+		and ur.user_id = #{userId}
+	</select>
+	
+	<select id="queryMeetingLeaderByPage" resultType="map" useCache="false" parameterType="map">
+		select u.UUID,u.NAME,u.ACCOUNT,ur.USER_ROLE_ID,ur.order_by,ur.role_id,
+		nvl((select '1' from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid),'0') MEETING_LEADER_STATUS,
+		(select di.cust_number02 from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid) MEETING_LEADER_NUMBER,
+		(CASE
+         when (#{orgCodeRoot} = (select o.CODE
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)) then
+          (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.DEPTPKVALUE)
+         else
+         (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)
+       end) orgname  		 
+		from sys_user u,sys_user_role ur 
+		where u.UUID = ur.user_id and u.state = '2' 
+		and ur.code = #{role_code,jdbcType=VARCHAR} 
+		<if test="name != null and name != ''"> and u.name like '%${name}%' </if>
+		order by ur.ORDER_BY
+	</select>
+	
+	<select id="queryMeetingLeaderById" resultType="map" useCache="false" parameterType="map">
+		select u.UUID,u.NAME,u.ACCOUNT,ur.USER_ROLE_ID,ur.order_by,ur.role_id,
+		nvl((select '1' from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid),'0') MEETING_LEADER_STATUS,
+		(select di.cust_number02 from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid) MEETING_LEADER_NUMBER,
+		(select di.UUID from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid) MEETING_LEADER_UUID 
+		from sys_user u,sys_user_role ur 
+		where u.UUID = ur.user_id and u.state = '2' 
+		and ur.code = #{role_code,jdbcType=VARCHAR} 
+		and ur.USER_ROLE_ID = #{user_role_id,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="queryMeetingLeaderByUserId" resultType="map" useCache="false" parameterType="map">
+		select u.UUID,u.NAME,u.ACCOUNT,ur.USER_ROLE_ID,ur.order_by,ur.role_id,
+		nvl((select '1' from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid),'0') MEETING_LEADER_STATUS,
+		(select di.cust_number02 from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid) MEETING_LEADER_NUMBER,
+		(select di.UUID from sys_dictionary_item di,sys_dictionary d where d.dictionary_code = #{dictionary_code,jdbcType=VARCHAR} and di.item_code = u.UUID and di.fk_dictionary_uuid = d.uuid) MEETING_LEADER_UUID 
+		from sys_user u,sys_user_role ur 
+		where u.UUID = ur.user_id and u.state = '2' 
+		and ur.code = #{role_code,jdbcType=VARCHAR} 
+		and ur.USER_ID = #{user_id,jdbcType=VARCHAR} 
+	</select>
+	
+	
+	<select id="queryRoleUserLastIndexByCode" resultType="int" parameterType="map">
+		select nvl(max(ur.order_by),0)+1 
+		from sys_user_role ur 
+		where ur.code = #{code,jdbcType=VARCHAR} 
+	</select>
+	
+	<insert id="createMeetingLeader" parameterType="map">
+		insert into sys_user_role
+		(USER_ROLE_ID,USER_ID, ROLE_ID, CREATE_DATE,STATE,CODE,ORDER_BY) 
+		values (#{USER_ROLE_ID,jdbcType=VARCHAR},#{USER_ID,jdbcType=VARCHAR},
+		#{ROLE_ID,jdbcType=VARCHAR},#{CREATE_DATE,jdbcType=DATE}
+		,#{STATE,jdbcType=VARCHAR},#{CODE,jdbcType=VARCHAR},#{ORDER_BY,jdbcType=INTEGER})
+	</insert>
+	
+	<update id="updateMeetingLeader" parameterType="map">
+		update sys_user_role
+		set USER_ID = #{USER_ID,jdbcType=VARCHAR},
+		CREATE_DATE = #{CREATE_DATE,jdbcType=VARCHAR},
+		STATE = #{STATE,jdbcType=VARCHAR},
+		ORDER_BY = #{ORDER_BY,jdbcType=VARCHAR}
+		where USER_ROLE_ID = #{USER_ROLE_ID,jdbcType=VARCHAR} and CODE = #{CODE,jdbcType=VARCHAR}
+	</update>
+	<update id="updateUserIdByRoleCode" parameterType="map">
+		update sys_user_role set USER_ID = #{userId,jdbcType=VARCHAR} where CODE = #{code,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateOneUserByRoleId" parameterType="map">
+		update sys_user_role set USER_ID = #{newUserId,jdbcType=VARCHAR} where role_Id = #{roleId,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteById" parameterType="string">
+		delete from sys_user_role 
+		where USER_ROLE_ID = #{user_role_id,jdbcType=VARCHAR}
+	</delete>
+	
+	<select id="ifRolesContainUser" parameterType="map" resultType="int">
+		select count(1) 
+		from sys_user u, sys_user_role ur 
+		where u.UUID = ur.user_id 
+		and u.state = '2' 
+		and ur.code in 
+		<foreach collection="codes" item="code" open="(" close=")" separator=",">
+			#{code}
+		</foreach>
+		and ur.user_id = #{userId}
+	</select>
+	
+	<select id="queryRoleListByPage" resultType="map" useCache="false">
+		select r.* from sys_role r where 1=1 
+		<if test="roleName != null and '' != roleName">
+		 and r.role_name like '%${roleName}%' 
+		</if>
+		<if test="state!=null and state != ''">
+		 and r.state = '${state}' 
+		</if>
+		<if test="type!=null and type != ''">
+		 and r.type = '${type}' 
+		</if>
+		order by r.type,r.role_name asc 
+	</select>
+	
+	<select id="countRoleUserFunc" resultType="int" useCache="false">
+		select sum(nums) from (
+        select count(distinct r.role_id) as nums from sys_role r,SYS_USER_ROLE ur where    
+		r.role_id=ur.role_id and r.role_id in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+		Union all
+		select count(distinct r.role_id) as nums from sys_role r,sys_role_func rf where    
+		r.role_id=rf.role_id and  r.role_id in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+		 )
+	</select>
+	
+	<select id="countServiceRole" resultType="int" useCache="false">
+        select count(r.role_id) as nums from sys_role r 
+        where r.TYPE = '1' and r.role_id in 
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</select>
+	
+	<delete id="deleteRoleById" parameterType="string">
+		delete from sys_role 
+		where ROLE_ID in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+		 and TYPE = 0
+	</delete>
+	
+	<insert id="createRole" parameterType="map">
+		insert into sys_role(role_id, role_name, role_pid,explain,create_date,state,code,type,LAST_UPDATE_BY) values
+		(#{ROLE_ID,jdbcType=VARCHAR},
+		 #{ROLE_NAME,jdbcType=VARCHAR},
+		  #{ROLE_PID,jdbcType=VARCHAR},
+		  #{EXPLAIN,jdbcType=VARCHAR},
+		  #{CREATE_DATE},
+		  #{STATE,jdbcType=VARCHAR},
+		  #{CODE,jdbcType=VARCHAR},
+		  #{TYPE,jdbcType=VARCHAR},
+		  #{LAST_UPDATE_BY,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateRole" parameterType="map">
+	 	update sys_role 
+	 	set role_name = #{ROLE_NAME,jdbcType=VARCHAR},
+	 	state = #{STATE,jdbcType=VARCHAR},
+	 	explain = #{EXPLAIN,jdbcType=VARCHAR},
+	 	code = #{CODE,jdbcType=VARCHAR},
+	 	type = #{TYPE,jdbcType=VARCHAR}, 
+	 	last_update_date = #{LAST_UPDATE_DATE},
+	 	last_update_by = #{LAST_UPDATE_BY} 
+	 	where role_id = #{ROLE_ID,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="queryRoleUserListByPage" resultType="map" useCache="false">
+		select u.*,
+		(CASE
+         when (#{orgCodeRoot} = (select o.CODE
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)) then
+          (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.DEPTPKVALUE)
+         else
+         (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)
+       end) orgname,
+       ur.USER_ROLE_ID 
+		from sys_user_role ur,sys_user u 
+        where ur.user_id = u.UUID and  ur.role_id = #{roleId} 
+		<if test="name != null and '' != name">
+		 and u.name like '%${name}%' 
+		</if>
+		order by ur.order_by
+	</select>
+	
+	<select id="queryRoleAddUserByPage" resultType="map" useCache="false">
+		select u.*,
+		(CASE
+         when (#{orgCodeRoot} = (select o.CODE
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)) then
+          (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.DEPTPKVALUE)
+         else
+         (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)
+       end) orgname  
+	    from sys_user u where u.state = '2' 
+	    and u.UUID not in(select ur.user_id from sys_user_role ur where ur.role_id = #{roleId})
+		<if test="username!=null and username!=''"> and u.name like '%${username}%' </if>
+		<if test="account!=null and account!=''"> and u.account like '%${account}%' </if>
+	</select>
+	
+	<insert id="addRoleUser" parameterType="map">
+		insert into sys_user_role
+		(USER_ROLE_ID,USER_ID, ROLE_ID, CREATE_DATE,STATE,CODE,ORDER_BY) 
+		values (#{USER_ROLE_ID,jdbcType=VARCHAR},#{USER_ID,jdbcType=VARCHAR},
+		#{ROLE_ID,jdbcType=VARCHAR},#{CREATE_DATE,jdbcType=DATE}
+		,#{STATE,jdbcType=VARCHAR},#{CODE,jdbcType=VARCHAR},#{ORDER_BY,jdbcType=INTEGER})
+	</insert>
+	
+	<delete id="deleteRoleUserById" parameterType="string">
+		delete from sys_user_role where USER_ROLE_ID in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>  
+	</delete>
+	
+	<select id="queryByRoleUser" resultType="map" useCache="false" parameterType="map">
+		select ur.* from sys_user_role ur 
+		where ur.user_id = #{USER_ID} and ur.role_id = #{ROLE_ID} 
+	</select>
+	
+	<select id="queryFunc" resultType="map" useCache="false">
+		select func_id,func_name,func_pid from sys_func f where f.state = '1' order by f.SORT asc
+	</select>
+	
+	<select id="getRoleAndFunc" resultType="String" useCache="false">
+		 select func_id from sys_role_func where role_id=#{roleId}
+	</select>
+	
+	<delete id="deleteRoleAndFunc" parameterType="String">
+		delete from sys_role_func where role_id = #{role_id}
+	</delete>
+	
+	<insert id="insertRoleAndFunc" parameterType="map">
+		insert into sys_role_func(role_func_id,role_id,func_id,create_by,create_date,code) values
+		(#{role_func_id},#{role_id},#{func_id},#{create_by},#{create_date},#{code})
+	</insert>
+	
+	<select id="queryMeetingChairman" resultType="map" parameterType="map" useCache="false">
+		 select ur.* 
+		  from sys_user_role ur 
+		 where ur.code =#{ROLE_DECISION_LEADERS,jdbcType=VARCHAR} and  ur.user_id in
+		       (select d.item_code 
+		          from sys_dictionary_item d 
+		         where d.fk_dictionary_uuid =
+		               (select d.uuid 
+		                  from sys_dictionary d 
+		                 where d.dictionary_code = #{DICT_MEETING_LEADER,jdbcType=VARCHAR})) 
+		order by ur.order_by asc
+	</select>
+	
+	<select id="queryRoleUserByRoleId" resultType="map" parameterType="map">
+		select * from sys_user u,sys_user_role ur where u.UUID = ur.user_id and ur.role_id= #{roleId}
+	</select>
+	
+	<!-- 新增数据到ProRole -->
+	<insert id="insertProRole" parameterType="map">
+		insert into SYS_PROJECT_ROLE (
+		    ID,
+			BUSINESS_ID,
+			role_id,
+			create_by,
+			create_date,
+			PROJECT_TYPE
+		) values (
+		    #{id},
+			#{businessId},
+			#{roleId},
+			#{createBy},
+			to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+			#{projectType}
+		)
+	</insert>
+	
+	<!-- 查询角色项目列表-分页 -->
+    <select id="queryRoleProjectListByPage" resultType="map" useCache="false">
+    SELECT *
+      FROM (SELECT FI.ID,
+                   FI.BUSINESSID,
+                   FI.PROJECTNAME,
+                   'pfr' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
+                   FI.CREATE_DATE,
+                   FI.WF_STATE,
+                   FI.OLDDATA,
+                   FI.APPLY_DATE,
+                   FI.STAGE,
+                   PR.ID PROJECT_ROLE_ID
+              FROM SYS_PROJECT_ROLE PR, RCM_FORMALASSESSMENT_INFO FI
+             WHERE PR.BUSINESS_ID = FI.BUSINESSID
+               AND PR.PROJECT_TYPE = 'pfr'
+               AND PR.ROLE_ID = #{roleId}
+
+            UNION ALL
+
+            SELECT PI.ID,
+                   PI.BUSINESSID,
+                   PI.PROJECTNAME,
+                   'pre' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
+                   PI.CREATE_DATE,
+                   PI.WF_STATE,
+                   PI.OLDDATA,
+                   PI.APPLY_DATE,
+                   PI.STAGE,
+                   PR.ID PROJECT_ROLE_ID
+              FROM SYS_PROJECT_ROLE PR, RCM_PRE_INFO PI
+             WHERE PR.BUSINESS_ID = PI.BUSINESSID
+               AND PR.PROJECT_TYPE = 'pre'
+               AND PR.ROLE_ID = #{roleId}
+            
+            UNION ALL
+            
+            SELECT BI.ID,
+                   BI.BUSINESSID,
+                   BI.BULLETINNAME PROJECTNAME,
+                   'bulletin' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
+                   BI.CREATETIME CREATE_DATE,
+                   BI.AUDITSTATUS WF_STATE,
+                   '0' OLDDATA,
+                   BI.APPLYTIME APPLY_DATE,
+                   BI.STAGE,
+                   PR.ID PROJECT_ROLE_ID
+              FROM SYS_PROJECT_ROLE PR, RCM_BULLETIN_INFO BI
+             WHERE PR.BUSINESS_ID = BI.BUSINESSID
+               AND PR.PROJECT_TYPE = 'bulletin'
+               AND PR.ROLE_ID = #{roleId}) T
+    
+    <if test="name != null and '' != name">
+        and T.PROJECTNAME like '%${name}%'
+    </if>
+    ORDER BY T.CREATE_DATE DESC
+    </select>
+    
+    
+    <!-- 查询角色项目列表-分页 -->
+    <select id="queryRoleAddProjectByPage" resultType="map" useCache="false">
+    SELECT *
+      FROM (SELECT FI.ID,
+                   FI.BUSINESSID,
+                   FI.PROJECTNAME,
+                   'pfr' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
+                   FI.CREATE_DATE,
+                   FI.WF_STATE,
+                   FI.OLDDATA,
+                   FI.APPLY_DATE,
+                   FI.STAGE
+              FROM RCM_FORMALASSESSMENT_INFO FI
+
+            UNION ALL
+
+            SELECT PI.ID,
+                   PI.BUSINESSID,
+                   PI.PROJECTNAME,
+                   'pre' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
+                   PI.CREATE_DATE,
+                   PI.WF_STATE,
+                   PI.OLDDATA,
+                   PI.APPLY_DATE,
+                   PI.STAGE
+              FROM RCM_PRE_INFO PI
+            
+            UNION ALL
+            
+            SELECT BI.ID,
+                   BI.BUSINESSID,
+                   BI.BULLETINNAME PROJECTNAME,
+                   'bulletin' PROJECT_TYPE,
+                   (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+                   (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
+                   BI.CREATETIME CREATE_DATE,
+                   BI.AUDITSTATUS WF_STATE,
+                   '0' OLDDATA,
+                   BI.APPLYTIME APPLY_DATE,
+                   BI.STAGE
+              FROM RCM_BULLETIN_INFO BI) T
+     WHERE 1 = 1
+       AND T.BUSINESSID NOT IN (SELECT PR.BUSINESS_ID FROM SYS_PROJECT_ROLE PR WHERE PR.ROLE_ID = #{roleId})
+    
+    <if test="name != null and '' != name">
+        and T.PROJECTNAME like '%${name}%'
+    </if>
+    ORDER BY T.CREATE_DATE DESC
+    </select>
+    
+    <select id="queryByRoleProject" resultType="map" useCache="false" parameterType="map">
+		SELECT PR.* from SYS_PROJECT_ROLE PR
+		WHERE PR.BUSINESS_ID = #{businessId} AND PR.ROLE_ID = #{roleId} 
+	</select>
+	
+	<delete id="deleteRoleProjectById" parameterType="string">
+		DELETE FROM SYS_PROJECT_ROLE WHERE ID IN
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>  
+	</delete>
+	
+	
+	
+	
+	
+	<!-- 新增数据到ProRole -->
+	<insert id="insertOrgRole" parameterType="map">
+		insert into SYS_ORG_ROLE (
+		    ID,
+			ORG_ID,
+			ROLE_ID,
+			create_by,
+			create_date
+		) values (
+		    #{id},
+			#{orgId},
+			#{roleId},
+			#{createBy},
+			to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')
+		)
+	</insert>
+	
+	<!-- 查询角色项目列表-分页 -->
+    <select id="queryRoleOrgListByPage" resultType="map" useCache="false">
+    SELECT *
+      FROM (SELECT O.ORGPKVALUE,
+                   O.NAME,
+                   SOR.ID ORG_ROLE_ID,
+                   (SELECT NAME FROM SYS_ORG SO WHERE SO.ORGPKVALUE = O.PARENTPKVALUE) PARENTNAME
+              FROM SYS_ORG_ROLE SOR, SYS_ORG O
+             WHERE SOR.ORG_ID = O.ORGPKVALUE
+               AND SOR.ROLE_ID = #{roleId}) T
+    
+    <if test="name != null and '' != name">
+        and T.NAME like '%${name}%'
+    </if>
+    </select>
+    
+    
+    <!-- 查询角色项目列表-分页 -->
+    <select id="queryRoleAddOrgByPage" resultType="map" useCache="false">
+    SELECT *
+      FROM (SELECT O.ID,
+			       O.NAME,
+			       O.ORGPKVALUE,
+			       (SELECT NAME FROM SYS_ORG SO WHERE SO.ORGPKVALUE = O.PARENTPKVALUE) PARENTNAME
+              FROM SYS_ORG O) T
+     WHERE 1 = 1
+       AND T.ORGPKVALUE NOT IN (SELECT SOR.ORG_ID FROM SYS_ORG_ROLE SOR WHERE SOR.ROLE_ID = #{roleId})
+    
+    <if test="name != null and '' != name">
+        and T.NAME like '%${name}%'
+    </if>
+    </select>
+    
+    <select id="queryByRoleOrg" resultType="map" useCache="false" parameterType="map">
+		SELECT SOR.* from SYS_ORG_ROLE SOR
+		WHERE SOR.ORG_ID = #{orgId} AND SOR.ROLE_ID = #{roleId} 
+	</select>
+	
+	<delete id="deleteRoleOrgById" parameterType="string">
+		DELETE FROM SYS_ORG_ROLE WHERE ID IN
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>  
+	</delete>
+	
+	
+	<select id="queryRoleIdByOrgId" resultType="map" useCache="false">
+        SELECT SOR.ROLE_ID FROM SYS_ORG_ROLE SOR WHERE SOR.ORG_ID = #{orgId}
+    </select>
+	
+	<!-- <select id="queryOrg" resultType="map" useCache="false">
+		select o.ORGPKVALUE as id, o.PARENTPKVALUE as pid, o.NAME, o.ISPARENT, o.CATEGORYCODE from sys_org_ext o where 1=1
+		<choose>
+			<when test="parentId!=null and parentId != ''">
+				and o.PARENTPKVALUE = #{parentId} 
+			</when>
+			<otherwise>
+				and o.PARENTPKVALUE is null
+			</otherwise>
+		</choose>
+			order by o.CATEGORYCODE, o.CODE
+	</select>
+	
+	<select id="getRoleAndOrg" resultType="String" useCache="false">
+		 SELECT ORG_ID FROM SYS_ORG_ROLE WHERE ROLE_ID=#{roleId}
+	</select>
+	
+	<delete id="deleteRoleAndOrg" parameterType="String">
+		DELETE FROM SYS_ORG_ROLE WHERE ROLE_ID = #{role_id}
+	</delete>
+	
+	<insert id="insertRoleAndOrg" parameterType="map">
+		insert into SYS_ORG_ROLE (
+		    ID,
+			ORG_ID,
+			ROLE_ID,
+			create_by,
+			create_date
+		) values (
+		    #{id},
+			#{orgId},
+			#{roleId},
+			#{createBy},
+			to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')
+		)
+	</insert> -->
+</mapper>

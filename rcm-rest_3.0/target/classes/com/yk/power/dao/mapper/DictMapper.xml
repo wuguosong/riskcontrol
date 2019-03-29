@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.power.dao.IDictMapper">
+
+	<select id="queryDictTypeByPage" resultType="map" useCache="false">
+		select * from sys_dictionary t where 1=1 and state = '1'
+		<if test="DICTIONARY_NAME!=null and DICTIONARY_NAME!='' "> and dictionary_name like '%${DICTIONARY_NAME}%' </if>
+		<if test="DICTIONARY_CODE!=null and DICTIONARY_CODE!='' "> and dictionary_code like '%${DICTIONARY_CODE}%' </if>
+		 order by t.dictionary_code
+	</select>
+	
+	<select id="queryDictItemByDictTypeAndPage" resultType="map" useCache="false">
+		select * from sys_dictionary_item t
+		where fk_dictionary_uuid='${FK_UUID}'
+		<if test="ITEM_NAME!=null and ITEM_NAME!='' "> and item_name like '%${ITEM_NAME}%' </if>
+		<if test="ITEM_CODE!=null and ITEM_CODE!='' "> and item_code like '%${ITEM_CODE}%' </if>
+		 order by t.CUST_NUMBER01 asc
+	</select>
+	
+	<select id="selectPkDictType" resultType="String" useCache="false"> 
+		select count(1) from sys_dictionary t
+		where t.dictionary_code = #{dictionary_code} 
+		<if test="uuid!=null and uuid!='' "> and t.uuid != #{uuid} </if>
+	</select>
+	
+	<insert id="addDictType" parameterType="map">
+		insert into sys_dictionary
+		(uuid,dictionary_code, dictionary_name, dictionary_desc ,state,APP_ROUTE) values
+		(#{uuid,jdbcType=VARCHAR},#{dictionary_code,jdbcType=VARCHAR},
+		#{dictionary_name,jdbcType=VARCHAR},#{dictionary_desc,jdbcType=VARCHAR},'1','DataOptionList')
+	</insert>
+	
+	<update id="updateDictType" parameterType="map" >
+	 	update sys_dictionary 
+	 	set dictionary_code=#{dictionary_code,jdbcType=VARCHAR},
+	 	dictionary_name=#{dictionary_name,jdbcType=VARCHAR},
+	 	dictionary_desc=#{dictionary_desc,jdbcType=VARCHAR}
+	 	where uuid = #{uuid}
+	</update>
+	
+	<select id="getDictTypeById" resultType="map" useCache="false">
+		select * from sys_dictionary where uuid=#{uuid}
+	</select>
+	
+	<select id="getDictItemById" resultType="map" useCache="false">
+		select * from sys_dictionary_item where uuid=#{uuid}
+	</select>
+	
+	<delete id="deleteDictTypeByIds" parameterType="map">
+		delete from sys_dictionary where uuid in
+		<foreach collection="uuidArray" item="uuid" open="(" close=")" separator=",">
+			#{uuid}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteDictItemByIds" parameterType="map">
+		delete from sys_dictionary_item where uuid in
+		<foreach collection="uuidArray" item="uuid" open="(" close=")" separator=",">
+			#{uuid}
+		</foreach>
+	</delete>
+	
+	<select id="selectPkDictItem" resultType="String" useCache="false"> 
+		select count(*) from sys_dictionary_item t
+		where t.item_code = #{item_code} and t.fk_dictionary_uuid = #{fk_dictionary_uuid}
+		<if test="uuid!=null and uuid!='' "> and t.uuid != #{uuid} </if>
+	</select>
+	
+	<insert id="addDictItem" parameterType="map">
+		insert into sys_dictionary_item
+		(uuid,item_code, item_name, is_enabled,fk_dictionary_uuid,business_type,cust_number01,cust_number02) values
+		(#{uuid,jdbcType=VARCHAR},#{item_code,jdbcType=VARCHAR},
+		#{item_name,jdbcType=VARCHAR},#{is_enabled,jdbcType=VARCHAR}
+		,#{fk_dictionary_uuid,jdbcType=VARCHAR},#{business_type,jdbcType=VARCHAR},#{cust_number01,jdbcType=INTEGER},#{cust_number02,jdbcType=INTEGER})
+	</insert>
+	
+	<update id="updateDictItem" parameterType="map">
+	 	update sys_dictionary_item 
+	 	set item_code=#{item_code,jdbcType=VARCHAR},
+	 	item_name=#{item_name,jdbcType=VARCHAR},
+	 	is_enabled=#{is_enabled,jdbcType=VARCHAR},
+	 	business_type=#{business_type,jdbcType=VARCHAR},
+	 	cust_number01=#{cust_number01,jdbcType=INTEGER},
+	 	cust_number02=#{cust_number02,jdbcType=INTEGER}
+	 	where uuid = #{uuid}
+	</update> 
+	
+	<select id="getDictItemLastIndexByDictType" resultType="String" useCache="false"> 
+		select nvl(max(CUST_NUMBER01),0)+1
+		from sys_dictionary_item d
+		where d.fk_dictionary_uuid=#{FK_UUID}
+	</select>
+	
+	<select id="queryDictItemByDictTypeCode" resultType="map" useCache="false">
+		select di.*
+		from sys_dictionary d,sys_dictionary_item di
+		where d.uuid = di.fk_dictionary_uuid
+		and d.DICTIONARY_CODE = #{code}
+	</select>
+	
+	<select id="getDictItemByItemCode" resultType="map">
+		select d.* from sys_dictionary_item d where d.item_code= #{itemCode}
+	</select>
+	
+	<select id="getDictByCode" resultType="map">
+		select d.* from SYS_DICTIONARY d where d.dictionary_code= #{code}
+	</select>
+	
+	<delete id="deleteDictItemById" parameterType="java.lang.String">
+		delete from sys_dictionary_item where uuid = #{uuid}
+	</delete>
+	
+	<select id="getDictItemLastIndexByDictCode" resultType="String" useCache="false"> 
+		select nvl(max(CUST_NUMBER01),0)+1 
+		from sys_dictionary_item d 
+		where d.fk_dictionary_uuid = (select d.uuid from sys_dictionary d where d.dictionary_code = #{code})
+	</select>
+	
+	<insert id="addDictItemMeetLeader" parameterType="map">
+		insert into sys_dictionary_item
+		(uuid,item_code, item_name, is_enabled,fk_dictionary_uuid,business_type) values
+		(#{uuid,jdbcType=VARCHAR},#{item_code,jdbcType=VARCHAR},
+		#{item_name,jdbcType=VARCHAR},#{is_enabled,jdbcType=VARCHAR}
+		,#{fk_dictionary_uuid,jdbcType=VARCHAR},#{business_type,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateDictItemMeetLeader" parameterType="map" >
+	 	update sys_dictionary_item 
+	 	set item_code=#{item_code,jdbcType=VARCHAR},
+	 	item_name=#{item_name,jdbcType=VARCHAR},
+	 	is_enabled=#{is_enabled,jdbcType=VARCHAR},
+	 	business_type=#{business_type,jdbcType=VARCHAR}
+	 	where uuid = #{uuid,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="queryItemByFuCoZiName" resultType="map" useCache="false" parameterType="map">
+		select *
+		  from sys_dictionary_item di
+		 where di.fk_dictionary_uuid =
+		       (select sd.uuid
+		          from sys_dictionary sd
+		         where sd.dictionary_code = #{dictionary_code,jdbcType=VARCHAR})
+		   and di.item_name = #{item_name,jdbcType=VARCHAR}
+	</select>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.file.dao.ILogMapper">
+    <!-- 新增 -->
+    <insert id="saveLog" parameterType="com.goukuai.dto.LogDto">
+		insert into log_dto
+		(
+		       logid,
+		       hash,
+		       filehash, 
+		       fullpath, 
+		       filename, 
+		       createdby,
+  			   createddate,
+  			   updatedby,
+               updateddate,
+  			   doctype,
+  			   doccode,
+  			   fileopt
+		)
+		values
+		(
+		       log_dto_seq.nextval, 
+		       #{logDto.hash},
+		       #{logDto.filehash},
+		       #{logDto.fullpath},
+		       #{logDto.filename},
+		       #{logDto.createdby},
+  			   #{logDto.createddate},
+  			   #{logDto.updatedby},
+               #{logDto.updateddate},
+  			   #{logDto.doctype},
+  			   #{logDto.doccode},
+  			   #{logDto.fileopt}
+		)
+	</insert>
+</mapper>

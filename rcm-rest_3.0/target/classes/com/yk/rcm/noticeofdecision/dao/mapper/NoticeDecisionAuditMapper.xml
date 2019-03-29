@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.noticeofdecision.dao.INoticeDecisionAuditMapper">
+
+	<!-- 查询审核日志 -->
+	<select id="queryAuditedLogsById" resultType="hashmap"  parameterType="string">
+		select t.*,
+		 (select  i.project_name from rcm_project_info i where  i.business_id=t.businessid) bulletinName,
+		 (select name from sys_user where uuid=t.audituserid) auditUserName 
+		from rcm_noticedecision_log t where t.businessid=#{businessId} order by orderby		
+	</select>
+
+	<!-- 查待办 -->
+	<select id="queryWaitList" parameterType="map" resultType="hashmap">
+		select * from
+		(select (select to_char('#'||t.form_key_||'/'||p.business_key_ ||
+                  '@'||t.proc_def_id_ ||'@'||t.proc_inst_id_||'@'||t.id_ ) url_  from 
+  		 act_ru_task t, act_hi_procinst p, act_re_procdef a 
+ 		where t.proc_inst_id_ = p.proc_inst_id_
+	   and p.proc_def_id_ = a.id_ 
+	   and a.key_='noticeOfDecision' 
+	   and p.business_key_ =t.businessid) detailurl, 
+			t.businessid as businessid, 
+		(select p.projectname from rcm_formalassessment_info p where p.businessid = t.projectformalid) 
+		 	as projectName, 
+			(
+				select org.name from  sys_org org where org.ORGPKVALUE = 
+				(
+				select pinfo.pertainareaid from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = t.projectformalid
+				)
+			) as pertainareaName,
+		to_char(t.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting,
+		to_char(t.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting1,
+		
+		to_char(t.apply_date,'yyyy-mm-dd') as apply_date ,
+		decode(t.wf_state,'0','起草中','1','审批中','2','已审批','3','终止') as approve_state,
+<!-- 	decode(t.consenttoinvestment,'1','同意投资','2','不同意投资','3','同意有条件投资','4','择期决议') as consenttoinvestment -->
+		t.consenttoinvestment,
+		t.wf_state,
+		t.olddata 
+		from rcm_noticedecision_info t) tt
+		where tt.wf_state = '1'
+		<if test="assignSql!=null and assignSql!=''"> and (tt.businessid in (${assignSql}) or tt.businessid in (${assignSql2}))</if> 
+		<if test="createBy!=null and createBy!=''"> and t.createby=#{createBy} </if>
+		<if test="projectName != null and projectName != ''"> and tt.projectName like '%${projectName}%'</if>
+		<if test="consentToInvestment!=null and consentToInvestment!='' ">and tt.consenttoinvestment = '${consentToInvestment}'</if>
+		<if test="approveState!=null and approveState!='' ">and tt.approve_state = '${approveState}'</if>
+		<if test="dateOfMeeting!=null and dateOfMeeting!='' ">and tt.dateOfMeeting1 = '${dateOfMeeting}'</if>
+<!-- 		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%${bulletinName}%'</if>  -->
+<!-- 		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if>  -->
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+<!-- 		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName, -->
+<!-- 		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName, -->
+<!-- 		 (select name from sys_user where uuid=t.createby) applyUserName, -->
+<!-- 		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName  -->
+<!-- 		from rcm_noticedecision_info t where auditstatus='1' -->
+<!-- 		<if test="assignSql!=null and assignSql!=''"> and businessid in(${assignSql}) </if>  -->
+<!-- 		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%${bulletinName}%'</if>  -->
+<!-- 		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if>  -->
+<!-- 		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if>  -->
+	</select>
+	
+	<!-- 查已办 -->
+	<select id="queryAuditedList" parameterType="map" resultType="hashmap">
+		select tt.*,
+		(select min(url_) from 
+	(select  pp.business_key_,  to_char('#/NoticeOfDecision/view/'||pp.business_key_ || 
+                  '@'||x.proc_def_id_ ||'@'||x.proc_inst_id_||'@'||x.id_ ) url_  from 
+       act_hi_taskinst x, act_hi_procinst pp, act_re_procdef a 
+     where x.proc_inst_id_ = pp.proc_inst_id_ 
+     and pp.proc_def_id_ = a.id_  
+     and a.key_='noticeOfDecision' 
+     and x.assignee_=#{assignUserId}) gg   
+     where gg.business_key_=tt.businessid group by gg.business_key_ ) detailurl  
+		from 
+		(select 
+		t.businessid as businessid,
+		(select p.project_name from rcm_project_info p where p.business_id = t.projectformalid) 
+		 	as projectName,
+		(
+				select org.name from  sys_org org where org.ORGPKVALUE = 
+				(
+				select pinfo.pertainareaid from rcm_formalassessment_info pinfo 
+				where pinfo.businessid  = t.projectformalid
+				)
+			) as pertainareaName,
+		to_char(t.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting, 
+		to_char(t.DATEOFMEETING,'yyyy-mm-dd') as dateOfMeeting1, 
+		to_char(t.apply_date,'yyyy-mm-dd') as apply_date , 
+		decode(t.wf_state,'0','起草中','1','审批中','2','已审批','3','终止') as approve_state, 
+		t.olddata,
+		t.consenttoinvestment 
+		from rcm_noticedecision_info t ) tt 
+		where tt.approve_state!='0' 
+		<if test="createBy!=null and createBy!=''"> and t.createby=#{createBy} </if>
+		<if test="projectName!= null and projectName!= ''"> and tt.projectName like '%${projectName}%'</if>
+		<if test="consentToInvestment!=null and consentToInvestment!='' ">and tt.consenttoinvestment  = '${consentToInvestment}'</if>
+		<if test="approveState!=null and approveState!='' ">and tt.approve_state = '${approveState}'</if>
+		<if test="dateOfMeeting!=null and dateOfMeeting!='' ">and tt.dateOfMeeting1 = '${dateOfMeeting}'</if>
+		<if test="assignUserId!=null and assignUserId!=''"> and businessid in(
+		select to_char(business_key_) from act_hi_procinst hp where hp.proc_inst_id_ in
+		(select distinct proc_inst_id_ from act_hi_taskinst ti where 
+		ti.assignee_=#{assignUserId} 
+		and ti.proc_def_id_ in(
+		select id_ from act_re_procdef pd where pd.key_='noticeOfDecision'))  
+		union select to_char(businessid) from rcm_noticedecision_log where  
+			iswaiting='0' and audituserid=#{assignUserId} )
+		</if> 
+		
+<!-- 		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%${bulletinName}%'</if>  -->
+<!-- 		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if>  -->
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+		
+		
+<!-- 		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName, -->
+<!-- 		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName, -->
+<!-- 		 (select name from sys_user where uuid=t.createby) applyUserName, -->
+<!-- 		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName  -->
+<!-- 		from rcm_noticedecision_info t where auditstatus!='0'  -->
+<!-- 		<if test="assignUserId!=null and assignUserId!=''"> and businessid in( -->
+<!-- 		select businessid from rcm_bulletin_log where iswaiting='0' and audituserid=#{assignUserId}) </if>  -->
+<!-- 		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%${bulletinName}%'</if>  -->
+<!-- 		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if>  -->
+<!-- 		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if>  -->
+	</select>
+	
+	<insert id="save" parameterType="map">
+		insert into
+		rcm_noticedecision_log(businessid,audituserid,audittime,
+		opinion,auditstatus,orderby,iswaiting,taskdesc,taskid,executionid)
+		values(#{businessId},#{auditUserId},#{auditTime},#{opinion,jdbcType=VARCHAR},
+		#{auditStatus},#{orderBy},#{isWaiting},#{taskdesc,jdbcType=VARCHAR},
+		#{taskId,jdbcType=VARCHAR},#{executionId,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="queryNextOrderNum" parameterType="string" resultType="int">
+		select nvl(max(orderby)+1, 2) nextorder from rcm_noticedecision_log where businessid=#{businessId}
+	</select>
+	
+	<select id="queryMaxOrderNum" parameterType="string" resultType="int">
+		select nvl(max(orderby), 1) nextorder from rcm_noticedecision_log
+		where businessid=#{businessId}
+	</select>
+	
+	<update id="updateWaitLog" parameterType="map">
+		update 
+		 rcm_noticedecision_log set taskdesc=#{taskdesc},
+		 audituserid=#{nextUserId,jdbcType=VARCHAR},audittime=#{now},orderby=#{orderBy},
+		 taskid=#{taskId,jdbcType=VARCHAR},executionid=#{executionId,jdbcType=VARCHAR}
+		 where iswaiting='1' and businessid=#{businessId}
+	</update>
+	
+	<select id="isExistWaitLog" parameterType="map" resultType="int">
+		select count(1) from rcm_noticedecision_log where iswaiting='1' and
+		businessid=#{businessId}
+	</select>
+</mapper>
