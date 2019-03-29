@@ -99,8 +99,25 @@ public class PreAuditService implements IPreAuditService{
 	@Override
 	public Result querySingleProcessOptions(String businessId) {
 		Result result = new Result();
-		ProcessResult<List<SingleProcessOption>> pr = this.bpmnAuditService.querySingleSequenceFlow(Constants.PROCESS_KEY_PREREVIEW, businessId, ThreadLocalUtil.getUserId());
-		
+		String userId = ThreadLocalUtil.getUserId();
+		/**
+		 * Add By LiPan
+		 * 查询代办日志,如果当前审批人和当前用户不一致,则当前节点处于签收状态,此时需要获取原始审批人去进行查询
+		 */
+		List<Map<String, Object>> logs = preAuditLogMapper.queryAuditedLogsById(businessId);
+		if(CollectionUtils.isNotEmpty(logs)){
+			for(Map<String, Object> log : logs){
+				if("1".equals(String.valueOf(log.get("ISWAITING")))){
+					if(!userId.equals(String.valueOf(log.get("AUDITUSERID")))){
+						userId = String.valueOf(log.get("OLDUSERID"));
+					}
+				}
+			}
+		}
+		/**
+		 * Add By LiPan
+		 */
+		ProcessResult<List<SingleProcessOption>> pr = this.bpmnAuditService.querySingleSequenceFlow(Constants.PROCESS_KEY_PREREVIEW, businessId, userId);
 		String flowId = "flow18";
 		List<SingleProcessOption> data = pr.getData();
 		
