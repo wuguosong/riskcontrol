@@ -86,6 +86,41 @@ p.font-big {
 }
 
 
+/* 添加标签 */
+
+p.addlabel {
+    min-width: 90px;
+    padding: 0 15px;
+    height: 30px;
+    line-height: 28px;
+    box-sizing: border-box;
+    background-color: #fff;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 15px;
+    /* 蓝色 */
+    &.blue {
+        color: $blue;
+        border: 1px solid $blue;
+    }
+    /* 绿色 */
+    &.green {
+        color: $green;
+        border: 1px solid $green;
+    }
+    /* 黄色 */
+    &.yellow {
+        border: 1px solid $yellow;
+        color: $yellow;
+    }
+    /* 红色 */
+    &.red {
+        color: $red;
+        border: 1px solid $red;
+    }
+}
+
+
 /* button按钮 */
 
 
@@ -685,6 +720,12 @@ a.btn-sm {
     // box-shadow: 0 0 4px $black;
     height: 62px;
     position: relative;
+    .container-fluid {
+        padding: {
+            left: 60px;
+            right: 60px;
+        }
+    }
     // 左边logo
     .navbar-brand {
         padding: 0;
@@ -771,7 +812,7 @@ a.btn-sm {
                 .dropdown-toggle {
                     color: $blue;
                     line-height: 62px;
-                    font-size: 22px;
+                    font-size: 18px;
                 }
                 >ul a {
                     padding: 10px 15px;
@@ -783,7 +824,7 @@ a.btn-sm {
                     line-height: 62px;
                     height: 62px;
                     i {
-                        font-size: 22px;
+                        font-size: 18px;
                     }
                 }
             }
@@ -793,31 +834,23 @@ a.btn-sm {
                     line-height: 62px;
                     height: 62px;
                     i {
-                        font-size: 22px;
+                        font-size: 18px;
                     }
                     span {
-                        font-size: 20px;
+                        font-size: 18px;
                         line-height: 62px;
                         color: $blue;
                     }
                 }
             }
-            // 设置部分
-            .setup {
-                .dropdown-toggle {
-                    color: $blue;
+            // 退出部分
+            .quit-btn {
+                a {
                     line-height: 62px;
-                    font-size: 22px;
                     height: 62px;
-                }
-                >ul.dropdown-menu-left {
-                    right: 0;
-                    left: auto;
-                    a {
-                        padding: 10px 15px;
-                        i {
-                            font-size: 22px;
-                        }
+                    color: $blue;
+                    i {
+                        font-size: 18px;
                     }
                 }
             }

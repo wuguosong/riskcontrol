@@ -37,13 +37,14 @@
             <form class="navbar-form navbar-nav navbar-center hidden-sm hidden-xs">
                 <input type="text " class="search " ng-model="publicProjectName" id="publicProjectName" ng-keyup="publicKeyupSearchProject($event)" placeholder="项目名称 ">
                 <i class="icon-search" ng-click="publicSearchProject()">&#xe61e;</i>
+
             </form>
             <!-- 右边部分 -->
             <div class="collapse navbar-collapse" id="navbar-right">
                 <ul class="nav navbar-nav navbar-right">
                     <!-- 菜单部分 -->
                     <li class="dropdown nav-menu">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">菜单<span class="caret"></span></a>
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu">&#xe614;</i><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <!-- 不带下级的菜单 -->
                             <li ng-repeat="f in func" ng-if="f.URL!='#'" ng-click="DirectMenuCur($event)" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
@@ -59,6 +60,7 @@
                                     <li class="dropdown-submenu pull-left" ng-repeat="fs in f.subFunc" ng-if="fs.URL=='##'" id="func1{{fs.FUNC_ID}}" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
                                         <a href="#">{{fs.FUNC_NAME}}</a>
                                         <ul class="dropdown-menu">
+
                                             <li ng-repeat="fss in fs.subsubFunc" ng-if="fss.URL != 'ConferenceInformation/0'" id="func{{fss.FUNC_ID}}" ng-click="GoPage($event)">
                                                 <a tabindex="-1" href="#/{{fss.URL}}">{{fss.FUNC_NAME}}</a>
                                             </li>
@@ -74,11 +76,9 @@
                     </li>
                     <!-- 用户名部分 -->
                     <li class="uname"><a href="#"><i class="icon-top">&#xe62b;</i> <span ng-bind="credentials.userName"></span></a></li>
-                    <!-- 设置部分 -->
-                    <li class="setup dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-top">&#xe616;</i><span class="caret"></span>
-                        </a>
+                    <!-- 退出部分 -->
+                    <li class="quit-btn">
+                        <a href=""><i class="icon-quit">&#xe64d;</i></a>
                     </li>
                 </ul>
             </div>

@@ -8,7 +8,7 @@
 @font-face {
   font-family: 'myfonts';
   src: url("../fonts/iconfont.eot");
-  src: url("../fonts/iconfont.eot?#iefix") format("embedded-opentype"), url("../fonts/iconfont.woff2") format("woff2"), url("../fonts/iconfont.woff") format("woff"), url("../fonts/../fonts/iconfont.ttf") format("truetype"), url("../fonts/../fonts/iconfont.svg#iconfont") format("svg");
+  src: url("../fonts/iconfont.eot?#iefix") format("embedded-opentype"), url("../fonts/iconfont.woff2") format("woff2"), url("../fonts/iconfont.woff") format("woff"), url("../fonts/../fonts/iconfont.ttf") format("truetype"), url("iconfont.svg#iconfont") format("svg");
 }
 
 [class^="icon-"],
@@ -72,6 +72,43 @@ p {
 
 p.font-big {
   font-size: 16px;
+}
+
+/* 添加标签 */
+p.addlabel {
+  min-width: 90px;
+  padding: 0 15px;
+  height: 30px;
+  line-height: 28px;
+  box-sizing: border-box;
+  background-color: #fff;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 15px;
+  /* 蓝色 */
+  /* 绿色 */
+  /* 黄色 */
+  /* 红色 */
+}
+
+p.addlabel.blue {
+  color: #2b679d;
+  border: 1px solid #2b679d;
+}
+
+p.addlabel.green {
+  color: #69bb8e;
+  border: 1px solid #69bb8e;
+}
+
+p.addlabel.yellow {
+  border: 1px solid #ecac55;
+  color: #ecac55;
+}
+
+p.addlabel.red {
+  color: #ec4f4b;
+  border: 1px solid #ec4f4b;
 }
 
 /* button按钮 */
@@ -631,6 +668,11 @@ a.btn-sm.btn-grey:active {
   position: relative;
 }
 
+.navbar .container-fluid {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
 .navbar .navbar-brand {
   padding: 0;
 }
@@ -722,7 +764,7 @@ a.btn-sm.btn-grey:active {
 .navbar .collapse.navbar-collapse .navbar-right > .nav-menu .dropdown-toggle {
   color: #2b679d;
   line-height: 62px;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .navbar .collapse.navbar-collapse .navbar-right > .nav-menu > ul a {
@@ -735,7 +777,7 @@ a.btn-sm.btn-grey:active {
 }
 
 .navbar .collapse.navbar-collapse .navbar-right .home-btn a i {
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .navbar .collapse.navbar-collapse .navbar-right .uname a {
@@ -744,33 +786,23 @@ a.btn-sm.btn-grey:active {
 }
 
 .navbar .collapse.navbar-collapse .navbar-right .uname a i {
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .navbar .collapse.navbar-collapse .navbar-right .uname a span {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 62px;
   color: #2b679d;
 }
 
-.navbar .collapse.navbar-collapse .navbar-right .setup .dropdown-toggle {
-  color: #2b679d;
+.navbar .collapse.navbar-collapse .navbar-right .quit-btn a {
   line-height: 62px;
-  font-size: 22px;
   height: 62px;
+  color: #2b679d;
 }
 
-.navbar .collapse.navbar-collapse .navbar-right .setup > ul.dropdown-menu-left {
-  right: 0;
-  left: auto;
-}
-
-.navbar .collapse.navbar-collapse .navbar-right .setup > ul.dropdown-menu-left a {
-  padding: 10px 15px;
-}
-
-.navbar .collapse.navbar-collapse .navbar-right .setup > ul.dropdown-menu-left a i {
-  font-size: 22px;
+.navbar .collapse.navbar-collapse .navbar-right .quit-btn a i {
+  font-size: 18px;
 }
 
 .dropdown-submenu {
