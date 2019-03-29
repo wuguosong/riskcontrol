@@ -577,31 +577,17 @@ a.btn-warning.disabled:hover {
 }
 
 a.tab {
-  background-color: #f8f8f8;
-  color: #000;
-  cursor: pointer !important;
+  background-color: #eff2f7 !important;
+  color: #000 !important;
+  cursor: pointer;
   border: none !important;
-}
-
-a.tab.tab-60 {
-  width: 60px;
-}
-
-a.tab.tab-90 {
-  width: 90px;
-}
-
-a.tab.tab-106 {
-  width: 106px;
-}
-
-a.tab.tab-120 {
-  width: 120px;
+  border-radius: 4px !important;
+  /* hover */
 }
 
 a.tab.active {
-  background-color: #2b679d;
-  color: #fff;
+  background-color: #2b679d !important;
+  color: #fff !important;
 }
 
 a.tab.active:hover {
@@ -609,14 +595,18 @@ a.tab.active:hover {
 }
 
 li.active > a.tab {
-  background-color: #2b679d;
-  color: #fff;
+  background-color: #2b679d !important;
+  color: #fff !important;
 }
 
 li.active > a.tab:hover, li.active > a.tab:active, li.active > a.tab:focus {
   background-color: #2b679d;
-  color: #fff;
+  color: #fff !important;
   box-shadow: none;
+}
+
+a.tab:hover {
+  box-shadow: 0 2px 10px rgba(86, 98, 109, 0.6);
 }
 
 a.tab:active, a.tab:focus {

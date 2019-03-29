@@ -624,45 +624,37 @@ a.btn-warning {
 
 // 页签
 a.tab {
-    background-color: #f8f8f8;
-    color: $black;
-    cursor: pointer!important;
+    background-color: $grey!important;
+    color: $black!important;
+    cursor: pointer;
     border: none!important;
-    // 60px
-    &.tab-60 {
-        width: 60px;
-    }
-    // 90px
-    &.tab-90 {
-        width: 90px;
-    }
-    // 106px
-    &.tab-106 {
-        width: 106px;
-    }
-    // 120px
-    &.tab-120 {
-        width: 120px;
-    }
+    border-radius: 4px!important;
+    // margin: {
+    //     bottom: 2px!important;
+    // }
     // 选中状态在a标签上
     &.active {
-        background-color: $blue;
-        color: #fff;
+        background-color: $blue!important;
+        color: #fff!important;
         &:hover {
             box-shadow: none;
         }
     }
     //选中状态在li标签上
     li.active>& {
-        background-color: $blue;
-        color: #fff;
+        background-color: $blue!important;
+        color: #fff!important;
         &:hover,
         &:active,
         &:focus {
             background-color: $blue;
-            color: #fff;
+            color: #fff!important;
             box-shadow: none;
         }
+    }
+    /* hover */
+    &:hover {
+        box-shadow: $btn-shadow;
     }
     // 点击
     &:active,
