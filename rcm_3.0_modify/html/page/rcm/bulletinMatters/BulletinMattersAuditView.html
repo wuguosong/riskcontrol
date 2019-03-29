@@ -341,24 +341,121 @@
 						</div>
 					</div>
             	</div>
-            	
+			<!--审批-->
+			<div class="panel" ng-show="showSubmit">
+				<div class="panel-heading">
+					<a class="accordion-toggle collapsed" href="/#approvalPart"
+					   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
+				</div>
+				<div id="approvalPart" class="panel-collapse collapse in">
+					<!--审批阶段-->
+					<div class="panel-body" ng-show="approve.operateType=='audit'">
+						<div class="row">
+							<label class="col-sm-3 control-label">下一环节：</label>
+							<div class="col-sm-8">
+								<div  ng-repeat="x in approve.processOptions">
+									<label class="radio radio-inline">
+										<input class="px" type="radio" name="bpmnProcessOption" aaa="{{x.documentation}}" ng-checked="$index==0" value="{{x.sequenceFlow}}"/>
+										<span class="lbl">
+                                    <div class="text">{{x.flowName}}</div>
+                                </span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<!--知会人-->
+						<div class="row" ng-include="'page/sys/common/notify-user.html'">
+						</div>
+						<!--快捷意见-->
+						<div class="row">
+							<label class="col-sm-3 control-label">快捷意见：</label>
+							<div class="col-sm-8">
+								<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+									<input class="px" type="radio"
+										   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+										   name="_quickComments" ng-checked="$index==0"
+										   value="{{comment}}"/>
+									<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-sm-3 control-label">处理意见：</label>
+							<div class="col-sm-8">
+												<textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
+														  data-ng-init="flowVariables.opinion=''"
+														  ng-model="flowVariables.opinion"></textarea>
+							</div>
+						</div>
+					</div>
+					<!--加签阶段-->
+					<div class="panel-body" ng-show="approve.operateType=='change'">
+						<div class="row">
+							<label class="col-sm-3 control-label">下一环节：</label>
+							<div class="col-sm-8">
+								<div>
+									<label class="radio radio-inline">
+										<input class="px" type="radio" name="bpmnProcessOption"
+											   id="workOver" value="WORKOVER"/>
+										<span class="lbl">
+                                                <div class="text">完结</div>
+                                            </span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<!--知会人-->
+						<div class="row" ng-include="'page/sys/common/notify-user.html'">
+						</div>
+						<!--快捷意见-->
+						<div class="row">
+							<label class="col-sm-3 control-label">快捷意见：</label>
+							<div class="col-sm-8">
+								<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+									<input class="px" type="radio"
+										   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+										   name="_quickComments" ng-checked="$index==0"
+										   value="{{comment}}"/>
+									<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+								</label>
+							</div>
+						</div>
+						<!--审批意见-->
+						<div class="row">
+							<label class="col-sm-3 control-label">处理意见：</label>
+							<div class="col-sm-8">
+                                    <textarea class="form-control" rows="4" cols="" id="comments2" ng-change="_signFillSignComments('comments2')"
+											  data-ng-init="flowVariables.opinion=''"
+											  ng-model="flowVariables.opinion"></textarea>
+							</div>
+						</div>
+					</div>
+					<!--提交按钮-->
+					<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+					</div>
+				</div>
+			</div>
 		</div>
-		<div  id="userSinDialog"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+		<!--<div  id="userSinDialog"  class="modal" tabindex="-1" role="dialog" style="display: none;">
 			<direct-user-single-dialog id="userSinDialog1" title="{{title}}" checked-user="checkedUser"
 			remove-selected-user="removeSelectedUser()" callback="callback" 
 			mapped-key-value="changeUserMapper"></direct-user-single-dialog>
-		</div>
+		</div>-->
 		<div class="button-group">
 			<div class="row">
 				<div class="option">
 <!-- 					<a class="btn btn-info" href="#/BulletinMattersAudit"><i class="fa fa-reply"></i>返回</a> -->
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-					<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+					<!--<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
 					<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
 					
-					<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+					<!--<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
 						<bpmn-pop-win approve="approve"></bpmn-pop-win>
-					</div>
+					</div>-->
 					<!--<button ng-if="isHide" ng-click="generateApplication()" class="btn btn-info"><i class="fa fa-file-o"></i>导出申请单</button>-->
 				</div>
 			</div>
@@ -390,3 +487,20 @@
 	});
 
 </script>
+<!--加签弹窗(页面)-->
+<div id="_signModalDialog" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog"
+	 ng-include="'page/sys/common/sign-dialog.html'">
+</div>
+<!--知会人选择弹窗(多选)-->
+<div id="_notifyUserMulDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-multi-dialog id="{{'_notifyUserMulDialog'}}" title="{{'用户列表'}}"
+							  url="{{'role/queryRoleAddUserByPage.do'}}" mapped-key-value="_notifyMappedKeyValue"
+							  checked-users="_notifyCheckedUsers"
+							  parent-save-selected="_notifyParentSaveSelected()"></direct-user-multi-dialog>
+</div>
+<!--加签人选择弹窗(单选)-->
+<div id="_signUserSinDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-single-dialog id="_signUserSinDialog" title="{{title}}" checked-user="_signCheckedUser"
+							   callback="_signCallback"
+							   mapped-key-value="_signMappedKeyValue" parent-save-selected="_signParentSaveSelected()"></direct-user-single-dialog>
+</div>

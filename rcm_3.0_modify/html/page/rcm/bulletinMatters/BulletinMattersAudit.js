@@ -97,22 +97,23 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 		$("#userSinDialog").modal('hide');
 		$("#submitModal").modal('show');
 	}
+	$scope.curLog = wf_getTaskLog("bulletin", $routeParams.id, $scope.credentials.UUID);
 	/*
 	 * 根据业务id查询节点信息
 	 */
 	$scope.getTaskInfoByBusinessId = function(businessId,processKey){
 		$scope.isTaskEdit = 'false';
 		$scope.showController = {};
-		
+
 		$http({
-			method:'post',  
+			method:'post',
 		    url: srvUrl + "bulletinAudit/queryTaskInfoByBusinessId.do",
 		    data:$.param({"businessId":businessId,"processKey":processKey})
 		}).success(function(data){
 //			$scope.taskId = data.result_data.taskId;
 //			$scope.hasWaiting = data.result_data.taskId==null?false:true;
-			
-			var logs = $scope.auditLogs;
+
+			/*var logs = $scope.auditLogs;
 			for(var i in logs){
 				if(logs[i].ISWAITING == '1'){
 					if(logs[i].AUDITUSERID == $scope.credentials.UUID){
@@ -120,9 +121,9 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 						$scope.curLog = logs[i];
 					}
 				}
-			}
-			
-			
+			}*/
+
+
 			$scope.taskInfo = data.result_data;
 			if(data.result_data.description != null && data.result_data.description != ""){
 				var document = JSON.parse(data.result_data.description);
@@ -131,12 +132,12 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 				if (document.isTask != undefined && document.isTask!=null&&document.isTask!=""){
 					$scope.showController.isTask = true;
 					$scope.isTaskEdit = 'true'
-				} 
+				}
 				//任务分配风控（选法律或评审）
 				else if (document.isRiskTask != undefined && document.isRiskTask != null && document.isRiskTask != ""){
 					$scope.showController.isRiskTask = true;
 					$scope.isTaskEdit = 'true'
-				} 
+				}
 				//法律评审负责人
 				else if (document.isLegalLeader != undefined && document.isLegalLeader!=null && document.isLegalLeader != ""){
 					$scope.showController.isLegalLeader = true;
@@ -152,13 +153,13 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			}
 		});
 	}
-	
+
 	//保存方法
 	$scope.save = function(callback){
 		if($scope.showController.isLegalLeader){
 			//保存法律负责任信息
 			$http({
-				method:'post',  
+				method:'post',
 			    url: srvUrl + "bulletinInfo/saveLegalLeaderAttachment.do",
 			    data:$.param({
 			    	"businessId":$scope.queryParamId,
@@ -168,7 +169,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			}).success(function(data){
 				if(data.success){
 					if(callback){
-						
+
 						//验证
 						if($scope.bulletin.legalLeaderOpinion == null || $scope.bulletin.legalLeaderOpinion == ""){
 							$.alert("法律评审负责人意见不能为空！");
@@ -176,7 +177,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 						}
 						if($scope.bulletin.legalLeaderAttachment != null && $scope.bulletin.legalLeaderAttachment != ""){
 							var legalLeaderAttachment = $scope.bulletin.legalLeaderAttachment;
-							
+
 							for(var i in legalLeaderAttachment){
 								if(legalLeaderAttachment[i].fileName == null || legalLeaderAttachment[i].fileName == ''){
 									$.alert("您有附件未上传，请上传附件！");
@@ -191,7 +192,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 								return;
 							});
 						}
-						
+
 					}else{
 						$.alert(data.result_name);
 					}
@@ -202,7 +203,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 		}else if($scope.showController.isRiskLeader){
 			//保存风控负责人信息
 			$http({
-				method:'post',  
+				method:'post',
 			    url: srvUrl + "bulletinInfo/saveRiskLeaderAttachment.do",
 			    data:$.param({
 			    	"businessId":$scope.queryParamId,
@@ -219,7 +220,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 						}
 						if($scope.bulletin.riskLeaderAttachment != null && $scope.bulletin.riskLeaderAttachment != ""){
 							var riskLeaderAttachment = $scope.bulletin.riskLeaderAttachment;
-							
+
 							for(var i in riskLeaderAttachment){
 								if(riskLeaderAttachment[i].fileName == null || riskLeaderAttachment[i].fileName == ''){
 									$.alert("您有附件未上传，请上传附件！");
@@ -241,11 +242,11 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 					$.alert(data.result_name);
 				}
 			});
-			
+
 		}else if($scope.showController.isReviewLeader){
 			//保存评审负责人信息
 			$http({
-				method:'post',  
+				method:'post',
 			    url: srvUrl + "bulletinInfo/saveReviewLeaderAttachment.do",
 			    data:$.param({
 			    	"businessId":$scope.queryParamId,
@@ -262,7 +263,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 						}
 						if($scope.bulletin.reviewLeaderAttachment != null && $scope.bulletin.reviewLeaderAttachment != ""){
 							var reviewLeaderAttachment = $scope.bulletin.reviewLeaderAttachment;
-							
+
 							for(var i in reviewLeaderAttachment){
 								if(reviewLeaderAttachment[i].fileName == null || reviewLeaderAttachment[i].fileName == ''){
 									$.alert("您有附件未上传，请上传附件！");
@@ -284,7 +285,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 					$.alert(data.result_name);
 				}
 			});
-			
+
 		}else if($scope.showController.isTask || $scope.showController.isRiskTask){
 			if(callback){
 				callback();
@@ -297,12 +298,14 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 	};
 
 	$scope.initDefaultData = function(){
+		debugger;
         if ($scope.oldUrl == $filter('encodeURI')('#/BulletinMattersAudit/0')){
             $scope.WF_STATE = '0';
         } else {
             $scope.WF_STATE = '1';
         }
-		$scope.wfInfo = {processKey:'bulletin', "businessId":$scope.queryParamId};
+        $scope.showSubmit = false;
+        $scope.wfInfo = {processKey:'bulletin', "businessId":$scope.queryParamId};
 		$scope.initUpdate($scope.queryParamId);
 	};
 
@@ -329,7 +332,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 	$scope.initUpdate = function(id){
 		var url = srvUrl + "bulletinInfo/queryViewDefaultInfo.do";
 		$http({
-			method:'post',  
+			method:'post',
 		    url: url,
 		    data: $.param({"businessId": id})
 		}).success(function(result){
@@ -361,7 +364,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 		$scope.wfInfo.businessId = $scope.queryParamId;
 		$scope.refreshImg = Math.random()+1;
 	}
-	
+
 	//附件---->新增列表---->评审负责人附件
     $scope.addReviewLeaderAttachment = function(){
         function addBlankRow(array){
@@ -413,7 +416,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
     	}
     	addBlankRow($scope.bulletin.riskLeaderAttachment);
     }
-    
+
     //附件列表---->删除指定的列表---->评审负责人
     $scope.deleteReviewLeaderAttachment = function(){
         var commentsObj = $scope.bulletin.reviewLeaderAttachment;
@@ -450,7 +453,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
     		}
     	}
     }
-    
+
     //附件列表---->上传附件---->评审负责人
     $scope.errorAttach=[];
     $scope.uploadReviewLeaderAttachment = function (file,errorFile, idx) {
@@ -458,7 +461,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         	var errorMsg = fileErrorMsg(errorFile);
             $scope.errorAttach[idx]={msg:errorMsg};
         }else if(file){
-        	
+
         	if(file.name){
        		 //检查压缩文件
        	    	var index = file.name.lastIndexOf('.');
@@ -468,7 +471,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
        	    		return false;
        	    	}
            	}
-        	
+
             var fileFolder = "bulletin/review/";
             var dates=$scope.bulletin.createTime;
             var no=$scope.bulletin.id;
@@ -498,7 +501,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         	var errorMsg = fileErrorMsg(errorFile);
             $scope.errorAttach[idx]={msg:errorMsg};
         }else if(file){
-        	
+
         	if(file.name){
        		 //检查压缩文件
        	    	var index = file.name.lastIndexOf('.');
@@ -508,8 +511,8 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
        	    		return false;
        	    	}
            	}
-        	
-        	
+
+
             var fileFolder = "bulletin/legal/";
             var dates=$scope.bulletin.createTime;
             var no=$scope.bulletin.id;
@@ -539,7 +542,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
     		var errorMsg = fileErrorMsg(errorFile);
     		$scope.errorAttach[idx]={msg:errorMsg};
     	}else if(file){
-    		
+
     		if(file.name){
        		 //检查压缩文件
        	    	var index = file.name.lastIndexOf('.');
@@ -549,7 +552,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
        	    		return false;
        	    	}
            	}
-    		
+
     		var fileFolder = "bulletin/risk/";
     		var dates=$scope.bulletin.createTime;
     		var no=$scope.bulletin.id;
@@ -557,7 +560,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
     		strs=dates.split("-"); //字符分割
     		dates=strs[0]+strs[1]; //分割后的字符输出
     		fileFolder=fileFolder+dates+"/"+no;
-    		
+
     		$scope.errorAttach[idx]={msg:''};
     		Upload.upload({
                 url:srvUrl+'file/uploadFile.do',
@@ -578,7 +581,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 		$scope.save(function(){
 			var url = srvUrl + "bulletinAudit/querySingleProcessOptions.do";
 			$http({
-	    		method:'post',  
+	    		method:'post',
 			    url: url,
 			    data: $.param({
 			    	"businessId": $scope.queryParamId
@@ -592,11 +595,14 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 					processOptions: result.result_data,
 					businessId: $scope.queryParamId,
 					callbackSuccess: function(result){
+	    				debugger;
 						$.alert(result.result_name);
 						$('#submitModal').modal('hide');
 						$("#submitBtn").hide();
 						$("#saveBtn").hide();
-						$scope.initData();
+                        // $scope.initData();
+						$scope.showSubmit = false;
+
 					},
 					callbackFail: function(result){
 						$.alert(result.result_name);
@@ -606,16 +612,17 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 	    		/*if($scope.curLog.OLDUSERID != null && $scope.curLog.OLDUSERID != '' && $scope.curLog.OLDUSERID != $scope.credentials.UUID){
 	    			$scope.approve.operateType="change";
 	    		}*/
-                if ($scope.curLog.CHANGETYPE) {
-                    if ($scope.curLog.CHANGETYPE != '') {
+                if (!isEmpty($scope.curLog)) {
+                    $scope.showSubmit = ($scope.WF_STATE == '0');
+                    if (!isEmpty($scope.curLog.CHANGETYPE)) {
                         $scope.approve.operateType = "change";
                     }
                 }
-				$('#submitModal').modal('show');
+				// $('#submitModal').modal('show');
 	    	});
 		});
 	};
-	
+
 	$scope.selectAll = function(){
 		if($("#all").attr("checked")){
 			$(":checkbox[name='choose']").attr("checked",1);
@@ -623,5 +630,368 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			$(":checkbox[name='choose']").attr("checked",false);
 		}
 	}
+	/***************************业务流程方法开始***********************************/
+    $scope.changeTypeSelected = "";
+        $scope.changeTypes = [{key: 'before', value: '前加签'}, {key: 'after', value: '后加签'}];
+        $scope.callfunction = function (functionName) {
+            var func = eval(functionName);
+            //创建函数对象，并调用
+            return new func(arguments[1]);
+        }
 
+        var validCheckedFzr = function () {
+            var result = {success: true, result_name: ""};
+
+            if ($scope.myTaskallocation == null || $scope.myTaskallocation == "") {
+                result.success = false;
+                result.result_name = "请分配负责人！";
+            }
+            if ($scope.myTaskallocation.reviewLeader.NAME == null || $scope.myTaskallocation.reviewLeader.NAME == "") {
+                result.success = false;
+                result.result_name = "请选择评审负责人！";
+            }
+            return result;
+        };
+
+        var validCheckedRiskFzr = function () {
+
+            var result = {success: true, result_name: ""};
+
+            if ($scope.myTaskallocation == null || $scope.myTaskallocation == "") {
+                result.success = false;
+                result.result_name = "请分配负责人！";
+            }
+            if ($scope.myTaskallocation.riskLeader.NAME == null || $scope.myTaskallocation.riskLeader.NAME == "") {
+                result.success = false;
+                result.result_name = "请选择风控负责人！";
+            }
+            return result;
+        };
+        $scope.showSelectPerson = function () {
+            $("#submitModal").modal('hide');
+            $("#userSinDialog").modal('show');
+        }
+        $scope.submitNext = function () {
+			/*if ($("#workOver").attr("checked")) {*/
+            if ($("input[name='bpmnProcessOption']:checked").val() == 'WORKOVER') {
+                $scope.workOver();
+            } /*else if ($("input[name='bpmnProcessOption']#change:checked").length > 0) {*/
+            else if ($("input[name='bpmnProcessOption']:checked").val() == 'CHANGE') {
+                var changeTypeSelected = $scope.changeTypeSelected;
+                if (changeTypeSelected == null || changeTypeSelected == '' || changeTypeSelected == "") {
+                    $.alert("请选择加签类型！");
+                } else {
+                    $scope.changeWork();
+                }
+            } else if ("submit" == $scope.approve.operateType) {
+                $scope.submit();
+            } else if ("audit" == $scope.approve.operateType) {
+                $scope.auditSingle();
+            } else {
+                $.alert("操作状态不明确！");
+            }
+        };
+
+        $scope.workOver = function () {
+            //人员验证
+            if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+                $.alert("审批意见不能为空！");
+                return;
+            }
+            if ($scope.flowVariables.opinion.length > 650) {
+                $.alert("审批意见不能超过650字！");
+                return;
+            }
+
+            //执行办结操作
+            show_Mask();
+            $http({
+                method: 'post',
+                url: srvUrl + "sign/endSign.do",
+                data: $.param({
+                    "business_module": "bulletin",
+                    "business_id": $scope.approve.businessId,
+                    "task_id": $scope.curLog.TASKID,
+                    "option": $scope.flowVariables.opinion
+                })
+            }).success(function (result) {
+                hide_Mask();
+                if ($scope.approve.callbackSuccess != null && result.success) {
+                    $scope.approve.callbackSuccess(result);
+                } else if ($scope.approve.callbackFail != null && !result.success) {
+                    $scope.approve.callbackFail(result);
+                } else {
+                    $.alert(result.result_name);
+                }
+            });
+        }
+
+        $scope.changeWork = function () {
+            //人员验证
+            if ($scope.checkedUser.NAME == null || $scope.checkedUser.NAME == '') {
+                $.alert("请选择目标人员！");
+                return;
+            }
+            if ($scope.checkedUser.VALUE == $scope.credentials.UUID) {
+                $.alert("不能转办给自己！");
+                return;
+            }
+            if ($scope.checkedUser.VALUE == $scope.curLog.AUDITUSERID) {
+                $.alert("不能转办给最初人员！");
+                return;
+            }
+            if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+                $.alert("审批意见不能为空！");
+                return;
+            }
+            if ($scope.flowVariables.opinion.length > 650) {
+                $.alert("审批意见不能超过650字！");
+                return;
+            }
+            if ($scope.changeTypeSelected == 'after') {
+                var validate = wf_validateSign('bulletin', $scope.approve.businessId);
+                if (!isEmpty(validate.code)) {
+                    $.alert(validate.comment);
+                    return;
+                }
+            }
+            //执行转办操作
+            show_Mask();
+            $http({
+                method: 'post',
+                url: srvUrl + "sign/doSign.do",
+                data: $.param({
+                    'type': $scope.changeTypeSelected,
+                    'business_module': 'bulletin',
+                    "business_id": $scope.approve.businessId,
+                    "user_json": JSON.stringify($scope.checkedUser),
+                    "task_id": $scope.curLog.TASKID,
+                    "option": $scope.flowVariables.opinion
+                })
+            }).success(function (result) {
+                hide_Mask();
+                if ($scope.approve.callbackSuccess != null && result.success) {
+                    $scope.approve.callbackSuccess(result);
+                } else if ($scope.approve.callbackFail != null && !result.success) {
+                    $scope.approve.callbackFail(result);
+                } else {
+                    $.alert(result.result_name);
+                }
+            });
+
+
+        }
+        $scope.submit = function () {
+            var url = srvUrl + "bulletinAudit/startSingleFlow.do";
+            show_Mask();
+            $http({
+                method: 'post',
+                url: url,
+                data: $.param({
+                    "processKey": $scope.approve.processKey,
+                    "businessId": $scope.approve.businessId
+                })
+            }).success(function (result) {
+                hide_Mask();
+                if ($scope.approve.callbackSuccess != null && result.success) {
+                    $scope.approve.callbackSuccess(result);
+                } else if ($scope.approve.callbackFail != null && !result.success) {
+                    $scope.approve.callbackFail(result);
+                } else {
+                    $.alert(result.result_name);
+                }
+            });
+        };
+        $scope.auditSingle = function () {
+            if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+                $.alert("审批意见不能为空！");
+                return;
+            }
+            if ($scope.flowVariables.opinion.length > 650) {
+                $.alert("审批意见不能超过650字！");
+                return;
+            }
+
+            var url = srvUrl + "bulletinAudit/auditSingle.do";
+            var documentation = $("input[name='bpmnProcessOption']:checked").attr("aaa");
+
+            if (documentation != null && documentation != "") {
+                var docObj = JSON.parse(documentation);
+                if (docObj.preAction) {
+                    var preActionArr = docObj.preAction;
+                    for (var i in preActionArr) {
+                        if (preActionArr[i].callback == 'validCheckedFzr') {
+                            var result = $scope.callfunction(preActionArr[i].callback);
+                            if (!result.success) {
+                                $.alert(result.result_name);
+                                return;
+                            } else {
+                                //保存任务人员信息
+                                $.ajax({
+                                    type: 'post',
+                                    url: srvUrl + "bulletinInfo/saveTaskPerson.do",
+                                    data: $.param({
+                                        "json": JSON.stringify(angular.copy($scope.myTaskallocation)),
+                                        "businessId": $scope.approve.businessId
+                                    }),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+                                        if (!result.success) {
+                                            alert(result.result_name);
+                                            return;
+                                        }
+                                    }
+                                });
+                            }
+                        } else if (preActionArr[i].callback == 'validCheckedRiskFzr') {
+                            var result = $scope.callfunction(preActionArr[i].callback);
+                            if (!result.success) {
+                                $.alert(result.result_name);
+                                return;
+                            } else {
+                                $.ajax({
+                                    type: 'post',
+                                    url: srvUrl + "bulletinInfo/saveTaskPerson.do",
+                                    data: $.param({
+                                        "json": JSON.stringify($scope.myTaskallocation),
+                                        "businessId": $scope.approve.businessId
+                                    }),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+                                        if (!result.success) {
+                                            alert(result.result_name);
+                                            return;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            show_Mask();
+            $http({
+                method: 'post',
+                url: url,
+                data: $.param({
+                    "processKey": $scope.approve.processKey,
+                    "businessId": $scope.approve.businessId,
+                    "opinion": $scope.flowVariables.opinion,
+                    "processOption": $("input[name='bpmnProcessOption']:checked").val()
+                })
+            }).success(function (result) {
+                hide_Mask();
+                if ($scope.approve.callbackSuccess != null && result.success) {
+                    $scope.approve.callbackSuccess(result);
+                } else if ($scope.approve.callbackFail != null && !result.success) {
+                    $scope.approve.callbackFail(result);
+                } else {
+                    $.alert(result.result_name);
+                }
+            });
+        };
+        $scope.showSubmitModal();
+        /***************************业务流程方法结束***********************************/
+        /***************************知会和加签*******************************/
+        $scope._quickComments = ['同意', '不同意'];// 快捷意见下拉选项初始化
+        $scope._quickFillComments = function(_eleName, _ngModel){// 快捷意见内容改变事件
+            var _quickComments = $('input[name="'+_eleName+'"]:checked').val();
+            eval('$scope.' + _ngModel + '="' + _quickComments + '"');
+            $scope._signComments = _quickComments;
+        };
+        // 选择知会人弹窗用户多选数据初始化
+        $scope._notifyMappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
+        $scope._notifyCheckedUsers = [];
+        $scope._notifyTempCheckedUsers = [];
+        // 移除知会人
+        $scope._notifyRemoveSelectedUser = function (_user) {
+            for (var _i = 0; _i < $scope._notifyTempCheckedUsers.length; _i++) {
+                if (_user.VALUE == $scope._notifyTempCheckedUsers[_i].VALUE) {
+                    $scope._notifyTempCheckedUsers.splice(_i, 1);
+                    break;
+                }
+            }
+            // 保存知会人
+            $scope._notifySaveNotifiesUser($scope.approve.processKey, $scope.approve.businessId, $scope._notifyTempCheckedUsers);
+        };
+        // 指令执行的方法
+        $scope._notifyParentSaveSelected = function(){
+            var _notifyExecuteEval = '';
+            _notifyExecuteEval += '$scope.$parent._notifyCheckedUsers = $scope.checkedUsers;';
+            _notifyExecuteEval += '$scope.$parent._notifyTempCheckedUsers = $scope.tempCheckedUsers;';
+            _notifyExecuteEval += '$scope.$parent._notifySaveNotifiesUser($scope.$parent.approve.processKey, $scope.$parent.approve.businessId, $scope.$parent._notifyTempCheckedUsers);';
+            return _notifyExecuteEval;
+        };
+        // 初始化知会人信息
+        $scope._notifyInitNotifiesUser = function(_business_module, _business_id){
+            $scope._notifyTempCheckedUsers = notify_notifiesCheckedTranslate(_business_module, _business_id);
+            $scope._notifyCheckedUsers.splice(0, $scope._notifyCheckedUsers.length);
+            for (var i = 0; i < $scope._notifyTempCheckedUsers.length; i++) {
+                var user = {};
+                user[$scope._notifyMappedKeyValue.nameField] = $scope._notifyTempCheckedUsers[i].NAME;
+                user[$scope._notifyMappedKeyValue.valueField] = $scope._notifyTempCheckedUsers[i].VALUE;
+                $scope._notifyCheckedUsers.push(user);
+                delete user.$$hashKey;
+            }
+        };
+        // 保存知会人信息
+        $scope._notifySaveNotifiesUser = function(_business_module, _business_id, _notifyTempCheckedUsers){
+            var _notifiesUser = notify_mergeTempCheckedUsers(_notifyTempCheckedUsers);
+            notify_saveNotifies(_business_module, _business_id, _notifiesUser);
+        };
+        // 展示加签弹窗
+        $scope._showSignDialog = function(){
+            $("#_signModalDialog").modal('show');
+        };
+        $scope._signComments = '';// 加签意见初始化
+        // 执行加签
+        $scope._executeSign = function(){
+            $scope.checkedUser = $scope._signTempCheckedUser;// $scope.checkedUser 为流程中选中的加签用户变量
+            // 校验
+            if(isEmpty($scope.changeTypeSelected)){
+                $.alert('请选择加签类型!');
+                return;
+            }
+            if(isEmpty($scope.checkedUser.VALUE) || isEmpty($scope.checkedUser.NAME)){
+                $.alert('请选择加签人员!');
+                return;
+            }
+            $("#_signModalDialog").modal('hide');
+        };
+        // 指令后置方法
+        $scope._signCallback = function(){
+            $("#_signUserSinDialog").modal('hide');
+            $("#_signModalDialog").modal('show');
+        };
+        $scope._signMappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
+        $scope._signCheckedUser = {};
+        $scope._signTempCheckedUser = {};
+        // 向指令传递的方法
+        $scope._signParentSaveSelected = function(){
+            var _signExecuteEval = '';
+            _signExecuteEval += '$scope.$parent._signCheckedUser = $scope.checkedUser;';
+            _signExecuteEval += '$scope.$parent._signTempCheckedUser = $scope.tempCheckedUser;';
+            _signExecuteEval += '$scope.$parent._signCallback();';
+            return _signExecuteEval;
+        };
+        // 移除加签用户
+        $scope._signRemoveSelectedUser = function(){
+            $scope.checkedUser = {};
+            $scope._signTempCheckedUser = {};
+            $scope._signCheckedUser = {};
+        };
+        // 加签类型选择改变时执行的方法
+        $scope._signChangeTypeSelected = function(_changeTypeSelected){
+            $scope.changeTypeSelected = _changeTypeSelected;
+            $('#_signChangeRadio').prop("checked", true);
+        };
+        // 加签意见填充
+        $scope._signFillSignComments = function(_eleId){
+            $scope._signComments = $('#' + _eleId).val();
+        };
+        $scope._notifyInitNotifiesUser("bulletin", $routeParams.id);
+        /***************************知会和加签*******************************/
 }]);
