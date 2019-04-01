@@ -3,25 +3,21 @@
  */
 package com.yk.common;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.mongodb.*;
+import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.Block;
-import com.mongodb.MongoClient;
-import com.mongodb.client.AggregateIterable;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 80845530
@@ -33,8 +29,25 @@ public class BaseMongo implements IBaseMongo{
 	private MongoClient mongoClient;
 	@Value("${mongodb.database}")
 	private String dbName;
-	
+	@Value("${mongodb.host}")
+	private String dbHost;
+	@Value("${mongodb.port}")
+	private int dbPort;
+	@Value("${mongodb.username}")
+	private String dbUser;
+	@Value("${mongodb.password}")
+	private String dbAuth;
 	public MongoDatabase queryDb(){
+		// 地址和端口
+		List<ServerAddress> addresses = new ArrayList<ServerAddress>();
+		ServerAddress address = new ServerAddress(dbHost, dbPort);
+		addresses.add(address);
+		// 权限验证
+		List<MongoCredential> credentials = new ArrayList<MongoCredential>();
+		MongoCredential credential = MongoCredential.createScramSha1Credential(dbUser, dbName , dbAuth.toCharArray());
+		credentials.add(credential);
+		// 获取客户端
+		mongoClient = new MongoClient(address, credentials);
 		return this.mongoClient.getDatabase(dbName);
 	}
 	
