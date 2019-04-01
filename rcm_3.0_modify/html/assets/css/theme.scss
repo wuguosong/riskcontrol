@@ -897,3 +897,81 @@ a.btn-sm {
         }
     }
 }
+
+
+/* 首页快捷菜单 */
+
+.short-menu {
+    background-color: $light-blue;
+    width: 20%;
+}
+
+a.shortcut-index {
+    margin: 0 auto;
+    width: 140px!important;
+    height: 80px!important;
+    background-color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    display: block;
+    box-sizing: border-box;
+    padding-top: 14px;
+    line-height: 1;
+    i {
+        color: #2c2c2c;
+        font-size: 22px;
+    }
+    p {
+        color: #333;
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        padding-top: 14px;
+    }
+    &:hover {
+        box-shadow: $btn-shadow;
+        background-color: $grey;
+    }
+    &:active {
+        background-color: $blue;
+        i,
+        p {
+            color: #fff;
+        }
+    }
+}
+
+
+/* 流程图 */
+
+.liuchengtu {
+    height: 200px;
+    font-size: 0;
+}
+
+.jiedian {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.yuan {
+    width: 20px;
+    height: 20px;
+    background-color: $blue;
+    border-radius: 50%;
+    p {
+        position: absolute;
+        top: 24px;
+        left: 12px;
+        width: auto;
+    }
+}
+
+.jiedian2 {
+    height: 2px;
+    width: 80px;
+    background-color: $light-black;
+}
