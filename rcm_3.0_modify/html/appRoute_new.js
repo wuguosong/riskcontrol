@@ -135,6 +135,42 @@ ctmApp.run(['$route', '$http', '$rootScope','$location','$interval',
                     }]
                 }
             })
+
+            //待办
+            .when('/MyTask/:url', {
+                controller: 'MyTask',
+                templateUrl: 'page/rcm/taskManagement/MyTask.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/taskManagement/TaskManagement.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            //已完成任务
+            .when('/OverTask/:url',{
+                controller:'OverTask',
+                templateUrl:'page/rcm/taskManagement/OverTask.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/taskManagement/TaskManagement.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
            /*********************************公共页面结束******************************/
 
 

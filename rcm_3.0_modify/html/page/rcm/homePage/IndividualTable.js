@@ -25,6 +25,7 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
 				$scope.myTaskList = resultData.myTaskList;
 				$scope.overTaskList = resultData.overTaskList;
 //				$scope.completedTaskList = resultData.completedTaskList;
+                console.log($scope.myTaskList);
 			}else{
 				$.alert(result.result_name);
 			}

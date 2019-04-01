@@ -1,0 +1,110 @@
+<div class="panel-body">
+    <div class="header">
+        <img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+        <span class="hd-title">待办任务</span>
+    </div>
+    <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+        <div id="projectPreReview" class="panel-group">
+            <div class="panel">
+                <div class="panel-heading search-box">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#projectPreReview" href="/#searchbox">查询</a>
+                </div>
+                <div id="searchbox" class="panel-collapse in">
+                    <div class="panel-body search-body">
+                        <div class="form-group row sm-row">
+                            <!--<label class="col-sm-1 control-label">任务编号</label>
+                            <div class="col-sm-2">
+                                <input type="text" ng-model="paginationConf.queryObj.taskId" class="form-control ng-pristine ng-untouched ng-valid" />
+                            </div>-->
+                            <label class="col-sm-2 col-md-1 control-label">任务类型</label>
+                            <div class="col-sm-4 col-md-2 sm-col">
+                                <select class="form-control" ng-model="paginationConf.queryObj.processKey">
+                                    <option value="">请选择...</option>
+                                    <option value="preAssessment">投标评审</option>
+                                    <option value="formalReview">正式评审</option>
+                                    <option value="bulletin">其他决策事项</option>
+                                    <option value="noticeDecision">决策通知书</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 col-md-2 control-label">待办接收日期</label>
+                            <div class="col-sm-4 col-md-2 has-feedback sm-col">
+                                <input type="text" class="form-control" id="bs-datepicker-component" ng-model="paginationConf.queryObj.createTime"/>
+                                <i class="fa fa-calendar form-control-feedback"></i>
+                            </div>
+							<!--  <label class="col-sm-2 col-md-1 control-label">紧急程度</label>
+                            <div class="col-sm-4 col-md-2 sm-col">
+                                <select class="form-control" ng-model="paginationConf.queryObj.emergencyLevel">
+                                    <option value="">请选择...</option>
+                                    <option value="一般">一般</option>
+                                    <option value="紧急">紧急</option>
+                                    <option value="特急">特急</option>
+                                </select>
+                            </div> -->
+                            <div class="col-sm-12 col-md-2 search">
+                                <button class="btn btn-info" ng-click="executeQueryMyTaskByPage()" type="button"><i class="glyphicon glyphicon-search"></i>查询</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">待办任务<i class="i-triangle"></i></span></div></div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <div class="table-responsive table-list">
+                        <table class="table table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>主题</th>
+                                <th>任务类型</th>
+                                <th>当前环节</th>
+                                <th>创建时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="t in tasks">
+                                <td>{{$index+1}}</td>
+                                <td>
+									<a ng-if="t.FORM_KEY_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+									<a ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+									<a ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+									<a ng-if="t.FORM_KEY_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+									<a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'" ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2">{{t.SUBJECT}}</a>
+                                    <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '正式评审'" ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}/1">{{t.SUBJECT}}</a>
+                                    <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '投标评审'" ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}/0">{{t.SUBJECT}}</a>
+								</td>
+                                <td>{{t.TYPE_TEXT}}</td>
+                                <td>{{t.NAME_}}</td>
+                                <td>{{t.CREATE_TIME_}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+                <tm-pagination conf="paginationConf"></tm-pagination>
+            </div>
+        </div>
+        <div class="button-group">
+			<div class="row">
+				<div class="option">
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+				</div>
+			</div>
+		</div>
+    </form>
+</div>
+
+<script>
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#bs-datepicker-component').datepicker(options);
+        //$("select").select2({minimumResultsForSearch: Infinity});
+    });
+</script>
