@@ -1,4 +1,16 @@
 @charset "UTF-8";
+/* 页面整体样式 */
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#content-wrapper {
+  padding: 10px 60px;
+  background-color: #e5e5e5;
+}
+
 /* 下拉框颜色 */
 .select2-results .select2-highlighted {
   color: #666;
@@ -7,11 +19,6 @@
 /* 单选框颜色 */
 .gt-ie8 input[type=radio].px + .lbl:after {
   background-color: #333;
-}
-
-/* 内容与导航间距  */
-#content-wrapper {
-  padding-top: 0px;
 }
 
 /* 个人工作重心页面 */
@@ -94,4 +101,18 @@ a.tab {
 
 .tab-pane .more {
   border-top: none;
+}
+
+/* 首页快捷菜单 */
+.short-menu {
+  background-color: #fff;
+  width: calc(20% - 10px);
+  float: right;
+  display: flex;
+  flex: .5;
+  flex-direction: column;
+}
+
+a.shortcut-index {
+  margin: 40px auto;
 }
