@@ -249,9 +249,14 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 			$scope.pre  = data.result_data.mongo;
 			
 			$scope.attach = data.result_data.attach;
-			//处理附件
-            $scope.reduceAttachment(data.result_data.mongoData.attachmentList, businessId);
-			
+            /*********附件问题使JS报错,导致后面代码不再执行 AddByLiPan*********/
+            //处理附件
+            if(!isEmpty(data.result_data.mongoData)){
+                if(!isEmpty(data.result_data.mongoData.attachmentList)){
+                    $scope.reduceAttachment(data.result_data.mongoData.attachmentList, businessId);
+                }
+            }
+			/*********附件问题使JS报错,导致后面代码不再执行 AddByLiPan*********/
 			if(!$scope.pre.approveAttachment){
 				$scope.addFormalComment();
 				$scope.approveShow = false;
