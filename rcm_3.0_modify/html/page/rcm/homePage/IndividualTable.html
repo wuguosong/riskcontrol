@@ -8,13 +8,6 @@
         <li class="mr10">系统时间 : {{now | date : 'yyyy-MM-dd'}}</li>
         <li>{{week}}</li>
     </ul>
-    <div class="liuchengtu">
-
-        <div class="yuan jiedian"></div>
-        <div class="jiedian2 jiedian"></div>
-        <div class="yuan jiedian"></div>
-
-    </div>
     <div class="mb30 ml20 mr20">
         <div class="panel p-panel">
             <!-- Nav tabs -->
@@ -54,13 +47,13 @@
                                         <a ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'" ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@1">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'" ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '正式评审'" ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '投标评审'" ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0">{{t.SUBJECT}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
                                     <td>{{t.CREATE_TIME_}}</td>
-                                    <!-- 									<td>2017-05-04 15:57</td> -->
-                                    <!-- 									<td><i class="glyphicon glyphicon-star color1"></i></td> -->
                                 </tr>
                             </tbody>
                         </table>
