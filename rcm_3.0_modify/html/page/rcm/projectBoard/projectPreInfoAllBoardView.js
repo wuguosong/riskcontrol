@@ -27,6 +27,172 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                     $scope.wfInfo.businessId = objId;
                     $scope.refreshImg = Math.random()+1;
                 }
+            };
+
+            $scope.initMarkPie = function(){
+                $scope.markPieOption = {
+                    title : {
+                        text: '各项得分比例图',
+                        subtext: '能力评价',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient : 'vertical',
+                        x : 'left',
+                        data:['评审合规能力','评审资料质量','投资核心能力']
+                    },
+                    calculable : true,
+                    series : [
+                        {
+                            name:'能力评价',
+                            type:'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data:[
+                                {value:$scope.mark.HEGUITOTALMARK, name:'评审合规能力'},
+                                {value:$scope.mark.FILETOTALMARK, name:'评审资料质量'},
+                                {value:$scope.mark.HEXINTOTALMARK, name:'投资核心能力'}
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                },
+                                normal:{
+                                    label:{
+                                        show: true,
+                                        formatter: '{b} : {c}分'
+                                    },
+                                    labelLine :{show:true}
+                                }
+                            }
+                        }
+                    ]
+                };
+                myChart = echarts.init(document.getElementById('markPieChart'),'shine');
+                myChart.setOption($scope.markPieOption);
+            }
+            $scope.initMarkBar = function(){
+                $scope.markBarOption =  {
+                    title : {
+                        text: '各项得分比例图',
+                        subtext: '能力评价',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '30%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    legend: {
+                        data:['流程熟悉度',
+                            '资料备案',
+                            '及时性',
+                            '完整性',
+                            '准确性',
+                            '风险识别及规避能力',
+                            '财务测算能力',
+                            '方案设计能力',
+                            '协议谈判能力',
+                            '总分'
+                        ],
+                        x:'right',
+                        y:'center',
+                        orient: 'vertical'
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {type : 'category', data : ['评审合规能力','评审资料质量','投资核心能力']}
+                    ],
+                    yAxis : [
+                        {type : 'value'}
+                    ],
+                    series : [
+                        {
+                            name:'流程熟悉度',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[$scope.mark.FLOWMARK,null,null],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'资料备案',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[$scope.mark.FILECOPY, null, null],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'及时性',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[null, $scope.mark.FILETIME, null],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'完整性',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[null, $scope.mark.FILECONTENT, null],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'准确性',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[null, $scope.mark.REVIEWFILEACCURACY+$scope.mark.LEGALFILEACCURACY, null],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'风险识别及规避能力',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[null, null, $scope.mark.RISKCONTROL],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'财务测算能力',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[null, null, $scope.mark.MONEYCALCULATE],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'方案设计能力',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[null, null, $scope.mark.PLANDESIGN],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'协议谈判能力',
+                            type:'bar',
+                            stack: '各项得分',
+                            data:[null, null, $scope.mark.TALKS],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        },
+                        {
+                            name:'总分',
+                            type:'bar',
+                            data:[30, 30, 40],
+                            itemStyle : { normal: {label : {show: true, position: 'insideTop'}}}
+                        }
+                    ]
+                };
+                myChart = echarts.init(document.getElementById('markBarChart'),'shine');
+                myChart.setOption($scope.markBarOption);
             }
 
             //获取审核日志
@@ -38,6 +204,37 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                     data: $.param({"businessId":businessId})
                 }).success(function(result){
                     $scope.auditLogs = result.result_data;
+                });
+            };
+
+            // 获取项目评分
+            $scope.getMarkById = function(businessId){
+                var  url = 'preMark/queryMarks.do';
+                $http({
+                    method:'post',
+                    url: srvUrl + url,
+                    data: $.param({"businessId":businessId})
+                }).success(function(result){
+                    if(result.success){
+                        $scope.mark = result.result_data;
+                        if($scope.mark!=null && $scope.mark !="" ){
+                            $scope.initMarkPie();
+                            $scope.initMarkBar();
+                        }
+                    }else{
+                        $.alert(result.result_name);
+                    }
+                });
+            };
+
+            // 获取投标反馈
+            $scope.getFeedbackByID=function(id){
+                var  url = 'projectPreReview/Feedback/getFeedbackByID';
+                $scope.httpData(url,id).success(function(data){
+                        $scope.arf = data.result_data;
+                    }
+                ).error(function (data, status, headers, config) {
+                    alert(status);
                 });
             };
 
@@ -82,8 +279,10 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
             };
 
             $scope.initUpdate = function(objId){
-                $scope.queryAuditLogsByBusinessId(objId)
+                $scope.queryAuditLogsByBusinessId(objId);
                 $scope.initPage();
+                $scope.getMarkById(objId);
+                $scope.getFeedbackByID(objId);
                 $http({
                     method:'post',
                     url:srvUrl+"deptwork/queryPreAllViewById.do",
