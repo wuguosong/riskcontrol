@@ -1420,6 +1420,42 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
             }
         })
 
+        // 投标评审决策委员会材料预览
+            .when('/PreBiddingInfoPreview', {
+                controller: 'PreBiddingInfoPreview',
+                templateUrl: 'page/rcm/pre/prePreview/PreBiddingInfoPreview.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/pre/prePreview/PreBiddingInfoPreview.js?_v=' + _version], function() {
+                            $rootScope.$apply(function() {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 投标评审决策委员会材料预览-待决策项目审阅入口
+            .when('/PreBiddingInfoPreview/:id/:url/:flag', {
+                controller: 'PreBiddingInfoPreview',
+                templateUrl: 'page/rcm/pre/prePreview/PreBiddingInfoPreview.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/pre/prePreview/PreBiddingInfoPreview.js?_v=' + _version], function() {
+                            $rootScope.$apply(function() {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
         // 投标评审参会信息列表
         .when('/PreMeetingInfoList/:tabIndex', {
             controller: 'PreMeetingInfoList',

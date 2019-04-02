@@ -13,20 +13,20 @@
 					<div class="special-form">
 						<div class="row">
 							<input type="hidden"  name="UUID" id="UUID"   class="form-control" value="{{id}}"/>
-							<label for="" class="col-sm-2 control-label">项目名称</label>
+							<label class="col-sm-2 control-label">项目名称</label>
 							<div class="col-sm-4">
 								<input type="text" data-toggle="modal" data-target="#companyProjectName-modal" required class="form-control"name="projectName" id="projectName" ng-model="arf.projectName" value="{{arf.projectName}}"/>
 
 								<input type="hidden"  name="projectNo" id="projectNo" ng-model="arf.projectNo" class="form-control"  />
 							</div>
-							<label for="" class="col-sm-2 control-label"><span class="required" ng-if="actionpam=='Create' || actionpam=='Update'">*</span>开标时间</label>
+							<label class="col-sm-2 control-label"><span class="required" ng-if="actionpam=='Create' || actionpam=='Update'">*</span>开标时间</label>
 							<div class="col-sm-4 has-feedback" >
 								<input type="text" id="bidOpenTime"  name="projectOpentime"  ng-model="arf.projectOpentime" class="form-control"/>
 								<i class="fa fa-calendar form-control-feedback"></i>
 							</div>
 						</div>
 						<div class="row">
-							<label for="" class="col-sm-2 control-label"><span class="required" ng-if="actionpam=='Create'||actionpam=='Update'">*</span>我方报价</label>
+							<label class="col-sm-2 control-label"><span class="required" ng-if="actionpam=='Create'||actionpam=='Update'">*</span>我方报价</label>
 							<div class="col-sm-4 has-feedback">
 								<input type="text" name="projectOurprice"  id="projectOurprice" ng-model="arf.projectOurprice" class="form-control"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -34,7 +34,7 @@
 									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
 								<span class="unit-my">万元</span>
 							</div>
-<!-- 							<label for="" class="col-sm-2 control-label">主要竞争对手报价</label> -->
+<!-- 							<label class="col-sm-2 control-label">主要竞争对手报价</label> -->
 <!-- 							<div class="col-sm-4 has-feedback"> -->
 <!-- 								<input type="text" name="projectOtherprice"  id="projectOtherprice" ng-model="arf.projectOtherprice" class="form-control" -->
 <!-- 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" -->
@@ -43,7 +43,7 @@
 <!-- 								<span class="unit-my">万元</span> -->
 
 <!-- 							</div> -->
-							<label for="" class="col-sm-2 control-label">投标结果</label>
+							<label class="col-sm-2 control-label">投标结果</label>
 							<div class="col-sm-4">
 								<label class="radio radio-inline">
 									<input type="radio" checked="checked" id="tenderResults1" name="tenderResults" ng-model="arf.tenderResults" class="px" value="中标"/>
@@ -57,7 +57,7 @@
 						</div>
 						<div class="row">
 							<div id="notice">
-								<label for="" class="col-sm-2 control-label">中标通知书</label>
+								<label class="col-sm-2 control-label">中标通知书</label>
 								<div class="col-sm-1 txl">
 									<button class="btn btn-info"   ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
 								</div>

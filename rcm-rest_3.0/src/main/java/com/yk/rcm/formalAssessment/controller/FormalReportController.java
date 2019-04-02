@@ -223,7 +223,7 @@ public class FormalReportController {
 
 	@RequestMapping("/addPolicyDecision")
 	@ResponseBody
-	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "添加策略决策")
+	/*@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "添加策略决策")*/
 	public Result addPolicyDecision(String json, String method, HttpServletRequest request) {
 		// 提交的判断项目参会信息是否已填写，如没填写禁止提交，并提示先填写参会信息才能够提交
 //		Result result = new Result();

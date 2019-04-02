@@ -9,9 +9,9 @@
 	      	(select o.NAME from sys_org o where o.ORGPKVALUE = i.reportingunit_id) reportingunitName ,
 	      	(select o.ITEM_NAME from sys_dictionary_item o where o.ITEM_CODE = i.servicetype_id) servicetypeName ,
 	      	(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
-	       	(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName 
+	       	(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName
 	    	from rcm_pre_info i  
-		where stage='3.7' and olddata = '0' and need_meeting='1' 
+		where stage IN ('3','3.7','3.5','3.9')
 		<if test="createBy!=null and createBy!=''"> and i.reviewpersonid = #{createBy} </if>
 		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
     	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>

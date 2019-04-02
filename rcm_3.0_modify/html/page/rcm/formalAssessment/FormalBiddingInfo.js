@@ -118,7 +118,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 //没有项目评分
                 return true;
             }
-        }
+        };
 
         // 保存项目评级相关内容
         $scope.saveMeetingInfo = function (){

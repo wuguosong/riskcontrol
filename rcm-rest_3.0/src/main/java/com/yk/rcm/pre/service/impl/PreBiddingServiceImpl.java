@@ -117,6 +117,7 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 		param.put("applyDate", applyDate);
 		param.put("stage", preOracle.get("STAGE"));
 		param.put("reportOracle", reportOracle);
+		
 		return param;
 	}
 
@@ -211,6 +212,8 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 			Map<String,Object> map = new HashMap<String,Object>();
 			Map<String,Object> reviewReport = (Map<String, Object>) bjson.get("reviewReport");
 			map.put("reviewReport", reviewReport);
+			// 更新参会部分信息
+			map.put("meetingInfo", (Map<String, Object>) bjson.get("meetingInfo"));
 			this.baseMongo.updateSetByObjectId(businessId, map, Constants.RCM_PRE_INFO);
 		return flag;
 	}

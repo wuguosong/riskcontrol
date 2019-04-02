@@ -383,7 +383,7 @@
        		(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName ,
        		(select u.NAME from sys_user u where u.uuid=i.legalreviewpersonid) legalreviewpersonName   
 		from rcm_formalassessment_info i 
-		where stage='3.7'
+		where stage IN ('3','3.7','3.5','3.9')
 		<if test="userId!=null and userId!=''"> and i.reviewpersonid = #{userId} </if>
 		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
     	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>

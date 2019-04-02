@@ -2695,6 +2695,17 @@ ctmApp.directive('directivePreJcwyh', function() {
 
     };
 });
+// 投标评审决策委员会第一部分（新）
+ctmApp.directive('directivePreJcwyhNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectPre/DirectivePreJcwyhNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        }
+
+    };
+});
 
 /************************************投标评审结束*****************************/
 

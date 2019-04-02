@@ -59,7 +59,7 @@ public class PreBiddingController {
 	
 	@RequestMapping("/addPolicyDecision")
 	@ResponseBody
-	@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "修改、提交决策委员会材料")
+	/*@SysLog(module = LogConstant.MODULE_PRE_AUDIT, operation = LogConstant.CREATE, description = "修改、提交决策委员会材料")*/
 	public Result addPolicyDecision(String json, String method, HttpServletRequest request) {
 		// 提交的判断项目参会信息是否已填写，如没填写禁止提交，并提示先填写参会信息才能够提交
 		Result result = new Result();

@@ -374,6 +374,8 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		
 		//其他会议信息保存到metting表中
 		if (Util.isEmpty(queryByCondition)){
+			String id = meetingInfo.get("formalId").toString();
+			meetingInfo.put("_id", new ObjectId(id));
 			meetingInfo.put("user_id", ThreadLocalUtil.getUserId());
 			meetingInfo.put("create_date", Util.getTime());
 			meetingInfo.put("state", "1");

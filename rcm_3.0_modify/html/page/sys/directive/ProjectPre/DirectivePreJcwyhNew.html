@@ -1,0 +1,279 @@
+<div class="">
+    <h3 class='text-blue item-name'>
+        {{ pfr.apply.projectName }}
+    </h3>
+
+    <div class="mcontent content1" id="flag1-c">
+        <h3 class='text-blue'>项目过程回顾</h3>
+        <div class="row normalline">
+            <div class="timeline col-md-11 col-sm-11 col-xs-11">
+                <siv class="line hidden-xs"></siv>
+                <div class="time start-time">
+                    提交申请时间
+                    <span>{{applyDate}}</span>
+                </div>
+                <div class="time end-time" style="padding-left: 60px">
+                    评审报告出具时间
+                    <span>{{ formalReport.submit_date }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">所属大区</span>
+                    <span class="col-md-6 slim" ng-if="pfr.apply.pertainArea.VALUE != null">
+                        {{ pfr.apply.pertainArea.VALUE }}
+                    </span>
+                    <span class="col-md-6 slim" ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"
+                          class="" width="30%">
+                        {{ pfr.apply.reportingUnit.VALUE }}
+                    </span>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">投资经理</span>
+                    <span class="col-md-6 slim">
+                        {{ pfr.apply.investmentManager.NAME }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline titline">
+            <div class="tit col-md-12">投资中心/水环境投资意见中心</div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">投资测算意见:</span>
+                    <span class="col-md-6 slim">{{pfr.cesuanFileOpinion}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">投资协议意见:</span>
+                    <span class="col-md-6 slim">{{pfr.tzProtocolOpinion}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline titline">
+            <div class="tit col-md-12">风控中心审批意见</div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">风控中心审批次数:</span>
+                    <span class="col-md-6 slim">{{pfr.approveAttachment.commentsList.length}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">风控中心法律评审意见条数:</span>
+                    <span class="col-md-6 slim">{{pfr.approveLegalAttachment.commentsList.length}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">风控中心评审结论:</span>
+                    <span class="col-md-6 slim">{{preBidding.fkPsResult}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">风控重点风险提示:</span>
+                    <span class="col-md-6 slim">{{preBidding.fkRiskTip}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">特殊事项说明:</span>
+                    <span class="col-md-12 slim">{{preBidding.policyDecision.specialNotice}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--过程项目回顾-->
+
+    <div class="mcontent content1" id="flag2-c" ng-if="!hasWaiting">
+        <h3 class="text-blue">项目评级</h3>
+        <div class="row normalline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">评审负责人</span>
+                    <span class="col-md-6 slim">{{pfr.taskallocation.reviewLeader.NAME}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">法律负责人</span>
+                    <span class="col-md-6 slim">{{pfr.taskallocation.legalReviewLeader.NAME}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline selectline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="required" style="color: red" >*</span>
+                    <span class="col-md-6 noPadding">评审难度评级</span>
+                    <span class="col-md-6 slim">
+                        <select style="width: 200px" ng-change=""
+                                class="form-control" id="preBidding.meetingInfo.projectRating.name"
+                                ng-model="preBidding.meetingInfo.projectRating" name="projectRatingName" required
+                                ng-options="nv.name for nv in dic2.nameValue track by  nv.value">
+                    <option value="">-- 请选择 --</option>
+                </select>
+                <div class="error-messages"
+                     ng-if="interacted(preReportForm.projectRatingName )">
+                    这里是必填项
+                </div>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">是否紧急上会</span>
+                    <span class="col-md-6 slim">
+                        <label class="radio radio-inline">
+                            <input type="radio" name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="0" class="px"
+                                   ng-checked="true"/><span class="lbl" style="display: inline">否</span>
+                        </label>
+                        <label class="radio radio-inline">
+                            <input type="radio" name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="1"
+                                   class="px"/><span class="lbl" style="display: inline">是</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class=" row normalline text-arealine">
+            <div class="col-md-3"><span class="required" style="color: red" >*</span>评级理由</div>
+            <div class="col-md-9">
+                <textarea style="resize:vertical;"
+                          name="ratingReason"
+                          ng-model="preBidding.meetingInfo.ratingReason"
+                          class="form-control ng-pristine ng-valid ng-touched" required></textarea>
+                <div class="error-messages"
+                     ng-if="interacted(preReportForm.ratingReason)">
+                    这里是必填项
+                </div>
+                <div class="radioline">
+                    <input type="checkbox" name='ifeasy' ng-model="preBidding.meetingInfo.projectType1" id='easy-1'/><label
+                        for="easy-1">项目简单</label>
+                    <input type="checkbox" name="ifeasy" ng-model="preBidding.meetingInfo.projectType2" id='easy-2'/><label
+                        for="easy-1">风险较低</label>
+                    <input type="checkbox" name='ifeasy' ng-model="preBidding.meetingInfo.projectType3" id='easy-3'/><label
+                        for="easy-1">收益较好</label>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row normalline selectline">
+            <div class="col-md-3"><span class="required" style="color: red">*</span>投资意见</div>
+            <div class="col-md-9">
+                <select style="width: 200px" ng-change=""
+                        class="form-control" id="preBidding.meetingInfo.investmentType"
+                        ng-model="preBidding.meetingInfo.investmentType" name="investmentType" required
+                        ng-options="investment.ITEM_NAME for investment in INVESTMENT_TYPE track by investment.ITEM_CODE">
+                    <option value="">-- 请选择 --</option>
+                </select>
+                <div class="error-messages"
+                     ng-if="interacted(preReportForm.investmentType )">
+                    这里是必填项
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--项目评级-->
+
+    <div class="mcontent content1" ng-if="hasWaiting">
+        <h3 class="text-blue">项目评级</h3>
+        <div class="row normalline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">评审负责人</span>
+                    <span class="col-md-6 slim">{{pfr.taskallocation.reviewLeader.NAME}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">法律负责人</span>
+                    <span class="col-md-6 slim">{{pfr.taskallocation.legalReviewLeader.NAME}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline selectline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="required" style="color: red" >*</span>
+                    <span class="col-md-6 noPadding">评审难度评级</span>
+                    <span class="col-md-6 slim">
+                        <span class="dropdown">
+                        {{preBidding.meetingInfo.projectRating.name}}
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">是否紧急上会</span>
+                    <span class="col-md-6 slim">
+                        <label class="radio radio-inline">
+                            <input type="radio"  name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="0" class="px" ng-checked="true"/><span class="lbl">否</span>
+                        </label>
+                        <label class="radio radio-inline">
+                            <input type="radio"  name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="1" class="px"/><span class="lbl">是</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class=" row normalline text-arealine">
+            <div class="col-md-3"><span class="required" style="color: red" >*</span>评级理由</div>
+            <div class="col-md-9">
+                <textarea style="resize:vertical;"
+                          name="ratingReason"
+                          ng-model="preBidding.meetingInfo.ratingReason"
+                          class="form-control ng-pristine ng-valid ng-touched" required></textarea>
+                <div class="error-messages"
+                     ng-if="interacted(preReportForm.ratingReason)">
+                    这里是必填项
+                </div>
+                <div class="radioline">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="px" ng-model="preBidding.meetingInfo.projectType1" name="projectType"/>
+                        <span class="lbl">项目简单</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="px" ng-model="preBidding.meetingInfo.projectType2" name="projectType"/>
+                        <span class="lbl">风险较低</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="px" ng-model="preBidding.meetingInfo.projectType3" name="projectType"/>
+                        <span class="lbl">收益较好</span>
+                    </label>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row normalline selectline">
+            <div class="col-md-3"><span class="required" style="color: red">*</span>投资意见</div>
+            <div class="col-md-9">
+                <span class="dropdown">
+                    {{preBidding.meetingInfo.investmentType.name}}
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+</div>

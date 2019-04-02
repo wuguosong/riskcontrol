@@ -279,10 +279,10 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
             };
 
             $scope.initUpdate = function(objId){
-                $scope.queryAuditLogsByBusinessId(objId);
-                $scope.initPage();
                 $scope.getMarkById(objId);
                 $scope.getFeedbackByID(objId);
+                $scope.queryAuditLogsByBusinessId(objId);
+                $scope.initPage();
                 $http({
                     method:'post',
                     url:srvUrl+"deptwork/queryPreAllViewById.do",
