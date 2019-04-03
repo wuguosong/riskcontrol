@@ -1,5 +1,6 @@
-<div class="panel-body">
-    <ul class="panel-head font-blue2">
+<!-- 第一个版块 -->
+<div class="panel-body panel-index1">
+    <!-- <ul class="panel-head font-blue2">
         <li class="mr10">欢迎</li>
         <li class="mr10">
             <font class="font-black">{{credentials.userName}}</font>
@@ -7,7 +8,7 @@
         <li class="mr20">来到风险管控系统</li>
         <li class="mr10">系统时间 : {{now | date : 'yyyy-MM-dd'}}</li>
         <li>{{week}}</li>
-    </ul>
+    </ul> -->
     <div class="mb30 ml20 mr20">
         <div class="panel p-panel">
             <!-- Nav tabs -->
@@ -27,7 +28,7 @@
                 </ul>
             </div>
             <!-- Tab panes -->
-            <div class="tab-content p-panes" style="wdith:80%;">
+            <div class="tab-content p-panes">
                 <div role="tabpanel" class="tab-pane active" id="todo">
                     <div class="table-responsive table-list no-selectbox">
                         <table class="table table-hover ">
@@ -101,18 +102,56 @@
                     </div>
                 </div>
             </div>
-            <!-- 首页快捷菜单 -->
-            <div class="short-menu">
-                <a href="javascript:void(0);" class="shortcut-index">
-                    <i class="icon-nav">&#xe619;</i>
-                    <p>正式评审申请</p>
-                </a>
-            </div>
+
         </div>
     </div>
+    <!-- <fill-material></fill-material> -->
+</div>
+<!-- 第二个版块 -->
+<div class="panel-body panel-index1" style="margin-top:10px;">
+
     <fill-material></fill-material>
 </div>
+<!-- 首页快捷菜单 -->
+<div class="short-menu" ng-if="showFlag == 1">
+    <h1>快捷菜单</h1>
+    <a href="#/PreInfoList/0" class="shortcut-index">
+        <i class="icon-nav">&#xe61c;</i>
+        <p>投标评审申请</p>
+    </a>
+    <a href="#/FormalAssessmentInfoList/0" class="shortcut-index">
+        <i class="icon-nav">&#xe619;</i>
+        <p>正式评审申请</p>
+    </a>
+    <a href="#/BulletinMatters/0" class="shortcut-index">
+        <i class="icon-nav">&#xe617;</i>
+        <p>其他评审申请</p>
+    </a>
+    <a href="#/projectBoardList" class="shortcut-index">
+        <i class="icon-nav">&#xe62d;</i>
+        <p>项目看板</p>
+    </a>
+</div>
 
+<div class="short-menu" ng-if="showFlag == 2">
+    <h1>快捷菜单</h1>
+    <a href="#/BulletinMatters/0" class="shortcut-index">
+        <i class="icon-nav">&#xe617;</i>
+        <p>其他评审申请</p>
+    </a>
+    <a href="javascript:void(0);" class="shortcut-index">
+        <i class="icon-nav">&#xe620;</i>
+        <p>分析图表</p>
+    </a>
+    <a href="#/projectBoardList" class="shortcut-index">
+        <i class="icon-nav">&#xe62d;</i>
+        <p>项目看板</p>
+    </a>
+    <a href="#/MeetingManageList" class="shortcut-index">
+        <i class="icon-nav">&#xe62d;</i>
+        <p>决策会管理</p>
+    </a>
+</div>
 
 <script>
     angular.element(document).ready(function() {

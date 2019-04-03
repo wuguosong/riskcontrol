@@ -145,62 +145,77 @@ button.btn:hover {
   box-shadow: 0 2px 10px rgba(86, 98, 109, 0.6);
 }
 
-button.btn.btn-info {
+button.btn.btn-info,
+button.btn.btn-primary {
   background-color: #2b679d !important;
+  color: #fff;
 }
 
-button.btn.btn-info:hover {
+button.btn.btn-info:hover,
+button.btn.btn-primary:hover {
   background-color: #2b679d !important;
   background-image: none !important;
+  color: #fff;
 }
 
-button.btn.btn-info:active {
+button.btn.btn-info:active,
+button.btn.btn-primary:active {
   background-color: #1c4c77 !important;
+  color: #fff;
 }
 
-button.btn.btn-info:disabled {
+button.btn.btn-info:disabled,
+button.btn.btn-primary:disabled {
   background-color: #ebebeb !important;
   color: #b2b2b2 !important;
   border: none !important;
 }
 
-button.btn.btn-info:disabled:hover {
+button.btn.btn-info:disabled:hover,
+button.btn.btn-primary:disabled:hover {
   background-color: #ebebeb !important;
   color: #b2b2b2 !important;
   box-shadow: none !important;
 }
 
-button.btn.btn-info.erji {
+button.btn.btn-info.erji,
+button.btn.btn-primary.erji {
   background-color: #fff !important;
   border: 1px solid #2b679d !important;
   color: #2b679d !important;
   background-image: none !important;
 }
 
-button.btn.btn-info.erji:hover {
+button.btn.btn-info.erji:hover,
+button.btn.btn-primary.erji:hover {
   background-color: #eff2f7 !important;
   background-image: none !important;
 }
 
-button.btn.btn-info.erji:active, button.btn.btn-info.erji:active {
+button.btn.btn-info.erji:active, button.btn.btn-info.erji:active,
+button.btn.btn-primary.erji:active,
+button.btn.btn-primary.erji:active {
   background-image: none !important;
   background-color: #ebebeb !important;
 }
 
-button.btn.btn-info.erji:disabled {
+button.btn.btn-info.erji:disabled,
+button.btn.btn-primary.erji:disabled {
   background-color: #fff !important;
   border: 1px solid #ebebeb !important;
   color: #b2b2b2 !important;
 }
 
-button.btn.btn-info.erji:disabled:hover {
+button.btn.btn-info.erji:disabled:hover,
+button.btn.btn-primary.erji:disabled:hover {
   box-shadow: none;
   background-color: #fff !important;
   border: 1px solid #ebebeb !important;
   color: #facaca;
 }
 
-button.btn.btn-info.sanji {
+button.btn.btn-info.sanji,
+button.btn.btn-primary.sanji {
   background-image: none !important;
   background-color: #fff !important;
   border: 1px solid #2b679d !important;
@@ -208,21 +223,25 @@ button.btn.btn-info.sanji {
   border-radius: 36px;
 }
 
-button.btn.btn-info.sanji:hover {
+button.btn.btn-info.sanji:hover,
+button.btn.btn-primary.sanji:hover {
   background-image: none !important;
 }
 
-button.btn.btn-info.sanji:active {
+button.btn.btn-info.sanji:active,
+button.btn.btn-primary.sanji:active {
   background-color: #eff2f7 !important;
   background-image: none !important;
 }
 
-button.btn.btn-info.sanji:disabled {
+button.btn.btn-info.sanji:disabled,
+button.btn.btn-primary.sanji:disabled {
   border: 1px solid #ebebeb !important;
   color: #b2b2b2 !important;
 }
 
-button.btn.btn-info.sanji:disabled:hover {
+button.btn.btn-info.sanji:disabled:hover,
+button.btn.btn-primary.sanji:disabled:hover {
   box-shadow: none;
   background-color: #fff !important;
   border: 1px solid #ebebeb !important;
@@ -465,77 +484,93 @@ a.btn:hover {
 
 /* 按钮颜色 */
 /* 蓝色、主色 */
-a.btn-info {
+a.btn-info,
+a.btn-primary {
   background-color: #2b679d !important;
   background-image: none !important;
+  color: #fff;
 }
 
-a.btn-info:hover {
+a.btn-info:hover,
+a.btn-primary:hover {
   background-image: none !important;
   background-color: #2b679d !important;
+  color: #fff;
 }
 
-a.btn-info:active {
+a.btn-info:active,
+a.btn-primary:active {
   background-color: #1c4c77 !important;
   background-image: none !important;
 }
 
-a.btn-info.disabled {
+a.btn-info.disabled,
+a.btn-primary.disabled {
   background-color: #ebebeb !important;
   color: #b2b2b2 !important;
   border: none;
 }
 
-a.btn-info.disabled:hover {
+a.btn-info.disabled:hover,
+a.btn-primary.disabled:hover {
   background-color: #ebebeb !important;
   color: #b2b2b2 !important;
   box-shadow: none;
 }
 
-a.btn-info.erji {
+a.btn-info.erji,
+a.btn-primary.erji {
   background-color: #fff !important;
   border: 1px solid #2b679d !important;
   color: #2b679d !important;
 }
 
-a.btn-info.erji:hover {
+a.btn-info.erji:hover,
+a.btn-primary.erji:hover {
   background-color: #eff2f7 !important;
 }
 
-a.btn-info.erji:active {
+a.btn-info.erji:active,
+a.btn-primary.erji:active {
   background-color: #ebebeb !important;
 }
 
-a.btn-info.erji.disabled {
+a.btn-info.erji.disabled,
+a.btn-primary.erji.disabled {
   background-color: #fff !important;
   border: 1px solid #ebebeb !important;
   color: #b2b2b2 !important;
 }
 
-a.btn-info.erji.disabled:hover {
+a.btn-info.erji.disabled:hover,
+a.btn-primary.erji.disabled:hover {
   box-shadow: none !important;
   background-color: #fff !important;
   border: 1px solid #ebebeb !important;
   color: #b2b2b2 !important;
 }
 
-a.btn-info.sanji {
+a.btn-info.sanji,
+a.btn-primary.sanji {
   background-color: #fff !important;
   border: 1px solid #2b679d !important;
   color: #2b679d !important;
   border-radius: 36px !important;
 }
 
-a.btn-info.sanji:active {
+a.btn-info.sanji:active,
+a.btn-primary.sanji:active {
   background-color: #eff2f7 !important;
 }
 
-a.btn-info.sanji.disabled {
+a.btn-info.sanji.disabled,
+a.btn-primary.sanji.disabled {
   border: 1px solid #ebebeb !important;
   color: #b2b2b2 !important;
 }
 
-a.btn-info.sanji.disabled:hover {
+a.btn-info.sanji.disabled:hover,
+a.btn-primary.sanji.disabled:hover {
   box-shadow: none !important;
   background-color: #fff !important;
   border: 1px solid #ebebeb !important;
@@ -637,57 +672,86 @@ a.btn-warning.disabled:hover {
   color: #fff;
 }
 
+ul.nav-tabs > li {
+  border-bottom: 0;
+}
+
 ul.nav-tabs > li > a {
   background-color: #f8f8f8;
   color: #000;
   cursor: pointer;
   border: none;
   border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
 ul.nav-tabs > li > a:hover {
   box-shadow: 0 2px 10px rgba(86, 98, 109, 0.6);
+  color: #000;
+  border: none;
 }
 
-a.tab {
-  background-color: #eff2f7 !important;
-  color: #000 !important;
-  cursor: pointer;
-  border: none !important;
-  border-radius: 4px !important;
-  /* hover */
+ul.nav-tabs > li > a:active {
+  background-color: #2b679d;
+  color: #fff;
 }
 
-a.tab.active {
-  background-color: #2b679d !important;
-  color: #fff !important;
+ul.nav-tabs > li.active > a {
+  background-color: #2b679d;
+  color: #fff;
+  font-weight: normal;
+  border: none;
 }
 
-a.tab.active:hover {
+ul.nav-tabs > li.active > a:hover, ul.nav-tabs > li.active > a:focus {
   box-shadow: none;
+  background-color: #2b679d;
+  color: #fff;
+  font-weight: normal;
 }
 
-li.active > a.tab {
-  background-color: #2b679d !important;
-  color: #fff !important;
+.tab-content.tab-content-bordered {
+  padding: 10px;
 }
 
-li.active > a.tab:hover, li.active > a.tab:focus {
-  background-color: #2b679d !important;
-  color: #fff !important;
-  box-shadow: none;
-  background-image: none !important;
-}
-
-a.tab:hover {
-  box-shadow: 0 2px 10px rgba(86, 98, 109, 0.6);
-}
-
-a.tab:active, a.tab:focus {
-  background-color: #2b679d !important;
-  color: #fff !important;
-}
-
+/* a.tab {
+    background-color: $grey!important;
+    color: $black!important;
+    cursor: pointer;
+    border: none!important;
+    border-radius: 4px!important;
+    // 选中状态在a标签上
+    &.active {
+        background-color: $blue!important;
+        color: #fff!important;
+        &:hover {
+            box-shadow: none;
+        }
+    }
+    //选中状态在li标签上
+    li.active>& {
+        background-color: $blue!important;
+        color: #fff!important;
+        &:hover,
+        &:focus {
+            background-color: $blue!important;
+            color: #fff!important;
+            box-shadow: none;
+            background-image: none!important;
+        }
+    }
+    // hover
+    &:hover {
+        box-shadow: $btn-shadow;
+    }
+    // 点击
+    &:active,
+    &:focus {
+        background-color: $blue!important;
+        color: #fff!important;
+    }
+} */
 a.btn-sm {
   font-size: 14px;
   line-height: 26px;
@@ -785,6 +849,7 @@ a.btn-sm.btn-grey:active {
   outline: none;
   border: none;
   text-indent: 2em;
+  text-align: left;
   display: inline;
 }
 
@@ -926,8 +991,8 @@ a.btn-sm.btn-grey:active {
 
 /* 首页快捷菜单 */
 a.shortcut-index {
-  width: 140px !important;
-  height: 80px !important;
+  width: 140px;
+  height: 80px;
   background-color: #fff;
   border-radius: 8px;
   text-align: center;
@@ -935,6 +1000,7 @@ a.shortcut-index {
   box-sizing: border-box;
   padding-top: 14px;
   line-height: 1;
+  box-shadow: 0 2px 10px rgba(86, 98, 109, 0.6);
 }
 
 a.shortcut-index i {

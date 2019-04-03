@@ -89,15 +89,18 @@
                     <div class="col-md-9" style="padding-left: 0px;">
                         <h5>投资部门提供</h5>
                     </div>
-                    <div class="col-md-3" style="text-align: right; top: 25px;">
+                    <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"
+                                              last-update-by="currentUser" wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
+                                              init-update="initUpdate(id)" is-show-choose="true"></directive-accachment-new>
+                    <!--<div class="col-md-3" style="text-align: right; top: 25px;">
                         <direct-upload-file-touzi id="fileupload" file-list="formalReport.policyDecision.fileList"
                                                   select="attach" formal-report="formalReport" attach="newAttachment"
                                                   is-editable="selectFlag" checked-user="item.programmed" callback="hello">
                         </direct-upload-file-touzi>
-                    </div>
+                    </div>-->
 
                     <!--<span ng-if="hasWaiting" type="span" class="span-add" ng-click="addFileList1()"/>-->
-                    <div class="mytable">
+                    <!--<div class="mytable">
                         <table class="table table-bordered">
                             <thead>
                             <tr class="info">
@@ -144,7 +147,7 @@
                             </tbody>
 
                         </table>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <!--业务单位上报评审文件 End-->

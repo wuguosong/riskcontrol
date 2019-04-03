@@ -9,27 +9,18 @@ body {
 }
 
 #content-wrapper {
-    padding: 10px 60px;
+    padding: 10px 10px;
     background-color: $bg-color;
-    .panel-body {
-        // min-height: 100%;
-        // width: 100%;
-        // background-color: $bg-color;
-        // padding: 0;
-        // .panel.p-panel {
-        //     margin-bottom: 0px;
-        //     margin-top: 10px;
-        //     background-color: #fff;
-        //     padding: 10px;
-        //     border-radius: 0;
-        // }
-        // .table-list {
-        //     margin-bottom: 0px;
-        //     margin-top: 10px;
-        //     background-color: #fff;
-        //     padding: 10px;
-        //     border-radius: 0;
-        // }
+    .panel,
+    .panel-default {
+        box-shadow: none;
+        margin-bottom: 0;
+    }
+    .panel-body.panel-index1 {
+        width: 84%;
+        &.panel-index2 {
+            width: 100%;
+        }
     }
 }
 
@@ -45,14 +36,6 @@ body {
 
 .gt-ie8 input[type=radio].px+.lbl:after {
     background-color: #333;
-}
-
-
-/* 个人工作重心页面 */
-
-.panel,
-.panel-default {
-    box-shadow: none;
 }
 
 
@@ -139,14 +122,48 @@ a.tab {
 /* 首页快捷菜单 */
 
 .short-menu {
+    position: fixed;
+    top: 72px;
+    right: 10px;
     background-color: #fff;
-    width: calc(20% - 10px);
-    float: right;
-    display: flex;
-    flex: .5;
-    flex-direction: column;
+    width: 15%;
+    box-sizing: border-box;
+    padding: {
+        top: 20px;
+        bottom: 20px;
+    }
+    h1 {
+        font-size: 16px;
+        line-height: 2;
+        width: 140px;
+        margin: 0 auto;
+    }
+    a.shortcut-index {
+        margin: 20px auto;
+    }
+    a.more {
+        color: $blue;
+        p {
+            font-size: 14px;
+            width: 140px;
+            text-align: right;
+            margin: 0 auto;
+        }
+        &:hover {
+            color: $dark-blue;
+        }
+    }
 }
 
-a.shortcut-index {
-    margin: 40px auto;
+
+/* 左右分布页面 */
+
+form {
+    .mcontent {
+        padding: 20px;
+    }
+    .left-content {
+        top: 100px;
+        right: 10px;
+    }
 }

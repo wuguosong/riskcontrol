@@ -3,7 +3,7 @@ ctmApp.directive('directiveReturnBtn', function() {
     return {
         restrict: 'E',
         //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
-        template: '<a class="btn btn-primary" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
+        template: '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
         /*template: '<button class="btn btn-primary" ng-href="{{url|decodeURI}}" ng-click="callback()">返回</button>',*/
         replace: true,
         scope:{url:'@',callback:"&"},
@@ -2196,13 +2196,15 @@ ctmApp.directive('directiveAccachmentNew', function() {
             lastUpdateBy: "=",
             // 附件列表
             fileList: "=",
+            // 设置属性
+            isShowChoose: "@",
+            isEdite: "@",
             // 调用父组件操作
             initUpdate: "&initUpdate"
         },
         link:function(scope,element,attr){
         },
         controller:function($scope,$http,$element,Upload){
-            // 获取系统当前时间
             $scope.getDate = function () {
                 var myDate = new Date();
                 //获取当前年
@@ -2220,6 +2222,16 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 初始化数据
             $scope._initData = function () {
+                if($scope.isShowChoose == "true"){
+                    $scope.isShowChoose = true;
+                } else {
+                    $scope.isShowChoose = false;
+                }
+                if($scope.isEdite == "true"){
+                    $scope.isEdite = true;
+                } else {
+                    $scope.isEdite = false;
+                }
                 $scope.attachmentType = $scope._selectItemType("ACCACHMENT_TYPE");
                 $scope.itemType = $scope._selectItemType("LEGAL_TYPE");
                 $scope.isShow = false;
