@@ -7,7 +7,7 @@ body {
 }
 
 #content-wrapper {
-  padding: 10px 60px;
+  padding: 10px 10px;
   background-color: #e5e5e5;
 }
 
@@ -105,14 +105,48 @@ a.tab {
 
 /* 首页快捷菜单 */
 .short-menu {
+  position: fixed;
+  top: 72px;
+  right: 10px;
   background-color: #fff;
-  width: calc(20% - 10px);
-  float: right;
-  display: flex;
-  flex: .5;
-  flex-direction: column;
+  width: 15.7%;
+  box-sizing: border-box;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-a.shortcut-index {
-  margin: 40px auto;
+.short-menu h1 {
+  font-size: 16px;
+  line-height: 2;
+  width: 140px;
+  margin: 0 auto;
+}
+
+.short-menu a.shortcut-index {
+  margin: 20px auto;
+}
+
+.short-menu a.more {
+  color: #333;
+}
+
+.short-menu a.more p {
+  font-size: 16px;
+  width: 140px;
+  text-align: right;
+  margin: 0 auto;
+}
+
+.short-menu a.more:hover {
+  color: #2b679d;
+}
+
+/* 左右分布页面 */
+form .mcontent {
+  padding: 20px;
+}
+
+form .left-content {
+  top: 100px;
+  right: 10px;
 }

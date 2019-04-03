@@ -162,17 +162,21 @@ button.btn {
 
 // 按钮颜色
 //蓝色、主色
-button.btn.btn-info {
+button.btn.btn-info,
+button.btn.btn-primary {
     // 一级按钮
     background-color: $blue!important;
+    color: #fff;
     // 移入
     &:hover {
         background-color: $blue!important;
         background-image: none!important;
+        color: #fff;
     }
     // 点击
     &:active {
         background-color: $dark-blue!important;
+        color: #fff;
     }
     //禁用按钮
     &:disabled {
@@ -491,14 +495,17 @@ a.btn {
 
 /* 蓝色、主色 */
 
-a.btn-info {
+a.btn-info,
+a.btn-primary {
     // 一级按钮
     background-color: $blue!important;
     background-image: none!important;
+    color: #fff;
     // 移入
     &:hover {
         background-image: none!important;
         background-color: $blue!important;
+        color: #fff;
     }
     // 点击
     &:active {
@@ -668,26 +675,52 @@ a.btn-warning {
 }
 
 // 页签
-ul.nav-tabs>li>a {
-    background-color: #f8f8f8;
-    color: $black;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    &:hover {
-        box-shadow: $btn-shadow;
+ul.nav-tabs>li {
+    border-bottom: 0;
+    &>a {
+        background-color: #f8f8f8;
+        color: $black;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        box-sizing: border-box;
+        &:hover {
+            box-shadow: $btn-shadow;
+            color: $black;
+            border: none;
+        }
+        &:active {
+            background-color: $blue;
+            color: #fff;
+        }
+        margin-bottom: 10px;
+    }
+    &.active>a {
+        background-color: $blue;
+        color: #fff;
+        font-weight: normal;
+        border: none;
+        &:hover,
+        &:focus {
+            box-shadow: none;
+            background-color: $blue;
+            color: #fff;
+            font-weight: normal;
+        }
     }
 }
 
-a.tab {
+.tab-content.tab-content-bordered {
+    padding: 10px;
+}
+
+
+/* a.tab {
     background-color: $grey!important;
     color: $black!important;
     cursor: pointer;
     border: none!important;
     border-radius: 4px!important;
-    // margin: {
-    //     bottom: 2px!important;
-    // }
     // 选中状态在a标签上
     &.active {
         background-color: $blue!important;
@@ -708,7 +741,7 @@ a.tab {
             background-image: none!important;
         }
     }
-    /* hover */
+    // hover
     &:hover {
         box-shadow: $btn-shadow;
     }
@@ -718,7 +751,7 @@ a.tab {
         background-color: $blue!important;
         color: #fff!important;
     }
-}
+} */
 
 //其他表单内按钮、小按钮
 a.btn-sm {
@@ -823,6 +856,7 @@ a.btn-sm {
             outline: none;
             border: none;
             text-indent: 2em;
+            text-align: left;
             display: inline;
             &::-webkit-input-placeholder {
                 /* WebKit, Blink, Edge */
@@ -964,8 +998,8 @@ a.btn-sm {
 /* 首页快捷菜单 */
 
 a.shortcut-index {
-    width: 140px!important;
-    height: 80px!important;
+    width: 140px;
+    height: 80px;
     background-color: #fff;
     border-radius: 8px;
     text-align: center;
@@ -973,6 +1007,7 @@ a.shortcut-index {
     box-sizing: border-box;
     padding-top: 14px;
     line-height: 1;
+    box-shadow: $btn-shadow;
     i {
         color: #2c2c2c;
         font-size: 22px;

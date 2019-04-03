@@ -1,4 +1,4 @@
-<div class="panel-body">
+<div class="panel-body col-md-10 col-lg-10">
     <ul class="panel-head font-blue2">
         <li class="mr10">欢迎</li>
         <li class="mr10">
@@ -27,7 +27,7 @@
                 </ul>
             </div>
             <!-- Tab panes -->
-            <div class="tab-content p-panes" style="wdith:80%;">
+            <div class="tab-content p-panes">
                 <div role="tabpanel" class="tab-pane active" id="todo">
                     <div class="table-responsive table-list no-selectbox">
                         <table class="table table-hover ">
@@ -101,18 +101,34 @@
                     </div>
                 </div>
             </div>
-            <!-- 首页快捷菜单 -->
-            <div class="short-menu">
-                <a href="javascript:void(0);" class="shortcut-index">
-                    <i class="icon-nav">&#xe619;</i>
-                    <p>正式评审申请</p>
-                </a>
-            </div>
+
         </div>
     </div>
     <fill-material></fill-material>
 </div>
-
+<!-- 首页快捷菜单 -->
+<div class="short-menu">
+    <h1>快捷菜单</h1>
+    <a href="javascript:void(0);" class="shortcut-index">
+        <i class="icon-nav">&#xe61c;</i>
+        <p>投标评审申请</p>
+    </a>
+    <a href="javascript:void(0);" class="shortcut-index">
+        <i class="icon-nav">&#xe619;</i>
+        <p>正式评审申请</p>
+    </a>
+    <a href="javascript:void(0);" class="shortcut-index">
+        <i class="icon-nav">&#xe617;</i>
+        <p>其他评审申请</p>
+    </a>
+    <a href="javascript:void(0);" class="shortcut-index">
+        <i class="icon-nav">&#xe62d;</i>
+        <p>项目看板</p>
+    </a>
+    <a href="javascript:;" class="more">
+        <p>更多>></p>
+    </a>
+</div>
 
 <script>
     angular.element(document).ready(function() {
