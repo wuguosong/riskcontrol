@@ -1,9 +1,9 @@
 <div>
     <div class="row">
         <div class="full-drop">
-            <button type="button" ng-if="!isEdite && showController.isInvestmentManager && (hasWaiting  || wfState =='0' || wfState == undefined )" ng-click="_addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
-            <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="_deleteFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>删除</button>-->
-            <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined " ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>-->
+            <button type="button" ng-if="!isEdite && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" ng-click="_addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
+            <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" ng-click="_deleteFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>删除</button>-->
+            <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>-->
             <div  id="compareModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -37,7 +37,7 @@
                 <th ng-if="businessType != 'bulletin'"  width="8%">审核人</th>
                 <th  width="8%">最后提交人</th>
                 <th  width="10%">最后提交时间</th>
-                <th ng-if="!isEdite && showController.isInvestmentManager && (hasWaiting  || wfState =='0' || wfState == undefined)">相关操作</th>
+                <th ng-if="!isEdite && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)">相关操作</th>
             </tr>
             </thead>
             <tbody ng-repeat="item in fileList" ng-init="outerIndex = $index">
@@ -83,7 +83,7 @@
                 </td>
                 <td>{{item.lastUpdateBy.NAME}}</td>
                 <td>{{item.lastUpdateData}}</td>
-                <td ng-if="!isEdite && showController.isInvestmentManager && (hasWaiting  || wfState =='0' || wfState == undefined)">
+                <td ng-if="!isEdite && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)">
                     <button ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" type="button" class="btn btn-danger"  ng-click="_delete(item.fileid)">删除</button>
                     <button ng-if="item.preview3d != null && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" type="button" class="btn btn-info"  ng-click="_review(item.preview3d)">预览</button>
                    <!-- <directive-replace-file old-item="item"></directive-replace-file>-->
