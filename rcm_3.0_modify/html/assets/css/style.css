@@ -11,6 +11,20 @@ body {
   background-color: #e5e5e5;
 }
 
+#content-wrapper .panel,
+#content-wrapper .panel-default {
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+#content-wrapper .panel-body.panel-index1 {
+  width: 84%;
+}
+
+#content-wrapper .panel-body.panel-index1.panel-index2 {
+  width: 100%;
+}
+
 /* 下拉框颜色 */
 .select2-results .select2-highlighted {
   color: #666;
@@ -19,12 +33,6 @@ body {
 /* 单选框颜色 */
 .gt-ie8 input[type=radio].px + .lbl:after {
   background-color: #333;
-}
-
-/* 个人工作重心页面 */
-.panel,
-.panel-default {
-  box-shadow: none;
 }
 
 /* 页签部分 */
@@ -109,7 +117,7 @@ a.tab {
   top: 72px;
   right: 10px;
   background-color: #fff;
-  width: 15.7%;
+  width: 15%;
   box-sizing: border-box;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -127,18 +135,18 @@ a.tab {
 }
 
 .short-menu a.more {
-  color: #333;
+  color: #2b679d;
 }
 
 .short-menu a.more p {
-  font-size: 16px;
+  font-size: 14px;
   width: 140px;
   text-align: right;
   margin: 0 auto;
 }
 
 .short-menu a.more:hover {
-  color: #2b679d;
+  color: #1c4c77;
 }
 
 /* 左右分布页面 */
