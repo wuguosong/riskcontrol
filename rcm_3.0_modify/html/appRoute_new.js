@@ -1385,7 +1385,7 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
         })
 
         // 投标评审提交决策会材料详情
-        .when('/PreBiddingInfo/:id/:url', {
+        .when('/PreBiddingInfo/:id/:url/:flag', {
             controller: 'PreBiddingInfo',
             templateUrl: 'page/rcm/pre/decision/PreBiddingInfo.html',
             controllerAs: 'model',

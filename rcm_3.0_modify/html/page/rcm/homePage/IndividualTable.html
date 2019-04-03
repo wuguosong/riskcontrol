@@ -113,26 +113,43 @@
     <fill-material></fill-material>
 </div>
 <!-- 首页快捷菜单 -->
-<div class="short-menu">
+<div class="short-menu" ng-if="showFlag == 1">
     <h1>快捷菜单</h1>
-    <a href="javascript:void(0);" class="shortcut-index">
+    <a href="#/PreInfoList/0" class="shortcut-index">
         <i class="icon-nav">&#xe61c;</i>
         <p>投标评审申请</p>
     </a>
-    <a href="javascript:void(0);" class="shortcut-index">
+    <a href="#/FormalAssessmentInfoList/0" class="shortcut-index">
         <i class="icon-nav">&#xe619;</i>
         <p>正式评审申请</p>
     </a>
-    <a href="javascript:void(0);" class="shortcut-index">
+    <a href="#/BulletinMatters/0" class="shortcut-index">
+        <i class="icon-nav">&#xe617;</i>
+        <p>其他评审申请</p>
+    </a>
+    <a href="#/projectBoardList" class="shortcut-index">
+        <i class="icon-nav">&#xe62d;</i>
+        <p>项目看板</p>
+    </a>
+</div>
+
+<div class="short-menu" ng-if="showFlag == 2">
+    <h1>快捷菜单</h1>
+    <a href="#/BulletinMatters/0" class="shortcut-index">
         <i class="icon-nav">&#xe617;</i>
         <p>其他评审申请</p>
     </a>
     <a href="javascript:void(0);" class="shortcut-index">
+        <i class="icon-nav">&#xe620;</i>
+        <p>分析图表</p>
+    </a>
+    <a href="#/projectBoardList" class="shortcut-index">
         <i class="icon-nav">&#xe62d;</i>
         <p>项目看板</p>
     </a>
-    <a href="javascript:;" class="more">
-        <p>更多>></p>
+    <a href="#/MeetingManageList" class="shortcut-index">
+        <i class="icon-nav">&#xe62d;</i>
+        <p>决策会管理</p>
     </a>
 </div>
 

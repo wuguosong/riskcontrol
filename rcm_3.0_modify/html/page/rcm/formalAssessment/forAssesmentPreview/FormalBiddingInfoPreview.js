@@ -14,12 +14,34 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
 
         $scope.isWaitDecisionReviewList = function () {
             if ($scope.flag != undefined){
-                $scope.initData();
+                $scope.initUpdate($scope.waitId);
+            } else {
+                $scope.newAttachment = $scope.formalPreview.newAttachment;
             }
-        }
+        };
+
+        //处理附件列表
+        $scope.reduceAttachment = function(attachment, id){
+            $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
+            for(var i in attachment){
+                var file = attachment[i];
+                for (var j in $scope.newAttachment){
+                    if (file.fileId == $scope.newAttachment[j].fileid){
+                        $scope.newAttachment[j].fileName = file.fileName;
+                        $scope.newAttachment[j].type = file.type;
+                        $scope.newAttachment[j].itemType = file.itemType;
+                        $scope.newAttachment[j].programmed = file.programmed;
+                        $scope.newAttachment[j].approved = file.approved;
+                        $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                        $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                        break;
+                    }
+                }
+            }
+        };
 
         // 待决策项目传阅 初始化数据
-        $scope.initData = function () {
+        $scope.initUpdate = function (id) {
             $http({
                 method: 'post',
                 url: srvUrl + "formalReport/findFormalAndReport.do",
@@ -32,6 +54,8 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 $scope.stage = data.result_data.stage;
                 $scope.projectSummary = data.result_data.summary;
 
+                // 处理附件
+                $scope.reduceAttachment(data.result_data.Formal.attachmentList, id);
                 /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
                     if ($scope.flag == 3){
                         $location.path("/FormalBiddingInfo_view/"+ $scope.waitId +"@view/" + $scope.waitUrl);
@@ -43,8 +67,8 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                     return;
                 }*/
 
-                //处理附件列表
-                $scope.reduceAttachment(data.result_data.Formal.attachment);
+                /*//处理附件列表
+                $scope.reduceAttachment(data.result_data.Formal.attachment);*/
                 //新增附件类型
                 $scope.attach = data.result_data.attach;
                 //控制新增文件
@@ -89,7 +113,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             });
         }
 
-        //处理附件列表
+       /* //处理附件列表
         $scope.reduceAttachment = function (attachment) {
             $scope.newAttachment = [];
             for (var i in attachment) {
@@ -104,7 +128,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                     }
                 }
             }
-        }
+        }*/
 
         // 获取分数
         $scope.getMarks = function () {

@@ -110,12 +110,12 @@
 					</div>
 				</td>
 				<td>
-					<!--<button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"-->
-							<!--ngf-max-size="100MB"-->
-							<!--ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">-->
-						<!--<span>添加</span>-->
-					<!--</button>-->
-					<upload-file
+					<button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"
+							ngf-max-size="100MB"
+							ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
+						<span>添加</span>
+					</button>
+					<!--<upload-file
 							uploader = "{{'bzr_uploader'+$index}}"
 							id = "{{'bzr_id'+$index}}"
 							picker = "{{'bzr_piker'+$index}}"
@@ -125,7 +125,7 @@
 							file-bp = "{{'bzr_file_fileBp'+$index}}"
 							progress-line = "{{'bzr_file_progressLine'+$index}}"
 					>
-					</upload-file>
+					</upload-file>-->
 
 					<button ng-if="projectOverview.attachmentValue != null" class="btn-add btn-scale"
 							ngf-max-size="100MB"

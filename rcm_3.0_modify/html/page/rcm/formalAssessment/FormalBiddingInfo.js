@@ -7,7 +7,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         // 标识进来的方法
         var flag = $routeParams.flag;
         var params = $scope.complexId.split("@");
-        var objId = params[0];
+        $scope.businessId = params[0];
         $scope.formalReport = {};
         $scope.formalReport.policyDecision = {};
         $scope.isBtnShow = true;
@@ -25,7 +25,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             var s = myDate.getSeconds();
             var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
             return now;
-        }
+        };
 
         $scope.FormatDate = function () {
             var date = new Date();
@@ -34,7 +34,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 return num.replace(/^(\d)$/, "0$1");
             }
             return date.getFullYear() + "-" + paddNum(date.getMonth() + 1) + "-" + date.getDate();
-        }
+        };
 
         $scope.returnStatus = false;
         //初始化页面所需数据
@@ -44,12 +44,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             }
             $scope.getSelectSUMMARY_TEMPLATE('SUMMARY_TEMPLATE');
             $scope.getSelectINVESTMENT_TYPE('INVESTMENT_TYPE');
-        }
+            $scope.currentUser = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
+        };
 
         $scope.$watch('returnStatus', function() {
             if ($scope.returnStatus) {
-                $scope.getByID(objId);
-                $scope.getMarks(objId);
+                $scope.initUpdate($scope.businessId);
+                $scope.getMarks($scope.businessId);
                 $scope.getSelectTypeByCode("8");
                 $scope.getSelectTypeByCodetype('14');
                 $scope.dic2=[];
@@ -102,7 +103,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     url: srvUrl + "formalMark/saveOrUpdate.do",
                     data: $.param({
                         "json": JSON.stringify($scope.mark),
-                        "businessId": objId
+                        "businessId": $scope.businessId
                     }),
                     dataType: "json",
                     async: false,
@@ -124,7 +125,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         $scope.saveMeetingInfo = function (){
             console.log($scope.meetInfo);
             if ($scope.meetInfo != null && $scope.meetInfo != "") {
-                $scope.meetInfo.formalId = objId;
+                $scope.meetInfo.formalId = $scope.businessId;
                 var myMeetingInfo = angular.copy($scope.meetInfo);
                 myMeetingInfo.apply = $scope.pfr.apply;
                 // 保存项目评级
@@ -133,7 +134,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     url: srvUrl + "information/addConferenceInformation.do",
                     data: $.param({
                         "information": JSON.stringify(myMeetingInfo),
-                        "businessId": objId
+                        "businessId": $scope.businessId
                     }),
                     dataType: "json",
                     async: false,
@@ -151,7 +152,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             }
         }
 
-        $scope.getMarks = function (objId) {
+        $scope.getMarks = function (businessId) {
 
 //		$(".mark").bind('input propertychange', function() {
 //			if(this.value>this.attributes.max.value*1){
@@ -180,7 +181,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $http({
                 method: 'post',
                 url: srvUrl + "formalMark/queryMarks.do",
-                data: $.param({"businessId": objId})
+                data: $.param({"businessId": $scope.businessId})
             }).success(function (result) {
                 if (result.success) {
                     var mark = result.result_data;
@@ -264,12 +265,32 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     $.alert(result.result_name);
                 }
             });
-        }
+        };
+
+        //处理附件列表
+        $scope.reduceAttachment = function(attachment, id){
+            $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
+            for(var i in attachment){
+                var file = attachment[i];
+                for (var j in $scope.newAttachment){
+                    if (file.fileId == $scope.newAttachment[j].fileid){
+                        $scope.newAttachment[j].fileName = file.fileName;
+                        $scope.newAttachment[j].type = file.type;
+                        $scope.newAttachment[j].itemType = file.itemType;
+                        $scope.newAttachment[j].programmed = file.programmed;
+                        $scope.newAttachment[j].approved = file.approved;
+                        $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                        $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                        break;
+                    }
+                }
+            }
+        };
 
         // 模板选择框绑定值初始化
         $scope.formalReport.summaryTemplate = [];
         // 初始化提交决策会材料数据
-        $scope.getByID = function (projectFormalId) {
+        $scope.initUpdate = function (projectFormalId) {
             $http({
                 method: 'post',
                 url: srvUrl + "formalReport/findFormalAndReport.do",
@@ -280,6 +301,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $scope.meetInfo = data.result_data.MeetInfo;
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
+
+                // 处理附件
+                $scope.reduceAttachment(data.result_data.Formal.attachmentList, projectFormalId);
 
                 // 定义模板数据变量
                 $scope.projectSummary = {};
@@ -308,6 +332,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     if (storage.fileList != "undefined"  && storage.fileList != "" && storage.fileList != null){
                         $scope.formalReport.policyDecision.fileList = angular.copy(JSON.parse(storage.fileList));
                     }
+                    if (storage.newAttachment != "undefined"  && storage.newAttachment != "" && storage.newAttachment != null){
+                        $scope.newAttachment = angular.copy(JSON.parse(storage.newAttachment));
+                    }
                     $scope.formalReport.projectName = angular.copy(storage.projectName);
                     $scope.meetInfo.ratingReason = angular.copy(storage.ratingReason);
                     if(storage.projectType1 == 'true'){
@@ -330,8 +357,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     $scope.formalReport.summaryTemplate = angular.copy(JSON.parse(storage.summaryTemplate));
                 }
 
-                //处理附件列表
-                $scope.reduceAttachment(data.result_data.Formal.attachment);
+               /* //处理附件列表
+                $scope.reduceAttachment(data.result_data.Formal.attachment);*/
                 //新增附件类型
                 $scope.attach = data.result_data.attach;
                 //控制新增文件
@@ -355,7 +382,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             });
         }
 
-        //处理附件列表
+       /* //处理附件列表
         $scope.reduceAttachment = function (attachment) {
             $scope.newAttachment = [];
             for (var i in attachment) {
@@ -371,7 +398,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 }
             }
 
-        }
+        }*/
 
         $scope.getSelectTypeByCode = function (typeCode) {
             var url = 'common/commonMethod/getRoleuserByCode';
@@ -519,7 +546,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 return;
             }
 
-            $scope.getMarks(objId);
+            $scope.getMarks($scope.businessId);
             //验证空附件
             if (!$scope.validateVoidFile()) {
                 $.alert("附件不能为空！");
@@ -593,7 +620,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     } else if (method == "ss") {
                         if (data.result_data) {
                             alertData = "提交成功!";
-                            $location.path("/FormalBiddingInfoPreview/" + objId + "/" + $filter('encodeURI') + "/2");
+                            $location.path("/FormalBiddingInfoPreview/" + $scope.businessId + "/" + $filter('encodeURI') + "/2");
                         } else {
                             $.alert("请确保参会信息已填写完毕!");
                             return false;
@@ -2241,31 +2268,32 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         $scope.previewJson = function () {
             var formalPreview = $scope.combProjectSummaryJson();  // 存入模板数据
             formalPreview.stage = $scope.stage;
-            formalPreview.applyDate = $scope.applyDate
-            formalPreview.apply = $scope.pfr.apply       // 存入项目信息
-            formalPreview.taskallocation = $scope.pfr.taskallocation
-            formalPreview.cesuanFileOpinion = $scope.pfr.cesuanFileOpinion
-            formalPreview.tzProtocolOpinion = $scope.pfr.tzProtocolOpinion
-            formalPreview.approveAttachment = $scope.pfr.approveAttachment  // 风控中心审批
-            formalPreview.approveLegalAttachment = $scope.pfr.approveLegalAttachment  // 风控中心法律审批
-            formalPreview.submit_date = $scope.formalReport.submit_date   // 评审报告出具时间
+            formalPreview.applyDate = $scope.applyDate;
+            formalPreview.apply = $scope.pfr.apply;       // 存入项目信息
+            formalPreview.taskallocation = $scope.pfr.taskallocation;
+            formalPreview.cesuanFileOpinion = $scope.pfr.cesuanFileOpinion;
+            formalPreview.tzProtocolOpinion = $scope.pfr.tzProtocolOpinion;
+            formalPreview.approveAttachment = $scope.pfr.approveAttachment;  // 风控中心审批
+            formalPreview.approveLegalAttachment = $scope.pfr.approveLegalAttachment;  // 风控中心法律审批
+            formalPreview.submit_date = $scope.formalReport.submit_date;   // 评审报告出具时间
             if ($scope.meetInfo != null) {
-                formalPreview.projectRating = $scope.meetInfo.projectRating  // 评审等级
+                formalPreview.projectRating = $scope.meetInfo.projectRating;  // 评审等级
             } else {
                 formalPreview.projectRating = '';
             }
-            formalPreview.filePath = $scope.formalReport.filePath
-            formalPreview.projectName = $scope.formalReport.projectName
+            formalPreview.filePath = $scope.formalReport.filePath;
+            formalPreview.projectName = $scope.formalReport.projectName;
             if ($scope.formalReport.policyDecision != undefined) {
                 formalPreview.fileList = $scope.formalReport.policyDecision.fileList;
             } else {
                 formalPreview.fileList = [];
             }
 
-            formalPreview.mark = $scope.mark // 分数
+            formalPreview.newAttachment = $scope.newAttachment;
+            formalPreview.mark = $scope.mark; // 分数
 
-            formalPreview.url = $scope.oldUrl
-            formalPreview.id = $scope.complexId
+            formalPreview.url = $scope.oldUrl;
+            formalPreview.id = $scope.complexId;
 
             return formalPreview;
         }
@@ -2290,6 +2318,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 } else {
                     storage.fileList = [];
                 }
+                storage.newAttachment = JSON.stringify($scope.newAttachment);
                 storage.mark = JSON.stringify($scope.mark);
                 if ($scope.meetInfo != null) {
                     storage.ratingReason = $scope.meetInfo.ratingReason;

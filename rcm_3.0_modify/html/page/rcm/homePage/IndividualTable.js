@@ -4,7 +4,23 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
 		$scope.initializeCurrUserTaskInfo();
 		$scope.initNotificationFlatformInfo();
 		$scope.queryMeetingNoticeTop();
-	}
+
+		$scope.showFlag = 0;
+
+		// 判断首页快捷菜单栏显示
+		var currentUserRoles = $scope.credentials.roles;
+		angular.forEach(currentUserRoles, function (data, index, array) {
+			if (data.CODE == '6') { // 投资经理角色
+                $scope.showFlag = 1;
+			} else if (data.CODE == '14'){ // 业务评审负责人角色
+                $scope.showFlag = 2;
+			}
+        });
+
+		if ($scope.showFlag == 0){
+            $(".panel-index1").addClass("panel-index2");
+		}
+	};
 	
 	//初始化获取个人任务信息
 	$scope.initializeCurrUserTaskInfo = function(){
