@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>留言</title>
+    <script type="text/javascript" src="/html/assets/javascripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/html/assets/angularjs/angular-1.4.0/angular.js"></script>
+    <style>
+        ._message_msg {
+            font-size: small;
+            color: blue;
+        }
+
+        ._message_blue {
+            color: blue;
+            font-size: smaller;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ._message_content {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body data-ng-app="myApp" ng-controller="myCtrl">
+<!--留言表单,一般选择弹出方式-->
+<p style="text-align: center">关于流程审批的建议与意见</p>
+<div>
+    <form id="_message_form" name="_message_form" style="margin-left: 40px;">
+        <textarea ng-model="_message.messageContent" cols="200" rows="5" id="_message_content_"></textarea><br>
+        <input type="text" ng-model="_message.parentId" id="_parent_id_" ng-hide="true">
+        <input type="text" ng-model="_message.originalId" id="_original_id_" ng-hide="true">
+        <input type="text" ng-model="_message.procInstId" id="_proc_inst_id_" ng-hide="true">
+        <input type="text" ng-model="_message.repliedBy" id="_replied_by_" ng-hide="true">
+        <input type="text" ng-model="_message.repliedName" id="_replied_name_" ng-hide="true">
+        <button ng-click="_submit_message_()">提交留言</button>
+    </form>
+</div>
+<!--留言信息-->
+<div ng-repeat="_messages_ in _messages_array_"
+     style="margin-left: 40px;border: 1px solid black;margin-top: 2px;"
+     id="_messages_{{$index}}">
+    <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
+        <div ng-if="_message_.position == 'left'" style="margin-left: 10px;" id="_message_left_{{$index}}_{{_message_.messageId}}">
+            <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
+                <span class="_message_msg">{{_message_.createdName}}</span>
+                <span class="_message_blue">{{_message_.messageDate}}</span>
+                <!--root-->
+                <a href="javascript:void(0);" class="_message_content" id="_message_left_root_a_{{$index}}_{{_message_.messageId}}"
+                   ng-click="_show_message_form_(_message_.messageId, _message_.messageId, _message_.createdBy,_message_.createdName)"
+                   ng-if="_message_.parentId==0">回复</a>
+                <!--leaf-->
+                <a href="javascript:void(0);" class="_message_content" id="_message_left_leaf_a_{{$index}}_{{_message_.messageId}}"
+                   ng-click="_show_message_form_(_message_.originalId, _message_.messageId, _message_.createdBy,_message_.createdName)"
+                   ng-if="_message_.parentId!=0">回复</a>
+            </div>
+            <div>
+                <textarea cols="100" rows="5" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}">{{_message_.messageContent}}</textarea>
+            </div>
+        </div>
+        <div ng-if="_message_.position == 'right'" style="margin-left: 52%;" id="_message_right_{{$index}}_{{_message_.messageId}}">
+            <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
+                <span class="_message_msg">{{_message_.createdName}}</span>
+                <span class="_message_blue">{{_message_.messageDate}}</span>
+                <!--root-->
+                <a href="javascript:void(0);" class="_message_content" id="_message_right_root_a_{{$index}}_{{_message_.messageId}}"
+                   ng-click="_show_message_form_(_message_.messageId, _message_.messageId, _message_.createdBy,_message_.createdName)"
+                   ng-if="_message_.parentId==0">回复</a>
+                <!--leaf-->
+                <a href="javascript:void(0);" class="_message_content" id="_message_right_leaf_a_{{$index}}_{{_message_.messageId}}"
+                   ng-click="_show_message_form_(_message_.originalId, _message_.messageId, _message_.createdBy,_message_.createdName)"
+                   ng-if="_message_.parentId!=0">回复</a>
+            </div>
+            <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}">
+                <textarea cols="100" rows="5" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}">{{_message_.messageContent}}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var app = angular.module("myApp", []);
+    app.controller('myCtrl', function ($scope, $http) {
+        // 初始化留言表单
+        $scope._message = {};
+        $scope._message.originalId = 0;
+        $scope._message.parentId = 0;
+        $scope._message.procInstId = 1008611;
+        $scope._message.repliedBy = '';
+        $scope._message.repliedName = '';
+        // 展示留言表单
+        $scope._show_message_form_ = function (_original_id_, _parent_id_, _replied_by_, _replied_name_) {
+            $scope._message.originalId = _original_id_;
+            $scope._message.parentId = _parent_id_;
+            $scope._message.procInstId = 1008611;
+            $scope._message.repliedBy = _replied_by_;
+            $scope._message.repliedName = _replied_name_;
+        };
+        // 提交留言表单
+        $scope._submit_message_ = function () {
+            console.log($scope._message);
+            if ($scope._message.messageContent == null || $scope._message.messageContent == '') {
+                alert('留言内容不能为空!');
+                return;
+            }
+            $http({
+                method: 'post',
+                url: 'http://localhost:8080/rcm-rest/message/add.do',
+                data: $.param($scope._message),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                console.log(data);
+                window.location.reload(true);
+            });
+        };
+        // 删除留言信息
+        $scope._delete_message_ = function (_message_id_) {
+            if (confirm('确认删除?')) {
+                $http({
+                    method: 'post',
+                    url: 'http://localhost:8080/rcm-rest/message/delete.do',
+                    data: $.param({
+                        'messageId': _message_id_
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    console.log(data);
+                    window.location.reload(true);
+                });
+            }
+        };
+        $scope._query_messages_list_ = function (_parent_id_) {
+            $http({
+                method: 'post',
+                url: 'http://localhost:8080/rcm-rest/message/queryMessagesList.do',
+                data: $.param({
+                    'procInstId': '1008611',
+                    'parentId': _parent_id_
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                console.log(data);
+                $scope._messages_array_ = data;
+            });
+        };
+        // 展示留言表单
+        $scope._show_message_form_ = function (_original_id_, _parent_id_, _replied_by_, _replied_name_) {
+            $scope._message.originalId = _original_id_;
+            $scope._message.parentId = _parent_id_;
+            $scope._message.procInstId = 1008611;
+            $scope._message.repliedBy = _replied_by_;
+            $scope._message.repliedName = _replied_name_;
+            alert(_original_id_ + " " + _parent_id_ + " " + _replied_by_ + " " + _replied_name_);
+        }
+        $scope._query_messages_list_(0);
+    });
+</script>
+</body>
+</html>
