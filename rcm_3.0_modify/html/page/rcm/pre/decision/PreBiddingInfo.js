@@ -2,6 +2,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
     function ($http,$scope,$location,$routeParams,Upload,$filter) {
         $scope.selectFlag = 'false';
         $scope.oldUrl = $routeParams.url;
+        var flag = $routeParams.flag;
         //申请报告ID
         var complexId = $routeParams.id;
         var params = complexId.split("@");
@@ -33,10 +34,10 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             return date.getFullYear()+"-"+paddNum(date.getMonth()+1)+"-"+date.getDate();
         };
 
-        $scope.returnStatus = false;
         //初始化页面所需数据
         $scope.initData = function () {
-            $scope.getByBusinessId(businessId);
+            $scope.currentUser = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
+            $scope.initUpdate(businessId);
             $scope.getMarks(businessId);
             $scope.getSelectTypeByCode("8");
             $scope.getSelectTypeByCodetype('14');
@@ -248,9 +249,31 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 }
             });
             /* $scope.projectlisttype = selectDocItem(typeCode);*/
-        }
+        };
 
-        $scope.getByBusinessId = function(businessId){
+        //处理附件列表
+        $scope.reduceAttachment = function(attachment, id){
+            $scope.newAttachment = attach_list("preReview", id, "preInfo").result_data;
+            for(var i in attachment){
+                var file = attachment[i];
+                console.log(file);
+                for (var j in $scope.newAttachment){
+                    if (file.fileId == $scope.newAttachment[j].fileid){
+                        $scope.newAttachment[j].fileName = file.fileName;
+                        $scope.newAttachment[j].type = file.type;
+                        $scope.newAttachment[j].itemType = file.itemType;
+                        $scope.newAttachment[j].programmed = file.programmed;
+                        $scope.newAttachment[j].approved = file.approved;
+                        $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                        $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                        break;
+                    }
+                }
+
+            }
+        };
+
+        $scope.initUpdate = function(businessId){
             $http({
                 method:'post',
                 url:srvUrl+"preBidding/getByBusinessId.do",
@@ -258,13 +281,48 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             }).success(function(data){
                 $scope.pfr  = data.result_data.preMongo;
                 $scope.preBidding  = $scope.pfr;
-                $scope.preBidding.id = $scope.pfr.id;
+                $scope.preBidding.id = businessId;
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
                 $scope.reportOracle = data.result_data.reportOracle;
 
-                //处理附件列表
-                $scope.reduceAttachment($scope.pfr.attachment);
+                $scope.reduceAttachment($scope.pfr.attachmentList, businessId);
+
+                if(flag == 1){
+                    var storage = window.localStorage;
+                    if ($scope.preBidding.meetingInfo == null) {
+                        $scope.preBidding.meetingInfo = [];
+                    }
+                    if (storage.fileList != "undefined"  && storage.fileList != "" && storage.fileList != null) {
+                        $scope.preBidding.policyDecision.fileList  = angular.copy(JSON.parse(storage.fileList));
+                    }
+                    if (storage.newAttachment != "undefined"  && storage.newAttachment != "" && storage.newAttachment != null){
+                        $scope.newAttachment = angular.copy(JSON.parse(storage.newAttachment));
+                    }
+                    $scope.mark = angular.copy(JSON.parse(storage.mark));
+                    $scope.preBidding.meetingInfo.investmentType = angular.copy(JSON.parse(storage.investmentType));
+                    $scope.preBidding.meetingInfo.projectRating = angular.copy(JSON.parse(storage.projectRating));
+                    $scope.preBidding.meetingInfo.ratingReason = angular.copy(storage.ratingReason);
+                    if(storage.projectType1 == 'true'){
+                        $scope.preBidding.meetingInfo.projectType1 = true;
+                    }else{
+                        $scope.preBidding.meetingInfo.projectType1 = false;
+                    }
+                    if(storage.projectType2 == 'true'){
+                        $scope.preBidding.meetingInfo.projectType2 = true;
+                    }else{
+                        $scope.preBidding.meetingInfo.projectType2 = false;
+                    }
+                    if(storage.projectType3 == 'true'){
+                        $scope.preBidding.meetingInfo.projectType3 = true;
+                    }else{
+                        $scope.preBidding.meetingInfo.projectType3 = false;
+                    }
+                    $scope.preBidding.meetingInfo.isUrgent = angular.copy(storage.isUrgent);
+                }
+
+               /* //处理附件列表
+                $scope.reduceAttachment($scope.pfr.attachment);*/
                 //新增附件类型
                 $scope.attach  = data.result_data.attach;
                 //控制新增文件
@@ -286,7 +344,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             });
         }
 
-        //处理附件列表
+        /*//处理附件列表
         $scope.reduceAttachment = function(attachment){
             $scope.newAttachment = [];
             for(var i in attachment){
@@ -301,7 +359,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                     }
                 }
             }
-        }
+        }*/
 
         $scope.downLoadFormalBiddingInfoFile = function(filePath,filename){
             var isExists = validFileExists(filePath);
@@ -953,9 +1011,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             prePreview.mark = $scope.mark; // 分数
 
             prePreview.url = $scope.oldUrl;
-            prePreview.id = $scope.complexId;
-
-            console.log(prePreview);
+            prePreview.id = complexId;
 
             return prePreview;
         }
@@ -984,8 +1040,8 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 }
                 storage.mark = JSON.stringify($scope.mark);
                 if ($scope.preBidding.meetingInfo != null) {
-                    storage.investmentType = $scope.preBidding.meetingInfo.investmentType;
-                    storage.projectRating = $scope.preBidding.meetingInfo.projectRating;
+                    storage.investmentType = JSON.stringify($scope.preBidding.meetingInfo.investmentType);
+                    storage.projectRating = JSON.stringify($scope.preBidding.meetingInfo.projectRating);
                     storage.ratingReason = $scope.preBidding.meetingInfo.ratingReason;
                     storage.projectType1 = $scope.preBidding.meetingInfo.projectType1;
                     storage.projectType2 = $scope.preBidding.meetingInfo.projectType2;

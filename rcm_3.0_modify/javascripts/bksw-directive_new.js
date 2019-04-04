@@ -376,7 +376,7 @@ ctmApp.directive('directReportOrgSelect', function() {
             //是否可编辑，默认为true
             isEditable:"=",
             //是否分页，默认为false
-            isPage:"=?bind",
+            isPage:"=",
             //查询参数，非必填
             queryParams: "=",
             //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}

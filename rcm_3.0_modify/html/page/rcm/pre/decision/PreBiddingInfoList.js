@@ -88,7 +88,7 @@ function ($http,$scope,$location,$routeParams,$filter) {
     		var chkValue_len = chkValue.length;
     		idsStr = idsStr + chkValue[chkValue_len - 1];
     	}
-		$location.path("/PreBiddingInfo/"+idsStr+"@0/"+$filter('encodeURI')('#/PreBiddingInfoList/0'));
+		$location.path("/PreBiddingInfo/"+idsStr+"@0/"+$filter('encodeURI')('#/PreBiddingInfoList/0')+ "/0");
 	}
 	$scope.initData();
 }]);
