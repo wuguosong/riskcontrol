@@ -44,18 +44,18 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	$scope.dic=[];
 	$scope.task={};
 	$scope.pfr.approveLegalAttachment = {};
-	
+
 	//专业评审控制器
 	$scope.approveShow = true;
 	//法律评审控制器
 	$scope.approveLegalShow = true;
-	
+
 	//专家评审控制器
 	$scope.approveMajorShow = true;
 	$scope.isApproveMajorShow ='false';
 	//专家评审意见
 	$scope.pfr.approveMajorCommontsShow = true;
-	
+
 	//当前用户id
 	$scope.currentUserId={};
 	//旧流程当前节点判断
@@ -69,7 +69,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			$scope.showSaveBtn = true;
 			$("#legalReviewComments").show();
 		}else if($scope.oldURL.indexOf("PreReviewCommentsR/approve")>0){
-			//专业评审 
+			//专业评审
 			$scope.showController.isReviewLeader = true;
 			$scope.showSaveBtn = true;
 			$("#reviewComments").show();
@@ -91,7 +91,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			$("#taskAssignment1").show();
 		}
 	}
-	
+
 	//新流程相关
 	$scope.initPage = function(){
 		if($scope.isOldFlow ){
@@ -109,7 +109,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			$scope.refreshImg = Math.random()+1;
 		}
 	}
-	
+
 	$scope.dealVersion = function(fileList){
 		if(null == fileList|| !Array.isArray(fileList) || fileList.length == 0 ){
 			return [];
@@ -129,16 +129,16 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		//2循环反馈的附件，给没有版本号的附件设置版本号
 		for(var i = 0 ; i<fileList.length; i++){
 			var uuid = fileList[i].attachmentUList.UUID;
-			
+
 			if( (null == fileList[i].attachment_new || '' == fileList[i].attachment_new) ||
 				(fileList[i].attachment_new.version != null && '' != fileList[i].attachment_new.version)){
-				
+
 				if( typeof(fileList[i].attachment_new.version) == "number"){
 					fileList[i].attachment_new.version = fileList[i].attachment_new.version+'';
 				}
 				continue;
 			}
-			
+
 			fileList[i].attachment_new.version = versionObj[uuid]*1+1+'';
 			versionObj[uuid] = versionObj[uuid]*1+1;
 		}
@@ -157,11 +157,11 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}
 		return approveLegalAttachment;
 	}
-	
+
 	//局部保存
 	$scope.save = function(callback){
 		show_Mask();
-		
+
 		//法律评审负责人//基层法务
 		if($scope.showController.isLegalReviewLeader || $scope.showController.isGrassRootsLegal){
 			var attachmentNew =  $scope.pfr.approveLegalAttachment.attachmentNew;
@@ -186,13 +186,13 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			//处理版本号是数字问题
 			$scope.pfr.approveLegalAttachment = $scope.reduceVersion($scope.pfr.approveLegalAttachment);
 			$http({
-				method:'post',  
+				method:'post',
 			    url: srvUrl + "formalAssessmentInfo/saveLegalReviewInfo.do",
 			    data:$.param({"businessId":$scope.businessId,"json":JSON.stringify(angular.copy($scope.pfr.approveLegalAttachment))})
 			}).success(function(data){
 				if(data.success){
 					if(callback){
-						
+
 						//验证法律负责人
 						if($scope.showController.isLegalReviewLeader){
 							var commentsList =  $scope.pfr.approveLegalAttachment.commentsList;
@@ -234,7 +234,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 								}
 							}
 						}
-						
+
 						hide_Mask();
 						callback();
 					}else{
@@ -249,7 +249,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			});
 		}else if($scope.showController.isReviewLeader || $scope.showController.isInvestmentManagerBack){
 			//评审负责人 //投资经理反馈
-			
+
 			var attachmentNew =  $scope.pfr.approveAttachment.attachmentNew;
 			for(var i in attachmentNew){
 				if(attachmentNew[i].isReviewLeaderEdit =='1'){
@@ -271,7 +271,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //			}
 			$scope.pfr.approveAttachment = $scope.reduceVersion($scope.pfr.approveAttachment);
 			$http({
-				method:'post',  
+				method:'post',
 			    url: srvUrl + "formalAssessmentInfo/saveReviewInfo.do",
 			    data:$.param({"businessId":$scope.businessId,"json":JSON.stringify(angular.copy($scope.pfr.approveAttachment)),"professionalReviewersJson":JSON.stringify($scope.myTaskallocation.professionalReviewers)})
 			}).success(function(data){
@@ -279,7 +279,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					$.alert("保存失败");
 					hide_Mask();
 					return;
-				}				
+				}
 				if(callback){
 					//验证
 					if($scope.showController.isReviewLeader){
@@ -298,7 +298,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							hide_Mask();
 							return false;
 						}
-						
+
 						var attachmentNew =  $scope.pfr.approveAttachment.attachmentNew;
 						for(var i in attachmentNew){
 							if(attachmentNew[i].isReviewLeaderEdit =='1'){
@@ -329,12 +329,12 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					$scope.initData();
 					hide_Mask();
 				}
-				
+
 			});
 		}else if($scope.showController.isMajorMember ){
 			//保存  专家评审意见
 			$http({
-				method:'post',  
+				method:'post',
 			    url: srvUrl + "formalAssessmentInfo/saveMajMemberInfo.do",
 			    data:$.param({"businessId":$scope.businessId,"json":JSON.stringify($scope.pfr.approveMajorCommonts)})
 			}).success(function(data){
@@ -342,7 +342,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					$.alert("保存失败");
 					hide_Mask();
 					return;
-				}				
+				}
 				if(callback){
 					//验证
 					if($scope.showController.isMajorMember){
@@ -366,11 +366,11 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 										return false;
 										break;
 									}
-									
+
 								}
 							}
-							
-						
+
+
 						}
 						//return falg;
 					}
@@ -388,7 +388,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					$.alert(data.result_name);
 					hide_Mask();
 				}
-				
+
 			});
 		}else{
 			hide_Mask();
@@ -397,7 +397,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			}
 		}
 	}
-	
+
 	/*
 	 * 根据业务id查询节点信息
 	 */
@@ -406,9 +406,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		if($scope.taskMark != null && $scope.taskMark !=''){
 			paramObj.taskMark = $scope.taskMark;
 		}
-		
+
 		$http({
-			method:'post',  
+			method:'post',
 		    url: srvUrl + "formalAssessmentAudit/queryTaskInfoByBusinessId.do",
 		    data:$.param(paramObj)
 		}).success(function(data){
@@ -434,24 +434,24 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					else if (document.isServiewType != undefined && document.isServiewType!=null&&document.isServiewType!=""){
 						$scope.showController.isServiewType = true;
 						$("#reviewComments").show();
-					} 
+					}
 					//任务分配
 					else if (document.isTask != undefined && document.isTask!=null && document.isTask!=""){
 						$scope.showController.isTask = true;
-						
+
 						if(document.isSignLegal != null){
 							$scope.showController.isSignLegal = true;
 						}else{
 							$scope.isTaskLegalEdit = 'true';
 						}
-						
+
 						$scope.isTaskEdit = 'true'
 						$("#taskAssignment1").show();
-					} 
+					}
 					//投资经理
 					else if (document.isInvestmentManager != undefined && document.isInvestmentManager!=null&&document.isInvestmentManager!=""){
 						$scope.showController.isInvestmentManager = true;
-					} 
+					}
 					//法律评审负责人
 					else if (document.isLegalReviewLeader != undefined && document.isLegalReviewLeader!=null&&document.isLegalReviewLeader!=""){
 						$scope.showController.isLegalReviewLeader = true;
@@ -463,12 +463,12 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 						$scope.showController.isGrassRootsLegal = true;
 						$scope.showSaveBtn = true;
 						$("#legalReviewComments").show();
-					} 
+					}
 					//一级法务
 					else if (document.isFirstLevelLawyer != undefined && document.isFirstLevelLawyer!=null&&document.isFirstLevelLawyer!=""){
 						$scope.showController.isFirstLevelLawyer = true;
 						$("#legalReviewComments").show();
-					} 
+					}
 					//固定小组成员
 					else if (document.isGroupMember != undefined && document.isGroupMember!=null&&document.isGroupMember!=""){
 						$scope.showController.isGroupMember = true;
@@ -492,7 +492,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					//评审负责人确认
 					else if (document.isReviewLeaderConfirm != undefined && document.isReviewLeaderConfirm!=null&&document.isReviewLeaderConfirm!=""){
 						$scope.showController.isReviewLeaderConfirm = true;
-					} 
+					}
 					//投资经理反馈
 					else if (document.isInvestmentManagerBack != undefined && document.isInvestmentManagerBack!=null&&document.isInvestmentManagerBack!=""){
 						$scope.showController.isInvestmentManagerBack = true;
@@ -504,8 +504,8 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 						$scope.showController.isSelectLegalLeader = true;
 						$scope.isTaskLegalEdit = 'true';
 					}
-					
-					
+
+
 					if($scope.taskMark != null && $scope.taskMark != ''){
 						$scope.showController = {};
 						if($scope.taskMark == 'managerTask'){
@@ -558,7 +558,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							$("#reviewComments").show();
 							//专家评审选择 div
 							$("#taskAssignment5").show();
-							
+
 						}else if($scope.taskMark == 'managerBackTask'){
 							//投资经理反馈节点
 							$scope.showController.isInvestmentManagerBack = true;
@@ -577,15 +577,15 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 							$scope.showController.isReviewLeaderConfirm = true;
 						}
 					}
-					
+
 				}
 			}
 		});
 	}
-	
+
 //	$scope.getUserByRoleCode = function(code){
 //		$http({
-//			method:'post',  
+//			method:'post',
 //		    url: srvUrl + "role/queryRoleuserByCode.do",
 //		    data:$.param({"code":code})
 //		}).success(function(data){
@@ -614,7 +614,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //		$scope.getUserByRoleCode("5");
 //		$scope.getSelectTypeByCodeRole("8");
 	}
-	
+
 //	$scope.getSelectTypeByCodeRole=function(typeCode){
 //        var  url = 'common/commonMethod/getRoleuserByCode';
 //        $scope.httpData(url,typeCode).success(function(data){
@@ -625,7 +625,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //            }
 //        });
 //    }
-	
+
 	//固定小组成员选人指令提供参数
 	$scope.queryParams = {code:"4"};
 	$scope.fixGroupModelCallBack = function(checkedUsers){
@@ -636,13 +636,13 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}
 		name = name.substring(1);
 		$scope.fixgroupMemberName = name;
-		
+
 	}
 	$scope.showFixGroupModel = function(){
 		$("#fixGroupModel").modal('show');
 	}
-	
-	
+
+
 	//专业评审选人指令提供参数
 	$scope.queryParams = {code:"4"};
 	$scope.professionalReviewersModelCallBack = function(checkedUsers){
@@ -653,7 +653,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}
 		name = name.substring(1);
 		$scope.professionalReviewers = name;
-		
+
 	}
 	$scope.showProfessionalReviewersModel = function(){
 		$("#professionalReviewersModel").modal('show');
@@ -662,7 +662,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	$scope.queryAuditLogsByBusinessId = function (businessId){
     	var  url = 'formalAssessmentAudit/queryAuditedLogsById.do';
         $http({
-			method:'post',  
+			method:'post',
 		    url: srvUrl + url,
 		    data: $.param({"businessId":businessId})
 		}).success(function(result){
@@ -671,7 +671,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	}
 	//提交流程 旧流程
 	$scope.showOldSubmitModal = function(type){
-		
+
 		$scope.save(function(){
 			if($scope.oldURL.indexOf("ProjectFormalReviewDetail/Edit")>0){
 				$scope.investmentManagerNodeAudit();
@@ -691,9 +691,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 				$scope.LegalFeedbackNodeAudit();
 			}else if($scope.oldURL.indexOf("PreReviewCommentsL")>0){
 				//法律评审
-				$scope.legalNodeAudit(); 
+				$scope.legalNodeAudit();
 			}else if($scope.oldURL.indexOf("TaskAssignment")>0){
-				$scope.taskNodeAudit(); 
+				$scope.taskNodeAudit();
 			}else if($routeParams.action=='View'){
 				var companyHeader = $scope.pfr.apply.companyHeader;
 				$scope.approve = [{
@@ -847,7 +847,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			$scope.approve[0].submitInfo.taskId=params[3];
 		}
 	}
-	
+
 	//提交材料及报告提交框信息
 	$scope.reviewLeaderConfirmNodeAudit = function(){
         var curUser = $scope.credentials;
@@ -872,7 +872,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
             }
         }];
 	}
-	
+
 	//投资经理反馈提交框信息
 	$scope.investManagerFeedbackNodeAudit = function(){
             var investmentManager = $scope.pfr.apply.investmentManager;//投资经理
@@ -952,7 +952,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
             showInfo:{destination:'评审负责人确认',approver:reviewLeader.NAME}
         }];
 	}
-	
+
 	//旧流程评审负责人初审提交框信息
 	$scope.reviewLeaderNodeAudit = function(){
 
@@ -964,7 +964,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
         	var task = null;
       	  	var url=srvUrl+"bpmn/queryTaskById.do";
       		var reqparams = {
-      			taskId: params[3]	
+      			taskId: params[3]
       		};
       		$.ajax({
       		  url: url,
@@ -975,7 +975,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
       	    	success: function(data){
       	    		if(data.success){
       	    			task = data.result_data;
-      	            }else{ 
+      	            }else{
       	                $.alert(data.result_name);
       	            }
       	    	}
@@ -1086,9 +1086,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
             }];
         }
 	}
-	
-	
-	
+
+
+
 	//旧流程基层法务反馈提交框信息
 	$scope.LegalFeedbackNodeAudit = function(){
         var companyHeader = $scope.pfr.apply.companyHeader;//单位负责人
@@ -1250,7 +1250,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
   	    	success: function(data){
   	    		if(data.success){
   	    			task = data.result_data;
-  	            }else{ 
+  	            }else{
   	                $.alert(data.result_name);
   	            }
   	    	}
@@ -1342,15 +1342,15 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
             }];
     	}
 	}
-	
+
 	//弹出审批框新版
 	//提交
 	$scope.showSubmitModal = function(){
 		$scope.save(function(){
 			if($scope.taskMark == null || $scope.taskMark == ''){
-				
+
 				$http({
-					method:'post',  
+					method:'post',
 					url: srvUrl + "formalAssessmentAudit/querySingleProcessOptions.do",
 					data: $.param({
 						"businessId":  $scope.businessId
@@ -1382,7 +1382,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 				});
 			}else{
 				$http({
-					method:'post',  
+					method:'post',
 					url: srvUrl + "formalAssessmentAudit/querySingleProcessOptions.do",
 					data: $.param({
 						"businessId":  $scope.businessId,
@@ -1414,7 +1414,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					// $('#submitModal').modal('show');
 				});
 			}
-			
+
 		});
 	};
 
@@ -1445,8 +1445,8 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	$scope.initUpdate=function(id){
 		var  url = 'formalAssessmentInfo/getFormalAssessmentByID.do';
 		$http({
-			method:'post',  
-		    url:srvUrl+url, 
+			method:'post',
+		    url:srvUrl+url,
 		    data: $.param({"id":id})
 		}).success(function(data){
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
@@ -1468,11 +1468,11 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 					$scope.currentUserId = data.result_data.currentUserId;
 				}
 			}
-			
+
 			$scope.attach = data.result_data.attach;
             // 处理附件
             $scope.reduceAttachment(data.result_data.formalAssessmentMongo.attachmentList, id);
-			
+
 			var ptNameArr=[],pmNameArr=[],pthNameArr=[],fgNameArr=[];
 			var pt1NameArr=[];
 			var pt1=$scope.pfr.apply.serviceType;
@@ -1522,7 +1522,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			if(undefined==$scope.pfr.approveMajorCommonts){
 				$scope.approveMajorShow = false;
 			}
-			
+
 			$scope.fileName=[];
 			var filenames=$scope.pfr.attachment;
                 if (filenames != null && filenames != [] && filenames != undefined) {
@@ -1549,7 +1549,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	$scope.getSelectTypeByCodeL=function(typeCode){
         var  url = 'common/commonMethod/selectDataDictionByCode';
         $http({
-			method:'post',  
+			method:'post',
 		    url: srvUrl + url,
 		    data: typeCode
 		}).success(function(data){
@@ -1563,7 +1563,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	$scope.getSelectTypeByCode=function(typeCode){
 		var  url = 'common/commonMethod/selectDataDictionByCode';
 		$http({
-			method:'post',  
+			method:'post',
 		    url: srvUrl + url,
 		    data: typeCode
 		}).success(function(data){
@@ -1577,7 +1577,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	$scope.getSelectTypeByCode2=function(typeCode){
 		var  url = 'common/commonMethod/selectDataDictionByCode';
 		$http({
-			method:'post',  
+			method:'post',
 		    url: srvUrl + url,
 		    data: typeCode
 		}).success(function(data){
@@ -1588,7 +1588,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			}
 		});
 	}
-	
+
 	var Utils = {};
 	// textArea换行符转<br/>
 	Utils.encodeTextAreaString= function(str) {
@@ -1596,7 +1596,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		str = str.replace(reg, "\n");
 		return str;
 	}
-	
+
 	$scope.addFormalComment = function(){
         function addBlankRow(array){
             var blankRow = {
@@ -1656,7 +1656,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
         }
         addBlankRow($scope.pfr.approveAttachment.attachmentNew);
     }
-	
+
 	//添加法律评审意见
 	$scope.addFormalLegalComment = function(){
         function addBlankRow(array){
@@ -1733,7 +1733,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //        }
 //        if(typeof(openPopWin)=='function') {
 //        	$http({
-//    			method:'post',  
+//    			method:'post',
 //    		    url: srvUrl + url,
 //    		    data: $scope.pfr
 //    		}).success(function(data){
@@ -1747,7 +1747,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //    		});
 //        }else{
 //        	$http({
-//    			method:'post',  
+//    			method:'post',
 //    		    url: srvUrl + url,
 //    		    data: $scope.pfr
 //    		}).success(function(data){
@@ -1757,7 +1757,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //    		});
 //        }
 //    }
-	
+
 	//添加专家评审意见
 	$scope.addFormalMajorComment = function(obj){
         if(obj.commentsList == null){
@@ -1788,11 +1788,11 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 				obj.commentsList.splice(i,1);
                 i--;
 			}
-		
+
 		}
     }
-	
-	
+
+
 	//上传
 	$scope.errorAttach=[];
 	//评审负责人上传文件
@@ -1838,7 +1838,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	                	retData.version = versionNun;
 	                }
 	                $scope.pfr.approveAttachment.attachmentNew[idx].attachment_new=retData;
-	                
+
 	            }, function (resp) {
 	                console.log('Error status: ' + resp.status);
 	            }, function (evt) {
@@ -2585,4 +2585,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
      };
      $scope._notifyInitNotifiesUser("formalReview", $routeParams.id);
      /***************************知会和加签*******************************/
+     $scope._init_uuid_ = $scope.credentials.UUID;
+     $scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
 }]);

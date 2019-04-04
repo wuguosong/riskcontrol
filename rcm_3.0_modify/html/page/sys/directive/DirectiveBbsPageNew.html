@@ -1,0 +1,72 @@
+<div>
+    <p style="text-align: center">关于流程审批的建议与意见</p>
+    <form id="_message_form_first" name="messageFormFirst" class="form-horizontal" style="text-align: center;">
+        <textarea ng-model="_message_first.messageContent" class="form-control" style="margin-bottom: 2px;"></textarea>
+        <input type="text" ng-model="_message_first.parentId" ng-hide="true">
+        <input type="text" ng-model="_message_first.originalId" ng-hide="true">
+        <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
+        <input type="text" ng-model="_message_first.repliedBy" ng-hide="true">
+        <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
+        <a href="javascript:void(0);" style="text-align: center;" ng-click="_submit_message_form_('Y')">发表留言</a>
+    </form>
+    <div ng-repeat="_messages_ in _messages_array_"
+         id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
+        {{$index + 1}}楼
+        <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
+            <div ng-if="_message_.position == 'left'" style="margin-right: 55%;margin-bottom: 10px;" id="_message_left_{{$index}}_{{_message_.messageId}}">
+                <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
+                    <textarea class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}" readonly>{{_message_.messageContent}}</textarea>
+                </div>
+                <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
+                    <span style="font-size: small;color: blue;">{{_message_.createdName}}</span>
+                    <span style="color: blue; font-size: smaller;">{{_message_.messageDate}}</span>
+                    <!--root-->
+                    <a href="javascript:void(0);" style="font-size: 12px;" id="_message_left_root_a_{{$index}}_{{_message_.messageId}}"
+                       ng-click="_show_message_form_(_message_.messageId, _message_.messageId, _message_.createdBy,_message_.createdName, '_message_form_left_' + $index + '_' + _message_.messageId)"
+                       ng-if="_message_.parentId==0 && _init_uuid_global_!=_message_.createdBy">回复</a>
+                    <!--leaf-->
+                    <a href="javascript:void(0);" style="font-size: 12px;" id="_message_left_leaf_a_{{$index}}_{{_message_.messageId}}"
+                       ng-click="_show_message_form_(_message_.originalId, _message_.messageId, _message_.createdBy,_message_.createdName, '_message_form_left_' + $index + '_' + _message_.messageId)"
+                       ng-if="_message_.parentId!=0 && _init_uuid_global_!=_message_.createdBy">回复</a>
+                </div>
+                <form id="_message_form_left_{{$index}}_{{_message_.messageId}}" name="messageForm" class="form-horizontal" hidden="hidden" style="text-align: right;">
+                    <textarea ng-model="_message.messageContent" class="form-control"></textarea>
+                    <input type="text" ng-model="_message.parentId" ng-hide="true">
+                    <input type="text" ng-model="_message.originalId" ng-hide="true">
+                    <input type="text" ng-model="_message.procInstId" ng-hide="true">
+                    <input type="text" ng-model="_message.repliedBy" ng-hide="true">
+                    <input type="text" ng-model="_message.repliedName" ng-hide="true">
+                    <a href="javascript:void(0);" style="font-size: 12px;" ng-click="_submit_message_form_('N')">回复</a>
+                    <a href="javascript:void(0);" style="font-size: 12px;" ng-click="_submit_message_cancel_('_message_form_left_' + $index + '_' + _message_.messageId)">取消</a>
+                </form>
+            </div>
+            <div ng-if="_message_.position == 'right'" style="margin-left: 55%;margin-bottom: 10px;" id="_message_right_{{$index}}_{{_message_.messageId}}">
+                <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
+                    <textarea class="form-control" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly>{{_message_.messageContent}}</textarea>
+                </div>
+                <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
+                    <span style="font-size: small;color: blue;">{{_message_.createdName}}</span>
+                    <span style="color: blue; font-size: smaller;">{{_message_.messageDate}}</span>
+                    <!--root-->
+                    <a href="javascript:void(0);" style="font-size: 12px;" id="_message_right_root_a_{{$index}}_{{_message_.messageId}}"
+                       ng-click="_show_message_form_(_message_.messageId, _message_.messageId, _message_.createdBy,_message_.createdName, '_message_form_right_' + $index + '_' + _message_.messageId)"
+                       ng-if="_message_.parentId==0 && _init_uuid_global_!=_message_.createdBy">回复</a>
+                    <!--leaf-->
+                    <a href="javascript:void(0);" style="font-size: 12px;" id="_message_right_leaf_a_{{$index}}_{{_message_.messageId}}"
+                       ng-click="_show_message_form_(_message_.originalId, _message_.messageId, _message_.createdBy,_message_.createdName, '_message_form_right_' + $index + '_' + _message_.messageId)"
+                       ng-if="_message_.parentId!=0 && _init_uuid_global_!=_message_.createdBy">回复</a>
+                </div>
+                <form id="_message_form_right_{{$index}}_{{_message_.messageId}}" name="messageForm" class="form-horizontal" hidden="hidden" style="text-align: right;">
+                    <textarea ng-model="_message.messageContent" class="form-control" style="margin-bottom: 2px;"></textarea>
+                    <input type="text" ng-model="_message.parentId" ng-hide="true">
+                    <input type="text" ng-model="_message.originalId" ng-hide="true">
+                    <input type="text" ng-model="_message.procInstId" ng-hide="true">
+                    <input type="text" ng-model="_message.repliedBy" ng-hide="true">
+                    <input type="text" ng-model="_message.repliedName" ng-hide="true">
+                    <a href="javascript:void(0);" style="font-size: 12px;" ng-click="_submit_message_form_('N')">回复</a>
+                    <a href="javascript:void(0);" style="font-size: 12px;" ng-click="_submit_message_cancel_('_message_form_right_' + $index + '_' + _message_.messageId)">取消</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

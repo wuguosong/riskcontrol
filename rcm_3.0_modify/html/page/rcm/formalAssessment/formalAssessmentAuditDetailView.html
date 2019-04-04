@@ -16,6 +16,7 @@
 									<a class="btn tab tab-90 active" href="/#contracts_file_info" data-toggle="tab">流程表单</a>
 									<a class="btn tab tab-90" href="/#flow_chart" data-toggle="tab">流程图</a>
 									<a class="btn tab tab-90" href="/#contracts_resources" data-toggle="tab">相关资源</a>
+									<a class="btn tab tab-90" href="/#bbs_chat" data-toggle="tab">留言区</a>
 									<!--<li class="active">
                                         <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
                                     </li>
@@ -45,7 +46,7 @@
 															  init-update="initUpdate(id)"></directive-accachment-new>
                                 </div>
 								<div class="tab-pane" id="bbs_chat">
-									<bbs-chat business-id="{{ businessId }}"></bbs-chat>
+									<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_"></bbs-chat-new>
 								</div>
                             </div>
                         </div>

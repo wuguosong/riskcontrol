@@ -1105,3 +1105,19 @@ function notify_mergeTempCheckedUsers(tempCheckedUsers) {
     notifiesUser = notifiesUser.substr(0, notifiesUser.lastIndexOf(","));
     return notifiesUser;
 }
+/***留言的相关方法**/
+function _init_query_messages_list_(_proc_inst_id_) {
+    var _messages_list_ = null;
+    var url = srvUrl + 'message/queryMessagesList.do';
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"procInstId": _proc_inst_id_, 'parentId': 0},
+        async: false,
+        success: function (data) {
+            _messages_list_ = data;
+        }
+    });
+    return _messages_list_;
+};

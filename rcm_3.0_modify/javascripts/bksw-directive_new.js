@@ -1578,6 +1578,131 @@ ctmApp.directive('bbsChat', function() {
         }
     };
 });
+ctmApp.directive('bbsChatNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/DirectiveBbsPageNew.html',
+        replace: true,
+        scope:{
+            id: "@",// 组件ID
+            businessId:"@",// 业务ID
+            initMessagesArray:"=",// 初始化
+            initUuid:"="// 当前登录用户
+        },
+        link:function(scope, element, attr){
+        },
+        controller:function($scope, $http, $element){
+            console.log($scope);
+            $scope._message = {};
+            $scope._message.originalId = 0;
+            $scope._message.parentId = 0;
+            $scope._message.procInstId = $scope.businessId;
+            $scope._message.repliedBy = '';
+            $scope._message.repliedName = '';
+            $scope._message_first = {};
+            $scope._message_first.originalId = 0;
+            $scope._message_first.parentId = 0;
+            $scope._message_first.procInstId = $scope.businessId;
+            $scope._message_first.repliedBy = '';
+            $scope._message_first.repliedName = '';
+            // 查询留言信息
+            $scope._query_messages_list_ = function (_parent_id_) {
+                $http({
+                    method: 'post',
+                    url: srvUrl + 'message/queryMessagesList.do',
+                    data: $.param({
+                        'procInstId': $scope.businessId,
+                        'parentId': _parent_id_
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope._messages_array_ = data;
+                });
+            };
+            // 展示留言表单
+            $scope._show_message_form_ = function (_original_id_, _parent_id_, _replied_by_, _replied_name_, _form_id_) {
+                $('#' + _form_id_).show();
+                $scope._message.originalId = _original_id_;
+                $scope._message.parentId = _parent_id_;
+                $scope._message.procInstId = $scope.businessId;
+                $scope._message.repliedBy = _replied_by_;
+                $scope._message.repliedName = _replied_name_;
+                console.log($scope._message);
+            };
+            // 清空表单
+            $scope._clear_message_from = function(){
+                $scope._message.originalId = '';
+                $scope._message.parentId = '';
+                $scope._message.procInstId = '';
+                $scope._message.repliedBy = '';
+                $scope._message.repliedName = '';
+                $scope._message.messageContent = '';
+                $scope._message_first.originalId = '';
+                $scope._message_first.parentId = '';
+                $scope._message_first.procInstId = '';
+                $scope._message_first.repliedBy = '';
+                $scope._message_first.repliedName = '';
+                $scope._message_first.messageContent = '';
+            };
+            // 保存留言信息
+            $scope._submit_message_form_ = function (_is_first_) {
+                var formData = null;
+                if(_is_first_ == 'Y'){
+                    formData = $scope._message_first;
+                }else{
+                    formData = $scope._message;
+                }
+                if (isEmpty(formData.messageContent)) {
+                    $.alert('留言内容不能为空!');
+                    return;
+                }
+                console.log(formData);
+                $http({
+                    method: 'post',
+                    url: srvUrl + 'message/add.do',
+                    data: $.param(formData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope._query_messages_list_(0);
+                    $scope._clear_message_from();
+                    $.alert('发表留言成功!');
+                });
+            };
+            // 删除留言信息
+            $scope._delete_message_ = function (_message_id_) {
+                $.confirm('确认删除该条信息?', function(){
+                    $http({
+                        method: 'post',
+                        url: srvUrl + 'message/delete.do',
+                        data: $.param({
+                            'messageId': _message_id_
+                        }),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    }).success(function (data) {
+                        $scope._query_messages_list_(0);
+                        $.alert('删除留言成功!');
+                    });
+                });
+            };
+            // 隐藏提交的表单
+            $scope._submit_message_cancel_ = function(_form_id_){
+                $scope._clear_message_from();
+                $('#' + _form_id_).hide();
+            };
+            // 查询初始化
+            $scope._query_messages_list_(0);
+            // 信息初始化
+            if(!isEmpty($scope.initUuid)){
+                $scope._init_uuid_global_ = $scope.initUuid;
+            }
+            if(isEmpty($scope._messages_array_)){
+                if(!isEmpty($scope.initMessagesArray)){
+                    $scope._messages_array_ = $scope.initMessagesArray;
+                }
+            }
+        }
+    };
+});
 ctmApp.directive('uploadFile', function () {
     return {
         restrict: 'E',
