@@ -30,6 +30,7 @@ public class Message{
     private String attriText02;// 备用字段2
     private String attriText03;// 备用字段3
     private String attriText04;// 备用字段4
+    private String viaUsers;// @的用户
 
     public Long getMessageId() {
         return messageId;
@@ -175,7 +176,17 @@ public class Message{
         this.attriText04 = attriText04;
     }
 
+
+    public String getViaUsers() {
+        return viaUsers;
+    }
+
+    public void setViaUsers(String viaUsers) {
+        this.viaUsers = viaUsers;
+    }
+
     @Override
+
     public String toString() {
         return JSON.toJSONString(this);
     }
