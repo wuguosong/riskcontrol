@@ -3292,6 +3292,70 @@ ctmApp.directive('directiveProjectFormalTempData', function() {
         }
     };
 });
+
+
+
+
+// 评审用成本及费用（新）
+ctmApp.directive('directiveFormalReportCbfyNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportCbfyNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 风险及问题总结（新）
+ctmApp.directive('directiveFormalReportFxjwtzjNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportFxjwtzjNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 结论与建议（新）
+ctmApp.directive('directiveFormalReportJlyjyNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportJlyjyNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 后续执行要求（新）
+ctmApp.directive('directiveFormalReportHxzxyqNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportHxzxyqNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 专业评审意见（新）
+ctmApp.directive('directiveFormalReportZypsyjNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportZypsyjNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
 /************************************正式评审结束*****************************/
 
 /************************************其他评审开始*****************************/
