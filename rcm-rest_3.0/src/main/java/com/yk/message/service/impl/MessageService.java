@@ -5,7 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
+import com.yk.power.dao.IUserMapper;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.DateUtil;
@@ -24,6 +28,8 @@ import java.util.Map;
 public class MessageService implements IMessageService {
 	@Resource
 	IMessageMapper messageMapper;
+	@Resource
+	IUserMapper userMapper;
 
 	@Override
 	public List<Message> list(String procInstId, Long parentId) {
@@ -140,7 +146,7 @@ public class MessageService implements IMessageService {
 		List<Message> messages = messageMapper.selectMessageList(procInstId, parentId);
 		for (Message message : messages) {
 			List<JSONObject> jsonObjectLeaves = new ArrayList<JSONObject>();
-			
+			this.setViaUsers(message);
 			JSONObject jsonObject = JSON.parseObject(message.toString());
 			jsonObject.put("position", "left");
 			jsonObject.put("messageDate",
@@ -150,6 +156,7 @@ public class MessageService implements IMessageService {
 //			// 把根节点下面的叶子节点全部都查出来
 			List<Message> leaves = messageMapper.selectLeavesMessageList(procInstId, message.getMessageId());
 			for (Message leave : leaves) {
+				this.setViaUsers(leave);
 				JSONObject leaveObject = JSON.parseObject(leave.toString());
 				if (leave.getCreatedBy().equals(message.getCreatedBy())) {
 					leaveObject.put("position", "left");
@@ -164,5 +171,26 @@ public class MessageService implements IMessageService {
 			jsonObjects.add(jsonObjectLeaves);
 		}
 		return jsonObjects;
+	}
+
+	private void setViaUsers(Message message){
+		String viaUsers = message.getViaUsers();
+		if(StringUtils.isNotBlank(viaUsers)){
+			String[] viaUsersArray = viaUsers.split(",");
+			if(ArrayUtils.isNotEmpty(viaUsersArray)){
+				Map<String, Object> params = new HashMap<String, Object>();
+				StringBuilder sb = new StringBuilder();
+				for(String viaUser : viaUsersArray){
+					params.put("UUID", viaUser);
+					Map<String, Object> user = userMapper.selectAUser(params);
+					if(user != null){
+						sb.append("@" + user.get("NAME") + " ");
+					}
+				}
+				if(StringUtils.isNotBlank(sb)){
+					message.setViaUsers(sb.toString());
+				}
+			}
+		}
 	}
 }

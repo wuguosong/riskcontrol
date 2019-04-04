@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.yk.common.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author wufucan
  *
  */
+@Repository
 public interface IUserMapper extends BaseMapper {
 
 	/**

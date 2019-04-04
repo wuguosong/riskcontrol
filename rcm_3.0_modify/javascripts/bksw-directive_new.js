@@ -156,8 +156,13 @@ ctmApp.directive('directUserMultiDialog', function () {
                 $scope.initData();
             }
             $scope.saveSelected = function () {
+                debugger;
                 var cus = $scope.tempCheckedUsers;
-                $scope.checkedUsers.splice(0, $scope.checkedUsers.length)
+                if(!isEmpty($scope.checkedUsers) && $scope.checkedUsers.length > 0){
+                    $scope.checkedUsers.splice(0, $scope.checkedUsers.length);
+                }else{
+                    $scope.checkedUsers = [];
+                }
                 for (var i = 0; i < cus.length; i++) {
                     var user = {};
                     user[$scope.mappedKeyValue.nameField] = cus[i].NAME;
@@ -1592,7 +1597,6 @@ ctmApp.directive('bbsChatNew', function() {
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, $element){
-            console.log($scope);
             $scope._message = {};
             $scope._message.originalId = 0;
             $scope._message.parentId = 0;
@@ -1619,41 +1623,43 @@ ctmApp.directive('bbsChatNew', function() {
                     $scope._messages_array_ = data;
                 });
             };
-            // 展示留言表单
-            $scope._show_message_form_ = function (_original_id_, _parent_id_, _replied_by_, _replied_name_, _form_id_) {
-                $('#' + _form_id_).show();
-                $scope._message.originalId = _original_id_;
-                $scope._message.parentId = _parent_id_;
-                $scope._message.procInstId = $scope.businessId;
-                $scope._message.repliedBy = _replied_by_;
-                $scope._message.repliedName = _replied_name_;
-                console.log($scope._message);
-            };
             // 清空表单
             $scope._clear_message_from = function(){
                 $scope._message.originalId = '';
                 $scope._message.parentId = '';
-                $scope._message.procInstId = '';
                 $scope._message.repliedBy = '';
                 $scope._message.repliedName = '';
                 $scope._message.messageContent = '';
                 $scope._message_first.originalId = '';
                 $scope._message_first.parentId = '';
-                $scope._message_first.procInstId = '';
                 $scope._message_first.repliedBy = '';
                 $scope._message_first.repliedName = '';
                 $scope._message_first.messageContent = '';
+                $scope._clear_via_users_();
             };
             // 保存留言信息
-            $scope._submit_message_form_ = function (_is_first_) {
+            $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var formData = null;
                 if(_is_first_ == 'Y'){
                     formData = $scope._message_first;
+                    formData.originalId = 0;
+                    formData.parentId = 0;
+                    formData.repliedBy = '';
+                    formData.repliedName = 0;
                 }else{
                     formData = $scope._message;
+                    formData.originalId = _original_id_;
+                    formData.parentId = _parent_id_;
+                    formData.repliedBy = _replied_by_;
+                    formData.repliedName = _replied_name_;
+                    formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
                 }
                 if (isEmpty(formData.messageContent)) {
-                    $.alert('留言内容不能为空!');
+                    if(_is_first_ == 'Y'){
+                        $.alert('留言内容不能为空!');
+                    }else{
+                        $.alert('回复内容不能为空!');
+                    }
                     return;
                 }
                 console.log(formData);
@@ -1670,7 +1676,7 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 删除留言信息
             $scope._delete_message_ = function (_message_id_) {
-                $.confirm('确认删除该条信息?', function(){
+                $.confirm('删除该留言吗?', function(){
                     $http({
                         method: 'post',
                         url: srvUrl + 'message/delete.do',
@@ -1684,11 +1690,6 @@ ctmApp.directive('bbsChatNew', function() {
                     });
                 });
             };
-            // 隐藏提交的表单
-            $scope._submit_message_cancel_ = function(_form_id_){
-                $scope._clear_message_from();
-                $('#' + _form_id_).hide();
-            };
             // 查询初始化
             $scope._query_messages_list_(0);
             // 信息初始化
@@ -1700,6 +1701,34 @@ ctmApp.directive('bbsChatNew', function() {
                     $scope._messages_array_ = $scope.initMessagesArray;
                 }
             }
+            // @初始化
+            $scope._init_via_users = function(_idx_){
+            };
+            // @多选
+            $scope._via_users_MappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
+            $scope._via_users_CheckedUsers = {};
+            $scope._via_users_TempCheckedUsers = {};
+            $scope._via_users_ParentSaveSelected = function(){
+                var _via_users_ExecuteEval = '';
+                _via_users_ExecuteEval += '$scope.$parent._via_users_CheckedUsers = $scope.checkedUsers;';
+                _via_users_ExecuteEval += '$scope.$parent._via_users_TempCheckedUsers = $scope.tempCheckedUsers;';
+                return _via_users_ExecuteEval;
+            };
+            $scope._via_users_removeUsers = function (_user) {
+                for (var _i = 0; _i < $scope._via_users_TempCheckedUsers.length; _i++) {
+                    if (_user.VALUE == $scope._via_users_TempCheckedUsers[_i].VALUE) {
+                        $scope._via_users_TempCheckedUsers.splice(_i, 1);
+                        break;
+                    }
+                }
+            };
+            $scope._clear_via_users_ = function(){
+                if(!isEmpty($scope._via_users_TempCheckedUsers) && $scope._via_users_TempCheckedUsers.length > 0){
+                    for(var _i = 0; _i < $scope._via_users_TempCheckedUsers.length; _i++){
+                        $scope._via_users_TempCheckedUsers = [];
+                    }
+                }
+            };
         }
     };
 });
@@ -3285,70 +3314,6 @@ ctmApp.directive('directiveProjectFormalTempData', function() {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/directiveProjectFormalTempData.html',
-        replace: true,
-        link:function(scope,element,attr){
-        },
-        controller:function($scope,$http,$element){
-        }
-    };
-});
-
-
-
-
-// 评审用成本及费用（新）
-ctmApp.directive('directiveFormalReportCbfyNew', function() {
-    return {
-        restrict: 'E',
-        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportCbfyNew.html',
-        replace: true,
-        link:function(scope,element,attr){
-        },
-        controller:function($scope,$http,$element){
-        }
-    };
-});
-// 风险及问题总结（新）
-ctmApp.directive('directiveFormalReportFxjwtzjNew', function() {
-    return {
-        restrict: 'E',
-        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportFxjwtzjNew.html',
-        replace: true,
-        link:function(scope,element,attr){
-        },
-        controller:function($scope,$http,$element){
-        }
-    };
-});
-// 结论与建议（新）
-ctmApp.directive('directiveFormalReportJlyjyNew', function() {
-    return {
-        restrict: 'E',
-        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportJlyjyNew.html',
-        replace: true,
-        link:function(scope,element,attr){
-        },
-        controller:function($scope,$http,$element){
-        }
-    };
-});
-// 后续执行要求（新）
-ctmApp.directive('directiveFormalReportHxzxyqNew', function() {
-    return {
-        restrict: 'E',
-        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportHxzxyqNew.html',
-        replace: true,
-        link:function(scope,element,attr){
-        },
-        controller:function($scope,$http,$element){
-        }
-    };
-});
-// 专业评审意见（新）
-ctmApp.directive('directiveFormalReportZypsyjNew', function() {
-    return {
-        restrict: 'E',
-        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportZypsyjNew.html',
         replace: true,
         link:function(scope,element,attr){
         },

@@ -22,6 +22,7 @@
         <result column="attri_text02" property="attriText02" javaType="java.lang.String"/>
         <result column="attri_text03" property="attriText03" javaType="java.lang.String"/>
         <result column="attri_text04" property="attriText04" javaType="java.lang.String"/>
+        <result column="via_users" property="viaUsers" javaType="java.lang.String"/>
     </resultMap>
     <!-- 基本数据列 -->
     <sql id="baseColumn">
@@ -42,7 +43,8 @@
        attri_text01,
        attri_text02,
        attri_text03,
-       attri_text04
+       attri_text04,
+       via_users
 	</sql>
     <!-- 查询某个根下的子节点 -->
     <select id="selectMessageList" resultMap="messageMap">
@@ -94,7 +96,8 @@
 		#{message.attriText01},
 		#{message.attriText02},
 		#{message.attriText03},
-		#{message.attriText04}
+		#{message.attriText04},
+		#{message.viaUsers}
 		)
 	</insert>
     <!--更新-->
@@ -116,7 +119,8 @@
 		attri_text01 = #{message.attriText01},
 		attri_text02 = #{message.attriText02},
 		attri_text03 = #{message.attriText03},
-		attri_text04 = #{message.attriText04}
+		attri_text04 = #{message.attriText04},
+		via_users = #{message.viaUsers}
 		where message_id = #{message.messageId}
 	</update>
     <!--根据删除-->
