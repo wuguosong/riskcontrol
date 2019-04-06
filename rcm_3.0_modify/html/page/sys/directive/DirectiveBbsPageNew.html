@@ -1,52 +1,71 @@
 <div>
-    <form id="_message_form_first" name="messageFormFirst" class="form-horizontal" style="text-align: left;margin-bottom: 5px;">
-        <textarea ng-model="_message_first.messageContent" class="form-control"></textarea>
+    留言内容：
+    <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
+          style="text-align: left;margin-bottom: 5px;">
+        <textarea ng-model="_message_first.messageContent" class="form-control" style="background: #fff;"></textarea>
         <input type="text" ng-model="_message_first.parentId" ng-hide="true">
         <input type="text" ng-model="_message_first.originalId" ng-hide="true">
         <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
         <input type="text" ng-model="_message_first.repliedBy" ng-hide="true">
         <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
     </form>
-    <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;" ng-click="_submit_message_form_('Y', '', '', '', '', '')">
+    <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
+       ng-click="_submit_message_form_('Y', '', '', '', '', '')">
         <span class="addlabel blue">发表留言</span>
     </a>
     <div ng-repeat="_messages_ in _messages_array_"
          id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
         {{$index + 1}}楼
         <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
-            <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;" id="_message_left_{{$index}}_{{_message_.messageId}}">
+            <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
+                 id="_message_left_{{$index}}_{{_message_.messageId}}">
                 <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
-                    <span style="font-size: small;color: blue;">{{_message_.createdName}}</span>
-                    <span style="color: blue; font-size: smaller;">{{_message_.messageDate}}</span>
-                    <a href="javascript:void(0);" style="font-size: 12px;" ng-click="_delete_message_(_message_.messageId)" ng-if="_messages_.length != 1 && _message_.createdBy == _init_uuid_global_">删除</a>
+                    <span style="color: blue;">{{_message_.createdName}}</span>
+                    <span style="font-size: small;">{{_message_.messageDate}}</span>
+                    <a href="javascript:void(0);" style="font-size: small;color: blue; "
+                       ng-click="_delete_message_(_message_.messageId)"
+                       ng-if="_messages_.length > 1 && _message_.createdBy == _init_uuid_global_ && $index > 0">删除</a>
+                    <a href="javascript:void(0);" style="font-size: small;color: blue; "
+                       ng-click="_delete_message_(_message_.messageId)"
+                       ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0">删除</a>
                 </div>
                 <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
-                    <textarea class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}" readonly>{{_message_.messageContent}}&nbsp;{{_message_.viaUsers}}</textarea>
+                    <div style="height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
+                              readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
+                            style="color: blue;font-size: small;">{{_message_.viaUsers}}</span></div>
                 </div>
             </div>
-            <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;" id="_message_right_{{$index}}_{{_message_.messageId}}">
+            <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
+                 id="_message_right_{{$index}}_{{_message_.messageId}}">
                 <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
-                    <span style="font-size: small;color: blue;">{{_message_.createdName}}</span>
-                    <span style="color: blue; font-size: smaller;">{{_message_.messageDate}}</span>
-                    <a href="javascript:void(0);" style="font-size: 12px;" ng-click="_delete_message_(_message_.messageId)" ng-if="_message_.createdBy == _init_uuid_global_">删除</a>
+                    <span style="color: blue;">{{_message_.createdName}}</span>
+                    <span style="font-size: small;">{{_message_.messageDate}}</span>
+                    <a href="javascript:void(0);" style="font-size: small;color: blue; "
+                       ng-click="_delete_message_(_message_.messageId)"
+                       ng-if="_message_.createdBy == _init_uuid_global_">删除</a>
                 </div>
                 <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
-                    <textarea class="form-control" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly>{{_message_.messageContent}}{{_message_.viaUsers}}</textarea>
+                    <div class="form-control" style="height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
+                            style="color: blue;font-size: small;">{{_message_.viaUsers}}</span></div>
                 </div>
             </div>
         </div>
         <form id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;">
-            <textarea ng-model="_message.messageContent" class="form-control" style="margin-bottom: 2px;"></textarea>
+            回复内容：
+            <textarea ng-model="_message.messageContent" class="form-control"
+                           style="margin-bottom: 2px;background: #fff;"></textarea>
             <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
-                <div id="s2id_projectModel" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
-                    <ul class="select2-choices">
+                <div id="s2id_projectModel"
+                     class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                    <ul class="select2-choices" data-toggle="modal" data-target="#_via_users_mul_dialog">
+                        <li><span style="height:24px;font-size: 13px;font-weight: 600;text-shadow: 0 -1px 0 rgba(0,0,0,.2);">@</span></li>
                         <li class="select2-search-choice" ng-repeat="_via in _via_users_TempCheckedUsers">
                             <div>{{_via.NAME}}</div>
-                            <a class="select2-search-choice-close" tabindex="-1" ng-click="_via_users_removeUsers(_via)"></a>
+                            <a class="select2-search-choice-close" tabindex="-1"
+                               ng-click="_via_users_removeUsers(_via)"></a>
                             <div class="full-drop"><input type="hidden" value="{{_via.VALUE}}">
                             </div>
                         </li>
-                        <li style="height:25px;"></li>
                     </ul>
                 </div>
             </div>
@@ -56,17 +75,20 @@
             <input type="text" ng-model="_message.repliedBy" ng-hide="true">
             <input type="text" ng-model="_message.repliedName" ng-hide="true">
             <input type="text" ng-model="_message.via" ng-hide="true">
-            <a href="javascript:void(0);" style="cursor:pointer;" ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
-                <span class="addlabel blue">回复</span>
+            <a href="javascript:void(0);" style="cursor:pointer;"
+               ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
+                <span class="addlabel blue">回复留言</span>
             </a>
-            <a href="javascript:void(0);" style="cursor:pointer;" data-toggle="modal" data-target="#_via_users_mul_dialog">
-                <span class="addlabel blue">@</span>
-            </a>
+            <!--<a href="javascript:void(0);" style="cursor:pointer;" data-toggle="modal"
+               data-target="#_via_users_mul_dialog">
+                <span class="addlabel blue">@用户</span>
+            </a>-->
         </form>
     </div>
     <div id="_via_users_mul_dialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
         <direct-user-multi-dialog id="{{'_via_users_mul_dialog'}}" title="{{'用户列表'}}"
-                                  url="{{'role/queryRoleAddUserByPage.do'}}" mapped-key-value="_via_users_MappedKeyValue"
+                                  url="{{'role/queryRoleAddUserByPage.do'}}"
+                                  mapped-key-value="_via_users_MappedKeyValue"
                                   checked-users="_via_users_CheckedUsers"
                                   parent-save-selected="_via_users_ParentSaveSelected()"></direct-user-multi-dialog>
     </div>
