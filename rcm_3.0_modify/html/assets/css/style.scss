@@ -243,3 +243,164 @@ form {
         line-height: 44px;
     }
 }
+
+
+/* 留言样式 */
+
+._message {
+    width: 100%;
+    // 留言部分
+    .select2-success {
+        form#s2id_projectModel {
+            div.form-control {
+                min-height: 30px;
+                height: auto;
+            }
+        }
+        // @框
+        ul.select2-choices {
+            padding: 0px;
+            min-height: 30px;
+            position: relative;
+            padding-left: 15px;
+            li:first-child {
+                position: absolute;
+                top: 50%;
+                left: 4px;
+                transform: translateY(-50%);
+                span {
+                    line-height: 1;
+                    font-weight: 600;
+                    text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+                    font-size: 13px;
+                }
+            }
+            li.select2-search-choice {
+                margin: 5px;
+            }
+        }
+    }
+    // 评论部分
+    div {
+        // 头部
+        div[id^="_message_panel_head_"] {
+            a {
+                span[id^="_span_hide_content_"] {
+                    margin-left: 35px;
+                }
+            }
+        }
+        // 主体
+        div[id^="_message_panel_body_"] {
+            padding-top: 10px;
+            div {
+                div.form-control {
+                    min-height: 30px;
+                    height: auto;
+                }
+                // 左边
+                div[id^="_message_left_"] {
+                    // 姓名和时间
+                    div[id^="_message_left_top_"] {
+                        // 姓名
+                        span:first-child {
+                            // float: left;
+                            a {
+                                color: $blue;
+                            }
+                        }
+                        // 时间
+                        span:last-child {
+                            // display: none;
+                        }
+                    }
+                    // 评论内容框
+                    div[id^="_message_left_bottom_"] {
+                        // float: left;
+                        .form-control {
+                            border: none;
+                            background-color: #eff2f7;
+                            padding: 10px;
+                            border-radius: 4px;
+                            span {
+                                font-size: 16px;
+                                line-height: 1.5;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+                // 右边
+                div[id^="_message_right_"] {
+                    // 姓名和时间
+                    div[id^="_message_right_top_"] {
+                        // 姓名
+                        span:first-child {
+                            // float: left;
+                            a {
+                                color: $blue;
+                            }
+                        }
+                        // 时间
+                        span:last-child {
+                            // display: none;
+                        }
+                    }
+                    // 评论内容框
+                    div[id^="_message_right_bottom_"] {
+                        // float: left;
+                        .form-control {
+                            border: none;
+                            background-color: rgb(152, 225, 101);
+                            padding: 10px;
+                            border-radius: 4px;
+                            span {
+                                font-size: 16px;
+                                line-height: 1.5;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // 弹出框
+    div#_submit_message_dialog {
+        .modal-content.panel {
+            // 头部
+            .modal-header.panel-heading {
+                position: relative;
+                button.close {
+                    // padding-right: 10px;
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    &:hover {
+                        background-color: $light-blue;
+                    }
+                }
+                h4.modal-title {
+                    line-height: 2;
+                    margin: 0 auto;
+                    font-weight: bold;
+                }
+            }
+            // 输入框
+            .modal-body.panel-body {
+                div.form-control {
+                    min-height: 50px;
+                    height: auto;
+                    padding: 10px;
+                }
+            }
+            // 按钮
+            .modal-footer {}
+        }
+    }
+    @media screen and(min-width: 768px) {
+        .modal-dialog {
+            margin: 100px auto;
+        }
+    }
+}

@@ -228,3 +228,117 @@ form .left-content {
   height: 36px;
   line-height: 44px;
 }
+
+/* 留言样式 */
+._message {
+  width: 100%;
+}
+
+._message .select2-success form#s2id_projectModel div.form-control {
+  min-height: 30px;
+  height: auto;
+}
+
+._message .select2-success ul.select2-choices {
+  padding: 0px;
+  min-height: 30px;
+  position: relative;
+  padding-left: 15px;
+}
+
+._message .select2-success ul.select2-choices li:first-child {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+}
+
+._message .select2-success ul.select2-choices li:first-child span {
+  line-height: 1;
+  font-weight: 600;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+}
+
+._message .select2-success ul.select2-choices li.select2-search-choice {
+  margin: 5px;
+}
+
+._message div div[id^="_message_panel_head_"] a span[id^="_span_hide_content_"] {
+  margin-left: 35px;
+}
+
+._message div div[id^="_message_panel_body_"] {
+  padding-top: 10px;
+}
+
+._message div div[id^="_message_panel_body_"] div div.form-control {
+  min-height: 30px;
+  height: auto;
+}
+
+._message div div[id^="_message_panel_body_"] div div[id^="_message_left_"] div[id^="_message_left_top_"] span:first-child a {
+  color: #2b679d;
+}
+
+._message div div[id^="_message_panel_body_"] div div[id^="_message_left_"] div[id^="_message_left_bottom_"] .form-control {
+  border: none;
+  background-color: #eff2f7;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+._message div div[id^="_message_panel_body_"] div div[id^="_message_left_"] div[id^="_message_left_bottom_"] .form-control span {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #fff;
+}
+
+._message div div[id^="_message_panel_body_"] div div[id^="_message_right_"] div[id^="_message_right_top_"] span:first-child a {
+  color: #2b679d;
+}
+
+._message div div[id^="_message_panel_body_"] div div[id^="_message_right_"] div[id^="_message_right_bottom_"] .form-control {
+  border: none;
+  background-color: #98e165;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+._message div div[id^="_message_panel_body_"] div div[id^="_message_right_"] div[id^="_message_right_bottom_"] .form-control span {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #fff;
+}
+
+._message div#_submit_message_dialog .modal-content.panel .modal-header.panel-heading {
+  position: relative;
+}
+
+._message div#_submit_message_dialog .modal-content.panel .modal-header.panel-heading button.close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+._message div#_submit_message_dialog .modal-content.panel .modal-header.panel-heading button.close:hover {
+  background-color: #eff2f7;
+}
+
+._message div#_submit_message_dialog .modal-content.panel .modal-header.panel-heading h4.modal-title {
+  line-height: 2;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+._message div#_submit_message_dialog .modal-content.panel .modal-body.panel-body div.form-control {
+  min-height: 50px;
+  height: auto;
+  padding: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  ._message .modal-dialog {
+    margin: 100px auto;
+  }
+}
