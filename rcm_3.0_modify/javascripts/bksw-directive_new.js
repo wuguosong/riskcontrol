@@ -1725,8 +1725,8 @@ ctmApp.directive('bbsChatNew', function() {
                 var _class = $('#_message_panel_body_' + _idx_).attr("class");
                 var _span = '';
                 if("panel-collapse collapse in" == _class){
-                    _span += _obj_['createdName'];
-                    _span += _obj_['messageDate'];
+                    _span += _obj_['createdName'] + '&nbsp;';
+                    _span += _obj_['messageDate'] + '&nbsp;';
                     if(!isEmpty(_obj_.messageContent)){
                         if(_obj_.messageContent.length >= 10){
                             _span += _obj_.messageContent.substr(0, 11) + '......';
