@@ -25,6 +25,23 @@ body {
   width: 100%;
 }
 
+#content-wrapper .section2 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#content-wrapper .section2 .panel-body {
+  width: calc(50% - 5px);
+}
+
+#content-wrapper .section2 .section2-1 {
+  margin-right: 5px;
+}
+
+#content-wrapper .section2 .section2-2 {
+  margin-left: 5px;
+}
+
 /* 下拉框颜色 */
 .select2-results .select2-highlighted {
   color: #666;
@@ -33,6 +50,11 @@ body {
 /* 单选框颜色 */
 .gt-ie8 input[type=radio].px + .lbl:after {
   background-color: #333;
+}
+
+.gt-ie8 input.px + .lbl:after,
+.gt-ie8 input.px + .lbl:before {
+  margin: 13px 3px -3px -20px !important;
 }
 
 /* 页签部分 */
@@ -157,4 +179,52 @@ form .mcontent {
 form .left-content {
   top: 100px;
   right: 10px;
+}
+
+/* 标题样式 */
+.panel-hd-cont {
+  border-top: 2px solid #2b679d;
+}
+
+.panel-title {
+  background-color: #2b679d;
+}
+
+.panel-title .i-triangle,
+.accordion-toggle .i-triangle {
+  border-color: #2b679d transparent transparent #2b679d;
+}
+
+.accordion-toggle {
+  border-top: 2px solid #2b679d;
+}
+
+.accordion-toggle .text {
+  background-color: #2b679d;
+}
+
+/* 分页符 */
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  background-color: #2b679d;
+  border-color: #2b679d;
+}
+
+/* 表格样式 */
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  white-space: nowrap;
+}
+
+.table > thead > tr > th > div > input,
+.table > tbody > tr > td > div > input {
+  background-color: #fff;
+  border: 1px solid #d6d6d6;
+  box-sizing: border-box;
+  height: 36px;
+  line-height: 44px;
 }

@@ -165,8 +165,14 @@ button.btn {
 button.btn.btn-info,
 button.btn.btn-primary {
     // 一级按钮
+    background-image: none;
     background-color: $blue!important;
     color: #fff;
+    &:focus {
+        background-image: none;
+        background-color: $blue!important;
+        color: #fff;
+    }
     // 移入
     &:hover {
         background-color: $blue!important;
@@ -500,12 +506,12 @@ a.btn-primary {
     // 一级按钮
     background-color: $blue!important;
     background-image: none!important;
-    color: #fff;
+    color: #fff!important;
     // 移入
     &:hover {
         background-image: none!important;
         background-color: $blue!important;
-        color: #fff;
+        color: #fff!important;
     }
     // 点击
     &:active {
@@ -675,7 +681,8 @@ a.btn-warning {
 }
 
 // 页签
-ul.nav-tabs>li {
+ul.nav-tabs>li,
+ul.nav-tabs.dept-nav>li {
     border-bottom: 0;
     &>a {
         background-color: #f8f8f8;
@@ -688,6 +695,7 @@ ul.nav-tabs>li {
             box-shadow: $btn-shadow;
             color: $black;
             border: none;
+            background-color: #f8f8f8;
         }
         &:active {
             background-color: $blue;
