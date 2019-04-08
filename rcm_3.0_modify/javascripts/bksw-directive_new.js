@@ -1653,7 +1653,6 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.parentId = _parent_id_;
                     formData.repliedBy = _replied_by_;
                     formData.repliedName = _replied_name_;
-                    debugger;
                     formData.messageContent = $('#_message_textarea_bottom_' + _idx_).val();
                 }
                 if (isEmpty(formData.messageContent)) {
@@ -1695,6 +1694,24 @@ ctmApp.directive('bbsChatNew', function() {
             // 用户的其他操作,预留方法
             $scope._user_about_click_ = function(_source_, _user_id_, _user_name_){
                 console.log("查看用户：" + _source_ + " " + _user_id_ + " " + _user_name_);
+            };
+            // 展示留言弹窗
+            $scope._show_submit_message_form_ = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
+                $('#_submit_message_dialog').modal('show');
+                $('#_message_textarea_bottom_' + _idx_).val('');
+                $scope._message.originalId = _original_id_;
+                $scope._message.parentId = _parent_id_;
+                $scope._message.repliedBy = _replied_by_;
+                $scope._message.repliedName = _replied_name_;
+            };
+            // 保存留言弹窗内容
+            $scope._save_message_dialog_form_ = function(){
+                if(isEmpty($('#_message_textarea_bottom_0').val())){
+                    $.alert('回复内容不能为空!');
+                    return;
+                }
+                $scope._submit_message_form_('N', $scope._message.originalId, $scope._message.parentId, $scope._message.repliedBy, $scope._message.repliedName, 0);
+                $('#_submit_message_dialog').modal('hide');
             };
             // 查询初始化
             $scope._query_messages_list_(0);
