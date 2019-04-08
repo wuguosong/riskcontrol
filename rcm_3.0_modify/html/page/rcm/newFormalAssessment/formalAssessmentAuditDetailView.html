@@ -45,8 +45,13 @@
 															  last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
 															  init-update="initUpdate(id)"></directive-accachment-new>
                                 </div>
-								<div class="tab-pane" id="bbs_chat">
-									<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_"></bbs-chat-new>
+								<div class="tab-pane clearfix" id="bbs_chat">
+									<div style="width: 50%;float: left;">
+
+									</div>
+									<div style="width: 50%;float: right;">
+										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_"></bbs-chat-new>
+									</div>
 								</div>
                             </div>
                         </div>
