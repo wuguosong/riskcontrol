@@ -1646,6 +1646,7 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.parentId = 0;
                     formData.repliedBy = '';
                     formData.repliedName = 0;
+                    formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
                 }else{
                     formData = $scope._message;
                     formData.originalId = _original_id_;
@@ -1653,7 +1654,6 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.repliedBy = _replied_by_;
                     formData.repliedName = _replied_name_;
                 }
-                formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
                 if (isEmpty(formData.messageContent)) {
                     if(_is_first_ == 'Y'){
                         $.alert('留言内容不能为空!');
