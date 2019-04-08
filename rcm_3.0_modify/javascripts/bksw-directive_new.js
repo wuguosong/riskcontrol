@@ -1717,12 +1717,21 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._submit_message_form_('N', $scope._message.originalId, $scope._message.parentId, $scope._message.repliedBy, $scope._message.repliedName, 0);
                 $('#_submit_message_dialog').modal('hide');
             };
-            $scope._init_collapse_event_ = function(_messages_array_){
-                for(var _k_ = 0; _k_ < _messages_array_.length; _k_++){
-                    $('#_message_panel_body_' + _k_).on('hidden.bs.collapse', function () {
-                        console.log(_messages_array_[_k_][0]);
-                    });
+            $scope._check_collapse_event_ = function(_obj_, _idx_){
+                var _class = $('#_message_panel_body_' + _idx_).attr("class");
+                var _span = '';
+                if("panel-collapse collapse in" == _class){
+                    _span += _obj_['createdName'];
+                    _span += _obj_['messageDate'];
+                    if(!isEmpty(_obj_.messageContent)){
+                        if(_obj_.messageContent.length >= 10){
+                            _span += _obj_.messageContent.substr(0, 11) + '......';
+                        }else{
+                            _span += _obj_.messageContent;
+                        }
+                    }
                 }
+                $('#_span_hide_content_' + _idx_).html(_span);
             };
             // 查询初始化
             $scope._query_messages_list_(0);
@@ -1733,7 +1742,6 @@ ctmApp.directive('bbsChatNew', function() {
             if(isEmpty($scope._messages_array_)){
                 if(!isEmpty($scope.initMessagesArray)){
                     $scope._messages_array_ = $scope.initMessagesArray;
-                    $scope._init_collapse_event_($scope._messages_array_);
                 }
             }
             // @初始化

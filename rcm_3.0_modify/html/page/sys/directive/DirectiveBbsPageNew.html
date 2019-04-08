@@ -32,7 +32,7 @@
     </div>
     <div ng-repeat="_messages_ in _messages_array_"
          id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
-        <div id="_message_panel_head_{{$index}}">
+        <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
             <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
                 <span class="text">{{$index + 1}}楼
                     <i class="i-triangle"></i>
@@ -57,7 +57,7 @@
                            ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0">删除</a>
                     </div>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
-                        <div style="height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
+                        <div style="min-height: 50px;" contenteditable="true" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
                                   readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
                                 style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
@@ -72,7 +72,7 @@
                            ng-if="_message_.createdBy == _init_uuid_global_">删除</a>
                     </div>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
-                        <div class="form-control" style="height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
+                        <div class="form-control" contenteditable="true" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
                                 style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
                 </div>
@@ -155,4 +155,22 @@
             </div>
         </div>
     </div>
+    <!--<script>
+        $(function(){
+            $.fn.autoHeight = function(){
+                function autoHeight(elem){
+                    elem.style.height = 'auto';
+                    elem.scrollTop = 0; //防抖动
+                    elem.style.height = elem.scrollHeight + 'px';
+                }
+                this.each(function(){
+                    autoHeight(this);
+                    $(this).on('keyup', function(){
+                        autoHeight(this);
+                    });
+                });
+            };
+            $('textarea[autoHeight]').autoHeight();
+        })
+    </script>-->
 </div>
