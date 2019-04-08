@@ -1646,6 +1646,7 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.parentId = 0;
                     formData.repliedBy = '';
                     formData.repliedName = 0;
+                    formData.messageContent = $('#_message_first_0').text();
                     formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
                 }else{
                     formData = $scope._message;
@@ -1653,7 +1654,7 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.parentId = _parent_id_;
                     formData.repliedBy = _replied_by_;
                     formData.repliedName = _replied_name_;
-                    formData.messageContent = $('#_message_textarea_bottom_' + _idx_).val();
+                    formData.messageContent = $('#_message_textarea_bottom_' + _idx_).text();
                 }
                 if (isEmpty(formData.messageContent)) {
                     if(_is_first_ == 'Y'){
@@ -1663,7 +1664,6 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                     return;
                 }
-                console.log(formData);
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/add.do',
@@ -1673,6 +1673,7 @@ ctmApp.directive('bbsChatNew', function() {
                     $scope._query_messages_list_(0);
                     $scope._clear_message_from();
                     if(_is_first_ == 'Y'){
+                        $('#_message_first_0').text('');
                         $.alert('发表留言成功!');
                     }else{
                         $.alert('回复留言成功!');
@@ -1702,7 +1703,7 @@ ctmApp.directive('bbsChatNew', function() {
             // 展示留言弹窗
             $scope._show_submit_message_form_ = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
                 $('#_submit_message_dialog').modal('show');
-                $('#_message_textarea_bottom_' + _idx_).val('');
+                $('#_message_textarea_bottom_' + _idx_).text('');
                 $scope._message.originalId = _original_id_;
                 $scope._message.parentId = _parent_id_;
                 $scope._message.repliedBy = _replied_by_;
@@ -1710,7 +1711,7 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 保存留言弹窗内容
             $scope._save_message_dialog_form_ = function(){
-                if(isEmpty($('#_message_textarea_bottom_0').val())){
+                if(isEmpty($('#_message_textarea_bottom_0').text())){
                     $.alert('回复内容不能为空!');
                     return;
                 }

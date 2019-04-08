@@ -2,7 +2,7 @@
     留言内容：
     <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
           style="margin-bottom: 5px;">
-        <textarea ng-model="_message_first.messageContent" class="form-control" style="background: #fff;"></textarea>
+        <div contenteditable="true" class="form-control" style="background: #fff;min-height: 50px;" id="_message_first_0"></div>
         <input type="text" ng-model="_message_first.parentId" ng-hide="true">
         <input type="text" ng-model="_message_first.originalId" ng-hide="true">
         <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
@@ -57,7 +57,7 @@
                            ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0">删除</a>
                     </div>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
-                        <div style="min-height: 50px;" contenteditable="true" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
+                        <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
                                   readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
                                 style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
@@ -72,7 +72,7 @@
                            ng-if="_message_.createdBy == _init_uuid_global_">删除</a>
                     </div>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
-                        <div class="form-control" contenteditable="true" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
+                        <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
                                 style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
                 </div>
@@ -133,8 +133,8 @@
                     <h4 class="modal-title" id="_my_modal_label">回复留言</h4>
                 </div>
                 <div class="modal-body panel-body">
-                    <textarea class="form-control" id="_message_textarea_bottom_0"
-                              style="margin-bottom: 2px;background: #fff;"></textarea>
+                    <div contenteditable="true" class="form-control" id="_message_textarea_bottom_0"
+                              style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
                     <input type="text" ng-model="_message.parentId" ng-hide="true">
                     <input type="text" ng-model="_message.originalId" ng-hide="true">
                     <input type="text" ng-model="_message.procInstId" ng-hide="true">
@@ -155,22 +155,4 @@
             </div>
         </div>
     </div>
-    <!--<script>
-        $(function(){
-            $.fn.autoHeight = function(){
-                function autoHeight(elem){
-                    elem.style.height = 'auto';
-                    elem.scrollTop = 0; //防抖动
-                    elem.style.height = elem.scrollHeight + 'px';
-                }
-                this.each(function(){
-                    autoHeight(this);
-                    $(this).on('keyup', function(){
-                        autoHeight(this);
-                    });
-                });
-            };
-            $('textarea[autoHeight]').autoHeight();
-        })
-    </script>-->
 </div>
