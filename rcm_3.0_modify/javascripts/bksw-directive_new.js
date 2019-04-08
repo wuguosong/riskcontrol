@@ -1717,6 +1717,13 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._submit_message_form_('N', $scope._message.originalId, $scope._message.parentId, $scope._message.repliedBy, $scope._message.repliedName, 0);
                 $('#_submit_message_dialog').modal('hide');
             };
+            $scope._init_collapse_event_ = function(_messages_array_){
+                for(var _k_ = 0; _k_ < _messages_array_.length; _k_++){
+                    $('#_message_panel_body_' + _k_).on('hidden.bs.collapse', function () {
+                        console.log(_messages_array_[_k_][0]);
+                    });
+                }
+            };
             // 查询初始化
             $scope._query_messages_list_(0);
             // 信息初始化
@@ -1726,6 +1733,7 @@ ctmApp.directive('bbsChatNew', function() {
             if(isEmpty($scope._messages_array_)){
                 if(!isEmpty($scope.initMessagesArray)){
                     $scope._messages_array_ = $scope.initMessagesArray;
+                    $scope._init_collapse_event_($scope._messages_array_);
                 }
             }
             // @初始化
