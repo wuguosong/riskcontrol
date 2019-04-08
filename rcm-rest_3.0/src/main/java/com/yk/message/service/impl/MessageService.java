@@ -146,17 +146,18 @@ public class MessageService implements IMessageService {
 		List<Message> messages = messageMapper.selectMessageList(procInstId, parentId);
 		for (Message message : messages) {
 			List<JSONObject> jsonObjectLeaves = new ArrayList<JSONObject>();
-			this.setViaUsers(message);
+			// this.setViaUsers(message);
 			JSONObject jsonObject = JSON.parseObject(message.toString());
 			jsonObject.put("position", "left");
 			jsonObject.put("messageDate",
 					DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
 			// 将根节点装入聊天组中
+			this.setViaUsers(jsonObject);
 			jsonObjectLeaves.add(jsonObject);
-//			// 把根节点下面的叶子节点全部都查出来
+			// 把根节点下面的叶子节点全部都查出来
 			List<Message> leaves = messageMapper.selectLeavesMessageList(procInstId, message.getMessageId());
 			for (Message leave : leaves) {
-				this.setViaUsers(leave);
+				// this.setViaUsers(leave);
 				JSONObject leaveObject = JSON.parseObject(leave.toString());
 				if (leave.getCreatedBy().equals(message.getCreatedBy())) {
 					leaveObject.put("position", "left");
@@ -165,6 +166,7 @@ public class MessageService implements IMessageService {
 				}
 				leaveObject.put("messageDate",
 						DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
+				this.setViaUsers(leaveObject);
 				jsonObjectLeaves.add(leaveObject);
 			}
 
@@ -190,6 +192,29 @@ public class MessageService implements IMessageService {
 				if(StringUtils.isNotBlank(sb)){
 					message.setViaUsers(sb.toString());
 				}
+			}
+		}
+	}
+
+	private void setViaUsers(JSONObject jsonObject){
+		String viaUsers = jsonObject.getString("viaUsers");
+		if(StringUtils.isNotBlank(viaUsers)){
+			String[] viaUsersArray = viaUsers.split(",");
+			if(ArrayUtils.isNotEmpty(viaUsersArray)){
+				Map<String, Object> params = new HashMap<String, Object>();
+				List<JSONObject> viaUsersList = new ArrayList<JSONObject>();
+				for(String viaUser : viaUsersArray){
+					params.put("UUID", viaUser);
+					Map<String, Object> user = userMapper.selectAUser(params);
+					if(user != null){
+						JSONObject jb = new JSONObject();
+						jb.put("viaId", viaUser);
+						jb.put("viaName", user.get("NAME"));
+						jb.put("via", "@" + user.get("NAME"));
+						viaUsersList.add(jb);
+					}
+				}
+				jsonObject.put("viaArray", viaUsersList);
 			}
 		}
 	}

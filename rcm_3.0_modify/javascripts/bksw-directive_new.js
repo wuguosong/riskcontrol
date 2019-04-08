@@ -1692,6 +1692,10 @@ ctmApp.directive('bbsChatNew', function() {
                     });
                 });
             };
+            // 用户的其他操作,预留方法
+            $scope._user_about_click_ = function(_source_, _user_id_, _user_name_){
+                console.log("查看用户：" + _source_ + " " + _user_id_ + " " + _user_name_);
+            };
             // 查询初始化
             $scope._query_messages_list_(0);
             // 信息初始化

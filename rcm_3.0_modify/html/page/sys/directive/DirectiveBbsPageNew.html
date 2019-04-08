@@ -35,7 +35,7 @@
             <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
                  id="_message_left_{{$index}}_{{_message_.messageId}}">
                 <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
-                    <span style="color: blue;">{{_message_.createdName}}</span>
+                    <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
                     <span style="font-size: small;">{{_message_.messageDate}}</span>
                     <a href="javascript:void(0);" style="font-size: small;color: blue; "
                        ng-click="_delete_message_(_message_.messageId)"
@@ -47,13 +47,13 @@
                 <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                     <div style="height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
                               readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
-                            style="color: blue;font-size: small;">{{_message_.viaUsers}}</span></div>
+                            style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                 </div>
             </div>
             <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
                  id="_message_right_{{$index}}_{{_message_.messageId}}">
                 <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
-                    <span style="color: blue;">{{_message_.createdName}}</span>
+                    <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
                     <span style="font-size: small;">{{_message_.messageDate}}</span>
                     <a href="javascript:void(0);" style="font-size: small;color: blue; "
                        ng-click="_delete_message_(_message_.messageId)"
@@ -61,7 +61,7 @@
                 </div>
                 <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                     <div class="form-control" style="height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
-                            style="color: blue;font-size: small;">{{_message_.viaUsers}}</span></div>
+                            style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                 </div>
             </div>
         </div>
