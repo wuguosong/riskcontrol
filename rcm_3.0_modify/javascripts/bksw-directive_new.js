@@ -1653,6 +1653,8 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.parentId = _parent_id_;
                     formData.repliedBy = _replied_by_;
                     formData.repliedName = _replied_name_;
+                    debugger;
+                    formData.messageContent = $('#_message_textarea_bottom_' + _idx_).val();
                 }
                 if (isEmpty(formData.messageContent)) {
                     if(_is_first_ == 'Y'){
