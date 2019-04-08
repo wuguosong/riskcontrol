@@ -1672,7 +1672,11 @@ ctmApp.directive('bbsChatNew', function() {
                 }).success(function (data) {
                     $scope._query_messages_list_(0);
                     $scope._clear_message_from();
-                    $.alert('发表留言成功!');
+                    if(_is_first_ == 'Y'){
+                        $.alert('发表留言成功!');
+                    }else{
+                        $.alert('回复留言成功!');
+                    }
                 });
             };
             // 删除留言信息
