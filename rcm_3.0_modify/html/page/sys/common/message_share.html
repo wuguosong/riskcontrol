@@ -1,0 +1,51 @@
+<div class="panel-body" >
+    <form class="form-horizontal ng-pristine ng-valid" >
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">留言信息</span>
+            </div>
+            <div id="messageComments" class="panel-group">
+                <div ng-repeat="_messages_ in _messages_array_"
+                     id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
+                    <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
+                        <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
+                            <span class="text">{{$index + 1}}楼
+                                <i class="i-triangle"></i>
+                            </span>
+                            <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
+                            </span>
+                            </span>
+                        </a>
+                    </div>
+                    <div id="_message_panel_body_{{$index}}" class="panel-collapse collapse in">
+                        <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}" ng-if="message.messageId == _message_.messageId || message.messageId == _message_.parentId">
+                            <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
+                                 id="_message_left_{{$index}}_{{_message_.messageId}}">
+                                <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
+                                    <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
+                                    <span style="font-size: small;">{{_message_.messageDate}}</span>
+                                </div>
+                                <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
+                                    <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
+                                         readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
+                                            style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
+                                </div>
+                            </div>
+                            <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
+                                 id="_message_right_{{$index}}_{{_message_.messageId}}">
+                                <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
+                                    <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
+                                    <span style="font-size: small;">{{_message_.messageDate}}</span>
+                                </div>
+                                <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
+                                    <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
+                                            style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

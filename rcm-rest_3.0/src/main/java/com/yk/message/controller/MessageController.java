@@ -285,4 +285,30 @@ public class MessageController {
 		}
 		return messages;
 	}
+
+	/**
+	 * 信息分享
+	 * @param messageId
+	 * @param shareUsers
+	 * @return
+	 */
+	@RequestMapping(value = "share", method = RequestMethod.POST)
+	@ResponseBody
+	public Result share(Long messageId, String shareUsers) {
+		Result result = new Result();
+		try {
+			messageService.shareMessage(messageId, shareUsers);
+			result.setSuccess(true);
+			result.setResult_code(Constants.S);
+			result.setResult_name("分享信息成功!");
+		} catch (Exception e) {
+			result.setResult_code(Constants.R);
+			result.setSuccess(false);
+			result.setResult_data(e);
+			result.setResult_name("分享信息失败!" + e.getMessage());
+			logger.error("分享信息失败!" + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

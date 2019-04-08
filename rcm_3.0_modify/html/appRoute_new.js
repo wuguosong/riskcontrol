@@ -2922,6 +2922,22 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+            .when('/message/share/:id', {
+                controller: 'shareMessageCtrl',
+                templateUrl: 'page/sys/common/message_share.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/sys/common/message_share.js?_v=' + _version], function() {
+                            $rootScope.$apply(function() {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }
 ]);
 

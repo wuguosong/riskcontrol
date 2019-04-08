@@ -218,4 +218,14 @@ public class MessageService implements IMessageService {
 			}
 		}
 	}
+
+	/**
+	 * 留言分享给指定用户，发送url到钉钉
+	 * @param messageId
+	 * @param shareUsers
+	 */
+	@Override
+	public void shareMessage(Long messageId, String shareUsers) {
+
+	}
 }
