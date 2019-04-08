@@ -1664,6 +1664,9 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                     return;
                 }
+                if(_common_get_string_byte_length(formData.messageContent) > 2500){
+                    $.alert('内容不能超过2500个字符!');
+                }
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/add.do',

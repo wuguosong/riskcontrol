@@ -1121,3 +1121,16 @@ function _init_query_messages_list_(_proc_inst_id_) {
     });
     return _messages_list_;
 };
+/**
+ * 获取字符长度
+ * @param str
+ * @returns {number}
+ */
+function _common_get_string_byte_length(str) {
+    if (str == null)
+        return 0;
+    if (typeof str != "string") {
+        str += "";
+    }
+    return str.replace(/[^\x00-\xff]/g, "01").length;
+}
