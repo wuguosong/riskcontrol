@@ -1776,6 +1776,60 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                 }
             };
+            $scope._share_message_id_ = '';
+            // 展示分享弹窗
+            $scope._show_share_message_form_ = function(_message_id_){
+                $('#_share_message_dialog').modal('show');
+                $scope._share_message_id_ = _message_id_;
+            };
+            // 执行分享操作
+            $scope._share_message_dialog_form_ = function(){
+                // 获取分享用户
+                var _share_users_ = notify_mergeTempCheckedUsers($scope._share_users_TempCheckedUsers);
+                if(isEmpty(_share_users_)){
+                    $.alert('请选择要分享的用户！');
+                    return;
+                }
+                $http({
+                    method: 'post',
+                    url: srvUrl + 'message/share.do',
+                    data: $.param({
+                        'messageId': $scope._share_message_id_,
+                        'shareUsers': _share_users_
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope._share_message_id_ = '';
+                    $scope._clear_share_users_();
+                    $.alert('分享留言成功!');
+                });
+                $('#_share_message_dialog').modal('hide');
+            };
+            // share多选
+            $scope._share_users_MappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
+            $scope._share_users_CheckedUsers = {};
+            $scope._share_users_TempCheckedUsers = {};
+            $scope._share_users_ParentSaveSelected = function(){
+                var _share_users_ExecuteEval = '';
+                _share_users_ExecuteEval += '$scope.$parent._share_users_CheckedUsers = $scope.checkedUsers;';
+                _share_users_ExecuteEval += '$scope.$parent._share_users_TempCheckedUsers = $scope.tempCheckedUsers;';
+                return _share_users_ExecuteEval;
+            };
+            $scope._share_users_removeUsers = function (_user) {
+                for (var _i = 0; _i < $scope._share_users_TempCheckedUsers.length; _i++) {
+                    if (_user.VALUE == $scope._share_users_TempCheckedUsers[_i].VALUE) {
+                        $scope._share_users_TempCheckedUsers.splice(_i, 1);
+                        break;
+                    }
+                }
+            };
+            $scope._clear_share_users_ = function(){
+                if(!isEmpty($scope._share_users_TempCheckedUsers) && $scope._share_users_TempCheckedUsers.length > 0){
+                    for(var _i = 0; _i < $scope._share_users_TempCheckedUsers.length; _i++){
+                        $scope._share_users_TempCheckedUsers = [];
+                    }
+                }
+            };
         }
     };
 });
