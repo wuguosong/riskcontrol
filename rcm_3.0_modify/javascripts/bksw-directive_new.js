@@ -1674,7 +1674,8 @@ ctmApp.directive('bbsChatNew', function() {
                     data: $.param(formData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    $scope._query_messages_list_(0);
+                    // $scope._query_messages_list_(0);
+                    $scope._query_messages_list_page_();
                     $scope._clear_message_from();
                     if(_is_first_ == 'Y'){
                         $('#_message_first_0').text('');
@@ -1695,7 +1696,8 @@ ctmApp.directive('bbsChatNew', function() {
                         }),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     }).success(function (data) {
-                        $scope._query_messages_list_(0);
+                        // $scope._query_messages_list_(0);
+                        $scope._query_messages_list_page_();
                         $.alert('删除留言成功!');
                     });
                 });
@@ -1754,7 +1756,7 @@ ctmApp.directive('bbsChatNew', function() {
                 $('#_span_hide_content_' + _idx_).html(_span);
             };
             // 查询初始化
-            $scope._query_messages_list_(0);
+            // $scope._query_messages_list_(0);
             // 信息初始化
             if(!isEmpty($scope.initUuid)){
                 $scope._init_uuid_global_ = $scope.initUuid;
@@ -1861,6 +1863,33 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                 }
             };
+            // 页面锚点定位
+            $scope._jump_page_to_ = function(_target_ele_id_){
+                $("html, body").animate({
+                    scrollTop: $("#" + _target_ele_id_).offset().top }, {duration: 500,easing: "swing"});
+                return false;
+            };
+            // 分页查询
+            $scope._query_messages_list_page_ = function(){
+                debugger;
+                $scope._message_pagination_configuration_.queryObj.procInstId = $scope.businessId;
+                $scope._message_pagination_configuration_.queryObj.parentId = 0;
+                $http({
+                    method: 'post',
+                    url: srvUrl + "message/queryMessagesListPage.do",
+                    data: $.param({"page": JSON.stringify($scope._message_pagination_configuration_)})
+                }).success(function(data){
+                    $scope._message_pagination_configuration_.totalItems = data['result_data'].totalItems;
+                    $scope._messages_array_ = data['result_data'].list;
+                });
+            };
+            // 分页参数初始化
+            $scope._message_pagination_configuration_ = {};
+            $scope._message_pagination_configuration_.queryObj = {};
+            $scope._message_pagination_configuration_.itemsPerPage = 5;
+            $scope._message_pagination_configuration_.perPageOptions = [5, 10, 15, 20, 25, 30];
+            $scope.$watch('_message_pagination_configuration_.currentPage + _message_pagination_configuration_.itemsPerPage', $scope._query_messages_list_page_);
+            $scope._query_messages_list_page_();
         }
     };
 });

@@ -9,6 +9,7 @@ import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import com.yk.power.dao.IUserMapper;
+import common.PageAssistant;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -258,5 +259,43 @@ public class MessageService implements IMessageService {
 	@Override
 	public HashMap<String, Object> getUserByUuid(String uuid) {
 		return messageMapper.selectUserInfoByUuid(uuid);
+	}
+
+	@Override
+	public void queryMessagesListPage(PageAssistant pageAssistant) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", pageAssistant);
+		if(pageAssistant.getParamMap() != null){
+			params.putAll(pageAssistant.getParamMap());
+		}
+		List<List<JSONObject>> jsonObjects = new ArrayList<List<JSONObject>>();
+		// 查询所有的根节点
+		List<Message> messages = messageMapper.selectMessageListPage(params);
+		for (Message message : messages) {
+			List<JSONObject> jsonObjectLeaves = new ArrayList<JSONObject>();
+			JSONObject jsonObject = JSON.parseObject(message.toString());
+			jsonObject.put("position", "left");
+			jsonObject.put("messageDate",
+					DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
+			// 将根节点装入聊天组中
+			this.setViaUsers(jsonObject);
+			jsonObjectLeaves.add(jsonObject);
+			// 把根节点下面的叶子节点全部都查出来
+			List<Message> leaves = messageMapper.selectLeavesMessageList(String.valueOf(params.get("procInstId")), message.getMessageId());
+			for (Message leave : leaves) {
+				JSONObject leaveObject = JSON.parseObject(leave.toString());
+				if (leave.getCreatedBy().equals(message.getCreatedBy())) {
+					leaveObject.put("position", "left");
+				} else {
+					leaveObject.put("position", "right");
+				}
+				leaveObject.put("messageDate",
+						DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
+				this.setViaUsers(leaveObject);
+				jsonObjectLeaves.add(leaveObject);
+			}
+			jsonObjects.add(jsonObjectLeaves);
+		}
+		pageAssistant.setList(jsonObjects);
 	}
 }

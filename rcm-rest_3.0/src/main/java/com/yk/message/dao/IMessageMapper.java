@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -70,4 +71,6 @@ public interface IMessageMapper extends BaseMapper {
 
     List<Message> selectLeavesMessageList(@Param("procInstId") String procInstId,@Param("messageId") Long messageId);
     HashMap<String, Object> selectUserInfoByUuid(@Param("uuid") String uuid);
+
+    List<Message> selectMessageListPage(Map<String, Object> params);
 }

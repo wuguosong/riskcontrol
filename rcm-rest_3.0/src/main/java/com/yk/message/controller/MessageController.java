@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import common.Constants;
+import common.PageAssistant;
 import common.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -281,10 +282,26 @@ public class MessageController {
 			messages = messageService.queryMessagesList(procInstId, new Long(parentId));
 			logger.info("获取信息成功!");
 		} catch (Exception e) {
-			logger.error("更新已阅失败!" + e.getMessage());
+			logger.error("获取信息失败!" + e.getMessage());
 			e.printStackTrace();
 		}
 		return messages;
+	}
+
+	@RequestMapping(value = "queryMessagesListPage", method = RequestMethod.POST)
+	@ResponseBody
+	public Result queryMessagesListPage(String page) {
+		Result result = new Result();
+		try {
+			PageAssistant pageAssistant = new PageAssistant(page);
+			messageService.queryMessagesListPage(pageAssistant);
+			result.setResult_data(pageAssistant);
+			logger.info("获取信息成功!");
+		} catch (Exception e) {
+			logger.error("获取信息失败!" + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	/**

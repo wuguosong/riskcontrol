@@ -2,6 +2,7 @@ package com.yk.message.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yk.message.entity.Message;
+import common.PageAssistant;
 
 import java.util.HashMap;
 import java.util.List;
@@ -122,4 +123,6 @@ public interface IMessageService {
     String shareMessage(Long messageId, String shareUsers);
 
     HashMap<String, Object> getUserByUuid(String uuid);
+
+    void queryMessagesListPage(PageAssistant pageAssistant);
 }

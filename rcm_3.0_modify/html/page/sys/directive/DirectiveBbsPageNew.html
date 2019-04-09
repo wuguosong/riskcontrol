@@ -1,4 +1,5 @@
 <div class="_message">
+    <!--头部留言表单部分-->
     留言内容：
     <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
           style="margin-bottom: 5px;">
@@ -24,17 +25,22 @@
             </ul>
         </div>
     </div>
-    <div style="text-align: left;">
+    <div style="text-align: left;font-size: small;">
         <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
            ng-click="_submit_message_form_('Y', '', '', '', '', '')">
             <span class="addlabel blue">发表留言</span>
         </a>
     </div>
+    <!--锚点-顶部-->
+    <div style="text-align: right;font-size: small;color: blue;">
+        <a href="javascript:void(0);" id="_first_floor_" ng-click="_jump_page_to_('_last_floor_')">跳到底部</a>
+    </div>
+    <!--迭代部分-->
     <div ng-repeat="_messages_ in _messages_array_"
-         id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
+         id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 5px;">
         <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
             <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
-                <span class="text">{{$index + 1}}楼
+                <span class="text">{{(_message_pagination_configuration_.currentPage - 1) * _message_pagination_configuration_.itemsPerPage + $index + 1}}楼
                     <i class="i-triangle"></i>
                 </span>
                 <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
@@ -120,6 +126,14 @@
                 </a>-->
             </form>
         </div>
+    </div>
+    <!--锚点-底部-->
+    <div style="text-align: right;font-size: small;color: blue;">
+        <a href="javascript:void(0);" id="_last_floor_" ng-click="_jump_page_to_('_first_floor_')">回到顶部</a>
+    </div>
+    <!--分页部分-->
+    <div>
+        <tm-pagination conf="_message_pagination_configuration_"></tm-pagination>
     </div>
     <!--@用户选择区域-->
     <div id="_via_users_mul_dialog" class="modal" tabindex="-1" role="dialog" style="display: none;">

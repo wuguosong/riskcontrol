@@ -178,4 +178,17 @@
         where 1 = 1
         and su.UUID = #{uuid}
     </select>
+    <select id="selectMessageListPage" resultMap="messageMap" parameterType="map">
+        select
+        <include refid="baseColumn"/>
+        from sys_message
+        where 1 = 1
+        <if test="procInstId != null">
+            and proc_inst_id = #{procInstId}
+        </if>
+        <if test="parentId != null">
+            and parent_id = #{parentId}
+        </if>
+        order by message_id, message_date asc
+    </select>
 </mapper>
