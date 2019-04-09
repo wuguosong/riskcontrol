@@ -357,6 +357,13 @@ form {
                     }
                 }
             }
+            //回复内容
+            form {
+                div.form-control {
+                    height: auto;
+                    min-height: 50px;
+                }
+            }
         }
     }
     // 弹出框

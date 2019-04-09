@@ -299,6 +299,11 @@ form .left-content {
   color: #fff;
 }
 
+._message div div[id^="_message_panel_body_"] form div.form-control {
+  height: auto;
+  min-height: 50px;
+}
+
 ._message div#_submit_message_dialog .modal-content.panel .modal-header.panel-heading {
   position: relative;
 }
