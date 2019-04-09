@@ -224,4 +224,59 @@
                                   checked-users="_share_users_CheckedUsers"
                                   parent-save-selected="_share_users_ParentSaveSelected()"></direct-user-multi-dialog>
     </div>
+    <!--用户信息弹窗-->
+    <div id="_message_user_dialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content panel">
+                <div class="modal-header panel-heading" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="_my_message_user_modal_label">用户信息</h4>
+                </div>
+                <div class="modal-body panel-body">
+                    <div class="row">
+                        <label class="col-sm-3 control-label">账号</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.USER_ACCOUNT" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">姓名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.USER_NAME" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">性别</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.SEX" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">组织</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.ORG_NAME" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">电话</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.CONTACT" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">邮箱</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.EMAIL" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="button-group">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

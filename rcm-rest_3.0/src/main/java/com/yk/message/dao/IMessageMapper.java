@@ -5,6 +5,7 @@ import com.yk.message.entity.Message;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -68,4 +69,5 @@ public interface IMessageMapper extends BaseMapper {
     List<Message> selectMessages(@Param("procInstId") String procInstId, @Param("createdBy") String createdBy, @Param("notIncludeCreatedBy") boolean notIncludeCreatedBy);
 
     List<Message> selectLeavesMessageList(@Param("procInstId") String procInstId,@Param("messageId") Long messageId);
+    HashMap<String, Object> selectUserInfoByUuid(@Param("uuid") String uuid);
 }

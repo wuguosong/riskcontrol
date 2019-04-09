@@ -1700,8 +1700,23 @@ ctmApp.directive('bbsChatNew', function() {
                 });
             };
             // 用户的其他操作,预留方法
+            $scope._message_user = {};
             $scope._user_about_click_ = function(_source_, _user_id_, _user_name_){
                 console.log("查看用户：" + _source_ + " " + _user_id_ + " " + _user_name_);
+                return;
+                $http({
+                    method: 'post',
+                    url: srvUrl + 'message/getUserInfo.do',
+                    data: $.param({
+                        'uuid': _user_id_
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    if(!isEmpty(data)){
+                        $scope._message_user = data;
+                        $('#_message_user_dialog').modal('show');
+                    }
+                });
             };
             // 展示留言弹窗
             $scope._show_submit_message_form_ = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
