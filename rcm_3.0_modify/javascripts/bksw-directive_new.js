@@ -1666,7 +1666,6 @@ ctmApp.directive('bbsChatNew', function() {
                 }
                 if(_common_get_string_byte_length(formData.messageContent) > 2500){
                     $.alert('内容不能超过2500个字符!');
-                    return;
                 }
                 $http({
                     method: 'post',
@@ -3299,6 +3298,66 @@ ctmApp.directive('directiveFormalReportJlyjy', function() {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportJlyjy.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 评审用成本及费用(新)
+ctmApp.directive('directiveFormalReportCbfyNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportCbfyNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 风险及问题总结(新)
+ctmApp.directive('directiveFormalReportFxjwtzjNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportFxjwtzjNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 结论与建议(新)
+ctmApp.directive('directiveFormalReportJlyjyNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportJlyjyNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 后续执行要求(新)
+ctmApp.directive('directiveFormalReportHxzxyqNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportHxzxyqNew.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
+// 专业评审意见(新)
+ctmApp.directive('directiveFormalReportZypsyjNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportZypsyjNew.html',
         replace: true,
         link:function(scope,element,attr){
         },
