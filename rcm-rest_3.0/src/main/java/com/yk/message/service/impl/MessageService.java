@@ -170,7 +170,7 @@ public class MessageService implements IMessageService {
 					leaveObject.put("position", "right");
 				}
 				leaveObject.put("messageDate",
-						DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
+						DateUtil.getOracleDateToString(leave.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
 				this.setViaUsers(leaveObject);
 				jsonObjectLeaves.add(leaveObject);
 			}
@@ -290,7 +290,7 @@ public class MessageService implements IMessageService {
 					leaveObject.put("position", "right");
 				}
 				leaveObject.put("messageDate",
-						DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
+						DateUtil.getOracleDateToString(leave.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
 				this.setViaUsers(leaveObject);
 				jsonObjectLeaves.add(leaveObject);
 			}
