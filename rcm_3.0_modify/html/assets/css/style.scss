@@ -263,17 +263,11 @@ form {
             min-height: 30px;
             position: relative;
             padding-left: 15px;
-            li:first-child {
-                position: absolute;
-                top: 50%;
-                left: 4px;
-                transform: translateY(-50%);
-                span {
-                    line-height: 1;
-                    font-weight: 600;
-                    text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
-                    font-size: 13px;
-                }
+            li>span {
+                line-height: 30px;
+                font-weight: 600;
+                text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+                font-size: 13px;
             }
             li.select2-search-choice {
                 margin: 5px;
@@ -428,15 +422,16 @@ form {
             .modal-body.panel-body {
                 ul {
                     li {
-                        &:first-child {
-                            position: static;
-                            transform: translateY(0);
-                        }
+                        // &:first-child {
+                        //     position: static;
+                        //     transform: translateY(0);
+                        // }
                         &:last-child {
                             margin: 5px;
                             span.addlabel {
                                 margin: 0;
                                 height: auto;
+                                line-height: 22px;
                             }
                         }
                     }

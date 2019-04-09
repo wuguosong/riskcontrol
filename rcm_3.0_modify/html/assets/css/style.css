@@ -241,15 +241,8 @@ form .left-content {
   padding-left: 15px;
 }
 
-._message .select2-success ul.select2-choices li:first-child {
-  position: absolute;
-  top: 50%;
-  left: 4px;
-  transform: translateY(-50%);
-}
-
-._message .select2-success ul.select2-choices li:first-child span {
-  line-height: 1;
+._message .select2-success ul.select2-choices li > span {
+  line-height: 30px;
   font-weight: 600;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   font-size: 13px;
@@ -358,11 +351,6 @@ form .left-content {
   font-weight: bold;
 }
 
-._message div#_share_message_dialog .modal-dialog .panel .modal-body.panel-body ul li:first-child {
-  position: static;
-  transform: translateY(0);
-}
-
 ._message div#_share_message_dialog .modal-dialog .panel .modal-body.panel-body ul li:last-child {
   margin: 5px;
 }
@@ -370,6 +358,7 @@ form .left-content {
 ._message div#_share_message_dialog .modal-dialog .panel .modal-body.panel-body ul li:last-child span.addlabel {
   margin: 0;
   height: auto;
+  line-height: 22px;
 }
 
 @media screen and (min-width: 768px) {
