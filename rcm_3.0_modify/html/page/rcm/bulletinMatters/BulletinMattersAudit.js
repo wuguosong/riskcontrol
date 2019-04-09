@@ -85,6 +85,7 @@ function ($http,$scope,$location,$routeParams) {
 
 ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$location', '$routeParams', '$filter','Upload',
 	function ($http,$scope,$location, $routeParams, $filter,Upload) {
+	$scope.businessId = $routeParams.id;
 	$scope.queryParamId = $routeParams.id;
 	$scope.oldUrl = $routeParams.url;
 	$scope.showController = {};
@@ -994,4 +995,6 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         };
         $scope._notifyInitNotifiesUser("bulletin", $routeParams.id);
         /***************************知会和加签*******************************/
+        $scope._init_uuid_ = $scope.credentials.UUID;
+        $scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
 }]);

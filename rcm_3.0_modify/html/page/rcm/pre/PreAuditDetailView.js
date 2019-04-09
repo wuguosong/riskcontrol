@@ -1,5 +1,5 @@
 ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope','$location','Upload', '$filter', function ($routeParams,$http,$scope,$location,Upload, $filter) {
-	
+    $scope.businessId = $routeParams.id;
 	var businessId = $routeParams.id;
     $scope.url = $routeParams.url;
 	
@@ -1747,4 +1747,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 	};
     $scope._notifyInitNotifiesUser("preReview", $routeParams.id);
     /**************知会和加签******************/
+    $scope._init_uuid_ = $scope.credentials.UUID;
+    $scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
 }]);

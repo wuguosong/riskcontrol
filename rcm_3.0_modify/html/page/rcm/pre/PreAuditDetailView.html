@@ -25,6 +25,9 @@
                                     <li>
                                         <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
                                     </li>
+                                    <li>
+                                        <a href="/#bbs_chat" data-toggle="tab">留言区</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="tab-content tab-content-bordered">
@@ -43,6 +46,14 @@
 															  last-update-by="pre.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
 															  init-update="initUpdate(id)"></directive-accachment-new>
 								</div>
+                                <div class="tab-pane clearfix row" id="bbs_chat">
+                                    <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+
+                                    </div>
+                                    <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                                        <bbs-chat-new id="prePreviewBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_"></bbs-chat-new>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
