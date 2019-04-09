@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import util.UserUtil;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -311,5 +312,18 @@ public class MessageController {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> getUserInfo(String uuid) {
+		HashMap<String, Object> userInfo = null;
+		try {
+			userInfo = messageService.getUserByUuid(uuid);
+		} catch (Exception e) {
+			logger.error("分享信息失败!" + e.getMessage());
+			e.printStackTrace();
+		}
+		return userInfo;
 	}
 }

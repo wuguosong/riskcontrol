@@ -165,5 +165,17 @@
         </if>
         order by message_id, message_date asc
     </select>
-    
+    <select id="selectUserInfoByUuid" resultType="java.util.HashMap">
+        select
+        su.ACCOUNT as user_account,
+        su.NAME as user_name,
+        su.SEXCODE as sex,
+        so.name as org_name,
+        nvl(su.CONTACT1, su.CONTACT2) as contact,
+        su.EMAIL as email
+        from sys_user su
+        left join sys_org so on su.ORGCODE = so.CODE
+        where 1 = 1
+        and su.UUID = #{uuid}
+    </select>
 </mapper>
