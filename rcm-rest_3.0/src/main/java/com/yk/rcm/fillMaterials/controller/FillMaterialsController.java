@@ -33,7 +33,7 @@ public class FillMaterialsController {
 	 */
 	@RequestMapping("/queryAllList")
 	@ResponseBody
-	@SysLog(module = LogConstant.MODULE_FILL_MATERIALS, operation = LogConstant.QUERY, description = "查询所有的资料填写项目列表")
+	// @SysLog(module = LogConstant.MODULE_FILL_MATERIALS, operation = LogConstant.QUERY, description = "查询所有的资料填写项目列表")
 	public Result queryAllList(){
 		Result result = new Result();
 		Map<String,Object> data = new HashMap<String,Object>();
