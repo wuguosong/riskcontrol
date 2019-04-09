@@ -59,7 +59,7 @@ body {
 
 .gt-ie8 input.px+.lbl:after,
 .gt-ie8 input.px+.lbl:before {
-    margin: 13px 3px -3px -20px!important;
+    // margin: 13px 3px -3px -20px!important;
 }
 
 
@@ -402,5 +402,67 @@ form {
         .modal-dialog {
             margin: 100px auto;
         }
+    }
+    // 分享弹出框
+    div#_share_message_dialog {
+        .modal-dialog .panel {
+            // 头部
+            .modal-header.panel-heading {
+                position: relative;
+                button.close {
+                    // padding-right: 10px;
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    &:hover {
+                        background-color: $light-blue;
+                    }
+                }
+                h4.modal-title {
+                    line-height: 2;
+                    margin: 0 auto;
+                    font-weight: bold;
+                }
+            }
+            // 输入框
+            .modal-body.panel-body {
+                ul {
+                    li {
+                        &:first-child {
+                            position: static;
+                            transform: translateY(0);
+                        }
+                        &:last-child {
+                            margin: 5px;
+                            span.addlabel {
+                                margin: 0;
+                                height: auto;
+                            }
+                        }
+                    }
+                }
+            }
+            // 按钮
+            .modal-footer {}
+        }
+    }
+    @media screen and(min-width: 768px) {
+        .modal-dialog {
+            margin: 100px auto;
+        }
+    }
+}
+
+// 单选
+// #approvalPart {
+//     .gt-ie8 input.px+span.lbl:after,
+//     .gt-ie8 input.px+span.lbl:before {
+//         margin: 2px 5px 0px -18px !important;
+//     }
+// }
+.modal.in {
+    .checkbox-inline>span.lbl:after,
+    .checkbox-inline>span.lbl:before {
+        margin: 15px 0px 0px -13px!important;
     }
 }

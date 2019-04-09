@@ -52,11 +52,6 @@ body {
   background-color: #333;
 }
 
-.gt-ie8 input.px + .lbl:after,
-.gt-ie8 input.px + .lbl:before {
-  margin: 13px 3px -3px -20px !important;
-}
-
 /* 页签部分 */
 a.tab {
   margin: 5px 5px 5px 0 !important;
@@ -341,4 +336,49 @@ form .left-content {
   ._message .modal-dialog {
     margin: 100px auto;
   }
+}
+
+._message div#_share_message_dialog .modal-dialog .panel .modal-header.panel-heading {
+  position: relative;
+}
+
+._message div#_share_message_dialog .modal-dialog .panel .modal-header.panel-heading button.close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+._message div#_share_message_dialog .modal-dialog .panel .modal-header.panel-heading button.close:hover {
+  background-color: #eff2f7;
+}
+
+._message div#_share_message_dialog .modal-dialog .panel .modal-header.panel-heading h4.modal-title {
+  line-height: 2;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+._message div#_share_message_dialog .modal-dialog .panel .modal-body.panel-body ul li:first-child {
+  position: static;
+  transform: translateY(0);
+}
+
+._message div#_share_message_dialog .modal-dialog .panel .modal-body.panel-body ul li:last-child {
+  margin: 5px;
+}
+
+._message div#_share_message_dialog .modal-dialog .panel .modal-body.panel-body ul li:last-child span.addlabel {
+  margin: 0;
+  height: auto;
+}
+
+@media screen and (min-width: 768px) {
+  ._message .modal-dialog {
+    margin: 100px auto;
+  }
+}
+
+.modal.in .checkbox-inline > span.lbl:after,
+.modal.in .checkbox-inline > span.lbl:before {
+  margin: 15px 0px 0px -13px !important;
 }
