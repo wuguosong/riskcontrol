@@ -39,9 +39,14 @@
             <td>
                 {{ noSubmit.APPLY_DATE }}
             </td>
-            <td>
-                {{ noSubmit.STAGE }}
-            </td>
+
+            <td ng-if="'1'== noSubmit.STAGE">申请阶段</td>
+            <td ng-if="'2'== noSubmit.STAGE">任务分配</td>
+            <td ng-if="'3'== noSubmit.STAGE">风控处理</td>
+            <td ng-if="'4'== noSubmit.STAGE">准备上会</td>
+            <td ng-if="'5'== noSubmit.STAGE">已决策</td>
+            <td ng-if="'9'== noSubmit.STAGE">已终止</td>
+
             <td>
                 {{ noSubmit.STATUS }}
             </td>
