@@ -254,4 +254,9 @@ public class MessageService implements IMessageService {
 		}
 		return url;
 	}
+
+	@Override
+	public HashMap<String, Object> getUserByUuid(String uuid) {
+		return messageMapper.selectUserInfoByUuid(uuid);
+	}
 }
