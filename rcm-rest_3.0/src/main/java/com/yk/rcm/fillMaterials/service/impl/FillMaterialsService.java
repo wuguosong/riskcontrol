@@ -54,19 +54,19 @@ public class FillMaterialsService implements IFillMaterialsService {
 						.querySummaryById(map.get("BUSINESSID").toString());
 				// 判断在途数据
 				if (map.get("STAGE").equals("3.9")) {
-					map.put("RPI_IS_SUBMIT_REPORT", "1");
-					map.put("RPI_IS_SUBMIT_BIDDING", "1");
+					map.put("RFI_IS_SUBMIT_REPORT", "1");
+					map.put("RFI_IS_SUBMIT_BIDDING", "1");
 					if (Util.isNotEmpty(summary)) {
-						map.put("RPI_IS_SUBMIT_REPORT", "0");
+						map.put("RFI_IS_SUBMIT_REPORT", "0");
 					}
 				} else if (map.get("STAGE").equals("3.5")) {
-					map.put("RPI_IS_SUBMIT_REPORT", "1");
+					map.put("RFI_IS_SUBMIT_REPORT", "1");
 					if (Util.isNotEmpty(map.get("PFR_NOTICE_CREATE_DATE"))) {
-						map.put("RPI_IS_SUBMIT_BIDDING", "0");
+						map.put("RFI_IS_SUBMIT_BIDDING", "0");
 					}
 				} else if (map.get("STAGE").equals("3")) {
 					if (Util.isNotEmpty(map.get("PFR_REPORT_CREATE_DATE"))) {
-						map.put("RPI_IS_SUBMIT_REPORT", "0");
+						map.put("RFI_IS_SUBMIT_REPORT", "0");
 					}
 				}
 

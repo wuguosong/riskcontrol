@@ -134,7 +134,7 @@ ctmApp.register.controller('ConferenceInformationCreate', ['$http','$scope','$lo
                 hide_Mask();
                 $.alert(result.result_name);
                 if (flag == 'submit'){
-                    var oldUrl=window.btoa(encodeURIComponent(escape("#/ConferenceInformation/1")))
+                    var oldUrl=window.btoa(encodeURIComponent(escape("#/IndividualTable")))
                     $location.path("ConferenceInformationDetailView/"+objId+"/" + oldUrl + "/" + $scope.flag);
                 }
 

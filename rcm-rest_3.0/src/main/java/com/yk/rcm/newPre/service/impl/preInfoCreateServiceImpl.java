@@ -121,7 +121,11 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		
 		//根据申报单位初始化大区ID
 		Map<String, Object> pertainAreaDocument = orgService.queryPertainArea(reportingUnit.get("KEY").toString());
-		params.put("pertainAreaId", pertainAreaDocument.get("ORGPKVALUE"));
+		if (pertainAreaDocument != null){
+			params.put("pertainAreaId", pertainAreaDocument.get("ORGPKVALUE"));
+		} else {
+			params.put("pertainAreaId", reportingUnit.getString("KEY"));
+		}
 		
 		List<Document> serviceType = (List<Document>) apply.get("serviceType");
 		if(Util.isNotEmpty(serviceType) && serviceType.size()>0){

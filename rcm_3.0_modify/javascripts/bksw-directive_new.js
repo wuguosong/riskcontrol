@@ -5202,6 +5202,29 @@ ctmApp.directive('fillMaterial', function () {
                 });
             };
             $scope.initData();
+            $scope.r={};
+            //新建评审报告
+            $scope.createRFIReport = function (noSubmit) {
+                $scope.toCreateReport = noSubmit;
+                $scope.r.pmodel="FormalReviewReport/Create";
+            };
+
+            //编辑评审报告
+            $scope.editRFIReport = function(model,uuid){
+                var ind = model.lastIndexOf("/");
+                var modelAction = model.substring(ind + 1,model.length);
+                if(modelAction == 'Update'){
+                    $.alert("请选择项目模式!");
+                    return false;
+                }else if(uuid == null || uuid == ""){
+                    $.alert("请选择一个项目!");
+                    return false;
+                }else{
+                    var routePath = model.substring(0,ind);
+                    $('#addModal').modal('hide');
+                    $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/FormalReportList_new/0'));
+                }
+            }
         }
     }
 });
