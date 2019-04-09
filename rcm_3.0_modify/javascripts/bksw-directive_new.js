@@ -1782,6 +1782,12 @@ ctmApp.directive('bbsChatNew', function() {
                 $('#_share_message_dialog').modal('show');
                 $scope._share_message_id_ = _message_id_;
             };
+            // 测试方法
+            $scope._share_message_result_test_ = function(_url_){
+                // ('#_share_message_url_a').attr('href', _url_);
+                // $('#_share_message_url_a').html(_url_);
+                window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
             // 执行分享操作
             $scope._share_message_dialog_form_ = function(){
                 // 获取分享用户
@@ -1799,11 +1805,20 @@ ctmApp.directive('bbsChatNew', function() {
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    $scope._share_message_id_ = '';
-                    $scope._clear_share_users_();
-                    $.alert('分享留言成功!');
+                    if(isEmpty(data)){
+                        $.error('分享留言失败!');
+                    }else{
+                        if(data['result_code'] == 'S'){
+                            $scope._share_message_id_ = '';
+                            $scope._clear_share_users_();
+                            $('#_share_message_dialog').modal('hide');
+                            $.alert('分享留言成功!');
+                            $scope._share_message_result_test_(data['result_data']);
+                        }else{
+                            $.error(data['result_name']);
+                        }
+                    }
                 });
-                $('#_share_message_dialog').modal('hide');
             };
             // share多选
             $scope._share_users_MappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};

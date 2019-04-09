@@ -2,6 +2,9 @@ package com.yk.message.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.goukuai.kit.Prop;
+import com.goukuai.kit.PropKit;
+import com.yk.exception.BusinessException;
 import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import util.DateUtil;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -223,9 +227,31 @@ public class MessageService implements IMessageService {
 	 * 留言分享给指定用户，发送url到钉钉
 	 * @param messageId
 	 * @param shareUsers
+	 * @return String url
 	 */
 	@Override
-	public void shareMessage(Long messageId, String shareUsers) {
-
+	public String shareMessage(Long messageId, String shareUsers) {
+		if(messageId == null){
+			throw new BusinessException("共享失败，留言Id为空！");
+		}
+		if(StringUtils.isBlank(shareUsers)){
+			throw new BusinessException("共享失败，要共享的用户为空！");
+		}
+		// 构造访问url
+		Prop prop = PropKit.use("dev_db.properties");
+		if(prop == null){
+			throw new BusinessException("共享失败，读取资源文件失败！");
+		}
+		String url = prop.get("message.share.url") + prop.get("message.request.mapping") + messageId;
+		// 分割用户
+		String[] shareUserArray = shareUsers.split(",");
+		if(ArrayUtils.isEmpty(shareUserArray)){
+			throw new BusinessException("共享失败，要共享的用户为空！");
+		}
+		for(String shareUser : shareUserArray){
+			// TODO 此处需要调用钉钉接口进行发送
+			System.out.println("向用户：" + shareUser + "发送url：" + url);
+		}
+		return url;
 	}
 }

@@ -112,5 +112,11 @@ public interface IMessageService {
 
 	List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId);
 
-	void shareMessage(Long messageId, String shareUsers);
+    /**
+     * 分享留言
+     * @param messageId
+     * @param shareUsers
+     * @return
+     */
+    String shareMessage(Long messageId, String shareUsers);
 }

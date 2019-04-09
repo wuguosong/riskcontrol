@@ -297,8 +297,9 @@ public class MessageController {
 	public Result share(Long messageId, String shareUsers) {
 		Result result = new Result();
 		try {
-			messageService.shareMessage(messageId, shareUsers);
+			String url = messageService.shareMessage(messageId, shareUsers);
 			result.setSuccess(true);
+			result.setResult_data(url);
 			result.setResult_code(Constants.S);
 			result.setResult_name("分享信息成功!");
 		} catch (Exception e) {

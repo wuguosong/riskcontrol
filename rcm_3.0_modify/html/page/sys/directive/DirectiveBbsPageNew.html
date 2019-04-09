@@ -176,10 +176,14 @@
                                      class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
                                     <ul class="select2-choices">
                                         <li class="select2-search-choice" ng-repeat="_share in _share_users_TempCheckedUsers">
-                                            <div>{{_share.NAME}}</div>
+                                            <div>
+                                                {{_share.NAME}}
+                                            </div>
                                             <a class="select2-search-choice-close" tabindex="-1"
-                                               ng-click="_share_users_removeUsers(_share)"></a>
-                                            <div class="full-drop"><input type="hidden" value="{{_share.VALUE}}">
+                                               ng-click="_share_users_removeUsers(_share)">
+                                            </a>
+                                            <div class="full-drop">
+                                                <input type="hidden" value="{{_share.VALUE}}">
                                             </div>
                                         </li>
                                         <li style="height:29px;"></li>
@@ -188,6 +192,13 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="_share_message_url">
+                                <a href="" id="_share_message_url_a"></a>
                             </div>
                         </div>
                     </div>
