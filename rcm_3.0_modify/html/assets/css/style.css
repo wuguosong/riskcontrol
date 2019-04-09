@@ -229,7 +229,12 @@ form .left-content {
   width: 100%;
 }
 
-._message .select2-success form#s2id_projectModel div.form-control {
+._message form#_message_form_first div.form-control {
+  min-height: 30px;
+  height: auto;
+}
+
+._message .select2-success div#select2-success div.form-control {
   min-height: 30px;
   height: auto;
 }
