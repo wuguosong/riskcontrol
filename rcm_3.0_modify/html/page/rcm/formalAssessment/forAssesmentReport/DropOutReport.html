@@ -1,143 +1,183 @@
-<div class="panel-body" >
-	<form class="form-horizontal ng-pristing ng-valid" id="DropOutReport" name="DropOutReport">
-		<div class="">
-			<div class="header detail-page">
-				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{title}}</span>
-			</div>
-			<div class="panel-group" id="formalReviewReport">
-				<div class="panel">
-					<div id="flag1-c" class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#exitReasonPanel">
-							<span class="text">1.退出原因<i class="i-triangle"></i></span>
-						</a>
-					</div>
-					<div id="exitReasonPanel" class="panel-collapse collapse">
-						<div class="panel-body special-form">
-							<div class="row">
-								<label class="col-sm-2 control-label">项目名称</label>
-								<div class="col-sm-10 noright-pad">
-									<input type="text" readonly ng-model="formalReport.projectName" class="form-control" id="projectName" name="projectName"/>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>项目信息</label>
-								<div class="col-sm-10 noright-pad"><textarea name="projectMessege" id="projectMessege" rows="" cols="" ng-model="formalReport.projectMessege" class="form-control"></textarea></div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>项目公司信息</label>
-								<div class="col-sm-10 noright-pad"><textarea name="projectCompanyMessege" id="projectCompanyMessege" rows="" cols="" ng-model="formalReport.projectCompanyMessege" class="form-control"></textarea></div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>原评审情况</label>
-								<div class="col-sm-10 noright-pad"><textarea name="reviewSituation" id="reviewSituation" rows="" cols="" ng-model="formalReport.reviewSituation" class="form-control"></textarea></div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span ng-if="actionparm!='View'" class="required">*</span>退出原因</label>
-								<div class="col-sm-10 noright-pad"><textarea name="exitReason" id="exitReason" rows="" cols="" ng-model="formalReport.exitReason" class="form-control"></textarea></div>
-							</div>
+<div class="xh-content container-fluid">
+	<form name="FormalReviewReport" novalidate class="row">
+		<div class="main-content col-md-10 col-sm-10 col-xs-12">
+			<div class="mcontent content1" id="flag1-c">
+				<h3 class="text-blue">退出原因</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">项目名称</span>
+							<span class="col-md-10 slim">
+								<input type="text" readonly ng-model="formalReport.projectName" class="form-control" id="projectName" name="projectName"/>
+							</span>
 						</div>
+
 					</div>
 				</div>
-				<div class="panel">
-					<div id="flag2-c" class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#exitProgram">
-							<span class="text">2.退出方案<i class="i-triangle"></i></span>
-						</a>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">项目信息</span>
+							<span class="col-md-10 slim">
+								<textarea name="projectMessege" id="projectMessege" rows="" cols="" ng-model="formalReport.projectMessege" class="form-control"></textarea>
+							</span>
+						</div>
+
 					</div>
-					<div id="exitProgram" class="panel-collapse collapse">
-						<div class="panel-body">
-							<div class="row">
-								<div class="row-tit">2.1退出方案——按原协议</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">项目公司信息</span>
+							<span class="col-md-10 slim">
+								<textarea name="projectCompanyMessege" id="projectCompanyMessege" rows="" cols="" ng-model="formalReport.projectCompanyMessege" class="form-control"></textarea>
+							</span>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">原评审情况</span>
+							<span class="col-md-10 slim">
+								<textarea name="reviewSituation" id="reviewSituation" rows="" cols="" ng-model="formalReport.reviewSituation" class="form-control"></textarea>
+							</span>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">退出原因</span>
+							<span class="col-md-10 slim">
+								<textarea name="exitReason" id="exitReason" rows="" cols="" ng-model="formalReport.exitReason" class="form-control"></textarea>
+							</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="mcontent content1" id="flag2-c">
+				<h3 class="text-blue">退出方案</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="text-blue">退出方案——按原协议</span>
+						</div>
+						<div class="row">
+							<span class="col-md-12 slim">
 								<textarea name="" ng-model="formalReport.originalAgreement" rows="" cols="" class="form-control" placeholder="内容说明：此处应填写适用于原特许经营协议约定的退出方案的具体内容。"></textarea>
-							</div>
-							<div class="row">
-								<div class="row-tit">2.2退出方案——初步商定</div>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="text-blue">退出方案——初步商定</span>
+						</div>
+						<div class="row">
+							<span class="col-md-12 slim">
 								<textarea name="" ng-model="formalReport.preliminaryAgreed" rows="" cols="" class="form-control" placeholder="内容说明：此处应填写与政府商定的初步退出方案的具体内容。"></textarea>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="panel">
-					<div id="flag3-c" class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#formalReviewReport" href="/#incomeEvaluation">
-							<span class="text">3.收益评价<i class="i-triangle"></i></span>
-						</a>
-					</div>
-					<div id="incomeEvaluation" class="panel-collapse collapse">
-						<div class="panel-body">
-							<div class="row">
-								<div class="row-tit">3.1投资成本及经营成果</div>
-								<textarea name="" ng-model="formalReport.operatingResults" rows="" cols="" class="form-control" placeholder="内容说明：主要包括本项目我方实际付出的投资成本（现金流）以及我方运营年度回收的现金净流（每年），此处是为计算收益评价做准备。"></textarea>
-							</div>
-							<div class="row">
-								<div class="row-tit">3.2财务账面处理分析</div>
-								<textarea name="" ng-model="formalReport.financialBook" rows="" cols="" class="form-control" placeholder="内容说明：主要编写本次退出财务账面处理情况，请关注是否存在账面亏损。"></textarea>
-							</div>
-							<div class="row">
-								<div class="row-tit">3.3财务评审指标分析 </div>
-								<textarea name="" ng-model="formalReport.indexAnalysis" rows="" cols="" class="form-control" placeholder="内容说明：主要编写本次退出的投资收益情况。"></textarea>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="panel">
-					<div id="flag4-c" class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#issuesSummary">
-							<span class="text">4.风险及问题总结<i class="i-triangle"></i></span>
-						</a>
-					</div> <!-- / .panel-heading -->
-					<directive-formal-report-fxjwtzj></directive-formal-report-fxjwtzj> <!-- / .collapse -->
-				</div> <!-- / .panel -->
-				<div class="panel">
-					<div id="flag5-c" class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#conclusionSuggest">
-							<span class="text">5.结论与建议<i class="i-triangle"></i></span>
-						</a>
-					</div> <!-- / .panel-heading -->
-					<directive-formal-report-jlyjy></directive-formal-report-jlyjy>
-				</div>
-				<div class="panel">
-					<div id="flag6-c" class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#followRequire">
-							<span class="text">6.后续执行要求<i class="i-triangle"></i></span>
-						</a>
-					</div> <!-- / .panel-heading -->
-					<directive-formal-report-hxzxyq></directive-formal-report-hxzxyq>
-				</div>
-				<div class="panel">
-					<div id="flag7-c" class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#preReviewReport" href="/#preSaleWater">
-							<span class="text">附件1：项目公司资产负债表<i class="i-triangle"></i></span>
-						</a>
-					</div>
-					<div id="preSaleWater" class="panel-collapse collapse">
-						<div class="panel-body">
-							<div class="row">
-								<label class="col-sm-2 control-label">附件上传</label>
-								<div class="col-sm-10"   ng-repeat="item in formalReport.attachment track by $index">
-									<div class="col-sm-2">
-										<button ng-disabled="actionparm=='View'" class="btn btn-primary" ngf-max-size="100MB" ngf-select="uploadfformal2($file,$invalidFiles, $index)">浏览</button>
-									</div>
-									<div class="col-sm-10 noleft-pad">
-										<span ng-bind="progress$index"></span>
-										<!--<span style="">{{errorAttach[$index].msg}}</span>-->
-										<a href="javascript:void(0);" ng-click="downLoadFile(formalReport.attachment[0])" style="line-height: 27px;">{{formalReport.attachment[0].fileName}}</a>
-									</div>
-								</div>
-							</div>
+							</span>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="button-group">
-			<div class="row">
-				<div class="btn-group-gap">
+
+			<div class="mcontent content1" id="flag3-c">
+				<h3 class="text-blue">收益评价</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="text-blue">投资成本及经营成果</span>
+						</div>
+						<div class="row">
+							<span class="col-md-12 slim">
+								<textarea name="" ng-model="formalReport.operatingResults" rows="" cols="" class="form-control" placeholder="内容说明：主要包括本项目我方实际付出的投资成本（现金流）以及我方运营年度回收的现金净流（每年），此处是为计算收益评价做准备。"></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="text-blue">财务账面处理分析</span>
+						</div>
+						<div class="row">
+							<span class="col-md-12 slim">
+								<textarea name="" ng-model="formalReport.financialBook" rows="" cols="" class="form-control" placeholder="内容说明：主要编写本次退出财务账面处理情况，请关注是否存在账面亏损。"></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="text-blue">财务评审指标分析</span>
+						</div>
+						<div class="row">
+							<span class="col-md-12 slim">
+								<textarea name="" ng-model="formalReport.indexAnalysis" rows="" cols="" class="form-control" placeholder="内容说明：主要编写本次退出的投资收益情况。"></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="mcontent content1" id="flag4-c">
+				<h3 class="text-blue">风险及问题总结</h3>
+				<directive-formal-report-fxjwtzj-new></directive-formal-report-fxjwtzj-new>
+			</div>
+
+			<div class="mcontent content1" id="flag5-c">
+				<h3 class="text-blue">结论与建议</h3>
+				<directive-formal-report-jlyjy-new></directive-formal-report-jlyjy-new>
+			</div>
+
+			<div class="mcontent content1" id="flag6-c">
+				<h3 class="text-blue">后续执行要求</h3>
+				<directive-formal-report-hxzxyq-new></directive-formal-report-hxzxyq-new>
+			</div>
+
+			<div class="mcontent content1" id="flag7-c">
+				<h3 class='text-blue'>附件1：项目公司资产负债表</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">附件上传</span>
+							<div ng-repeat="item in formalReport.attachment track by $index">
+								<span class="col-md-1 slim"  >
+						<button ng-disabled="actionparm=='View'" class="btn btn-primary" ngf-max-size="100MB" ngf-select="uploadfformal2($file,$invalidFiles, $index)">浏览</button>
+                    </span>
+								<span class="col-md-8 slim">
+						<span ng-bind="progress$index"></span>
+									<!--<span style="">{{errorAttach[$index].msg}}</span>-->
+									<a href="javascript:void(0);" ng-click="downLoadFile(formalReport.attachment[0])" style="line-height: 27px;">{{formalReport.attachment[0].fileName}}</a>
+                    </span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="left-content col-md-2 col-sm-2 hidden-xs">
+				<div class="row" align="center">
+					<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档</button>
+				</div>
+				<div class="stage" >
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-					<!-- <a class="btn btn-primary" ng-if="flag=='1'" href="#/ProjectFormalReviewView/Approve/{{reportReturnId}}"><i class="fa fa-reply"></i>返回</a>
-					<a class="btn btn-primary" ng-if="flag=='2'" href="#/FormalReportList_new/0"><i class="fa fa-reply"></i>返回</a>
-					<a class="btn btn-primary" ng-if="flag=='3'" href="#/FormalBiddingInfoList/0"><i class="fa fa-reply"></i>返回</a>
-					<a class="btn btn-primary" ng-if="flag=='4'" href="#/FormalBiddingInfoList/1"><i class="fa fa-reply"></i>返回</a> -->
 					<button type="button" ng-click="saveReport3()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
 					<div class="inline-div">
 						<button type="button" ng-if="tabIndex=='0'" class="btn btn-primary" id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
@@ -145,252 +185,203 @@
 							<directive-need-meeting></directive-need-meeting>
 						</div>
 					</div>
-					<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档</button>
+				</div>
+				<div class="linkline mcontent">
+					<div class="line"></div>
+					<a id="flag1" class="catalog-list catalog-list-formal chose" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						退出原因
+					</a>
+					<a id="flag2" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						退出方案
+					</a>
+					<a id="flag3" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						收益评价
+					</a>
+					<a id="flag4" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						风险及问题总结
+					</a>
+					<a id="flag5" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						结论与建议
+					</a>
+					<a id="flag6" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						后续执行要求
+					</a>
+					<a id="flag7" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						附件1：项目公司资产负债表
+					</a>
 				</div>
 			</div>
-		</div>
 	</form>
 </div>
+
+<directive-org-list></directive-org-list>
+
 <script type="text/javascript">
-<!--
-	$(function(){
-		//二级菜单关闭&展示
-		$(".dropdown-list").children("li").click(function(){
-			var dropDown = $(this).find(".sub-list");
-			var togClass=$(this).find(".ico");
-			$(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
-			$(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
-			dropDown.slideToggle(300);
-			togClass.toggleClass("fa-minus");
-		});
-		$('#exitReasonPanel').collapse('show');
-		$('#exitProgram').collapse('show');
-		$('#incomeEvaluation').collapse('show');
-		$('#issuesSummary').collapse('show');
-		$('#potentialSpace').collapse('show');
-		$('#conclusionSuggest').collapse('show');
-		$('#followRequire').collapse('show');
-		$('#estimatedCost').collapse('show');
-		$('#preSaleWater').collapse('show');
-		$('#proReviewCom').collapse('show');
-		$('#followPoints').collapse({toggle: false});
-		//模拟select功能
-		$(".full-drop").click(function(){
-			$(this).find(".drop-menu").fadeIn(300);
-			$(".drop-menu").not($(this).children('.drop-menu')).fadeOut(300);
-			$(".drop-menu .sub-list li").find("a").click(function(){
-				var inputVaule=$(this).parents(".drop-menu").siblings(".form-control");
-				var aTxet=$(this).children("a").text();
-				var likeSelect=$(this).parents(".drop-menu");
-				if (likeSelect.hasClass("choice-more")){
-						return false;
-				}else{
-					inputVaule.attr("value",aTxet)
-					likeSelect.fadeOut(300);
-					return false;
-				}		
-			});
-			return false;
-		});
-		$(".drop-menu .sub-list li").find("a").click(function(){
-			$(this).toggleClass("cur");
-		});
-		$("body").click(function(){
-			$(".full-drop").find(".drop-menu").fadeOut(300);
-		});
-
-	});
-
-	angular.element(document).ready(function() {
-		var options = {
-			todayBtn: "linked",
-			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-		}
-		$('#tenderTime').datepicker(options);
-		$('#paymentTime').datepicker(options);
-		$('ul.bs-tabdrop').tabdrop();
-
-		$('#switcher-left').switcher({
-			theme: 'square',
-			on_state_content: '<span class="fa fa-check"></span>',
-			off_state_content: '<span class="fa fa-times"></span>'
-		});
-		$('#switcher-right').switcher({
-			theme: 'square',
-			on_state_content: '<span class="fa fa-check"></span>',
-			off_state_content: '<span class="fa fa-times"></span>'
-		});
-	});
-$().ready(function() {
-	// validate signup form on keyup and submit
-	$("#DropOutReport").validate({
-		rules: {
-			//	personLiable:"required",
-			projectMessege:"required",
-			projectCompanyMessege:"required",
-			reviewSituation:"required",
-			exitReason:"required"
-		},
-		messages: {
-			//	personLiable:"此项必填",
-			projectMessege:"此项必填",
-			projectCompanyMessege:"此项必填",
-			reviewSituation:"此项必填",
-			exitReason:"此项必填"
-		}
-	});
-});
-//-->
+    //dom监听resize事件
+    (function($, h, c) {
+        var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j
+            + "-special-event", b = "delay", f = "throttleWindow";
+        e[b] = 350;
+        e[f] = true;
+        $.event.special[j] = {
+            setup : function() {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.add(l);
+                $.data(this, d, {
+                    w : l.width(),
+                    h : l.height()
+                });
+                if (a.length === 1) {
+                    g()
+                }
+            },
+            teardown : function() {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.not(l);
+                l.removeData(d);
+                if (!a.length) {
+                    clearTimeout(i)
+                }
+            },
+            add : function(l) {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var n;
+                function m(s, o, p) {
+                    var q = $(this), r = $.data(this, d);
+                    r.w = o !== c ? o : q.width();
+                    r.h = p !== c ? p : q.height();
+                    n.apply(this, arguments)
+                }
+                if ($.isFunction(l)) {
+                    n = l;
+                    return m
+                } else {
+                    n = l.handler;
+                    l.handler = m
+                }
+            }
+        };
+        function g() {
+            i = h[k](function() {
+                a.each(function() {
+                    var n = $(this), m = n.width(), l = n.height(), o = $
+                        .data(this, d);
+                    if (m !== o.w || l !== o.h) {
+                        n.trigger(j, [ o.w = m, o.h = l ])
+                    }
+                });
+                g()
+            }, e[b])
+        }
+    })(jQuery, this);
 </script>
-
-<div class="side-catalog">
-	<div class="side-bar">
-		<i class="circle start"></i>
-		<i class="circle end"></i>
-	</div>
-	<div class="catalog-scroller">
-		<ul class="catalog-list">
-			<li id="flag1" class="catalog-title">
-				<i class="pointer"></i>
-				<a class="title-link" href="javascript:void(0);">
-					<span class="text">
-						<span class="title-index">1</span>
-						<span class="title-link">退出原因</span>
-					</span>
-				</a>
-			</li>
-			<li id="flag2" class="catalog-title">
-				<i class="pointer"></i>
-				<a class="title-link" href="javascript:void(0);">
-					<span class="text">
-						<span class="title-index">2</span>
-						<span class="title-link">退出方案</span>
-					</span>
-				</a>
-			</li>
-			<li id="flag3" class="catalog-title">
-				<i class="pointer"></i>
-				<a class="title-link" href="javascript:void(0);">
-					<span class="text">
-						<span class="title-index">3</span>
-						<span class="title-link">收益评价</span>
-					</span>
-				</a>
-			</li>
-			<li id="flag4" class="catalog-title">
-				<i class="pointer"></i>
-				<a class="title-link" href="javascript:void(0);">
-					<span class="text">
-						<span class="title-index">4</span>
-						<span class="title-link">风险及问题总结</span>
-					</span>
-				</a>
-			</li>
-			<li id="flag5" class="catalog-title">
-				<i class="pointer"></i>
-				<a class="title-link" href="javascript:void(0);">
-					<span class="text">
-						<span class="title-index">5</span>
-						<span class="title-link">结论与建议</span>
-					</span>
-				</a>
-			</li>
-			<li id="flag6" class="catalog-title">
-				<i class="pointer"></i>
-				<a class="title-link" href="javascript:void(0);">
-					<span class="text">
-						<span class="title-index">6</span>
-						<span class="title-link">后续执行要求</span>
-					</span>
-				</a>
-			</li>
-			<li id="flag7" class="catalog-title">
-				<i class="pointer"></i>
-				<a class="title-link" href="javascript:void(0);">
-					<span class="text">
-						<span class="title-index">7</span>
-						<span class="title-link">附件1：项目公司资产负债表</span>
-					</span>
-				</a>
-			</li>
-		</ul>
-		<!--<a class="arrow" href="javascript:void(0);"><img alt="arrow" width="21" height="15" src="assets/images/icons/arrow.png"/></a>-->
-	</div>
-	<div class="bottom-wrap">
-		<a class="toggle-button" href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
-		<a class="gotop-button" href="javascript:window.scrollTo( 0, 0 );"><i class="fa fa-chevron-up"></i></a>
-	</div>
-</div>
 <script>
-	$(function(){
-		//侧边目录
-		$(window).scroll(function(){
-			var menuBottom = $(".offset-flag").offset().top;
-			if($(window).scrollTop()>=menuBottom){
-				$(".side-catalog").css("display","block");
-			}
-			else{
-				$(".side-catalog").css("display","none");
-			};
-		});
-		//显示隐藏侧边目录
-		$(".toggle-button").click(function(){
-			$(".side-catalog").toggleClass("collapse");
-		});
-		//点击目录跳到相应模块
-		$(".catalog-list li").click(function(){
-			$(this).addClass("cur").siblings("li").removeClass("cur");
-			var _id = $(this).attr("id");
-			if(typeof $('#'+_id+'-c').offset() !== 'undefined'){
-				var _idTop = $("#"+_id+"-c").offset().top-10;
-				$("html,body").animate({"scrollTop":_idTop},300);
-			}
-		});
-		//滚动响应
-		if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
-			var SideCatalog= {};
-		};
-		SideCatalog.catalogDetail = (function(){
-			// scroll to tab content
-			var _gotoTab = function(){
-				window.onscroll= function(){
-					SideCatalog.ids = [];
-					$('.catalog-list li').each(function(){
-						var id = $(this).attr('id');
-						if(typeof $('#'+id+'-c').offset() !== 'undefined')
-						{
-							SideCatalog[id] = $('#'+id+'-c').offset().top-11;
-						}
-						SideCatalog.ids.push(id);
-					});
-					var _top = $(document).scrollTop();
-					//循环ID处理屏幕滚动情况
-					$.each(SideCatalog.ids,function(key,id){
-						var next_id = key+1;
-						var next_tab = SideCatalog.ids[next_id];
-						if(( _top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id])
-						{
-							$('#'+id).addClass('cur').siblings("li").removeClass("cur");
-						}
-					});
-				};
-			};
-			function _init(){
-				_gotoTab();
-			}
-			return {
-				init: _init
-			}
-		})();
-		$(document).ready(function() {
-			SideCatalog.catalogDetail.init();
-		});
-		//查看页面不可编辑
-		var href=window.location.href;
-		if(href.indexOf("/View/")>0){
-			$('#content-wrapper input').attr("readonly","readonly");
-			$('textarea').attr("readonly","readonly");
-			$('select').attr("disabled","disabled");
-		}
-	});
+    $(function () {
+        //侧边目录
+        $(".side-catalog").css("display", "block");
+        //显示隐藏侧边目录
+        $(".toggle-span").click(function () {
+            $(".side-catalog").toggleClass("collapse");
+        });
+
+        //点击目录跳到相应模块
+        $(".catalog-list-formal").click(function () {
+            //alert(123)
+            $(this).addClass("chose").siblings("a").removeClass("chose");
+            var _id = $(this).attr("id");
+            if (typeof $('#' + _id + '-c').offset() !== 'undefined') {
+                var _idTop = $("#" + _id + "-c").offset().top - 10;
+                $("html,body").animate({"scrollTop": _idTop}, 300);
+            }
+        });
+        //滚动响应
+        if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
+            var SideCatalog = {};
+        };
+
+        SideCatalog.catalogDetail = (function () {
+            // scroll to tab content
+            var _gotoTab = function () {
+                window.onscroll = function () {
+                    SideCatalog.ids = [];
+                    $('.catalog-list-formal').each(function () {
+                        var id = $(this).attr('id');
+                        if (typeof $('#' + id + '-c').offset() !== 'undefined') {
+                            SideCatalog[id] = $('#' + id + '-c').offset().top - 11;
+                        }
+                        SideCatalog.ids.push(id);
+                    });
+                    var _top = $(document).scrollTop();
+                    //循环ID处理屏幕滚动情况
+                    $.each(SideCatalog.ids, function (key, id) {
+                        var next_id = key + 1;
+                        var next_tab = SideCatalog.ids[next_id];
+                        if ((_top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id]) {
+                            $('#' + id).addClass('chose').siblings("a").removeClass("chose");
+                        }
+                    });
+                };
+            };
+
+            function _init() {
+                _gotoTab();
+            }
+
+            return {
+                init: _init
+            }
+        })();
+        $(document).ready(function () {
+            SideCatalog.catalogDetail.init();
+        });
+        //查看页面不可编辑
+        var href = window.location.href;
+        if (href.indexOf("/View/") > 0) {
+            $('#content-wrapper input').attr("readonly", "readonly");
+            $('textarea').attr("readonly", "readonly");
+            $('select').attr("disabled", "disabled");
+        }
+        // 监听主题区域宽度变化
+        $('.xh-content').resize(function(){
+            $('.left-content').width($(this).width()*.16);
+            $('.btn-scale').each(function(){
+                $(this).css('padding-bottom',$(this).innerWidth()*0.467);
+
+                if($(this).css('padding-bottom').slice(0,-2)>'35'){
+                    $(this).css('padding-bottom','35px')
+
+                }
+            })
+        })
+
+    });
 </script>
