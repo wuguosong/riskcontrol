@@ -1870,7 +1870,6 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 分页查询
             $scope._query_messages_list_page_ = function(){
-                debugger;
                 $scope._message_pagination_configuration_.queryObj.procInstId = $scope.businessId;
                 $scope._message_pagination_configuration_.queryObj.parentId = 0;
                 $http({
@@ -1880,6 +1879,7 @@ ctmApp.directive('bbsChatNew', function() {
                 }).success(function(data){
                     $scope._message_pagination_configuration_.totalItems = data['result_data'].totalItems;
                     $scope._messages_array_ = data['result_data'].list;
+                    console.log($scope._messages_array_);
                 });
             };
             // 分页参数初始化
