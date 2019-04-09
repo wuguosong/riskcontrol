@@ -78,10 +78,10 @@
                 </div>
             </div>
             <form id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
-                <!--回复内容：
-                <textarea class="form-control" id="_message_textarea_bottom_{{$index}}"
-                               style="margin-bottom: 2px;background: #fff;"></textarea>-->
-                <!--<div class="select2-success" style="border: 0px;margin-bottom: 5px;">
+                回复内容：
+                <div class="form-control" id="_message_textarea_bottom_{{$index}}" contenteditable="true"
+                               style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
+               <!-- <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
                     <div id="s2id_projectModel"
                          class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
                         <ul class="select2-choices" data-toggle="modal" data-target="#_via_users_mul_dialog">
@@ -95,7 +95,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div>-->
                 <input type="text" ng-model="_message.parentId" ng-hide="true">
                 <input type="text" ng-model="_message.originalId" ng-hide="true">
                 <input type="text" ng-model="_message.procInstId" ng-hide="true">
@@ -104,13 +104,12 @@
                 <input type="text" ng-model="_message.via" ng-hide="true">
                 <a href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
-                    <span class="addlabel blue">回复留言</span>
-                </a>
-                -->
-                <a href="javascript:void(0);" style="cursor:pointer;"
-                   ng-click="_show_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, 0)">
                     <span class="addlabel blue">回复</span>
                 </a>
+                <!--<a href="javascript:void(0);" style="cursor:pointer;"
+                   ng-click="_show_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, 0)">
+                    <span class="addlabel blue">回复</span>
+                </a>-->
                 <a href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_show_share_message_form_(_messages_array_[$index][0].messageId)">
                     <span class="addlabel blue">分享</span>
@@ -131,7 +130,7 @@
                                   parent-save-selected="_via_users_ParentSaveSelected()"></direct-user-multi-dialog>
     </div>
     <!--回复区域-->
-    <div id="_submit_message_dialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <!--<div id="_submit_message_dialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content panel">
                 <div class="modal-header panel-heading" style="text-align: center;">
@@ -160,7 +159,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!--分享区域-->
     <div id="_share_message_dialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
         <div class="modal-dialog">
@@ -170,21 +169,26 @@
                     <h4 class="modal-title" id="_my_share_modal_label">分享</h4>
                 </div>
                 <div class="modal-body panel-body">
-                    <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
-                        <div id="_share_Model"
-                             class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
-                            <ul class="select2-choices">
-                                <li class="select2-search-choice" ng-repeat="_share in _share_users_TempCheckedUsers">
-                                    <div>{{_share.NAME}}</div>
-                                    <a class="select2-search-choice-close" tabindex="-1"
-                                       ng-click="_share_users_removeUsers(_share)"></a>
-                                    <div class="full-drop"><input type="hidden" value="{{_share.VALUE}}">
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="addlabel blue" style="cursor:pointer;" href="#" data-toggle="modal" data-target="#_share_users_mul_dialog">+分享人</span>
-                                </li>
-                            </ul>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="select2-success">
+                                <div id="_share_Model"
+                                     class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                                    <ul class="select2-choices">
+                                        <li class="select2-search-choice" ng-repeat="_share in _share_users_TempCheckedUsers">
+                                            <div>{{_share.NAME}}</div>
+                                            <a class="select2-search-choice-close" tabindex="-1"
+                                               ng-click="_share_users_removeUsers(_share)"></a>
+                                            <div class="full-drop"><input type="hidden" value="{{_share.VALUE}}">
+                                            </div>
+                                        </li>
+                                        <li style="height:29px;"></li>
+                                        <li>
+                                            <span class="addlabel blue" style="cursor:pointer;" href="#" data-toggle="modal" data-target="#_share_users_mul_dialog">+分享人</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
