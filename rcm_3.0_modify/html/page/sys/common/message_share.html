@@ -5,7 +5,8 @@
                 <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">留言信息</span>
             </div>
             <div id="messageComments" class="panel-group">
-                <div ng-repeat="_messages_ in _messages_array_"
+                <div class="_message">
+                    <div ng-repeat="_messages_ in _messages_array_" ng-if="message.messageId == _messages_array_[$index][0].messageId"
                      id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
                     <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
                         <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
@@ -18,7 +19,7 @@
                         </a>
                     </div>
                     <div id="_message_panel_body_{{$index}}" class="panel-collapse collapse in">
-                        <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}" ng-if="message.messageId == _message_.messageId || message.messageId == _message_.parentId">
+                        <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
                             <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
                                  id="_message_left_{{$index}}_{{_message_.messageId}}">
                                 <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
@@ -44,6 +45,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
