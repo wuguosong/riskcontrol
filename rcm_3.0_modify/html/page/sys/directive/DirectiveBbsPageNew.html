@@ -40,7 +40,10 @@
          id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 5px;">
         <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
             <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
-                <span class="text">{{(_message_pagination_configuration_.currentPage - 1) * _message_pagination_configuration_.itemsPerPage + $index + 1}}楼
+                <span class="text" ng-if="_is_pagination_">{{(_message_pagination_configuration_.currentPage - 1) * _message_pagination_configuration_.itemsPerPage + $index + 1}}楼
+                    <i class="i-triangle"></i>
+                </span>
+                <span class="text" ng-if="!_is_pagination_">{{$index + 1}}楼
                     <i class="i-triangle"></i>
                 </span>
                 <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
@@ -132,7 +135,7 @@
         <a href="javascript:void(0);" id="_last_floor_" ng-click="_jump_page_to_('_first_floor_')">回到顶部</a>
     </div>
     <!--分页部分-->
-    <div>
+    <div ng-if="_is_pagination_">
         <tm-pagination conf="_message_pagination_configuration_"></tm-pagination>
     </div>
     <!--@用户选择区域-->

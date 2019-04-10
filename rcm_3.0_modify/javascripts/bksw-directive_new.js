@@ -1592,11 +1592,25 @@ ctmApp.directive('bbsChatNew', function() {
             id: "@",// 组件ID
             businessId:"@",// 业务ID
             initMessagesArray:"=",// 初始化
-            initUuid:"="// 当前登录用户
+            initUuid:"=",// 当前登录用户
+            isPagination:'@',//是否开启分页，默认为false
+            isAlertUser:'@'//是否弹出用户信息，默认为false
         },
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, $element){
+            // 初始化是否分页、是否弹出用户设置
+            if(isEmpty($scope.isPagination)){
+                $scope._is_pagination_ = false;
+            }else{
+                $scope._is_pagination_ = $scope.isPagination == 'true';
+            }
+            if(isEmpty($scope.isAlertUser)){
+                $scope._is_alert_user_ = false;
+            }else{
+                $scope._is_alert_user_ = $scope.isAlertUser == 'true';
+            }
+            // 初始化留言表单内容
             $scope._message = {};
             $scope._message.originalId = 0;
             $scope._message.parentId = 0;
@@ -1623,7 +1637,7 @@ ctmApp.directive('bbsChatNew', function() {
                     $scope._messages_array_ = data;
                 });
             };
-            // 清空表单
+            // 清空留言表单
             $scope._clear_message_from = function(){
                 $scope._message.originalId = '';
                 $scope._message.parentId = '';
@@ -1637,7 +1651,7 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._message_first.messageContent = '';
                 $scope._clear_via_users_();
             };
-            // 保存留言信息
+            // 保存留言表单信息
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var formData = null;
                 if(_is_first_ == 'Y'){
@@ -1673,8 +1687,11 @@ ctmApp.directive('bbsChatNew', function() {
                     data: $.param(formData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    // $scope._query_messages_list_(0);
-                    $scope._query_messages_list_page_();
+                    if($scope._is_pagination_){
+                        $scope._query_messages_list_page_();
+                    }else{
+                        $scope._query_messages_list_(0);
+                    }
                     $scope._clear_message_from();
                     if(_is_first_ == 'Y'){
                         $('#_message_first_0').text('');
@@ -1695,17 +1712,23 @@ ctmApp.directive('bbsChatNew', function() {
                         }),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     }).success(function (data) {
-                        // $scope._query_messages_list_(0);
-                        $scope._query_messages_list_page_();
+                        if($scope._is_pagination_){
+                            $scope._query_messages_list_page_();
+                        }else{
+                            $scope._query_messages_list_(0);
+                        }
                         $.alert('删除留言成功!');
                     });
                 });
             };
-            // 用户的其他操作,预留方法
+            // 用户的其他操作
             $scope._message_user = {};
+            // 弹出用户信息
             $scope._user_about_click_ = function(_source_, _user_id_, _user_name_){
                 console.log("查看用户：" + _source_ + " " + _user_id_ + " " + _user_name_);
-                return;
+                if(!$scope._is_alert_user_){
+                    return;
+                }
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/getUserInfo.do',
@@ -1738,6 +1761,7 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._submit_message_form_('N', $scope._message.originalId, $scope._message.parentId, $scope._message.repliedBy, $scope._message.repliedName, 0);
                 $('#_submit_message_dialog').modal('hide');
             };
+            // 内容太多时，只展示前10个字。
             $scope._check_collapse_event_ = function(_obj_, _idx_){
                 var _class = $('#_message_panel_body_' + _idx_).attr("class");
                 var _span = '';
@@ -1754,30 +1778,18 @@ ctmApp.directive('bbsChatNew', function() {
                 }
                 $('#_span_hide_content_' + _idx_).html(_span);
             };
-            // 查询初始化
-            // $scope._query_messages_list_(0);
-            // 信息初始化
-            if(!isEmpty($scope.initUuid)){
-                $scope._init_uuid_global_ = $scope.initUuid;
-            }
-            if(isEmpty($scope._messages_array_)){
-                if(!isEmpty($scope.initMessagesArray)){
-                    $scope._messages_array_ = $scope.initMessagesArray;
-                }
-            }
-            // @初始化
-            $scope._init_via_users = function(_idx_){
-            };
-            // @多选
+            // @功能用户多选初始化
             $scope._via_users_MappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
             $scope._via_users_CheckedUsers = {};
             $scope._via_users_TempCheckedUsers = {};
+            // 当用户被选择时调用
             $scope._via_users_ParentSaveSelected = function(){
                 var _via_users_ExecuteEval = '';
                 _via_users_ExecuteEval += '$scope.$parent._via_users_CheckedUsers = $scope.checkedUsers;';
                 _via_users_ExecuteEval += '$scope.$parent._via_users_TempCheckedUsers = $scope.tempCheckedUsers;';
                 return _via_users_ExecuteEval;
             };
+            // 移除选中的用户
             $scope._via_users_removeUsers = function (_user) {
                 for (var _i = 0; _i < $scope._via_users_TempCheckedUsers.length; _i++) {
                     if (_user.VALUE == $scope._via_users_TempCheckedUsers[_i].VALUE) {
@@ -1786,6 +1798,7 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                 }
             };
+            // 清除表单
             $scope._clear_via_users_ = function(){
                 if(!isEmpty($scope._via_users_TempCheckedUsers) && $scope._via_users_TempCheckedUsers.length > 0){
                     for(var _i = 0; _i < $scope._via_users_TempCheckedUsers.length; _i++){
@@ -1793,6 +1806,7 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                 }
             };
+            // 分享功能参数初始化
             $scope._share_message_id_ = '';
             // 展示分享弹窗
             $scope._show_share_message_form_ = function(_message_id_){
@@ -1801,8 +1815,6 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 测试方法
             $scope._share_message_result_test_ = function(_url_){
-                // ('#_share_message_url_a').attr('href', _url_);
-                // $('#_share_message_url_a').html(_url_);
                 window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
             // 执行分享操作
@@ -1823,7 +1835,7 @@ ctmApp.directive('bbsChatNew', function() {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
                     if(isEmpty(data)){
-                        $.error('分享留言失败!');
+                        $.alert('分享留言失败!');
                     }else{
                         if(data['result_code'] == 'S'){
                             $scope._share_message_id_ = '';
@@ -1832,7 +1844,7 @@ ctmApp.directive('bbsChatNew', function() {
                             $.alert('分享留言成功!');
                             $scope._share_message_result_test_(data['result_data']);
                         }else{
-                            $.error(data['result_name']);
+                            $.alert(data['result_name']);
                         }
                     }
                 });
@@ -1888,7 +1900,20 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._message_pagination_configuration_.itemsPerPage = 5;
             $scope._message_pagination_configuration_.perPageOptions = [5, 10, 15, 20, 25, 30];
             $scope.$watch('_message_pagination_configuration_.currentPage + _message_pagination_configuration_.itemsPerPage', $scope._query_messages_list_page_);
-            $scope._query_messages_list_page_();
+            // 查询初始化
+            if(!$scope._is_pagination_){
+                $scope._query_messages_list_(0);
+            }else{
+                $scope._query_messages_list_page_();
+            }
+            if(!isEmpty($scope.initUuid)){
+                $scope._init_uuid_global_ = $scope.initUuid;
+            }
+            if(isEmpty($scope._messages_array_)){
+                if(!isEmpty($scope.initMessagesArray)){
+                    $scope._messages_array_ = $scope.initMessagesArray;
+                }
+            }
         }
     };
 });
