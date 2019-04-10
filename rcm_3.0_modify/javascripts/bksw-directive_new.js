@@ -156,13 +156,8 @@ ctmApp.directive('directUserMultiDialog', function () {
                 $scope.initData();
             }
             $scope.saveSelected = function () {
-                debugger;
                 var cus = $scope.tempCheckedUsers;
-                if(!isEmpty($scope.checkedUsers) && $scope.checkedUsers.length > 0){
-                    $scope.checkedUsers.splice(0, $scope.checkedUsers.length);
-                }else{
-                    $scope.checkedUsers = [];
-                }
+                $scope.checkedUsers.splice(0, $scope.checkedUsers.length);
                 for (var i = 0; i < cus.length; i++) {
                     var user = {};
                     user[$scope.mappedKeyValue.nameField] = cus[i].NAME;
@@ -1780,8 +1775,8 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // @功能用户多选初始化
             $scope._via_users_MappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
-            $scope._via_users_CheckedUsers = {};
-            $scope._via_users_TempCheckedUsers = {};
+            $scope._via_users_CheckedUsers = [];
+            $scope._via_users_TempCheckedUsers = [];
             // 当用户被选择时调用
             $scope._via_users_ParentSaveSelected = function(){
                 var _via_users_ExecuteEval = '';
@@ -1851,8 +1846,8 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // share多选
             $scope._share_users_MappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
-            $scope._share_users_CheckedUsers = {};
-            $scope._share_users_TempCheckedUsers = {};
+            $scope._share_users_CheckedUsers = [];
+            $scope._share_users_TempCheckedUsers = [];
             $scope._share_users_ParentSaveSelected = function(){
                 var _share_users_ExecuteEval = '';
                 _share_users_ExecuteEval += '$scope.$parent._share_users_CheckedUsers = $scope.checkedUsers;';
