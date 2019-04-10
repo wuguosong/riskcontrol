@@ -1,10 +1,17 @@
 <div class="xh-content container-fluid">
 	<form name="formalReportForm" novalidate class="row">
 		<div class="main-content col-md-10 col-sm-10 col-xs-12">
+			<h3 class='text-blue item-name'>
+				{{title}}
+			</h3>
 			<div class="mcontent content1" id="flag1-c">
 				<h3 class="text-blue">项目概况</h3>
-				<div class="row">
-					<textarea name="contentDescription" id="contentDescription" ng-model="formalReport.contentDescription" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：请在此处简要说明需技改项目的最初获取方式（股权收购、TOT等），现阶段项目的运营状况及收费状况等，并简要说明技改原因。"></textarea>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="contentDescription" id="contentDescription" ng-model="formalReport.contentDescription" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：请在此处简要说明需技改项目的最初获取方式（股权收购、TOT等），现阶段项目的运营状况及收费状况等，并简要说明技改原因。"></textarea>
+						</div>
+					</div>
 				</div>
 				<div class="mytable">
 					<table  class="table table-bordered" style="table-layout: fixed">
@@ -86,11 +93,19 @@
 
 			<div class="mcontent content1" id="flag2-c">
 				<h3 class="text-blue">技术可行性分析</h3>
-				<div class="mytable">
-					<div>技改方案</div>
-					<div>
-						<textarea name="" ng-model="formalReport.technicalInnovationPlan" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：请说明本次技改的主要目的，并列举技改前后的主要出水水质指标对比表，对比表可参考下表："></textarea>
+				<div class="row">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+					    技改方案
 					</div>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="" ng-model="formalReport.technicalInnovationPlan" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：请说明本次技改的主要目的，并列举技改前后的主要出水水质指标对比表，对比表可参考下表："></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="mytable">
 					<table  class="table table-bordered" style="table-layout: fixed">
 						<thead>
 						<tr class="info">
@@ -137,26 +152,44 @@
 						</tr>
 						</tbody>
 					</table>
-					<div>技改效果</div>
-					<div>
-						<textarea name="" ng-model="formalReport.effect" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：请说明经过本次技改后，项目是否能够保证全部出水指标均稳定达标，若不能，也请说明哪些指标技改后未能达标。"></textarea>
+					<div class="row">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							技改效果
+						</div>
+					</div>
+					<div class="row normalline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<textarea name="" ng-model="formalReport.effect" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：请说明经过本次技改后，项目是否能够保证全部出水指标均稳定达标，若不能，也请说明哪些指标技改后未能达标。"></textarea>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="mcontent content1" id="flag3-c">
 				<h3 class="text-blue">收益评估</h3>
-				<div class="mytable">
-					<div>技改部分收益（若能够获得补偿）</div>
-					<div>
-						<textarea name="" ng-model="formalReport.partProceeds" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：主要是针对技改部分的测算，列举在技改部分不同水价的情况下，技改部分的收益情况，可参考下表："></textarea>
+				<div class="row">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						技改部分收益（若能够获得补偿）
 					</div>
-					<div class="row">
-						<div class="txl">
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="" ng-model="formalReport.partProceeds" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched" placeholder="内容说明：主要是针对技改部分的测算，列举在技改部分不同水价的情况下，技改部分的收益情况，可参考下表："></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
 							<button  type="button" class="btn btn-primary" ng-click="addIncome()"><i class="glyphicon glyphicon-plus"></i>新增</button>
 							<button  type="button" class="btn btn-primary" ng-click="commonDdelete(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
 						</div>
 					</div>
+				</div>
+				<div class="mytable">
 					<table  class="table table-bordered" style="table-layout: fixed">
 						<thead>
 						<tr class="info">
@@ -190,9 +223,17 @@
 						</tr>
 						</tbody>
 					</table>
-					<div>项目整体收益</div>
-					<div>
-						<textarea name="" ng-model="formalReport.overallProjectRevenue" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+					<div class="row">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							项目整体收益
+						</div>
+					</div>
+					<div class="row normalline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<textarea name="" ng-model="formalReport.overallProjectRevenue" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -216,57 +257,86 @@
 
 			<div class="mcontent content1" id="flag7-c">
 				<h3 class="text-blue">附件1：专业评审意见</h3>
-				<div class="mytable">
-					<div>法律专业评审意见</div>
-					<div class="row">
-						<textarea name="" ng-model="formalReport.lawContent"  rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<span class="text-blue">法律专业评审意见：</span>
 					</div>
-					<div class="row">
-						<div class="txl">
-							<button  type="button" class="btn btn-primary" ng-click="addLaw()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-							<button  type="button" class="btn btn-primary" ng-click="commonDdelete(2)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="" ng-model="formalReport.lawContent" rows="1" cols="1" class="form-control">法律共提出XX条意见，其中认为可以修订但未与对方确认的XX条，对方明确表示不同意修改的XX条。</textarea>
 						</div>
 					</div>
+				</div>
+				<div class="row ">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="prompt">以下标注★的为重要条款，其余为一般条款。</span>
+						</div>
+					</div>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<button  type="button" class="btn btn-info" ng-click="addLaw()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button  type="button" class="btn btn-info" ng-click="commonDdelete(2)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+						</div>
+					</div>
+				</div>
+				<div class="mytable">
 					<table  class="table table-bordered" style="table-layout: fixed">
 						<thead>
 						<tr class="info">
 							<th width="5%">选择</th>
 							<th width="5%">序号</th>
 							<th>法律评审意见及要求</th>
-							<th width="125">投资部门承诺可修改，但未经对方确认</th>
-							<th width="95">对方明确表示不同意修改</th>
+							<th width="125" style="white-space: normal">投资部门承诺可修改，但未经对方确认</th>
+							<th width="95"  style="white-space: normal">对方明确表示不同意修改</th>
 						</tr>
 						</thead>
 						<tbody>
-						<tr ng-repeat="m in formalReport.lawList track by $index">
-							<td class="txc">
+						<tr ng-repeat="m in formalReport.lawList track by $index" repeat-formal-report-finish>
+							<td>
 								<label class="checkbox-inline">
-									<input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="m.selected">
+									<input type="checkbox" class="px" ng-model="m.selected">
 									<span class="lbl">&nbsp;</span>
 								</label>
 							</td>
-							<td class="txc">{{ $index + 1 }}</td>
-							<td><textarea name="" ng-model="m.lawOpinion" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+							<td>{{ $index + 1 }}</td>
+							<td><textarea name="" ng-model="m.lawOpinion" rows="" cols="" class="form-control"></textarea></td>
 							<td class="switcher-left">
-								<input ng-disabled="actionparm=='View'" type="checkbox" ng-model="m.pendingConfirmation"  name="switcher">
+								<input type="checkbox" ng-model="m.pendingConfirmation"  name="switcher">
 							</td>
 							<td class="switcher-right">
-								<input ng-disabled="actionparm=='View'" type="checkbox" ng-model="m.canNotBeModified"  name="switcher">
+								<input type="checkbox" ng-model="m.canNotBeModified"  name="switcher">
 							</td>
 						</tr>
 						</tbody>
 					</table>
+				</div>
 
-					<div>技术专业评审意见</div>
-					<div class="row">
-						<textarea name="" ng-model="formalReport.technicalReviewOpinions" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched">技术中心共提出XX条意见，主要围绕XX问题，具体如下： </textarea>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<span class="text-blue">技术专业评审意见：</span>
 					</div>
-					<div class="row">
-						<div class="txl">
-							<button  type="button" class="btn btn-primary" ng-click="addTechnology()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-							<button  type="button" class="btn btn-primary" ng-click="commonDdelete(3)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="" ng-model="formalReport.lawContent" rows="1" cols="1" class="form-control">法律共提出XX条意见，其中认为可以修订但未与对方确认的XX条，对方明确表示不同意修改的XX条。</textarea>
 						</div>
 					</div>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<button  type="button" class="btn btn-info" ng-click="addTechnology()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button  type="button" class="btn btn-info" ng-click="commonDdelete(3)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+						</div>
+					</div>
+				</div>
+				<div class="mytable">
 					<table  class="table table-bordered" style="table-layout: fixed">
 						<thead>
 						<tr class="info">
@@ -276,29 +346,41 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr ng-repeat="m in formalReport.technologyList track by $index" on-finish-render-filters>
-							<td class="txc">
+						<tr ng-repeat="m in formalReport.technologyList track by $index"  repeat-formal-report-finish>
+							<td>
 								<label class="checkbox-inline">
-									<input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="m.selected">
+									<input type="checkbox" class="px" ng-model="m.selected">
 									<span class="lbl">&nbsp;</span>
 								</label>
 							</td>
-							<td class="txc">{{ $index + 1 }}</td>
-							<td class="tr-max"><textarea name="" ng-model="m.technology_opinion" value="{{m.technology_opinion}}" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+							<td>{{ $index + 1 }}</td>
+							<td class="tr-max"><textarea name="" ng-model="m.technology_opinion" value="{{m.technology_opinion}}" rows="" cols="" class="form-control"></textarea></td>
 						</tr>
 						</tbody>
 					</table>
+				</div>
 
-					<div>财务专业评审意见</div>
-					<div class="row">
-						<textarea name="" ng-model="formalReport.technicalReviewOpinions" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched">技术中心共提出XX条意见，主要围绕XX问题，具体如下： </textarea>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<span class="text-blue">财务专业评审意见：</span>
 					</div>
-					<div class="row">
-						<div class="txl">
-							<button  type="button" class="btn btn-primary" ng-click="addTechnology()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-							<button  type="button" class="btn btn-primary" ng-click="commonDdelete(3)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="" ng-model="formalReport.financialProfessionalReviewOpinion" rows="1" cols="1" class="form-control" placeholder="财金资源中心共提出XX条意见，主要围绕XX问题，具体如下："></textarea>
 						</div>
 					</div>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<button  type="button" class="btn btn-info" ng-click="addFinance()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button  type="button" class="btn btn-info" ng-click="commonDdelete(4)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+						</div>
+					</div>
+				</div>
+				<div class="mytable">
 					<table  class="table table-bordered" style="table-layout: fixed">
 						<thead>
 						<tr class="info">
@@ -308,15 +390,15 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr ng-repeat="m in formalReport.financeList track by $index" on-finish-render-filters>
-							<td class="txc">
+						<tr ng-repeat="m in formalReport.financeList track by $index"  repeat-formal-report-finish>
+							<td>
 								<label class="checkbox-inline">
-									<input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="m.selected">
+									<input type="checkbox" class="px" ng-model="m.selected">
 									<span class="lbl">&nbsp;</span>
 								</label>
 							</td>
-							<td class="txc">{{ $index + 1 }}</td>
-							<td class="tr-max"><textarea name="" ng-model="m.finance_opinion" value="{{m.finance_opinion}}" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+							<td>{{ $index + 1 }}</td>
+							<td class="tr-max"><textarea name="" ng-model="m.finance_opinion" value="{{m.finance_opinion}}" rows="" cols="" class="form-control"></textarea></td>
 						</tr>
 						</tbody>
 					</table>
