@@ -1,14 +1,20 @@
 <div>
-    <div>
-        <textarea name="" ng-model="formalReport.risksProblems" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched" placeholder="根据法律专业评审意见（XX条）以及技术专业评审意见（具体详见附件1），现就本项目提出XX条风险及问题，其中第1条至第XX条是需要决策机构重点关注，其余为通报列示供决策参考。"></textarea>
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
+                <textarea name="" ng-model="formalReport.risksProblems" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched" placeholder="根据法律专业评审意见（XX条）以及技术专业评审意见（具体详见附件1），现就本项目提出XX条风险及问题，其中第1条至第XX条是需要决策机构重点关注，其余为通报列示供决策参考。"></textarea>
+            </div>
+        </div>
     </div>
-    <div class="mytable">
-        <div class="row">
-            <div class="txl">
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
                 <button  type="button" class="btn btn-primary" ng-click="addIncome()"><i class="glyphicon glyphicon-plus"></i>新增</button>
                 <button  type="button" class="btn btn-primary" ng-click="commonDdelete(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
             </div>
         </div>
+    </div>
+    <div class="mytable">
         <table  class="table table-bordered" style="table-layout: fixed">
             <thead>
             <tr class="info">

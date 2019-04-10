@@ -1,20 +1,32 @@
 <div>
-    <div class="row">
-        <div class="txl">
-            <textarea name="" ng-model="formalReport.conclusionAndSuggestions" rows="" cols="" class="form-control" placeholder="内容说明：一般有三种：建议投资、有条件投资和谨慎投资。需说明结论的前提，如在XX投资金额，XX水价，XX收益率下，建议投资/有条件投资/谨慎投资。"></textarea>
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
+                <textarea name="" ng-model="formalReport.conclusionAndSuggestions" rows="" cols="" class="form-control" placeholder="内容说明：一般有三种：建议投资、有条件投资和谨慎投资。需说明结论的前提，如在XX投资金额，XX水价，XX收益率下，建议投资/有条件投资/谨慎投资。"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
+                <span class="text-blue">有条件投资需要列示投资条件：</span>
+            </div>
+        </div>
+    </div>
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
+                <button  type="button" class="btn btn-info" ng-click="addOption()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                <button  type="button" class="btn btn-info" ng-click="commonDdelete(0)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+            </div>
         </div>
     </div>
     <div class="row">
-        <span class="text-blue">有条件投资需要列示投资条件：</span>
-    </div>
-    <div class="row">
-        <div class="txl">
-            <button  type="button" class="btn btn-info" ng-click="addOption()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
-            <button  type="button" class="btn btn-info" ng-click="commonDdelete(0)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            项目投前必须落实事项
         </div>
     </div>
     <div class="mytable">
-        <div>项目投前必须落实事项</div>
         <table  class="table table-bordered" style="table-layout: fixed">
             <thead>
             <tr class="info">
