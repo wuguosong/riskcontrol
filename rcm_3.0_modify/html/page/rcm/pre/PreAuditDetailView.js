@@ -1667,6 +1667,7 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
                 break;
             }
         }
+        $scope._notifyCheckedUsers = $scope._notifyTempCheckedUsers;
         // 保存知会人
         $scope._notifySaveNotifiesUser($scope.approve.processKey, $scope.approve.businessId, $scope._notifyTempCheckedUsers);
     };
