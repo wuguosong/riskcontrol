@@ -1645,6 +1645,7 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._message_first.repliedName = '';
                 $scope._message_first.messageContent = '';
                 $scope._clear_via_users_();
+                $scope._clear_share_users_();
             };
             // 保存留言表单信息
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
@@ -1792,14 +1793,12 @@ ctmApp.directive('bbsChatNew', function() {
                         break;
                     }
                 }
+                $scope._via_users_CheckedUsers = $scope._via_users_TempCheckedUsers;
             };
-            // 清除表单
+            // 清空@人
             $scope._clear_via_users_ = function(){
-                if(!isEmpty($scope._via_users_TempCheckedUsers) && $scope._via_users_TempCheckedUsers.length > 0){
-                    for(var _i = 0; _i < $scope._via_users_TempCheckedUsers.length; _i++){
-                        $scope._via_users_TempCheckedUsers = [];
-                    }
-                }
+                $scope._via_users_CheckedUsers = [];
+                $scope._via_users_TempCheckedUsers = [];
             };
             // 分享功能参数初始化
             $scope._share_message_id_ = '';
@@ -1861,13 +1860,12 @@ ctmApp.directive('bbsChatNew', function() {
                         break;
                     }
                 }
+                $scope._share_users_CheckedUsers = $scope._share_users_TempCheckedUsers;
             };
+            // 清空分享人
             $scope._clear_share_users_ = function(){
-                if(!isEmpty($scope._share_users_TempCheckedUsers) && $scope._share_users_TempCheckedUsers.length > 0){
-                    for(var _i = 0; _i < $scope._share_users_TempCheckedUsers.length; _i++){
-                        $scope._share_users_TempCheckedUsers = [];
-                    }
-                }
+                $scope._share_users_CheckedUsers = [];
+                $scope._share_users_TempCheckedUsers = [];
             };
             // 页面锚点定位
             $scope._jump_page_to_ = function(_target_ele_id_){
