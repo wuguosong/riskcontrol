@@ -29,6 +29,7 @@ import com.yk.common.DocxReportUtil;
 import com.yk.common.IBaseMongo;
 import com.yk.exception.rcm.DocReportException;
 import com.yk.power.service.IOrgService;
+import com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
 import com.yk.rcm.formalAssessment.service.IFormalReportService;
@@ -60,6 +61,8 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 	private IFormalReportService formalReportService;
 	@Resource
 	private IOrgService orgService;
+	@Resource
+	private IFillMaterialsMapper fillMaterialsMapper;
 	
 	@Override
 	public PageAssistant queryStartByPage(PageAssistant page) {
@@ -169,6 +172,12 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 			
 			//将前台传过来的数据添加到oracle rcm_noticeDecision_info
 			this.noticeDecisionDraftInfoMapper.save(paramsForOracle);
+			Map<String, Object> statusMap = new HashMap<String, Object>();
+			statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
+			statusMap.put("filed", "IS_SUBMIT_DECISION_NOTICE");
+			statusMap.put("status", "0");
+			statusMap.put("BUSINESSID", paramsForOracle.get("projectFormalid").toString());
+			this.fillMaterialsMapper.updateProjectStaus(statusMap);
 			
 			/*//修改oracle的stage状态
 			Map<String, Object> map = new HashMap<String, Object>();

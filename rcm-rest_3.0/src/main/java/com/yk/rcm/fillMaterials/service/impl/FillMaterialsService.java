@@ -55,14 +55,14 @@ public class FillMaterialsService implements IFillMaterialsService {
 				// 判断在途数据
 				if (map.get("STAGE").equals("3.9")) {
 					map.put("RFI_IS_SUBMIT_REPORT", "1");
-					map.put("RFI_IS_SUBMIT_BIDDING", "1");
+					map.put("RFI_IS_SUBMIT_DECISION_NOTICE", "1");
 					if (Util.isNotEmpty(summary)) {
-						map.put("RFI_IS_SUBMIT_REPORT", "0");
+						map.put("RFI_IS_SUBMIT_BIDDING", "0");
 					}
 				} else if (map.get("STAGE").equals("3.5")) {
 					map.put("RFI_IS_SUBMIT_REPORT", "1");
 					if (Util.isNotEmpty(map.get("PFR_NOTICE_CREATE_DATE"))) {
-						map.put("RFI_IS_SUBMIT_BIDDING", "0");
+						map.put("RFI_IS_SUBMIT_DECISION_NOTICE", "0");
 					}
 				} else if (map.get("STAGE").equals("3")) {
 					if (Util.isNotEmpty(map.get("PFR_REPORT_CREATE_DATE"))) {
@@ -70,6 +70,10 @@ public class FillMaterialsService implements IFillMaterialsService {
 					}
 				}
 
+			} else if(map.get("PROJECT_TYPE").equals("pfr")) {
+				
+			} else if(map.get("PROJECT_TYPE").equals("bulletin")) {
+				
 			}
 		}
 
@@ -87,6 +91,12 @@ public class FillMaterialsService implements IFillMaterialsService {
 		List<Map<String, Object>> list = fillMaterialsMapper.querySubmitList(params);
 		page.setList(list);
 		return page;
+	}
+
+	@Override
+	public void updateProjectStaus(Map<String, Object> params) {
+//		String table, String filed, String BUSINESSID, String status
+		fillMaterialsMapper.updateProjectStaus(params);
 	}
 
 }

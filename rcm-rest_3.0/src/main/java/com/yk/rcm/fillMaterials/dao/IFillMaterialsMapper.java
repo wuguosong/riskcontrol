@@ -22,5 +22,6 @@ public interface IFillMaterialsMapper extends BaseMapper {
 
 	public List<Map<String, Object>> querySubmitList(Map<String, Object> params);
 
+	public void updateProjectStaus(Map<String, Object> params);
 	
 }

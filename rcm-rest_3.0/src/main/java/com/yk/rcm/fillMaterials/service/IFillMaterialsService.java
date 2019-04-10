@@ -1,5 +1,7 @@
 package com.yk.rcm.fillMaterials.service;
 
+import java.util.Map;
+
 import common.PageAssistant;
 
 /**
@@ -15,5 +17,7 @@ public interface IFillMaterialsService {
 	public PageAssistant queryNoSubmitList(PageAssistant page);
 
 	public PageAssistant querySubmitList(PageAssistant page);
+	
+	void updateProjectStaus(Map<String, Object> params);
 	
 }
