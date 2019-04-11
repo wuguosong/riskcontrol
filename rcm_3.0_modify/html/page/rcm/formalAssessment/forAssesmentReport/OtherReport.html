@@ -32,22 +32,22 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="button-group">
-                <div class="row">
-                    <div class="option txl">
-                        <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-                        <button type="button" ng-click="saveReport7()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
-                        <div class="inline-div">
-                            <button type="button" ng-if="tabIndex=='0'" class="btn btn-primary"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
-                            <div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-                                <directive-need-meeting></directive-need-meeting>
+                <div class="button-group">
+                    <div class="row">
+                        <div class="option txl">
+                            <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                            <button type="button" ng-click="saveReport7()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
+                            <div class="inline-div">
+                                <button type="button" ng-if="tabIndex=='0'" class="btn btn-primary"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+                                <div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                    <directive-need-meeting></directive-need-meeting>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <!--<div class="left-content col-md-2 col-sm-2 hidden-xs">
                 <div class="stage" >

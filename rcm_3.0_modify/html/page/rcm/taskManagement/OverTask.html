@@ -63,8 +63,8 @@
 									<a ng-if="t.TYPE_ == 'noticeOfDecision'" ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@5">{{t.SUBJECT}}</a>
 									<a ng-if="t.TYPE_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}">{{t.SUBJECT}}</a>
 									<a ng-if="t.TYPE_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}">{{t.SUBJECT}}</a>
-									<a ng-if="t.TYPE_ == 'conferenceInformation' && t.proc_def_id_ == '1'" ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}/1">{{t.SUBJECT}}</a>
-									<a ng-if="t.TYPE_ == 'conferenceInformation' && t.proc_def_id_ == '0'" ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}/0">{{t.SUBJECT}}</a>
+									<a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '1'" ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}/1">{{t.SUBJECT}}</a>
+									<a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '0'" ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}/0">{{t.SUBJECT}}</a>
 								</td>
 								<td>{{t.TYPE_TEXT}}</td>
 								<td>{{t.PHASE}}</td>

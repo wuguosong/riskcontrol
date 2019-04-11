@@ -241,8 +241,10 @@
                     <!--<a class="btn btn-info" href="#/FormalAssessmentInfoList/0"><i class="fa fa-reply"></i>返回</a>
                     <button ng-if="flag == 1" type="button" ng-click="save()" id="savebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
                     <button ng-if="flag == 2" type="button" ng-click="update()" id="updatebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>-->
+                    <button ng-show="pfrOracle.WF_STATE=='0'" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
                     <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-                        <approve-pop-win approve="approve"></approve-pop-win>
+                        <!--                         <approve-pop-win approve="approve"></approve-pop-win> -->
+                        <formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
                     </div>
                 </div>
             </div>
