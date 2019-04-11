@@ -5318,7 +5318,7 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_show_replace_ = $scope.showReplace == 'true';
             }
             if(isEmpty($scope.showDelete)){
-                $scope._cloud_show_delete_ = false;
+                $scope._cloud_show_delete_ = true;
             }else{
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
             }
