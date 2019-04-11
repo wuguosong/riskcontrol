@@ -5265,7 +5265,7 @@ ctmApp.directive('cloudFile', function () {
             downloadText:'@',//下载按钮文本，默认：下载
             previewText:'@',// 预览按钮文本，默认：预览
             deleteText:'@',// 删除按钮文本，默认：删除
-            replaceText:'@',// 替换文本按钮，默认：替换
+            replaceText:'@',// 替换按钮文本，默认：替换
             fileCheck:'@'// 是否进行文件名校验，默认false
         },
         controller: function ($scope, $location, $http, Upload) {
