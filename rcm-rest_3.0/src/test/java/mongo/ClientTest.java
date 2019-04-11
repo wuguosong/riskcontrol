@@ -3,6 +3,7 @@ package mongo;
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.ListCollectionsIterable;
@@ -58,5 +59,25 @@ public class ClientTest {
         // 获取集合
         MongoCollection<Document> collection = mongoDatabase.getCollection("rcm_pre_info");
         System.out.println(collection);
+    }
+
+    @Test
+    public void pwdTestURL(){
+        Prop prop = PropKit.use("dev_db.properties");
+        String sURI = String.format("mongodb://%s:%s@%s:%d/%s", prop.get("mongodb.username"), prop.get("mongodb.password"), prop.get("mongodb.host"), prop.getInt("mongodb.port"), prop.get("mongodb.database"));
+        MongoClient mongoClient = new MongoClient(new MongoClientURI(sURI));
+        MongoDatabase mongoDatabase = mongoClient.getDatabase(prop.get("mongodb.database"));
+        // 获取集合
+        MongoCollection<Document> collection = mongoDatabase.getCollection("rcm_pre_info");
+        System.out.println(collection.count());
+    }
+
+    @Test
+    public void pwdTestURLModify(){
+        Prop prop = PropKit.use("dev_db.properties");
+        MongoDatabase mongoDatabase = mongoClient.getDatabase(prop.get("mongodb.database"));
+        // 获取集合
+        MongoCollection<Document> collection = mongoDatabase.getCollection("rcm_pre_info");
+        System.out.println(collection.count());
     }
 }
