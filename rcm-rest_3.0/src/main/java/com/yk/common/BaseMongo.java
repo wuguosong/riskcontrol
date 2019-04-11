@@ -39,15 +39,15 @@ public class BaseMongo implements IBaseMongo{
 	private String dbAuth;
 	public MongoDatabase queryDb(){
 		// 地址和端口
-		List<ServerAddress> addresses = new ArrayList<ServerAddress>();
-		ServerAddress address = new ServerAddress(dbHost, dbPort);
-		addresses.add(address);
+		// List<ServerAddress> addresses = new ArrayList<ServerAddress>();
+		// ServerAddress address = new ServerAddress(dbHost, dbPort);
+		// addresses.add(address);
 		// 权限验证
-		List<MongoCredential> credentials = new ArrayList<MongoCredential>();
-		MongoCredential credential = MongoCredential.createScramSha1Credential(dbUser, dbName , dbAuth.toCharArray());
-		credentials.add(credential);
+		// List<MongoCredential> credentials = new ArrayList<MongoCredential>();
+		// MongoCredential credential = MongoCredential.createScramSha1Credential(dbUser, dbName , dbAuth.toCharArray());
+		// credentials.add(credential);
 		// 获取客户端
-		mongoClient = new MongoClient(address, credentials);
+		// mongoClient = new MongoClient(address, credentials);
 		return this.mongoClient.getDatabase(dbName);
 	}
 	
