@@ -1,0 +1,39 @@
+<div>
+    <!--样式区域-->
+    <style type="text/css">
+        ._cloud_btn_{
+            margin-left: 1px;
+        }
+    </style>
+    <!--附件操作区域-->
+    <div>
+        <!--文件显示区域-->
+        <div id="_cloud_file_{{_cloud_}}">
+            <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_{{_cloud_}}"></a>
+            <input value="" type="hidden" id="_cloud_file_ipt_{{_cloud_}}">
+        </div>
+        <!--文件操作区域-->
+        <div id="_cloud_btn_{{_cloud_}}">
+            <!--上传按钮-->
+            <button class="btn-add btn-scale _cloud_btn_" ngf-max-size="100MB" ngf-select="_cloud_upload_($file,_cloud_)">
+                <span>{{_cloud_upload_text_}}</span>
+            </button>
+            <!--删除按钮-->
+            <button ng-if="_cloud_show_delete_" class="btn-delete btn-scale _cloud_btn_" ng-click="_cloud_delete_(_cloud_)">
+                <span>{{_cloud_delete_text_}}</span>
+            </button>
+            <!--下载按钮-->
+            <button ng-if="_cloud_show_download_" class="btn-add btn-scale _cloud_btn_" ng-click="_cloud_download_(_cloud_)">
+                <span>{{_cloud_download_text_}}</span>
+            </button>
+            <!--预览按钮-->
+            <button ng-if="_cloud_show_preview_" class="btn-add btn-scale _cloud_btn_" ng-click="_cloud_preview_(_cloud_)">
+                <span>{{_cloud_preview_text_}}</span>
+            </button>
+            <!--替换按钮-->
+            <button ng-if="_cloud_show_replace_" class="btn-add btn-scale _cloud_btn_" ngf-max-size="100MB" ngf-select="_cloud_replace_($file,_cloud_)">
+                <span>{{_cloud_replace_text_}}</span>
+            </button>
+        </div>
+    </div>
+</div>

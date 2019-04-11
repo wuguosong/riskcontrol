@@ -10,6 +10,7 @@ import com.goukuai.dto.LinkDto;
 import com.goukuai.kit.PathKit;
 import common.Constants;
 import common.Result;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -76,9 +77,14 @@ public class YunkuController {
                         File fileNow = new File(path + nowFileName);
                         multipartFile.transferTo(fileNow);
                         FileDto fileDto = fileService.fileUpload(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + originalFilename, fileNow.getAbsolutePath(), docType, docCode, pageLocation, optName, optId);
+                        List<FileDto> newFiles = this.createFileList(docType, docCode, pageLocation);
                         result.setSuccess(true);
                         result.setResult_code(Constants.S);
-                        result.setResult_data(fileDto);
+                        if(CollectionUtils.isEmpty(newFiles)){
+                            result.setResult_data(fileDto);
+                        }else{
+                            result.setResult_data(newFiles.get(0));
+                        }
                         result.setResult_name("上传文件成功!");
                     }
                 }
@@ -224,9 +230,14 @@ public class YunkuController {
                             File fileNow = new File(path + nowFileName);
                             multipartFile.transferTo(fileNow);
                             FileDto newFile = fileService.fileUpload(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + originalFilename, fileNow.getAbsolutePath(), docType, docCode, pageLocation, optName, optId);
+                            List<FileDto> newFiles = this.createFileList(docType, docCode, pageLocation);
                             result.setSuccess(true);
                             result.setResult_code(Constants.S);
-                            result.setResult_data(newFile);
+                            if(CollectionUtils.isEmpty(newFiles)){
+                                result.setResult_data(newFile);
+                            }else{
+                                result.setResult_data(newFiles.get(0));
+                            }
                             result.setResult_name("替换文件成功!");
                         }
                     }

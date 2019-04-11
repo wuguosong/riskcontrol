@@ -5246,3 +5246,201 @@ ctmApp.directive('fillMaterial', function () {
         }
     }
 });
+/*云文件指令*/
+ctmApp.directive('cloudFile', function () {
+    return {
+        restrict: 'AE',
+        templateUrl: 'page/sys/common/cloud-file.html',
+        replace: 'true',
+        scope:{
+            fileId: "@",// 组件ID
+            fileType:"@",// 文件类别
+            fileCode:"@",// 文件Code
+            fileLocation:"@",// 文件位置
+            showPreview:'@',// 是否展示预览按钮，默认为false
+            showReplace:'@',// 是否展示替换按钮，默认为false
+            showDownload:'@',// 是否展示下载按钮，默认为true
+            showDelete:'@',// 是否展示删除按钮，默认true
+            uploadText:'@',// 上传按钮本本，默认：选择
+            downloadText:'@',//下载按钮文本，默认：下载
+            previewText:'@',// 预览按钮文本，默认：预览
+            deleteText:'@',// 删除按钮文本，默认：删除
+            replaceText:'@',// 替换文本按钮，默认：替换
+            fileCheck:'@'// 是否进行文件名校验，默认false
+        },
+        controller: function ($scope, $location, $http, Upload) {
+            // 文件校验初始化
+            if(isEmpty($scope.fileCheck)){
+                $scope._let_file_check_ = false;
+            }else{
+                $scope._let_file_check_ = $scope.fileCheck == 'true';
+            }
+            // 按钮名称初始化
+            if(isEmpty($scope.uploadText)){
+                $scope._cloud_upload_text_ = '选择';
+            }else{
+                $scope._cloud_upload_text_ = $scope.uploadText;
+            }
+            if(isEmpty($scope.downloadText)){
+                $scope._cloud_download_text_ = '下载';
+            }else{
+                $scope._cloud_download_text_ = $scope.downloadText;
+            }
+            if(isEmpty($scope.deleteText)){
+                $scope._cloud_delete_text_ = '删除';
+            }else{
+                $scope._cloud_delete_text_ = $scope.deleteText;
+            }
+            if(isEmpty($scope.previewText)){
+                $scope._cloud_preview_text_ = '预览';
+            }else{
+                $scope._cloud_preview_text_ = $scope.previewText;
+            }
+            if(isEmpty($scope.replaceText)){
+                $scope._cloud_replace_text_ = '替换';
+            }else{
+                $scope._cloud_replace_text_ = $scope.replaceText;
+            }
+            // 按钮显示与否初始化
+            if(isEmpty($scope.showDownload)){
+                $scope._cloud_show_download_ = true;
+            }else{
+                $scope._cloud_show_download_ = $scope.showDownload == 'true';
+            }
+            if(isEmpty($scope.showPreview)){
+                $scope._cloud_show_preview_ = false;
+            }else{
+                $scope._cloud_show_preview_ = $scope.showPreview == 'true';
+            }
+            if(isEmpty($scope.showReplace)){
+                $scope._cloud_show_replace_ = false;
+            }else{
+                $scope._cloud_show_replace_ = $scope.showReplace == 'true';
+            }
+            if(isEmpty($scope.showDelete)){
+                $scope._cloud_show_delete_ = false;
+            }else{
+                $scope._cloud_show_delete_ = $scope.showDelete == 'true';
+            }
+            // 云组件root初始化
+            $scope._cloud_ = $scope.fileId + '_' + $scope.fileLocation;
+            // 显示初始化
+            $scope._cloud_init_ = function(){
+                console.log("组件初始化:" + $scope.fileType + "," + $scope.fileCode + "," + $scope.fileLocation);
+                $http({
+                    method: 'post',
+                    url: srvUrl + 'cloud/list.do',
+                    data: $.param({
+                        "docType":$scope.fileType,
+                        "docCode":$scope.fileCode,
+                        "pageLocation":$scope.fileLocation
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (_result) {
+                    if(!isEmpty(_result)){
+                        if(_result.success){
+                            var _list_ = _result['result_data'];
+                            if(!isEmpty(_list_) && _list_.length > 0){
+                                var _cloud_file_dto_ = _list_[0];
+                                $('#_cloud_file_ipt_' + $scope._cloud_).val(JSON.stringify(_cloud_file_dto_));
+                                $('#_cloud_file_a_' + $scope._cloud_).text(_cloud_file_dto_.filename);
+                                console.log(_cloud_file_dto_);
+                            }
+                        }
+                    }
+                });
+            };
+            // 将input中的附件数据转换为json，传递进来一个附件综合ID，页面唯一
+            $scope._cloud_ipt_to_json_ = function(_cloud_){
+                var _ipt_val_ = $('#_cloud_file_ipt_' + _cloud_).val();
+                if(isEmpty(_ipt_val_)){
+                    return null;
+                }else{
+                    return JSON.parse(_ipt_val_);
+                }
+            };
+            // 上传和替换共同调用的方法
+            $scope._private_cloud_backend_call = function(_file_, _opt_, _data_,_cloud_){
+                if (_file_) {
+                    // 是否进行文件校验，默认不开启
+                    if($scope._let_file_check_){
+                        var _file_suffix_arr_ = _file_.name.split('.');
+                        var _file_suffix_ = _file_suffix_arr_[_file_suffix_arr_.length - 1];
+                        if (_file_suffix_ != "docx" && _file_suffix_ != "xlsx" && _file_suffix_ != "pptx" && _file_suffix_ != "pdf" &&
+                            _file_suffix_ != "jpg" && _file_suffix_ != "png" && _file_suffix_ != "gif" && _file_suffix_ != "tif" &&
+                            _file_suffix_ != "psd" && _file_suffix_ != "ppts"){
+                            $.alert("您上传的文档格式不正确，请重新选择！");
+                            return;
+                        }
+                    }
+                    Upload.upload({
+                        url: srvUrl + 'cloud/' + _opt_ + '.do',
+                        data: _data_
+                    }).then(function (_resp_) {
+                        var _result = _resp_.data;
+                        if(!isEmpty(_result)){
+                            if(_result.success){
+                                debugger;
+                                var _cloud_file_dto_ = _result['result_data'];
+                                $('#_cloud_file_ipt_' + _cloud_).val(JSON.stringify(_cloud_file_dto_));
+                                $('#_cloud_file_a_' + _cloud_).text(_cloud_file_dto_.filename);
+                            }
+                        }
+                    }, function (_resp_) {
+                    }, function (_evt_) {
+                        console.log(_evt_);
+                        // 进行上传进度的获取和计算
+                        var _percent_ = parseInt(100.0 * _evt_.loaded / _evt_.total);
+                    });
+                }
+            };
+            // 上传
+            $scope._cloud_upload_ = function(_file_,_cloud_){
+                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
+                if(!isEmpty(_cloud_file_dto_)){
+                    return;
+                }
+                var _data = {file: _file_,"docType":$scope.fileType, "docCode":$scope.fileCode,"pageLocation":$scope.fileLocation};
+                $scope._private_cloud_backend_call(_file_,'upload',_data,_cloud_);
+            };
+            // 下载
+            $scope._cloud_download_ = function(_cloud_){
+                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
+                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.download3d)){
+                    return;
+                }
+                window.open(_cloud_file_dto_.download3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+            // 删除
+            $scope._cloud_delete_ = function(_cloud_){
+                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
+                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)){
+                    return;
+                }
+                $.confirm('删除该文件吗?', function(){
+                    attach_delete(_cloud_file_dto_.fileid);
+                    $('#_cloud_file_a_' + _cloud_).text('');
+                    $('#_cloud_file_ipt_' + _cloud_).val('');
+                });
+            };
+            // 替换
+            $scope._cloud_replace_ = function(_file_, _cloud_){
+                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
+                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)){
+                    return;
+                }
+                var _data = {file: _file_,"docType":$scope.fileType, "docCode":$scope.fileCode,"pageLocation":$scope.fileLocation,"oldFileId":_cloud_file_dto_.fileid,"reason":"replace"};
+                $scope._private_cloud_backend_call(_file_,'replace',_data,_cloud_);
+            };
+            // 预览
+            $scope._cloud_preview_ = function(_cloud_){
+                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
+                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.preview3d)){
+                    return;
+                }
+                window.open(_cloud_file_dto_.preview3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+            $scope._cloud_init_();
+        }
+    }
+});
