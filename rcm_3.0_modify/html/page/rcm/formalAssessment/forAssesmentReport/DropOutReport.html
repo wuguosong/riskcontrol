@@ -1,5 +1,5 @@
 <div class="xh-content container-fluid">
-	<form name="FormalReviewReport" novalidate class="row">
+	<form id="DropOutReport" name="DropOutReport" novalidate class="row">
 		<div class="main-content col-md-10 col-sm-10 col-xs-12">
 			<h3 class='text-blue item-name'>
 				{{title}}
@@ -241,6 +241,25 @@
 <directive-org-list></directive-org-list>
 
 <script type="text/javascript">
+    $().ready(function() {
+        // validate signup form on keyup and submit
+        $("#DropOutReport").validate({
+            rules: {
+                //	personLiable:"required",
+                projectMessege:"required",
+                projectCompanyMessege:"required",
+                reviewSituation:"required",
+                exitReason:"required"
+            },
+            messages: {
+                //	personLiable:"此项必填",
+                projectMessege:"此项必填",
+                projectCompanyMessege:"此项必填",
+                reviewSituation:"此项必填",
+                exitReason:"此项必填"
+            }
+        });
+    });
     //dom监听resize事件
     (function($, h, c) {
         var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j

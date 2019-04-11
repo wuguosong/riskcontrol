@@ -1,5 +1,5 @@
 <div class="xh-content container-fluid">
-	<form name="formalReportForm" novalidate class="row">
+	<form id="TecTransformReport" name="TecTransformReport" novalidate class="row">
 		<div class="main-content col-md-10 col-sm-10 col-xs-12">
 			<h3 class='text-blue item-name'>
 				{{title}}
@@ -483,6 +483,31 @@
 </div>
 
 <script type="text/javascript">
+    $().ready(function() {
+        // validate signup form on keyup and submit
+        $("#TecTransformReport").validate({
+            rules: {
+                //	personLiable:"required",
+                contentDescription:"required",
+                regionalBackground:"required",
+                basicSituation:"required",
+                technicalInnovationAgreement:"required",
+                totalInvestment:"required",
+                constructionContent:"required",
+                increaseCost:"required"
+            },
+            messages: {
+                //	personLiable:"此项必填",
+                contentDescription:"此项必填",
+                regionalBackground:"此项必填",
+                basicSituation:"此项必填",
+                technicalInnovationAgreement:"此项必填",
+                totalInvestment:"此项必填",
+                constructionContent:"此项必填",
+                increaseCost:"此项必填"
+            }
+        });
+    });
     //dom监听resize事件
     (function($, h, c) {
         var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j
