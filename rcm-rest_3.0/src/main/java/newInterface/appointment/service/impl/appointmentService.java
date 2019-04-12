@@ -20,6 +20,7 @@ public class appointmentService implements IAppointmentService {
 	@Resource
 	private IAppointmentMapper appointmentMapper;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void saveMeeting(String Json) {
 		//Document doc = Document.parse(Json);
@@ -29,6 +30,7 @@ public class appointmentService implements IAppointmentService {
 		this.appointmentMapper.insertMeeting(jsonMap);
 	}
 	
+	@SuppressWarnings("unused")
 	private Map<String, Object> packageDataForOracle(Document doc){
 		Map<String, Object> data = new HashMap<String, Object>();
 		

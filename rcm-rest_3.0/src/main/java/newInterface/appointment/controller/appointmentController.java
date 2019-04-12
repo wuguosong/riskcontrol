@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.yk.log.annotation.SysLog;
+import com.yk.log.constant.LogConstant;
 
 import common.Result;
 import newInterface.appointment.service.IAppointmentService;
@@ -36,26 +38,20 @@ public class appointmentController {
 	
 	/**
 	 * 接收约会系统传送约会相关数据
-	 * 后面直接携带json数据，没有parameterName
-	 * @error 这种将json直接携带到路径中的方式有问题，在浏览器端会解析失败
-	 * */
-	@RequestMapping(value="/getMeetingInfo/{par}", method = RequestMethod.GET)
-	@ResponseBody
-	public Result getMeetingInfo(@PathVariable("par")String Json){
-		Result result = new Result();
-		this.appointmentService.saveMeeting(Json);
-		return result;
-	}
-
-	/**
-	 * 接收约会系统传送约会相关数据
 	 * 有parameterName，为：par
 	 * */
-	@RequestMapping(value="/getMeetingInfoV2", method = RequestMethod.GET)
+	@RequestMapping(value="/getMeetingInfo", method = RequestMethod.GET)
 	@ResponseBody
-	public Result getMeetingInfoV2(String par){
+	public Result getMeetingInfo(String par){
 		Result result = new Result();
-		this.appointmentService.saveMeeting(par);
+		try {
+			this.appointmentService.saveMeeting(par);
+			result.setError_code("200");
+			result.setError_msg("成功");
+		} catch (Exception e) {
+			result.setError_code("500");
+			result.setError_msg("服务器内部错误");
+		}
 		return result;
 	}
 	
