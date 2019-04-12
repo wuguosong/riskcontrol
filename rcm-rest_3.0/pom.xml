@@ -342,7 +342,24 @@
 			<version>1.8.9</version> <!--可以查查最新版-->
 		</dependency>
 		<!--Add by LiPan[2019-01-11] end-->
+		<!-- Add by QiRui[2019-04-12] start-->
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.6</version>
+		</dependency>
 	</dependencies>
+	<!-- Add by QiRui[2019-04-12] end-->
 	<repositories>
 		<!--Add by LiPan[2019-01-11] start-->
 		<repository>

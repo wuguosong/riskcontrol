@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="newInterface.appointment.dao.IAppointmentMapper">
+	<insert id="insertMeeting" parameterType="map">
+		insert into rcm_meeting_prep_info (
+		    id,
+			appointment_meeting_id,
+			type_code,
+			meeting_theme,
+			meeting_content,
+			chairman,
+			committee_member,
+			meeting_begin_time,
+			meeting_end_time,
+			flag
+		) values (
+		    rcm_meeting_prep_info_seq.nextval,
+			#{AppointmentMeeTingId},
+			#{TypeCode,jdbcType=VARCHAR},
+			#{MeeTingTheme,jdbcType=VARCHAR},
+			#{MeeTingContent,jdbcType=VARCHAR},
+			#{Chairman,jdbcType=VARCHAR},
+			#{CommitteeMember,jdbcType=VARCHAR},
+			to_date(#{MeeTingBeginTime,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+			to_date(#{MeeTingEndTime,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+			#{flag,jdbcType=VARCHAR}
+		)
+	</insert>
+</mapper>
