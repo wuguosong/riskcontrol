@@ -212,7 +212,7 @@ form .left-content {
 /* 表格样式 */
 .table > thead > tr > th,
 .table > tbody > tr > td {
-  white-space: nowrap;
+  /*white-space: nowrap;*/
 }
 
 .table > thead > tr > th > div > input,

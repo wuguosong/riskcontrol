@@ -6,12 +6,17 @@
         }
     </style>
     <!--附件操作区域-->
-    <div>
+    <div >
+        <span></span>
+        <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_{{areaCode}}_{{_cloud_}}"></a>
+        <input value="" type="hidden" id="_cloud_file_ipt_{{areaCode}}_{{_cloud_}}">
+    </div>
+    <div ng-if="areaCode == '1'">
         <!--文件显示区域-->
-        <div id="_cloud_file_{{_cloud_}}">
+        <!--<div id="_cloud_file_{{_cloud_}}">
             <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_{{_cloud_}}"></a>
             <input value="" type="hidden" id="_cloud_file_ipt_{{_cloud_}}">
-        </div>
+        </div>-->
         <!--文件操作区域-->
         <div id="_cloud_btn_{{_cloud_}}">
             <!--上传按钮-->
@@ -35,5 +40,12 @@
                 <span>{{_cloud_replace_text_}}</span>
             </button>
         </div>
+    </div>
+    <div ng-if="areaCode == '2'">
+
+        <!--<div id="_cloud_file_2_{{_cloud_}}">
+            <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_2_{{_cloud_}}"></a>
+            <input value="" type="hidden" id="_cloud_file_ipt_2_{{_cloud_}}">
+        </div>-->
     </div>
 </div>

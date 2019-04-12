@@ -18,6 +18,11 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             } else {
                 $scope.newAttachment = $scope.formalPreview.newAttachment;
             }
+            if ($scope.waitId == null){
+                $scope.businessId = $scope.formalPreview.projectFormalId;
+            } else {
+                $scope.businessId = $scope.waitId;
+            }
         };
 
         //处理附件列表

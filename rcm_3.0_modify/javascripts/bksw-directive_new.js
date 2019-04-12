@@ -5266,7 +5266,8 @@ ctmApp.directive('cloudFile', function () {
             previewText:'@',// 预览按钮文本，默认：预览
             deleteText:'@',// 删除按钮文本，默认：删除
             replaceText:'@',// 替换按钮文本，默认：替换
-            fileCheck:'@'// 是否进行文件名校验，默认false
+            fileCheck:'@',// 是否进行文件名校验，默认false
+            areaCode:'@' // 附件操作区域选择
         },
         controller: function ($scope, $location, $http, Upload) {
             // 文件校验初始化
@@ -5323,7 +5324,9 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
             }
             // 云组件root初始化
+            debugger;
             $scope._cloud_ = $scope.fileId + '_' + $scope.fileLocation;
+            $scope.areaCode;
             // 显示初始化
             $scope._cloud_init_ = function(){
                 console.log("组件初始化:" + $scope.fileType + "," + $scope.fileCode + "," + $scope.fileLocation);
@@ -5342,8 +5345,8 @@ ctmApp.directive('cloudFile', function () {
                             var _list_ = _result['result_data'];
                             if(!isEmpty(_list_) && _list_.length > 0){
                                 var _cloud_file_dto_ = _list_[0];
-                                $('#_cloud_file_ipt_' + $scope._cloud_).val(JSON.stringify(_cloud_file_dto_));
-                                $('#_cloud_file_a_' + $scope._cloud_).text(_cloud_file_dto_.filename);
+                                $('#_cloud_file_ipt_'+ $scope.areaCode + '_' + $scope._cloud_).val(JSON.stringify(_cloud_file_dto_));
+                                $('#_cloud_file_a_'+$scope.areaCode+ '_'+ $scope._cloud_).text(_cloud_file_dto_.filename);
                                 console.log(_cloud_file_dto_);
                             }
                         }
@@ -5352,7 +5355,7 @@ ctmApp.directive('cloudFile', function () {
             };
             // 将input中的附件数据转换为json，传递进来一个附件综合ID，页面唯一
             $scope._cloud_ipt_to_json_ = function(_cloud_){
-                var _ipt_val_ = $('#_cloud_file_ipt_' + _cloud_).val();
+                var _ipt_val_ = $('#_cloud_file_ipt_'+ $scope.areaCode + '_' + _cloud_).val();
                 if(isEmpty(_ipt_val_)){
                     return null;
                 }else{

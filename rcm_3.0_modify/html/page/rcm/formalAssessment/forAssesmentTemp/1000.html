@@ -29,7 +29,7 @@
                     </div>
                 </td>
                 <td>
-                    <button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"
+                    <!--<button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"
                             ngf-max-size="100MB"
                             ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
                         <span>添加</span>
@@ -48,7 +48,19 @@
                         <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
                             {{ projectOverview.attachmentValue }}
                         </a>
-                    </div>
+                    </div>-->
+                    <cloud-file
+                            file-id="{{projectOverview.code}}{{$index}}"
+                            file-type="FormalBiddingInfo"
+                            file-code="{{businessId}}"
+                            file-location="{{projectOverview.code}}{{$index}}"
+                            show-preview="false"
+                            show-replace="true"
+                            show-download="false"
+                            show-delete="false"
+                            area-code="1"
+                    >
+                    </cloud-file>
                 </td>
                 <td>
 
