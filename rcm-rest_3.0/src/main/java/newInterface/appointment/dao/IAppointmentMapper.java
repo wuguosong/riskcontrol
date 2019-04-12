@@ -3,6 +3,7 @@ package newInterface.appointment.dao;
 import java.util.Map;
 
 import com.yk.common.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
@@ -11,6 +12,7 @@ import com.yk.common.BaseMapper;
  * 20190411
  *
  */
+@Repository
 public interface IAppointmentMapper extends BaseMapper{
 	
 	/**

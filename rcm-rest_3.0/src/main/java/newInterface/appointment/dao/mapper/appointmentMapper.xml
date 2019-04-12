@@ -4,16 +4,16 @@
 <mapper namespace="newInterface.appointment.dao.IAppointmentMapper">
 	<insert id="insertMeeting" parameterType="map">
 		insert into rcm_meeting_prep_info (
-		    id,
-			appointment_meeting_id,
-			type_code,
-			meeting_theme,
-			meeting_content,
-			chairman,
-			committee_member,
-			meeting_begin_time,
-			meeting_end_time,
-			flag
+		    "id",
+			"appointment_meeting_id",
+			"type_code",
+			"meeting_theme",
+			"meeting_content",
+			"chairman",
+			"committee_member",
+			"meeting_begin_time",
+			"meeting_end_time",
+			"flag"
 		) values (
 		    rcm_meeting_prep_info_seq.nextval,
 			#{AppointmentMeeTingId},

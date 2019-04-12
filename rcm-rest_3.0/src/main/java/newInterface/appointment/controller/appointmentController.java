@@ -36,13 +36,26 @@ public class appointmentController {
 	
 	/**
 	 * 接收约会系统传送约会相关数据
+	 * 后面直接携带json数据，没有parameterName
+	 * @error 这种将json直接携带到路径中的方式有问题，在浏览器端会解析失败
 	 * */
 	@RequestMapping(value="/getMeetingInfo/{par}", method = RequestMethod.GET)
 	@ResponseBody
 	public Result getMeetingInfo(@PathVariable("par")String Json){
 		Result result = new Result();
 		this.appointmentService.saveMeeting(Json);
-		
+		return result;
+	}
+
+	/**
+	 * 接收约会系统传送约会相关数据
+	 * 有parameterName，为：par
+	 * */
+	@RequestMapping(value="/getMeetingInfoV2", method = RequestMethod.GET)
+	@ResponseBody
+	public Result getMeetingInfoV2(String par){
+		Result result = new Result();
+		this.appointmentService.saveMeeting(par);
 		return result;
 	}
 	
@@ -63,7 +76,7 @@ public class appointmentController {
 	        params.put("SystemCode", "");
 	        JSONObject Json = (JSONObject)JSON.toJSON(params);
 	    	method = new PostMethod("http://bkapitest.hengtaiboyuan.com/AppointmentMeeTingManage/WebAPI/GetMeeTingTypeListsByPartyCSystemId") ;
-	        method.setParameter("param",Json.toString());//设置参数
+	        method.setParameter("par",Json.toString());//设置参数
 	        client.executeMethod(method);
 	        if(method.getStatusCode() == HttpStatus.SC_OK){//响应成功
 	            result = method.getResponseBodyAsString();//调用返回结果
