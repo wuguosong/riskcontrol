@@ -60,13 +60,30 @@
                         title="">
                     报告
                 </button>
-                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && (noSubmit.RFI_IS_SUBMIT_REPORT == 0 || noSubmit.RFI_IS_SUBMIT_REPORT == 1)"
+                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_REPORT == 0"
+                   href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/Update/{{noSubmit.BUSINESSID}}@2/{{'#/FormalReportList_new/0'|encodeURI}}"
+                   class="btn btn-sm btn-success btn-left"
+                   title="">
+                    报告
+                </a>
+                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_REPORT == 1"
                         href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/View/{{noSubmit.BUSINESSID}}@2/{{'#/FormalReportList_new/0'|encodeURI}}"
                         class="btn btn-sm btn-success btn-left"
                         title="">
                     报告
                 </a>
-                <button ng-if="noSubmit.PROJECT_TYPE == 'pfr'" class="btn btn-sm btn-success btn-center">材料</button>
+                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING != 1"
+                   href="#/FormalBiddingInfo/{{p.BUSINESSID}}@2/{{'#/FormalBiddingInfoList/0'|encodeURI}}/0"
+                   class="btn btn-sm btn-success btn-left"
+                   title="">
+                    材料
+                </a>
+                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 1"
+                   ng-click="getInfo(p.BUSINESSID)"
+                   class="btn btn-sm btn-success btn-left"
+                   title="">
+                    材料
+                </a>
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pfr'" class="btn btn-sm btn-success btn-right">通知书</button>
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pre'" class="btn btn-sm btn-success btn-left">报告</button>
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pre'" class="btn btn-sm btn-success btn-right">材料</button>

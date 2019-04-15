@@ -132,6 +132,10 @@
 		set ${filed} = '${status}' 
 		where BUSINESSID = '${BUSINESSID}'
 	</update>
+	
+	<select id="getRFIStatus" parameterType="map" resultType="hashmap">
+     	SELECT RFI.IS_SUBMIT_REPORT, RFI.IS_SUBMIT_BIDDING, RFI.IS_SUBMIT_DECISION_NOTICE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE RFI.BUSINESSID = #{businessid}
+     </select>
 
 
 </mapper>

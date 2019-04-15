@@ -491,7 +491,7 @@ var demo_template = [
 window.addEventListener("load", function () {
   activateTheme($('#main-menu .btn-outline'));
   $('head').append($('<style>\n' + demo_styles.join('\n') + '\n</style>'));
-  $('body').append($(demo_template.join('\n')));
+  // $('body').append($(demo_template.join('\n')));
 
   // Activate theme
   $('#demo-themes .demo-theme[data-theme="' + demo_settings.theme + '"]').addClass('active');

@@ -20,4 +20,6 @@ public interface IFillMaterialsService {
 	
 	void updateProjectStaus(Map<String, Object> params);
 	
+	public Map<String, Object> getRFIStatus(String businessid);
+	
 }

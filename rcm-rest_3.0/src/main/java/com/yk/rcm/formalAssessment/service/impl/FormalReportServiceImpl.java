@@ -21,6 +21,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
+import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 import com.yk.rcm.formalAssessment.service.IFormalReportService;
@@ -52,6 +53,9 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 	@Resource
 	private IFormalAssessmentInfoService formalAssessmentInfoService;
+	
+	@Resource
+	private IFillMaterialsService fillMaterialsService;
 
 	private Logger logger = Logger.getLogger("FormalReportServiceImpl");
 
@@ -202,9 +206,17 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 	@Override
 	public void submitAndupdate(String id, String projectFormalId) {
-
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("stage", "3.7");
+		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(projectFormalId);
+		if(Util.isNotEmpty(Object)) {
+			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
+				if (Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+					map.put("stage", "4");
+				}
+			}
+		}
+		map.put("IS_SUBMIT_REPORT", "1");
+//		map.put("stage", "3.7");
 		map.put("decision_commit_time", null);
 		map.put("businessid", projectFormalId);
 		// 合并 正式评审参会信息 时，将正式品汇参会信息中的修改项合并到正式评审报告中

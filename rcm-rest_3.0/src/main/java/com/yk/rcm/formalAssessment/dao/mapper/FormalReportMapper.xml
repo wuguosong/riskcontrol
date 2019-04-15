@@ -118,7 +118,14 @@ where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_sta
      
      <!-- 提交正式报告(3.7)——填写参会信息(3.5)——提交决策通知书(3.9)——提交决策委员会(4) -->
      <update id="changeState" parameterType="map">
-     	update rcm_formalassessment_info r set r.stage = #{stage}, r.decision_commit_time = to_date(#{decision_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss') where r.businessid = #{businessid}
+     	update 
+     	rcm_formalassessment_info r 
+     	set 
+     	IS_SUBMIT_REPORT = #{IS_SUBMIT_REPORT}, 
+     	<if test="stage != null"> r.stage = #{stage}, </if>
+     	r.decision_commit_time = to_date(#{decision_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss') 
+     	where 
+     	r.businessid = #{businessid}
      </update>
      
      <select id="selectPrjReviewView" resultType="hashmap" parameterType="java.lang.String">

@@ -123,7 +123,7 @@ public class FormalReportController {
 
 	@RequestMapping("/updateReport")
 	@ResponseBody
-	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "更新项目")
+//	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "更新项目")
 	public Result updateReport(String json, HttpServletRequest request) {
 		Result result = new Result();
 		String id = this.formalReportService.updateReport(json);

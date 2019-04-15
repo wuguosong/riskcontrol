@@ -65,7 +65,7 @@ public class FillMaterialsService implements IFillMaterialsService {
 						map.put("RFI_IS_SUBMIT_DECISION_NOTICE", "0");
 					}
 				} else if (map.get("STAGE").equals("3")) {
-					if (Util.isNotEmpty(map.get("PFR_REPORT_CREATE_DATE"))) {
+					if (Util.isNotEmpty(map.get("PFR_REPORT_CREATE_DATE")) && !Util.isNotEmpty(map.get("RFI_IS_SUBMIT_REPORT"))) {
 						map.put("RFI_IS_SUBMIT_REPORT", "0");
 					}
 				}
@@ -97,6 +97,12 @@ public class FillMaterialsService implements IFillMaterialsService {
 	public void updateProjectStaus(Map<String, Object> params) {
 //		String table, String filed, String BUSINESSID, String status
 		fillMaterialsMapper.updateProjectStaus(params);
+	}
+
+	@Override
+	public Map<String, Object> getRFIStatus(String businessid) {
+		Map<String, Object> object = fillMaterialsMapper.getRFIStatus(businessid);
+		return object;
 	}
 
 }
