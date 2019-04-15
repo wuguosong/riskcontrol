@@ -385,3 +385,9 @@ form .left-content {
 .modal.in .checkbox-inline > span.lbl:before {
   margin: 15px 0px 0px -13px !important;
 }
+
+
+/* 必填项颜色设置*/
+.help-block {
+  color: red;
+}

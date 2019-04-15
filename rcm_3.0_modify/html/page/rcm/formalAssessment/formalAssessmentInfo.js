@@ -340,6 +340,10 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
 
     //保存
     $scope.save = function(){
+        if (!$("#myFormPfR").valid()){
+            alert("请填写必填项数据！");
+            return;
+        }
         $scope.pfr.create_date = $scope.getDate();
         $http({
             method:'post',
@@ -357,6 +361,10 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
 
     // 修改
     $scope.update = function(){
+        if (!$("#myFormPfR").valid()){
+            alert("请填写必填项数据！");
+            return;
+        }
         $scope.pfr.last_update_date = $scope.getDate();
         $http({
             method:'post',

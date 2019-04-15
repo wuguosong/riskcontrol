@@ -360,6 +360,10 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
 
     //保存
     $scope.save = function(){
+        if (!$("#myFormPre").valid()){
+            alert("请填写必填项数据！");
+            return;
+        }
         $scope.pre.create_date = $scope.getDate();
         $http({
             method:'post',
@@ -377,6 +381,10 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
 
     // 修改
     $scope.update = function(){
+        if (!$("#myFormPre").valid()){
+            alert("请填写必填项数据！");
+            return;
+        }
         $scope.pre.last_update_date = $scope.getDate();
         $http({
             method:'post',
