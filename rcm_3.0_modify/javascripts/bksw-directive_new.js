@@ -5279,6 +5279,7 @@ ctmApp.directive('fillMaterial', function () {
     }
 });
 /*云文件指令*/
+/*云文件指令*/
 ctmApp.directive('cloudFile', function () {
     return {
         restrict: 'AE',
@@ -5299,9 +5300,46 @@ ctmApp.directive('cloudFile', function () {
             deleteText:'@',// 删除按钮文本，默认：删除
             replaceText:'@',// 替换按钮文本，默认：替换
             fileCheck:'@',// 是否进行文件名校验，默认false
-            areaCode:'@' // 附件操作区域选择
+            areaCode:'@', // 附件操作区域选择
+            textBefore:'@',// 是否将文件名置于前面，其它操作按钮置于后面，默认true。false：操作按钮在前，文件名在后
+            btnClass:'@',// 按钮类
+            btnStyle:'@',// 按钮样式
+            textStyle:'@',// 文本类
+            textClass:'@'// 文本样式
         },
         controller: function ($scope, $location, $http, Upload) {
+            // 样式与类初始化
+            if(isEmpty($scope.btnClass)){
+                $scope._cloud_btn_class_ = 'btn-add btn-scale';
+            }else{
+                $scope._cloud_btn_class_ = $scope.btnClass;
+            }
+            if(isEmpty($scope.btnStyle)){
+                $scope._cloud_btn_style_ = ';';
+            }else{
+                $scope._cloud_btn_style_ = $scope.btnStyle;
+            }
+            if(isEmpty($scope.textStyle)){
+                $scope._cloud_text_style_ = 'color: blue;';
+            }else{
+                $scope._cloud_text_style_ = $scope.textStyle;
+            }
+            if(isEmpty($scope.textClass)){
+                $scope._cloud_text_class_ = '';
+            }else{
+                $scope._cloud_text_class_ = $scope.textClass;
+            }
+            // 其他初始化
+            if(isEmpty($scope.textBefore)){
+                $scope._cloud_text_before_ = true;
+            }else{
+                $scope._cloud_text_before_ = $scope.textBefore == 'true';
+            }
+            if(isEmpty($scope.areaCode)){
+                $scope._cloud_area_code_ = '1';
+            }else{
+                $scope._cloud_area_code_ = $scope.areaCode;
+            }
             // 文件校验初始化
             if(isEmpty($scope.fileCheck)){
                 $scope._let_file_check_ = false;
@@ -5356,9 +5394,7 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
             }
             // 云组件root初始化
-            debugger;
-            $scope._cloud_ = $scope.fileId + '_' + $scope.fileLocation;
-            $scope.areaCode;
+            $scope._cloud_ = $scope.fileId + '_' + $scope.fileLocation + '_' + $scope._cloud_area_code_;
             // 显示初始化
             $scope._cloud_init_ = function(){
                 console.log("组件初始化:" + $scope.fileType + "," + $scope.fileCode + "," + $scope.fileLocation);
@@ -5377,8 +5413,8 @@ ctmApp.directive('cloudFile', function () {
                             var _list_ = _result['result_data'];
                             if(!isEmpty(_list_) && _list_.length > 0){
                                 var _cloud_file_dto_ = _list_[0];
-                                $('#_cloud_file_ipt_'+ $scope.areaCode + '_' + $scope._cloud_).val(JSON.stringify(_cloud_file_dto_));
-                                $('#_cloud_file_a_'+$scope.areaCode+ '_'+ $scope._cloud_).text(_cloud_file_dto_.filename);
+                                $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + $scope._cloud_).val(JSON.stringify(_cloud_file_dto_));
+                                $('#_cloud_file_a_' + $scope._cloud_area_code_+ '_' + $scope._cloud_).text(_cloud_file_dto_.filename);
                                 console.log(_cloud_file_dto_);
                             }
                         }
@@ -5387,7 +5423,8 @@ ctmApp.directive('cloudFile', function () {
             };
             // 将input中的附件数据转换为json，传递进来一个附件综合ID，页面唯一
             $scope._cloud_ipt_to_json_ = function(_cloud_){
-                var _ipt_val_ = $('#_cloud_file_ipt_'+ $scope.areaCode + '_' + _cloud_).val();
+                console.log($scope._cloud_area_code_ );
+                var _ipt_val_ = $('#_cloud_file_ipt_'+ $scope._cloud_area_code_ + '_' + _cloud_).val();
                 if(isEmpty(_ipt_val_)){
                     return null;
                 }else{
@@ -5415,10 +5452,9 @@ ctmApp.directive('cloudFile', function () {
                         var _result = _resp_.data;
                         if(!isEmpty(_result)){
                             if(_result.success){
-                                debugger;
                                 var _cloud_file_dto_ = _result['result_data'];
-                                $('#_cloud_file_ipt_' + _cloud_).val(JSON.stringify(_cloud_file_dto_));
-                                $('#_cloud_file_a_' + _cloud_).text(_cloud_file_dto_.filename);
+                                $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + _cloud_).val(JSON.stringify(_cloud_file_dto_));
+                                $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_'  + _cloud_).text(_cloud_file_dto_.filename);
                             }
                         }
                     }, function (_resp_) {
