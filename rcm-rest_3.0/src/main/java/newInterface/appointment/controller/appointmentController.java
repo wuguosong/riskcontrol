@@ -37,10 +37,29 @@ public class appointmentController {
 	private IAppointmentService appointmentService;
 	
 	/**
+	 * 接收约会系统传送会议相关数据
+	 * 有parameterName，为：par
+	 * */
+	@RequestMapping(value="/getMeetingTypeInfo", method = RequestMethod.POST)
+	@ResponseBody
+	public Result getMeetingTypeInfo(String par){
+		Result result = new Result();
+		/*try {*/
+			//this.appointmentService.saveMeeting(par);
+			result.setError_code("200");
+			result.setError_msg("成功");
+		/*} catch (Exception e) {
+			result.setError_code("500");
+			result.setError_msg("服务器内部错误");
+		}*/
+		return result;
+	}
+	
+	/**
 	 * 接收约会系统传送约会相关数据
 	 * 有parameterName，为：par
 	 * */
-	@RequestMapping(value="/getMeetingInfo", method = RequestMethod.GET)
+	@RequestMapping(value="/getMeetingInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public Result getMeetingInfo(String par){
 		Result result = new Result();
@@ -71,7 +90,7 @@ public class appointmentController {
 	        params.put("OperatorId", ThreadLocalUtil.getUserId());
 	        params.put("SystemCode", "");
 	        JSONObject Json = (JSONObject)JSON.toJSON(params);
-	    	method = new PostMethod("http://bkapitest.hengtaiboyuan.com/AppointmentMeeTingManage/WebAPI/GetMeeTingTypeListsByPartyCSystemId") ;
+	    	method = new PostMethod("http://bksitenew.hengtaiboyuan.com/AppointmentMeeTingManage/WebAPI/GetMeeTingTypeListsByPartyCSystemId") ;
 	        method.setParameter("par",Json.toString());//设置参数
 	        client.executeMethod(method);
 	        if(method.getStatusCode() == HttpStatus.SC_OK){//响应成功
