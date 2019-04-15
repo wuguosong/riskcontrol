@@ -375,7 +375,26 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                 $.alert(result.result_name);
             }
         });
-    }
+    };
+
+    //模态框
+    $scope.showSubmitModal = function(){
+        $scope.approve = {
+            operateType: "submit",
+            processKey: "formalAssessment",
+            businessId: $scope.id,
+            callbackSuccess: function(result){
+                $.alert(result.result_name);
+                $('#submitModal').modal('hide');
+                $("#submibtnn").hide();
+                $scope.initData();
+            },
+            callbackFail: function(result){
+                $.alert(result.result_name);
+            }
+        };
+        $('#submitModal').modal('show');
+    };
 
     $scope.initData();
 

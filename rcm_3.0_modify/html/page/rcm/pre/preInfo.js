@@ -395,6 +395,26 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
                 $.alert(result.result_name);
             }
         });
+    };
+
+    //弹出审批框新版
+    //提交
+    $scope.showSubmitModal = function(){
+        $scope.approve = {
+            operateType: "submit",
+            processKey: "formalAssessment",
+            businessId: $scope.id,
+            callbackSuccess: function(result){
+                $.alert(result.result_name);
+                $('#submitModal').modal('hide');
+                $("#submibtnn").hide();
+                $scope.initData();
+            },
+            callbackFail: function(result){
+                $.alert(result.result_name);
+            }
+        };
+        $('#submitModal').modal('show');
     }
 
     $scope.initData();

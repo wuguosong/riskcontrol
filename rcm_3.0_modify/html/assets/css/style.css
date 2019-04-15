@@ -210,6 +210,10 @@ form .left-content {
 }
 
 /* 表格样式 */
+.table > thead > tr > th {
+  border: 1px solid #e4e4e4;
+}
+
 .table > thead > tr > th,
 .table > tbody > tr > td {
   /*white-space: nowrap;*/

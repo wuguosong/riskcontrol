@@ -1,6 +1,9 @@
 html,body,#content-wrapper{
     height: 100%
 }
+#main-page {
+    height: calc(100% - 60px);
+}
 #main-wrapper{
     overflow-y: auto!important;
     height: 100% ;
@@ -545,4 +548,3 @@ html,body,#content-wrapper{
 .content2 .mytable tbody td{
     padding: 14px 10px!important;
 }
-
