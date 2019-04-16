@@ -9,17 +9,18 @@ import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import com.yk.power.dao.IUserMapper;
+import common.Constants;
 import common.PageAssistant;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.DateUtil;
+import ws.client.message.*;
+import ws.client.message.client.SendMessageUtil;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -244,15 +245,39 @@ public class MessageService implements IMessageService {
 			throw new BusinessException("共享失败，读取资源文件失败！");
 		}
 		String url = prop.get("message.share.url") + prop.get("message.request.mapping") + messageId;
+		String content = prop.get("message.share.content");
+		String title = prop.get("message.share.title");
+		String sysCode = prop.get("message.ws.sys.code");
 		// 分割用户
 		String[] shareUserArray = shareUsers.split(",");
 		if(ArrayUtils.isEmpty(shareUserArray)){
 			throw new BusinessException("共享失败，要共享的用户为空！");
 		}
+		StringBuffer sb = new StringBuffer();
+		Map<String, Object> params = new HashMap<String, Object>();
 		for(String shareUser : shareUserArray){
-			// TODO 此处需要调用钉钉接口进行发送
 			System.out.println("向用户：" + shareUser + "发送url：" + url);
+			params.put("UUID", shareUser);
+			Map<String, Object> user = userMapper.selectAUser(params);
+			if(user != null){
+				sb.append(String.valueOf(user.get("ID")));
+				sb.append(",");
+			}
 		}
+		String toUser = sb.substring(0, sb.lastIndexOf(",") + 1);
+		BEWGMessageService client = new BEWGMessageService();
+		BEWGMessageServiceSoap bewgMessageServiceSoap = client.getBEWGMessageServiceSoap();
+		MessageDTLink messageDTLink = new MessageDTLink();
+		messageDTLink.setSysCode(sysCode);
+		MessageDTLinkContent messageDTLinkContent = new MessageDTLinkContent();
+		messageDTLinkContent.setMessageUrl(url);
+		messageDTLinkContent.setPicUrl(url);
+		messageDTLinkContent.setText(content);
+		messageDTLinkContent.setTitle(title);
+		messageDTLink.setLink(messageDTLinkContent);
+		messageDTLink.setTouser(toUser.replace(",", "|"));
+		MessageBack messageBack = bewgMessageServiceSoap.sendDTLink(messageDTLink);
+		System.out.println(JSON.toJSON(messageBack));
 		return url;
 	}
 
