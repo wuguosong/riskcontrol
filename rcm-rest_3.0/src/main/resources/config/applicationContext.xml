@@ -4,6 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,7 +13,9 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd"
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://cxf.apache.org/jaxws
+      	http://cxf.apache.org/schemas/jaxws.xsd"
 	default-lazy-init="true">
 
 <!-- 	<import resource="classpath:config/spring-cxf.xml"/> -->
@@ -166,4 +169,6 @@
 	<import resource="classpath:config/daxt-dataSource.xml"/>
 	<import resource="classpath:config/quartz-config.xml"/>
 	<!--<import resource="classpath:config/redis-conf.xml"/>-->
+	<jaxws:endpoint id="getService" implementor="ws.msg.service.GetServiceImpl"
+					address="/getService" />
 </beans>
