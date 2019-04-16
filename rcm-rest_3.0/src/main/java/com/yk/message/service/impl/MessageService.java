@@ -265,7 +265,7 @@ public class MessageService implements IMessageService {
 			}
 		}
 		String toUser = sb.substring(0, sb.lastIndexOf(",") + 1);
-		BEWGMessageService client = new BEWGMessageService();
+		/*BEWGMessageService client = new BEWGMessageService();
 		BEWGMessageServiceSoap bewgMessageServiceSoap = client.getBEWGMessageServiceSoap();
 		MessageDTLink messageDTLink = new MessageDTLink();
 		messageDTLink.setSysCode(sysCode);
@@ -277,7 +277,7 @@ public class MessageService implements IMessageService {
 		messageDTLink.setLink(messageDTLinkContent);
 		messageDTLink.setTouser(toUser.replace(",", "|"));
 		MessageBack messageBack = bewgMessageServiceSoap.sendDTLink(messageDTLink);
-		System.out.println(JSON.toJSON(messageBack));
+		System.out.println(JSON.toJSON(messageBack));*/
 		return url;
 	}
 
