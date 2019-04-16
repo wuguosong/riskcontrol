@@ -19,34 +19,6 @@
             </table>
         </div>
 
-        <!--<div class="row" ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc"
-             ng-if="projectOverview.content != '' && projectOverview.content != undefined
-                    && projectOverview.content != null && projectOverview.modify != '0'">
-            <div class="tit col-md-2 col-sm-2 col-xs-12">{{projectOverview.value}}</div>
-            <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
-                {{projectOverview.content}}
-            </div>
-        </div>-->
-        <div ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
-            <cloud-file
-                    file-id="{{projectOverview.code}}{{$index}}"
-                    file-type="FormalBiddingInfo"
-                    file-code="{{businessId}}"
-                    file-location="{{projectOverview.code}}{{$index}}"
-                    show-preview="false"
-                    show-replace="false"
-                    show-download="false"
-                    show-delete="false"
-                    area-code="2"
-            >
-            </cloud-file>
-            <!--<div ng-if="projectOverview.attachmentValue != null || projectOverview.attachmentValue != null">
-                <div class="img col-md-6 col-sm-6 col-xs-12">
-                    <span></span>
-                    <a ng-click="downLoadAttachment(projectOverview)">{{projectOverview.attachmentValue }}</a>
-                </div>
-            </div>-->
-        </div>
         <div class="table-cover" ng-hide="hideFlagS">
             <div class="more">
                 <div class="icon"></div>

@@ -18,20 +18,6 @@
                 </tbody>
             </table>
         </div>
-        <div ng-repeat="projectOverview in formalPreview.projectOverviews1 | orderBy: 'orderno': desc">
-            <div ng-if="projectOverview.attachmentValue != null || projectOverview.attachmentValue != null">
-                <div class="img col-md-6 col-sm-6 col-xs-12">
-                    <span></span>
-                    <a ng-click="downLoadAttachment(projectOverview)">{{projectOverview.attachmentValue }}</a>
-                </div>
-            </div>
-        </div>
-        <div class="table-cover" ng-hide="hideFlagS">
-            <div class="more">
-                <div class="icon"></div>
-                <h6 class="text-blue">点击查看更多</h6>
-            </div>
-        </div>
     </div>
 </div>
 

@@ -33,12 +33,27 @@
                     file-type="FormalBiddingInfo"
                     file-code="{{businessId}}"
                     file-location="{{projectOverview.code}}{{$index}}"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+                    text-class="img col-md-6 col-sm-6 col-xs-12"
+            >
+            </cloud-file>
+            <!--<cloud-file
+                    file-id="{{projectOverview.code}}{{$index}}"
+                    file-type="FormalBiddingInfo"
+                    file-code="{{businessId}}"
+                    file-location="{{projectOverview.code}}{{$index}}"
                     show-preview="false"
                     show-replace="false"
                     show-download="false"
                     show-delete="false"
                     area-code="2"
-            >
+            >-->
             </cloud-file>
             <!--<div ng-if="projectOverview.attachmentValue != null || projectOverview.attachmentValue != null">
                 <div class="img col-md-6 col-sm-6 col-xs-12">
