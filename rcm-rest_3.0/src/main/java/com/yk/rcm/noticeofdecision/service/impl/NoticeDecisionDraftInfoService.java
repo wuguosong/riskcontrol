@@ -30,6 +30,7 @@ import com.yk.common.IBaseMongo;
 import com.yk.exception.rcm.DocReportException;
 import com.yk.power.service.IOrgService;
 import com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper;
+import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
 import com.yk.rcm.formalAssessment.service.IFormalReportService;
@@ -62,7 +63,7 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 	@Resource
 	private IOrgService orgService;
 	@Resource
-	private IFillMaterialsMapper fillMaterialsMapper;
+	private IFillMaterialsService fillMaterialsService;
 	
 	@Override
 	public PageAssistant queryStartByPage(PageAssistant page) {
@@ -113,7 +114,6 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 		//打包oracle数据,修改oracle
 		Map<String, Object> paramsForOracle = packageNoticeDecisionInfoForOracle(doc);
 		this.noticeDecisionDraftInfoMapper.update(paramsForOracle);
-		
 		//修改mongoDB
 		String id = doc.getString("_id");
 		doc.put("_id",new ObjectId(id));
@@ -177,7 +177,7 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 			statusMap.put("filed", "IS_SUBMIT_DECISION_NOTICE");
 			statusMap.put("status", "0");
 			statusMap.put("BUSINESSID", paramsForOracle.get("projectFormalid").toString());
-			this.fillMaterialsMapper.updateProjectStaus(statusMap);
+			this.fillMaterialsService.updateProjectStaus(statusMap);
 			
 			/*//修改oracle的stage状态
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -551,9 +551,18 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
 		statusMap.put("filed", "IS_SUBMIT_DECISION_NOTICE");
-		statusMap.put("status", "0");
+		statusMap.put("status", "1");
 		statusMap.put("BUSINESSID", businessId);
-		this.fillMaterialsMapper.updateProjectStaus(statusMap);
+		this.fillMaterialsService.updateProjectStaus(statusMap);
+		
+		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
+		if(Util.isNotEmpty(Object)) {
+			if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))) {
+				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+					map.put("stage", "4");
+				}
+			}
+		}
 		
 		this.noticeDecisionDraftInfoMapper.updateStageByBusinessId(map);
 	}

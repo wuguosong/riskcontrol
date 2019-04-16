@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoCollection;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
@@ -56,7 +55,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
-
+	
 	private Logger logger = Logger.getLogger("FormalReportServiceImpl");
 
 	@SuppressWarnings("unchecked")
@@ -173,6 +172,13 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		params.put("businessId", doc.getString("projectFormalId"));
 		params.put("controller_val", doc.getString("controllerVal"));
 		this.reportInfoService.saveReport(params);
+		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
+		statusMap.put("filed", "IS_SUBMIT_REPORT");
+		statusMap.put("status", "0");
+		statusMap.put("BUSINESSID", doc.getString("projectFormalId"));
+		this.fillMaterialsService.updateProjectStaus(statusMap);
 
 		// 设置添加时间
 		Date now = Util.now();
@@ -207,15 +213,23 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	@Override
 	public void submitAndupdate(String id, String projectFormalId) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
+		statusMap.put("filed", "IS_SUBMIT_REPORT");
+		statusMap.put("status", "1");
+		statusMap.put("BUSINESSID", projectFormalId);
+		this.fillMaterialsService.updateProjectStaus(statusMap);
+		
 		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(projectFormalId);
 		if(Util.isNotEmpty(Object)) {
 			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-				if (Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
 					map.put("stage", "4");
 				}
 			}
 		}
-		map.put("IS_SUBMIT_REPORT", "1");
+		
 //		map.put("stage", "3.7");
 		map.put("decision_commit_time", null);
 		map.put("businessid", projectFormalId);
@@ -456,6 +470,13 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		result.setResult_data(true);
 		Document bjson = Document.parse(json);
 		String businessId = bjson.getString("projectFormalId");
+		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
+		statusMap.put("filed", "IS_SUBMIT_BIDDING");
+		statusMap.put("status", "0");
+		statusMap.put("BUSINESSID", businessId);
+		this.fillMaterialsService.updateProjectStaus(statusMap);
 
 		// 验证边界条件
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -495,8 +516,23 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		// 2、添加提交时间,修改阶段
 		if ("ss".equals(method)) {
 			if (this.isHaveMeetingInfo(businessId)) {
+				Map<String, Object> statusMap1 = new HashMap<String, Object>();
+				statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
+				statusMap.put("filed", "IS_SUBMIT_BIDDING");
+				statusMap.put("status", "1");
+				statusMap.put("BUSINESSID", businessId);
+				this.fillMaterialsService.updateProjectStaus(statusMap1);
+				
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("stage", "4");
+				Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
+				if(Util.isNotEmpty(Object)) {
+					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
+						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+							map.put("stage", "4");
+						}
+					}
+				}
+//				map.put("stage", "4");
 				map.put("decision_commit_time", Util.format(Util.now()));
 				map.put("businessid", businessId);
 				this.formalReportMapper.changeState(map);
