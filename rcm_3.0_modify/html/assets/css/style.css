@@ -381,13 +381,27 @@ form .left-content {
   }
 }
 
-.modal.in .checkbox-inline > span.lbl:after,
+/*.modal.in .checkbox-inline > span.lbl:after,
 .modal.in .checkbox-inline > span.lbl:before {
   margin: 15px 0px 0px -13px !important;
-}
+}*/
 
 
 /* 必填项颜色设置*/
 .help-block {
   color: red;
+}
+.gt-ie8 .radio-inline.local input.px+.lbl:before,
+.gt-ie8 .radio-inline.local input.px+.lbl:after{
+  margin: 10px 3px -4px -20px!important
+}
+
+.gt-ie8 .checkbox-inline.choose input.px+.lbl:before,
+.gt-ie8 .checkbox-inline.choose input.px+.lbl:after{
+  margin: 15px 3px -4px -20px!important;
+}
+
+.gt-ie8 .checkbox-inline.local input.px+.lbl:before,
+.gt-ie8 .checkbox-inline.local input.px+.lbl:after{
+  margin: 10px 3px -4px -20px!important;
 }

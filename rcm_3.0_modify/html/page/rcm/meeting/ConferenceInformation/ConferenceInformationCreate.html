@@ -10,7 +10,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required">*</span>大区人员参会方式</span>
+							<span class="required">*</span><span class="col-md-2 noPadding">大区人员参会方式</span>
 							<span class="col-md-10 slim">
 								<label class="radio radio-inline">
 									<input type="radio" class="px" name="participantMode" ng-model="meeting.participantMode" value="1"/>
@@ -28,7 +28,7 @@
 				<div class="row normalline">
 				    <div class="col-md-12 col-sm-12  col-xs-12">
 				    	<div class="row">
-				    		<span class="col-md-2 noPadding"><span class="required">*</span>大区参会人员</span>
+							<span class="required">*</span><span class="col-md-2 noPadding">大区参会人员</span>
 				    		<span class="col-md-10 slim">
 				    			<direct-user-multi-select id="{{'projectdivision'}}" checked-users="meeting.division" mapped-key-value="projectDivision">
 				    			</direct-user-multi-select>
@@ -52,7 +52,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required-r">*</span>汇报人</span>
+							<span class="required">*</span><span class="col-md-2 noPadding">汇报人</span>
 							<span class="col-md-10 slim">
 				    			<direct-user-single-select id="{{'projectagenda'}}" checked-user="meeting.agenda" mapped-key-value="projectAgenda">
 								</direct-user-single-select>

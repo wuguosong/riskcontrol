@@ -13,9 +13,9 @@
     </div>
     <div ng-if="_cloud_area_code_ == '1'">
         <!--文件操作区域-->
-        <div id="_cloud_btn_{{_cloud_}}_{{_cloud_area_code_}}">
+        <div id="_cloud_btn_{{_cloud_}}_{{_cloud_area_code_}}" class="{{_cloud_btn_area_class_}}">
             <!--上传按钮-->
-            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ngf-max-size="100MB" ngf-select="_cloud_upload_($file,_cloud_)">
+            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ng-if="_cloud_show_upload_" ngf-max-size="100MB" ngf-select="_cloud_upload_($file,_cloud_)">
                 <span>{{_cloud_upload_text_}}</span>
             </button>
             <!--删除按钮-->

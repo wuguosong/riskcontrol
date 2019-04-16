@@ -792,8 +792,9 @@ li {
     line-height: 40px;
     margin: 0 auto;
     text-align: center;
-    background: url(/html/assets/images/btn/btn-preview.png) no-repeat;
-    background-size: cover;
+    /*background: url(/html/assets/images/btn/btn-preview.png) no-repeat;*/
+    /*background-size: cover;*/
+    background: #d1b200;
 }
 
 .left-content .stage {
@@ -828,9 +829,9 @@ li {
     float: left;
     width: 30.3%;
     margin: 0 1.5%;
-    -webkit-border-radius: 20px;
+    /*-webkit-border-radius: 20px;
     -moz-border-radius: 20px;
-    border-radius: 20px;
+    border-radius: 20px;*/
     background: #0060c4;
     color: #fff;
 }

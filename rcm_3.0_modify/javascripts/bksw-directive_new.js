@@ -5290,6 +5290,7 @@ ctmApp.directive('cloudFile', function () {
             fileType:"@",// 文件类别
             fileCode:"@",// 文件Code
             fileLocation:"@",// 文件位置
+            showUpload:"@",// 是否展示上传按钮，默认为true
             showPreview:'@',// 是否展示预览按钮，默认为false
             showReplace:'@',// 是否展示替换按钮，默认为false
             showDownload:'@',// 是否展示下载按钮，默认为true
@@ -5305,7 +5306,8 @@ ctmApp.directive('cloudFile', function () {
             btnClass:'@',// 按钮类
             btnStyle:'@',// 按钮样式
             textStyle:'@',// 文本类
-            textClass:'@'// 文本样式
+            textClass:'@',// 文本样式
+            btnAreaClass:'@'// 按钮域样式
         },
         controller: function ($scope, $location, $http, Upload) {
             // 样式与类初始化
@@ -5328,6 +5330,11 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_text_class_ = '';
             }else{
                 $scope._cloud_text_class_ = $scope.textClass;
+            }
+            if(isEmpty($scope.btnAreaClass)){
+                $scope._cloud_btn_area_class_ = '';
+            }else{
+                $scope._cloud_btn_area_class_ = $scope.btnAreaClass;
             }
             // 其他初始化
             if(isEmpty($scope.textBefore)){
@@ -5373,6 +5380,11 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_replace_text_ = $scope.replaceText;
             }
             // 按钮显示与否初始化
+            if(isEmpty($scope.showUpload)){
+                $scope._cloud_show_upload_ = true;
+            }else{
+                $scope._cloud_show_upload_ = $scope.showUpload == 'true';
+            }
             if(isEmpty($scope.showDownload)){
                 $scope._cloud_show_download_ = true;
             }else{
