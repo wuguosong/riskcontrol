@@ -52,7 +52,7 @@
 								<tbody>
 								<tr ng-repeat="item in preBidding.policyDecision.fileList track by $index">
 									<td class="txc">
-										<label class="checkbox-inline">
+										<label class="checkbox-inline choose">
 											<input type="checkbox" class="px" ng-model="item.selected">
 											<span class="lbl">&nbsp;</span>
 										</label>
@@ -67,7 +67,7 @@
 									</td>
 									
 									<td ng-show = "preBidding.policyDecision != null">
-										<label class="checkbox-inline">
+										<label class="checkbox-inline choose">
 											<input type="checkbox" name="choosem" ng-disabled="true"
 											ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.files.filePath)" 
 											class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
@@ -75,7 +75,7 @@
 										</label>
 									</td>
 									<td ng-show = "preBidding.policyDecision == null">
-										<label class="checkbox-inline">
+										<label class="checkbox-inline choose">
 											<input type="checkbox" name="choosem" ng-disabled="true"
 											class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
 											<span class="lbl">&nbsp;</span>
@@ -112,7 +112,7 @@
 								<tbody  ng-repeat="item in newAttachment track by $index" ng-init="outerIndex = $index">
 								<tr>
 									<td>
-										<label class="checkbox-inline">
+										<label class="checkbox-inline choose">
 											<input ng-readonly="!hasWaiting"  ng-if="item.newFile" class="px deleteSelect"  type="checkbox"  name="deleteSelect" value="{{outerIndex}}"/>
 											<span class="lbl">&nbsp;</span>
 										</label>

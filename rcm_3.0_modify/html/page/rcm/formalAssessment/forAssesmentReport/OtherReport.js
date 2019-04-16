@@ -46,8 +46,23 @@ ctmApp.register.controller('OtherReport',['$http','$scope','$location','$routePa
     }
 
     $scope.saveReport7 = function(callBack){
-
-            var filep=$scope.formalReport.filePath;
+        var flie =  attach_list("FormalReportInfo", $scope.paramId, "pfrOtherReport").result_data;
+        if(null==flie || ""==flie){
+            $.alert("请上传附件");
+            return false;
+        }
+        var url_post;
+        if (typeof ($scope.formalReport._id) != "undefined") {
+            url_post = 'formalReport/updateReport.do';
+        }else{
+            var boolean = $scope.isReportExist();
+            if(boolean){
+                $.alert("请勿重复保存数据!");
+                return false;
+            }
+            url_post = 'formalReport/createNewReport.do';
+        }
+            /*var filep=$scope.formalReport.filePath;
             if(null==filep || ""==filep){
                 $.alert("请上传附件");
                 return false;
@@ -63,7 +78,7 @@ ctmApp.register.controller('OtherReport',['$http','$scope','$location','$routePa
             		return false;
             	}
             	url_post = 'formalReport/createNewReport.do';
-            }
+            }*/
             show_Mask();
             $http({
     			method:'post',  

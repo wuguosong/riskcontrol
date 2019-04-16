@@ -129,12 +129,12 @@
 	</select>
 	
 	<!-- 修改投资经理是否提交参会信息标识 -->
-	<update id="updateManagerSubmitState" parameterType="map">
-		update rcm_formalassessment_info 
+	<update id="updateManagerSubmitState" parameterType="hashmap">
+		update RCM_PRE_INFO 
 		   set is_investmentmanager_submit=#{is_investmentmanager_submit},
-		       NEED_MEETING=#{need_meeting,jdbcType=VARCHAR}},
+		       need_meeting=#{need_meeting},
 		       metting_commit_time=to_date(#{metting_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')  
-		 where BUSINESSID in (#{businessId,jdbcType=VARCHAR})
+		 where businessid in (#{businessId,jdbcType=VARCHAR})
 	</update>
 	
 	<!-- 修改投资经理是否提交参会信息标识 -->

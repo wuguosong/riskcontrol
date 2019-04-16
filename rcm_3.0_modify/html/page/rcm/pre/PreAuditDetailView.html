@@ -152,7 +152,7 @@
                                         <tbody id="commentList">
                                         <tr ng-repeat="m in pre.approveAttachment.commentsList">
                                             <td class="txc">
-                                                <label class="checkbox-inline">
+                                                <label class="checkbox-inline choose">
                                                     <input type="checkbox" class="px"
                                                            ng-disabled="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader "
                                                            ng-model="m.selected">
@@ -270,7 +270,7 @@
                                         <tbody id="attachmentList">
                                         <tr ng-repeat="am in pre.approveAttachment.attachmentNew">
                                             <td class="txc">
-                                                <label class="checkbox-inline">
+                                                <label class="checkbox-inline choose">
                                                     <input type="checkbox" class="px"
                                                            ng-disabled="!showController.isReviewLeader || am.isReviewLeaderEdit=='0'"
                                                            ng-model="am.selected" id="selected{{$index}}">

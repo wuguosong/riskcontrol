@@ -12,11 +12,11 @@
 						<div class="row">
 							<span class="required">*</span><span class="col-md-2 noPadding">大区人员参会方式</span>
 							<span class="col-md-10 slim">
-								<label class="radio radio-inline">
+								<label class="radio radio-inline local">
 									<input type="radio" class="px" name="participantMode" ng-model="meeting.participantMode" value="1"/>
 									<span class="lbl">现场</span>
 								</label>
-								<label class="radio radio-inline">
+								<label class="radio radio-inline local">
 									<input type="radio" class="px" name="participantMode" ng-model="meeting.participantMode" value="2"/>
 									<span class="lbl">视频</span>
 								</label>
@@ -64,7 +64,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required-r">*</span>联系人</span>
+							<span class="required">*</span><span class="col-md-2 noPadding">联系人</span>
 							<span class="col-md-10 slim">
 				    			<direct-user-single-select id="{{'projectcontacts'}}" checked-user="meeting.contacts" mapped-key-value="projectContacts">
 								</direct-user-single-select>
@@ -76,7 +76,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required-r">*</span>电话</span>
+							<span class="required">*</span><span class="col-md-2 noPadding">电话</span>
 							<span class="col-md-10 slim">
 				    			<input type="text" name="telephone" id="telephone" class="form-control" ng-model="meeting.telephone" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"  onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"

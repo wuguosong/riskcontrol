@@ -57,7 +57,6 @@
                 <div class="innertable">
                     <h5>风控部门提供</h5>
                     <div class="filework" style="height: 40px">
-                        <div class="col-md-9" style="padding-left: 0">
                             <cloud-file
                                     file-id="pfrOtherReport"
                                     file-type="FormalReportInfo"
@@ -65,19 +64,23 @@
                                     file-location="pfrOtherReport"
                                     show-upload="false"
                                     show-preview="false"
-                                    show-replace="false"
+                                    show-replace="true"
                                     show-download="false"
                                     show-delete="false"
                                     area-code="1"
-                                    text-before="false"
+                                    text-before="true"
+                                    text-class="col-md-9"
+                                    text-style="padding-left: 0"
+                                    btn-area-class="col-md-3"
+                                    btn-class="btn-replace-out"
+                                    btn-style="float: right; top: 3px"
                             >
                             </cloud-file>
                             <!--<a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)"
                                style="cursor: pointer" title="">
                                 {{formalReport.projectName}}-正式评审报告.docx
                             </a>-->
-                        </div>
-                        <div class="col-md-3">
+                       <!-- <div class="col-md-3">
                             <button class="btn-replace-out"
                                     ng-disabled="!hasWaiting"
                                     ngf-max-size="100MB"
@@ -85,7 +88,7 @@
                                     style="float: right; top: 3px">
                                 <span>替换</span>
                             </button>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>

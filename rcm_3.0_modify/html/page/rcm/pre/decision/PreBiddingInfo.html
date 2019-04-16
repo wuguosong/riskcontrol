@@ -10,7 +10,26 @@
 				<div class="innertable">
 					<h5>风控部门提供</h5>
 					<div class="filework" style="height: 40px">
-						<div class="col-md-9" style="padding-left: 0">
+						<cloud-file
+								file-id="preOtherReport"
+								file-type="preReportInfo"
+								file-code="{{businessId}}"
+								file-location="preOtherReport"
+								show-upload="false"
+								show-preview="false"
+								show-replace="true"
+								show-download="false"
+								show-delete="false"
+								area-code="1"
+								text-before="true"
+								text-class="col-md-9"
+								text-style="padding-left: 0"
+								btn-area-class="col-md-3"
+								btn-class="btn-replace-out"
+								btn-style="float: right; top: 3px"
+						>
+						</cloud-file>
+						<!--<div class="col-md-9" style="padding-left: 0">
 							<a ng-click="downLoadFormalBiddingInfoFile(preBidding.reviewReport.filePath,preBidding.apply.projectName)"
 							   style="cursor: pointer;" title="">
 								{{preBidding.apply.projectName}}-投标评审报告.docx
@@ -24,7 +43,7 @@
 									style="float: right; top: 3px">
 								<span>替换</span>
 							</button>
-						</div>
+						</div>-->
 					</div>
 					<div class="mytable" style="margin-top: 20px">
 						<table class="table table-bordered">
@@ -39,7 +58,7 @@
 							<tbody>
 							<tr ng-repeat="item in preBidding.policyDecision.fileList track by $index">
 								<td class="txc">
-									<label class="checkbox-inline">
+									<label class="checkbox-inline choose">
 										<input type="checkbox" class="px" ng-model="item.selected">
 										<span class="lbl">&nbsp;</span>
 									</label>
@@ -57,7 +76,7 @@
 								</td>
 
 								<td ng-show = "preBidding.policyDecision != null">
-									<label class="checkbox-inline">
+									<label class="checkbox-inline choose">
 										<input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
 											   ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.files.filePath)"
 											   class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
@@ -65,7 +84,7 @@
 									</label>
 								</td>
 								<td ng-show = "preBidding.policyDecision == null">
-									<label class="checkbox-inline">
+									<label class="checkbox-inline choose">
 										<input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
 											   class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
 										<span class="lbl">&nbsp;</span>

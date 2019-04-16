@@ -6,7 +6,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
         //申请报告ID
         var complexId = $routeParams.id;
         var params = complexId.split("@");
-        var businessId = params[0];
+        $scope.businessId = params[0];
         $scope.preBidding={};
         $scope.preBidding.policyDecision={};
 
@@ -37,8 +37,8 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
         //初始化页面所需数据
         $scope.initData = function () {
             $scope.currentUser = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
-            $scope.initUpdate(businessId);
-            $scope.getMarks(businessId);
+            $scope.initUpdate($scope.businessId);
+            $scope.getMarks($scope.businessId);
             $scope.getSelectTypeByCode("8");
             $scope.getSelectTypeByCodetype('14');
             $scope.dic2=[];
@@ -92,7 +92,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                     url: srvUrl + "preMark/saveOrUpdate.do",
                     data: $.param({
                         "json": JSON.stringify($scope.mark),
-                        "businessId": businessId
+                        "$scope.businessId": $scope.businessId
                     }),
                     dataType: "json",
                     async: false,
@@ -110,7 +110,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             }
         };
 
-        $scope.getMarks = function (businessId) {
+        $scope.getMarks = function ($scope.businessId) {
             $(".mark").keyup(function () {
                 if (this.value.length == 1) {
                     this.value = this.value.replace(/[^0-9]/g, '');
@@ -128,7 +128,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             $http({
                 method: 'post',
                 url: srvUrl + "preMark/queryMarks.do",
-                data: $.param({"businessId": businessId})
+                data: $.param({"$scope.businessId": $scope.businessId})
             }).success(function (result) {
                 if (result.success) {
                     var mark = result.result_data;
@@ -273,20 +273,20 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             }
         };
 
-        $scope.initUpdate = function(businessId){
+        $scope.initUpdate = function($scope.businessId){
             $http({
                 method:'post',
-                url:srvUrl+"preBidding/getByBusinessId.do",
-                data: $.param({"businessId":businessId})
+                url:srvUrl+"preBidding/getBy$scope.businessId.do",
+                data: $.param({"$scope.businessId":$scope.businessId})
             }).success(function(data){
                 $scope.pfr  = data.result_data.preMongo;
                 $scope.preBidding  = $scope.pfr;
-                $scope.preBidding.id = businessId;
+                $scope.preBidding.id = $scope.businessId;
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
                 $scope.reportOracle = data.result_data.reportOracle;
 
-                $scope.reduceAttachment($scope.pfr.attachmentList, businessId);
+                $scope.reduceAttachment($scope.pfr.attachmentList, $scope.businessId);
 
                 if(flag == 1){
                     var storage = window.localStorage;
@@ -483,7 +483,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                         if(data.result_data){
                             hide_Mask();
                             alertData = "提交成功!";
-                            $location.path("/PreBiddingInfoView/"+businessId+"@view/"+$filter('encodeURI')('#/PreBiddingInfoList/1'));
+                            $location.path("/PreBiddingInfoView/"+$scope.businessId+"@view/"+$filter('encodeURI')('#/PreBiddingInfoList/1'));
                         }else{
                             hide_Mask();
                             $.alert("请确保参会信息已填写完毕!");

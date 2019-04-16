@@ -62,12 +62,17 @@ ctmApp.register.controller('PreOtherReport',['$http','$scope','$location','$rout
     }
 
     $scope.savePreReportById = function(callBack){
+        var flie =  attach_list("preReportInfo", $scope.paramId, "preOtherReport").result_data;
+        if(null==flie || ""==flie){
+            $.alert("请上传附件");
+            return false;
+        }
 
-            var filep = $scope.pre.reviewReport.filePath;
+            /*var filep = $scope.pre.reviewReport.filePath;
             if(null==filep || ""==filep){
                 $.alert("请上传附件");
                 return false;
-            }
+            }*/
             show_Mask();
             var url_post;
             if ($scope._id != "") {

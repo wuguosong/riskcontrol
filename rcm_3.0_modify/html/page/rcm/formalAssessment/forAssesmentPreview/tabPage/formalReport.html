@@ -3,8 +3,23 @@
     <div class="contentwrap">
         <h3 class='text-blue text-blue-out' style="padding-left: 0;">正式评审报告</h3>
         <h5 class='file-download'><span class='file-icon'></span>
-            <a ng-click="downLoadFormalBiddingInfoFile(formalPreview.filePath,formalPreview.projectName)">
-                {{formalPreview.projectName}}-正式评审报告.docx</a></h5>
+            <cloud-file
+                    file-id="pfrOtherReport"
+                    file-type="FormalReportInfo"
+                    file-code="{{paramId}}"
+                    file-location="pfrOtherReport"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+            >
+            </cloud-file>
+            <!--<a ng-click="downLoadFormalBiddingInfoFile(formalPreview.filePath,formalPreview.projectName)">
+                {{formalPreview.projectName}}-正式评审报告.docx</a>-->
+        </h5>
         <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
         <div id='content3_table' class="mytable">
             <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"

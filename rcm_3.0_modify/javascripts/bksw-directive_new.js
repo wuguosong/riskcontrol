@@ -5307,6 +5307,7 @@ ctmApp.directive('cloudFile', function () {
             btnStyle:'@',// 按钮样式
             textStyle:'@',// 文本类
             textClass:'@',// 文本样式
+            btnAreaStyle:'@',// 按钮域类
             btnAreaClass:'@'// 按钮域样式
         },
         controller: function ($scope, $location, $http, Upload) {
@@ -5331,11 +5332,17 @@ ctmApp.directive('cloudFile', function () {
             }else{
                 $scope._cloud_text_class_ = $scope.textClass;
             }
+            if(isEmpty($scope.btnAreaStyle)){
+                $scope._cloud_btn_area_style_ = '';
+            }else{
+                $scope._cloud_btn_area_style_ = $scope.btnAreaStyle;
+            }
             if(isEmpty($scope.btnAreaClass)){
                 $scope._cloud_btn_area_class_ = '';
             }else{
                 $scope._cloud_btn_area_class_ = $scope.btnAreaClass;
             }
+
             // 其他初始化
             if(isEmpty($scope.textBefore)){
                 $scope._cloud_text_before_ = true;
@@ -5508,6 +5515,7 @@ ctmApp.directive('cloudFile', function () {
             };
             // 替换
             $scope._cloud_replace_ = function(_file_, _cloud_){
+
                 var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
                 if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)){
                     return;

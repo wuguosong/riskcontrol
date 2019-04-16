@@ -20,10 +20,25 @@
 						<div class="col-md-12 col-sm-12  col-xs-12">
 							<div class="row">
 								<span class="col-md-2 noPadding">附件上传</span>
-								<span class="col-md-10 slim">
+								<cloud-file
+										file-id="preOtherReport"
+										file-type="preReportInfo"
+										file-code="{{paramId}}"
+										file-location="preOtherReport"
+										show-upload="false"
+										show-preview="false"
+										show-replace="false"
+										show-download="false"
+										show-delete="false"
+										area-code="1"
+										text-before="false"
+										text-class="col-md-10 slim"
+								>
+								</cloud-file>
+								<!--<span class="col-md-10 slim">
 						            <span ng-bind="progress$index"></span>
 									<a href="javascript:void(0);" ng-click="downLoadFile(pre.reviewReport.filePath,pre.reviewReport.fileName)" style="line-height: 27px;">{{pre.reviewReport.fileName}}</a>
-                                 </span>
+                                 </span>-->
 							</div>
 						</div>
 					</div>
