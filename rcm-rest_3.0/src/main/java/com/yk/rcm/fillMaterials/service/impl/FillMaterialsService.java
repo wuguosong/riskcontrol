@@ -48,35 +48,6 @@ public class FillMaterialsService implements IFillMaterialsService {
 			System.out.println(JSON.toJSON(page));
 		}
 		List<Map<String, Object>> list = fillMaterialsMapper.queryNoSubmitList(params);
-		for (Map<String, Object> map : list) {
-			if (map.get("PROJECT_TYPE").equals("pfr")) {
-				Map<String, Object> summary = this.formalAssesmentService
-						.querySummaryById(map.get("BUSINESSID").toString());
-				// 判断在途数据
-				if (map.get("STAGE").equals("3.9")) {
-					map.put("RFI_IS_SUBMIT_REPORT", "1");
-					map.put("RFI_IS_SUBMIT_DECISION_NOTICE", "1");
-					if (Util.isNotEmpty(summary)) {
-						map.put("RFI_IS_SUBMIT_BIDDING", "0");
-					}
-				} else if (map.get("STAGE").equals("3.5")) {
-					map.put("RFI_IS_SUBMIT_REPORT", "1");
-					if (Util.isNotEmpty(map.get("PFR_NOTICE_CREATE_DATE"))) {
-						map.put("RFI_IS_SUBMIT_DECISION_NOTICE", "0");
-					}
-				} else if (map.get("STAGE").equals("3")) {
-					if (Util.isNotEmpty(map.get("PFR_REPORT_CREATE_DATE")) && !Util.isNotEmpty(map.get("RFI_IS_SUBMIT_REPORT"))) {
-						map.put("RFI_IS_SUBMIT_REPORT", "0");
-					}
-				}
-
-			} else if(map.get("PROJECT_TYPE").equals("pfr")) {
-				
-			} else if(map.get("PROJECT_TYPE").equals("bulletin")) {
-				
-			}
-		}
-
 		page.setList(list);
 		return page;
 	}
