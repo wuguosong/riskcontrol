@@ -386,4 +386,13 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 			this.baseMongo.updateSetByObjectId(id, meetingInfo, Constants.FORMAL_MEETING_INFO);
 		}
 	}
+
+	@Override
+	public void saveNeedMeeting(String id, String needMeeting) {
+		Map<String, Object> params = new HashMap<String,Object>();
+		
+		params.put("need_meeting", needMeeting);
+		params.put("businessId", id);
+		this.formalAssessmentInfoCreateMapper.updateNeedMeeting(params);
+	}
 }

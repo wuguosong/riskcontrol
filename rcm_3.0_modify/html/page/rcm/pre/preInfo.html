@@ -16,6 +16,9 @@
                             <!--<li>
                                 <a href="/#flow_chart" data-toggle="tab">流程图</a>
                             </li>-->
+                            <li>
+                                <a href="/#flow_chart" data-toggle="tab" ng-if="flag != '1'">流程图</a>
+                            </li>
                             <li >
                                 <a href="/#contracts_resources" data-toggle="tab" ng-if="flag != '1'">相关资源</a>
                             </li>
@@ -198,6 +201,9 @@
                         <!--<div class="tab-pane" id="flow_chart">
                             <directive-process-page></directive-process-page>
                         </div>-->
+                        <div class="tab-pane" id="flow_chart">
+                            <directive-process-page></directive-process-page>
+                        </div>
                         <div class="tab-pane" id="contracts_resources">
                             <directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo" business-id="preOracle.BUSINESSID"
                                                       last-update-by="pre.apply.investmentManager" wf-state="preOracle.WF_STATE" file-list="newAttachment"

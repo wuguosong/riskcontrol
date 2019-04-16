@@ -46,4 +46,10 @@ public interface IFormalAssessmentInfoCreateMapper extends BaseMapper {
 	 * @param map
 	 */
 	public void updateManagerSubmitState(Map<String, Object> map);
+	
+	/**
+	 * 修改是否上会字段
+	 * @param map
+	 */
+	public void updateNeedMeeting(Map<String, Object> map);
 }

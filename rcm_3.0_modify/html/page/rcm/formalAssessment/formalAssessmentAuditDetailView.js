@@ -250,6 +250,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}else if($scope.showController.isReviewLeader || $scope.showController.isInvestmentManagerBack){
 			//评审负责人 //投资经理反馈
 
+			// 保存是否上会信息
+			$scope.saveNeedMeeting();
+
 			var attachmentNew =  $scope.pfr.approveAttachment.attachmentNew;
 			for(var i in attachmentNew){
 				if(attachmentNew[i].isReviewLeaderEdit =='1'){
@@ -2484,6 +2487,27 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
              }
          });
      };
+     // 新增保存是否参会字段
+     $scope.saveNeedMeeting = function(){
+         show_Mask();
+         $http({
+             method: 'post',
+             url: srvUrl + "formalAssessmentInfoCreate/saveNeedMeeting.do",
+             data: $.param({
+                 "businessId": $scope.approve.businessId,
+                 "needMeeting": $scope.pfr.needMeeting
+             })
+         }).success(function (result) {
+             hide_Mask();
+             if ($scope.approve.callbackSuccess != null && result.success) {
+                 $scope.approve.callbackSuccess(result);
+             } else if ($scope.approve.callbackFail != null && !result.success) {
+                 $scope.approve.callbackFail(result);
+             } else {
+                 $.alert(result.result_name);
+             }
+         });
+	 };
      $scope.$watch("approve", $scope.checkMark);
      $scope.showSubmitModal();
      /***************************知会和加签*******************************/

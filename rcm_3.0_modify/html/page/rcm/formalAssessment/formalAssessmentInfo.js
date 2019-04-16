@@ -48,6 +48,8 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                 $scope.title = "项目正式评审查看";
             }
             $scope.initUpdate($scope.id);
+            $scope.queryAuditLogsByBusinessId($scope.id);
+            $scope.initPage();
         }
     };
 
@@ -403,6 +405,25 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         };
         $('#submitModal').modal('show');
     };
+
+    //获取审核日志
+    $scope.queryAuditLogsByBusinessId = function (businessId){
+        var  url = 'formalAssessmentAudit/queryAuditedLogsById.do';
+        $http({
+            method:'post',
+            url: srvUrl + url,
+            data: $.param({"businessId":businessId})
+        }).success(function(result){
+            $scope.auditLogs = result.result_data;
+        });
+    };
+
+    //流程图相关
+    $scope.initPage = function(){
+        $scope.wfInfo.businessId = $scope.id;
+        $scope.refreshImg = Math.random()+1;
+    };
+    $scope.wfInfo = {processKey:'formalReview'};
 
     $scope.initData();
 

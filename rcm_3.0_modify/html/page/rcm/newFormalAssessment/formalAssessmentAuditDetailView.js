@@ -30,7 +30,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		if(null!=params[4] && ""!=params[4]){
 			$scope.flag=params[4];
 		}
-		$scope.findRelationUser($scope.businessId);
 	}else{
 		//新流程
 		$scope.oldUrl = $routeParams.url;
@@ -250,87 +249,99 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}else if($scope.showController.isReviewLeader || $scope.showController.isInvestmentManagerBack){
 			//评审负责人 //投资经理反馈
 
-			var attachmentNew =  $scope.pfr.approveAttachment.attachmentNew;
-			for(var i in attachmentNew){
-				if(attachmentNew[i].isReviewLeaderEdit =='1'){
-					if(attachmentNew[i].attachmentUList == null || attachmentNew[i].attachmentUList=="" || attachmentNew[i].attachmentUList==undefined){
-						$.alert("请选择需要更新的附件！");
-						hide_Mask();
-						return false;
-					}
-				}
-			}
+			// 保存是否上会字段
+            $http({
+                method: 'post',
+                url: srvUrl + "formalAssessmentInfoCreate/saveNeedMeeting.do",
+                data: $.param({
+                    "businessId": $scope.approve.businessId,
+                    "needMeeting": $scope.pfrOracle.NEED_MEETING
+                })
+            }).success(function (result) {
+                hide_Mask();
+                var attachmentNew =  $scope.pfr.approveAttachment.attachmentNew;
+                for(var i in attachmentNew){
+                    if(attachmentNew[i].isReviewLeaderEdit =='1'){
+                        if(attachmentNew[i].attachmentUList == null || attachmentNew[i].attachmentUList=="" || attachmentNew[i].attachmentUList==undefined){
+                            $.alert("请选择需要更新的附件！");
+                            hide_Mask();
+                            return false;
+                        }
+                    }
+                }
 //			if($scope.showController.isInvestmentManagerBack){
-				//处理附件版本号
-				var attachmentList = $scope.pfr.attachment;
-				var approveAttachment = $scope.pfr.approveAttachment;
-				if(null != approveAttachment.attachmentNew && approveAttachment.attachmentNew.length > 0 ){
-					var attachmentNew = approveAttachment.attachmentNew;
-					$scope.pfr.approveAttachment.attachmentNew = $scope.dealVersion(attachmentNew);
-				}
+                //处理附件版本号
+                var attachmentList = $scope.pfr.attachment;
+                var approveAttachment = $scope.pfr.approveAttachment;
+                if(null != approveAttachment.attachmentNew && approveAttachment.attachmentNew.length > 0 ){
+                    var attachmentNew = approveAttachment.attachmentNew;
+                    $scope.pfr.approveAttachment.attachmentNew = $scope.dealVersion(attachmentNew);
+                }
 //			}
-			$scope.pfr.approveAttachment = $scope.reduceVersion($scope.pfr.approveAttachment);
-			$http({
-				method:'post',
-			    url: srvUrl + "formalAssessmentInfo/saveReviewInfo.do",
-			    data:$.param({"businessId":$scope.businessId,"json":JSON.stringify(angular.copy($scope.pfr.approveAttachment)),"professionalReviewersJson":JSON.stringify($scope.myTaskallocation.professionalReviewers)})
-			}).success(function(data){
-				if(!data.success){
-					$.alert("保存失败");
-					hide_Mask();
-					return;
-				}
-				if(callback){
-					//验证
-					if($scope.showController.isReviewLeader){
-						var commentsList =  $scope.pfr.approveAttachment.commentsList;
-						for(var i in commentsList){
-							if(commentsList[i].isReviewLeaderEdit =='1'){
-								if(commentsList[i].opinionType == null || commentsList[i].opinionType==""){
-									$.alert("请填写意见类型！");
-									hide_Mask();
-									return false;
-								}
-							}
-						}
-						if($scope.pfr.approveAttachment.riskWarning == null || $scope.pfr.approveAttachment.riskWarning ==""|| $scope.pfr.approveAttachment.riskWarning ==undefined){
-							$.alert("请填写重点风险提示！");
-							hide_Mask();
-							return false;
-						}
+                $scope.pfr.approveAttachment = $scope.reduceVersion($scope.pfr.approveAttachment);
+                $http({
+                    method:'post',
+                    url: srvUrl + "formalAssessmentInfo/saveReviewInfo.do",
+                    data:$.param({"businessId":$scope.businessId,"json":JSON.stringify(angular.copy($scope.pfr.approveAttachment)),"professionalReviewersJson":JSON.stringify($scope.myTaskallocation.professionalReviewers)})
+                }).success(function(data){
+                    if(!data.success){
+                        $.alert("保存失败");
+                        hide_Mask();
+                        return;
+                    }
+                    if(callback){
+                        //验证
+                        if($scope.showController.isReviewLeader){
+                            var commentsList =  $scope.pfr.approveAttachment.commentsList;
+                            for(var i in commentsList){
+                                if(commentsList[i].isReviewLeaderEdit =='1'){
+                                    if(commentsList[i].opinionType == null || commentsList[i].opinionType==""){
+                                        $.alert("请填写意见类型！");
+                                        hide_Mask();
+                                        return false;
+                                    }
+                                }
+                            }
+                            if($scope.pfr.approveAttachment.riskWarning == null || $scope.pfr.approveAttachment.riskWarning ==""|| $scope.pfr.approveAttachment.riskWarning ==undefined){
+                                $.alert("请填写重点风险提示！");
+                                hide_Mask();
+                                return false;
+                            }
 
-						var attachmentNew =  $scope.pfr.approveAttachment.attachmentNew;
-						for(var i in attachmentNew){
-							if(attachmentNew[i].isReviewLeaderEdit =='1'){
-								if(attachmentNew[i].attachmentUList == null || attachmentNew[i].attachmentUList=="" || attachmentNew[i].attachmentUList==undefined){
-									$.alert("请选择需要更新的附件！");
-									hide_Mask();
-									return false;
-								}
-							}
-						}
-					}
-					if($scope.showController.isInvestmentManagerBack){
-						var commentsList =  $scope.pfr.approveAttachment.commentsList;
-						for(var i in commentsList){
-							if(commentsList[i].isInvestmentManagerBackEdit =='1'){
-								if(commentsList[i].commentDepartment == null || commentsList[i].commentDepartment==""){
-									$.alert("请根据评审负责人的要求填写反馈内容！");
-									hide_Mask();
-									return false;
-								}
-							}
-						}
-					}
-					hide_Mask();
-					callback();
-				}else{
-					$.alert(data.result_name);
-					$scope.initData();
-					hide_Mask();
-				}
+                            var attachmentNew =  $scope.pfr.approveAttachment.attachmentNew;
+                            for(var i in attachmentNew){
+                                if(attachmentNew[i].isReviewLeaderEdit =='1'){
+                                    if(attachmentNew[i].attachmentUList == null || attachmentNew[i].attachmentUList=="" || attachmentNew[i].attachmentUList==undefined){
+                                        $.alert("请选择需要更新的附件！");
+                                        hide_Mask();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                        if($scope.showController.isInvestmentManagerBack){
+                            var commentsList =  $scope.pfr.approveAttachment.commentsList;
+                            for(var i in commentsList){
+                                if(commentsList[i].isInvestmentManagerBackEdit =='1'){
+                                    if(commentsList[i].commentDepartment == null || commentsList[i].commentDepartment==""){
+                                        $.alert("请根据评审负责人的要求填写反馈内容！");
+                                        hide_Mask();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                        hide_Mask();
+                        callback();
+                    }else{
+                        $.alert(data.result_name);
+                        $scope.initData();
+                        hide_Mask();
+                    }
 
-			});
+                });
+            });
+
 		}else if($scope.showController.isMajorMember ){
 			//保存  专家评审意见
 			$http({
@@ -2484,6 +2495,12 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
              }
          });
      };
+
+     /*************************    新增保存是否参会字段   ******************************/
+
+     /*************************    新增保存是否参会字段   ******************************/
+
+
      $scope.$watch("approve", $scope.checkMark);
      $scope.showSubmitModal();
      /***************************知会和加签*******************************/

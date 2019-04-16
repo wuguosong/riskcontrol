@@ -126,4 +126,17 @@ public class FormalAssessmentInfoCreateController {
 		this.formalAssessmentInfoCreateService.addConferenceInformation(json, method);
 		return result;
 	}
+	
+	/**
+	 * 保存是否上会字段
+	 * */
+	@RequestMapping("/saveNeedMeeting")
+	@ResponseBody
+	public Result saveNeedMeeting(HttpServletRequest request){
+		Result result = new Result();
+		String id = request.getParameter("businessId");
+		String needMeeting = request.getParameter("needMeeting");
+		this.formalAssessmentInfoCreateService.saveNeedMeeting(id, needMeeting);
+		return result;
+	}
 }

@@ -55,6 +55,14 @@ public interface IFormalAssessmentInfoCreateService {
 	/**
 	 * 新增会议信息(保存到mongo)
 	 * @param json
+	 * @param method
 	 */
-	public void addConferenceInformation(String json, String method);
+	void addConferenceInformation(String json, String method);
+	
+	/**
+	 * 保存是否上会信息
+	 * @param id
+	 * @param needMeeting
+	 * */
+	void saveNeedMeeting(String id, String needMeeting);
 }

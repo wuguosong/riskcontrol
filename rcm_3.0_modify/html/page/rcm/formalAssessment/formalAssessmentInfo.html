@@ -13,9 +13,9 @@
                             <li class="active">
                                 <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
                             </li>
-                            <!--<li>
-                                <a href="/#flow_chart" data-toggle="tab">流程图</a>
-                            </li>-->
+                            <li>
+                                <a href="/#flow_chart" data-toggle="tab" ng-if="flag != '1'">流程图</a>
+                            </li>
                             <li >
                                 <a href="/#contracts_resources" data-toggle="tab" ng-if="flag != '1'">相关资源</a>
                             </li>
@@ -222,6 +222,9 @@
                                     <i class="fa fa-calendar form-control-feedback"></i>
                                 </div>
                             </div>
+                        </div>
+                        <div class="tab-pane" id="flow_chart">
+                            <directive-process-page></directive-process-page>
                         </div>
                         <div class="tab-pane" id="contracts_resources">
                             <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"

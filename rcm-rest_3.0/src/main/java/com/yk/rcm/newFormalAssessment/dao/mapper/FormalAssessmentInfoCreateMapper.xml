@@ -125,15 +125,22 @@
 	<!-- 通过业务ID获取项目数据 -->
 	<select id="getProjectByID" parameterType="string" resultType="map">
 		select * from rcm_formalassessment_info i  
-		where i.businessid = #{businessId}
+		where i.BUSINESSID = #{businessId}
 	</select>
 	
 	<!-- 修改投资经理是否提交参会信息标识 -->
-	<update id="updateManagerSubmitState" parameterType="hashmap">
-		update rcm_formalAssessment_info 
+	<update id="updateManagerSubmitState" parameterType="map">
+		update rcm_formalassessment_info 
 		   set is_investmentmanager_submit=#{is_investmentmanager_submit},
-		       need_meeting=#{need_meeting},
+		       NEED_MEETING=#{need_meeting,jdbcType=VARCHAR}},
 		       metting_commit_time=to_date(#{metting_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')  
-		 where businessid in (#{businessId,jdbcType=VARCHAR})
+		 where BUSINESSID in (#{businessId,jdbcType=VARCHAR})
+	</update>
+	
+	<!-- 修改投资经理是否提交参会信息标识 -->
+	<update id="updateNeedMeeting" parameterType="hashmap">
+	    update rcm_formalAssessment_info set need_meeting=#{need_meeting}
+		where businessid in (#{businessId,jdbcType=VARCHAR})
 	</update>
 </mapper>
+
