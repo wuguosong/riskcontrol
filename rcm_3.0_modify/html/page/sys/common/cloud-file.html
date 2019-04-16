@@ -1,51 +1,49 @@
 <div>
     <!--样式区域-->
-    <style type="text/css">
-        ._cloud_btn_{
-            margin-left: 1px;
-        }
-    </style>
-    <!--附件操作区域-->
-    <div >
-        <span></span>
-        <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_{{areaCode}}_{{_cloud_}}"></a>
-        <input value="" type="hidden" id="_cloud_file_ipt_{{areaCode}}_{{_cloud_}}">
+    <!--
+        IMPORT:
+        本页面上的报错信息请不要做优化或者修改！！！！
+    -->
+    <!--附件显示区域-->
+    <div ng-if="_cloud_text_before_" class="{{_cloud_text_class_}}" style="{{_cloud_text_style_}}">
+        <!--文件名（点击下载）-->
+        <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_{{_cloud_area_code_}}_{{_cloud_}}"></a>
+        <!--隐藏文件实体信息-->
+        <input value="" type="hidden" id="_cloud_file_ipt_{{_cloud_area_code_}}_{{_cloud_}}">
     </div>
-    <div ng-if="areaCode == '1'">
-        <!--文件显示区域-->
-        <!--<div id="_cloud_file_{{_cloud_}}">
-            <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_{{_cloud_}}"></a>
-            <input value="" type="hidden" id="_cloud_file_ipt_{{_cloud_}}">
-        </div>-->
+    <div ng-if="_cloud_area_code_ == '1'">
         <!--文件操作区域-->
-        <div id="_cloud_btn_{{_cloud_}}">
+        <div id="_cloud_btn_{{_cloud_}}_{{_cloud_area_code_}}">
             <!--上传按钮-->
-            <button class="btn-add btn-scale _cloud_btn_" ngf-max-size="100MB" ngf-select="_cloud_upload_($file,_cloud_)">
+            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ngf-max-size="100MB" ngf-select="_cloud_upload_($file,_cloud_)">
                 <span>{{_cloud_upload_text_}}</span>
             </button>
             <!--删除按钮-->
-            <button ng-if="_cloud_show_delete_" class="btn-delete btn-scale _cloud_btn_" ng-click="_cloud_delete_(_cloud_)">
+            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ng-if="_cloud_show_delete_" class="btn-delete btn-scale" ng-click="_cloud_delete_(_cloud_)">
                 <span>{{_cloud_delete_text_}}</span>
             </button>
             <!--下载按钮-->
-            <button ng-if="_cloud_show_download_" class="btn-add btn-scale _cloud_btn_" ng-click="_cloud_download_(_cloud_)">
+            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ng-if="_cloud_show_download_" class="btn-add btn-scale" ng-click="_cloud_download_(_cloud_)">
                 <span>{{_cloud_download_text_}}</span>
             </button>
             <!--预览按钮-->
-            <button ng-if="_cloud_show_preview_" class="btn-add btn-scale _cloud_btn_" ng-click="_cloud_preview_(_cloud_)">
+            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ng-if="_cloud_show_preview_" class="btn-add btn-scale" ng-click="_cloud_preview_(_cloud_)">
                 <span>{{_cloud_preview_text_}}</span>
             </button>
             <!--替换按钮-->
-            <button ng-if="_cloud_show_replace_" class="btn-add btn-scale _cloud_btn_" ngf-max-size="100MB" ngf-select="_cloud_replace_($file,_cloud_)">
+            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ng-if="_cloud_show_replace_" class="btn-add btn-scale" ngf-max-size="100MB" ngf-select="_cloud_replace_($file,_cloud_)">
                 <span>{{_cloud_replace_text_}}</span>
             </button>
         </div>
     </div>
-    <div ng-if="areaCode == '2'">
-
-        <!--<div id="_cloud_file_2_{{_cloud_}}">
-            <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_2_{{_cloud_}}"></a>
-            <input value="" type="hidden" id="_cloud_file_ipt_2_{{_cloud_}}">
-        </div>-->
+    <div ng-if="_cloud_area_code_ == '2'">
+        <!--其他操作在这里设置-->
+    </div>
+    <!--附件显示区域-->
+    <div ng-if="!_cloud_text_before_" class="{{_cloud_text_class_}}" style="{{_cloud_text_style_}}">
+        <!--文件名（点击下载）-->
+        <a href="javascript:void(0);" ng-click="_cloud_download_(_cloud_)" id="_cloud_file_a_{{_cloud_area_code_}}_{{_cloud_}}"></a>
+        <!--隐藏文件实体信息-->
+        <input value="" type="hidden" id="_cloud_file_ipt_{{_cloud_area_code_}}_{{_cloud_}}">
     </div>
 </div>

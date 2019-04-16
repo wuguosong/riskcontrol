@@ -1,6 +1,6 @@
 <div class="panel-body">
     <!--form表单开始-->
-    <form class="form-horizontal" name="myFormPfR" id="myFormPfR"   novalidate>
+    <form class="form-horizontal" name="myFormPre" id="myFormPre"   novalidate>
         <div class="">
             <div class="header detail-page">
                 <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{title}}</span>
@@ -24,7 +24,7 @@
                     <div class="tab-content tab-content-bordered">
                         <div class="tab-pane in active" id="contracts_file_info">
                             <div class="row">
-                                <label class="col-sm-2 control-label">所属大区</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>所属大区</label>
                                 <div class="col-sm-4 has-feedback reporting-unit">
                                     <div class="full-drop">
                                         <input type="text" class="form-control" data-toggle="modal" data-target="#myModal" id="pertainArea" name="pertainArea" ng-model="pre.apply.pertainArea.VALUE"/>
@@ -63,7 +63,7 @@
                                         <input type="hidden"  id="investmentManagerValue" name="investmentManagerValue"  ng-model="pre.apply.investmentManager.VALUE"/>
                                     </div>
                                 </div>
-                                <label class="col-sm-2 control-label">项目归属单位负责人</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>项目归属单位负责人</label>
                                 <div  id="companyHeader-type-box" class="col-sm-4">
                                     <div id="headercompanyHeaderName">
                                         <div ng-click="setDirectiveParam('companyHeader',0)"  data-toggle="modal" data-target="#userRaido-modal"   class="select2-success">
@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label">项目名称</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
                                 <div class="col-sm-4">
                                     <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
                                 </div>
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label">业务类型</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>业务类型</label>
                                 <div id="headeroneservicetypebox"  class="col-sm-4">
                                     <div class="select2-success">
                                         <select multiple="multiple" name="oneservicetypeboxName" id="oneservicetypeboxName" class="form-control" ng-model="pre.apply.serviceType"
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label">投资模式</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>投资模式</label>
                                 <div class="col-sm-1 noright-pad">
                                     <label class="checkbox-inline">
                                         <input class="px" type="checkbox" ng-model="investmentModel" ng-change="changeInvestmentModel()" id="investmentModel" name="investmentModel"/>
@@ -227,6 +227,27 @@
 <directive-company-list></directive-company-list>
 
 <script type="text/javascript">
+    $().ready(function() {
+        // validate signup form on keyup and submit
+        $("#myFormPre").validate({
+            rules: {
+                //	personLiable:"required",
+                pertainArea:"required",
+                companyHeaderName:"required",
+                projectName:"required",
+                oneservicetypeboxName:"required",
+                investmentModel:"required"
+            },
+            messages: {
+                //	personLiable:"此项必填",
+                pertainArea:"此项必填",
+                companyHeaderName:"此项必填",
+                projectName:"此项必填",
+                oneservicetypeboxName:"此项必填",
+                investmentModel:"此项必填"
+            }
+        });
+    });
     angular.element(document).ready(function() {
         var options = {
             todayBtn: "linked",

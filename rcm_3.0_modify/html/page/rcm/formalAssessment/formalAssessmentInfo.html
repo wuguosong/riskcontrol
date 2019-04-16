@@ -24,7 +24,7 @@
                     <div class="tab-content tab-content-bordered">
                         <div class="tab-pane in active special-form" id="contracts_file_info">
                             <div class="row">
-                                <label  class="col-sm-2 control-label">所属大区</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>所属大区</label>
                                 <div class="col-sm-4 has-feedback reporting-unit">
                                     <div class="full-drop">
                                         <input type="text" class="form-control" data-toggle="modal" data-target="#myModal" id="reportingUnitName" name="reportingUnitName" ng-model="pfr.apply.reportingUnit.VALUE"/>
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label">所属战区</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>所属战区</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" data-toggle="modal" data-target="#myModal1" id="pertainAreaName" name="pertainAreaName" ng-model="pfr.apply.pertainArea.VALUE"/>
                                     <input type="hidden" class="form-control" id="pertainAreaValue" name="pertainAreaValue" ng-model="pfr.apply.pertainArea.KEY"/>
@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <label  class="col-sm-2 control-label">大区负责人</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>大区负责人</label>
                                 <div  id="companyHeader-type-box" class="col-sm-4">
                                     <div id="headercompanyHeaderName">
                                         <div ng-click="setDirectiveParam('companyHeader',0)"  data-toggle="modal" data-target="#userRaido-modal"   class="select2-success">
@@ -104,7 +104,7 @@
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" value="{{pfr.apply.investmentManager.NAME}}" readonly/>
                                 </div>
-                                <label  class="col-sm-2 control-label">基层法务人员</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>基层法务人员</label>
                                 <div class="col-sm-4 has-feedback">
                                     <div id="headergrassrootsLegalStaffName">
                                         <div  ng-click="setDirectiveParam('grassrootsLegalStaff',0)"  data-toggle="modal" data-target="#userRaido-modal"  class="select2-success">
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label  class="col-sm-2 control-label">项目名称</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
                                 <div class="col-sm-4">
                                     <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" value="{{pfr.apply.projectName}}"/>
                                 </div>
@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label">业务类型</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>业务类型</label>
                                 <div id="headeroneservicetypebox"  class="col-sm-4">
                                     <div class="select2-success">
                                         <select multiple="multiple" name="oneservicetypeboxName" id="oneservicetypeboxName" class="form-control" ng-model="pfr.apply.serviceType"
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label">投资模式</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>投资模式</label>
                                 <div class="col-sm-1 noright-pad">
                                     <label class="checkbox-inline">
                                         <input class="px" type="checkbox" ng-model="investmentModel" ng-change="changeInvestmentModel()" id="investmentModel" name="investmentModel"/>
@@ -256,6 +256,31 @@
 <directive-company-list></directive-company-list>
 
 <script type="text/javascript">
+    $().ready(function() {
+        // validate signup form on keyup and submit
+        $("#myFormPfR").validate({
+            rules: {
+                //	personLiable:"required",
+                reportingUnitName:"required",
+                pertainAreaName:"required",
+                companyHeaderName:"required",
+                grassrootsLegalStaffName:"required",
+                projectName:"required",
+                oneservicetypeboxName:"required",
+                projectmodeboxName:"required"
+            },
+            messages: {
+                //	personLiable:"此项必填",
+                reportingUnitName:"此项必填",
+                pertainAreaName:"此项必填",
+                companyHeaderName:"此项必填",
+                grassrootsLegalStaffName:"此项必填",
+                projectName:"此项必填",
+                oneservicetypeboxName:"此项必填",
+                projectmodeboxName:"此项必填"
+            }
+        });
+    });
     angular.element(document).ready(function() {
         var options = {
             todayBtn: "linked",
