@@ -34,7 +34,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required">*</span>项目来源</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">项目来源</span>
 							<span class="col-md-10 slim">
 								<textarea name="projectSource" id="projectSource" ng-model="formalReport.projectSource" rows="" cols="" class="form-control" placeholder="公开招投标/协议谈判/已有项目扩建等。以下可填写详细描述"></textarea>
 							</span>
@@ -48,22 +48,22 @@
 						<div class="row">
 							<span class="col-md-2 noPadding">项目模式</span>
 							<span class="col-md-10 slim">
-								<label class="checkbox-inline num-box">
+								<label class="checkbox-inline local num-box">
 											<input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.projectTypeBT" ng-change="changePr('BT')" id="projectTypeBT" name="projectType" value="1"/>
 											<span class="lbl">BT(开发类PPP)</span>
 											<input type="text" id="BTnum" ng-change="oneNumChage('BT')" ng-model="formalReport.BTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
 										</label>
-										<label class="checkbox-inline num-box">
+										<label class="checkbox-inline local num-box">
 											<input ng-disabled="actionparm== 'View'" type="checkbox" class="px" id="projectTypeGSBOT" ng-model="formalReport.projectTypeGSBOT" ng-change="changePr('GSBOT')"  name="projectType" value="2"/>
 											<span class="lbl">供水BOT</span>
 											<input type="text" name="num" id="GSBOTnum" ng-model="formalReport.GSBOTnum" ng-change="oneNumChage('GSBOT')" class="form-control num" maxlength="3"/><span class="unit">个</span>
 										</label>
-										<label class="checkbox-inline num-box">
+										<label class="checkbox-inline local num-box">
 											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeGSTOT" ng-model="formalReport.projectTypeGSTOT" ng-change="changePr('GSTOT')"  class="px" name="projectType" value="3"/>
 											<span class="lbl">供水TOT</span>
 											<input type="text" id="GSTOTnum" ng-change="oneNumChage('GSTOT')" ng-model="formalReport.GSTOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
 										</label>
-										<label class="checkbox-inline num-box">
+										<label class="checkbox-inline local num-box">
 											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeSanitation" ng-model="formalReport.projectTypeSanitation" ng-change="changePr('Sanitation')"  class="px" name="projectType" value="4"/>
 											<span class="lbl">环卫</span>
 											<input type="text" id="Sanitationnum" ng-change="oneNumChage('Sanitation')" ng-model="formalReport.Sanitationnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
@@ -79,21 +79,21 @@
 						<div class="row">
 							<span class="col-md-2 noPadding"></span>
 							<span class="col-md-10 slim">
-								<label class="checkbox-inline num-box">
-											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeCommissionedOperation" ng-model="formalReport.projectTypeCommissionedOperation" ng-change="changePr('CommissionedOperation')"  class="px" name="projectType" value="5"/>
-											<span class="lbl">委托运营</span>
-											<input type="text" id="CommissionedOperationnum" ng-change="oneNumChage('CommissionedOperation')" ng-model="formalReport.CommissionedOperationnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
-										</label>
-										<label class="checkbox-inline num-box">
-											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeWSBOT" ng-model="formalReport.projectTypeWSBOT" ng-change="changePr('WSBOT')"  class="px" name="projectType" value="6"/>
-											<span class="lbl">污水BOT</span>
-											<input type="text" id="WSBOTnum" ng-change="oneNumChage('WSBOT')" ng-model="formalReport.WSBOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
-										</label>
-										<label class="checkbox-inline num-box">
-											<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeWSTOT" ng-model="formalReport.projectTypeWSTOT" ng-change="changePr('WSTOT')"  class="px" name="projectType" value="7"/>
-											<span class="lbl">污水TOT</span>
-											<input type="text" id="WSTOTnum" ng-change="oneNumChage('WSTOT')" ng-model="formalReport.WSTOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
-										</label>
+								<label class="checkbox-inline local num-box">
+									<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeCommissionedOperation" ng-model="formalReport.projectTypeCommissionedOperation" ng-change="changePr('CommissionedOperation')"  class="px" name="projectType" value="5"/>
+									<span class="lbl">委托运营</span>
+									<input type="text" id="CommissionedOperationnum" ng-change="oneNumChage('CommissionedOperation')" ng-model="formalReport.CommissionedOperationnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+								</label>
+								<label class="checkbox-inline local num-box">
+									<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeWSBOT" ng-model="formalReport.projectTypeWSBOT" ng-change="changePr('WSBOT')"  class="px" name="projectType" value="6"/>
+									<span class="lbl">污水BOT</span>
+									<input type="text" id="WSBOTnum" ng-change="oneNumChage('WSBOT')" ng-model="formalReport.WSBOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+								</label>
+								<label class="checkbox-inline local num-box">
+									<input ng-disabled="actionparm== 'View'" type="checkbox" id="projectTypeWSTOT" ng-model="formalReport.projectTypeWSTOT" ng-change="changePr('WSTOT')"  class="px" name="projectType" value="7"/>
+									<span class="lbl">污水TOT</span>
+									<input type="text" id="WSTOTnum" ng-change="oneNumChage('WSTOT')" ng-model="formalReport.WSTOTnum" name="num" class="form-control num" maxlength="3"/><span class="unit">个</span>
+								</label>
 							</span>
 						</div>
 
@@ -103,7 +103,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required">*</span>区域背景</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">区域背景</span>
 							<span class="col-md-10 slim">
 								<textarea name="regionalBackground" id="regionalBackground" ng-model="formalReport.regionalBackground" rows="" cols="" class="form-control" placeholder="XX市XX年（最近年份）财政可支配财政收入、全省排行、人口等"></textarea>
 							</span>
@@ -127,7 +127,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required">*</span>业主情况</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">业主情况</span>
 							<span class="col-md-10 slim">
 								<textarea name="ownerSituation" id="ownerSituation" ng-model="formalReport.ownerSituation" rows="" cols="" class="form-control" placeholder="据实填写（业主是企业的应含企业性质、经营状况、业务范围等）"></textarea>
 							</span>
@@ -139,7 +139,7 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding"><span class="required">*</span>投资单位</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">投资单位</span>
 							<span class="col-md-6 slim">
 						<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('invertmentUnit','','')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="invertmentUnitName" name="invertmentUnitName" ng-model="formalReport.invertmentUnit.name" value="{{formalReport.invertmentUnit.name}}"  >
 										<input type="hidden" class="form-control"  id="invertmentUnitValue" name="invertmentUnitValue"  ng-model="formalReport.invertmentUnit.value"/>
@@ -148,7 +148,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding"><span class="required">*</span>运营单位</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">运营单位</span>
 							<span class="col-md-6 slim">
 						<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('operationsUnit','','')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="operationsUnitName" name="operationsUnitName" ng-model="formalReport.operationsUnit.name" value="{{formalReport.operationsUnit.name}}"  >
 										<input type="hidden"  class="form-control" id="operationsUnitValue" name="operationsUnitValue"  ng-model="formalReport.operationsUnit.value"/>

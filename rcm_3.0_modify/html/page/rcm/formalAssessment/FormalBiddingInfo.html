@@ -58,10 +58,24 @@
                     <h5>风控部门提供</h5>
                     <div class="filework" style="height: 40px">
                         <div class="col-md-9" style="padding-left: 0">
-                            <a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)"
+                            <cloud-file
+                                    file-id="pfrOtherReport"
+                                    file-type="FormalReportInfo"
+                                    file-code="{{paramId}}"
+                                    file-location="pfrOtherReport"
+                                    show-upload="false"
+                                    show-preview="false"
+                                    show-replace="false"
+                                    show-download="false"
+                                    show-delete="false"
+                                    area-code="1"
+                                    text-before="false"
+                            >
+                            </cloud-file>
+                            <!--<a ng-click="downLoadFormalBiddingInfoFile(formalReport.filePath,formalReport.projectName)"
                                style="cursor: pointer" title="">
                                 {{formalReport.projectName}}-正式评审报告.docx
-                            </a>
+                            </a>-->
                         </div>
                         <div class="col-md-3">
                             <button class="btn-replace-out"

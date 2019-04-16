@@ -34,7 +34,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>项目来源</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">项目来源</span>
 							<span class="col-md-10 slim">
 								<textarea name="projectSource" id="projectSource" rows="" cols="" ng-model="formalReport.projectSource" class="form-control"
 										  placeholder="公开招投标/协议谈判/已有项目扩建等。以下可填写详细描述"></textarea>
@@ -46,7 +46,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>区域背景</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">区域背景</span>
 							<span class="col-md-10 slim">
 								<textarea name="" rows="" cols="" ng-model="formalReport.regionalBackground" class="form-control" placeholder="XX市XX年（最近年份）财政可支配财政收入、全省排行、人口等"></textarea>
 							</span>
@@ -68,7 +68,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>标的公司名称</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">标的公司名称</span>
 							<span class="col-md-10 slim">
 								<textarea name="nameOfCompany" id="nameOfCompany" rows="" cols=""
 										  ng-model="formalReport.nameOfCompany" class="form-control"
@@ -81,7 +81,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>股权结构</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">股权结构</span>
 							<span class="col-md-10 slim">
 								<textarea name="ownershipStructure" id="ownershipStructure" rows="" cols=""
 										  ng-model="formalReport.ownershipStructure" class="form-control"
@@ -94,7 +94,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>主营业务</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">主营业务</span>
 							<span class="col-md-10 slim">
 								<textarea name="mainBusiness" id="mainBusiness" ng-model="formalReport.mainBusiness"
 										  rows="" cols="" class="form-control"
@@ -131,7 +131,7 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>投资单位</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">投资单位</span>
 							<span class="col-md-6 slim">
 						<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('invertmentUnit','','')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="invertmentUnitName" name="invertmentUnitName" ng-model="formalReport.invertmentUnit.name" value="{{formalReport.invertmentUnit.name}}"  >
 										<input type="hidden" class="form-control"  id="invertmentUnitValue" name="invertmentUnitValue"  ng-model="formalReport.invertmentUnit.value"/>
@@ -140,7 +140,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>运营单位</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">运营单位</span>
 							<span class="col-md-6 slim">
 						<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('operationsUnit','','')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="operationsUnitName" name="operationsUnitName" ng-model="formalReport.operationsUnit.name" value="{{formalReport.operationsUnit.name}}"  >
 										<input type="hidden"  class="form-control" id="operationsUnitValue" name="operationsUnitValue"  ng-model="formalReport.operationsUnit.value"/>

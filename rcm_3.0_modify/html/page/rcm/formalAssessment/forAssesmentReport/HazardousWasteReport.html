@@ -34,7 +34,7 @@
                 <div class="row normalline">
                     <div class="col-md-12 col-sm-12  col-xs-12">
                         <div class="row">
-                            <span class="col-md-2 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>项目来源</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">项目来源</span>
                             <span class="col-md-10 slim">
 								<textarea name=projectSource" id="projectSource" rows="" cols="" ng-model="formalReport.projectSource" class="form-control" placeholder="公开招投标/协议谈判/已有项目扩建等。以下可填写详细描述"></textarea>
 							</span>
@@ -46,7 +46,7 @@
                 <div class="row normalline">
                     <div class="col-md-12 col-sm-12  col-xs-12">
                         <div class="row">
-                            <span class="col-md-2 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>区域背景</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span> <span class="col-md-2 noPadding">区域背景</span>
                             <span class="col-md-10 slim">
 								<textarea name="" rows="" cols="" ng-model="formalReport.regionalBackground" class="form-control" placeholder="XX市XX年（最近年份）财政可支配财政收入、全省排行、人口等"></textarea>
 							</span>
@@ -70,7 +70,7 @@
                 <div class="row normalline titline">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>投资单位</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">投资单位</span>
                             <span class="col-md-6 slim">
 						<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('invertmentUnit','','')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="invertmentUnitName" name="invertmentUnitName" ng-model="formalReport.invertmentUnit.name" value="{{formalReport.invertmentUnit.name}}"  >
 										<input type="hidden" class="form-control"  id="invertmentUnitValue" name="invertmentUnitValue"  ng-model="formalReport.invertmentUnit.value"/>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding"><span ng-if="actionparm!='View'" class="required">*</span>运营单位</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">运营单位</span>
                             <span class="col-md-6 slim">
 						<input type="text" ng-disabled="actionparm== 'View'" ng-click="setDirectiveParam('operationsUnit','','')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="operationsUnitName" name="operationsUnitName" ng-model="formalReport.operationsUnit.name" value="{{formalReport.operationsUnit.name}}"  >
 										<input type="hidden"  class="form-control" id="operationsUnitValue" name="operationsUnitValue"  ng-model="formalReport.operationsUnit.value"/>
@@ -152,7 +152,7 @@
                 <div class="row normalline titline">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>公司名称</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">公司名称</span>
                             <span class="col-md-6 slim">
 						<input type="text" ng-disabled="actionparm=='View'" ng-click="setDirectiveParam('tenderCompany')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="tenderCompanyName" name="tenderCompanyName" ng-model="formalReport.tenderCompany.name" value="{{formalReport.tenderCompany.name}}"/>
                         <input type="hidden" class="form-control"  id="tenderCompanyValue" name="tenderCompanyValue"  ng-model="formalReport.tenderCompany.value"/>
@@ -161,7 +161,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>北控水务集团持股</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">北控水务集团持股</span>
                             <span class="col-md-6 slim">
 						<input type="text" name="shareholding" id="shareholding" class="form-control" ng-model="formalReport.bewg"
                                onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -180,7 +180,7 @@
                 <div class="row normalline titline">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>银行贷款</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">银行贷款</span>
                             <span class="col-md-6 slim">
 						 <input type="text" name="bankLoan" id="bankLoan" class="form-control" ng-model="formalReport.bankLoan"
                                 onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -191,7 +191,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>年利率</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">年利率</span>
                             <span class="col-md-6 slim">
 						<input type="text" name="annualInterestRate" id="annualInterestRate" class="form-control" ng-model="formalReport.annualInterestRate"
                                onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -203,7 +203,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>自有资金</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">自有资金</span>
                             <span class="col-md-6 slim">
 						        <input type="text" name="privateCapital" id="privateCapital" class="form-control" ng-model="formalReport.ownFunds"
                                        onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -223,7 +223,7 @@
                 <div class="row normalline titline">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>投资总额</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">投资总额</span>
                             <span class="col-md-6 slim">
 						 <input type="text" name="totleInvestment" id="totleInvestment" class="form-control" ng-model="formalReport.totleInvestment"
                                 onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -235,7 +235,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>一类费用</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">一类费用</span>
                             <span class="col-md-6 slim">
 						 <input type="text" name="" class="form-control" ng-model="formalReport.totleFeesOne" />
                             <span class="unit-my">万元</span>
@@ -244,7 +244,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>二类费用</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span> <span class="col-md-4 noPadding" style="font-weight: normal">二类费用</span>
                             <span class="col-md-6 slim">
 						       <input type="text" name="" class="form-control" ng-model="formalReport.totleFeesTwo"/>
                             <span class="unit-my">万元</span>
@@ -262,7 +262,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>辅底流动资金</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">辅底流动资金</span>
                             <span class="col-md-6 slim">
 						       <input type="text" name="" class="form-control" ng-model="formalReport.liquidity" />
                             <span class="unit-my">万元</span>
@@ -271,7 +271,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="row">
-                            <span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>其他</span>
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">其他</span>
                             <span class="col-md-6 slim">
 						        <input type="text" name="" class="form-control" ng-model="formalReport.other" />
                                 <span class="unit-my">万元</span>

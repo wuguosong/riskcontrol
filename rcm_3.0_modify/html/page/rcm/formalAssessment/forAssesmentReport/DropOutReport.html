@@ -33,7 +33,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required">*</span>项目公司信息</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">项目公司信息</span>
 							<span class="col-md-10 slim">
 								<textarea name="projectCompanyMessege" id="projectCompanyMessege" rows="" cols="" ng-model="formalReport.projectCompanyMessege" class="form-control"></textarea>
 							</span>
@@ -45,7 +45,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required">*</span>原评审情况</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">原评审情况</span>
 							<span class="col-md-10 slim">
 								<textarea name="reviewSituation" id="reviewSituation" rows="" cols="" ng-model="formalReport.reviewSituation" class="form-control"></textarea>
 							</span>
@@ -57,7 +57,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<span class="col-md-2 noPadding"><span class="required">*</span>退出原因</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">退出原因</span>
 							<span class="col-md-10 slim">
 								<textarea name="exitReason" id="exitReason" rows="" cols="" ng-model="formalReport.exitReason" class="form-control"></textarea>
 							</span>
