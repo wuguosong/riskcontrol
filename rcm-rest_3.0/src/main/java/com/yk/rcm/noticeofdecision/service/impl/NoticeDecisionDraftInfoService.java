@@ -544,9 +544,17 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 	@Override
 	public void updateStageByBusinessId(String businessId, String stage) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("stage", "3.9");
+//		map.put("stage", "3.9");
 		map.put("notice_draft_time",Util.getTime());
 		map.put("businessId", businessId);
+		// 更改提交状态
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
+		statusMap.put("filed", "IS_SUBMIT_DECISION_NOTICE");
+		statusMap.put("status", "0");
+		statusMap.put("BUSINESSID", businessId);
+		this.fillMaterialsMapper.updateProjectStaus(statusMap);
+		
 		this.noticeDecisionDraftInfoMapper.updateStageByBusinessId(map);
 	}
 	

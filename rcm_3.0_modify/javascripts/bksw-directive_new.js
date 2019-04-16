@@ -5203,7 +5203,7 @@ ctmApp.directive('bpmnPopWin', function () {
 /*******************************************************流程指令结束***************************************************/
 
 // 其他评审流程弹出框
-ctmApp.directive('fillMaterial', function () {
+ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
     return {
         restrict: 'AE',
         templateUrl: 'page/sys/directive/directFillMaterialPage.html',
@@ -5222,13 +5222,13 @@ ctmApp.directive('fillMaterial', function () {
             $scope.initData();
             $scope.r={};
             //新建评审报告
-            $scope.createRFIReport = function (noSubmit) {
+            $scope.openRFIReport = function (noSubmit) {
                 $scope.toCreateReport = noSubmit;
                 $scope.r.pmodel="FormalReviewReport/Create";
             };
 
             //编辑评审报告
-            $scope.editRFIReport = function(model,uuid){
+            $scope.createRFIReport = function(model,uuid){
                 var ind = model.lastIndexOf("/");
                 var modelAction = model.substring(ind + 1,model.length);
                 if(modelAction == 'Update'){
@@ -5277,7 +5277,7 @@ ctmApp.directive('fillMaterial', function () {
             }
         }
     }
-});
+}]);
 /*云文件指令*/
 /*云文件指令*/
 ctmApp.directive('cloudFile', function () {
