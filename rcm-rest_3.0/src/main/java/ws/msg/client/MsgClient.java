@@ -9,20 +9,20 @@ import ws.client.message.*;
  * Created by Administrator on 2019/4/16 0016.
  */
 public class MsgClient {
-    private static Prop prop = PropKit.use("dev_db.properties");
-    private static String id = "10086";
-    private static String to = "3283751";
-    private static String url = prop.get("message.share.url") + prop.get("message.request.mapping") + id;
-    private static String content = prop.get("message.share.content");
-    private static String title = prop.get("message.share.title");
-    private static String sys = prop.get("message.ws.sys.code");
+    private  Prop prop = PropKit.use("dev_db.properties");
+    private  String id = "10086";
+    private  String to = "3283751";
+    private  String url = prop.get("message.share.url") + prop.get("message.request.mapping") + id;
+    private  String content = prop.get("message.share.content");
+    private  String title = prop.get("message.share.title");
+    private  String sys = prop.get("message.ws.sys.code");
 
     public static void main(String[] args) {
-        sendDTLink();
+        new MsgClient().sendDTLink();
     }
 
     // 发送钉钉消息
-    public static void sendDTText(){
+    public void sendDTText(){
         // 初始化SOAP客户端
         BEWGMessageService client = new BEWGMessageService();
         BEWGMessageServiceSoap bewgMessageServiceSoap = client.getBEWGMessageServiceSoap();
@@ -37,7 +37,7 @@ public class MsgClient {
     }
 
     // 发送钉钉链接
-    public static void sendDTLink(){
+    public void sendDTLink(){
         BEWGMessageService client = new BEWGMessageService();
         BEWGMessageServiceSoap bewgMessageServiceSoap = client.getBEWGMessageServiceSoap();
         MessageDTLink messageDTLink = new MessageDTLink();
