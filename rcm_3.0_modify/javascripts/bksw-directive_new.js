@@ -1835,8 +1835,8 @@ ctmApp.directive('bbsChatNew', function() {
                             $scope._share_message_id_ = '';
                             $scope._clear_share_users_();
                             $('#_share_message_dialog').modal('hide');
-                            $.alert('分享留言成功!');
-                            $scope._share_message_result_test_(data['result_data']);
+                            $.alert(data['result_name']);
+                            // $scope._share_message_result_test_(data['result_data']);
                         }else{
                             $.alert(data['result_name']);
                         }

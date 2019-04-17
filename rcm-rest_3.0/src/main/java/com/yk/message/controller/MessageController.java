@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import util.UserUtil;
+import ws.client.message.MessageBack;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -315,11 +316,18 @@ public class MessageController {
 	public Result share(Long messageId, String shareUsers) {
 		Result result = new Result();
 		try {
-			String url = messageService.shareMessage(messageId, shareUsers);
-			result.setSuccess(true);
-			result.setResult_data(url);
-			result.setResult_code(Constants.S);
-			result.setResult_name("分享信息成功!");
+			MessageBack messageBack = messageService.shareMessage(messageId, shareUsers);
+			if(messageBack != null){
+				result.setSuccess(true);
+				result.setResult_data(messageBack);
+				result.setResult_code(Constants.S);
+				result.setResult_name(messageBack.getMessage());
+			}else{
+				result.setSuccess(false);
+				result.setResult_code(Constants.R);
+				result.setResult_name(messageBack.getMessage());
+			}
+			result.setResult_data(messageBack);
 		} catch (Exception e) {
 			result.setResult_code(Constants.R);
 			result.setSuccess(false);

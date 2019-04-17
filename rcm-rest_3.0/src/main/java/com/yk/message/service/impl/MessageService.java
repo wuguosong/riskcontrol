@@ -232,7 +232,7 @@ public class MessageService implements IMessageService {
 	 * @return String url
 	 */
 	@Override
-	public String shareMessage(Long messageId, String shareUsers) {
+	public MessageBack shareMessage(Long messageId, String shareUsers) {
 		if(messageId == null){
 			throw new BusinessException("共享失败，留言Id为空！");
 		}
@@ -277,8 +277,16 @@ public class MessageService implements IMessageService {
 		messageDTLink.setLink(messageDTLinkContent);
 		messageDTLink.setTouser(toUser.replace(",", "|"));
 		MessageBack messageBack = bewgMessageServiceSoap.sendDTLink(messageDTLink);
+		// 如果同步成功，将返回的凭证存入，此凭证可用于查询消息发送状态
+		if(0 == messageBack.getCode()){
+			Message message = this.get(messageId);
+			if(message != null){
+				message.setAttriText01(String.valueOf(messageBack.getData()));
+				this.update(message);
+			}
+		}
 		System.out.println(JSON.toJSON(messageBack));
-		return url;
+		return messageBack;
 	}
 
 	@Override
