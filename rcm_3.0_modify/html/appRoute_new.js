@@ -1872,23 +1872,56 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
             }
         })
 
-        // 正式评审附件替换页面
-        .when('/formalBiddingFileInfo/:id/:url', {
-                controller: 'FormalBiddingInfo',
-                templateUrl: 'page/rcm/formalAssessment/formalBiddingFileInfo.html',
-                controllerAs: 'model',
-                resolve: {
-                    resolver: ['$q', '$rootScope', function($q, $rootScope) {
-                        var deferred = $q.defer();
-                        require(['page/rcm/formalAssessment/formalBiddingFileInfo.js?_v=' + _version], function() {
-                            $rootScope.$apply(function() {
-                                deferred.resolve();
+       /* // 正式评审决策委员会材料预览旧版新页面
+        .when('/FormalBiddingInfoPreviewOld/:id/:url/:flag', {
+            controller: 'FormalBiddingInfoPreviewOld',
+            templateUrl: 'page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.html',
+            controllerAs: 'model',
+            resolve: {
+                resolver: ['$q', '$rootScope', function($q, $rootScope) {
+                    var deferred = $q.defer();
+                    require(['page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.js?_v=' + _version], function() {
+                        $rootScope.$apply(function() {
+                            deferred.resolve();
                             });
                         });
-                        return deferred.promise;
+                    return deferred.promise;
                     }]
-                }
-            })
+            }
+        })*/
+
+        // 正式评审附件替换页面
+        .when('/formalBiddingFileInfo/:id/:url', {
+            controller: 'FormalBiddingInfo',
+            templateUrl: 'page/rcm/formalAssessment/formalBiddingFileInfo.html',
+            controllerAs: 'model',
+            resolve: {
+                resolver: ['$q', '$rootScope', function($q, $rootScope) {
+                    var deferred = $q.defer();
+                    require(['page/rcm/formalAssessment/formalBiddingFileInfo.js?_v=' + _version], function() {
+                        $rootScope.$apply(function() {
+                            deferred.resolve();});});
+                    return deferred.promise;}]
+            }
+        })
+
+        // 正式评审决策委员会材料预览旧页面新版
+         .when('/FormalBiddingInfoPreviewOld/:id/:url/:flag', {
+             controller: 'FormalBiddingInfoPreviewOld',
+             templateUrl: 'page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.html',
+             controllerAs: 'model',
+             resolve: {
+                 resolver: ['$q', '$rootScope', function($q, $rootScope) {
+                     var deferred = $q.defer();
+                     require(['page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.js?_v=' + _version], function() {
+                         $rootScope.$apply(function() {
+                             deferred.resolve();
+                         });
+                     });
+                     return deferred.promise;
+                 }]
+             }
+         })
             /*********************************正式评审结束******************************/
 
         /*********************************其他评审开始******************************/
@@ -2930,6 +2963,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     resolver: ['$q', '$rootScope', function($q, $rootScope) {
                         var deferred = $q.defer();
                         require(['page/sys/common/message_share.js?_v=' + _version], function() {
+                            $rootScope.$apply(function() {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 决策会约会列表
+            .when('/AppointmentMeeTingManage', {
+                controller: 'AppointmentMeeTingManage',
+                templateUrl: 'page/rcm/AppointmentMeeTingManage/AppointmentMeeTingManage.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/AppointmentMeeTingManage/AppointmentMeeTingManage.js?_v=' + _version], function() {
                             $rootScope.$apply(function() {
                                 deferred.resolve();
                             });
