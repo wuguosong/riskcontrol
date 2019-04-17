@@ -3051,6 +3051,59 @@ ctmApp.directive('directivePreJcwyhNew', function() {
     };
 });
 
+//起草预评审报告弹窗
+ctmApp.directive('directivePreCreateReport', ['$location','$filter', function($location,$filter) {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/ProjectPre/DirectivePreCreateReport.html',
+        replace: true,
+        scope:{btnText:"@btnText",textValue:"@textValue"},
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+            $scope.x={};
+            $scope.listProjectName = function () {
+                if($scope.$parent.pre && $scope.$parent.pre._id){//如果已经明确知道预评审项目
+                    $scope.pprs = [{BUSINESS_ID:$scope.$parent.pre._id,PROJECT_NAME:$scope.$parent.pre.apply.projectName}];
+                    $scope.x.UUID = $scope.$parent.pre._id;
+                }else{
+                    $http({
+                        method:'post',
+                        url:srvUrl+'preAuditReport/queryNotNewlyPreAuditProject.do'
+                    }).success(function(data){
+                        if(data.success){
+                            $scope.pprs = data.result_data;
+                        }
+                    }).error(function(data,status,headers, config){
+                        $.alert(status);
+                    });
+                }
+                $scope.x.pmodel = "normal";
+            };
+            $scope.forReport=function(model,uuid,comId){
+                if(model==null || model==""){
+                    $.alert("请选择项目模式!");
+                    return false;
+                }else if(uuid==null || uuid=="") {
+                    $.alert("请选择项目!");
+                    return false;
+                }else{
+                    $("#addModal").modal('hide');
+                    var routePath = "";
+                    if(model == "normal"){
+                        routePath = "PreNormalReport";
+                    }
+
+                    if(model == "other"){
+                        routePath = "PreOtherReport";
+                    }
+                    $location.path("/"+routePath+"/"+model+"/Create/"+uuid+"/"+$filter('encodeURI')('#/PreAuditReportList/0'));
+                }
+            }
+        }
+    };
+}]);
+
 /************************************投标评审结束*****************************/
 
 /************************************正式评审开始*****************************/
