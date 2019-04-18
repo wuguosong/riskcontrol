@@ -5,6 +5,12 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
     function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter) {
         $scope.url = $routeParams.url;
         $scope.message = {};
+        $scope._message = {};
+        $scope._message.originalId = 0;
+        $scope._message.parentId = 0;
+        $scope._message.procInstId = 0;
+        $scope._message.repliedBy = '';
+        $scope._message.repliedName = '';
         $scope._messages_array_ = [];
         $scope._query_messages_list_ = function (procInstId, parentId) {
             $http({
@@ -51,8 +57,43 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             }).success(function (data) {
                 $scope.message = data['result_data'];
                 if(!isEmpty($scope.message)){
+                    $scope._message.procInstId = $scope.message.procInstId;
                     $scope._query_messages_list_($scope.message.procInstId, 0);
                 }
+            });
+        };
+        $scope._clear_message_from = function(){
+            $scope._message.originalId = '';
+            $scope._message.parentId = '';
+            $scope._message.repliedBy = '';
+            $scope._message.repliedName = '';
+            $scope._message.messageContent = '';
+        };
+        $scope._submit_message_form_ = function (_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
+            debugger;
+            var formData = null;
+            formData = $scope._message;
+            formData.originalId = _original_id_;
+            formData.parentId = _parent_id_;
+            formData.repliedBy = _replied_by_;
+            formData.repliedName = _replied_name_;
+            formData.messageContent = $('#_message_textarea_bottom_' + _idx_).text();
+            if (isEmpty(formData.messageContent)) {
+                $.alert('回复内容不能为空!');
+                return;
+            }
+            if(_common_get_string_byte_length(formData.messageContent) > 2500){
+                $.alert('内容不能超过2500个字符!');
+            }
+            $http({
+                method: 'post',
+                url: srvUrl + 'message/add.do',
+                data: $.param(formData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                $scope.initMessage($routeParams.id);
+                $scope._clear_message_from();
+                $.alert('回复留言成功!');
             });
         };
         $scope.initMessage($routeParams.id);
