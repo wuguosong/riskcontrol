@@ -3,23 +3,3 @@
 			src="http://scheduletest.bewg.net.cn/AppointmentMeeTingManage/AppointmentMeeTingManage/index?systemcode=0001&systemmeetingid=0#/configure/list">
 	</iframe>
 </div>
-
-<script type="application/javascript">
-   $(function(){
-       var iframe = document.getElementById('iframe');
-       function setHeight(){
-           var doc = iframe.contentDocument || iframe.contentWindow.document,
-               height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
-           iframe.style.height = height + 'px';
-       }
-       if(window.attachEvent){
-           iframe.attachEvent('onload',function(){
-               setHeight();
-           });
-       }else{
-           iframe.onload=function(){
-               setHeight();
-           }
-       }
-   });
-</script>
