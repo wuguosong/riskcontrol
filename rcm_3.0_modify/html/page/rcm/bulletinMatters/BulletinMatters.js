@@ -531,11 +531,18 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
     };*/
 
      // 选择项目后，写入项目名称
-     $scope.setDirectiveCompanyList=function(code,name){
-         $scope.bulletin.projectNo=code;
-         $scope.bulletin.projectName=name;
-         $("#projectName").val(name);
-         $("label[for='projectName']").remove();
+     $scope.setDirectiveCompanyList=function(project){
+         $scope.bulletin.projectNo=project.PROJECTCODE;
+         $scope.bulletin.projectNameTZ=project.PROJECTNAME;
+
+         if (project.ADDRESS == undefined || project.ADDRESS == null || project.ADDRESS == '' || project.ADDRESS == "暂无数据" || project.ADDRESS == "无"){
+             $scope.bulletin.projectAddress='';
+         } else {
+             $scope.bulletin.projectAddress=project.ADDRESS;
+         }
+         $scope.bulletin.projectName = $scope.bulletin.projectAddress + project.PROJECTNAME;
+         $("#projectNameTZ").val(name);
+         $("label[for='projectNameTZ']").remove();
      }
 
      // 修改大区后，修改单位负责人的值

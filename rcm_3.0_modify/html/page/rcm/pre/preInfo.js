@@ -298,11 +298,18 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     }
 
     // 选择项目后，写入项目名称
-    $scope.setDirectiveCompanyList=function(code,name){
-        $scope.pre.apply.projectNo=code;
-        $scope.pre.apply.projectName=name;
-        $("#projectName").val(name);
-        $("label[for='projectName']").remove();
+    $scope.setDirectiveCompanyList=function(project){
+        $scope.pre.apply.projectNo=project.PROJECTCODE;
+        $scope.pre.apply.projectNameTZ=project.PROJECTNAME;
+
+        if (project.ADDRESS == undefined || project.ADDRESS == null || project.ADDRESS == '' || project.ADDRESS == "暂无数据" || project.ADDRESS == "无"){
+            $scope.pre.apply.projectAddress='';
+        } else {
+            $scope.pre.apply.projectAddress=project.ADDRESS;
+        }
+        $scope.pre.apply.projectName = $scope.pre.apply.projectAddress + project.PROJECTNAME;
+        $("#projectNameTZ").val(name);
+        $("label[for='projectNameTZ']").remove();
     }
 
     // 获取项目模式

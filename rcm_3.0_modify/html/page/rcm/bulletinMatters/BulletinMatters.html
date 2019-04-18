@@ -69,7 +69,7 @@
 									<tbody>
 									<tr ng-repeat="p in bulletins">
 										<td>
-											<label class="checkbox-inline">
+											<label class="checkbox-inline choose">
 												<input type="checkbox" name="applyChk" id="chk_{{$index+1}}" class="px" value="{{p.BUSINESSID}}"
 													ng-if="p.AUDITSTATUS=='0' || p.AUDITSTATUS=='3'"/>
 												<span class="lbl">&nbsp;</span>

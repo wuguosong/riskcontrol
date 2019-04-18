@@ -278,11 +278,18 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     }
 
     // 选择项目后，写入项目名称
-    $scope.setDirectiveCompanyList=function(code,name){
-        $scope.pfr.apply.projectNo=code;
-        $scope.pfr.apply.projectName=name;
-        $("#projectName").val(name);
-        $("label[for='projectName']").remove();
+    $scope.setDirectiveCompanyList=function(project){
+        $scope.pfr.apply.projectNo=project.PROJECTCODE;
+        $scope.pfr.apply.projectNameTZ=project.PROJECTNAME;
+
+        if (project.ADDRESS == undefined || project.ADDRESS == null || project.ADDRESS == '' || project.ADDRESS == "暂无数据" || project.ADDRESS == "无"){
+            $scope.pfr.apply.projectAddress='';
+        } else {
+            $scope.pfr.apply.projectAddress=project.ADDRESS;
+        }
+        $scope.pfr.apply.projectName = $scope.pfr.apply.projectAddress + project.PROJECTNAME;
+        $("#projectNameTZ").val(name);
+        $("label[for='projectNameTZ']").remove();
     }
 
     // 获取项目模式

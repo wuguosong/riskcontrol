@@ -86,13 +86,23 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>投资项目名称</label>
                                 <div class="col-sm-4">
-                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
+                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectNameTZ" name="projectNameTZ" ng-model="pre.apply.projectNameTZ" value="{{pre.apply.projectNameTZ}}"/>
                                 </div>
                                 <label class="col-sm-2  control-label">项目所在地</label>
                                 <div class="col-sm-4">
                                     <input type="text"  class="form-control" name="projectAddress" ng-model="pre.apply.projectAddress" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
+                                </div>
+                                <label class="col-sm-2 control-label">项目投资总额</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  class="form-control" name="investMoney" ng-model="pre.apply.investMoney">
                                 </div>
                             </div>
                             <div class="row">
@@ -104,9 +114,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <label class="col-sm-2 control-label">项目投资总额</label>
-                                <div class="col-sm-4">
-                                    <input type="text"  class="form-control" name="investMoney" ng-model="pre.apply.investMoney">
+                                <label class="col-sm-2 control-label">单体项目数</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <input type="text"  class="form-control" name="projectNum" ng-model="pre.apply.projectNum" placeholder="">
+                                    <span class="unit-n">个</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -124,10 +135,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <label class="col-sm-2 control-label">单体项目数</label>
-                                <div class="col-sm-4 has-feedback">
-                                    <input type="text"  class="form-control" name="projectNum" ng-model="pre.apply.projectNum" placeholder="">
-                                    <span class="unit-n">个</span>
+                                <label class="col-sm-2 control-label">竞争对手</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  class="form-control" id="competitor" name="competitor" ng-model="pre.apply.competitor" />
                                 </div>
                             </div>
                             <div class="row">
@@ -135,21 +145,23 @@
                                 <div class="col-sm-4">
                                     <input  class="form-control" name="projectSize" ng-model="pre.apply.projectSize" placeholder=""/>
                                 </div>
-                                <label class="col-sm-2 control-label">竞争对手</label>
-                                <div class="col-sm-4">
-                                    <input type="text"  class="form-control" id="competitor" name="competitor" ng-model="pre.apply.competitor" />
-                                </div>
-                            </div>
-                            <div class="row">
                                 <label class="col-sm-2 control-label">拟投标时间</label>
                                 <div class="col-sm-4 has-feedback">
                                     <input type="text"  id="tenderTime" name="" value="{{pre.apply.tenderTime}}" ng-model="pre.apply.tenderTime" class="form-control" />
                                     <i class="fa fa-calendar form-control-feedback"></i>
                                     <span id="showdate" ></span>
                                 </div>
+                            </div>
+                            <div class="row">
+
                                 <label class="col-sm-2 control-label">保证金支付时间</label>
                                 <div class="col-sm-4 has-feedback">
                                     <input type="text"  id="paymentTime" value="{{pre.apply.paymentTime}}" ng-model="pre.apply.paymentTime" class="form-control" />
+                                    <i class="fa fa-calendar form-control-feedback"></i>
+                                </div>
+                                <label class="col-sm-2 control-label">申请填写日期</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <input type="text" readonly class="form-control"  id="create_date" name="create_date" ng-model="pre.create_date" />
                                     <i class="fa fa-calendar form-control-feedback"></i>
                                 </div>
                             </div>
@@ -189,11 +201,7 @@
                                     <input type="hidden" id="directPersonName" name="directPersonName" ng-model="pre.apply.directPerson.NAME" value="{{pre.apply.directPerson.NAME}}" />
                                     <input type="hidden" id="directPersonValue" name="directPersonValue" ng-model="pre.apply.directPerson.VALUE"  />
                                 </div>
-                                <label class="col-sm-2 control-label">申请填写日期</label>
-                                <div class="col-sm-4 has-feedback">
-                                    <input type="text" readonly class="form-control"  id="create_date" name="create_date" ng-model="pre.create_date" />
-                                    <i class="fa fa-calendar form-control-feedback"></i>
-                                </div>
+
                             </div>
                         </div>
                         <!--<div class="tab-pane" id="flow_chart">
@@ -238,6 +246,7 @@
                 //	personLiable:"required",
                 pertainArea:"required",
                 companyHeaderName:"required",
+                projectNameTZ:"required",
                 projectName:"required",
                 oneservicetypeboxName:"required",
                 investmentModel:"required"
@@ -246,6 +255,7 @@
                 //	personLiable:"此项必填",
                 pertainArea:"此项必填",
                 companyHeaderName:"此项必填",
+                projectNameTZ:"此项必填",
                 projectName:"此项必填",
                 oneservicetypeboxName:"此项必填",
                 investmentModel:"此项必填"

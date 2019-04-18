@@ -25,9 +25,9 @@
 					<div class="tab-content tab-content-bordered">
 						<div class="tab-pane in active special-form" id="contracts_file_info">
 							<div class="row">
-								<label class="col-sm-2 control-label">项目名称</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>投资项目名称</label>
 								<div class="col-sm-4">
-									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
+									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectNameTZ" name="projectNameTZ" ng-model="bulletin.projectNameTZ" value="{{bulletin.projectName}}"/>
 								</div>
 								<label class="col-sm-2 control-label">项目编号</label>
 								<div class="col-sm-4">
@@ -35,7 +35,17 @@
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>所属大区</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>项目名称</label>
+								<div class="col-sm-4">
+									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
+								</div>
+								<label class="col-sm-2 control-label">项目所在地</label>
+								<div class="col-sm-4">
+									<input type="text" readonly class="form-control" id="projectAddress" name="projectAddress" ng-model="bulletin.projectAddress" placeholder="">
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
 									<div class="full-drop">
 									 
@@ -53,14 +63,14 @@
 										</div>
 									</div>
 								</div>
-								<label class="col-sm-2 control-label"><span class="required">*</span>单位负责人</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>单位负责人</label>
 								<div class="col-sm-4">
 									<input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME" value="{{bulletin.unitPerson.NAME}}">
 									<input type="hidden" required class="form-control" id="unitPersonId" name="unitPersonId" ng-model="bulletin.unitPerson.VALUE">
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>申请人</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>申请人</label>
 								<div class="col-sm-4">
 									<input type="text" readonly required class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
 									<input type="hidden" required class="form-control" id="applyUserId" name="applyUserId" ng-model="bulletin.applyUser.VALUE">
@@ -72,7 +82,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>事项类型</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
 								<div class="col-sm-4">
 									<select name="tbsxType" ng-model="tbsxTypeModel" id="tbsxType" class="form-control" ng-change="changeTbsxType()">
 										<option value=''>-- 请选择 --</option>
@@ -80,26 +90,26 @@
 											ng-selected="item.UUID==bulletin.bulletinType.VALUE" >{{item.ITEM_NAME}}</option>
 									</select>
 								</div>
-								<label ng-if="isNotCityService" class="col-sm-2 control-label"><span class="required">*</span>职能部门负责人</label>
+								<label ng-if="isNotCityService" class="col-sm-2 control-label"><span class="required-m">*</span>职能部门负责人</label>
 								<div ng-if="isNotCityService" class="col-sm-4">
 									<input class="form-control" readonly required id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
 									<input type="hidden" required class="form-control" id="businessPersonId" name="businessPersonId" ng-model="bulletin.businessPerson.VALUE">
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>申报事项</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>事项原因</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项原因</label>
 								<div class="col-sm-10">
 									<textarea class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>申请需求</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>申请需求</label>
 								<div class="col-sm-10">
 									<textarea type="text" class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
 								</div>
@@ -197,6 +207,8 @@
 		// validate signup form on keyup and submit
 		$("#myForm").validate({
 			rules: {
+                projectNameTZ:"required",
+                projectName:"required",
 				tbsxType:"required",
 				reason:"required",
 				bulletinName:"required",
@@ -207,6 +219,8 @@
 				businessPersonName:"required"
 			},
 			messages: {
+                projectNameTZ:"此项必填",
+                projectName:"此项必填",
 				tbsxType:"此项必填",
 				reason:"此项必填",
 				bulletinName:"此项必填",

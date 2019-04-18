@@ -126,13 +126,23 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>投资项目名称</label>
                                 <div class="col-sm-4">
-                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" value="{{pfr.apply.projectName}}"/>
+                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectNameTZ" name="projectNameTZ" ng-model="pfr.apply.projectNameTZ" value="{{pfr.apply.projectNameTZ}}"/>
                                 </div>
                                 <label  class="col-sm-2 control-label">项目所在地</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="projectAddress" name="projectAddress" ng-model="pfr.apply.projectAddress" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" value="{{pfr.apply.projectName}}"/>
+                                </div>
+                                <label  class="col-sm-2 control-label">项目投资总额</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  class="form-control" id="investMoney" name="investMoney" ng-model="pfr.apply.investMoney"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -144,9 +154,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <label  class="col-sm-2 control-label">项目投资总额</label>
+                                <label  class="col-sm-2 control-label">项目规模</label>
                                 <div class="col-sm-4">
-                                    <input type="text"  class="form-control" id="investMoney" name="investMoney" ng-model="pfr.apply.investMoney"/>
+                                    <textarea class="form-control" id="projectSize" name="projectSize" ng-model="pfr.apply.projectSize" placeholder=""></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -164,16 +174,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <label  class="col-sm-2 control-label">项目规模</label>
-                                <div class="col-sm-4">
-                                    <textarea class="form-control" id="projectSize" name="projectSize" ng-model="pfr.apply.projectSize" placeholder=""></textarea>
+                                <label  class="col-sm-2 control-label">单体项目数</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <input type="text" class="form-control" id="projectNum" name="projectNum" ng-model="pfr.apply.projectNum" placeholder=""
+                                           onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                           onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                    <span class="unit-n">个</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <label  class="col-sm-2 control-label">投资中心/水环境投资中心项目负责人</label>
                                 <div class="col-sm-4 has-feedback">
                                     <div id="headerinvestmentPersonName" class="col-sm-6 noleft-pad noright-pad"
-                                        style="width: calc(50% - 2.5px);margin-right: 5px">
+                                         style="width: calc(50% - 2.5px);margin-right: 5px">
                                         <div ng-click="setDirectiveParam('investmentPerson',0)"  data-toggle="modal" data-target="#userRaido-modal"  class="select2-success">
                                             <div  class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
                                                 <ul class="select2-choices">
@@ -205,15 +218,6 @@
                                     <input type="hidden" id="directPersonName" name="directPersonName" ng-model="pfr.apply.directPerson.NAME" value="{{pfr.apply.directPerson.NAME}}" />
                                     <input type="hidden" id="directPersonValue" name="directPersonValue" ng-model="pfr.apply.directPerson.VALUE"  />
                                 </div>
-                                <label  class="col-sm-2 control-label">单体项目数</label>
-                                <div class="col-sm-4 has-feedback">
-                                    <input type="text" class="form-control" id="projectNum" name="projectNum" ng-model="pfr.apply.projectNum" placeholder=""
-                                           onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                           onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
-                                    <span class="unit-n">个</span>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <label  class="col-sm-2 control-label">预计签约时间</label>
                                 <div class="col-sm-4 has-feedback">
                                     <input type="text" class="form-control" id="expectedContractDate" name="expectedContractDate" ng-model="pfr.apply.expectedContractDate"  />
@@ -266,6 +270,7 @@
                 pertainAreaName:"required",
                 companyHeaderName:"required",
                 grassrootsLegalStaffName:"required",
+                projectNameTZ:"required",
                 projectName:"required",
                 oneservicetypeboxName:"required",
                 projectmodeboxName:"required"
@@ -276,6 +281,7 @@
                 pertainAreaName:"此项必填",
                 companyHeaderName:"此项必填",
                 grassrootsLegalStaffName:"此项必填",
+                projectNameTZ:"此项必填",
                 projectName:"此项必填",
                 oneservicetypeboxName:"此项必填",
                 projectmodeboxName:"此项必填"

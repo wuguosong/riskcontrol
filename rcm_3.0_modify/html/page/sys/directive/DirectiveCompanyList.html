@@ -26,9 +26,9 @@
                                             <tbody id="companyListTbody">
                                             <tr ng-repeat="u in sysCompany" on-finish-render-filters>
                                                 <td>
-                                                    <div class="radio radio-inline">
+                                                    <div class="radio radio-inline choose">
                                                         <label>
-                                                            <input class="px" type="radio" id="PROJECTNAME" name="PROJECTNAME"  ng-click="getSelection(u.PROJECTCODE,u.PROJECTNAME)"/>
+                                                            <input class="px" type="radio" id="PROJECTNAME" name="PROJECTNAME"  ng-click="getSelection(u)"/>
                                                             <span class="lbl">&nbsp;</span>
                                                         </label>
                                                     </div>

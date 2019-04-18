@@ -396,6 +396,11 @@ form .left-content {
   margin: 10px 3px -4px -20px!important
 }
 
+.gt-ie8 .radio-inline.choose input.px+.lbl:before,
+.gt-ie8 .radio-inline.choose input.px+.lbl:after{
+  margin: 13px 0px 0px -31px!important
+}
+
 .gt-ie8 .checkbox-inline.choose input.px+.lbl:before,
 .gt-ie8 .checkbox-inline.choose input.px+.lbl:after{
   margin: 15px 3px -4px -20px!important;
@@ -405,6 +410,17 @@ form .left-content {
 .gt-ie8 .checkbox-inline.local input.px+.lbl:after{
   margin: 10px 3px -4px -20px!important;
 }
+
+.gt-ie8 .checkbox-inline.zchoose input.px+.lbl:before,
+.gt-ie8 .checkbox-inline.zchoose input.px+.lbl:after{
+  margin: 15px 3px -4px 2px!important
+}
+
+.gt-ie8 .checkbox-inline.xchoose input.px+.lbl:before,
+.gt-ie8 .checkbox-inline.xchoose input.px+.lbl:after{
+  margin: 15px 3px -3px -10px!important
+}
+
 
 .fa {
   line-height: 32px;

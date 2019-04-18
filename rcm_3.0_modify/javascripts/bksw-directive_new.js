@@ -376,7 +376,7 @@ ctmApp.directive('directReportOrgSelect', function() {
             //是否可编辑，默认为true
             isEditable:"=",
             //是否分页，默认为false
-            isPage:"=",
+            isPage:"=?bind",
             //查询参数，非必填
             queryParams: "=",
             //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
@@ -1140,11 +1140,9 @@ ctmApp.directive('directiveCompanyList', function() {
         controller:function($scope,$http,$element){
             //获取父作用域
             var carouselScope = $element.parent().scope();
-            $scope.selectCode =null;
-            $scope.selectName = null;
-            $scope.getSelection = function(code,name){
-                $scope.selectCode=code;
-                $scope.selectName=name;
+            $scope.selectProjejct =null;
+            $scope.getSelection = function(selectProjejct){
+                $scope.selectProjejct=selectProjejct;
             }
             $scope.paginationConf = {
                 currentPage: 1,
@@ -1174,17 +1172,14 @@ ctmApp.directive('directiveCompanyList', function() {
 
             $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryCompany);
             $scope.resetCompanyList=function(){
-                $scope.selectCode =null;
-                $scope.selectName = null;
+                $scope.selectProjejct =null;
             }
             $scope.saveCompanyListforDiretive=function(){
-                carouselScope.setDirectiveCompanyList($scope.selectCode,$scope.selectName);
-                $scope.selectCode =null;
-                $scope.selectName = null;
+                carouselScope.setDirectiveCompanyList($scope.selectProjejct);
+                $scope.selectProjejct =null;
             }
             angular.element(document).ready(function() {
-                $scope.selectCode =null;
-                $scope.selectName = null;
+                $scope.selectProjejct =null;
             });
         }
     };
