@@ -140,8 +140,7 @@
                                 <div id="headeroneservicetypebox"  class="col-sm-4">
                                     <div class="select2-success">
                                         <select multiple="multiple" name="oneservicetypeboxName" id="oneservicetypeboxName" class="form-control" ng-model="pfr.apply.serviceType"
-                                                ng-options="sy.VALUE for sy in dicSyn.Syncbusinessmodel track by sy.KEY">
-                                            <option value="">-- 请选择 --</option>
+                                                ng-options="sy.VALUE for sy in dicSyn.Syncbusinessmodel track by sy.KEY" >
                                         </select>
                                     </div>
                                 </div>
@@ -162,7 +161,6 @@
                                     <div class="select2-success">
                                         <select multiple="multiple" id="projectmodeboxName" name="projectmodeboxName" class="form-control"  ng-model="pfr.apply.projectModel"
                                                 ng-options="pm.VALUE for pm in dicSyn.projectModelValue track by pm.KEY">
-                                            <option value="">-- 请选择 --</option>
                                         </select>
                                     </div>
                                 </div>

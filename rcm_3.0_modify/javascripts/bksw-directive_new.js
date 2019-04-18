@@ -2510,6 +2510,76 @@ ctmApp.directive('directOrgMultiDialog', function() {
     };
 });
 
+// 组织单选 ZTree
+ctmApp.directive('directiveOrgList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/DirectiveOrgList.html',
+        replace: true,
+        scope:{},
+        controller:function($scope,$http,$element){
+            //获取父作用域
+            var carouselScope = $element.parent().scope();
+            var paramId=null;
+            var categoryCode=null;
+            //获取组织结构角色
+            var ztree, setting = {
+                callback:{
+                    onClick:function(event, treeId, treeNode){
+                        paramId = treeNode.id;
+                        categoryCode = treeNode.name;
+                    },
+                    beforeExpand:function(treeId, treeNode){
+                        if(typeof(treeNode.children)=='undefined'){
+                            $scope.addTreeNode(treeNode);
+                        }
+                    }
+                }
+            };
+            $scope.addTreeNode = function (parentNode){
+                var pid = '';
+                if(parentNode && parentNode.id) pid = parentNode.id;
+                $scope.$parent.httpData('fnd/Group/getCommonOrg', {parentId:pid}).success(function(data){
+                    if (!data || data.result_code != 'S') return null;
+                    var nodeArray = data.result_data;
+                    if(nodeArray<1) return null;
+                    for(var i=0;i<nodeArray.length;i++){
+                        curNode = nodeArray[i];
+                        var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
+                        if(curNode.cat && curNode.cat=='Org'){
+                            iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
+                        }
+                        curNode.icon = iconUrl;
+                    }
+                    if(pid == ''){//当前加载的是根节点
+                        ztree.addNodes(null, nodeArray);
+                        var rootNode = ztree.getNodes()[0];
+                        $scope.addTreeNode(rootNode);
+                        rootNode.open = true;
+                        ztree.refresh();
+                    }else{
+                        ztree.addNodes(parentNode, nodeArray, true);
+                    }
+                });
+            }
+            $scope.cancelBtn=function(){
+                paramId=null;
+                categoryCode=null;
+            }
+            $scope.saveOrgListforDiretive=function(){
+                carouselScope.setDirectiveOrgList(paramId,categoryCode);
+                paramId=null;
+                categoryCode=null;
+            }
+
+            angular.element(document).ready(function() {
+                ztree = $.fn.zTree.init($("#treeIDpor1"), setting);
+                $scope.addTreeNode('');
+            });
+        }
+    };
+});
+
 // 相关资源（新）
 ctmApp.directive('directiveAccachmentNew', function() {
     return {

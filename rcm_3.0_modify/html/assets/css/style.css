@@ -405,3 +405,13 @@ form .left-content {
 .gt-ie8 .checkbox-inline.local input.px+.lbl:after{
   margin: 10px 3px -4px -20px!important;
 }
+
+.fa {
+  line-height: 32px;
+}
+
+.required-m {
+  display: inline-block;
+  margin-right: 3px;
+  color: red;
+}
