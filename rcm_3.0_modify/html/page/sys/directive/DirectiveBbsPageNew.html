@@ -32,7 +32,7 @@
         </a>
     </div>
     <!--锚点-顶部-->
-    <div style="text-align: right;font-size: small;color: blue;">
+    <div ng-if="_messages_array_.length  > 0" style="text-align: right;font-size: small;color: blue;">
         <a href="javascript:void(0);" id="_first_floor_" ng-click="_jump_page_to_('_last_floor_')">跳到底部</a>
     </div>
     <!--迭代部分-->
@@ -131,11 +131,11 @@
         </div>
     </div>
     <!--锚点-底部-->
-    <div style="text-align: right;font-size: small;color: blue;">
+    <div ng-if="_messages_array_.length  > 0" style="text-align: right;font-size: small;color: blue;">
         <a href="javascript:void(0);" id="_last_floor_" ng-click="_jump_page_to_('_first_floor_')">回到顶部</a>
     </div>
     <!--分页部分-->
-    <div ng-if="_is_pagination_">
+    <div ng-if="_is_pagination_ && _messages_array_.length > 0">
         <tm-pagination conf="_message_pagination_configuration_"></tm-pagination>
     </div>
     <!--@用户选择区域-->

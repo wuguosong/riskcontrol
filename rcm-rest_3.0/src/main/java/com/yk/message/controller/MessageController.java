@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import util.UserUtil;
-import ws.client.message.MessageBack;
+import ws.msg.client.MessageBack;
 
 import javax.annotation.Resource;
 import java.util.HashMap;

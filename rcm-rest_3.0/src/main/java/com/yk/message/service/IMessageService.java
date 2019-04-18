@@ -3,7 +3,7 @@ package com.yk.message.service;
 import com.alibaba.fastjson.JSONObject;
 import com.yk.message.entity.Message;
 import common.PageAssistant;
-import ws.client.message.MessageBack;
+import ws.msg.client.MessageBack;
 
 import java.util.HashMap;
 import java.util.List;

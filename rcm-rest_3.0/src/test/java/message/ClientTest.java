@@ -34,7 +34,7 @@ public class ClientTest {
      */
     @Test
     public void testEmailStatus() {
-        status = client.getEmailStatus("335878dc-f841-4433-a973-3cd7fa06c0f7");
+        status = client.getEmailStatus("d894f17a-fc79-4355-8f9b-1c3ec871eb94");
         System.out.println(JSON.toJSONString(status));
     }
 
@@ -57,7 +57,7 @@ public class ClientTest {
      */
     @Test
     public void testDtLinkStatus() {
-        status = client.getDtStatus("eb22841d-8c9f-4a9d-a46a-29dd333375d2");
+        status = client.getDtStatus("6be9622b-db30-4fec-aed0-0772aafcf275");
         System.out.println(JSON.toJSONString(status));
     }
 
@@ -80,7 +80,7 @@ public class ClientTest {
      */
     @Test
     public void testDtTextStatus() {
-        status = client.getDtStatus("713f1de0-f3a6-470a-96a8-f7bba90086f9");
+        status = client.getDtStatus("582e2191-c1fe-4a26-9f5d-e7504617386a");
         System.out.println(JSON.toJSONString(status));
     }
 
@@ -103,7 +103,7 @@ public class ClientTest {
      */
     @Test
     public void testWxStatus() {
-        status = client.getWxStatus("5bdd7f04-3b03-48db-bed7-65f8762d7f8f");
+        status = client.getWxStatus("8dda0c93-bd6a-4619-b757-f70071670863");
         System.out.println(JSON.toJSONString(status));
     }
 
@@ -126,7 +126,7 @@ public class ClientTest {
      */
     @Test
     public void testSmsStatus() {
-        status = client.getSmsStatus("c71e6298-75c0-4aaa-b37f-2ea5206daf3a");
+        status = client.getSmsStatus("43098be5-6f67-49d1-a572-d0217af0473d");
         System.out.println(JSON.toJSONString(status));
     }
 }
