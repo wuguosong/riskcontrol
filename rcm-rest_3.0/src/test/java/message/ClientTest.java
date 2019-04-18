@@ -46,7 +46,7 @@ public class ClientTest {
      */
     @Test
     public void testDtLink() {
-        back = client.sendDtLink("", "3283751", client._URL + "/10481");
+        back = client.sendDtLink("", "wuguosong", client._URL + 10481, client._TITLE, client._URL + 10481, client._CONTENT);
         System.out.println(JSON.toJSONString(back));
         status = client.getDtStatus(back.getData());
         System.out.println(JSON.toJSONString(status));
@@ -57,7 +57,7 @@ public class ClientTest {
      */
     @Test
     public void testDtLinkStatus() {
-        status = client.getDtStatus("6be9622b-db30-4fec-aed0-0772aafcf275");
+        status = client.getDtStatus("2729a5e1-029a-4597-a827-51bae8b234c4");
         System.out.println(JSON.toJSONString(status));
     }
 
@@ -69,7 +69,7 @@ public class ClientTest {
      */
     @Test
     public void testDtText() {
-        back = client.sendDtText("", "3283751", client._CONTENT + client._URL + "/10481");
+        back = client.sendDtText("", "wuguosong", client._CONTENT + client._URL + "10496");
         System.out.println(JSON.toJSONString(back));
         status = client.getDtStatus(back.getData());
         System.out.println(JSON.toJSONString(status));
@@ -80,7 +80,7 @@ public class ClientTest {
      */
     @Test
     public void testDtTextStatus() {
-        status = client.getDtStatus("582e2191-c1fe-4a26-9f5d-e7504617386a");
+        status = client.getDtStatus("f9342a51-b753-458e-9f44-95f110006828");
         System.out.println(JSON.toJSONString(status));
     }
 
@@ -92,7 +92,7 @@ public class ClientTest {
      */
     @Test
     public void testWx() {
-        back = client.sendWxText("", "3283751", "", (short) 0, client._CONTENT + client._URL + "/10481");
+        back = client.sendWxText("", "wuguosong", "", (short) 0, client._CONTENT + client._URL + "10496");
         System.out.println(JSON.toJSONString(back));
         status = client.getDtStatus(back.getData());
         System.out.println(JSON.toJSONString(status));
@@ -103,7 +103,7 @@ public class ClientTest {
      */
     @Test
     public void testWxStatus() {
-        status = client.getWxStatus("8dda0c93-bd6a-4619-b757-f70071670863");
+        status = client.getWxStatus("6fac1887-73c2-4d9a-87b9-8849722a629a");
         System.out.println(JSON.toJSONString(status));
     }
 
@@ -115,7 +115,7 @@ public class ClientTest {
      */
     @Test
     public void testSms() {
-        back = client.sendSms("18220216186", client._CONTENT + client._URL + "/10481", "");
+        back = client.sendSms("18220216186", client._CONTENT + client._URL + "/10496", "");
         System.out.println(JSON.toJSONString(back));
         status = client.getSmsStatus(back.getData());
         System.out.println(JSON.toJSONString(status));
@@ -128,5 +128,15 @@ public class ClientTest {
     public void testSmsStatus() {
         status = client.getSmsStatus("43098be5-6f67-49d1-a572-d0217af0473d");
         System.out.println(JSON.toJSONString(status));
+    }
+
+    @Test
+    public void testSub(){
+        String str = "123,456,789,";
+        str = str.substring(0, str.lastIndexOf(","));
+        System.out.println(str);
+        str = str.replace(",", "|");
+        System.out.println(str);
+        System.out.println("hi".replace(",", "|"));
     }
 }

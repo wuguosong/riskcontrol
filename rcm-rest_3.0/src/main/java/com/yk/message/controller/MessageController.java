@@ -313,10 +313,10 @@ public class MessageController {
 	 */
 	@RequestMapping(value = "share", method = RequestMethod.POST)
 	@ResponseBody
-	public Result share(Long messageId, String shareUsers) {
+	public Result share(Long messageId, String shareUsers, String type) {
 		Result result = new Result();
 		try {
-			MessageBack messageBack = messageService.shareMessage(messageId, shareUsers);
+			MessageBack messageBack = messageService.shareMessage(messageId, shareUsers, type);
 			if(messageBack != null){
 				result.setSuccess(true);
 				result.setResult_data(messageBack);

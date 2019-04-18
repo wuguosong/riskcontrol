@@ -10,12 +10,14 @@ import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import com.yk.power.dao.IUserMapper;
 import common.PageAssistant;
+import fnd.UserDto;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.DateUtil;
+import util.UserUtil;
 import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 
@@ -232,50 +234,58 @@ public class MessageService implements IMessageService {
      * @return String url
      */
     @Override
-    public MessageBack shareMessage(Long messageId, String shareUsers) {
+    public MessageBack shareMessage(Long messageId, String shareUsers, String type) {
+        if(StringUtils.isBlank(type)){
+            type = MessageClient._DT;
+        }
         if (messageId == null) {
             throw new BusinessException("共享失败，留言Id为空！");
         }
         if (StringUtils.isBlank(shareUsers)) {
             throw new BusinessException("共享失败，要共享的用户为空！");
         }
-        // 构造访问url
-        Prop prop = PropKit.use("dev_db.properties");
-        if (prop == null) {
-            throw new BusinessException("共享失败，读取资源文件失败！");
-        }
         // 分割用户
         String[] shareUserArray = shareUsers.split(",");
         if (ArrayUtils.isEmpty(shareUserArray)) {
             throw new BusinessException("共享失败，要共享的用户为空！");
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuffer accounts = new StringBuffer();
+        StringBuffer emails = new StringBuffer();
         Map<String, Object> params = new HashMap<String, Object>();
         for (String shareUser : shareUserArray) {
             params.put("UUID", shareUser);
             Map<String, Object> user = userMapper.selectAUser(params);
             if (user != null) {
-                sb.append(String.valueOf(user.get("ID")));
-                sb.append(",");
+                accounts.append(String.valueOf(user.get("ACCOUNT")));
+                accounts.append(",");
+                emails.append(String.valueOf(user.get("EMAIL")));
+                emails.append(",");
             }
         }
-        String toUser = sb.substring(0, sb.lastIndexOf(",") + 1);
         MessageClient client = new MessageClient();
-        MessageBack messageBack = client.sendDtLink("", toUser.replace(",", "|"), client._URL + messageId);
+        MessageBack messageBack = null;
+        UserDto userDto = UserUtil.getCurrentUser();
+        if(MessageClient._DT.equalsIgnoreCase(type)){
+            messageBack = client.sendDtLink(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), client._URL + messageId, client._TITLE, client._URL + messageId, client._CONTENT);
+        }
+        if(MessageClient._EMAIL.equalsIgnoreCase(type)){
+            messageBack = client.sendEmail(userDto.getEmail(), emails.substring(0, emails.lastIndexOf(",")).replace(",", "|"), null, client._TITLE, client._CONTENT + client._URL + messageId);
+        }
+        if(MessageClient._SMS.equalsIgnoreCase(type)){
+            String target = userDto.getContact1();
+            if(StringUtils.isBlank(target)){
+                target = userDto.getContact2();
+            }
+            messageBack = client.sendSms(target, client._CONTENT + client._URL + messageId, null);
+        }
+        if(MessageClient._WX.equalsIgnoreCase(type)){
+            messageBack = client.sendWxText(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), "", (short)0, client._CONTENT + client._URL + messageId);
+        }
         // 如果同步成功，将返回的凭证存入，此凭证可用于查询消息发送状态
         if (messageBack != null && 0 == messageBack.getCode()) {
             Message message = this.get(messageId);
             if (message != null) {
-                String attrText01 = message.getAttriText01();
-                /*if(StringUtils.isNotBlank(attrText01)){
-                    attrText01 += "," + messageBack.getData() + ",";
-                }else{
-                    attrText01 = messageBack.getData() + ",";
-                }
-                if(StringUtils.isNotBlank(attrText01)){
-                    attrText01 = attrText01.substring(0, attrText01.lastIndexOf(","));
-                }*/
-                message.setAttriText01(attrText01);
+                message.setAttriText01(message.getAttriText01());
                 this.update(message);
             }
             System.out.println(JSON.toJSONString(messageBack));

@@ -121,7 +121,7 @@ public interface IMessageService {
      * @param shareUsers
      * @return
      */
-    MessageBack shareMessage(Long messageId, String shareUsers);
+    MessageBack shareMessage(Long messageId, String shareUsers, String type);
 
     HashMap<String, Object> getUserByUuid(String uuid);
 

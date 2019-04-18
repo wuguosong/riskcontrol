@@ -1797,8 +1797,11 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 分享功能参数初始化
             $scope._share_message_id_ = '';
+            $scope._share_type_ = 'DT';
             // 展示分享弹窗
             $scope._show_share_message_form_ = function(_message_id_){
+                $('#_share_message_type_span_').text('钉钉');
+                $scope._share_type_ = 'DT';
                 $('#_share_message_dialog').modal('show');
                 $scope._share_message_id_ = _message_id_;
             };
@@ -1819,7 +1822,8 @@ ctmApp.directive('bbsChatNew', function() {
                     url: srvUrl + 'message/share.do',
                     data: $.param({
                         'messageId': $scope._share_message_id_,
-                        'shareUsers': _share_users_
+                        'shareUsers': _share_users_,
+                        'type':$scope._share_type_
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
@@ -1902,6 +1906,23 @@ ctmApp.directive('bbsChatNew', function() {
                     $scope._messages_array_ = $scope.initMessagesArray;
                 }
             }
+            $scope._choice_share_type_ = function(_share_type_){
+                if(_share_type_ == 'DT'){
+                    $('#_share_message_type_span_').text('钉钉');
+                }
+                if(_share_type_ == 'WX'){
+                    $('#_share_message_type_span_').text('微信');
+                }
+                if(_share_type_ == 'SMS'){
+                    $('#_share_message_type_span_').text('短信');
+                }
+                if(_share_type_ == 'EMAIL'){
+                    $('#_share_message_type_span_').text('邮箱');
+                }
+                if(!isEmpty(_share_type_)){
+                    $scope._share_type_ = _share_type_;
+                }
+            };
         }
     };
 });
