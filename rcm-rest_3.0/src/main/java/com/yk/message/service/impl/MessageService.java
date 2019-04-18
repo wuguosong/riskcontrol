@@ -261,12 +261,21 @@ public class MessageService implements IMessageService {
         }
         String toUser = sb.substring(0, sb.lastIndexOf(",") + 1);
         MessageClient client = new MessageClient();
-        MessageBack messageBack = client.sendDtText("", toUser.replace(",", "|"), client._CONTENT + client._URL + messageId);
+        MessageBack messageBack = client.sendDtLink("", toUser.replace(",", "|"), client._URL + messageId);
         // 如果同步成功，将返回的凭证存入，此凭证可用于查询消息发送状态
         if (messageBack != null && 0 == messageBack.getCode()) {
             Message message = this.get(messageId);
             if (message != null) {
-                message.setAttriText01(String.valueOf(messageBack.getData()));
+                String attrText01 = message.getAttriText01();
+                /*if(StringUtils.isNotBlank(attrText01)){
+                    attrText01 += "," + messageBack.getData() + ",";
+                }else{
+                    attrText01 = messageBack.getData() + ",";
+                }
+                if(StringUtils.isNotBlank(attrText01)){
+                    attrText01 = attrText01.substring(0, attrText01.lastIndexOf(","));
+                }*/
+                message.setAttriText01(attrText01);
                 this.update(message);
             }
             System.out.println(JSON.toJSONString(messageBack));
