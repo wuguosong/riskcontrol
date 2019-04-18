@@ -44,6 +44,21 @@
                                 </div>
                             </div>
                         </div>
+                        <form ng-if="message.messageId == _messages_array_[$index][0].messageId" id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
+                            回复内容：
+                            <div class="form-control" id="_message_textarea_bottom_{{$index}}" contenteditable="true"
+                                 style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
+                            <input type="text" ng-model="_message.parentId" ng-hide="true">
+                            <input type="text" ng-model="_message.originalId" ng-hide="true">
+                            <input type="text" ng-model="_message.procInstId" ng-hide="true">
+                            <input type="text" ng-model="_message.repliedBy" ng-hide="true">
+                            <input type="text" ng-model="_message.repliedName" ng-hide="true">
+                            <input type="text" ng-model="_message.via" ng-hide="true">
+                            <a href="javascript:void(0);" style="cursor:pointer;"
+                               ng-click="_submit_message_form_(_messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
+                                <span class="addlabel blue">回复</span>
+                            </a>
+                        </form>
                     </div>
                 </div>
                 </div>
