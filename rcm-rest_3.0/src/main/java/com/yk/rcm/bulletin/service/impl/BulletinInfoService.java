@@ -31,6 +31,7 @@ import com.yk.power.service.IUserService;
 import com.yk.rcm.bulletin.dao.IBulletinInfoMapper;
 import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
 import com.yk.rcm.bulletin.service.IBulletinInfoService;
+import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 
 import common.Constants;
 import common.PageAssistant;
@@ -62,6 +63,8 @@ public class BulletinInfoService implements IBulletinInfoService {
 	private IDaxtService daxtService;
 	@Resource
 	private IRoleMapper roleMapper;
+	@Resource
+	private IFillMaterialsService fillMaterialsService;
 	
 	/* (non-Javadoc)
 	 * @see com.yk.bulletin.service.IBulletinInfoService#save(java.lang.String)
@@ -403,6 +406,14 @@ public class BulletinInfoService implements IBulletinInfoService {
 		//1.保存会议纪要
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("mettingSummary", mettingSummaryInfo);
+		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_BULLETIN_INFO");
+		statusMap.put("filed", "IS_SUBMIT_SUMMARY");
+		statusMap.put("status", "1");
+		statusMap.put("BUSINESSID", businessId);
+		this.fillMaterialsService.updateProjectStaus(statusMap);
+		
 		//2.修改stage状态='5'
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("businessId", businessId);

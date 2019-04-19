@@ -19,6 +19,7 @@ import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
+import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.pre.dao.IPreAuditReportMapper;
 import com.yk.rcm.pre.service.IPreAuditReportService;
 import com.yk.rcm.pre.service.IPreInfoService;
@@ -43,6 +44,9 @@ public class PreAuditReportService implements IPreAuditReportService {
 	
 	@Resource
 	private IBaseMongo baseMongo;
+	
+	@Resource
+	private IFillMaterialsService fillMaterialsService;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -162,6 +166,15 @@ public class PreAuditReportService implements IPreAuditReportService {
 		params.put("create_date", Util.now());
 		params.put("controller_val", bson.getString("controllerVal"));
 		this.preAuditReportMapper.savePreReport(params);
+		
+		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_PRE_INFO");
+		statusMap.put("filed", "IS_SUBMIT_REPORT");
+		statusMap.put("status", "0");
+		statusMap.put("BUSINESSID", objectId);
+		this.fillMaterialsService.updateProjectStaus(statusMap);
+		
 
 		Document data = new Document();
 		Document reviewReport = (Document) bson.get("reviewReport");
@@ -203,6 +216,13 @@ public class PreAuditReportService implements IPreAuditReportService {
 		Map<String, Object> preOracle = this.preInfoService.getOracleByBusinessId(businessid);
 		String needMeeting = (String) preOracle.get("NEED_MEETING");
 		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_PRE_INFO");
+		statusMap.put("filed", "IS_SUBMIT_REPORT");
+		statusMap.put("status", "1");
+		statusMap.put("BUSINESSID", businessid);
+		this.fillMaterialsService.updateProjectStaus(statusMap);
+		
 		Map<String, Object> mapReport = new HashMap<String, Object>();
 		mapReport.put("businessId", businessid);
 		mapReport.put("submit_date", Util.now());
@@ -210,7 +230,15 @@ public class PreAuditReportService implements IPreAuditReportService {
 
 		Map<String, Object> mapInfo = new HashMap<String, Object>();
 		mapInfo.put("businessid", businessid);
-		mapInfo.put("stage", "3.7");
+		Map<String, Object> Object = this.fillMaterialsService.getRPIStatus(businessid);
+		if(Util.isNotEmpty(Object)) {
+			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))) {
+				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")) {
+					mapInfo.put("stage", "4");
+				}
+			}
+		}
+//		mapInfo.put("stage", "3.7");
 		this.preAuditReportMapper.changeState(mapInfo);
 
 		Map<String, Object> params = new HashMap<String, Object>();

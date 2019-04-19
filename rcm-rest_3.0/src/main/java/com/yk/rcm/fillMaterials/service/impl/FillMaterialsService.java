@@ -76,4 +76,10 @@ public class FillMaterialsService implements IFillMaterialsService {
 		return object;
 	}
 
+	@Override
+	public Map<String, Object> getRPIStatus(String businessid) {
+		Map<String, Object> object = fillMaterialsMapper.getRPIStatus(businessid);
+		return object;
+	}
+
 }
