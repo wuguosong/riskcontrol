@@ -1,5 +1,6 @@
 package ws.msg.client;
 
+import com.alibaba.fastjson.JSON;
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,10 @@ public class MessageClient {
     public String _URL = prop.get("message.share.url") + prop.get("message.request.mapping");
     public String _CONTENT = prop.get("message.share.content");
     public String _TITLE = prop.get("message.share.title");
+    public static final String _DT = "DT";
+    public static final String _EMAIL = "EMAIL";
+    public static final String _WX = "WX";
+    public static final String _SMS = "SMS";
     private String SYS_CODE = prop.get("message.ws.sys.code");
     private BEWGMessageServiceSoap soap = new BEWGMessageService().getBEWGMessageServiceSoap();
 
@@ -34,6 +39,10 @@ public class MessageClient {
         sms.setSysCode(SYS_CODE);
         sms.setTarget(target);
         sms.setContent(content);
+        if(StringUtils.isNotBlank(targetTime)){
+            sms.setContent(targetTime);
+        }
+        System.out.println("#发送短信消息：" + JSON.toJSONString(sms));
         return soap.sendSMS(sms);
     }
 
@@ -59,20 +68,24 @@ public class MessageClient {
         MessageDTTextContent dtContent = new MessageDTTextContent();
         dtContent.setContent(content);
         dtText.setText(dtContent);
+        System.out.println("#发送钉钉消息：" + JSON.toJSONString(dtText));
         return soap.sendDTText(dtText);
     }
 
     /**
      * 发送钉钉链接
      *
-     * @param toParty 部门id列表，多个接收者用|分隔。toUser或者toParty 二者有一个必填。如：PartyID1|PartyID2|PartyID3
-     * @param toUser  员工id列表（消息接收者，多个接收者用|分隔）。如：UserID1|UserID2|UserID3
-     * @param link    链接内容
+     * @param toParty    部门id列表，多个接收者用|分隔。toUser或者toParty 二者有一个必填。如：PartyID1|PartyID2|PartyID3
+     * @param toUser     员工id列表（消息接收者，多个接收者用|分隔）。如：UserID1|UserID2|UserID3
+     * @param messageUrl 链接内容
+     * @param title      标题
+     * @param picUrl     图片url
+     * @param text       文本
      * @return MessageBack
      */
-    public MessageBack sendDtLink(String toParty, String toUser, String link) {
-        if (StringUtils.isAnyBlank(link)) {
-            throw new RuntimeException("参数[link]不能为空！");
+    public MessageBack sendDtLink(String toParty, String toUser, String messageUrl, String title, String picUrl, String text) {
+        if (StringUtils.isAnyBlank(messageUrl, title, picUrl, text)) {
+            throw new RuntimeException("参数[messageUrl/title/picUrl/text]不能为空！");
         }
         if (StringUtils.isBlank(toParty) && StringUtils.isBlank(toUser)) {
             throw new RuntimeException("参数[toParty/toUser]其中一个不能为空！");
@@ -82,7 +95,12 @@ public class MessageClient {
         dtLink.setToparty(toParty);
         dtLink.setTouser(toUser);
         MessageDTLinkContent dtContent = new MessageDTLinkContent();
+        dtContent.setMessageUrl(messageUrl);
+        dtContent.setPicUrl(picUrl);
+        dtContent.setTitle(title);
+        dtContent.setText(text);
         dtLink.setLink(dtContent);
+        System.out.println("#发送钉钉链接：" + JSON.toJSONString(dtLink));
         return soap.sendDTLink(dtLink);
     }
 
@@ -112,6 +130,7 @@ public class MessageClient {
         MessageWxTextContent wxContent = new MessageWxTextContent();
         wxContent.setContent(content);
         wxText.setText(wxContent);
+        System.out.println("#发送微信消息：" + JSON.toJSONString(wxText));
         return soap.sendWxText(wxText);
     }
 
@@ -136,6 +155,7 @@ public class MessageClient {
         email.setCC(cc);
         email.setTitle(title);
         email.setContent(content);
+        System.out.println("#发送邮箱消息：" + JSON.toJSONString(email));
         return soap.sendEmail(email);
     }
 
@@ -146,6 +166,7 @@ public class MessageClient {
      * @return MessageStatus
      */
     public MessageStatus getEmailStatus(String id) {
+        System.out.println("#查询邮箱消息状态：" + JSON.toJSONString(id));
         return soap.getEmailStatus(id, SYS_CODE);
     }
 
@@ -156,6 +177,7 @@ public class MessageClient {
      * @return MessageStatus
      */
     public MessageStatus getSmsStatus(String id) {
+        System.out.println("#查询短息消息状态：" + JSON.toJSONString(id));
         return soap.getSmsStatus(id, SYS_CODE);
     }
 
@@ -166,6 +188,7 @@ public class MessageClient {
      * @return MessageStatus
      */
     public MessageStatus getDtStatus(String id) {
+        System.out.println("#查询钉钉消息状态：" + JSON.toJSONString(id));
         return soap.getDtStatus(id, SYS_CODE);
     }
 
@@ -177,6 +200,7 @@ public class MessageClient {
      * @return MessageStatus
      */
     public MessageStatus getWxStatus(String id) {
+        System.out.println("#查询微信消息状态：" + JSON.toJSONString(id));
         return soap.getWxStatus(id, SYS_CODE);
     }
 }
