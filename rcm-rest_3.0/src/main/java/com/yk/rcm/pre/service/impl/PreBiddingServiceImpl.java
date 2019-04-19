@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
+import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.pre.dao.IPreBiddingMapper;
 import com.yk.rcm.pre.service.IPreAuditReportService;
 import com.yk.rcm.pre.service.IPreBiddingService;
@@ -43,6 +44,9 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 	
 	@Resource
 	private IPreAuditReportService preAuditReportService;
+	
+	@Resource
+	private IFillMaterialsService fillMaterialsService;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -126,14 +130,39 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 	public boolean addPolicyDecision(Document bjson, String method) {
 		boolean flag = true;
 		String businessId = bjson.getString("id");
+		
+		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_PRE_INFO");
+		statusMap.put("filed", "IS_SUBMIT_BIDDING");
+		statusMap.put("status", "0");
+		statusMap.put("BUSINESSID", businessId);
+		this.fillMaterialsService.updateProjectStaus(statusMap);
 
 		if ("ss".equals(method)) {
 			flag = this.isHaveMeetingInfo(businessId);
 			if (flag) {
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("stage", "4");
+//				map.put("stage", "4");
 				map.put("decision_commit_time", Util.now());
 				map.put("businessid", businessId);
+				
+				Map<String, Object> statusMap1 = new HashMap<String, Object>();
+				statusMap1.put("table", "RCM_PRE_INFO");
+				statusMap1.put("filed", "IS_SUBMIT_BIDDING");
+				statusMap1.put("status", "1");
+				statusMap1.put("BUSINESSID", businessId);
+				this.fillMaterialsService.updateProjectStaus(statusMap);
+				
+				Map<String, Object> Object = this.fillMaterialsService.getRPIStatus(businessId);
+				if(Util.isNotEmpty(Object)) {
+					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT"))) {
+						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")) {
+							map.put("stage", "4");
+						}
+					}
+				}
+				
 				preBiddingMapper.changeState(map);
 			} else {
 				return false;
