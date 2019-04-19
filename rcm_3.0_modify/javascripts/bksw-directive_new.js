@@ -5414,6 +5414,63 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     $.alert(status);
                 });
             }
+
+            $scope.x = {};
+            $scope.openPREReport = function (noSubmit) {
+                $scope.preProjectName = noSubmit;
+                $scope.x.pmodel="normal";
+            };
+
+            //新建投资评审报告
+            $scope.forPreReport = function (model, uuid, comId) {
+                if (model == null || model == "") {
+                    $.alert("请选择项目模式!");
+                    return false;
+                } else if (uuid == null || uuid == "") {
+                    $.alert("请选择项目!");
+                    return false;
+                } else {
+                    $("#addModal2").modal('hide');
+                    var routePath = "";
+                    if (model == "normal") {
+                        routePath = "PreNormalReport";
+                    }
+
+                    if (model == "other") {
+                        routePath = "PreOtherReport";
+                    }
+                    $location.path("/" + routePath + "/" + model + "/Create/" + uuid + "/" + $filter('encodeURI')('#/PreAuditReportList/0'));
+                }
+            }
+
+            $scope.openRBIMeeting = function (noSubmit) {
+                $scope.businessId = noSubmit.BUSINESSID;
+            }
+            $scope.mettingSummary = "";
+            $scope.mettingSubmit = function () {
+                if ($scope.mettingSummary == null || $scope.mettingSummary == "") {
+                    $.alert("会议纪要不得为空！");
+                    return false;
+                }
+                //show_Mask();
+                //保存附件到mongo
+                $http({
+                    method: 'post',
+                    url: srvUrl + "bulletinInfo/saveMettingSummary.do",
+                    data: $.param({
+                        "businessId": $scope.businessId,
+                        "mettingSummaryInfo": $scope.mettingSummary
+                    })
+                }).success(function (result) {
+                    $('#submitModal').modal('hide');
+                    $.alert(result.result_name);
+                    $scope.$parent.initDefaultData();
+                    $scope.mettingSummary = "";
+                });
+            };
+            $scope.cancel = function () {
+                $scope.mettingSummary = "";
+            }
         }
     }
 }]);

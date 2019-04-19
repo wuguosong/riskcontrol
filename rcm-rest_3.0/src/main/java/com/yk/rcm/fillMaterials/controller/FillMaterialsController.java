@@ -42,7 +42,7 @@ public class FillMaterialsController {
 		//获取未提交前5条数据
 		PageAssistant page = new PageAssistant();
 		page.getParamMap().put("userId", userId);
-		page.setPageSize(5);
+		page.setPageSize(10);
 		page.setTotalItems(0);
 		page = fillMaterialsService.queryNoSubmitList(page);
 		data.put("noSubmitList", page.getList());
