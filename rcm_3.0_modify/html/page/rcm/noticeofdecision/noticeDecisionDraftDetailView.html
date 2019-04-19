@@ -114,19 +114,19 @@
 							<div class="row">
 								<span class="col-md-2 noPadding">项目投资决策意见</span>
 								<span class="col-md-9 slim">
-                                   <label class="radio radio-inline">
+                                   <label class="radio radio-inline local">
 									   <input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="1"/>
 									   <span class="lbl">同意投资</span>
 								   </label>
-									<label class="radio radio-inline">
+									<label class="radio radio-inline local">
 										<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="2"  />
 										<span class="lbl">不同意投资</span>
 									</label>
-									<label class="radio radio-inline">
+									<label class="radio radio-inline local">
 										<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="3" />
 										<span class="lbl">同意有条件投资</span>
 									</label>
-									<label class="radio radio-inline">
+									<label class="radio radio-inline local">
 										<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="4" />
 										<span class="lbl">择期决议</span>
 									</label><!--<span class="radio-verify error">此项必填</span>-->
@@ -227,15 +227,15 @@
 							<div class="row">
 								<span class="col-md-2 noPadding">执行要求</span>
 								<span class="col-md-9 slim">
-									<label class="radio checkbox-inline">
+									<label class="radio checkbox-inline local">
 										<input type="checkbox" class="px" ng-model="requireTask1" ng-click="nod.require1=null" disabled="disabled"/>
 										<span class="lbl">纳入收益考核要求</span>
 									</label>
-									<label class="radio checkbox-inline">
+									<label class="radio checkbox-inline local">
 										<input type="checkbox" class="px" ng-model="requireTask2" ng-click="nod.require2=null" disabled="disabled"/>
 										<span class="lbl">单独考核要求</span>
 									</label>
-									<label class="radio checkbox-inline">
+									<label class="radio checkbox-inline local">
 										<input type="checkbox" class="px" ng-model="requireTask3" ng-click="nod.require3=null" disabled="disabled"/>
 										<span class="lbl">建议及挖潜</span>
 									</label>
@@ -267,17 +267,34 @@
 				</div>
 
 
-				<div class="mcontent content1" ng-if="nod.attachment !=null">
+				<div class="mcontent content1" id="noticeAttechment">
 					<h3 class='text-blue'>决策通知书附件</h3>
 					<div class="row normalline">
 						<div class="col-md-12 col-sm-12  col-xs-12">
 							<div class="row">
 								<span class="col-md-2 noPadding">决策通知书相关附件</span>
-								<span class="col-md-9 slim">
+								<cloud-file
+										file-id="pfrDecisionDraft"
+										file-type="FormalDecisionDraftInfo"
+										file-code="{{paramId}}"
+										file-location="pfrDecisionDraft"
+										show-upload="false"
+										show-preview="false"
+										show-replace="false"
+										show-download="false"
+										show-delete="false"
+										area-code="1"
+										text-before="false"
+										btn-class="btn btn-primary"
+										text-class="col-md-8 slim"
+										btn-area-class="col-md-1 slim"
+								>
+								</cloud-file>
+								<!--<span class="col-md-9 slim">
 						             <span ng-bind="progress$index"></span>
-									<!--<span style="">{{errorAttach[$index].msg}}</span>-->
+									&lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
 						                 <a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
-                                     </span>
+                                     </span>-->
 							</div>
 
 						</div>
@@ -301,3 +318,13 @@
 		</div>
 	</form>
 </div>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        var fileName = $("input[name='_fileName_cloud_']").val();
+        if (isEmpty(fileName)){
+            $("#noticeAttechment").hide();
+        }
+        /*alert($("input[name='_fileName_cloud_']").val())*/
+    });
+</script>

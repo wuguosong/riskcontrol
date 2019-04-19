@@ -2,6 +2,7 @@ ctmApp.register.controller('NoticeDecisionDraftDetail',['$http','$scope','$locat
     //初始化
     var objId = $routeParams.id;
     var action = $routeParams.action;
+    $scope.paramId = $routeParams.id;
     $scope.nod={};
     $scope.dic=[];
     $scope.mappedKeyValue={"nameField":"NAME","valueField":"ORGPKVALUE"};

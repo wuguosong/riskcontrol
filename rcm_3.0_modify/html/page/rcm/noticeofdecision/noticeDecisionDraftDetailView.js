@@ -3,6 +3,7 @@ ctmApp.register.controller('NoticeDecisionDraftDetailView',['$http','$scope','$l
     var businessId = $routeParams.id;
     $scope.oldUrl = $routeParams.url;
     $scope.action =  $routeParams.action;
+    $scope.params = $routeParams.id;
     $scope.nod={};
     $scope.initData = function(){
     	$scope.getNoticeDecstionByID(businessId);

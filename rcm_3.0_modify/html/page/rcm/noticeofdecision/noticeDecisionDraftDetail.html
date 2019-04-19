@@ -125,19 +125,19 @@
 							<div class="row">
 								<span class="col-md-2 noPadding">项目投资决策意见</span>
 								<span class="col-md-9 slim">
-                        <label class="radio radio-inline">
+                        <label class="radio radio-inline local">
 							<input type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="1"/>
 							<span class="lbl">同意投资</span>
 						</label>
-						<label class="radio radio-inline">
+						<label class="radio radio-inline local">
 							<input type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="2"  />
 							<span class="lbl">不同意投资</span>
 						</label>
-						<label class="radio radio-inline">
+						<label class="radio radio-inline local">
 							<input type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="3" />
 							<span class="lbl">同意有条件投资</span>
 						</label>
-						<label class="radio radio-inline">
+						<label class="radio radio-inline local">
 							<input type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="4" />
 							<span class="lbl">择期决议</span>
 						</label>
@@ -238,19 +238,19 @@
 							<div class="row">
 								<span class="col-md-2 noPadding">执行要求</span>
 								<san class="col-md-9 slim">
-									<label class="radio checkbox-inline">
+									<label class="radio checkbox-inline local">
 										<input type="checkbox" class="px" ng-model="requireTask1" ng-click="nod.require1=null" ng-checked="nod.require1 != null && '' != nod.require1"/>
 										<span class="lbl">纳入收益考核要求</span>
 									</label>
 									<a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white" title="<div>此类别中应填写：若无法达成该条件，则能够直接测算出对收益率影响的事项，</div><div>举例如：税收优惠、工程利润返还、成本控制等</div>">提示</a>
 									&nbsp;
-									<label class="radio checkbox-inline">
+									<label class="radio checkbox-inline local">
 										<input type="checkbox" class="px" ng-model="requireTask2" ng-click="nod.require2=null" ng-checked="nod.require2 != null && '' != nod.require2"/>
 										<span class="lbl">单独考核要求</span>
 									</label>
 									<a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white" title="<div>此类别中应填写：必须落实，但无法直接与收益率测算挂钩的事项。</div><div>举例如：入库及列入预算、退出保障条款、免责条款</div>">提示</a>
 									&nbsp;
-									<label class="radio checkbox-inline">
+									<label class="radio checkbox-inline local">
 										<input type="checkbox" class="px" ng-model="requireTask3" ng-click="nod.require3=null" ng-checked="nod.require3 != null && '' != nod.require3"/>
 										<span class="lbl">建议及挖潜</span>
 									</label>
@@ -288,31 +288,66 @@
 						<div class="col-md-12 col-sm-12  col-xs-12">
 							<div class="row">
 								<span class="col-md-2 noPadding">决策通知书相关附件</span>
-								<span class="col-md-1 slim">
+								<cloud-file
+										file-id="pfrDecisionDraft"
+										file-type="FormalDecisionDraftInfo"
+										file-code="{{paramId}}"
+										file-location="pfrDecisionDraft"
+										show-upload="true"
+										show-preview="false"
+										show-replace="false"
+										show-download="false"
+										show-delete="false"
+										area-code="1"
+										text-before="false"
+										btn-class="btn btn-primary"
+										text-class="col-md-8 slim"
+										btn-area-class="col-md-1 slim"
+										upload-text="浏览"
+								>
+								</cloud-file>
+								<!--<span class="col-md-1 slim">
 						<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
                     </span>
 								<span class="col-md-8 slim">
 						<span ng-bind="progress$index"></span>
-									<!--<span style="">{{errorAttach[$index].msg}}</span>-->
+									&lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
 						<a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
                     </span>
-							</div>
+							</div>-->
 
 						</div>
 					</div>
 				</div>
 
-				<div class="mcontent content1" ng-show="action!='view3' && null!=nod.attachment[0]  && ''!=nod.attachment[0]">
+				<div class="mcontent content1" ng-show="action!='view3'">
 					<h3 class='text-blue'>决策通知书附件</h3>
 					<div class="row normalline">
 						<div class="col-md-12 col-sm-12  col-xs-12">
 							<div class="row">
 								<span class="col-md-2 noPadding">决策通知书相关附件</span>
-								<span class="col-md-9 slim">
+								<cloud-file
+										file-id="pfrDecisionDraft"
+										file-type="FormalDecisionDraftInfo"
+										file-code="{{paramId}}"
+										file-location="pfrDecisionDraft"
+										show-upload="false"
+										show-preview="false"
+										show-replace="false"
+										show-download="false"
+										show-delete="false"
+										area-code="1"
+										text-before="false"
+										btn-class="btn btn-primary"
+										text-class="col-md-8 slim"
+										btn-area-class="col-md-1 slim"
+								>
+								</cloud-file>
+								<!--<span class="col-md-9 slim">
 						             <span ng-bind="progress$index"></span>
-									     <!--<span style="">{{errorAttach[$index].msg}}</span>-->
+									     &lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
 						                 <a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
-                                     </span>
+                                     </span>-->
 							</div>
 
 						</div>
