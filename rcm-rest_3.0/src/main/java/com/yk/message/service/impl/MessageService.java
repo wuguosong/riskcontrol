@@ -265,12 +265,15 @@ public class MessageService implements IMessageService {
         MessageClient client = new MessageClient();
         MessageBack messageBack = null;
         UserDto userDto = UserUtil.getCurrentUser();
+        // 钉钉
         if(MessageClient._DT.equalsIgnoreCase(type)){
-            messageBack = client.sendDtLink(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), client._URL + messageId, client._TITLE, client._URL + messageId, client._CONTENT);
+            messageBack = client.sendDtLink(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), client._URL + messageId, client._TITLE, client._URL + messageId, client._CONTENT + client._URL + messageId);
         }
+        // 邮件
         if(MessageClient._EMAIL.equalsIgnoreCase(type)){
             messageBack = client.sendEmail(userDto.getEmail(), emails.substring(0, emails.lastIndexOf(",")).replace(",", "|"), null, client._TITLE, client._CONTENT + client._URL + messageId);
         }
+        // 短信
         if(MessageClient._SMS.equalsIgnoreCase(type)){
             String target = userDto.getContact1();
             if(StringUtils.isBlank(target)){
@@ -278,6 +281,7 @@ public class MessageService implements IMessageService {
             }
             messageBack = client.sendSms(target, client._CONTENT + client._URL + messageId, null);
         }
+        // 微信
         if(MessageClient._WX.equalsIgnoreCase(type)){
             messageBack = client.sendWxText(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), "", (short)0, client._CONTENT + client._URL + messageId);
         }
