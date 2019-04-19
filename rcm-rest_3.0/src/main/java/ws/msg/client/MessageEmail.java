@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_Email complex typeµÄ Java Àà¡£
+ * <p>Message_Email complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_Email"&gt;
@@ -58,7 +58,7 @@ public class MessageEmail
     protected int priority;
 
     /**
-     * »ñÈ¡senderÊôĞÔµÄÖµ¡£
+     * è·å–senderå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -70,7 +70,7 @@ public class MessageEmail
     }
 
     /**
-     * ÉèÖÃsenderÊôĞÔµÄÖµ¡£
+     * è®¾ç½®senderå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -82,7 +82,7 @@ public class MessageEmail
     }
 
     /**
-     * »ñÈ¡targetÊôĞÔµÄÖµ¡£
+     * è·å–targetå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class MessageEmail
     }
 
     /**
-     * ÉèÖÃtargetÊôĞÔµÄÖµ¡£
+     * è®¾ç½®targetå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -106,7 +106,7 @@ public class MessageEmail
     }
 
     /**
-     * »ñÈ¡ccÊôĞÔµÄÖµ¡£
+     * è·å–ccå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -118,7 +118,7 @@ public class MessageEmail
     }
 
     /**
-     * ÉèÖÃccÊôĞÔµÄÖµ¡£
+     * è®¾ç½®ccå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -130,7 +130,7 @@ public class MessageEmail
     }
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
+     * è·å–titleå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -142,7 +142,7 @@ public class MessageEmail
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -154,7 +154,7 @@ public class MessageEmail
     }
 
     /**
-     * »ñÈ¡contentÊôĞÔµÄÖµ¡£
+     * è·å–contentå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -166,7 +166,7 @@ public class MessageEmail
     }
 
     /**
-     * ÉèÖÃcontentÊôĞÔµÄÖµ¡£
+     * è®¾ç½®contentå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -178,7 +178,7 @@ public class MessageEmail
     }
 
     /**
-     * »ñÈ¡priorityÊôĞÔµÄÖµ¡£
+     * è·å–priorityå±æ€§çš„å€¼ã€‚
      * 
      */
     public int getPriority() {
@@ -186,7 +186,7 @@ public class MessageEmail
     }
 
     /**
-     * ÉèÖÃpriorityÊôĞÔµÄÖµ¡£
+     * è®¾ç½®priorityå±æ€§çš„å€¼ã€‚
      * 
      */
     public void setPriority(int value) {

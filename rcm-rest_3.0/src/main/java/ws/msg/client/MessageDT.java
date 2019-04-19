@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_DT complex typeµÄ Java Àà¡£
+ * <p>Message_DT complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_DT"&gt;
@@ -44,7 +44,7 @@ public abstract class MessageDT
     protected String toparty;
 
     /**
-     * »ñÈ¡touserÊôĞÔµÄÖµ¡£
+     * è·å–touserå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -56,7 +56,7 @@ public abstract class MessageDT
     }
 
     /**
-     * ÉèÖÃtouserÊôĞÔµÄÖµ¡£
+     * è®¾ç½®touserå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -68,7 +68,7 @@ public abstract class MessageDT
     }
 
     /**
-     * »ñÈ¡topartyÊôĞÔµÄÖµ¡£
+     * è·å–topartyå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -80,7 +80,7 @@ public abstract class MessageDT
     }
 
     /**
-     * ÉèÖÃtopartyÊôĞÔµÄÖµ¡£
+     * è®¾ç½®topartyå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

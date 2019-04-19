@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_SMS complex typeµÄ Java Àà¡£
+ * <p>Message_SMS complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_SMS"&gt;
@@ -50,7 +50,7 @@ public class MessageSMS
     protected int priority;
 
     /**
-     * »ñÈ¡targetÊôĞÔµÄÖµ¡£
+     * è·å–targetå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -62,7 +62,7 @@ public class MessageSMS
     }
 
     /**
-     * ÉèÖÃtargetÊôĞÔµÄÖµ¡£
+     * è®¾ç½®targetå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -74,7 +74,7 @@ public class MessageSMS
     }
 
     /**
-     * »ñÈ¡contentÊôĞÔµÄÖµ¡£
+     * è·å–contentå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -86,7 +86,7 @@ public class MessageSMS
     }
 
     /**
-     * ÉèÖÃcontentÊôĞÔµÄÖµ¡£
+     * è®¾ç½®contentå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -98,7 +98,7 @@ public class MessageSMS
     }
 
     /**
-     * »ñÈ¡priorityÊôĞÔµÄÖµ¡£
+     * è·å–priorityå±æ€§çš„å€¼ã€‚
      * 
      */
     public int getPriority() {
@@ -106,7 +106,7 @@ public class MessageSMS
     }
 
     /**
-     * ÉèÖÃpriorityÊôĞÔµÄÖµ¡£
+     * è®¾ç½®priorityå±æ€§çš„å€¼ã€‚
      * 
      */
     public void setPriority(int value) {

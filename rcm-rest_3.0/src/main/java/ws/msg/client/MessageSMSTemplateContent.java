@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_SMS_Template_Content complex typeµÄ Java Àà¡£
+ * <p>Message_SMS_Template_Content complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_SMS_Template_Content"&gt;
@@ -44,7 +44,7 @@ public class MessageSMSTemplateContent {
     protected String sign;
 
     /**
-     * »ñÈ¡paramsÊôĞÔµÄÖµ¡£
+     * è·å–paramså±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -56,7 +56,7 @@ public class MessageSMSTemplateContent {
     }
 
     /**
-     * ÉèÖÃparamsÊôĞÔµÄÖµ¡£
+     * è®¾ç½®paramså±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -68,7 +68,7 @@ public class MessageSMSTemplateContent {
     }
 
     /**
-     * »ñÈ¡templateIdÊôĞÔµÄÖµ¡£
+     * è·å–templateIdå±æ€§çš„å€¼ã€‚
      * 
      */
     public int getTemplateId() {
@@ -76,7 +76,7 @@ public class MessageSMSTemplateContent {
     }
 
     /**
-     * ÉèÖÃtemplateIdÊôĞÔµÄÖµ¡£
+     * è®¾ç½®templateIdå±æ€§çš„å€¼ã€‚
      * 
      */
     public void setTemplateId(int value) {
@@ -84,7 +84,7 @@ public class MessageSMSTemplateContent {
     }
 
     /**
-     * »ñÈ¡signÊôĞÔµÄÖµ¡£
+     * è·å–signå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -96,7 +96,7 @@ public class MessageSMSTemplateContent {
     }
 
     /**
-     * ÉèÖÃsignÊôĞÔµÄÖµ¡£
+     * è®¾ç½®signå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

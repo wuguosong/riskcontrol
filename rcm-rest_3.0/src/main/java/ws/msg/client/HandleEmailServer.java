@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>anonymous complex typeµÄ Java Àà¡£
+ * <p>anonymous complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -39,7 +39,7 @@ public class HandleEmailServer {
     protected String password;
 
     /**
-     * »ñÈ¡emailÊôĞÔµÄÖµ¡£
+     * è·å–emailå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -51,7 +51,7 @@ public class HandleEmailServer {
     }
 
     /**
-     * ÉèÖÃemailÊôĞÔµÄÖµ¡£
+     * è®¾ç½®emailå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -63,7 +63,7 @@ public class HandleEmailServer {
     }
 
     /**
-     * »ñÈ¡passwordÊôĞÔµÄÖµ¡£
+     * è·å–passwordå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -75,7 +75,7 @@ public class HandleEmailServer {
     }
 
     /**
-     * ÉèÖÃpasswordÊôĞÔµÄÖµ¡£
+     * è®¾ç½®passwordå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

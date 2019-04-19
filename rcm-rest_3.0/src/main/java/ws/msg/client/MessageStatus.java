@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>MessageStatus complex typeµÄ Java Àà¡£
+ * <p>MessageStatus complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="MessageStatus"&gt;
@@ -44,7 +44,7 @@ public class MessageStatus {
     protected String messageNum;
 
     /**
-     * »ñÈ¡statusÊôĞÔµÄÖµ¡£
+     * è·å–statuså±æ€§çš„å€¼ã€‚
      * 
      */
     public int getStatus() {
@@ -52,7 +52,7 @@ public class MessageStatus {
     }
 
     /**
-     * ÉèÖÃstatusÊôĞÔµÄÖµ¡£
+     * è®¾ç½®statuså±æ€§çš„å€¼ã€‚
      * 
      */
     public void setStatus(int value) {
@@ -60,7 +60,7 @@ public class MessageStatus {
     }
 
     /**
-     * »ñÈ¡messageÊôĞÔµÄÖµ¡£
+     * è·å–messageå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -72,7 +72,7 @@ public class MessageStatus {
     }
 
     /**
-     * ÉèÖÃmessageÊôĞÔµÄÖµ¡£
+     * è®¾ç½®messageå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -84,7 +84,7 @@ public class MessageStatus {
     }
 
     /**
-     * »ñÈ¡messageNumÊôĞÔµÄÖµ¡£
+     * è·å–messageNumå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -96,7 +96,7 @@ public class MessageStatus {
     }
 
     /**
-     * ÉèÖÃmessageNumÊôĞÔµÄÖµ¡£
+     * è®¾ç½®messageNumå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

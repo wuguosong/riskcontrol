@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_Wx_Text_Content complex typeµÄ Java Àà¡£
+ * <p>Message_Wx_Text_Content complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_Wx_Text_Content"&gt;
@@ -34,7 +34,7 @@ public class MessageWxTextContent {
     protected String content;
 
     /**
-     * »ñÈ¡contentÊôĞÔµÄÖµ¡£
+     * è·å–contentå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class MessageWxTextContent {
     }
 
     /**
-     * ÉèÖÃcontentÊôĞÔµÄÖµ¡£
+     * è®¾ç½®contentå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

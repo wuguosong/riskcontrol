@@ -11,9 +11,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>QueryBase complex typeµÄ Java Àà¡£
+ * <p>QueryBase complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="QueryBase"&gt;
@@ -50,7 +50,7 @@ public class QueryBase {
     protected XMLGregorianCalendar targetTime;
 
     /**
-     * »ñÈ¡sysCodeÊôĞÔµÄÖµ¡£
+     * è·å–sysCodeå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -62,7 +62,7 @@ public class QueryBase {
     }
 
     /**
-     * ÉèÖÃsysCodeÊôĞÔµÄÖµ¡£
+     * è®¾ç½®sysCodeå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -74,7 +74,7 @@ public class QueryBase {
     }
 
     /**
-     * »ñÈ¡targetTimeÊôĞÔµÄÖµ¡£
+     * è·å–targetTimeå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -86,7 +86,7 @@ public class QueryBase {
     }
 
     /**
-     * ÉèÖÃtargetTimeÊôĞÔµÄÖµ¡£
+     * è®¾ç½®targetTimeå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

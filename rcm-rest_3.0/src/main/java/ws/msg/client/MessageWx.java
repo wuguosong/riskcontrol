@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_Wx complex typeµÄ Java Àà¡£
+ * <p>Message_Wx complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_Wx"&gt;
@@ -47,7 +47,7 @@ public abstract class MessageWx
     protected String totag;
 
     /**
-     * »ñÈ¡touserÊôĞÔµÄÖµ¡£
+     * è·å–touserå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -59,7 +59,7 @@ public abstract class MessageWx
     }
 
     /**
-     * ÉèÖÃtouserÊôĞÔµÄÖµ¡£
+     * è®¾ç½®touserå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -71,7 +71,7 @@ public abstract class MessageWx
     }
 
     /**
-     * »ñÈ¡topartyÊôĞÔµÄÖµ¡£
+     * è·å–topartyå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -83,7 +83,7 @@ public abstract class MessageWx
     }
 
     /**
-     * ÉèÖÃtopartyÊôĞÔµÄÖµ¡£
+     * è®¾ç½®topartyå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -95,7 +95,7 @@ public abstract class MessageWx
     }
 
     /**
-     * »ñÈ¡totagÊôĞÔµÄÖµ¡£
+     * è·å–totagå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public abstract class MessageWx
     }
 
     /**
-     * ÉèÖÃtotagÊôĞÔµÄÖµ¡£
+     * è®¾ç½®totagå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

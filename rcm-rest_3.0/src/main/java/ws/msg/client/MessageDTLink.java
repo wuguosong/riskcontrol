@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_DT_Link complex typeµÄ Java Àà¡£
+ * <p>Message_DT_Link complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_DT_Link"&gt;
@@ -36,7 +36,7 @@ public class MessageDTLink
     protected MessageDTLinkContent link;
 
     /**
-     * »ñÈ¡linkÊôĞÔµÄÖµ¡£
+     * è·å–linkå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -48,7 +48,7 @@ public class MessageDTLink
     }
 
     /**
-     * ÉèÖÃlinkÊôĞÔµÄÖµ¡£
+     * è®¾ç½®linkå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

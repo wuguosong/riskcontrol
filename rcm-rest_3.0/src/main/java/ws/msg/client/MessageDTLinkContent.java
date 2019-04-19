@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_DT_Link_Content complex typeµÄ Java Àà¡£
+ * <p>Message_DT_Link_Content complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_DT_Link_Content"&gt;
@@ -43,7 +43,7 @@ public class MessageDTLinkContent {
     protected String text;
 
     /**
-     * »ñÈ¡messageUrlÊôĞÔµÄÖµ¡£
+     * è·å–messageUrlå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class MessageDTLinkContent {
     }
 
     /**
-     * ÉèÖÃmessageUrlÊôĞÔµÄÖµ¡£
+     * è®¾ç½®messageUrlå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class MessageDTLinkContent {
     }
 
     /**
-     * »ñÈ¡picUrlÊôĞÔµÄÖµ¡£
+     * è·å–picUrlå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class MessageDTLinkContent {
     }
 
     /**
-     * ÉèÖÃpicUrlÊôĞÔµÄÖµ¡£
+     * è®¾ç½®picUrlå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class MessageDTLinkContent {
     }
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
+     * è·å–titleå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class MessageDTLinkContent {
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class MessageDTLinkContent {
     }
 
     /**
-     * »ñÈ¡textÊôĞÔµÄÖµ¡£
+     * è·å–textå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class MessageDTLinkContent {
     }
 
     /**
-     * ÉèÖÃtextÊôĞÔµÄÖµ¡£
+     * è®¾ç½®textå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

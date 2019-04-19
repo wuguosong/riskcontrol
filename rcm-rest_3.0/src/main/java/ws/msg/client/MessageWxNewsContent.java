@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_Wx_News_Content complex typeµÄ Java Àà¡£
+ * <p>Message_Wx_News_Content complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_Wx_News_Content"&gt;
@@ -34,7 +34,7 @@ public class MessageWxNewsContent {
     protected ArrayOfArticle articles;
 
     /**
-     * »ñÈ¡articlesÊôĞÔµÄÖµ¡£
+     * è·å–articleså±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class MessageWxNewsContent {
     }
 
     /**
-     * ÉèÖÃarticlesÊôĞÔµÄÖµ¡£
+     * è®¾ç½®articleså±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

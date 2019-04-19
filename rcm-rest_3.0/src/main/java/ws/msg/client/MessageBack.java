@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>MessageBack complex typeµÄ Java Àà¡£
+ * <p>MessageBack complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="MessageBack"&gt;
@@ -44,7 +44,7 @@ public class MessageBack {
     protected String data;
 
     /**
-     * »ñÈ¡codeÊôĞÔµÄÖµ¡£
+     * è·å–codeå±æ€§çš„å€¼ã€‚
      * 
      */
     public int getCode() {
@@ -52,7 +52,7 @@ public class MessageBack {
     }
 
     /**
-     * ÉèÖÃcodeÊôĞÔµÄÖµ¡£
+     * è®¾ç½®codeå±æ€§çš„å€¼ã€‚
      * 
      */
     public void setCode(int value) {
@@ -60,7 +60,7 @@ public class MessageBack {
     }
 
     /**
-     * »ñÈ¡messageÊôĞÔµÄÖµ¡£
+     * è·å–messageå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -72,7 +72,7 @@ public class MessageBack {
     }
 
     /**
-     * ÉèÖÃmessageÊôĞÔµÄÖµ¡£
+     * è®¾ç½®messageå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -84,7 +84,7 @@ public class MessageBack {
     }
 
     /**
-     * »ñÈ¡dataÊôĞÔµÄÖµ¡£
+     * è·å–dataå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -96,7 +96,7 @@ public class MessageBack {
     }
 
     /**
-     * ÉèÖÃdataÊôĞÔµÄÖµ¡£
+     * è®¾ç½®dataå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

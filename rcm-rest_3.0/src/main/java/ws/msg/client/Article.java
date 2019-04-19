@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Article complex typeµÄ Java Àà¡£
+ * <p>Article complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Article"&gt;
@@ -43,7 +43,7 @@ public class Article {
     protected String picurl;
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
+     * è·å–titleå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class Article {
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class Article {
     }
 
     /**
-     * »ñÈ¡descriptionÊôĞÔµÄÖµ¡£
+     * è·å–descriptionå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class Article {
     }
 
     /**
-     * ÉèÖÃdescriptionÊôĞÔµÄÖµ¡£
+     * è®¾ç½®descriptionå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class Article {
     }
 
     /**
-     * »ñÈ¡urlÊôĞÔµÄÖµ¡£
+     * è·å–urlå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class Article {
     }
 
     /**
-     * ÉèÖÃurlÊôĞÔµÄÖµ¡£
+     * è®¾ç½®urlå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class Article {
     }
 
     /**
-     * »ñÈ¡picurlÊôĞÔµÄÖµ¡£
+     * è·å–picurlå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class Article {
     }
 
     /**
-     * ÉèÖÃpicurlÊôĞÔµÄÖµ¡£
+     * è®¾ç½®picurlå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is

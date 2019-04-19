@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Message_Wx_Text complex typeµÄ Java Àà¡£
+ * <p>Message_Wx_Text complex typeçš„ Java ç±»ã€‚
  * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
  * 
  * <pre>
  * &lt;complexType name="Message_Wx_Text"&gt;
@@ -41,7 +41,7 @@ public class MessageWxText
     protected short safe;
 
     /**
-     * »ñÈ¡textÊôĞÔµÄÖµ¡£
+     * è·å–textå±æ€§çš„å€¼ã€‚
      * 
      * @return
      *     possible object is
@@ -53,7 +53,7 @@ public class MessageWxText
     }
 
     /**
-     * ÉèÖÃtextÊôĞÔµÄÖµ¡£
+     * è®¾ç½®textå±æ€§çš„å€¼ã€‚
      * 
      * @param value
      *     allowed object is
@@ -65,7 +65,7 @@ public class MessageWxText
     }
 
     /**
-     * »ñÈ¡safeÊôĞÔµÄÖµ¡£
+     * è·å–safeå±æ€§çš„å€¼ã€‚
      * 
      */
     public short getSafe() {
@@ -73,7 +73,7 @@ public class MessageWxText
     }
 
     /**
-     * ÉèÖÃsafeÊôĞÔµÄÖµ¡£
+     * è®¾ç½®safeå±æ€§çš„å€¼ã€‚
      * 
      */
     public void setSafe(short value) {
