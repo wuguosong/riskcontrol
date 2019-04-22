@@ -5379,7 +5379,7 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                 }else{
                     var routePath = model.substring(0,ind);
                     $('#addModal').modal('hide');
-                    $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/FormalReportList_new/0'));
+                    $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
                 }
             }
 
@@ -5396,7 +5396,7 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     $scope.stage = data.result_data.stage;
 
                     console.log($scope.stage)
-                    var path = $filter('encodeURI')('#/FormalBiddingInfoList/1');
+                    var path = $filter('encodeURI')('#/IndividualTable');
                     /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
                         $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
                     } else {
@@ -5439,7 +5439,7 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     if (model == "other") {
                         routePath = "PreOtherReport";
                     }
-                    $location.path("/" + routePath + "/" + model + "/Create/" + uuid + "/" + $filter('encodeURI')('#/PreAuditReportList/0'));
+                    $location.path("/" + routePath + "/" + model + "/Create/" + uuid + "/" + $filter('encodeURI')('#/IndividualTable'));
                 }
             }
 

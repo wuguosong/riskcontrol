@@ -61,19 +61,19 @@
                     报告
                 </button>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_REPORT == 0"
-                   href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/Update/{{noSubmit.BUSINESSID}}@2/{{'#/FormalReportList_new/0'|encodeURI}}"
+                   href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/Update/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-grey btn-left"
                    title="">
                     报告
                 </a>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_REPORT == 1"
-                   href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/View/{{noSubmit.BUSINESSID}}@2/{{'#/FormalReportList_new/0'|encodeURI}}"
+                   href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/View/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-success btn-left"
                    title="">
                     报告
                 </a>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING != 1"
-                   href="#/FormalBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/FormalBiddingInfoList/0'|encodeURI}}/0"
+                   href="#/FormalBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}/0"
                    class="btn btn-sm btn-grey btn-center"
                    title="">
                     材料
@@ -97,7 +97,7 @@
                     通知书
                 </a>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE == 1"
-                   href="#/NoticeDecisionDraftDetailView/submitted/{{noSubmit.BUSINESSID}}/{{'#/NoticeDecisionDraftList/2'|encodeURI}}"
+                   href="#/NoticeDecisionDraftDetailView/submitted/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-success btn-right"
                    title="">
                     通知书
@@ -111,26 +111,26 @@
                     报告
                 </button>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_REPORT == 0"
-                   href="#/{{noSubmit.RPE_CONTROLLER_VAL}}/0/Update/{{noSubmit.BUSINESSID}}/{{'#/PreAuditReportList/0'|encodeURI}}"
+                   href="#/{{noSubmit.RPE_CONTROLLER_VAL}}/0/Update/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-grey btn-right"
                    title="">
                     报告
                 </a>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_REPORT == 1"
-                   href="#/{{noSubmit.RPE_CONTROLLER_VAL}}/0/View/{{noSubmit.BUSINESSID}}/{{'#/PreAuditReportList/1'|encodeURI}}"
+                   href="#/{{noSubmit.RPE_CONTROLLER_VAL}}/0/View/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-success btn-right"
                    title="">
                     报告
                 </a>
 
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_BIDDING != 1"
-                   href="#/PreBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/PreBiddingInfoList/0'|encodeURI}}"
+                   href="#/PreBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}/0"
                    class="btn btn-sm btn-grey btn-center"
                    title="">
                     材料
                 </a>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_BIDDING == 1"
-                   href="#/PreBiddingInfoView/{{noSubmit.BUSINESSID}}@view/{{'#/PreBiddingInfoList/1'|encodeURI}}"
+                   href="#/PreBiddingInfoView/{{noSubmit.BUSINESSID}}@view/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-success btn-center"
                    title="">
                     材料
@@ -145,7 +145,7 @@
                     纪要
                 </button>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'bulletin' && noSubmit.RBI_IS_SUBMIT_SUMMARY == 1"
-                   href="#/BulletinMattersDetailView/{{noSubmit.BUSINESSID}}/{{'#/MeetingSummary/1'|encodeURI}}"
+                   href="#/BulletinMattersDetailView/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-success btn-center"
                    title="">
                     纪要

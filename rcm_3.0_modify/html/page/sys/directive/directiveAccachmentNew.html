@@ -70,16 +70,16 @@
                     <div ng-if="item.fileName != undefined || item.fileName != null">
                         <span ng-if="item.newFile">{{item.fileName}}</span>
                         <span ng-if="item.lastUpdateData == null">_</span>
-                        <input ng-if="item.lastUpdateData == null" ng-model="item.fileNamSuffix" style="width: 60%"/>
+                        <input ng-if="item.lastUpdateData == null" ng-model="item.fileNamSuffix" style="width: 50%"/>
                     </div>
                 </td>
                 <td ng-if="businessType != 'bulletin'">
                     <span ng-if="isEdite">{{item.programmed.NAME}}</span>
-                    <direct-user-single-select ng-if="!isEdite && showController.isInvestmentManager && (hasWaiting  || wfState =='0' || wfState == undefined)" id="{{'bzr_'+$index}}" checked-user="item.programmed" callback="selectPersonCallBack"></direct-user-single-select>
+                    <direct-user-single-select ng-if="!isEdite && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" id="{{'bzr_'+$index}}" checked-user="item.programmed" callback="selectPersonCallBack"></direct-user-single-select>
                 </td>
                 <td ng-if="businessType != 'bulletin'">
                     <span ng-if="isEdite">{{item.approved.NAME}}</span>
-                    <direct-user-single-select ng-if="!isEdite && showController.isInvestmentManager && (hasWaiting  || wfState =='0' || wfState == undefined)" id="{{'shr_'+$index}}" checked-user="item.approved" callback="selectPersonCallBack"></direct-user-single-select>
+                    <direct-user-single-select ng-if="!isEdite && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" id="{{'shr_'+$index}}" checked-user="item.approved" callback="selectPersonCallBack"></direct-user-single-select>
                 </td>
                 <td>{{item.lastUpdateBy.NAME}}</td>
                 <td>{{item.lastUpdateData}}</td>

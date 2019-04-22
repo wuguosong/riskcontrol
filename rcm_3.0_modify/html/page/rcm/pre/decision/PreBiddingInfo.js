@@ -110,7 +110,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             }
         };
 
-        $scope.getMarks = function ($scope.businessId) {
+        $scope.getMarks = function () {
             $(".mark").keyup(function () {
                 if (this.value.length == 1) {
                     this.value = this.value.replace(/[^0-9]/g, '');
@@ -128,7 +128,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             $http({
                 method: 'post',
                 url: srvUrl + "preMark/queryMarks.do",
-                data: $.param({"$scope.businessId": $scope.businessId})
+                data: $.param({"businessId": $scope.businessId})
             }).success(function (result) {
                 if (result.success) {
                     var mark = result.result_data;
@@ -273,11 +273,11 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             }
         };
 
-        $scope.initUpdate = function($scope.businessId){
+        $scope.initUpdate = function(businessId){
             $http({
                 method:'post',
-                url:srvUrl+"preBidding/getBy$scope.businessId.do",
-                data: $.param({"$scope.businessId":$scope.businessId})
+                url:srvUrl+"preBidding/getByBusinessId.do",
+                data: $.param({"businessId":businessId})
             }).success(function(data){
                 $scope.pfr  = data.result_data.preMongo;
                 $scope.preBidding  = $scope.pfr;
