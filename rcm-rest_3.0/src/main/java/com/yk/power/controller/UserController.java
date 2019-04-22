@@ -83,17 +83,17 @@ public class UserController {
 			 * Add By LiPan On 2019-01-12 Start
 			 */
 			// Session
-			HttpSession session = request.getSession();
+			/*HttpSession session = request.getSession();
 			UserDto userDto = JSON.parseObject(JSON.toJSONString(map), UserDto.class);
 			Map<String,Object> mapInfo = userService.queryById(userDto.getUuid());
 			userDto = JSON.parseObject(JSON.toJSONString(mapInfo), UserDto.class);
 			session.setAttribute("userId", userDto.getUuid());
 			session.setAttribute("userInfo", userDto);
-			session.setAttribute("isAdmin", map.get("isAdmin"));
+			session.setAttribute("isAdmin", map.get("isAdmin"));*/
 			// Thread
 			ThreadLocalUtil.setIsAdmin((Boolean)map.get("isAdmin"));
-			ThreadLocalUtil.setUser(mapInfo);
-			ThreadLocalUtil.setUserId(userDto.getUuid());
+			ThreadLocalUtil.setUser(map);
+			ThreadLocalUtil.setUserId(map.get("UUID").toString());
 			/**
 			 * Add By LiPan On 2019-01-12 End
 			 */
@@ -129,6 +129,4 @@ public class UserController {
 		this.userService.saveUserRole(userId,roleArr);
 		return result;
 	}
-	
-	
 }
