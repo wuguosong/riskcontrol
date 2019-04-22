@@ -291,6 +291,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	$scope.initDefaultData();
 	// 修改事项类型事件
 	$scope.changeTbsxType = function(){
+        $scope.bulletinNameBuild();
 		var tbsxTypeModel = $scope.tbsxTypeModel;
 		if(tbsxTypeModel == null){
 			return;
@@ -409,9 +410,33 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 				}
 			}
 		}
-		
-		
-	}
+	};
+	// 标准项目名称构建
+	 $scope.bulletinNameBuild = function () {
+	 	debugger;
+         $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
+	 	if ($scope.qtType != ''){
+            $scope.couldStr = $scope.bulletin.bulletinName.indexOf("项目");
+            if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_BORROWMONEY') {
+                $scope.setDirectiveCompanyList($scope.bakProject);
+            	if ($scope.couldStr > 0) {
+                    $scope.bulletin.bulletinName = $scope.bulletin.bulletinName + '公司针对' + $scope.bulletin.bulletinName + '的借款事项';
+				} else {
+                    $scope.bulletin.bulletinName = $scope.bulletin.bulletinName + '项目公司针对' + $scope.bulletin.bulletinName + '项目的借款事项';
+				}
+            } else if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_NEWCOMPANY') {
+                $scope.setDirectiveCompanyList($scope.bakProject);
+            	$scope.bulletin.bulletinName = '新设' + $scope.bulletin.bulletinName + '公司申请';
+            } else if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_OTHER'){
+                $scope.setDirectiveCompanyList($scope.bakProject);
+                $scope.bulletin.bulletinName = '关于' + $scope.bulletin.bulletinName + '事项的汇报/申请';
+			}
+        } else {
+	 		$scope.setDirectiveCompanyList($scope.bakProject);
+		}
+     };
+
+
 	//保存
 	$scope.save = function(callBack){
 		if(!$("#myForm").valid()) {
@@ -532,7 +557,8 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 
      // 选择项目后，写入项目名称
      $scope.setDirectiveCompanyList=function(project){
-         $scope.bulletin.projectNo=project.PROJECTCODE;
+     	debugger
+     	$scope.bakProject = angular.copy(project)
          $scope.bulletin.projectNameTZ=project.PROJECTNAME;
 
          if (project.ADDRESS == undefined || project.ADDRESS == null || project.ADDRESS == '' || project.ADDRESS == "暂无数据" || project.ADDRESS == "无"){
@@ -540,8 +566,8 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
          } else {
              $scope.bulletin.projectAddress=project.ADDRESS;
          }
-         $scope.bulletin.projectName = $scope.bulletin.projectAddress + project.PROJECTNAME;
-         $("#projectNameTZ").val(name);
+         $scope.bulletin.bulletinName = $scope.bulletin.projectAddress + project.PROJECTNAME;
+         $("#projectNameTZ").val(project.PROJECTNAME);
          $("label[for='projectNameTZ']").remove();
      }
 

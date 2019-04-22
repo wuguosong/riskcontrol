@@ -454,6 +454,44 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     };
 
 
+    // 标准项目名称构建
+    $scope.changeServiceType = function () {
+        if ($scope.pre.apply.serviceType[0] != undefined) {
+            // 管网未确定
+            $scope.service = angular.copy($scope.pre.apply.serviceType[0]);
+            var serviceCode = $scope.service.KEY;
+            // 1402-水环境 1403-固废 1404-环卫
+            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                $scope.pre.apply.projectName = $scope.pre.apply.projectName + $scope.service.VALUE + '项目'
+            }
+        } else {
+            var serviceCode = $scope.service.KEY;
+            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                var name = $scope.pre.apply.projectName.split($scope.service.VALUE);
+                $scope.pre.apply.projectName = name[0];
+            }
+        }
+    };
+
+    $scope.changeProjectModel = function () {
+        if ($scope.pre.apply.projectModel[0] != undefined) {
+            // 管网未确定
+            $scope.projectModel = angular.copy($scope.pre.apply.projectModel[0]);
+            var serviceCode = $scope.service.KEY;
+            // 1402-水环境 1403-固废 1404-环卫
+            if (serviceCode == '1401' && $scope.pre.apply.investmentModel == '1'){
+                $scope.pre.apply.projectName = $scope.pre.apply.projectName + $scope.projectModel.VALUE + '项目'
+            }
+        } else {
+            var serviceCode = $scope.service.KEY;
+            if (serviceCode == '1401' && $scope.pre.apply.investmentModel == '1'){
+                var name = $scope.pre.apply.projectName.split($scope.projectModel.VALUE);
+                $scope.pre.apply.projectName = name[0];
+            }
+        }
+    };
+
+
     $scope.initData();
 
     //初始化申报单位组织树

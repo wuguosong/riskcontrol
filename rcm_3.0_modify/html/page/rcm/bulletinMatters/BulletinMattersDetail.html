@@ -34,16 +34,16 @@
 									<input type="text" readonly class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="">
 								</div>
 							</div>
-							<div class="row">
+							<!--<div class="row">
 								<label class="col-sm-2 control-label"><span class="required-m">*</span>项目名称</label>
 								<div class="col-sm-4">
-									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
+									<input type="text" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
 								</div>
 								<label class="col-sm-2 control-label">项目所在地</label>
 								<div class="col-sm-4">
 									<input type="text" readonly class="form-control" id="projectAddress" name="projectAddress" ng-model="bulletin.projectAddress" placeholder="">
 								</div>
-							</div>
+							</div>-->
 							<div class="row">
 								<label class="col-sm-2 control-label"><span class="required-m">*</span>所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
@@ -54,7 +54,7 @@
 										<input type="text" ng-if="!isNotbusinessService"  class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
 										 -->
 										<direct-report-org-select ng-if="!isNotbusinessService"  id ="{{'rorg'}}" titel ="{{'所属大区选择'}}" url = "{{'org/queryReportOrg.do'}}"   mapped-key-value = "mappedKeyValue" 
-											callback = "selectOrgCallback" checked-org ="checkedOrg" other-fields ="otherFields" is-editable ="'true'" 
+											callback = "selectOrgCallback" checked-org ="checkedOrg" other-fields ="otherFields" is-editable ="'true'"  is-page="'true'"
 											columns = "columns">
 										</direct-report-org-select>
 										
@@ -208,7 +208,7 @@
 		$("#myForm").validate({
 			rules: {
                 projectNameTZ:"required",
-                projectName:"required",
+                // projectName:"required",
 				tbsxType:"required",
 				reason:"required",
 				bulletinName:"required",
@@ -220,7 +220,7 @@
 			},
 			messages: {
                 projectNameTZ:"此项必填",
-                projectName:"此项必填",
+                // projectName:"此项必填",
 				tbsxType:"此项必填",
 				reason:"此项必填",
 				bulletinName:"此项必填",

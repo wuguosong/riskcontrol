@@ -98,7 +98,7 @@
                             <div class="row">
                                 <label class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
                                 <div class="col-sm-4">
-                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
+                                    <input type="text" class="form-control" id="projectName" name="projectName" ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
                                 </div>
                                 <label class="col-sm-2 control-label">项目投资总额</label>
                                 <div class="col-sm-4">
@@ -110,7 +110,7 @@
                                 <div id="headeroneservicetypebox"  class="col-sm-4">
                                     <div class="select2-success">
                                         <select multiple="multiple" name="oneservicetypeboxName" id="oneservicetypeboxName" class="form-control" ng-model="pre.apply.serviceType"
-                                                ng-options="sy.VALUE for sy in dicSyn.Syncbusinessmodel track by sy.KEY">
+                                                ng-options="sy.VALUE for sy in dicSyn.Syncbusinessmodel track by sy.KEY" ng-change="changeServiceType()">
                                         </select>
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                                 <div id="headerprojectmodebox" class="col-sm-3 noleft-pad">
                                     <div class="select2-success">
                                         <select multiple="multiple" id="projectmodeboxName" name="projectmodeboxName" class="form-control"  ng-model="pre.apply.projectModel"
-                                                ng-options="pm.VALUE for pm in dicSyn.projectModelValue track by pm.KEY">
+                                                ng-options="pm.VALUE for pm in dicSyn.projectModelValue track by pm.KEY" ng-change="changeProjectModel()">
                                         </select>
                                     </div>
                                 </div>
@@ -249,7 +249,7 @@
                 projectNameTZ:"required",
                 projectName:"required",
                 oneservicetypeboxName:"required",
-                investmentModel:"required"
+                projectmodeboxName:"required"
             },
             messages: {
                 //	personLiable:"此项必填",
@@ -258,7 +258,7 @@
                 projectNameTZ:"此项必填",
                 projectName:"此项必填",
                 oneservicetypeboxName:"此项必填",
-                investmentModel:"此项必填"
+                projectmodeboxName:"此项必填"
             }
         });
     });

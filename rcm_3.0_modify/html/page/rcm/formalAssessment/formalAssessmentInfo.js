@@ -432,6 +432,44 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     };
     $scope.wfInfo = {processKey:'formalReview'};
 
+    // 标准项目名称构建
+    $scope.changeServiceType = function () {
+        if ($scope.pfr.apply.serviceType[0] != undefined) {
+            // 管网未确定
+            $scope.service = angular.copy($scope.pfr.apply.serviceType[0]);
+            var serviceCode = $scope.service.KEY;
+            // 1402-水环境 1403-固废 1404-环卫
+            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                $scope.pfr.apply.projectName = $scope.pfr.apply.projectName + $scope.service.VALUE + '项目'
+            }
+        } else {
+            var serviceCode = $scope.service.KEY;
+            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                var name = $scope.pfr.apply.projectName.split($scope.service.VALUE);
+                $scope.pfr.apply.projectName = name[0];
+            }
+        }
+    };
+
+    $scope.changeProjectModel = function () {
+        if ($scope.pfr.apply.projectModel[0] != undefined) {
+            // 管网未确定
+            $scope.projectModel = angular.copy($scope.pfr.apply.projectModel[0]);
+            var serviceCode = $scope.service.KEY;
+            // 1402-水环境 1403-固废 1404-环卫
+            if (serviceCode == '1401' && $scope.pfr.apply.investmentModel == '1'){
+                $scope.pfr.apply.projectName = $scope.pfr.apply.projectName + $scope.projectModel.VALUE + '项目'
+            }
+        } else {
+            var serviceCode = $scope.service.KEY;
+            if (serviceCode == '1401' && $scope.pfr.apply.investmentModel == '1'){
+                var name = $scope.pfr.apply.projectName.split($scope.projectModel.VALUE);
+                $scope.pfr.apply.projectName = name[0];
+            }
+        }
+    };
+
+
     $scope.initData();
 
     //初始化申报单位组织树
