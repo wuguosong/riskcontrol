@@ -669,8 +669,8 @@ function ($http,$scope,$location,$routeParams,Upload) {
     //提交报告并更改状态
     $scope.showSubmitModal = function() {
     	show_Mask();
-    	var flag = $scope.isPossible2Submit();
-    	if(flag){
+    	// var flag = $scope.isPossible2Submit();
+    	// if(flag){
  				$scope.saveReport(function(){
     	            $http({
     	      			method:'post',  
@@ -701,11 +701,11 @@ function ($http,$scope,$location,$routeParams,Upload) {
     	      			return false;
     	      		});
     	        });
-    	}else{
-    		hide_Mask();
-    		$.alert("请确保流程已结束!");
-    		return false;
-    	}
+    	// }else{
+    	// 	hide_Mask();
+    	// 	$.alert("请确保流程已结束!");
+    	// 	return false;
+    	// }
       }
     
     
