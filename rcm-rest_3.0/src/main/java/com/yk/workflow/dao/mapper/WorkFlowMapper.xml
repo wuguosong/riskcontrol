@@ -114,6 +114,7 @@ SELECT COUNT(1)
           FROM RCM_FORMALASSESSMENT_INFO RFI
          WHERE RFI.STAGE IN ('3', '3.5', '3.7', '3.9')
            AND RFI.WF_STATE = '2'
+           AND RFI.NEED_MEETING = '1'
            AND RFI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
            AND RFI.CREATEBY = '${userId}'
         UNION
@@ -132,6 +133,7 @@ SELECT COUNT(1)
           FROM RCM_PRE_INFO RPI
          WHERE RPI.STAGE IN ('3', '3.5', '3.7', '3.9')
            AND RPI.WF_STATE = '2'
+           AND RPI.NEED_MEETING = '1'
            AND RPI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
            AND RPI.CREATEBY = '${userId}') ta
  WHERE 1 = 1
@@ -248,6 +250,7 @@ SELECT *
           FROM RCM_FORMALASSESSMENT_INFO RFI
          WHERE RFI.STAGE IN ('3', '3.5', '3.7', '3.9')
            AND RFI.WF_STATE = '2'
+           AND RFI.NEED_MEETING = '1'
            AND RFI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
            AND RFI.CREATEBY = '${userId}'
         UNION
@@ -266,6 +269,7 @@ SELECT *
           FROM RCM_PRE_INFO RPI
          WHERE RPI.STAGE IN ('3', '3.5', '3.7', '3.9')
            AND RPI.WF_STATE = '2'
+           AND RPI.NEED_MEETING = '1'
            AND RPI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
            AND RPI.CREATEBY = '${userId}') ta
  WHERE 1 = 1
@@ -411,7 +415,8 @@ SELECT count(1)
           FROM RCM_FORMALASSESSMENT_INFO RFI
          WHERE (RFI.STAGE IN ('5','6','7') OR RFI.IS_INVESTMENTMANAGER_SUBMIT = 1)
            AND RFI.WF_STATE = '2'
-           AND RFI.CREATEBY = '0001N6100000000HADK0'
+           AND RFI.NEED_MEETING = '1'
+           AND RFI.CREATEBY = '${userId}'
         UNION
         SELECT RPI.BUSINESSID business_key_,
                to_char(RPI.CREATE_DATE, 'yyyy-mm-dd hh24:mi:ss') start_time_,
@@ -426,7 +431,8 @@ SELECT count(1)
           FROM RCM_PRE_INFO RPI
          WHERE (RPI.STAGE IN ('5','6','7') OR RPI.IS_INVESTMENTMANAGER_SUBMIT = 1)
            AND RPI.WF_STATE = '2'
-           AND RPI.CREATEBY = '0001N6100000000HADK0') ta
+           AND RPI.NEED_MEETING = '1'
+           AND RPI.CREATEBY = '${userId}') ta
  WHERE 1 = 1
 
 <!-- 	    <choose>  -->
@@ -566,7 +572,8 @@ SELECT ta.*
           FROM RCM_FORMALASSESSMENT_INFO RFI
          WHERE (RFI.STAGE IN ('5','6','7') OR RFI.IS_INVESTMENTMANAGER_SUBMIT = 1)
            AND RFI.WF_STATE = '2'
-           AND RFI.CREATEBY = '0001N6100000000HADK0'
+           AND RFI.NEED_MEETING = '1'
+           AND RFI.CREATEBY = '${userId}'
         UNION
         SELECT RPI.BUSINESSID business_key_,
                to_char(RPI.CREATE_DATE, 'yyyy-mm-dd hh24:mi:ss') start_time_,
@@ -581,7 +588,8 @@ SELECT ta.*
           FROM RCM_PRE_INFO RPI
          WHERE (RPI.STAGE IN ('5','6','7') OR RPI.IS_INVESTMENTMANAGER_SUBMIT = 1)
            AND RPI.WF_STATE = '2'
-           AND RPI.CREATEBY = '0001N6100000000HADK0') ta
+           AND RPI.NEED_MEETING = '1'
+           AND RPI.CREATEBY = '${userId}') ta
  WHERE 1 = 1
 
 <!-- 	    <choose>  -->
