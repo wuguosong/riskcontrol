@@ -94,6 +94,10 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             $scope.pfr  = data.result_data.mongoData;
             $scope.pfrOracle  = data.result_data.oracleDate;
 
+            // 初始化项目规则需要使用的变量
+            $scope.service = angular.copy($scope.pfr.apply.serviceType[0]);
+            $scope.projectModel = angular.copy($scope.pfr.apply.projectModel[0]);
+
             // 处理附件
             $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
@@ -126,7 +130,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             }
 
             // 回显数据-投资模式
-            if($scope.pfr.apply.investmentModel = '1'){
+            if($scope.pfr.apply.investmentModel == '1'){
                 $scope.investmentModel = true;
                 $scope.getprojectmodel('1');
             }
@@ -263,7 +267,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     // 回显select2下拉框的值
     var commonModelValue2=function(paramsVal,arr){
         var leftstr2="<li class=\"select2-search-choice\"><div>";
-        var centerstr2="</div><a class=\"select2-search-choice-close\" tabindex=\"-1\" onclick=\"delSelect(this,'";
+        var centerstr2="</div><a class=\"select2-search-choice-close\" tabindex=\"-1\" onchange=\"changeServiceType()\" onclick=\"delSelect(this,'"
         var rightstr2="');\"  ></a></li>";
         for(var i=0;i<arr.length;i++){
             console.log(leftstr2+arr[i].VALUE + centerstr2+paramsVal+"','"+arr[i].VALUE+"','"+arr[i].KEY+rightstr2);
@@ -381,13 +385,11 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             data: $.param({"projectInfo":JSON.stringify($scope.pfr)})
         }).success(function(result){
             if (result.result_code === 'S') {
-                $scope.nod._id = result.result_data;
                 if(typeof(showPopWin)=='function'){
                     showPopWin();
                 }else{
                     $.alert('保存成功');
                 }
-                $location.path("/formalAssessmentCreateList");
             } else {
                 $.alert(result.result_name);
             }
@@ -434,19 +436,21 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
 
     // 标准项目名称构建
     $scope.changeServiceType = function () {
-        if ($scope.pfr.apply.serviceType[0] != undefined) {
-            // 管网未确定
-            $scope.service = angular.copy($scope.pfr.apply.serviceType[0]);
-            var serviceCode = $scope.service.KEY;
-            // 1402-水环境 1403-固废 1404-环卫
-            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
-                $scope.pfr.apply.projectName = $scope.pfr.apply.projectName + $scope.service.VALUE + '项目'
-            }
-        } else {
-            var serviceCode = $scope.service.KEY;
-            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
-                var name = $scope.pfr.apply.projectName.split($scope.service.VALUE);
-                $scope.pfr.apply.projectName = name[0];
+        if ($scope.pfr.apply.serviceType.length() < 1){
+            if ($scope.pfr.apply.serviceType[0] != undefined) {
+                // 管网未确定
+                $scope.service = angular.copy($scope.pfr.apply.serviceType[0]);
+                var serviceCode = $scope.service.KEY;
+                // 1402-水环境 1403-固废 1404-环卫
+                if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                    $scope.pfr.apply.projectName = $scope.pfr.apply.projectName + $scope.service.VALUE + '项目'
+                }
+            } else {
+                var serviceCode = $scope.service.KEY;
+                if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                    var name = $scope.pfr.apply.projectName.split($scope.service.VALUE);
+                    $scope.pfr.apply.projectName = name[0];
+                }
             }
         }
     };

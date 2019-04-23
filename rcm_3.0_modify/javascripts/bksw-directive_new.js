@@ -2612,10 +2612,11 @@ ctmApp.directive('directiveAccachmentNew', function() {
             businessId: "=",
             wfState: "=",
             lastUpdateBy: "=",
+            // 设置钉钉消息接收人
+            toSend: "=",
             // 附件列表
             fileList: "=",
             // 设置属性
-            isShowChoose: "@",
             isEdite: "@",
             // 调用父组件操作
             initUpdate: "&initUpdate"
@@ -2640,11 +2641,6 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 初始化数据
             $scope._initData = function () {
-                if($scope.isShowChoose == "true"){
-                    $scope.isShowChoose = true;
-                } else {
-                    $scope.isShowChoose = false;
-                }
                 if($scope.isEdite == "true"){
                     $scope.isEdite = true;
                 } else {
@@ -2833,6 +2829,20 @@ ctmApp.directive('directiveAccachmentNew', function() {
                     });
                 }, function (resp) {
                     $.alert(resp.status);
+                    if (!isEmpty($scope.toSend)){
+                        $http({
+                            method:'post',
+                            url:srvUrl + '',
+                            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
+                        }).success(function(data){
+                            if(data.success){
+                                $scope.initUpdate({'id': $scope.businessId});
+                                $scope.cancel();
+                            }else{
+                                $.alert(data.result_name);
+                            }
+                        });
+                    }
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
@@ -4270,6 +4280,7 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     hide_Mask();
                     if ($scope.approve.callbackSuccess != null && result.success) {
                         $scope.approve.callbackSuccess(result);
+                        $location.path("/PreInfoList/1");
                     } else if ($scope.approve.callbackFail != null && !result.success) {
                         $scope.approve.callbackFail(result);
                     } else {
@@ -4755,6 +4766,7 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $scope.showReviewToConfirm = false;
                     $scope.showLegalToConfirm = false;
                 }
+                debugger
                 if ("submit" == $scope.approve.operateType) {
                     $scope.submit();
                 } else if ("audit" == $scope.approve.operateType) {
@@ -4801,10 +4813,12 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     hide_Mask();
                     if ($scope.approve.callbackSuccess != null && result.success) {
                         $scope.approve.callbackSuccess(result);
+                        $location.path("/FormalAssessmentInfoList/1");
                     } else if ($scope.approve.callbackFail != null && !result.success) {
                         $scope.approve.callbackFail(result);
                     } else {
                         $.alert(result.result_name);
+
                     }
                 });
             };

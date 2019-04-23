@@ -145,7 +145,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             }
 
             // 回显数据-投资模式
-            if($scope.pre.apply.investmentModel = '1'){
+            if($scope.pre.apply.investmentModel == '1'){
                 $scope.investmentModel = true;
                 $scope.getprojectmodel('1');
             }

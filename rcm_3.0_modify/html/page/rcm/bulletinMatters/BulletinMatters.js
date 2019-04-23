@@ -573,7 +573,6 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 
      // 修改大区后，修改单位负责人的值
      $scope.setUnitPerson = function(id, name){
-     	debugger
          $scope.bulletin.unitPerson.VALUE = id;
          $scope.bulletin.unitPerson.NAME = name;
      };

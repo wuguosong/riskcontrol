@@ -37,8 +37,14 @@ public class FormalAssessmentInfoCreateController {
 	public Result create(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("projectInfo");
-		String businessId = this.formalAssessmentInfoCreateService.createProject(json);
-		result.setResult_data(businessId);
+		try {
+			String businessId = this.formalAssessmentInfoCreateService.createProject(json);
+			result.setResult_data(businessId);
+			result.setResult_code("S");
+		} catch (Exception e) {
+			result.setResult_name(e.getMessage());
+		}
+		
 		return result;
 	}
 	
@@ -47,7 +53,13 @@ public class FormalAssessmentInfoCreateController {
 	public Result update(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("projectInfo");
-		this.formalAssessmentInfoCreateService.updateProject(json);
+		try {
+			this.formalAssessmentInfoCreateService.updateProject(json);
+			result.setResult_code("S");
+		} catch (Exception e) {
+			result.setResult_name(e.getMessage());
+		}
+		
 		return result;
 	}
 	

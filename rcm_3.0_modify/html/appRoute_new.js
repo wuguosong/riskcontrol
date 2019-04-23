@@ -2989,6 +2989,56 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+
+            .when('/BusinessModelList', {
+                controller: 'BusinessModelList',
+                templateUrl: 'page/rcm/BasicSetting/BusinessModelList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/BasicSetting/BusinessModelList.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            //:action/:uuid
+            .when('/ManageAttachmentList/:yuuid/:ybusiness_name/:business_type', {
+                controller: 'ManageAttachmentList',
+                templateUrl: 'page/rcm/BasicSetting/ManageAttachmentList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/BasicSetting/ManageAttachmentList.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .when('/ListBusiness/:UUID/:BUSINESS_NAME/:BUSINESS_TYPE', {
+                controller: 'ListBusiness',
+                templateUrl: 'page/rcm/BasicSetting/ListBusiness.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/BasicSetting/ListBusiness.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }
 ]);
 
