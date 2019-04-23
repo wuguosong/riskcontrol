@@ -353,7 +353,7 @@ SELECT count(1)
                          FROM rcm_formalassessment_log
                         WHERE auditstatus = 'A'
                           AND orderby = 2
-                          AND businessid = f.businessid),
+                          AND businessid = f.businessid and rownum = 1/**取第一条**/),
                        'yyyy-mm-dd hh24:mi:ss') start_time_,
                to_char(f.complete_date, 'yyyy-mm-dd hh24:mi:ss') AS end_time_,
                'formalReview' type_,
@@ -378,7 +378,7 @@ SELECT count(1)
                          FROM rcm_pre_log
                         WHERE auditstatus = 'A'
                           AND orderby = 2
-                          AND businessid = f.businessid),
+                          AND businessid = f.businessid and rownum = 1/**取第一条**/),
                        'yyyy-mm-dd hh24:mi:ss') start_time_,
                to_char(f.complete_date, 'yyyy-mm-dd hh24:mi:ss') AS end_time_,
                'preReview' type_,
@@ -508,7 +508,7 @@ SELECT ta.*
                          FROM rcm_formalassessment_log
                         WHERE auditstatus = 'A'
                           AND orderby = 2
-                          AND businessid = f.businessid),
+                         AND businessid = f.businessid and rownum = 1/**取第一条**/),
                        'yyyy-mm-dd hh24:mi:ss') start_time_,
                to_char(f.complete_date, 'yyyy-mm-dd hh24:mi:ss') AS end_time_,
                'formalReview' type_,
@@ -533,7 +533,7 @@ SELECT ta.*
                          FROM rcm_pre_log
                         WHERE auditstatus = 'A'
                           AND orderby = 2
-                          AND businessid = f.businessid),
+                          AND businessid = f.businessid and rownum = 1/**取第一条**/),
                        'yyyy-mm-dd hh24:mi:ss') start_time_,
                to_char(f.complete_date, 'yyyy-mm-dd hh24:mi:ss') AS end_time_,
                'preReview' type_,
