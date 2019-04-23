@@ -15,14 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yk.log.utils.IPUtils;
+import com.yk.message.service.IMessageService;
 import com.yk.rcm.file.service.IFileService;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import util.UserUtil;
+import ws.msg.client.MessageBack;
 
 import java.io.File;
 import java.util.*;
@@ -261,6 +264,40 @@ public class YunkuController {
         
         return result;
     }
+    
+    /**
+	 * 上传替换提醒功能
+	 * @param messageId
+	 * @param shareUsers
+	 * @return
+	 */
+	@RequestMapping(value = "remind", method = RequestMethod.POST)
+	@ResponseBody
+	public Result share(String message, String shareUsers, String type) {
+		Result result = new Result();
+		try {
+			MessageBack messageBack = fileService.remindPerson(message, shareUsers, type);
+			if(messageBack != null){
+				result.setSuccess(true);
+				result.setResult_data(messageBack);
+				result.setResult_code(Constants.S);
+				result.setResult_name(messageBack.getMessage());
+			}else{
+				result.setSuccess(false);
+				result.setResult_code(Constants.R);
+				result.setResult_name(messageBack.getMessage());
+			}
+			result.setResult_data(messageBack);
+		} catch (Exception e) {
+			result.setResult_code(Constants.R);
+			result.setSuccess(false);
+			result.setResult_data(e);
+			result.setResult_name("信息推送失败!" + e.getMessage());
+			logger.error("信息推送失败!" + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
 
     @RequestMapping("/test")
     @ResponseBody

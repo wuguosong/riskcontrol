@@ -1,11 +1,15 @@
 package com.yk.rcm.file.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.goukuai.constant.YunkuConf;
 import com.yk.rcm.file.dao.ILogMapper;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +22,17 @@ import com.yk.exception.BusinessException;
 import com.yk.log.constant.LogConstant;
 import com.yk.log.entity.SysLogDto;
 import com.yk.log.service.ISysLogService;
+import com.yk.message.entity.Message;
+import com.yk.power.dao.IUserMapper;
 import com.yk.rcm.file.constant.FileOpt;
 import com.yk.rcm.file.dao.IFileMapper;
 import com.yk.rcm.file.service.IFileService;
 
+import fnd.UserDto;
 import util.DateUtil;
 import util.UserUtil;
+import ws.msg.client.MessageBack;
+import ws.msg.client.MessageClient;
 
 import javax.annotation.Resource;
 
@@ -43,6 +52,9 @@ public class FileService implements IFileService {
     private IFileMapper fileMapper;
     @Resource
     private ISysLogService sysLogService;
+    @Resource
+    IUserMapper userMapper;
+
 
     @Override
     public FileDto fileUpload(String fullPath, String localFile, String docType, String docCode, String pageLocation, String optName,
@@ -279,5 +291,40 @@ public class FileService implements IFileService {
 		sysLogDto.setIp(ip);
 		//保存系统日志
         sysLogService.save(sysLogDto);
+    }
+    /**
+     * 替换文件时发钉钉消息给指定用户
+     *
+     * @param messageId
+     * @param shareUsers
+     * @return String url
+     */
+    @Override
+    public MessageBack remindPerson(String message, String shareUsers, String type) {
+        if(StringUtils.isBlank(type)){
+            type = MessageClient._DT;
+        }
+        if (message == null) {
+            throw new BusinessException("消息推送失败，消息内容为空！");
+        }
+        if (StringUtils.isBlank(shareUsers)) {
+            throw new BusinessException("消息推送失败，为空！");
+        }
+        String accounts = new String();
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("UUID", shareUsers);
+        Map<String, Object> user = userMapper.selectAUser(params);
+        if (user != null) {
+           accounts = String.valueOf(user.get("ACCOUNT"));
+        }
+        MessageClient client = new MessageClient();
+        MessageBack messageBack = null;
+        UserDto userDto = UserUtil.getCurrentUser();
+        // 钉钉
+        if(MessageClient._DT.equalsIgnoreCase(type)){
+            messageBack = client.sendDtText(null, accounts, message);
+        }
+  
+        return messageBack;
     }
 }

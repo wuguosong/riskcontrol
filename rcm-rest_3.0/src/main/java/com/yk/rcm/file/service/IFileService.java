@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.goukuai.dto.FileDto;
 import com.goukuai.dto.LinkDto;
+
+import ws.msg.client.MessageBack;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface IFileService {
@@ -206,4 +209,13 @@ public interface IFileService {
 	 * @return List<FileDto>
 	 * */
 	void saveSysLog(String businessId, String reason, String success, String ip);
+	
+	/**
+	 * @description 执行替换操作时执行分享信息操作
+	 * @param message 信息内容
+	 * @param shareUsers    分享人
+	 * @param type    分享方式
+	 * @return MessageBack
+	 * */
+	MessageBack remindPerson(String message, String shareUsers, String type);
 }

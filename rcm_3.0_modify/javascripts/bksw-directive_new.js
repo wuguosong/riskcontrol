@@ -2612,7 +2612,8 @@ ctmApp.directive('directiveAccachmentNew', function() {
             businessId: "=",
             wfState: "=",
             lastUpdateBy: "=",
-            // 设置钉钉消息接收人
+            // 替换发送相关信息
+            projectName: "=",
             toSend: "=",
             // 附件列表
             fileList: "=",
@@ -2821,28 +2822,42 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
                     }).success(function(data){
                         if(data.success){
+                            if (!isEmpty($scope.toSend)){
+                                var message = $scope.projectName + "中类型为" + _item.itemType.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
+                                $http({
+                                    method: 'post',
+                                    url: srvUrl + 'cloud/remind.do',
+                                    data: $.param({
+                                        'message': message,
+                                        'shareUsers': $scope.toSend.VALUE,
+                                        'type':'DT'
+                                    }),
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                }).success(function (data) {
+                                    if(isEmpty(data)){
+                                        $.alert('推送消息失败!');
+                                    }else{
+                                        if(data['result_code'] == 'S'){
+                                            $scope._share_message_id_ = '';
+                                            $scope._clear_share_users_();
+                                            $('#_share_message_dialog').modal('hide');
+                                            $.alert(data['result_name']);
+                                            // $scope._share_message_result_test_(data['result_data']);
+                                        }else{
+                                            $.alert(data['result_name']);
+                                        }
+                                    }
+                                });
+                            }
                             $scope.initUpdate({'id': $scope.businessId});
                             $scope.cancel();
+                            debugger
                         }else{
                             $.alert(data.result_name);
                         }
                     });
                 }, function (resp) {
-                    $.alert(resp.status);
-                    if (!isEmpty($scope.toSend)){
-                        $http({
-                            method:'post',
-                            url:srvUrl + '',
-                            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                        }).success(function(data){
-                            if(data.success){
-                                $scope.initUpdate({'id': $scope.businessId});
-                                $scope.cancel();
-                            }else{
-                                $.alert(data.result_name);
-                            }
-                        });
-                    }
+
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
