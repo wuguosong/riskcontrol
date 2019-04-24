@@ -517,10 +517,10 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		if ("ss".equals(method)) {
 			if (this.isHaveMeetingInfo(businessId)) {
 				Map<String, Object> statusMap1 = new HashMap<String, Object>();
-				statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
-				statusMap.put("filed", "IS_SUBMIT_BIDDING");
-				statusMap.put("status", "1");
-				statusMap.put("BUSINESSID", businessId);
+				statusMap1.put("table", "RCM_FORMALASSESSMENT_INFO");
+				statusMap1.put("filed", "IS_SUBMIT_BIDDING");
+				statusMap1.put("status", "1");
+				statusMap1.put("BUSINESSID", businessId);
 				this.fillMaterialsService.updateProjectStaus(statusMap1);
 				
 				Map<String, Object> map = new HashMap<String, Object>();
