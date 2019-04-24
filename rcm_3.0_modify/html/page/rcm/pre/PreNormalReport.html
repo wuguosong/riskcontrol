@@ -47,7 +47,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>投标上限</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">投标上限</span>
 							<span class="col-md-6 slim">
 								<input type="text" ng-model="pre.reviewReport.essentialInformation.bidLimit"  name="bidLimit" class="form-control" />
 
@@ -68,7 +68,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>保证金支付金额</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">保证金支付金额</span>
 							<span class="col-md-6 slim">
 								<input type="text" name="paymentMoney" ng-model="pre.reviewReport.essentialInformation.paymentMoney"  class="form-control"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -90,7 +90,7 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span class="required">*</span>投资总额</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">投资总额</span>
 							<span class="col-md-6 slim">
 								<input type="text" name="totalInvestment"   ng-model="pre.reviewReport.essentialInformation.totalInvestment"  class="form-control"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -177,7 +177,7 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span class="required">*</span>公司名称</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">公司名称</span>
 							<span class="col-md-6 slim">
 								<input type="text" ng-click="setDirectiveParam('tenderCompany','','')" data-toggle="modal" data-target="#companyUnit-modal" ng-model="pre.reviewReport.essentialInformation.tenderCompany.name" id="tenderCompanyName" name="tenderCompanyName" class="form-control"/>
 								<input type="hidden" ng-model="pre.reviewReport.essentialInformation.tenderCompany.value"  name="tenderCompanyValue" class="form-control" />
@@ -186,7 +186,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span class="required">*</span>北控水务集团持股</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">北控水务集团持股</span>
 							<span class="col-md-6 slim">
 								<input type="text"  ng-model="pre.reviewReport.essentialInformation.shareholding"  name="shareholding" class="form-control"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -207,7 +207,7 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span class="required">*</span>银行贷款</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">银行贷款</span>
 							<span class="col-md-6 slim">
 								<input type="text" name="bankLoan"  id="bankLoan" ng-model="pre.reviewReport.essentialInformation.bankLoan"   class="form-control"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -219,7 +219,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span class="required">*</span>年利率</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">年利率</span>
 							<span class="col-md-6 slim">
 								<input type="text" name="annualInterestRate" ng-model="pre.reviewReport.essentialInformation.annualInterestRate"  class="form-control"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -234,7 +234,7 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding" style="font-weight: normal"><span class="required">*</span>自有资金</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding" style="font-weight: normal">自有资金</span>
 							<span class="col-md-6 slim">
 								<input type="text" name="privateCapital" id="privateCapital"  ng-model="pre.reviewReport.essentialInformation.privateCapital"  class="form-control"
 									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
@@ -249,12 +249,12 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding"><span class="required">*</span>预评审规模</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">预评审规模</span>
 							<span class="col-md-6 slim">
-								<div class="radio radio-inline">
+								<div class="radio radio-inline local">
 									<label class=""><input type="radio" name="inputWay" ng-model="pre.reviewReport.essentialInformation.inputWay" value="1" class="px"><span class="lbl">数值计量</span></label>
 								</div>
-								<div class="radio radio-inline">
+								<div class="radio radio-inline local">
 									<label class="">
 										<input type="radio" name="inputWay" ng-model="pre.reviewReport.essentialInformation.inputWay" value="2" class="px">
 										<span class="lbl">文本计量</span>
@@ -280,7 +280,7 @@
 				<div class="row normalline titline">
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding"><span class="required">*</span>投资单位</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding">投资单位</span>
 							<span class="col-md-6 slim">
 								<input type="text" ng-click="setDirectiveParam('invertmentUnit')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="invertmentUnitName" name="invertmentUnitName" ng-model="pre.reviewReport.essentialInformation.invertmentUnit.name" value="{{pre.reviewReport.essentialInformation.invertmentUnit.name}}"  >
 								<input type="hidden" class="form-control"  id="invertmentUnitValue" name="invertmentUnitValue"  ng-model="pre.reviewReport.essentialInformation.invertmentUnit.value"/>
@@ -289,7 +289,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="row">
-							<span class="col-md-4 noPadding"><span class="required">*</span>运营单位</span>
+							<span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-4 noPadding"><运营单位</span>
 							<span class="col-md-6 slim">
 								<input type="text" ng-click="setDirectiveParam('operationsUnit')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="operationsUnitName" name="operationsUnitName" ng-model="pre.reviewReport.essentialInformation.operationsUnit.name" value="{{pre.reviewReport.essentialInformation.operationsUnit.name}}"  >
 								<input type="hidden"  class="form-control" id="operationsUnitValue" name="operationsUnitValue"  ng-model="pre.reviewReport.essentialInformation.operationsUnit.value"/>
@@ -343,7 +343,7 @@
 						<tbody>
 						<tr ng-repeat="m in pre.reviewReport.incomeEvaluation track by $index">
 							<td>
-								<label class="checkbox-inline choose">
+								<label class="checkbox-inline zchoose">
 									<input type="checkbox" class="px"  ng-model="m.selected" />
 									<span class="lbl">&nbsp;</span>
 								</label>
