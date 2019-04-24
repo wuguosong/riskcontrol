@@ -92,7 +92,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                     url: srvUrl + "preMark/saveOrUpdate.do",
                     data: $.param({
                         "json": JSON.stringify($scope.mark),
-                        "$scope.businessId": $scope.businessId
+                        "businessId": $scope.businessId
                     }),
                     dataType: "json",
                     async: false,

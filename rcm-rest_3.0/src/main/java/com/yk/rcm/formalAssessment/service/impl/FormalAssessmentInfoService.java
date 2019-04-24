@@ -1073,6 +1073,13 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		map.put("metting_commit_time", Util.getTime());
 		map.put("businessId", pfr.getString("formalId"));
 		this.formalAssessmentInfoMapper.updateStage(map);*/
+		BasicDBObject query = new BasicDBObject();
+		query.put("formalId",pfr.getString("formalId"));
+		List<Map<String, Object>> queryByConditions = baseMongo.queryByCondition(query,Constants.FORMAL_MEETING_INFO);
+		Map<String, Object> queryByCondition = new HashMap<String, Object>();
+		if (Util.isNotEmpty(queryByConditions)){
+			queryByCondition = queryByConditions.get(0);
+		}
 		//其他会议信息保存到metting表中
 		Document apply = (Document) pfr.get("apply");
 		String projectName = apply.getString("projectName");
@@ -1096,7 +1103,13 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		meetingInfo.put("create_date", Util.getTime());
 		meetingInfo.put("state", "1");
 		
-		this.baseMongo.save(meetingInfo, Constants.FORMAL_MEETING_INFO);
+		if(Util.isEmpty(queryByCondition)){
+			this.baseMongo.save(meetingInfo, Constants.FORMAL_MEETING_INFO);
+		} else {
+			String id = queryByCondition.get("_id").toString();
+			this.baseMongo.updateSetByObjectId(id, meetingInfo, Constants.FORMAL_MEETING_INFO);
+		}
+		
 	}
 
 	

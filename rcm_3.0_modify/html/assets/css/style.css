@@ -499,3 +499,10 @@ form .left-content {
     border-radius: 10px;
     left: calc(-100% - 2px);
 }
+
+/** 覆盖日期控件颜色 **/
+.datepicker table tr td.active, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover,
+.datepicker table tr td.active:hover, .datepicker table tr td.selected, .datepicker table tr td.selected.disabled,
+.datepicker table tr td.selected.disabled:hover, .datepicker table tr td.selected:hover {
+  color: #66b1ff !important;
+}

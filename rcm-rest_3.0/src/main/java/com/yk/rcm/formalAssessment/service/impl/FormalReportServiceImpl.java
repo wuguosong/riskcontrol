@@ -224,7 +224,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(projectFormalId);
 		if(Util.isNotEmpty(Object)) {
 			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+				if (Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
 					map.put("stage", "4");
 				}
 			}
@@ -237,7 +237,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		map.put("need_meeting", "1");
 		map.put("metting_commit_time", Util.getTime());
 		
-		/*this.formalReportMapper.changeState(map);*/
+		this.formalReportMapper.changeState(map);
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("submit_date", Util.format(Util.now(), "yyyy-MM-dd"));
@@ -517,10 +517,10 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		if ("ss".equals(method)) {
 			if (this.isHaveMeetingInfo(businessId)) {
 				Map<String, Object> statusMap1 = new HashMap<String, Object>();
-				statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
-				statusMap.put("filed", "IS_SUBMIT_BIDDING");
-				statusMap.put("status", "1");
-				statusMap.put("BUSINESSID", businessId);
+				statusMap1.put("table", "RCM_FORMALASSESSMENT_INFO");
+				statusMap1.put("filed", "IS_SUBMIT_BIDDING");
+				statusMap1.put("status", "1");
+				statusMap1.put("BUSINESSID", businessId);
 				this.fillMaterialsService.updateProjectStaus(statusMap1);
 				
 				Map<String, Object> map = new HashMap<String, Object>();

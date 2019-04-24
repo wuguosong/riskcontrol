@@ -123,6 +123,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
         // 保存项目评级相关内容
         $scope.saveMeetingInfo = function (){
+            
             console.log($scope.meetInfo);
             if ($scope.meetInfo != null && $scope.meetInfo != "") {
                 $scope.meetInfo.formalId = $scope.businessId;
@@ -296,9 +297,15 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 url: srvUrl + "formalReport/findFormalAndReport.do",
                 data: $.param({"projectFormalId": projectFormalId})
             }).success(function (data) {
+                
                 $scope.formalReport = data.result_data.Report;
                 $scope.pfr = data.result_data.Formal;
-                $scope.meetInfo = data.result_data.MeetInfo;
+                if (isEmpty(data.result_data.MeetInfo)){
+                    $scope.meetInfo = {};
+                } else {
+                    $scope.meetInfo = data.result_data.MeetInfo;
+                }
+
                 $scope.applyDate = data.result_data.applyDate;
                 $scope.stage = data.result_data.stage;
 
@@ -588,7 +595,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 return;
             }
             console.log(flag);
-            debugger
+            
             if ($scope.validateFormalBiddingInfo()) {
                 if ($scope.isAttachmentBeChosen()) {
                     var data = $scope.dataForSubmit();
