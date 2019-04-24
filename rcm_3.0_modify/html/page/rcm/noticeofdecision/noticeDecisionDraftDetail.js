@@ -78,7 +78,7 @@ ctmApp.register.controller('NoticeDecisionDraftDetail',['$http','$scope','$locat
 	 				}).success(function(result){
 	 					hide_Mask();
 	 					 $.alert(result.result_name);
-	 					 var oldUrl=window.btoa(encodeURIComponent(escape("#/NoticeDecisionDraftList/1")))
+	 					 var oldUrl=window.btoa(encodeURIComponent(escape("#/IndividualTable")))
 	 					 $location.path("NoticeDecisionDraftDetailView/submitted/"+objId+"/"+oldUrl);
 	 				});
 	              } else {

@@ -545,6 +545,7 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 	public void updateStageByBusinessId(String businessId, String stage) {
 		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("stage", "3.9");
+		map.put("stage", "3");
 		map.put("notice_draft_time",Util.getTime());
 		map.put("businessId", businessId);
 		// 更改提交状态

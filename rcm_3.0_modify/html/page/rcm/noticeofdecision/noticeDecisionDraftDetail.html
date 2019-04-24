@@ -27,10 +27,10 @@
 								<span class="col-md-9 slim">
 						           <div class="has-feedback"  ng-if="!serviceController">
 							           <input type="text" name="contractScale" id="contractScale"
-								               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
-								               onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')"
-								               placeholder="0"
-								               class="form-control" ng-model="nod.contractScale"/>
+											  onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
+											  onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')"
+											  placeholder="0"
+											  class="form-control" ng-model="nod.contractScale"/>
 									   <span class="unit-s-td">万吨/日</span>
 						            </div>
 						            <div class="has-feedback" ng-if="serviceController">
@@ -316,57 +316,55 @@
                     </span>
 							</div>-->
 
-						</div>
-					</div>
-				</div>
-
-				<div class="mcontent content1" ng-show="action!='view3'">
-					<h3 class='text-blue'>决策通知书附件</h3>
-					<div class="row normalline">
-						<div class="col-md-12 col-sm-12  col-xs-12">
-							<div class="row">
-								<span class="col-md-2 noPadding">决策通知书相关附件</span>
-								<cloud-file
-										file-id="pfrDecisionDraft"
-										file-type="FormalDecisionDraftInfo"
-										file-code="{{paramId}}"
-										file-location="pfrDecisionDraft"
-										show-upload="false"
-										show-preview="false"
-										show-replace="false"
-										show-download="false"
-										show-delete="false"
-										area-code="1"
-										text-before="false"
-										btn-class="btn btn-primary"
-										text-class="col-md-8 slim"
-										btn-area-class="col-md-1 slim"
-								>
-								</cloud-file>
-								<!--<span class="col-md-9 slim">
-						             <span ng-bind="progress$index"></span>
-									     &lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
-						                 <a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
-                                     </span>-->
 							</div>
+						</div>
+					</div>
 
+					<div class="mcontent content1" ng-show="action!='view3'">
+						<h3 class='text-blue'>决策通知书附件</h3>
+						<div class="row normalline">
+							<div class="col-md-12 col-sm-12  col-xs-12">
+								<div class="row">
+									<span class="col-md-2 noPadding">决策通知书相关附件</span>
+									<cloud-file
+											file-id="pfrDecisionDraft"
+											file-type="FormalDecisionDraftInfo"
+											file-code="{{paramId}}"
+											file-location="pfrDecisionDraft"
+											show-upload="false"
+											show-preview="false"
+											show-replace="false"
+											show-download="false"
+											show-delete="false"
+											area-code="1"
+											text-before="false"
+											btn-class="btn btn-primary"
+											text-class="col-md-8 slim"
+											btn-area-class="col-md-1 slim"
+									>
+									</cloud-file>
+									<!--<span class="col-md-9 slim">
+                                         <span ng-bind="progress$index"></span>
+                                             &lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
+                                             <a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
+                                         </span>-->
+								</div>
+
+							</div>
 						</div>
 					</div>
 				</div>
-
 				<div class="button-group">
 					<div class="row">
 						<div class="option txl">
-							<a ng-if="action==Create" class="btn btn-info" href="#/NoticeDecisionDraftList/0"><i class="fa fa-reply"></i>返回</a>
+							<a ng-if="action==Create" class="btn btn-info" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
 							<button type="button" id="savebtn" ng-click="save()" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
 							<button  ng-click="showSubmitModal()" type="button"  id="submibtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
 							<!-- 					<button type="button" id="wordbtn" ng-click="createWord()" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button> -->
 						</div>
 					</div>
 				</div>
-
 			</div>
-		</div>
 	</form>
 </div>
 
