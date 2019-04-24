@@ -1,6 +1,7 @@
 package com.yk.sign.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yk.bpmn.service.IBpmnService;
 import com.yk.common.BaseMongo;
 import com.yk.exception.BusinessException;
@@ -28,7 +29,6 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
-import org.activiti.engine.impl.pvm.process.ProcessDefinitionImpl;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.task.Task;
@@ -278,6 +278,8 @@ public class SignService implements ISignService {
         // 插入当前人待办日志
         int orderByAgency = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
         Map<String, Object> agencyLog = this.createAgencyLog(business_id, delMap.get("OLDUSERID"), ++orderByAgency, task_id, task.getName(), executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), "");
+        // 设置一些与业务有关的节点参数
+        this.setBusinessSetting(task, agencyLog);
         formalAssessmentAuditMapper.save(agencyLog);
         String oldUrl = "#/FormalAssessmentAuditList/1";
         String out = Util.encodeUrl(oldUrl);
@@ -423,12 +425,23 @@ public class SignService implements ISignService {
         // 插入转办人待办日志
         int orderByAgency = formalAssessmentAuditMapper.queryMaxOrderNum(business_id);
         Map<String, Object> agencyLog = this.createAgencyLog(business_id, userId, ++orderByAgency, task_id, taskName, executionId, delMap.get("AUDITUSERID"), delMap.get("OLDUSERID"), type);
+        // 设置一些与业务有关的节点参数
+        this.setBusinessSetting(task, agencyLog);
         formalAssessmentAuditMapper.save(agencyLog);
         // 发送待办
         String oldUrl = "#/FormalAssessmentAuditList/1";
         String out = Util.encodeUrl(oldUrl);
         String url = "/FormalAssessmentAuditDetailView/" + business_id + "/" + out;
         bpmnService.sendWaitingToPotal(task_id, url, Util.format(Util.now()), (String) bulletinOracle.get("BULLETINNAME"), userId, "1", lastUserId);
+    }
+
+    private void setBusinessSetting(Task task, Map<String, Object> agencyLog) {
+        if ("usertask19".equals(task.getTaskDefinitionKey())) {
+            String desc = task.getDescription();
+            JSONObject descJson = JSON.parseObject(desc, JSONObject.class);
+            String taskcode = descJson.getString("taskcode");
+            agencyLog.put("taskMark", taskcode);
+        }
     }
 
     /**
