@@ -188,6 +188,7 @@ public class SignService implements ISignService {
                 String nexTaskKey = this.getNextTaskInfo(Constants.PROCESS_KEY_BULLETIN, business_id).getKey();
                 Map<String, Object> variable = processService.getNextTaskFlowElementVariable(curTask.getProcessDefinitionId(), curTaskKey, nexTaskKey);
                 // 结束本次任务,开始下个节点
+                variable.put("opinion", option);
                 taskService.complete(task_id, variable);
                 return;
             }
@@ -252,6 +253,7 @@ public class SignService implements ISignService {
                 String nexTaskKey = this.getNextTaskInfo(Constants.PROCESS_KEY_FormalAssessment, business_id).getKey();
                 Map<String, Object> variable = processService.getNextTaskFlowElementVariable(curTask.getProcessDefinitionId(), curTaskKey, nexTaskKey);
                 // 结束本次任务,开始下个节点
+                variable.put("opinion", option);
                 taskService.complete(task_id, variable);
                 return;
             }
@@ -311,6 +313,7 @@ public class SignService implements ISignService {
                 String nexTaskKey = this.getNextTaskInfo(Constants.PROCESS_KEY_PREREVIEW, business_id).getKey();
                 Map<String, Object> variable = processService.getNextTaskFlowElementVariable(curTask.getProcessDefinitionId(), curTaskKey, nexTaskKey);
                 // 结束本次任务,开始下个节点
+                variable.put("opinion", option);
                 taskService.complete(task_id, variable);
                 return;
             }
