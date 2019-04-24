@@ -139,8 +139,6 @@ ctmApp.register.controller('OtherReport',['$http','$scope','$location','$routePa
     
     //提交报告并更改状态
     $scope.showSubmitModal = function() {
-    	var flag = $scope.isPossible2Submit();
-    	if(flag){
         $scope.saveReport7(function(){
         	show_Mask();
         	 $http({
@@ -164,10 +162,6 @@ ctmApp.register.controller('OtherReport',['$http','$scope','$location','$routePa
      			$.alert(status);
      		});
         });
-    	}else{
-    		hide_Mask();
-    		$.alert("请确保流程已结束!");
-    	}
     }
 
     $scope.getProjectFormalReviewByID=function(id){

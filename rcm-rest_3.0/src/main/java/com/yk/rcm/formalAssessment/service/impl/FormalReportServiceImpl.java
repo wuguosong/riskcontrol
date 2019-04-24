@@ -237,7 +237,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		map.put("need_meeting", "1");
 		map.put("metting_commit_time", Util.getTime());
 		
-		this.formalReportMapper.changeState(map);
+		/*this.formalReportMapper.changeState(map);*/
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("submit_date", Util.format(Util.now(), "yyyy-MM-dd"));

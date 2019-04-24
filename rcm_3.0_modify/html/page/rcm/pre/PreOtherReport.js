@@ -105,10 +105,9 @@ ctmApp.register.controller('PreOtherReport',['$http','$scope','$location','$rout
     }
     
     $scope.submitPreReport = function(){
-    	if( $scope.isPossible2Submit()){
     		$scope.savePreReportById(function(){
-       		 var filep = $scope.pre.reviewReport.filePath;
-                if(null == filep || "" == filep){
+                var flie =  attach_list("preReportInfo", $scope.paramId, "preOtherReport").result_data;
+                if(null==flie || ""==flie){
                     $.alert("请上传附件");
                     return false;
                 }
@@ -130,9 +129,6 @@ ctmApp.register.controller('PreOtherReport',['$http','$scope','$location','$rout
         			$.alert(status);
         		});
     		});
-    	}else{
-    		$.alert("请确保流程已结束!");
-    	}
     }
     
     $scope.getByID = function(id){
