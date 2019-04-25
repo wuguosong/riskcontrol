@@ -55,16 +55,13 @@ public class FillMaterialsController {
 	@RequestMapping("/querySubmitList")
 	@ResponseBody
 	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询已提交的资料填写项目列表")
-	public Result querySubmitList(String page){
+	public Result querySubmitList(HttpServletRequest request){
 		Result result = new Result();
-		PageAssistant pageAssistant = new PageAssistant(page);
-		Map<String, Object> paramMap = pageAssistant.getParamMap();
-		if(null == paramMap){
-			pageAssistant.setParamMap(new HashMap<String, Object>());
-		}
-		pageAssistant.getParamMap().put("userId", ThreadLocalUtil.getUserId());
-		fillMaterialsService.querySubmitList(pageAssistant);
-		result.setResult_data(pageAssistant);
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		String json = request.getParameter("json");
+		this.fillMaterialsService.querySubmitList(page, json);
+		page.setParamMap(null);
+		result.setResult_data(page);
 		return result;
 	}
 

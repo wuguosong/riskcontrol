@@ -3,12 +3,15 @@
 		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
 		<span class="hd-title">资料填写</span>
 	</div>
+	<ul class="nav nav-tabs bs-tabdrop-example">
+		<li class="{{tabIndex=='0'?'active':''}}"><a href="/#bs-tabdrop-tab1" data-toggle="tab">资料待填写</a></li>
+		<li class="{{tabIndex=='1'?'active':''}}"><a href="/#bs-tabdrop-tab2" data-toggle="tab">资料已填写</a></li>
+	</ul>
 	<div class="tab-content tab-content-bordered">
-		<div class="tab-pane active" id="bs-tabdrop-tab1">
+		<div class="tab-pane {{tabIndex=='0'?'active':''}}" id="bs-tabdrop-tab1">
 			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
-				<div id="projectPreReview" class="panel-group">
+				<div id="report" class="panel-group">
 					<div class="panel">
-						<input type="hidden"  name="proId" id="proId" ng-model="conf.orgId"/>
 						<div class="panel-heading search-box">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#projectPreReview" href="/#searchbox">查询</a>
 						</div>
@@ -19,7 +22,7 @@
 								<!--<label class="col-sm-2 col-md-1 control-label">所属大区</label>
                                 <div class="col-sm-4 col-md-2 sm-col"><input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME" ng-model="paginationConf.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>-->
 								<div class="col-sm-12 col-md-3">
-									<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getFillMaterialList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+									<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="queryNoSubmitList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
 								</div>
 							</div>
 						</div>
@@ -187,6 +190,131 @@
 						</div>
 						<div class="table-footer clearfix">
 							<tm-pagination conf="paginationConf"></tm-pagination>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="tab-pane {{tabIndex=='1'?'active':''}}" id="bs-tabdrop-tab2">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div id="report1" class="panel-group">
+					<div class="panel">
+						<div class="panel-heading search-box">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#projectPreReview" href="/#searchbox">查询</a>
+						</div>
+						<div id="searchbox1" class="panel-collapse collapse">
+							<div class="panel-body search-body">
+								<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+								<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="PROJECT_NAME" id="PROJECT_NAME1" ng-model="paginationConfes.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+								<!--<label class="col-sm-2 col-md-1 control-label">所属大区</label>
+                                <div class="col-sm-4 col-md-2 sm-col"><input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME" ng-model="paginationConfes.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>-->
+								<div class="col-sm-12 col-md-3">
+									<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="querySubmitList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目列表<i class="i-triangle"></i></span></div></div>
+						<div class="panel-body">
+							<div class="form-group row nobottom-mar table-responsive table-list">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+									<thead>
+									<tr>
+										<th width="5%">序号</th>
+										<th width="10%">项目名称</th>
+										<th width="10%">评审类型</th>
+										<th width="10%">所属大区</th>
+										<th width="15%">投资经理</th>
+										<th width="5%">申请时间</th>
+										<th width="5%">审批状态</th>
+										<th width="5%">评审状态</th>
+										<th width="30%">填写评审资料</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="submit in submitList">
+										<td>
+											{{ $index + 1 }}
+										</td>
+										<td>
+											{{ submit.PROJECTNAME }}
+										</td>
+										<td ng-if="'pfr' == submit.PROJECT_TYPE">
+											正式评审
+										</td>
+										<td ng-if="'pre' == submit.PROJECT_TYPE">
+											投标评审
+										</td>
+										<td ng-if="'bulletin' == submit.PROJECT_TYPE">
+											其他评审
+										</td>
+										<td>
+											{{ submit.PERTAINAREANAME }}
+										</td>
+										<td>
+											{{ submit.INVESTMENTNAME }}
+										</td>
+										<td>
+											{{ submit.APPLY_DATE }}
+										</td>
+										<td>
+											<a ng-if="'1'== submit.STAGE">申请阶段</a>
+											<a ng-if="'2'== submit.STAGE">任务分配</a>
+											<a ng-if="'3'== submit.STAGE">风控处理</a>
+											<a ng-if="'4'== submit.STAGE">准备上会</a>
+											<a ng-if="'5'== submit.STAGE">已决策</a>
+											<a ng-if="'9'== submit.STAGE">已终止</a>
+										</td>
+										<td>
+											{{ submit.STATUS }}
+										</td>
+										<td>
+											<a ng-if="submit.PROJECT_TYPE == 'pfr'"
+											   href="#/{{submit.PFR_CONTROLLER_VAL}}/0/View/{{submit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-left"
+											   title="">
+												报告
+											</a>
+											<a ng-if="submit.PROJECT_TYPE == 'pfr'"
+											   ng-click="getInfo(submit.BUSINESSID)"
+											   class="btn btn-sm btn-success btn-center"
+											   title="">
+												材料
+											</a>
+											<a ng-if="submit.PROJECT_TYPE == 'pfr'"
+											   href="#/NoticeDecisionDraftDetailView/submitted/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-right"
+											   title="">
+												通知书
+											</a>
+											<a ng-if="submit.PROJECT_TYPE == 'pre'"
+											   href="#/{{submit.RPE_CONTROLLER_VAL}}/0/View/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-right"
+											   title="">
+												报告
+											</a>
+
+											<a ng-if="submit.PROJECT_TYPE == 'pre'"
+											   href="#/PreBiddingInfoView/{{noSubmit.BUSINESSID}}@view/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-center"
+											   title="">
+												材料
+											</a>
+											<a ng-if="submit.PROJECT_TYPE == 'bulletin'"
+											   href="#/BulletinMattersDetailView/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-center"
+											   title="">
+												纪要
+											</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="table-footer clearfix">
+							<tm-pagination conf="paginationConfes"></tm-pagination>
 						</div>
 					</div>
 				</div>

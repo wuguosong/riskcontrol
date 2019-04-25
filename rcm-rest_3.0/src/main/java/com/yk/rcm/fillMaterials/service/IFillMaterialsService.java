@@ -16,7 +16,7 @@ public interface IFillMaterialsService {
 	
 	public PageAssistant queryNoSubmitList(PageAssistant page, String json);
 
-	public PageAssistant querySubmitList(PageAssistant page);
+	public PageAssistant querySubmitList(PageAssistant page, String json);
 	
 	void updateProjectStaus(Map<String, Object> params);
 	

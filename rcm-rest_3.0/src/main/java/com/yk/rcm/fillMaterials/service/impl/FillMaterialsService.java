@@ -55,10 +55,12 @@ public class FillMaterialsService implements IFillMaterialsService {
 	}
 
 	@Override
-	public PageAssistant querySubmitList(PageAssistant page) {
+	public PageAssistant querySubmitList(PageAssistant page, String json) {
 		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> retMap = JsonUtil.fromJson(json, Map.class);
 		params.put("page", page);
-		if (null != page.getParamMap() && page.getParamMap().size() > 0) {
+		params.put("userId", retMap.get("userId"));
+		if(page.getParamMap() != null){
 			params.putAll(page.getParamMap());
 		}
 		List<Map<String, Object>> list = fillMaterialsMapper.querySubmitList(params);
