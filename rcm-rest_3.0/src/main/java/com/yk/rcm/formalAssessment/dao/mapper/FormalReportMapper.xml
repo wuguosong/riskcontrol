@@ -121,7 +121,6 @@ where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_sta
      	update 
      	rcm_formalassessment_info r 
      	set 
-     	IS_SUBMIT_REPORT = #{IS_SUBMIT_REPORT}, 
      	<if test="stage != null"> r.stage = #{stage}, </if>
      	r.decision_commit_time = to_date(#{decision_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss') 
      	where 

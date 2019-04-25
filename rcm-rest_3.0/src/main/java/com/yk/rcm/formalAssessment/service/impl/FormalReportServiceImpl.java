@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
+import com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
@@ -55,6 +56,9 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
+	
+	@Resource
+	private IFillMaterialsMapper fillMaterialsMapper;
 	
 	private Logger logger = Logger.getLogger("FormalReportServiceImpl");
 
@@ -219,7 +223,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		statusMap.put("filed", "IS_SUBMIT_REPORT");
 		statusMap.put("status", "1");
 		statusMap.put("BUSINESSID", projectFormalId);
-		this.fillMaterialsService.updateProjectStaus(statusMap);
+		this.fillMaterialsMapper.updateProjectStaus(statusMap);
 		
 		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(projectFormalId);
 		if(Util.isNotEmpty(Object)) {
