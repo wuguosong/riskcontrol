@@ -77,27 +77,31 @@
     </select>
     <!--保存-->
     <insert id="insertMessage" parameterType="com.yk.message.entity.Message">
+        <selectKey order="BEFORE" resultType="java.lang.Long"
+                   keyProperty="messageId">
+            select sys_message_seq.nextval from dual
+        </selectKey>
 		insert into sys_message
 		values(
-		sys_message_seq.nextval,
-		#{message.messageType},
-		#{message.procInstId},
-		#{message.parentId},
-		#{message.originalId},
-		#{message.createdBy},
-		#{message.createdName},
-		#{message.repliedBy},
-		#{message.repliedName},
-		#{message.messageContent},
+        #{messageId},
+		#{messageType},
+		#{procInstId},
+		#{parentId},
+		#{originalId},
+		#{createdBy},
+		#{createdName},
+		#{repliedBy},
+		#{repliedName},
+		#{messageContent},
 		sysdate,
-		#{message.pushFlag},
-		#{message.readFlag},
-		#{message.bsUniRelated},
-		#{message.attriText01},
-		#{message.attriText02},
-		#{message.attriText03},
-		#{message.attriText04},
-		#{message.viaUsers}
+		#{pushFlag},
+		#{readFlag},
+		#{bsUniRelated},
+        #{viaUsers},
+		#{attriText01},
+		#{attriText02},
+		#{attriText03},
+		#{attriText04}
 		)
 	</insert>
     <!--更新-->

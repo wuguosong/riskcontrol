@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * 统一消息平台接口客户端
  */
 public class MessageClient {
-    private Prop prop = PropKit.use("dev_db.properties");
+    private Prop prop = PropKit.use("msg_conf.properties");
     public String _URL = prop.get("message.share.url") + prop.get("message.request.mapping");
     public String _CONTENT = prop.get("message.share.content");
     public String _TITLE = prop.get("message.share.title");

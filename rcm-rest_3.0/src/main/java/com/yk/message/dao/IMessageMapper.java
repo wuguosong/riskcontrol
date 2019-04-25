@@ -36,7 +36,7 @@ public interface IMessageMapper extends BaseMapper {
      *
      * @param message 留言实体
      */
-    void insertMessage(@Param("message") Message message);
+    void insertMessage(Message message);
 
     /**
      * 更新留言信息
