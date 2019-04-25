@@ -19,7 +19,7 @@
 								<!--<label class="col-sm-2 col-md-1 control-label">所属大区</label>
                                 <div class="col-sm-4 col-md-2 sm-col"><input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME" ng-model="paginationConf.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>-->
 								<div class="col-sm-12 col-md-3">
-									<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getProjectList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+									<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getFillMaterialList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
 								</div>
 							</div>
 						</div>
@@ -31,45 +31,154 @@
 								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
 									<thead>
 									<tr>
-										<th>序号</th>
-										<th>项目名称</th>
-										<th>评审类型</th>
-										<th>所属大区</th>
-										<th>投资经理</th>
-										<th>评审负责人</th>
-										<th>申请时间</th>
-										<th>评审状态</th>
+										<th width="5%">序号</th>
+										<th width="10%">项目名称</th>
+										<th width="10%">评审类型</th>
+										<th width="10%">所属大区</th>
+										<th width="15%">投资经理</th>
+										<th width="5%">申请时间</th>
+										<th width="5%">审批状态</th>
+										<th width="5%">评审状态</th>
+										<th width="30%">填写评审资料</th>
 									</tr>
 									</thead>
 									<tbody>
-									<tr ng-repeat="p in projectList" on-finish-render-filters>
-										<td>{{$index+1}}</td>
+									<tr ng-repeat="noSubmit in noSubmitList">
 										<td>
-											<!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-                                            <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-                                            <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-                                            <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
-											<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-											<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-											<a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-											<a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-											<a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-											<!--<a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+											{{ $index + 1 }}
 										</td>
 										<td>
-											<div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
-											<div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
-											<div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+											{{ noSubmit.PROJECTNAME }}
 										</td>
-										<td>{{p.PERTAINAREANAME}}</td>
-										<td>{{p.INVESTMENTNAME}}</td>
-										<td>{{p.REVIEWPERSONNAME}}</td>
-										<td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+										<td ng-if="'pfr' == noSubmit.PROJECT_TYPE">
+											正式评审
+										</td>
+										<td ng-if="'pre' == noSubmit.PROJECT_TYPE">
+											投标评审
+										</td>
+										<td ng-if="'bulletin' == noSubmit.PROJECT_TYPE">
+											其他评审
+										</td>
 										<td>
-											<div ng-if="'0'== p.WF_STATE">起草中</div>
-											<div ng-if="'1'== p.WF_STATE">审批中</div>
-											<div ng-if="'2'== p.WF_STATE">已审批</div>
-											<div ng-if="'3'== p.WF_STATE">已终止</div>
+											{{ noSubmit.PERTAINAREANAME }}
+										</td>
+										<td>
+											{{ noSubmit.INVESTMENTNAME }}
+										</td>
+										<td>
+											{{ noSubmit.APPLY_DATE }}
+										</td>
+
+										<td ng-if="'1'== noSubmit.STAGE">申请阶段</td>
+										<td ng-if="'2'== noSubmit.STAGE">任务分配</td>
+										<td ng-if="'3'== noSubmit.STAGE">风控处理</td>
+										<td ng-if="'4'== noSubmit.STAGE">准备上会</td>
+										<td ng-if="'5'== noSubmit.STAGE">已决策</td>
+										<td ng-if="'9'== noSubmit.STAGE">已终止</td>
+
+										<td>
+											{{ noSubmit.STATUS }}
+										</td>
+										<td>
+
+											<button ng-if="noSubmit.PROJECT_TYPE == 'pfr' && (noSubmit.RFI_IS_SUBMIT_REPORT != 0 && noSubmit.RFI_IS_SUBMIT_REPORT != 1)"
+													ng-click="openRFIReport(noSubmit)"
+													class="btn btn-sm btn-grey btn-left"
+													data-toggle="modal"
+													data-target="#addModal"
+													title="">
+												报告
+											</button>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_REPORT == 0"
+											   href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/Update/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-grey btn-left"
+											   title="">
+												报告
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_REPORT == 1"
+											   href="#/{{noSubmit.PFR_CONTROLLER_VAL}}/0/View/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-left"
+											   title="">
+												报告
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING != 1"
+											   href="#/FormalBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}/0"
+											   class="btn btn-sm btn-grey btn-center"
+											   title="">
+												材料
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 1"
+											   ng-click="getInfo(noSubmit.BUSINESSID)"
+											   class="btn btn-sm btn-success btn-center"
+											   title="">
+												材料
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && (noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 0 && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 1)"
+											   href="#/NoticeDecisionDraftDetail/Create/{{ noSubmit.BUSINESSID }}"
+											   class="btn btn-sm btn-grey btn-right"
+											   title="">
+												通知书
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE == 0"
+											   href="#/NoticeDecisionDraftDetail/Update/{{noSubmit.BUSINESSID}}"
+											   class="btn btn-sm btn-grey btn-right"
+											   title="">
+												通知书
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE == 1"
+											   href="#/NoticeDecisionDraftDetailView/submitted/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-right"
+											   title="">
+												通知书
+											</a>
+											<button ng-if="noSubmit.PROJECT_TYPE == 'pre' && (noSubmit.RPI_IS_SUBMIT_REPORT != 0 && noSubmit.RPI_IS_SUBMIT_REPORT != 1)"
+													ng-click="openPREReport(noSubmit)"
+													class="btn btn-sm btn-grey btn-left"
+													data-toggle="modal"
+													data-target="#addModal2"
+													title="">
+												报告
+											</button>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_REPORT == 0"
+											   href="#/{{noSubmit.RPE_CONTROLLER_VAL}}/0/Update/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-grey btn-right"
+											   title="">
+												报告
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_REPORT == 1"
+											   href="#/{{noSubmit.RPE_CONTROLLER_VAL}}/0/View/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-right"
+											   title="">
+												报告
+											</a>
+
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_BIDDING != 1"
+											   href="#/PreBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}/0"
+											   class="btn btn-sm btn-grey btn-center"
+											   title="">
+												材料
+											</a>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_BIDDING == 1"
+											   href="#/PreBiddingInfoView/{{noSubmit.BUSINESSID}}@view/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-center"
+											   title="">
+												材料
+											</a>
+
+											<button ng-if="noSubmit.PROJECT_TYPE == 'bulletin' && (noSubmit.RBI_IS_SUBMIT_SUMMARY != 1)"
+													ng-click="openRBIMeeting(noSubmit)"
+													class="btn btn-sm btn-grey btn-left"
+													data-toggle="modal"
+													data-target="#addModal3"
+													title="">
+												纪要
+											</button>
+											<a ng-if="noSubmit.PROJECT_TYPE == 'bulletin' && noSubmit.RBI_IS_SUBMIT_SUMMARY == 1"
+											   href="#/BulletinMattersDetailView/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+											   class="btn btn-sm btn-success btn-center"
+											   title="">
+												纪要
+											</a>
 										</td>
 									</tr>
 									</tbody>
@@ -82,6 +191,141 @@
 					</div>
 				</div>
 			</form>
+		</div>
+	</div>
+</div>
+<div id="addModal" class="modal" tabindex="-1" role="dialog"
+	 style="display: none;">
+
+	<div class="modal-dialog">
+		<div class="modal-content special-form">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">选择项目和模式</h4>
+			</div>
+			<div class="modal-body special-form">
+				<div class="row">
+					<label class="col-sm-2 control-label select-mode">混合模式</label>
+					<div class="col-sm-10 single-mode">
+						<label class="radio radio-inline"> <input
+								type="radio" ng-checked="true" name="mode"
+								ng-model="r.pmodel" class="px"
+								value="FormalReviewReport/Create"/> <span class="lbl">包括：BT、供水BOT、供水TOT、环卫、委托运营、污水BOT、污水TOT</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2 control-label select-mode">单体模式</label>
+					<div class="col-sm-10 single-mode">
+						<label class="radio radio-inline"> <input
+								type="radio" name="mode" ng-model="r.pmodel" class="px"
+								value="TecTransformReport/Create"/> <span class="lbl">技改项目</span>
+						</label> <label class="radio radio-inline"> <input
+							type="radio" name="mode" ng-model="r.pmodel" class="px"
+							value="DropOutReport/Create"/> <span class="lbl">退出（终止、回购、转让）项目</span>
+					</label> <label class="radio radio-inline"> <input
+							type="radio" name="mode" ng-model="r.pmodel" class="px"
+							value="HazardousWasteReport/Create"/> <span
+							class="lbl">危废项目</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2 regionalContext"></label>
+					<div class="col-sm-10 single-mode">
+						<label class="radio radio-inline"> <input
+								type="radio" name="mode" ng-model="r.pmodel" class="px"
+								value="EquityAcquisitionReport/Create"/> <span
+								class="lbl">股权收购或合作项目或涉及股权PPP</span>
+						</label> <label class="radio radio-inline"> <input
+							type="radio" name="mode" ng-model="r.pmodel" class="px"
+							value="SupplementReport/Create"/> <span class="lbl">补充</span>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2 control-label select-mode">其他</label>
+					<div class="col-sm-10 single-mode">
+						<label class="radio radio-inline"> <input
+								type="radio" name="mode" ng-model="r.pmodel" class="px"
+								value="OtherReport/Create"/> <span class="lbl">上传电子版正式评审报告</span>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-cancel"
+						data-dismiss="modal">取消
+				</button>
+				<button type="button" ng-click="createRFIReport(r.pmodel,toCreateReport.BUSINESSID)"
+						class="btn btn-primary btn-confirm" id="forportid">确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="addModal2" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel1">请选择项目</h4>
+			</div>
+			<div class="modal-body special-form">
+				<div class="row">
+					<div class="col-md-12" id="porjectName">
+						{{ preProjectName.PROJECTNAME }}
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2 control-label select-mode">普通模式：</label>
+					<div class="col-sm-10 single-mode">
+						<label class="radio radio-inline">
+							<input type="radio" name="mode" ng-model="x.pmodel" class="px" value="normal"/>
+							<span class="lbl">通用模板</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2 control-label select-mode">其他：</label>
+					<div class="col-sm-10 single-mode">
+						<label class="radio radio-inline">
+							<input type="radio" name="mode" ng-model="x.pmodel" class="px" value="other"/>
+							<span class="lbl">上传电子版预评审报告</span>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+				<button type="button" ng-click="forPreReport(x.pmodel,preProjectName.BUSINESSID,textValue)"
+						class="btn btn-primary btn-confirm" id="forportid">确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="addModal3" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">会议纪要填写内容</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<label class="col-sm-2 control-label">会议纪要：</label>
+					<div class="col-sm-10">
+						<textarea name="" ng-model="mettingSummary" rows="6" cols="" class="form-control" auto-height></textarea></td>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" ng-click="cancel()">取消</button>
+				<a href="javascript:void(0);" class="btn btn-primary btn-confirm" ng-click="mettingSubmit()">确定</a>
+			</div>
 		</div>
 	</div>
 </div>

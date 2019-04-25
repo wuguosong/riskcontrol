@@ -6,6 +6,8 @@ package com.yk.rcm.fillMaterials.controller;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import com.yk.log.annotation.SysLog;
 import com.yk.log.constant.LogConstant;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
@@ -27,55 +29,24 @@ public class FillMaterialsController {
 	private IFillMaterialsService fillMaterialsService;
 	
 	/**
-	 *  查询所有的资料填写项目列表
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/queryAllList")
-	@ResponseBody
-	// @SysLog(module = LogConstant.MODULE_FILL_MATERIALS, operation = LogConstant.QUERY, description = "查询所有的资料填写项目列表")
-	public Result queryAllList(){
-		Result result = new Result();
-		Map<String,Object> data = new HashMap<String,Object>();
-		//获取当前登录用户
-		String userId = ThreadLocalUtil.getUserId();
-		//获取未提交前5条数据
-		PageAssistant page = new PageAssistant();
-		page.getParamMap().put("userId", userId);
-		page.setPageSize(10);
-		page.setTotalItems(0);
-		page = fillMaterialsService.queryNoSubmitList(page);
-		data.put("noSubmitList", page.getList());
-		result.setResult_data(page);
-		//获取已提交前5条数据
-		page.setList(null);
-		page.setTotalItems(0);
-		page = fillMaterialsService.querySubmitList(page);
-		data.put("submitList", page.getList());
-		result.setResult_data(data);
-		return result;
-	}
-
-	/**
 	 *  查询未提交的资料填写项目列表
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/queryNoSubmitList")
 	@ResponseBody
-	@SysLog(module = LogConstant.MODULE_FILL_MATERIALS, operation = LogConstant.QUERY, description = "查询未提交的资料填写项目列表")
-	public Result queryInformationList(String page){
+	// @SysLog(module = LogConstant.MODULE_FILL_MATERIALS, operation = LogConstant.QUERY, description = "查询所有的资料填写项目列表")
+	public Result queryNoSubmitList(HttpServletRequest request){
 		Result result = new Result();
-		PageAssistant pageAssistant = new PageAssistant(page);
-		Map<String, Object> paramMap = pageAssistant.getParamMap();
-		if(null == paramMap){
-			pageAssistant.setParamMap(new HashMap<String, Object>());
-		}
-		pageAssistant.getParamMap().put("userId", ThreadLocalUtil.getUserId());
-		fillMaterialsService.querySubmitList(pageAssistant);
-		result.setResult_data(pageAssistant);
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		String json = request.getParameter("json");
+		this.fillMaterialsService.queryNoSubmitList(page, json);
+		page.setParamMap(null);
+		result.setResult_data(page);
 		return result;
 	}
+
+	
 	/**
 	 * 查询会议信息列表(已处理)
 	 * @param request
@@ -84,7 +55,7 @@ public class FillMaterialsController {
 	@RequestMapping("/querySubmitList")
 	@ResponseBody
 	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询已提交的资料填写项目列表")
-	public Result queryInformationListed(String page){
+	public Result querySubmitList(String page){
 		Result result = new Result();
 		PageAssistant pageAssistant = new PageAssistant(page);
 		Map<String, Object> paramMap = pageAssistant.getParamMap();

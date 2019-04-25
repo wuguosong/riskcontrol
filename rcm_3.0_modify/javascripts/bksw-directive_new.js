@@ -5377,14 +5377,24 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
         templateUrl: 'page/sys/directive/directFillMaterialPage.html',
         replace: 'true',
         controller: function ($scope, $location, $http) {
+
+            // $scope.paginationConf
+
             $scope.initData = function () {
+                if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
+                    $scope.paginationConf.queryObj = {};
+                }
+                $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
+                $scope.paginationConf.itemsPerPage = 5;
                 $http({
-                    method: 'post',
-                    url: srvUrl + "fillMaterials/queryAllList.do",
-                }).success(function (result) {
-                    console.log(result);
-                    $scope.noSubmitList = result.result_data.noSubmitList;
-                    $scope.submitList = result.result_data.submitList;
+                    method:'post',
+                    url: srvUrl + "fillMaterials/queryNoSubmitList.do",
+                    data: $.param({
+                        "page":JSON.stringify($scope.paginationConf),
+                        "json":JSON.stringify($scope.paginationConf.queryObj)
+                    })
+                }).success(function(result){
+                    $scope.noSubmitList = result.result_data.list;
                 });
             };
             $scope.initData();

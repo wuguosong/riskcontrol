@@ -2,6 +2,7 @@ package com.yk.rcm.fillMaterials.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yk.common.BaseMongo;
+import com.yk.flow.util.JsonUtil;
 import com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.project.service.IFormalAssesmentService;
@@ -40,12 +41,13 @@ public class FillMaterialsService implements IFillMaterialsService {
 //	正是评审RFI_IS_SUBMIT_REPORT 1)null:未新建报告;2）0:已新建报告，未提交;3)1:报告已提交
 
 	@Override
-	public PageAssistant queryNoSubmitList(PageAssistant page) {
+	public PageAssistant queryNoSubmitList(PageAssistant page, String json) {
 		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> retMap = JsonUtil.fromJson(json, Map.class);
 		params.put("page", page);
-		if (null != page.getParamMap() && page.getParamMap().size() > 0) {
+		params.put("userId", retMap.get("userId"));
+		if(page.getParamMap() != null){
 			params.putAll(page.getParamMap());
-			System.out.println(JSON.toJSON(page));
 		}
 		List<Map<String, Object>> list = fillMaterialsMapper.queryNoSubmitList(params);
 		page.setList(list);

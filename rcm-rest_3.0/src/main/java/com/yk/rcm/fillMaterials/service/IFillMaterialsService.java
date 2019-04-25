@@ -14,7 +14,7 @@ import common.PageAssistant;
 
 public interface IFillMaterialsService {
 	
-	public PageAssistant queryNoSubmitList(PageAssistant page);
+	public PageAssistant queryNoSubmitList(PageAssistant page, String json);
 
 	public PageAssistant querySubmitList(PageAssistant page);
 	
