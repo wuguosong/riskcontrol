@@ -80,7 +80,7 @@ public class ClientTest {
      */
     @Test
     public void testDtTextStatus() {
-        status = client.getDtStatus("f9342a51-b753-458e-9f44-95f110006828");
+        status = client.getDtStatus("c2fc1843-2408-4655-9f51-9869c1ae4c15");
         System.out.println(JSON.toJSONString(status));
     }
 
