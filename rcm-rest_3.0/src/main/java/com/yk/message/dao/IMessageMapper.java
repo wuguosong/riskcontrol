@@ -73,4 +73,6 @@ public interface IMessageMapper extends BaseMapper {
     HashMap<String, Object> selectUserInfoByUuid(@Param("uuid") String uuid);
 
     List<Message> selectMessageListPage(Map<String, Object> params);
+
+    List<Message> selectMessageNotify(@Param("curUuid") String curUuid);
 }

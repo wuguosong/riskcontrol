@@ -126,4 +126,6 @@ public interface IMessageService {
     HashMap<String, Object> getUserByUuid(String uuid);
 
     void queryMessagesListPage(PageAssistant pageAssistant);
+
+    List<Message> getMessageNotify();
 }

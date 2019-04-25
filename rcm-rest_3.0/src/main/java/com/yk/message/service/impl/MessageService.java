@@ -339,4 +339,10 @@ public class MessageService implements IMessageService {
         }
         pageAssistant.setList(jsonObjects);
     }
+
+    @Override
+    public List<Message> getMessageNotify() {
+        String curUuid = UserUtil.getCurrentUserUuid();
+        return messageMapper.selectMessageNotify(curUuid);
+    }
 }

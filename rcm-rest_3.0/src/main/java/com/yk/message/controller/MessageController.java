@@ -356,4 +356,10 @@ public class MessageController {
 		}
 		return userInfo;
 	}
+
+	@RequestMapping(value = "getMessageNotify", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Message> getMessageNotify(){
+		return messageService.getMessageNotify();
+	}
 }

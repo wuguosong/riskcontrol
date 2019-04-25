@@ -195,4 +195,18 @@
         </if>
         order by message_id, message_date asc
     </select>
+    <select id="selectMessageNotify" resultMap="messageMap" parameterType="string">
+        select
+        <include refid="baseColumn"/>
+        from sys_message m
+        where m.parent_id = 0
+        and m.via_users is not null
+        and instr(m.via_users, #{curUuid}) > 0
+        union
+        select
+        <include refid="baseColumn"/>
+        from sys_message m
+        where m.parent_id <![CDATA[ <> ]]> 0
+        and m.created_by = #{curUuid}
+    </select>
 </mapper>
