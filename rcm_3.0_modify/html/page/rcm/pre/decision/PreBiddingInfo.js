@@ -784,13 +784,13 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
 //    	}else if(null == rateOfReturn || "" == rateOfReturn){
 //    	   $.alert("投资收益率不能为空!"); return boolean;
 //    	}else
-            if(null == fkPsResult || "" == fkPsResult){
+            /*if(null == fkPsResult || "" == fkPsResult){
                 $.alert("风控中心评审结论不能为空!"); return boolean;
             }else if(null == fkRiskTip || "" == fkRiskTip){
                 $.alert("风控重点风险提示不能为空!"); return boolean;
             }else{
                 boolean = true;
-            }
+            }*/
 
             return boolean;
         }

@@ -5760,3 +5760,101 @@ ctmApp.directive('cloudFile', function () {
         }
     }
 });
+
+ctmApp.directive('directLeaderDialog', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directLeaderDialog.html',
+        replace: true,
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            url: "@",
+            //查询参数
+            queryParams: "=",
+            //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
+            //checkedUser: "=",
+            //映射的key，value，{nameField:'username',valueField:'uuid'}，
+            //默认为{nameField:'NAME',valueField:'VALUE'}
+            mappedKeyValue: "=",
+            callback: "="
+        },
+        controller:function($scope,$http,$element){
+            $scope.initData = function(){
+                if($scope.queryParams == null){
+                    return;
+                }
+                $scope.queryUser();
+            }
+            $scope.queryUser = function(){
+                var config = {
+                    method:'post',
+                    url:srvUrl + $scope.url,
+                    data:$.param($scope.queryParams)
+                };
+                $http(config).success(function(data){
+                    if(data.success){
+                        var users = data.result_data;
+                        $scope.users = [];
+                        for(var k = 0; k < users.length; k++){
+                            $scope.users.push({"VALUE":users[k][$scope.mappedKeyValue.valueField],"NAME":users[k][$scope.mappedKeyValue.nameField]});
+                        }
+                        //加载候选委员
+                        $scope.queryLeaderUser();
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            }
+            $scope.queryLeaderUser = function(){
+                var config = {
+                    method:'post',
+                    url:srvUrl + 'role/queryRoleuserByCode.do',
+                    data:$.param({"code":"DECISION_LEADERS"})
+                };
+                $http(config).success(function(data){
+                    if(data.success){
+                        var leaders = data.result_data;
+                        for(var k = 0; k < leaders.length; k++){
+                            //是否已经存在
+                            var flag = false;
+                            for(var i = 0; i < $scope.users.length; i++){
+                                if(leaders[k]['VALUE'] == $scope.users[i].VALUE){
+                                    flag = true;break;
+                                }
+                            }
+                            if(flag){
+                                leaders.splice(k, 1);
+                                k--;
+                            }
+                        }
+                        $scope.leaders = leaders;
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            }
+            $scope.cancelSelected = function(){
+                $scope.initData();
+            }
+            $scope.saveSelected = function(){
+                var checkboxs = $(".checkbox-inline :checkbox");
+                var checkedUser = [];
+                $(checkboxs).each(function(i,box){
+                    if(box.checked){
+                        var user = {};
+                        user[$scope.mappedKeyValue.nameField] = box.name;
+                        user[$scope.mappedKeyValue.valueField] = box.value;
+                        checkedUser.push(user);
+                    }
+                });
+                if($scope.callback != null){
+                    $scope.callback(checkedUser);
+                }
+            }
+            $scope.$watch('queryParams', $scope.initData, true);
+        }
+    };
+});

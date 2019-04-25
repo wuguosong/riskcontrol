@@ -342,7 +342,7 @@
 											<div class="row">
 												<span class="col-md-4 noPadding">回购期</span>
 												<span class="col-md-3 slim">
-								                <input type="text" ng-disabled="actionparm== 'View'" id="" name="" ng-model="btpp.buyBackDate" class="form-control loadtime" placeholder="从XX时间开始回购"/>
+								                <input type="text" ng-disabled="actionparm== 'View'" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate" class="form-control loadtime" placeholder="从XX时间开始回购"/>
 												<i class="fa fa-calendar form-control-feedback" style="right:0;"></i>
 											</span>
 												<span class="col-md-3 slim">
@@ -3594,6 +3594,15 @@
 <directive-org-list></directive-org-list>
 
 <script type="text/javascript">
+    angular.element(document).ready(function() {
+
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#buyBackDate').datepicker(options);
+        $('#paymentTime').datepicker(options);
+    });
     $().ready(function() {
         // validate signup form on keyup and submit
         $("#FormalReviewReport").validate({
@@ -3615,6 +3624,7 @@
             }
         });
     });
+
     //dom监听resize事件
     (function($, h, c) {
         var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j

@@ -1,0 +1,6 @@
+html,body,#main-wrapper,#content-wrapper{
+height: 100%
+}
+#main-wrapper{
+overflow-y: auto!important;
+}

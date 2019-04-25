@@ -151,7 +151,6 @@ ctmApp.register.controller('PreNormalReport',['$http','$scope','$location','$rou
     }
     
     $scope.submitReviewReport = function(){
-    	if($scope.isPossible2Submit()){
     		$scope.saveReviewReportById(function(){
                 $http({
         			method:'post',  
@@ -170,9 +169,6 @@ ctmApp.register.controller('PreNormalReport',['$http','$scope','$location','$rou
         			$.alert(status);
         		});
     		});
-    	}else{
-    		$.alert("请确保流程已结束!");
-    	}
     }
     
     $scope.getByID = function(id){

@@ -506,3 +506,12 @@ form .left-content {
 .datepicker table tr td.selected.disabled:hover, .datepicker table tr td.selected:hover {
   color: #66b1ff !important;
 }
+
+.datepicker thead th {
+  color: #333333;
+}
+
+.datepicker thead th.next:after,
+.datepicker thead th.prev:after{
+  color: #333333;
+}
