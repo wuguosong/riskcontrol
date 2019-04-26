@@ -239,7 +239,7 @@ public class PreAuditReportService implements IPreAuditReportService {
 			}
 		}
 //		mapInfo.put("stage", "3.7");
-		this.preAuditReportMapper.changeState(mapInfo);
+		/*this.preAuditReportMapper.changeState(mapInfo);*/
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("_id", new ObjectId(businessid));

@@ -5874,3 +5874,62 @@ ctmApp.directive('directLeaderDialog', function() {
         }
     };
 });
+
+
+//决策通知书提交弹出框
+ctmApp.directive('directCommonUpload', function(){
+    return {
+        restrrict:'AE',
+        templateUrl:'page/sys/directive/directCommonUpload.html',
+        replace:'true',
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            //id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            attachment: "@",
+            callback: "="
+        },
+        controller:function($scope,$location,$http,Upload){
+            $scope.errorAttach=[];
+            $scope.upload = function (file,errorFile, idx) {
+                if(errorFile && errorFile.length>0){
+                    var errorMsg = fileErrorMsg(errorFile);
+                    $scope.errorAttach[idx]={msg:errorMsg};
+                }else if(file){
+                    $scope.errorAttach[idx]={msg:''};
+                    Upload.upload({
+                        url:srvUrl+'common/RcmFile/upload',
+                        data: {file: file, typeKey:"noticeDecisionFinalPath"}
+                    }).then(function (resp) {
+                        var retData = resp.data.result_data[0];
+                        $scope.attachment=retData;
+                    }, function (resp) {
+                    }, function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope["progress"+idx]=progressPercentage == 100 ? "":progressPercentage+"%";
+                    });
+                }
+            };
+            $scope.submit = function(){
+                if(isEmptyObject($scope.attachment)){
+                    $.alert("附件不能为空！");
+                    return false;
+                }
+                if($scope.callback!=null){
+                    $scope.callback($scope.attachment);
+                }
+            };
+            $scope.cancel = function(){
+                $scope.attachment={};
+            }
+            //jquery判断是否对象非空
+            function isEmptyObject(e) {
+                var t;
+                for (t in e)
+                    return !1;
+                return !0
+            }
+        }
+    }
+});
