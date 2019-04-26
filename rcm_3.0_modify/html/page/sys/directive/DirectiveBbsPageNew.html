@@ -126,7 +126,7 @@
                    ng-click="_show_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, 0)">
                     <span class="addlabel blue">回复</span>
                 </a>-->
-                <a href="javascript:void(0);" style="cursor:pointer;" ng-if="{{_is_show_share_}}"
+                <a ng-if="_is_show_share_" href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_show_share_message_form_(_messages_array_[$index][0].messageId)">
                     <span class="addlabel blue">分享</span>
                 </a>
@@ -218,15 +218,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <!--<div class="col-sm-12">
-                            分享到：
-                            <img src="page/sys/common/img/dt.png" title="钉钉" width="28px" height="28px" ng-click="_choice_share_type_('DT')"></img>
-                            <img class="share-img" src="page/sys/common/img/weixin.jpg" title="微信" ng-click="_choice_share_type_('WX')"></img>
-                            <img class="share-img" src="page/sys/common/img/sms.png" title="短信" ng-click="_choice_share_type_('SMS')"></img>
-                            <img class="share-img" src="page/sys/common/img/email.jpg" title="邮箱" ng-click="_choice_share_type_('EMAIL')"></img>
-                            <span id="_share_message_type_span_"></span>
-                        </div>-->
+                    <div class="row" ng-if="_is_show_share_">
+                        <div class="col-sm-12" ng-if="_is_show_share_">
+                            <span ng-if="_is_show_dt_ || _is_show_wx_ || _is_show_sms_ || _is_show_email_">分享到：</span>
+                            <img ng-if="_is_show_dt_" src="page/sys/common/img/dt.png" title="钉钉" width="28px" height="28px" ng-click="_choice_share_type_('DT')"></img>
+                            <img ng-if="_is_show_wx_" class="share-img" src="page/sys/common/img/weixin.jpg" title="微信" ng-click="_choice_share_type_('WX')"></img>
+                            <img ng-if="_is_show_sms_" class="share-img" src="page/sys/common/img/sms.png" title="短信" ng-click="_choice_share_type_('SMS')"></img>
+                            <img ng-if="_is_show_email_" class="share-img" src="page/sys/common/img/email.jpg" title="邮箱" ng-click="_choice_share_type_('EMAIL')"></img>
+                            <span ng-if="_is_show_dt_ || _is_show_wx_ || _is_show_sms_ || _is_show_email_" id="_share_message_type_span_"></span>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">

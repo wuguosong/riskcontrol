@@ -1585,12 +1585,16 @@ ctmApp.directive('bbsChatNew', function() {
             initUuid:"=",// 当前登录用户
             isPagination:'@',//是否开启分页，默认为false
             isAlertUser:'@',//是否弹出用户信息，默认为false
-            isShowShare:'@'//是否显示分享，默认为false
+            isShowShare:'@',//是否显示分享，默认为false
+            isShowDt:'@',// 显示分享到钉钉，默认为false
+            isShowWx:'@',// 显示分享到微信，默认为false
+            isShowEmail:'@',//显示分享到邮箱，默认为false
+            isShowSms:'@',// 显示分享到短信，默认为false
         },
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, $element){
-            // 初始化是否分页、是否弹出用户设置
+            // 初始化是否分页、是否弹出用户设置、是否显示分享按钮等
             if(isEmpty($scope.isPagination)){
                 $scope._is_pagination_ = false;
             }else{
@@ -1604,7 +1608,27 @@ ctmApp.directive('bbsChatNew', function() {
             if(isEmpty($scope.isShowShare)){
                 $scope._is_show_share_ = false;
             }else{
-                $scope._is_show_share_ = $scope.isAlertUser == 'true';
+                $scope._is_show_share_ = $scope.isShowShare == 'true';
+            }
+            if(isEmpty($scope.isShowDt)){
+                $scope._is_show_dt_ = false;
+            }else{
+                $scope._is_show_dt_ = $scope.isShowDt == 'true';
+            }
+            if(isEmpty($scope.isShowWx)){
+                $scope._is_show_wx_ = false;
+            }else{
+                $scope._is_show_wx_ = $scope.isShowWx == 'true';
+            }
+            if(isEmpty($scope.isShowSms)){
+                $scope._is_show_sms_ = false;
+            }else{
+                $scope._is_show_sms_ = $scope.isShowSms == 'true';
+            }
+            if(isEmpty($scope.isShowEmail)){
+                $scope._is_show_email_ = false;
+            }else{
+                $scope._is_show_email_ = $scope.isShowEmail == 'true';
             }
             // 初始化留言表单内容
             $scope._message = {};
@@ -1806,7 +1830,7 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._share_type_ = 'DT';
             // 展示分享弹窗
             $scope._show_share_message_form_ = function(_message_id_){
-                $('#_share_message_type_span_').text('钉钉');
+                $('#_share_message_type_span_').text('');
                 $scope._share_type_ = 'DT';
                 $('#_share_message_dialog').modal('show');
                 $scope._share_message_id_ = _message_id_;
