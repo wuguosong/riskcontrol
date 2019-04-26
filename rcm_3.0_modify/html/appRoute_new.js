@@ -408,6 +408,40 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            .when('/DecisionLeadersList/:id',{
+                controller:'DecisionLeadersListController',
+                templateUrl:'page/rcm/meeting/DecisionLeadersList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/meeting/DecisionLeadersList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            .when('/DecisionLeadersInfo/:action/:id/:dictId/:url',{
+                controller:'DecisionLeadersInfoController',
+                templateUrl:'page/rcm/meeting/DecisionLeadersInfo.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/meeting/DecisionLeadersInfo.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 数据字典查看
             .when('/DataDictionaryView/:uuid', {
                 controller: 'DataDictionaryView',
