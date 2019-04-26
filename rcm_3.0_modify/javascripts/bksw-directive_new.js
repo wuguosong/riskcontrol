@@ -1584,7 +1584,8 @@ ctmApp.directive('bbsChatNew', function() {
             initMessagesArray:"=",// 初始化
             initUuid:"=",// 当前登录用户
             isPagination:'@',//是否开启分页，默认为false
-            isAlertUser:'@'//是否弹出用户信息，默认为false
+            isAlertUser:'@',//是否弹出用户信息，默认为false
+            isShowShare:'@'//是否显示分享，默认为false
         },
         link:function(scope, element, attr){
         },
@@ -1599,6 +1600,11 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._is_alert_user_ = false;
             }else{
                 $scope._is_alert_user_ = $scope.isAlertUser == 'true';
+            }
+            if(isEmpty($scope.isShowShare)){
+                $scope._is_show_share_ = false;
+            }else{
+                $scope._is_show_share_ = $scope.isAlertUser == 'true';
             }
             // 初始化留言表单内容
             $scope._message = {};

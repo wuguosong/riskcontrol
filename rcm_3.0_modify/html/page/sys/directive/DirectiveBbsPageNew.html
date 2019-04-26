@@ -126,7 +126,7 @@
                    ng-click="_show_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, 0)">
                     <span class="addlabel blue">回复</span>
                 </a>-->
-                <a href="javascript:void(0);" style="cursor:pointer;"
+                <a href="javascript:void(0);" style="cursor:pointer;" ng-if="{{_is_show_share_}}"
                    ng-click="_show_share_message_form_(_messages_array_[$index][0].messageId)">
                     <span class="addlabel blue">分享</span>
                 </a>
