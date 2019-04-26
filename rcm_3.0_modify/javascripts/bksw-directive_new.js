@@ -3681,6 +3681,7 @@ ctmApp.directive('directPromptBoxFormal', function() {
                 $scope.summaryTemplateChange({type:$scope.template});
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
+                $('#main-body').removeClass("modal-open");
             }
         },
         controller: function($scope, $http, $element, Upload){
@@ -3698,6 +3699,7 @@ ctmApp.directive('directPromptBoxFormal', function() {
                 $scope.template = angular.copy($scope.templateBak);
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
+                $('#main-body').removeClass("modal-open");
             }
         }
     };
