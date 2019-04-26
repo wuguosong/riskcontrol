@@ -75,4 +75,6 @@ public interface IMessageMapper extends BaseMapper {
     List<Message> selectMessageListPage(Map<String, Object> params);
 
     List<Message> selectMessageNotify(@Param("curUuid") String curUuid);
+
+    List<Map<String, Object>> selectUserByCondition(Map<String, Object> params);
 }

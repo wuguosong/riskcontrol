@@ -209,4 +209,87 @@
         where m.parent_id <![CDATA[ <> ]]> 0
         and m.created_by = #{curUuid}
     </select>
+    <select id="selectUserByCondition" parameterType="map" resultType="hashmap">
+        select tmp.* from
+        (
+            select decode(u.orgcode, '000001', o2.name, o1.name) as orgname,
+            u.*
+            from sys_user u, sys_org o1, sys_org o2
+            where 1 = 1
+            and u.state = '2'
+            and u.orgpkvalue = o1.orgpkvalue(+)
+            and u.deptpkvalue = o2.orgpkvalue(+)
+            and exists
+            (
+                select 1 from sys_dictionary sd, sys_dictionary_item st
+                where sd.dictionary_code in('REGIONAL_INFORMER', 'INSPECTION_TEAM')
+                and sd.uuid = st.fk_dictionary_uuid
+                and st.item_code = u.uuid
+                <if test="message_type != null and message_type != '' and message_business_id != null and message_business_id != ''">
+                    /*正式评审*/
+                    <if test="message_type == 'formal'">
+                        union
+                        select 1 from rcm_formalassessment_info f
+                        where f.businessid = '${message_business_id}'
+                        and f.largeareapersonid = u.uuid
+                        union
+                        select 1 from rcm_formalassessment_info f
+                        where f.businessid = '${message_business_id}'
+                        and f.taskpersonid = u.uuid
+                        union
+                        select 1 from rcm_formalassessment_info f
+                        where f.businessid = '${message_business_id}'
+                        and f.legalreviewpersonid = u.uuid
+                        union
+                        select 1 from rcm_formalassessment_info f
+                        where f.businessid = '${message_business_id}'
+                        and f.reviewpersonid = u.uuid
+                        union
+                        select 1 from rcm_formalassessment_info f
+                        where f.businessid = '${message_business_id}'
+                        and f.grassrootslegalpersonid = u.uuid
+                        union
+                        select 1 from rcm_formalassessment_info f
+                        where f.businessid = '${message_business_id}'
+                        and f.firstlevellawyerpersonid = u.uuid
+                    </if>
+                    /*投标评审*/
+                    <if test="message_type == 'preview'">
+                        union
+                        select 1 from rcm_pre_info p
+                        where p.businessid = '${message_business_id}'
+                        and p.largeareapersonid = u.uuid
+                        union
+                        select 1 from rcm_pre_info p
+                        where p.businessid = '${message_business_id}'
+                        and p.servicetypepersonid = u.uuid
+                        union
+                        select 1 from rcm_pre_info p
+                        where p.businessid = '${message_business_id}'
+                        and p.taskpersonid = u.uuid
+                        union
+                        select 1 from rcm_pre_info p
+                        where p.businessid = '${message_business_id}'
+                        and p.reviewpersonid = u.uuid
+                    </if>
+                    /*其它评审*/
+                    <if test="message_type == 'bulletin'">
+                        union
+                        select 1 from rcm_bulletin_info b
+                        where b.businessid = '${message_business_id}'
+                        and b.legalleaderid = u.uuid
+                        union
+                        select 1 from rcm_bulletin_info b
+                        where b.businessid = '${message_business_id}'
+                        and b.reviewleaderid = u.uuid
+                    </if>
+                </if>
+            )
+            order by ${orderBy}
+        ) tmp
+        where 1 = 1
+        <if test="username != null and username != ''"> and tmp.name like '%${username}%' </if>
+        <if test="username != null and username != ''"> or tmp.account like '%${username}%' </if>
+        <if test="username != null and username != ''"> or tmp.orgname like '%${username}%' </if>
+    </select>
 </mapper>

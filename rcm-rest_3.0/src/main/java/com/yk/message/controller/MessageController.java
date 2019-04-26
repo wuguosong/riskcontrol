@@ -18,6 +18,7 @@ import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -362,4 +363,24 @@ public class MessageController {
 	public List<Message> getMessageNotify(){
 		return messageService.getMessageNotify();
 	}
+
+	/**
+	 * 用户选择框，分页查询用户
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/queryViaUsers")
+	@ResponseBody
+	public Result queryViaUsers(HttpServletRequest request, String message_business_id, String message_type){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		Map<String, Object> paramMap = page.getParamMap();
+		paramMap.put("message_business_id", message_business_id);
+		paramMap.put("message_type", message_type);
+		page.setParamMap(paramMap);
+		messageService.queryViaUsers(page);
+		result.setResult_data(page);
+		return result;
+	}
+
 }

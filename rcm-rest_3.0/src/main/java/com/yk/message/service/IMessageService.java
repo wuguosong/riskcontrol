@@ -128,4 +128,6 @@ public interface IMessageService {
     void queryMessagesListPage(PageAssistant pageAssistant);
 
     List<Message> getMessageNotify();
+
+    void queryViaUsers(PageAssistant page);
 }

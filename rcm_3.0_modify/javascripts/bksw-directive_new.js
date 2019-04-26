@@ -1581,6 +1581,7 @@ ctmApp.directive('bbsChatNew', function() {
         replace: true,
         scope:{
             id: "@",// 组件ID
+            viaUserQueryUrl:"@",// 查询访问的url
             messageType:"@",// 消息类型
             businessId:"@",// 业务ID
             initMessagesArray:"=",// 初始化
@@ -1598,6 +1599,9 @@ ctmApp.directive('bbsChatNew', function() {
         controller:function($scope, $http, $element){
             $scope._message_type_ = $scope.messageType;
             $scope._message_business_id_ = $scope.businessId;
+            if(isEmpty($scope.viaUserQueryUrl)){
+                $scope._via_user_query_url_ = 'message/queryViaUsers.do?message_business_id=' + $scope.businessId + '&message_type=' + $scope.messageType;
+            }
             // 初始化是否分页、是否弹出用户设置、是否显示分享按钮等
             if(isEmpty($scope.isPagination)){
                 $scope._is_pagination_ = false;
