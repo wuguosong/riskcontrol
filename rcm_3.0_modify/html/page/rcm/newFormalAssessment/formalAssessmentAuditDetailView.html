@@ -43,14 +43,14 @@
                                     <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
 									<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
 															  last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
-															  init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"></directive-accachment-new>
+															  init-update="initUpdate(id)"></directive-accachment-new>
                                 </div>
 								<div class="tab-pane clearfix row" id="bbs_chat">
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
 
 									</div>
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
-										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"></bbs-chat-new>
+										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formal"></bbs-chat-new>
 									</div>
 								</div>
                             </div>
@@ -539,21 +539,6 @@
 							<!--知会人-->
 							<div class="row" ng-include="'page/sys/common/notify-user.html'">
 							</div>
-							<div class="row" ng-if="showController.isReviewLeader">
-								<label class="col-sm-3 control-label">是否上会：</label>
-								<div class="col-sm-8">
-									<label class="radio radio-inline">
-										<input type="radio" name="needMeeting" value="0" class="px"
-											   ng-model="pfrOracle.NEED_MEETING"/>
-										<span class="lbl">不需要上会</span>
-									</label>
-									<label class="radio radio-inline">
-										<input type="radio" class="px" value="1" name="needMeeting"
-											   ng-model="pfrOracle.NEED_MEETING"/>
-										<span class="lbl">需要上会</span>
-									</label>
-								</div>
-							</div>
 							<!--快捷意见-->
 							<div class="row">
 								<label class="col-sm-3 control-label">快捷意见：</label>
@@ -570,13 +555,13 @@
 								</div>
 							</div>
 							<div class="row" id="cesuanFileOpinionDiv" ng-if="approve.showController.isServiewType">
-								<label class="col-sm-3 control-label"><span class="required-m">*</span>测算文件意见：</label>
+								<label class="col-sm-3 control-label"><span class="required">*</span>测算文件意见：</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.cesuanFileOpinion"></textarea>
 								</div>
 							</div>
 							<div class="row" id="tzProtocolOpinionDiv" ng-if="approve.showController.isServiewType">
-								<label class="col-sm-3 control-label"><span class="required-m">*</span>投资协议意见：</label>
+								<label class="col-sm-3 control-label"><span class="required">*</span>投资协议意见：</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.tzProtocolOpinion"></textarea>
 								</div>
@@ -602,10 +587,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="15" ng-model="mark.flowMark" ng-click="validMark(50)">
-													<span class="required-m">(满分：15分)</span>
+													<span class="required">(满分：15分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -625,10 +610,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="9" ng-model="mark.fileTime">
-													<span class="required-m">(满分：9分)</span>
+													<span class="required">(满分：9分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -648,10 +633,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="9" ng-model="mark.fileContent">
-													<span class="required-m">(满分：9分)</span>
+													<span class="required">(满分：9分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -671,10 +656,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="12" ng-model="mark.moneyCalculate">
-													<span class="required-m">(满分：12分)</span>
+													<span class="required">(满分：12分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -695,10 +680,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="6" ng-model="mark.reviewFileAccuracy">
-													<span class="required-m">(满分：6分)</span>
+													<span class="required">(满分：6分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -718,10 +703,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="12" ng-model="mark.riskControl">
-													<span class="required-m">(满分：12分)</span>
+													<span class="required">(满分：12分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -741,10 +726,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="4" ng-model="mark.planDesign">
-													<span class="required-m">(满分：4分)</span>
+													<span class="required">(满分：4分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -766,10 +751,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="6" ng-model="mark.legalFileAccuracy">
-													<span class="required-m">(满分：6分)</span>
+													<span class="required">(满分：6分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -789,10 +774,10 @@
 												</div>
 											</div>
 											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
 												<div class="col-sm-8">
 													<input class="mark" type="number" min="0" max="12" ng-model="mark.talks">
-													<span class="required-m">(满分：12分)</span>
+													<span class="required">(满分：12分)</span>
 												</div>
 											</div>
 											<div class="row">
@@ -921,4 +906,3 @@
 							   callback="_signCallback"
 							   mapped-key-value="_signMappedKeyValue" parent-save-selected="_signParentSaveSelected()"></direct-user-single-dialog>
 </div>
-

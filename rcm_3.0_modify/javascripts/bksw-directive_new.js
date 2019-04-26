@@ -85,6 +85,7 @@ ctmApp.directive('directUserMultiDialog', function () {
             parentSaveSelected:"&"
         },
         controller: function ($scope, $http, $element) {
+            debugger;
             if ($scope.url == null || '' == $scope.url) {
                 $scope.url = "user/queryUserForSelected.do";
             }
@@ -1580,6 +1581,7 @@ ctmApp.directive('bbsChatNew', function() {
         replace: true,
         scope:{
             id: "@",// 组件ID
+            messageType:"@",// 消息类型
             businessId:"@",// 业务ID
             initMessagesArray:"=",// 初始化
             initUuid:"=",// 当前登录用户
@@ -1594,6 +1596,8 @@ ctmApp.directive('bbsChatNew', function() {
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, $element){
+            $scope._message_type_ = $scope.messageType;
+            $scope._message_business_id_ = $scope.businessId;
             // 初始化是否分页、是否弹出用户设置、是否显示分享按钮等
             if(isEmpty($scope.isPagination)){
                 $scope._is_pagination_ = false;
@@ -1702,6 +1706,7 @@ ctmApp.directive('bbsChatNew', function() {
                 if(_common_get_string_byte_length(formData.messageContent) > 2500){
                     $.alert('内容不能超过2500个字符!');
                 }
+                formData.messageType = $scope.messageType;
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/add.do',
