@@ -22,9 +22,12 @@
 	</select>
 	
 	<!-- 公共方法使用 -->
-	<select id="selectsyncbusinessmodel" resultType="map" useCache="false">
+<!-- 	<select id="selectsyncbusinessmodel" resultType="map" useCache="false">
 		select key,value from sync_business_model where 1=1 and state='1' and parent_id is null
 		<if test="dic_type!=null and dic_type!='' "> and dic_type = #{dic_type} </if>
+	</select> -->
+	<select id="selectsyncbusinessmodel" resultType="map" useCache="false">
+		SELECT ENUMCODE KEY, ENUMNAME VALUE FROM ZSJ.MDM_PRODICTENUM WHERE DICTCODE = 210 ORDER BY ENUMCODE
 	</select>
 	<select id="selectsyncbusinessmodelBykey" resultType="map" useCache="false">
 		select key,value from sync_business_model where 1=1 and state='1'
@@ -45,9 +48,66 @@
 	</select>
 	
 	<select id="selectCompanyList" resultType="map" useCache="false">
-		 select * from zsj.mdm_investproj where 1=1
-			<if test="projectname!=null and projectname!='' "> and projectname like '%${projectname}%' </if>
-		 order by projectcode asc
+SELECT T.*
+FROM(
+SELECT MA.PROJECTID,
+       MA.PROJECTNAME, /*项目名称*/
+       MA.PROJECTCODE, /*存储用编码*/
+       MA.PROJECTCODENEW, /*显示用编码*/
+       SO.NAME AS ORGNAME, /*组织名称*/
+       SO.ORGPKVALUE ORGCODE, /*组织编码*/
+	   SO.ID,
+       SGUR.COMPANYHEADER_NAME ORGHEADERNAME, /*项目归属单位负责人*/
+	   SGUR.COMPANYHEADER_ID ORGHEADERID, /*项目归属单位负责人ID*/
+	   (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = MP.RESPONSIBLEUSERKEY) RESPONSIBLEUSER, /*投资经理*/
+	   (SELECT SU.UUID FROM SYS_USER SU WHERE SU.UUID = MP.RESPONSIBLEUSERKEY) RESPONSIBLEUSERID, /*投资经理ID*/
+       (SELECT MAR.ENUMNAME FROM ZSJ.MDM_AREA MAR WHERE MAR.PK_ENUM = MA.PROVINCE_NAME) ||
+	   (SELECT MAR.ENUMNAME FROM ZSJ.MDM_AREA MAR WHERE MAR.PK_ENUM = MA.CITY_NAME) ||
+	   (SELECT MAR.ENUMNAME FROM ZSJ.MDM_AREA MAR WHERE MAR.PK_ENUM = MA.COUNTY_NAME) ADDRESS, /*项目所在地*/
+       CASE
+         WHEN MA.BIZTYPEENUMCODE LIKE '101%' THEN
+          '1401'
+         WHEN MA.BIZTYPEENUMCODE LIKE '104%' THEN
+          '1401'
+         WHEN MA.BIZTYPEENUMCODE LIKE '102%' THEN
+          '1402'
+         WHEN MA.BIZTYPEENUMCODE LIKE '106%' THEN
+          '1403'
+         WHEN MA.BIZTYPEENUMCODE LIKE '105%' THEN
+          '1404'
+         WHEN MA.BIZTYPEENUMCODE LIKE '107%' THEN
+          '1405'
+         WHEN MA.BIZTYPEENUMCODE LIKE '108%' THEN
+          '1406'
+         WHEN MA.BIZTYPEENUMCODE LIKE '109%' THEN
+          '1407'
+         ELSE
+          ''
+       END SERVICETYPE, /*业务类型*/
+       MA.BIZTYPEENUMCODE,
+       MA.PROVINCE_NAME,
+       MA.CITY_NAME,
+       MA.COUNTY_NAME,
+       MA.CREATEDATETIME,
+       MP.VERSIONTIME,
+       MP.PROJECTSTAGEENUMCODE,
+       MP.RESPONSIBLEUSERKEY,
+       ROW_NUMBER()over(partition by Ma.PROJECTCODENEW order by mp.VERSIONTIME desc) as idx
+  FROM ZSJ.MDM_APRO MA, 
+	     ZSJ.MDM_PROINFOHIS MP,
+			 SYS_ORG so,
+			 SYS_GROUP_USER_REPORTINGUNIT SGUR
+ WHERE 1 = 1
+   AND MA.PROJECTID = MP.PROJECTID
+	 AND SGUR.REPORTINGUNIT_ID(+) = MP.STAGEBELONGTODEPTKEY
+	 AND SO.ORGPKVALUE(+) = MP.STAGEBELONGTODEPTKEY
+   AND MA.PROJECTTYPEENUMCODE = '10'
+	 AND MP.PROJECTSTAGEENUMCODE = '10'
+ ) T 
+ WHERE 1 = 1
+ <if test="projectname!=null and projectname!='' "> and T.PROJECTNAME like '%${projectname}%' </if>
+ AND T.idx = 1
+ ORDER BY T.PROJECTCODE, T.CREATEDATETIME DESC
 	</select>
 	<!-- 查询菜单使用 -->
 	<select id="selectSysFunction" resultType="map" useCache="false">

@@ -58,8 +58,8 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     $scope.initCreate = function () {
         $scope.pre.create_date = $scope.getDate();
         $scope.pre.apply.createby = $scope.credentials.UUID;
-        $scope.pre.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
-        $scope.pre.apply.pertainArea = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};
+       /* $scope.pre.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
+        $scope.pre.apply.pertainArea = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};*/
     };
 
     /*//处理附件列表
@@ -297,21 +297,6 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         $scope.columnsNum=num;
     }
 
-    // 选择项目后，写入项目名称
-    $scope.setDirectiveCompanyList=function(project){
-        $scope.pre.apply.projectNo=project.PROJECTCODE;
-        $scope.pre.apply.projectNameTZ=project.PROJECTNAME;
-
-        if (project.ADDRESS == undefined || project.ADDRESS == null || project.ADDRESS == '' || project.ADDRESS == "暂无数据" || project.ADDRESS == "无"){
-            $scope.pre.apply.projectAddress='';
-        } else {
-            $scope.pre.apply.projectAddress=project.ADDRESS;
-        }
-        $scope.pre.apply.projectName = $scope.pre.apply.projectAddress + project.PROJECTNAME;
-        $("#projectNameTZ").val(name);
-        $("label[for='projectNameTZ']").remove();
-    }
-
     // 获取项目模式
     $scope.getSyncbusinessmodel=function(keys){
         var url="businessDict/queryBusinessType.do";
@@ -356,9 +341,9 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     }
 
     // 获取项目模式
-    $scope.getprojectmodel=function(keys){
+    $scope.getprojectmodel=function(){
         var url= "common/commonMethod/selectsyncbusinessmodel";
-        $scope.httpData(url,keys).success(function(data){
+        $scope.httpData(url).success(function(data){
             if(data.result_code === 'S'){
                 $scope.dicSyn.projectModelValue=data.result_data;
             }else{
@@ -454,7 +439,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     };
 
 
-    // 标准项目名称构建
+    /*// 标准项目名称构建
     $scope.changeServiceType = function () {
         if ($scope.pre.apply.serviceType[0] != undefined) {
             // 管网未确定
@@ -489,7 +474,34 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
                 $scope.pre.apply.projectName = name[0];
             }
         }
-    };
+    };*/
+
+
+
+    // 选择项目后，写入项目名称
+    $scope.setDirectiveCompanyList=function(project){
+        $scope.pre.apply.projectNo = project.PROJECTCODE;  // 存储用编码
+        $scope.pre.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
+        $scope.pre.apply.projectName = project.PROJECTNAME; // 项目名称
+        $scope.pre.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
+        $scope.pre.apply.investmentManager = {NAME:project.RESPONSIBLEUSER,VALUE:project.RESPONSIBLEUSERID};
+        if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
+            $scope.pre.apply.companyHeader = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};
+            commonModelOneValue('companyHeader',$scope.pre.apply.companyHeader.VALUE,$scope.pre.apply.companyHeader.NAME);
+        }
+
+        var serviceCode = project.SERVICETYPE;
+        angular.forEach($scope.dicSyn.Syncbusinessmodel, function (data, index, array) {
+            if (serviceCode == data.KEY){
+                $scope.pre.apply.serviceType = [];
+                $scope.pre.apply.serviceType[0] = data;
+            }
+        });
+        $scope.pre.apply.projectAddress=project.ADDRESS; // 项目所在地
+
+        $("#projectName").val(name);
+        $("label[for='projectName']").remove();
+    }
 
 
     $scope.initData();

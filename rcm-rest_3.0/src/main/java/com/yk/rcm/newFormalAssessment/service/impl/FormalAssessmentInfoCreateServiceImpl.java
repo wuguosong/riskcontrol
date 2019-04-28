@@ -109,8 +109,6 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		params.put("projectNum", apply.getString("projectNo"));
 		
 		System.out.println(apply.get("serviceType"));
-		Document reportingUnit = (Document) apply.get("reportingUnit");
-		params.put("reportingUnit_id", reportingUnit.getString("KEY"));
 		List<Document> serviceType = (List<Document>) apply.get("serviceType");
 		if(Util.isNotEmpty(serviceType) && serviceType.size()>0){
 			String serviceType_id="";
@@ -120,7 +118,6 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 			serviceType_id = serviceType_id.substring(1);
 			params.put("serviceType_id", serviceType_id);
 		}
-		
 		System.out.println(apply.get("investmentModel").toString());
 		params.put("investment_model", apply.get("investmentModel").toString());
 		
@@ -146,9 +143,7 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		params.put("isUrgent", null);
 		
 		Document pertainArea = (Document) apply.get("pertainArea");
-		if(pertainArea != null){
-			params.put("pertainAreaId", pertainArea.getString("KEY"));
-		}
+		params.put("pertainAreaId", pertainArea.getString("KEY"));
 		
 		params.put("isTZ", "0");
 		

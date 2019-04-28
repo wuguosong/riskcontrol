@@ -188,9 +188,8 @@ public class commonMethod extends BaseService{
 			
 			return docList;
 		}
-		public List<Map> selectsyncbusinessmodel(String json){
+		public List<Map> selectsyncbusinessmodel(){
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("dic_type", json);
 			List<Map> list =DbUtil.openSession().selectList("common.selectsyncbusinessmodel", paramMap);
 			DbUtil.close();
 			return list;

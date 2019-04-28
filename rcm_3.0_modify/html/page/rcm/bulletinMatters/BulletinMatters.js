@@ -558,17 +558,16 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
      // 选择项目后，写入项目名称
      $scope.setDirectiveCompanyList=function(project){
      	debugger
-     	$scope.bakProject = angular.copy(project)
-         $scope.bulletin.projectNameTZ=project.PROJECTNAME;
+         $scope.bulletin.projectNo = project.PROJECTCODE;  // 存储用编码
+         $scope.bulletin.projectNoNew = project.PROJECTCODENEW; // 显示用编码
+         $scope.bulletin.projectName = project.PROJECTNAME; // 项目名称
+         /*$scope.bulletin.applyUnit = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
+         if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
+             $scope.bulletin.unitPerson = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};
+         }*/
 
-         if (project.ADDRESS == undefined || project.ADDRESS == null || project.ADDRESS == '' || project.ADDRESS == "暂无数据" || project.ADDRESS == "无"){
-             $scope.bulletin.projectAddress='';
-         } else {
-             $scope.bulletin.projectAddress=project.ADDRESS;
-         }
-         $scope.bulletin.bulletinName = $scope.bulletin.projectAddress + project.PROJECTNAME;
-         $("#projectNameTZ").val(project.PROJECTNAME);
-         $("label[for='projectNameTZ']").remove();
+         $("#projectName").val(name);
+         $("label[for='projectName']").remove();
      }
 
      // 修改大区后，修改单位负责人的值

@@ -24,63 +24,23 @@
                     <div class="tab-content tab-content-bordered">
                         <div class="tab-pane in active special-form" id="contracts_file_info">
                             <div class="row">
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>所属大区</label>
-                                <div class="col-sm-4 has-feedback reporting-unit">
-                                    <div class="full-drop">
-                                        <input type="text" class="form-control" data-toggle="modal" data-target="#myModal" id="reportingUnitName" name="reportingUnitName" ng-model="pfr.apply.reportingUnit.VALUE"/>
-                                        <input type="hidden" class="form-control" id="reportingUnitValue" name="reportingUnitValue" ng-model="pfr.apply.reportingUnit.KEY"/>
-                                        <div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" ng-click="" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title" id="myModalLabel">所属大区选择</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="drop-menu one-choice">
-                                                            <div id="treeID1" class="ztree"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                                        <button type="button" class="btn btn-info" data-dismiss="modal">确定</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" value="{{pfr.apply.projectName}}"/>
                                 </div>
                                 <label class="col-sm-2 control-label">项目编号</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="projectNo" name="projectNo" ng-model="pfr.apply.projectNo" placeholder="" readonly/>
+                                    <input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="pfr.apply.projectNoNew" placeholder="" readonly/>
+                                    <input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="pfr.apply.projectNo" placeholder="" readonly/>
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label"><span class="required-r">*</span>所属战区</label>
+                                <label class="col-sm-2 control-label">所属大区</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" data-toggle="modal" data-target="#myModal1" id="pertainAreaName" name="pertainAreaName" ng-model="pfr.apply.pertainArea.VALUE"/>
-                                    <input type="hidden" class="form-control" id="pertainAreaValue" name="pertainAreaValue" ng-model="pfr.apply.pertainArea.KEY"/>
-                                    <div  id="myModal1"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" ng-click="" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title" id="myModalLabel1">所属战区</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="drop-menu one-choice">
-                                                        <div id="treeID2" class="ztree"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                                    <button type="button" class="btn btn-info" data-dismiss="modal">确定</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input type="text" class="form-control" data-toggle="modal" data-target="#myModal1" id="pertainAreaName" name="pertainAreaName" ng-model="pfr.apply.pertainArea.VALUE" readonly/>
+                                    <input type="hidden" class="form-control" id="pertainAreaValue" name="pertainAreaValue" ng-model="pfr.apply.pertainArea.KEY" readonly/>
                                 </div>
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>大区负责人</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目归属单位负责人</label>
                                 <div  id="companyHeader-type-box" class="col-sm-4">
                                     <div id="headercompanyHeaderName">
                                         <div ng-click="setDirectiveParam('companyHeader',0)"  data-toggle="modal" data-target="#userRaido-modal"   class="select2-success">
@@ -126,37 +86,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>投资项目名称</label>
-                                <div class="col-sm-4">
-                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectNameTZ" name="projectNameTZ" ng-model="pfr.apply.projectNameTZ" value="{{pfr.apply.projectNameTZ}}"/>
+                                <label class="col-sm-2 control-label">业务类型</label>
+                                <div id="headeroneservicetypebox"  class="col-sm-4">
+                                    <input type="text" class="form-control" value="{{pfr.apply.serviceType[0].VALUE}}" readonly/>
                                 </div>
                                 <label  class="col-sm-2 control-label">项目所在地</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="projectAddress" name="projectAddress" ng-model="pfr.apply.projectAddress" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
-                                <div class="col-sm-4">
-                                    <input type="text"  class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" value="{{pfr.apply.projectName}}"/>
-                                </div>
-                                <label  class="col-sm-2 control-label">项目投资总额</label>
-                                <div class="col-sm-4">
-                                    <input type="text"  class="form-control" id="investMoney" name="investMoney" ng-model="pfr.apply.investMoney"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2 control-label"><span class="required-r">*</span>业务类型</label>
-                                <div id="headeroneservicetypebox"  class="col-sm-4">
-                                    <div class="select2-success">
-                                        <select multiple="multiple" name="oneservicetypeboxName" id="oneservicetypeboxName" class="form-control" ng-model="pfr.apply.serviceType"
-                                                ng-options="sy.VALUE for sy in dicSyn.Syncbusinessmodel track by sy.KEY" ng-click="changeServiceType()">
-                                        </select>
-                                    </div>
-                                </div>
-                                <label  class="col-sm-2 control-label">项目规模</label>
-                                <div class="col-sm-4">
-                                    <textarea class="form-control" id="projectSize" name="projectSize" ng-model="pfr.apply.projectSize" placeholder=""></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -174,16 +110,16 @@
                                         </select>
                                     </div>
                                 </div>
-                                <label  class="col-sm-2 control-label">单体项目数</label>
-                                <div class="col-sm-4 has-feedback">
-                                    <input type="text" class="form-control" id="projectNum" name="projectNum" ng-model="pfr.apply.projectNum" placeholder=""
+                                <label  class="col-sm-2 control-label">项目投资总额</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  class="form-control" id="investMoney" name="investMoney" ng-model="pfr.apply.investMoney"
                                            onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                            onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
-                                    <span class="unit-n">个</span>
+                                    <span class="unit-n">万元</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <label  class="col-sm-2 control-label">投资中心/水环境投资中心项目负责人</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>投资中心/水环境投资中心项目负责人</label>
                                 <div class="col-sm-4 has-feedback">
                                     <div id="headerinvestmentPersonName" class="col-sm-6 noleft-pad noright-pad"
                                          style="width: calc(50% - 2.5px);margin-right: 5px">
@@ -192,7 +128,7 @@
                                                 <ul class="select2-choices">
                                                     <li class="select2-search-field">
                                                         <div class="full-drop">
-                                                            <input class="select2-input" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;" placeholder="区域负责人">
+                                                            <input class="select2-input" type="text" name="investmentPersonName"  spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;" placeholder="区域负责人">
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -208,7 +144,7 @@
                                                 <ul class="select2-choices">
                                                     <li class="select2-search-field">
                                                         <div class="full-drop">
-                                                            <input class="select2-input" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;" placeholder="直接负责人">
+                                                            <input class="select2-input" type="text"  name="directPersonName" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;" placeholder="直接负责人">
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -218,7 +154,20 @@
                                     <input type="hidden" id="directPersonName" name="directPersonName" ng-model="pfr.apply.directPerson.NAME" value="{{pfr.apply.directPerson.NAME}}" />
                                     <input type="hidden" id="directPersonValue" name="directPersonValue" ng-model="pfr.apply.directPerson.VALUE"  />
                                 </div>
-                                <label  class="col-sm-2 control-label">预计签约时间</label>
+                                <label  class="col-sm-2 control-label">项目规模</label>
+                                <div class="col-sm-4">
+                                    <textarea class="form-control" id="projectSize" name="projectSize" ng-model="pfr.apply.projectSize" placeholder=""></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label  class="col-sm-2 control-label">单体项目数</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <input type="text" class="form-control" id="projectNum" name="projectNum" ng-model="pfr.apply.projectNum" placeholder=""
+                                           onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                           onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                    <span class="unit-n">个</span>
+                                </div>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>预计签约时间</label>
                                 <div class="col-sm-4 has-feedback">
                                     <input type="text" class="form-control" id="expectedContractDate" name="expectedContractDate" ng-model="pfr.apply.expectedContractDate"  />
                                     <i class="fa fa-calendar form-control-feedback"></i>
@@ -266,25 +215,23 @@
         $("#myFormPfR").validate({
             rules: {
                 //	personLiable:"required",
-                reportingUnitName:"required",
-                pertainAreaName:"required",
                 companyHeaderName:"required",
                 grassrootsLegalStaffName:"required",
-                projectNameTZ:"required",
                 projectName:"required",
-                oneservicetypeboxName:"required",
-                projectmodeboxName:"required"
+                investmentPersonName:"required",
+                directPersonName:"required",
+                projectmodeboxName:"required",
+                expectedContractDate:"required"
             },
             messages: {
                 //	personLiable:"此项必填",
-                reportingUnitName:"此项必填",
-                pertainAreaName:"此项必填",
                 companyHeaderName:"此项必填",
                 grassrootsLegalStaffName:"此项必填",
-                projectNameTZ:"此项必填",
                 projectName:"此项必填",
-                oneservicetypeboxName:"此项必填",
-                projectmodeboxName:"此项必填"
+                investmentPersonName:"此项必填",
+                directPersonName:"此项必填",
+                projectmodeboxName:"此项必填",
+                expectedContractDate:"此项必填"
             }
         });
     });
