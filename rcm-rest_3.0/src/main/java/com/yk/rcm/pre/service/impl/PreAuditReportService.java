@@ -233,7 +233,7 @@ public class PreAuditReportService implements IPreAuditReportService {
 		Map<String, Object> Object = this.fillMaterialsService.getRPIStatus(businessid);
 		if(Util.isNotEmpty(Object)) {
 			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))) {
-				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")) {
+				if (Object.get("IS_SUBMIT_BIDDING").equals("1")) {
 					mapInfo.put("stage", "4");
 				}
 			}
