@@ -5470,6 +5470,11 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                 $scope.toCreateReport = noSubmit;
                 $scope.r.pmodel="FormalReviewReport/Create";
             };
+            $scope.y = {};
+            $scope.openRFIBiddingInfo = function (noSubmit) {
+                $scope.toCreateBiddingInfo = noSubmit;
+                $scope.y.pmodel="normal";
+            };
 
             //编辑评审报告
             $scope.createRFIReport = function(model,uuid){
@@ -5486,6 +5491,17 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     $('#addModal').modal('hide');
                     $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
                 }
+            }
+
+            //编辑正是评审提交决策会材料
+            $scope.createRFIBiddingInfo = function(model,uuid){
+                console.log(model);
+                console.log(uuid);
+                var ind = model.lastIndexOf("/");
+                var modelAction = model.substring(ind + 1,model.length);
+                var routePath = model.substring(0,ind);
+                $('#addModal4').modal('hide');
+                $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
             }
 
             /**
