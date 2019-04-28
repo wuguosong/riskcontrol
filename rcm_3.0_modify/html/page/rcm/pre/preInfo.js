@@ -18,7 +18,6 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     $scope.pre.taskallocation.reviewLeader=null;
     $scope.investmentPerson=null;
     $scope.directPerson=null;
-    $scope.investmentModel=false;
     $scope.title = "";
 
     // 获取系统当前时间
@@ -58,6 +57,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     $scope.initCreate = function () {
         $scope.pre.create_date = $scope.getDate();
         $scope.pre.apply.createby = $scope.credentials.UUID;
+        $scope.pre.apply.investmentModel = '0';
        /* $scope.pre.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
         $scope.pre.apply.pertainArea = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};*/
     };
@@ -359,6 +359,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             return;
         }
         $scope.pre.create_date = $scope.getDate();
+        console.log($scope.pre);
         $http({
             method:'post',
             url: srvUrl + 'preInfoCreate/createProject.do',

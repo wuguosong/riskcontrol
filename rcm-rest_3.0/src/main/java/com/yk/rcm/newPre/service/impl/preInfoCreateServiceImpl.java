@@ -129,6 +129,9 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 			params.put("serviceType_id", serviceType_id);
 		}
 		
+		System.out.println(apply.get("investmentModel").toString());
+		params.put("investment_model", apply.get("investmentModel").toString());
+		
 		List<Document> projectModel = (List<Document>) apply.get("projectModel");
 		if(Util.isNotEmpty(projectModel) && projectModel.size()>0){
 			String projectModel_ids="";
@@ -189,6 +192,8 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		
 		//创建时间与mongDB 一致
 		params.put("create_date", doc.get("create_date"));
+		//修改时间与mongDB 一致
+        params.put("last_update_date", doc.get("last_update_date"));
 		return params;
 	}
 
