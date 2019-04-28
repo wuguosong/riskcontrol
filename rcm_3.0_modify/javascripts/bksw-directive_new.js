@@ -891,7 +891,7 @@ ctmApp.directive('directiveUserList', function() {
             }
             $scope.queryUser=function(){
                 $scope.paginationConf.queryObj = $scope.queryObj;
-                var  url = 'fnd/SysUser/getAll';
+                var  url = 'fnd/user/getAll';
                 $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
                     // 变更分页的总数
                     if(data.result_code == "S") {
