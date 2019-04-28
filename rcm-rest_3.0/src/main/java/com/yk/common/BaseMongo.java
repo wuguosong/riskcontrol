@@ -75,12 +75,14 @@ public class BaseMongo implements IBaseMongo{
 	}
 	@Override
 	public void updateSetByObjectId(String id, Map<String, Object> data, String collectionName) {
-		MongoCollection<Document> dbCollection = this.queryCollection(collectionName);
-		BasicDBObject queryAndWhere =new BasicDBObject();
-		queryAndWhere.put("_id", new ObjectId(id));
-		BasicDBObject update =new BasicDBObject();
-		update.put("$set", data);
-		dbCollection.updateOne(queryAndWhere, update);
+		if(data != null){
+			MongoCollection<Document> dbCollection = this.queryCollection(collectionName);
+			BasicDBObject queryAndWhere =new BasicDBObject();
+			queryAndWhere.put("_id", new ObjectId(id));
+			BasicDBObject update =new BasicDBObject();
+			update.put("$set", data);
+			dbCollection.updateOne(queryAndWhere, update);
+		}
 	}
 	@Override
 	public void deleteById(String id, String collectionName){

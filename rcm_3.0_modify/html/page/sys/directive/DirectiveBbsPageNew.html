@@ -32,7 +32,7 @@
             </ul>
         </div>
     </div>
-    <div style="text-align: left;font-size: small;">
+    <div style="text-align: left;font-size: small;" ng-if="_is_show_publish_btn_">
         <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
            ng-click="_submit_message_form_('Y', '', '', '', '', '')">
             <span class="addlabel blue">发表留言</span>
@@ -66,11 +66,11 @@
                         <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
                         <span style="font-size: small;">{{_message_.messageDate}}</span>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
-                           ng-click="_delete_message_(_message_.messageId)"
-                           ng-if="_messages_.length > 1 && _message_.createdBy == _init_uuid_global_ && $index > 0">删除</a>
+                           ng-click="_delete_message_(_message_.messageId, _message_)"
+                           ng-if="_messages_.length > 1 && _message_.createdBy == _init_uuid_global_ && $index > 0">撤回</a>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
-                           ng-click="_delete_message_(_message_.messageId)"
-                           ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0">删除</a>
+                           ng-click="_delete_message_(_message_.messageId, _message_)"
+                           ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0">撤回</a>
                     </div>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
@@ -84,8 +84,8 @@
                         <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
                         <span style="font-size: small;">{{_message_.messageDate}}</span>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
-                           ng-click="_delete_message_(_message_.messageId)"
-                           ng-if="_message_.createdBy == _init_uuid_global_">删除</a>
+                           ng-click="_delete_message_(_message_.messageId, _message_)"
+                           ng-if="_message_.createdBy == _init_uuid_global_">撤回</a>
                     </div>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                         <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
@@ -118,7 +118,7 @@
                 <input type="text" ng-model="_message.repliedBy" ng-hide="true">
                 <input type="text" ng-model="_message.repliedName" ng-hide="true">
                 <input type="text" ng-model="_message.via" ng-hide="true">
-                <a href="javascript:void(0);" style="cursor:pointer;"
+                <a ng-if="_is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
                     <span class="addlabel blue">回复</span>
                 </a>

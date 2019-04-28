@@ -202,13 +202,12 @@ public class MessageController {
 			result.setSuccess(true);
 			result.setResult_code(Constants.S);
 			result.setResult_data(message);
-			result.setResult_name("删除留言成功!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setResult_code(Constants.R);
 			result.setSuccess(false);
 			result.setResult_data(e);
-			result.setResult_name("删除留言失败!" + e.getMessage());
+			result.setResult_name(e.getMessage());
 			logger.error("删除留言失败!" + e.getMessage());
 		}
 		return result;

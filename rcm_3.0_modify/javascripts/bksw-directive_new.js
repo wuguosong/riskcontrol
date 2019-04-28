@@ -1593,6 +1593,8 @@ ctmApp.directive('bbsChatNew', function() {
             isShowWx:'@',// 显示分享到微信，默认为false
             isShowEmail:'@',//显示分享到邮箱，默认为false
             isShowSms:'@',// 显示分享到短信，默认为false
+            isShowPublishBtn:'@',// 是否显示发表留言按钮，默认为true
+            isShowReplyBtn:'@',// 是否显示回复按钮，默认为true
         },
         link:function(scope, element, attr){
         },
@@ -1612,6 +1614,16 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._is_alert_user_ = false;
             }else{
                 $scope._is_alert_user_ = $scope.isAlertUser == 'true';
+            }
+            if(isEmpty($scope.isShowPublishBtn)){
+                $scope._is_show_publish_btn_ = true;
+            }else{
+                $scope._is_show_publish_btn_ = $scope.isShowPublishBtn == 'true';
+            }
+            if(isEmpty($scope.isShowReplyBtn)){
+                $scope._is_show_reply_btn_ = true;
+            }else{
+                $scope._is_show_reply_btn_ = $scope.isShowReplyBtn == 'true';
             }
             if(isEmpty($scope.isShowShare)){
                 $scope._is_show_share_ = false;
@@ -1732,8 +1744,13 @@ ctmApp.directive('bbsChatNew', function() {
                 });
             };
             // 删除留言信息
-            $scope._delete_message_ = function (_message_id_) {
-                $.confirm('删除该留言吗?', function(){
+            $scope._delete_message_ = function (_message_id_, _message_) {
+                var _message_date_ = _message_['messageDate'];
+                if(_common_get_ttl(new Date(_message_date_), 3) < 0){
+                    $.alert('只能撤回3分钟以内的留言！');
+                    return;
+                }
+                $.confirm('确定撤回该留言吗?', function(){
                     $http({
                         method: 'post',
                         url: srvUrl + 'message/delete.do',
@@ -1747,7 +1764,15 @@ ctmApp.directive('bbsChatNew', function() {
                         }else{
                             $scope._query_messages_list_(0);
                         }
-                        $.alert('删除留言成功!');
+                        if(isEmpty(data)){
+                            $.alert('服务器错误！撤回留言失败!');
+                        }else{
+                            if(data.success){
+                                $.alert('撤回留言成功!');
+                            }else{
+                                $.alert("撤回留言失败!" + data.result_name);
+                            }
+                        }
                     });
                 });
             };

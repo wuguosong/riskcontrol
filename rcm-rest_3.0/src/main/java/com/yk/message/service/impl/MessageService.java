@@ -51,6 +51,7 @@ public class MessageService implements IMessageService {
 
     @Override
     public Message save(Message message) {
+        message.setMessageDate(DateUtil.getCurrentDate());
         messageMapper.insertMessage(message);
         return message;
     }

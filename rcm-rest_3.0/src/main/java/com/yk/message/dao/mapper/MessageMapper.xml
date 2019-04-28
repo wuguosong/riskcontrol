@@ -93,7 +93,7 @@
 		#{repliedBy},
 		#{repliedName},
 		#{messageContent},
-		sysdate,
+		#{messageDate},
 		#{pushFlag},
 		#{readFlag},
 		#{bsUniRelated},
