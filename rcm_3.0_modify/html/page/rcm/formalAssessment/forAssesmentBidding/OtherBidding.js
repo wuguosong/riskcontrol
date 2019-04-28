@@ -26,22 +26,25 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                 $("#wordbtn").hide();
             } else if (action == "Update") {
                 $scope.title = "正式评审决策会材料-修改";
-                $scope.getByID(objId);
+                $scope.getSummaryPPTByID(objId);
             } else if (action == "View") {
                 $scope.title = "正式评审决策会材料-查看";
-                $scope.getByID(objId);
+                $scope.getSummaryPPTByID(objId);
                 $("#savebtn").hide();
                 $("#btnfile").attr("disabled", "disabled");
             }
         };
 
-        $scope.getByID = function (id) {
+        $scope.getSummaryPPTByID = function (id) {
             $http({
                 method: 'post',
-                url: srvUrl + 'formalReport/getByID.do',
-                data: $.param({"id": id})
+                url: srvUrl + 'formalReport/getSummaryPPTByID.do',
+                data: $.param({"businessId": id, "type": "pfr"})
             }).success(function (data) {
-                $scope.formalReport = data.result_data;
+                $scope.formalReport = data.result_data.project;
+                $scope.formalReport.projectName = $scope.formalReport.PROJECTNAME;
+                $scope.formalReport.projectFormalId = $scope.formalReport.BUSINESSID;
+                $scope.projectSummary = data.result_data.summary;
                 if (action == "View") {
                     $('button').attr("disabled", "disabled");
                     $("#submitbnt").attr("disabled", false);
@@ -52,29 +55,29 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
             });
         }
 
-        $scope.getProjectFormalReviewByID=function(id){
+        $scope.getProjectFormalReviewByID = function (id) {
             $http({
-                method:'post',
-                url:srvUrl+"formalReport/getProjectFormalReviewByID.do",
-                data: $.param({"id":id})
-            }).success(function(data){
-                $scope.pfr  = data.result_data;
-                $scope.formalReport.projectFormalId=$scope.pfr.id;
-                $scope.formalReport.projectName=$scope.pfr.apply.projectName;
-                $scope.formalReport.projectNo=$scope.pfr.apply.projectNo;
-                if(null!=$scope.pfr.apply.reportingUnit){
-                    $scope.formalReport.reportingUnit=$scope.pfr.apply.reportingUnit.name;
+                method: 'post',
+                url: srvUrl + "formalReport/getProjectFormalReviewByID.do",
+                data: $.param({"id": id})
+            }).success(function (data) {
+                $scope.pfr = data.result_data;
+                $scope.formalReport.projectFormalId = $scope.pfr.id;
+                $scope.formalReport.projectName = $scope.pfr.apply.projectName;
+                $scope.formalReport.projectNo = $scope.pfr.apply.projectNo;
+                if (null != $scope.pfr.apply.reportingUnit) {
+                    $scope.formalReport.reportingUnit = $scope.pfr.apply.reportingUnit.name;
                 }
-                var ptNameArr=[],pmNameArr=[];
-                var pt=$scope.pfr.apply.projectType;
-                if(null!=pt && pt.length>0){
-                    for(var i=0;i<pt.length;i++){
+                var ptNameArr = [], pmNameArr = [];
+                var pt = $scope.pfr.apply.projectType;
+                if (null != pt && pt.length > 0) {
+                    for (var i = 0; i < pt.length; i++) {
                         ptNameArr.push(pt[i].VALUE);
                     }
-                    $scope.formalReport.projectTypeName=ptNameArr.join(",");
+                    $scope.formalReport.projectTypeName = ptNameArr.join(",");
                 }
                 $scope.formalReport.controllerVal = $scope.controller_val;
-            }).error(function(data,status,headers,config){
+            }).error(function (data, status, headers, config) {
                 $.alert(status);
             });
         }

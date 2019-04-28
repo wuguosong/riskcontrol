@@ -22,6 +22,7 @@ import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
 import com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
+import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 import com.yk.rcm.formalAssessment.service.IFormalReportService;
@@ -59,6 +60,9 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	
 	@Resource
 	private IFillMaterialsMapper fillMaterialsMapper;
+	
+	@Resource
+	private IFormalAssessmentInfoMapper formalAssessmentInfoMapper;
 	
 	private Logger logger = Logger.getLogger("FormalReportServiceImpl");
 
@@ -846,6 +850,18 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		// 修改评审意见汇总-------------End-------------------------
 		
 		return result;
+	}
+
+	@Override
+	public Map<String, Object> findFormalPptSummary(String businessId, String type) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(type.equals("pfr")) {
+			Map<String, Object> project = this.formalAssessmentInfoMapper.getFormalAssessmentById(businessId);
+			map.put("project", project);
+		}
+		Map<String, Object> summary = this.baseMongo.queryById(businessId, Constants.RCM_FORMAL_SUMMARY);
+		map.put("summary", summary);
+		return map;
 	}
 
 }

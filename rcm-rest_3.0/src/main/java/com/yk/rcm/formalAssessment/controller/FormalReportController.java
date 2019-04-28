@@ -315,4 +315,15 @@ public class FormalReportController {
 		result.setResult_data(map);
 		return result;
 	}
+	
+	@RequestMapping("/getSummaryPPTByID")
+	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "查找正式项目摘要")
+	public Result getSummaryPPTByID(String businessId, String type, HttpServletRequest request) {
+		Result result = new Result();
+		Map<String, Object> map = this.formalReportService.findFormalPptSummary(businessId, type);
+		result.setResult_data(map);
+		return result;
+	}
+	
 }
