@@ -221,4 +221,6 @@ public interface IFormalReportService {
 	 */
 	public Map<String, Object> findFormalProjectSummary();
 
+	public Result addPptecision(String json, String method);
+
 }

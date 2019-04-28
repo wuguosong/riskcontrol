@@ -1816,6 +1816,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            // 其它投资评决策会材料提交文件
+            .when('/OtherBidding/:tabIndex/:action/:id/:url', {
+                controller: 'OtherBidding',
+                templateUrl: 'page/rcm/formalAssessment/forAssesmentBidding/OtherBidding.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/forAssesmentBidding/OtherBidding.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 正式评审提交决策会材料列表
             .when('/FormalBiddingInfoList/:tabIndex', {
                 controller: 'FormalBiddingInfoList',

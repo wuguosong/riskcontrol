@@ -1,6 +1,5 @@
 package com.yk.rcm.fillMaterials.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.yk.common.BaseMongo;
 import com.yk.flow.util.JsonUtil;
 import com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper;
@@ -8,7 +7,6 @@ import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.project.service.IFormalAssesmentService;
 
 import common.PageAssistant;
-import util.Util;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,6 +82,11 @@ public class FillMaterialsService implements IFillMaterialsService {
 	public Map<String, Object> getRPIStatus(String businessid) {
 		Map<String, Object> object = fillMaterialsMapper.getRPIStatus(businessid);
 		return object;
+	}
+
+	@Override
+	public void updateProjectBiddingStaus(Map<String, Object> params) {
+		fillMaterialsMapper.updateProjectBiddingStaus(params);
 	}
 
 }

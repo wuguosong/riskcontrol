@@ -23,5 +23,7 @@ public interface IFillMaterialsService {
 	public Map<String, Object> getRFIStatus(String businessid);
 	
 	public Map<String, Object> getRPIStatus(String businessid);
+
+	public void updateProjectBiddingStaus(Map<String, Object> statusMap);
 	
 }
