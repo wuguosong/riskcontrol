@@ -102,7 +102,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
             // 回显数据-人员信息
-            let paramsVal = "";
+            var paramsVal = "";
             if($scope.pfr.apply.companyHeader != undefined && $scope.pfr.apply.companyHeader != null && $scope.pfr.apply.companyHeader != ""){
                 paramsVal = "companyHeader"
                 $("label[for='companyHeaderName']").remove();
