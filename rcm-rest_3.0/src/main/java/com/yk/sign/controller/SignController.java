@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -152,5 +153,17 @@ public class SignController {
             e.printStackTrace();
         }
         return validate;
+    }
+
+    /**
+     * 检测某个任务节点是否通过
+     * @param processKey
+     * @param businessKey
+     * @return HashMap<String, Object>
+     */
+    @RequestMapping(value = "getCurrentTask", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String, Object> getCurrentTask(String processKey, String businessKey){
+        return signService.getCurrentTask(processKey, businessKey);
     }
 }

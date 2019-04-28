@@ -6,37 +6,39 @@
             height: 28px;
         }
     </style>
-    <!--头部留言表单部分-->
-    留言内容：
-    <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
-          style="margin-bottom: 5px;">
-        <div contenteditable="true" class="form-control" style="background: #fff;min-height: 80px;" id="_message_first_0"></div>
-        <input type="text" ng-model="_message_first.parentId" ng-hide="true">
-        <input type="text" ng-model="_message_first.originalId" ng-hide="true">
-        <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
-        <input type="text" ng-model="_message_first.repliedBy" ng-hide="true">
-        <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
-    </form>
-    <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
-        <div id="_via_Model"
-             class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
-            <ul class="select2-choices" data-toggle="modal" data-target="#_via_users_mul_dialog">
-                <li><span style="height:24px;font-size: 13px;font-weight: 600;text-shadow: 0 -1px 0 rgba(0,0,0,.2);">@</span></li>
-                <li class="select2-search-choice" ng-repeat="_via in _via_users_TempCheckedUsers">
-                    <div>{{_via.NAME}}</div>
-                    <a class="select2-search-choice-close" tabindex="-1"
-                       ng-click="_via_users_removeUsers(_via)"></a>
-                    <div class="full-drop"><input type="hidden" value="{{_via.VALUE}}">
-                    </div>
-                </li>
-            </ul>
+    <div ng-if="_is_show_publish_btn_">
+        <!--头部留言表单部分-->
+        留言内容：
+        <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
+              style="margin-bottom: 5px;">
+            <div contenteditable="true" class="form-control" style="background: #fff;min-height: 80px;" id="_message_first_0"></div>
+            <input type="text" ng-model="_message_first.parentId" ng-hide="true">
+            <input type="text" ng-model="_message_first.originalId" ng-hide="true">
+            <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
+            <input type="text" ng-model="_message_first.repliedBy" ng-hide="true">
+            <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
+        </form>
+        <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
+            <div id="_via_Model"
+                 class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                <ul class="select2-choices" data-toggle="modal" data-target="#_via_users_mul_dialog">
+                    <li><span style="height:24px;font-size: 13px;font-weight: 600;text-shadow: 0 -1px 0 rgba(0,0,0,.2);">@</span></li>
+                    <li class="select2-search-choice" ng-repeat="_via in _via_users_TempCheckedUsers">
+                        <div>{{_via.NAME}}</div>
+                        <a class="select2-search-choice-close" tabindex="-1"
+                           ng-click="_via_users_removeUsers(_via)"></a>
+                        <div class="full-drop"><input type="hidden" value="{{_via.VALUE}}">
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div style="text-align: left;font-size: small;" ng-if="_is_show_publish_btn_">
-        <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
-           ng-click="_submit_message_form_('Y', '', '', '', '', '')">
-            <span class="addlabel blue">发表留言</span>
-        </a>
+        <div style="text-align: left;font-size: small;">
+            <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
+               ng-click="_submit_message_form_('Y', '', '', '', '', '')">
+                <span class="addlabel blue">发表留言</span>
+            </a>
+        </div>
     </div>
     <!--锚点-顶部-->
     <div ng-if="_messages_array_.length  > 0" style="text-align: right;font-size: small;color: blue;">
@@ -93,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            <form id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
+            <form ng-if="_is_show_reply_btn_" id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
                 回复内容：
                 <div class="form-control" id="_message_textarea_bottom_{{$index}}" contenteditable="true"
                                style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
@@ -118,7 +120,7 @@
                 <input type="text" ng-model="_message.repliedBy" ng-hide="true">
                 <input type="text" ng-model="_message.repliedName" ng-hide="true">
                 <input type="text" ng-model="_message.via" ng-hide="true">
-                <a ng-if="_is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
+                <a href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
                     <span class="addlabel blue">回复</span>
                 </a>

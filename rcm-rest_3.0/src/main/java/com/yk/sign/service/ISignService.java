@@ -66,4 +66,12 @@ public interface ISignService {
      * @return
      */
     HashMap<String, Object> validateSign(String key, String business_id);
+
+    /**
+     * 获取当前任务信息
+     * @param business_module
+     * @param business_id
+     * @return
+     */
+    HashMap<String, Object> getCurrentTask(String business_module, String business_id);
 }

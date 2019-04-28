@@ -965,6 +965,28 @@ function wf_validateSign(business_module, business_id) {
     return validate;
 }
 
+/**
+ * 获取当前任务节点信息
+ * @param processKey
+ * @param businessKey
+ * @param taskKey
+ */
+function wf_getCurrentTask(processKey, businessKey){
+    var url = srvUrl + "sign/getCurrentTask.do";
+    var task = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"processKey": processKey, 'businessKey': businessKey},
+        async: false,
+        success: function (data) {
+            task = data;
+        }
+    });
+    return task;
+}
+
 /**流程相关的一些公共方法结束**/
 /**附件相关的一些公共方法开始**/
 /**
