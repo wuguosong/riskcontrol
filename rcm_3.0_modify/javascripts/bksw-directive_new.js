@@ -5628,7 +5628,7 @@ ctmApp.directive('cloudFile', function () {
             btnAreaStyle:'@',// 按钮域类
             btnAreaClass:'@'// 按钮域样式
         },
-        controller: function ($scope, $location, $http, Upload) {
+        controller: function ($scope, $location, $http, Upload, $window) {
             // 样式与类初始化
             if(isEmpty($scope.btnClass)){
                 $scope._cloud_btn_class_ = 'btn-add btn-scale';
@@ -5817,7 +5817,7 @@ ctmApp.directive('cloudFile', function () {
                 if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.download3d)){
                     return;
                 }
-                window.open(_cloud_file_dto_.download3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(_cloud_file_dto_.download3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
             // 删除
             $scope._cloud_delete_ = function(_cloud_){
@@ -5847,7 +5847,7 @@ ctmApp.directive('cloudFile', function () {
                 if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.preview3d)){
                     return;
                 }
-                window.open(_cloud_file_dto_.preview3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(_cloud_file_dto_.preview3d);
             };
             $scope._cloud_init_();
         }
