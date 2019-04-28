@@ -85,7 +85,7 @@ ctmApp.directive('directUserMultiDialog', function () {
             parentSaveSelected:"&"
         },
         controller: function ($scope, $http, $element) {
-            debugger;
+            ;
             if ($scope.url == null || '' == $scope.url) {
                 $scope.url = "user/queryUserForSelected.do";
             }
@@ -2860,7 +2860,8 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         'docCode': $scope.businessId,
                         'pageLocation': $scope.pageLocation,
                         "oldFileId": _item.fileid,
-                        "reason": _item.reason
+                        "reason": _item.reason,
+                        "oldFileName": _item.fileName
                     }
                 }).then(function (resp) {
                     var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
@@ -2915,7 +2916,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                             }
                             $scope.initUpdate({'id': $scope.businessId});
                             $scope.cancel();
-                            debugger
+                            
                         }else{
                             $.alert(data.result_name);
                         }
@@ -4847,7 +4848,7 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $scope.showReviewToConfirm = false;
                     $scope.showLegalToConfirm = false;
                 }
-                debugger
+                
                 if ("submit" == $scope.approve.operateType) {
                     $scope.submit();
                 } else if ("audit" == $scope.approve.operateType) {
