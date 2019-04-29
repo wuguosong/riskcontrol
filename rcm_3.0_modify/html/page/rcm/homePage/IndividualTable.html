@@ -17,14 +17,15 @@
                     <li role="presentation" class="active">
                         <a href="/#todo" data-toggle="tab" class="tab">
 						待办事项
-						<span class="badge badge-blue">{{myTaskCount}}</span>
+						<span class="uibadge ">{{myTaskCount}}</span>
 						</a>
                     </li>
                     <li role="presentation">
                         <a href="/#havedone" data-toggle="tab" class="tab">
-                        已办事项<span class="badge badge-blue">{{overTaskCount}}</span>
+                        已办事项<span class="uibadge ">{{overTaskCount}}</span>
 						</a>
                     </li>
+
                 </ul>
             </div>
             <!-- Tab panes -->
@@ -118,6 +119,10 @@
                     资料待填写
                 </a>
             </li>
+            <li class="table_tem">
+                <div class="green"></div><p>未完成</p>
+                <div class="gray"></div><p>已完成</p>
+            </li>
         </ul>
     </div>
     <fill-material></fill-material>
@@ -141,6 +146,7 @@
         <i class="icon-nav">&#xe62d;</i>
         <p>项目看板</p>
     </a>
+    <p>更多 >></p>
 </div>
 
 <div class="short-menu" ng-if="showFlag == 2">
@@ -161,6 +167,7 @@
         <i class="icon-nav">&#xe62d;</i>
         <p>决策会管理</p>
     </a>
+    <p>更多 >></p>
 </div>
 
 <script>

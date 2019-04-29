@@ -1,5 +1,323 @@
 <div>
     <div class="">
+        <!--流程图-->
+        <!--标准-->
+        <div class="imgArea" ng-if="processType == 'normal'">
+            <!--timeNode 为普通节点 activeNode 为节点运行过 activingNode 为节点正在审批-->
+            <div class="nodeItem activeNode" nodeNum = "1"  style="top: 200px;left: 0px;">
+            <!--节点前线 第一个节点没有-->
+            <!--<div class="preLine"></div>-->
+            <!--节点-->
+            <div class="timeNode" ></div>
+            <!--节点下的文字-->
+            <div class="nodeName" style="top:30px;left: -94px" ><p>投资经理起草</p></div>
+            <div class="nodeInfo" style="top: 55px;left: -95px">
+                <p class="operator">武国松</p>
+                <p class="opetimeYMD">2018-11-17 15:42</p>
+
+            </div>
+        </div>
+            <div class="nodeItem activeNode" nodeNum = "2" style="top: 200px;left:250px;">
+                <div class="preLine" style="top: 4px;left: -237px;width: 238px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>业务区审批</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode" nodeNum = "3" style="top: 200px;left: 450px;">
+                <div class="preLine" style="top: 4px;left: -187px;width: 195px"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left:-94px" ><p>综合评审小组</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode " nodeNum = "4" subNum="1" style="top: 120px;left: 601px;">
+                <!--一个竖线一个直线-->
+                <div class="preLine" style="top: 84px;left: -138px;width: 145px"></div>
+                <div class="preLine" style="top: 48px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:-25px;left:-94px" ><p>法律分配</p></div>
+                <div class="nodeInfo" style="top: -75px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode " nodeNum = "4" subNum="2" style="top: 280px;left: 601px">
+                <!--一个竖线-->
+                <div class="preLine" style="top: -36px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left:-94px" ><p>分配审批任务</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetime">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem  activeNode" nodeNum = "5" subNum="1" style="top: 120px;left: 813px">
+                <!--一个竖线-->
+                <div class="preLine" style="top: 4px;left: -199px;width:200px"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:-25px;left:-94px" ><p>法律负责人审批</p></div>
+                <div class="nodeInfo" style="top: -75px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetime">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem  activeNode" nodeNum = "5" subNum="2" style="top: 280px;left: 813px">
+                <!--一个竖线-->
+                <div class="preLine" style="top: 4px;left: -199px;width: 200px;"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left:-94px" ><p>评审负责人审批</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode " nodeNum = "6"  style="top: 200px;left: 972px">
+                <!--一个竖线-->
+                <div class="preLine" style="top: -67px;left: -154px;width: 5px;height: 148px"></div>
+                <!--一横-->
+                <div class="preLine" style="top: 4px;left: -149px;width: 150px;"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left:-94px;"><p>评审负责人确认</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode activingNode" nodeNum = "7"  style="top: 200px;left: 1169px">
+                <div class="preLine" style="top: 4px;left: -182px;width: 183px;"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left:-94px;"><p>单位负责人</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetime">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem " nodeNum = "8"  style="top: 200px;left: 1366px">
+                <div class="preLine" style="top: 4px;left: -183px;width: 184px;"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName " style="top:30px;left:-94px;"><p>完成</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator"></p>
+                    <p class="opetimeYMD"></p>
+                    <p class="opetimeHM"></p>
+                </div>
+            </div>
+        </div>
+
+        <!--投标-->
+        <div class="imgArea" ng-if="processType == 'toubiao'">
+            <div class="nodeItem activeNode" nodeNum = "1"  style="top: 200px;left: 0px;">
+                <!--节点前线 第一个节点没有-->
+                <!--<div class="preLine"></div>-->
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>投资经理起草</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode" nodeNum = "2" style="top: 200px;left:270px;">
+                <div class="preLine" style="top: 4px;left: -257px;width: 258px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>大区审批</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode" nodeNum = "3" style="top: 200px;left:560px;">
+                <div class="preLine" style="top: 4px;left: -277px;width: 278px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>投资中心/水环境</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode" nodeNum = "4" style="top: 200px;left:850px;">
+                <div class="preLine" style="top: 4px;left: -277px;width: 278px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>分配任务</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode activingNode" nodeNum = "5" style="top: 200px;left:1120px;">
+                <div class="preLine" style="top: 4px;left: -257px;width: 258px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>评审负责人审批</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem " nodeNum = "6" style="top: 200px;left:1366px;">
+                <div class="preLine" style="top: 4px;left: -231px;width: 232px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>投资中心/水环境</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+        <!--其他-->
+        <div class="imgArea" ng-if="processType == 'another'">
+            <div class="nodeItem activeNode" nodeNum = "1"  style="top: 200px;left: 0px;">
+                <!--节点前线 第一个节点没有-->
+                <!--<div class="preLine"></div>-->
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>起草</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode" nodeNum = "2" style="top: 200px;left:210px;">
+                <div class="preLine" style="top: 4px;left: -197px;width: 198px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>单位负责人审批</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode" nodeNum = "3" style="top: 200px;left:420px;">
+                <div class="preLine" style="top: 4px;left: -197px;width: 198px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>业务负责人审批</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode" nodeNum = "4" style="top: 200px;left:630px;">
+                <div class="preLine" style="top: 4px;left: -197px;width: 198px"></div>
+                <!--节点-->
+                <div class="timeNode" ></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left: -94px" ><p>分配任务</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode activingNode" nodeNum = "5" subNum="1" style="top: 120px;left: 840px;">
+                <!--一个竖线一个直线-->
+                <div class="preLine" style="top: 84px;left: -197px;width: 202px"></div>
+                <div class="preLine" style="top: 48px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:-25px;left:-94px" ><p>法律负责人审批</p></div>
+                <div class="nodeInfo" style="top: -75px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetimeYMD">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem activeNode activingNode " nodeNum = "5" subNum="2" style="top: 280px;left: 840px">
+                <!--一个竖线-->
+                <div class="preLine" style="top: -36px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left:-94px" ><p>评审负责人审批</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator">武国松</p>
+                    <p class="opetime">2018-11-17 15:42</p>
+
+                </div>
+            </div>
+            <div class="nodeItem  " nodeNum = "6"  style="top: 200px;left: 1300px">
+                <!--上横-->
+                <div class="preLine" style="top: -76px;left: -446px;width: 297px"></div>
+                <!--下横-->
+                <div class="preLine" style="top: 84.5px;left: -446px;width: 297px"></div>
+                <!--一个竖线-->
+                <div class="preLine" style="top: -76px;left: -154px;width: 5px;height: 162px"></div>
+                <!--一横-->
+                <div class="preLine" style="top: 4px;left: -149px;width: 150px;"></div>
+                <!--节点-->
+                <div class="timeNode"></div>
+                <!--节点下的文字-->
+                <div class="nodeName" style="top:30px;left:-94px;"><p>完成</p></div>
+                <div class="nodeInfo" style="top: 55px;left: -95px">
+                    <p class="operator"></p>
+                    <p class="opetimeYMD"></p>
+
+                </div>
+            </div>
+
+        </div>
         <div class="row"></div>
         <div class="row nobottom-mar">
             <div class="row-tit">审批意见</div>
@@ -34,7 +352,7 @@
                 </li>
             </ul>
         </div>
-        <div class="row nobottom-mar">
+       <div class="row nobottom-mar">
             <div class="row-tit"><a href="javaScript:void(0)" ng-click="showImg != null&&showImg == true?showImg = false:showImg = true">显示流程图</a></div>
         </div>
         <div class="bpm-img" style="position:relative" ng-show="showImg">

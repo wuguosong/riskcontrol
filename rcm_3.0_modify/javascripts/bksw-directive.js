@@ -2354,7 +2354,7 @@ ctmApp.directive('directiveProcessList', function() {
         },
         controller:function($scope,$http,$element){
             $scope.wf = {};
-            
+
             $scope.$watch("pre + pfr", function(){
             	if($scope.pre == null){
                 	$scope.proj = $scope.pfr;

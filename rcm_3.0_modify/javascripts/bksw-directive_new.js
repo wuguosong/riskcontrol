@@ -3803,6 +3803,8 @@ ctmApp.directive('directiveProcessPage', function() {
         },
         controller:function($scope,$http,$element){
             $scope.wf = {};
+            $scope.processType = $scope.$parent.progressType || $scope.progressType;
+            console.log($scope);
             //获取流程图
             $scope.$watch("refreshImg", function(){
                 if($scope.wfInfo!=null && $scope.wfInfo.businessId != null){

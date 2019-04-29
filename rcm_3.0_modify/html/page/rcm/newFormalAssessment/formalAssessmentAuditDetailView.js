@@ -1,6 +1,7 @@
 ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','$location','$routeParams','Upload','$timeout', '$filter',
  function ($http,$scope,$location,$routeParams,Upload,$timeout,$filter) {
-	debugger;
+	// debugger;
+	 $scope.progressType ='normal';
      $scope.url = $routeParams.url;
 	 /*加签功能初始化必需数据*/
      $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};

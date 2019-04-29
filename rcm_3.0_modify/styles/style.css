@@ -47,6 +47,9 @@ a {
     color: inherit;
     text-decoration: none;
 }
+.nav-tabs a.tab{
+    margin-bottom: 15px !important;
+}
 
 a:hover {
     color: inherit;
@@ -1788,4 +1791,132 @@ td btn-scale:first-child{
 .text-right {
     text-align: right;
     font-weight:normal
+}
+
+.imgArea{
+    position: relative;
+    width: 1380px;
+    height: 500px;
+    margin: 0 auto;
+}
+ .timeNode {
+     background: #999;
+     width: 14px;
+     height: 14px;
+     border-radius: 50%;
+     position: absolute;
+
+ }
+ .nodeItem{
+     position: absolute;
+ }
+ .preLine{
+     height: 5px;
+     /*margin-left: -2px;*/
+     background: #999;
+     position: absolute;
+ }
+ .activeNode>.preLine,.activeNode>.timeNode{
+     background: #2d8cf0 !important;
+
+ }
+.activingNode > .timeNode {
+    width: 18px;
+    height: 18px;
+    background: #2d8cf0;
+    transform:translate(-3px,-3px);
+}
+.nodeName{
+    position: absolute;
+    width:200px;
+    text-align: center;
+}
+.nodeInfo{
+    position: absolute;
+    width: 200px;
+    text-align: center;
+}
+.nodeInfo>p{
+    margin-bottom: 5px;
+}
+.short-menu>p{
+    font-size:14px;
+    color:#666;
+    margin-top: 15px;
+    float: right;
+    margin-right: 25px;
+}
+.table-responsive>.table > thead >tr>th{
+    background: #1ea9f0 ;
+    color:white;
+    border: none;
+}
+
+
+.table tbody tr:nth-child(2n){
+    background: #f5f5f5;
+}
+.table tbody tr:nth-child(2n+1){
+    background: #fff;
+}
+.uibadge{
+    vertical-align: middle;
+    position: absolute;
+    -webkit-transform: translateX(50%);
+    transform: translateX(50%);
+    top: -10px;
+    right: 0;
+    height: 30px;
+    border-radius: 50%;
+    width: 30px;
+    background: #ed4014;
+    border: 1px solid transparent;
+    color: #fff;
+    line-height: 28px;
+    text-align: center;
+
+    font-size: 12px;
+    white-space: nowrap;
+    -webkit-transform-origin: -10% center;
+    transform-origin: -10% center;
+    z-index: 10;
+    box-shadow: 0 0 0 1px #fff;
+    /*margin: ;*/
+}
+.panel-body{
+    min-width: 1457px;
+}
+.p-nav>.nav>.table_tem{
+    float: right;
+    width:450px;
+    padding-top: 9px;
+}
+.p-nav>.nav>.table_tem::after{
+    display: block;
+    content:'';
+    clear: both;
+}
+.p-nav>.nav>.table_tem>p{
+     float: left;
+    height: 26px;
+    line-height: 26px;
+    margin-right: 30px;
+ }
+.p-nav>.nav>.table_tem>div{
+    width: 50px;
+    height: 26px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    float: left;
+    margin-right: 20px;
+}
+
+.p-nav>.nav>.table_tem>.green{
+    background: #69bb8e;
+}
+
+.p-nav>.nav>.table_tem>.gray{
+    background: #ebebeb;
+
 }

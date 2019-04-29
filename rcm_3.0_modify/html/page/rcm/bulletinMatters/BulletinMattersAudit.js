@@ -297,7 +297,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			}
 		}
 	};
-
+	$scope.progressType = 'another';
 	$scope.initDefaultData = function(){
 		debugger;
         /*if ($scope.oldUrl == $filter('encodeURI')('#/BulletinMattersAudit/0')){
