@@ -1883,8 +1883,8 @@ td btn-scale:first-child{
     box-shadow: 0 0 0 1px #fff;
     /*margin: ;*/
 }
-.panel-body{
-    min-width: 1457px;
+.wpanel{
+    min-width: 1450px;
 }
 .p-nav>.nav>.table_tem{
     float: right;
