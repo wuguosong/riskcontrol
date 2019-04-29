@@ -446,6 +446,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
         }
 
         $scope.submitSave = function() {
+            console.log(!$scope.saveMarks())
             if (!$scope.saveMarks()) {
                 $.alert("分数保存出错请检查！");
                 return;
@@ -792,7 +793,8 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 boolean = true;
             }*/
 
-            return boolean;
+            // return boolean;
+            return true;
         }
 
         $scope.isAttachmentBeChosen = function(){
@@ -803,7 +805,8 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 boolean = true;
             }
 
-            return boolean;
+            // return boolean;
+            return true;
         }
 
         //附件列表---->新增列表
