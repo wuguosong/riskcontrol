@@ -965,6 +965,28 @@ function wf_validateSign(business_module, business_id) {
     return validate;
 }
 
+/**
+ * 获取当前任务节点信息
+ * @param processKey
+ * @param businessKey
+ * @param taskKey
+ */
+function wf_getCurrentTask(processKey, businessKey){
+    var url = srvUrl + "sign/getCurrentTask.do";
+    var task = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"processKey": processKey, 'businessKey': businessKey},
+        async: false,
+        success: function (data) {
+            task = data;
+        }
+    });
+    return task;
+}
+
 /**流程相关的一些公共方法结束**/
 /**附件相关的一些公共方法开始**/
 /**
@@ -1133,4 +1155,16 @@ function _common_get_string_byte_length(str) {
         str += "";
     }
     return str.replace(/[^\x00-\xff]/g, "01").length;
+}
+
+/**
+ * 获取指定时间的生存时差（秒数）
+ * @param initDate 初始日期
+ * @param ttl 生存时间（分钟）
+ * @returns 当前日期与初始日期相差秒数
+ */
+function _common_get_ttl(_initDate, _ttl){
+    var _times = new Date().getTime() - _initDate.getTime();
+    var _seconds = parseInt(_times / (1000));
+    return _ttl * 60 - _seconds;
 }

@@ -2,6 +2,7 @@ package newInterface.appointment.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -21,6 +22,7 @@ import common.Result;
 import newInterface.appointment.service.IAppointmentService;
 import util.EncryptUtil;
 import util.ThreadLocalUtil;
+import util.Util;
 
 /**
  * 
@@ -44,6 +46,7 @@ public class appointmentController {
 	@ResponseBody
 	public Result getMeetingTypeInfo(String par){
 		Result result = new Result();
+		System.out.println("查看约会系统传送过来的会议类型相关数据，par = " + par);
 		/*try {*/
 			//this.appointmentService.saveMeeting(par);
 			result.setError_code("200");
@@ -80,21 +83,24 @@ public class appointmentController {
 	 * */
 	@RequestMapping("/sendData")
 	public String sendData(){
-	    HttpClient client = new HttpClient() ;
+		HttpClient client = new HttpClient() ;
 	    PostMethod method = null;//post 方式   get 方式 GetMethod gMethod
 	    String result = "" ;
 	    try {
 	        Map<String, Object> params = new HashMap<String, Object>();
-	        params.put("rnd", "tgbj");
-	        params.put("key", EncryptUtil.MD5("tgbj" + "fkxt2019)$)%"));
+	        String str = Util.getUUID().substring(0, 8);
+	        params.put("Rnd", str);
+	        params.put("Key", EncryptUtil.MD5(str + "fkxt2019)$)%"));
 	        params.put("OperatorId", ThreadLocalUtil.getUserId());
-	        params.put("SystemCode", "");
+	        params.put("SystemCode", "001");
 	        JSONObject Json = (JSONObject)JSON.toJSON(params);
 	    	method = new PostMethod("http://bksitenew.hengtaiboyuan.com/AppointmentMeeTingManage/WebAPI/GetMeeTingTypeListsByPartyCSystemId") ;
 	        method.setParameter("par",Json.toString());//设置参数
 	        client.executeMethod(method);
+	        System.out.println(method.getStatusCode());
 	        if(method.getStatusCode() == HttpStatus.SC_OK){//响应成功
 	            result = method.getResponseBodyAsString();//调用返回结果
+	            System.out.println(result);
 	        }else{//不成功组装结果
 	            Map<String , Object >map = new HashMap<String , Object>();
 	            Gson gson = new Gson() ;

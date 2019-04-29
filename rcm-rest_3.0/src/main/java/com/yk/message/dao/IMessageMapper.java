@@ -36,7 +36,7 @@ public interface IMessageMapper extends BaseMapper {
      *
      * @param message 留言实体
      */
-    void insertMessage(@Param("message") Message message);
+    void insertMessage(Message message);
 
     /**
      * 更新留言信息
@@ -73,4 +73,8 @@ public interface IMessageMapper extends BaseMapper {
     HashMap<String, Object> selectUserInfoByUuid(@Param("uuid") String uuid);
 
     List<Message> selectMessageListPage(Map<String, Object> params);
+
+    List<Message> selectMessageNotify(@Param("curUuid") String curUuid);
+
+    List<Map<String, Object>> selectUserByCondition(Map<String, Object> params);
 }

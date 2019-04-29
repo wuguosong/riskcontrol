@@ -9,6 +9,7 @@ import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import com.yk.power.dao.IUserMapper;
+import common.Constants;
 import common.PageAssistant;
 import fnd.UserDto;
 import org.apache.commons.collections4.CollectionUtils;
@@ -50,6 +51,7 @@ public class MessageService implements IMessageService {
 
     @Override
     public Message save(Message message) {
+        message.setMessageDate(DateUtil.getCurrentDate());
         messageMapper.insertMessage(message);
         return message;
     }
@@ -338,5 +340,27 @@ public class MessageService implements IMessageService {
             jsonObjects.add(jsonObjectLeaves);
         }
         pageAssistant.setList(jsonObjects);
+    }
+
+    @Override
+    public List<Message> getMessageNotify() {
+        String curUuid = UserUtil.getCurrentUserUuid();
+        return messageMapper.selectMessageNotify(curUuid);
+    }
+
+    @Override
+    public void queryViaUsers(PageAssistant page) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("page", page);
+        if(page.getParamMap() != null){
+            params.putAll(page.getParamMap());
+        }
+        String orderBy = page.getOrderBy();
+        if(orderBy == null){
+            orderBy = " account ";
+        }
+        params.put("orderBy", orderBy);
+        List<Map<String, Object>> list = messageMapper.selectUserByCondition(params);
+        page.setList(list);
     }
 }

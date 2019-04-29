@@ -232,6 +232,19 @@ public class FormalReportController {
 
 		return result;
 	}
+	
+	@RequestMapping("/addPptecision")
+	@ResponseBody
+	/*@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "添加策略决策")*/
+	public Result addPptecision(String json, String method, HttpServletRequest request) {
+		// 提交的判断项目参会信息是否已填写，如没填写禁止提交，并提示先填写参会信息才能够提交
+//		Result result = new Result();
+		Result result = this.formalReportService.addPptecision(json, method);
+//		result.setSuccess(flag);
+
+		return result;
+	}
+	
 	@RequestMapping("/updatePolicyDecision")
 	@ResponseBody
 	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.UPDATE, description = "更新政策决策")
@@ -302,4 +315,15 @@ public class FormalReportController {
 		result.setResult_data(map);
 		return result;
 	}
+	
+	@RequestMapping("/getSummaryPPTByID")
+	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.CREATE, description = "查找正式项目摘要")
+	public Result getSummaryPPTByID(String businessId, String type, HttpServletRequest request) {
+		Result result = new Result();
+		Map<String, Object> map = this.formalReportService.findFormalPptSummary(businessId, type);
+		result.setResult_data(map);
+		return result;
+	}
+	
 }

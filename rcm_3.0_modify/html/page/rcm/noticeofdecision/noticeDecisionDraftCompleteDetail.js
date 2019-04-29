@@ -3,6 +3,7 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
     $scope.businessid = $routeParams.id;
     $scope.action = $routeParams.action;
     $scope.oldUrl = $routeParams.url;
+    $scope.mappedKeyValue={"nameField":"NAME","valueField":"ORGPKVALUE"};
     $scope.nod={};
     $scope.dic=[];
     $scope.columns = [{

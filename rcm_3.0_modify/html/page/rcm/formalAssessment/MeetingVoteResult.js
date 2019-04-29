@@ -2,6 +2,7 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
 	$scope.decisionId = $routeParams.decisionId;
 	$scope.oldUrl = $routeParams.url;
 	$scope.initialize = function () {
+		$scope.back();
     	$http({
 			method:'post',  
 		    url:srvUrl+"decision/getDecisionResultNew.do",
@@ -27,6 +28,21 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
 				$.alert(data.result_name);
 			}
 		});
+    };
+	// 判断权限，设置返回
+	$scope.back = function (){
+		if ($scope.oldUrl == $filter("encodeURI")("#/MeetingManageList")) {
+            $scope.userRole = $scope.credentials.roles;
+            var count = 0;
+            angular.forEach($scope.userRole, function (data, index) {
+                if (data.CODE == '3' || data.CODE == '1'){
+                    count = count + 1;
+                }
+            });
+            if (count == 0){
+                $scope.oldUrl = $filter("encodeURI")("#/");
+            }
+		}
     };
     $scope.initialize();
 }]);

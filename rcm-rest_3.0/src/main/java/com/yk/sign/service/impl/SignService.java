@@ -37,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
 import util.ThreadLocalUtil;
+import util.UserUtil;
 import util.Util;
 
 import javax.annotation.Resource;
@@ -217,10 +218,10 @@ public class SignService implements ISignService {
         bpmnService.sendWaitingToPotal(task_id, url, Util.format(Util.now()), (String) bulletinOracle.get("BULLETINNAME"), String.valueOf(delMap.get("OLDUSERID")), "1", lastUserId);
     }
 
-    private HashMap<String, Object> getCurrentTask(String business_module, String business_id) {
+    public HashMap<String, Object> getCurrentTask(String business_module, String business_id) {
         List<HashMap> logs = signMapper.getCurrentTaskInfo(business_module, business_id);
         HashMap<String, Object> log = null;
-        String curUser = ThreadLocalUtil.getUserId();
+        String curUser = UserUtil.getCurrentUserUuid();
         for (HashMap map : logs) {
             if (String.valueOf(map.get("AUDITUSERID")).equalsIgnoreCase(curUser)) {
                 log = map;

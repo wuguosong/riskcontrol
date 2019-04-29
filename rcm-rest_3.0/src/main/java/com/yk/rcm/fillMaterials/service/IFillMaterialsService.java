@@ -14,14 +14,16 @@ import common.PageAssistant;
 
 public interface IFillMaterialsService {
 	
-	public PageAssistant queryNoSubmitList(PageAssistant page);
+	public PageAssistant queryNoSubmitList(PageAssistant page, String json);
 
-	public PageAssistant querySubmitList(PageAssistant page);
+	public PageAssistant querySubmitList(PageAssistant page, String json);
 	
 	void updateProjectStaus(Map<String, Object> params);
 	
 	public Map<String, Object> getRFIStatus(String businessid);
 	
 	public Map<String, Object> getRPIStatus(String businessid);
+
+	public void updateProjectBiddingStaus(Map<String, Object> statusMap);
 	
 }

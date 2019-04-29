@@ -101,4 +101,10 @@ public class MessageTest {
         }
         System.out.println(list.size());
     }
+
+    @Test
+    public void testMessageNotify(){
+        List<Message> list = messageService.getMessageNotify();
+        System.out.println(list.size());
+    }
 }

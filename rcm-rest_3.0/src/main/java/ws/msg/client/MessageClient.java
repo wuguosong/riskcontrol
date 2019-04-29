@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * 统一消息平台接口客户端
  */
 public class MessageClient {
-    private Prop prop = PropKit.use("dev_db.properties");
+    private Prop prop = PropKit.use("wsdl_conf.properties");
     public String _URL = prop.get("message.share.url") + prop.get("message.request.mapping");
     public String _CONTENT = prop.get("message.share.content");
     public String _TITLE = prop.get("message.share.title");
@@ -18,9 +18,15 @@ public class MessageClient {
     public static final String _WX = "WX";
     public static final String _SMS = "SMS";
     private String SYS_CODE = prop.get("message.ws.sys.code");
-    private BEWGMessageServiceSoap soap = new BEWGMessageService().getBEWGMessageServiceSoap();
+    private String environment = prop.get("message.wsdl.environment");
+    private BEWGMessageServiceSoap soap = null;
 
     public MessageClient() {
+        if("prd".equalsIgnoreCase(environment)){
+            soap = new BEWGMessageServicePrd().getBEWGMessageServiceSoap();
+        }else {
+            soap = new BEWGMessageService().getBEWGMessageServiceSoap();
+        }
     }
 
     /**

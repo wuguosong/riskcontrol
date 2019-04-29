@@ -25,39 +25,31 @@
 					<div class="tab-content tab-content-bordered">
 						<div class="tab-pane in active special-form" id="contracts_file_info">
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>投资项目名称</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>项目名称</label>
 								<div class="col-sm-4">
-									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectNameTZ" name="projectNameTZ" ng-model="bulletin.projectNameTZ" value="{{bulletin.projectName}}"/>
+									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
 								</div>
 								<label class="col-sm-2 control-label">项目编号</label>
 								<div class="col-sm-4">
-									<input type="text" readonly class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="">
+									<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
+									<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
+								</div>
 								</div>
 							</div>
-							<!--<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>项目名称</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
-								</div>
-								<label class="col-sm-2 control-label">项目所在地</label>
-								<div class="col-sm-4">
-									<input type="text" readonly class="form-control" id="projectAddress" name="projectAddress" ng-model="bulletin.projectAddress" placeholder="">
-								</div>
-							</div>-->
 							<div class="row">
 								<label class="col-sm-2 control-label"><span class="required-m">*</span>所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
 									<div class="full-drop">
-									 
+
 										<input type="text" ng-show="isNotbusinessService" readonly required class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
 										<!--
 										<input type="text" ng-if="!isNotbusinessService"  class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
 										 -->
-										<direct-report-org-select ng-if="!isNotbusinessService"  id ="{{'rorg'}}" titel ="{{'所属大区选择'}}" url = "{{'org/queryReportOrg.do'}}"   mapped-key-value = "mappedKeyValue" 
+										<direct-report-org-select ng-if="!isNotbusinessService"  id ="{{'rorg'}}" titel ="{{'所属大区选择'}}" url = "{{'org/queryReportOrg.do'}}"   mapped-key-value = "mappedKeyValue"
 											callback = "selectOrgCallback" checked-org ="checkedOrg" other-fields ="otherFields" is-editable ="'true'"  is-page="'true'"
 											columns = "columns">
 										</direct-report-org-select>
-										
+
 										<input type="hidden" required class="form-control" id="applyUnitId" name="applyUnitId" ng-model="bulletin.applyUnit.VALUE">
 										<div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
 										</div>

@@ -116,16 +116,8 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		params.put("projectName", apply.getString("projectName"));
 		params.put("projectNum", apply.getString("projectNo"));
 		
-		Document reportingUnit = (Document) apply.get("pertainArea");
-		params.put("reportingUnit_id", reportingUnit.getString("KEY"));
-		
-		//根据申报单位初始化大区ID
-		Map<String, Object> pertainAreaDocument = orgService.queryPertainArea(reportingUnit.get("KEY").toString());
-		if (pertainAreaDocument != null){
-			params.put("pertainAreaId", pertainAreaDocument.get("ORGPKVALUE"));
-		} else {
-			params.put("pertainAreaId", reportingUnit.getString("KEY"));
-		}
+		Document pertainArea = (Document) apply.get("pertainArea");
+		params.put("pertainAreaId", pertainArea.getString("KEY"));
 		
 		List<Document> serviceType = (List<Document>) apply.get("serviceType");
 		if(Util.isNotEmpty(serviceType) && serviceType.size()>0){
@@ -136,6 +128,9 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 			serviceType_id = serviceType_id.substring(1);
 			params.put("serviceType_id", serviceType_id);
 		}
+		
+		System.out.println(apply.get("investmentModel").toString());
+		params.put("investment_model", apply.get("investmentModel").toString());
 		
 		List<Document> projectModel = (List<Document>) apply.get("projectModel");
 		if(Util.isNotEmpty(projectModel) && projectModel.size()>0){
@@ -157,11 +152,6 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		params.put("emergencyLevel", null);
 		
 		params.put("isUrgent", null);
-		
-		Document pertainArea = (Document) apply.get("pertainArea");
-		if(Util.isNotEmpty(pertainArea)){
-			params.put("pertainAreaId", pertainArea.getString("KEY"));
-		}
 		
 		params.put("isTZ", "0");
 		
@@ -202,6 +192,8 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		
 		//创建时间与mongDB 一致
 		params.put("create_date", doc.get("create_date"));
+		//修改时间与mongDB 一致
+        params.put("last_update_date", doc.get("last_update_date"));
 		return params;
 	}
 

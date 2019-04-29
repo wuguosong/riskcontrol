@@ -6,6 +6,7 @@ import com.yk.message.service.IMessageService;
 import common.Constants;
 import common.PageAssistant;
 import common.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import util.UserUtil;
 import ws.msg.client.MessageBack;
+import ws.msg.client.MessageClient;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +104,10 @@ public class MessageController {
 		message.setReadFlag("N");
 		try {
 			message = messageService.save(message);
-			// TODO 保存成功后调用钉钉接口推送信息
+			// 保存成功后调用钉钉接口推送信息
+			if(StringUtils.isNotBlank(message.getViaUsers())){
+				messageService.shareMessage(message.getMessageId(), message.getViaUsers(), MessageClient._DT);
+			}
 			result.setSuccess(true);
 			result.setResult_code(Constants.S);
 			result.setResult_data(message);
@@ -196,13 +202,12 @@ public class MessageController {
 			result.setSuccess(true);
 			result.setResult_code(Constants.S);
 			result.setResult_data(message);
-			result.setResult_name("删除留言成功!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setResult_code(Constants.R);
 			result.setSuccess(false);
 			result.setResult_data(e);
-			result.setResult_name("删除留言失败!" + e.getMessage());
+			result.setResult_name(e.getMessage());
 			logger.error("删除留言失败!" + e.getMessage());
 		}
 		return result;
@@ -351,4 +356,30 @@ public class MessageController {
 		}
 		return userInfo;
 	}
+
+	@RequestMapping(value = "getMessageNotify", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Message> getMessageNotify(){
+		return messageService.getMessageNotify();
+	}
+
+	/**
+	 * 用户选择框，分页查询用户
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/queryViaUsers")
+	@ResponseBody
+	public Result queryViaUsers(HttpServletRequest request, String message_business_id, String message_type){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		Map<String, Object> paramMap = page.getParamMap();
+		paramMap.put("message_business_id", message_business_id);
+		paramMap.put("message_type", message_type);
+		page.setParamMap(paramMap);
+		messageService.queryViaUsers(page);
+		result.setResult_data(page);
+		return result;
+	}
+
 }

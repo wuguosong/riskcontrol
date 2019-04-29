@@ -8,7 +8,6 @@
 			businessid,
 			projectName,
 			projectNum,
-			reportingUnit_id,
 			serviceType_id,
 			investment_model,
 			project_model_ids,
@@ -39,7 +38,6 @@
 			#{businessid},
 			#{projectName},
 			#{projectNum},
-			#{reportingUnit_id},
 			#{serviceType_id},
 			#{investment_model,jdbcType=VARCHAR},
 			#{project_model_ids,jdbcType=VARCHAR},
@@ -74,7 +72,6 @@
 		update rcm_formalassessment_info set
 		       projectName = #{projectName},
 		       projectNum = #{projectNum},
-		       reportingUnit_id = #{reportingUnit_id},
 		       serviceType_id = #{serviceType_id},
 		       investment_model = #{investment_model},
 		       project_model_ids = #{project_model_ids,jdbcType=VARCHAR},

@@ -56,8 +56,8 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     // 初始化新增数据
     $scope.initCreate = function () {
         $scope.pfr.apply.createby = $scope.credentials.UUID;
-        $scope.pfr.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
-        $scope.pfr.apply.reportingUnit = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};
+        /*$scope.pfr.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
+        $scope.pfr.apply.reportingUnit = {KEY: $scope.credentials.deptId, VALUE: $scope.credentials.deptName};*/
         $scope.pfr.apply.investmentModel='0';
     };
 
@@ -102,7 +102,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
             // 回显数据-人员信息
-            let paramsVal = "";
+            var paramsVal = "";
             if($scope.pfr.apply.companyHeader != undefined && $scope.pfr.apply.companyHeader != null && $scope.pfr.apply.companyHeader != ""){
                 paramsVal = "companyHeader"
                 $("label[for='companyHeaderName']").remove();
@@ -281,21 +281,6 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         $scope.columnsNum=num;
     }
 
-    // 选择项目后，写入项目名称
-    $scope.setDirectiveCompanyList=function(project){
-        $scope.pfr.apply.projectNo=project.PROJECTCODE;
-        $scope.pfr.apply.projectNameTZ=project.PROJECTNAME;
-
-        if (project.ADDRESS == undefined || project.ADDRESS == null || project.ADDRESS == '' || project.ADDRESS == "暂无数据" || project.ADDRESS == "无"){
-            $scope.pfr.apply.projectAddress='';
-        } else {
-            $scope.pfr.apply.projectAddress=project.ADDRESS;
-        }
-        $scope.pfr.apply.projectName = $scope.pfr.apply.projectAddress + project.PROJECTNAME;
-        $("#projectNameTZ").val(name);
-        $("label[for='projectNameTZ']").remove();
-    }
-
     // 获取项目模式
     $scope.getSyncbusinessmodel=function(keys){
         var url="businessDict/queryBusinessType.do";
@@ -336,13 +321,12 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         }
         $("#s2id_projectmodeboxName").find(".select2-choices .select2-search-choice").remove();
         $scope.pfr.apply.projectModel=null;
-        $scope.getprojectmodel(pid);
     }
 
     // 获取项目模式
-    $scope.getprojectmodel=function(keys){
+    $scope.getprojectmodel=function(){
         var url= "common/commonMethod/selectsyncbusinessmodel";
-        $scope.httpData(url,keys).success(function(data){
+        $scope.httpData(url).success(function(data){
             if(data.result_code === 'S'){
                 $scope.dicSyn.projectModelValue=data.result_data;
             }else{
@@ -434,7 +418,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     };
     $scope.wfInfo = {processKey:'formalReview'};
 
-    // 标准项目名称构建
+    /*// 标准项目名称构建
     $scope.changeServiceType = function () {
         if ($scope.pfr.apply.serviceType.length() < 1){
             if ($scope.pfr.apply.serviceType[0] != undefined) {
@@ -471,7 +455,33 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                 $scope.pfr.apply.projectName = name[0];
             }
         }
-    };
+    };*/
+
+
+    // 选择项目后，填写项目相关默认值
+    $scope.setDirectiveCompanyList=function(project){
+        $scope.pfr.apply.projectNo = project.PROJECTCODE;  // 存储用编码
+        $scope.pfr.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
+        $scope.pfr.apply.projectName = project.PROJECTNAME; // 项目名称
+        $scope.pfr.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
+        $scope.pfr.apply.investmentManager = {NAME:project.RESPONSIBLEUSER,VALUE:project.RESPONSIBLEUSERID};
+        if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
+            $scope.pfr.apply.companyHeader = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};
+            commonModelOneValue('companyHeader',$scope.pfr.apply.companyHeader.VALUE,$scope.pfr.apply.companyHeader.NAME);
+        }
+
+        var serviceCode = project.SERVICETYPE;
+        angular.forEach($scope.dicSyn.Syncbusinessmodel, function (data, index, array) {
+            if (serviceCode == data.KEY){
+                $scope.pfr.apply.serviceType = [];
+                $scope.pfr.apply.serviceType[0] = data;
+            }
+        });
+        $scope.pfr.apply.projectAddress=project.ADDRESS; // 项目所在地
+
+        $("#projectName").val(name);
+        $("label[for='projectName']").remove();
+    }
 
 
     $scope.initData();
@@ -488,7 +498,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         // 初始化业务类型下拉框
         $scope.getSyncbusinessmodel('0');
         // 初始化项目模式的值
-        $scope.getprojectmodel('2');
+        $scope.getprojectmodel();
     });
 }]);
 

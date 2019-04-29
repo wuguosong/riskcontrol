@@ -9,7 +9,6 @@
 			BUSINESSID, 
 			PROJECTNAME, 
 			PROJECTNUM, 
-			REPORTINGUNIT_ID, 
 			SERVICETYPE_ID, 
 			INVESTMENT_MODEL, 
 			PROJECT_MODEL_IDS, 
@@ -39,7 +38,6 @@
 			#{businessId,jdbcType=VARCHAR}, 
 			#{projectName,jdbcType=VARCHAR}, 
 			#{projectNum,jdbcType=VARCHAR}, 
-			#{reportingUnit_id,jdbcType=VARCHAR}, 
 			#{serviceType_id,jdbcType=VARCHAR}, 
 			#{investmentModel,jdbcType=VARCHAR}, 
 			#{project_model_ids,jdbcType=VARCHAR}, 
@@ -69,29 +67,28 @@
 	
 	<!-- 通过ID修改数据库中的数据 -->
 	<update id="update" parameterType="map">
-		update RCM_PRE_INFO set
-		       projectName = #{projectName},
-		       projectNum = #{projectNum},
-		       reportingUnit_id = #{reportingUnit_id},
-		       serviceType_id = #{serviceType_id},
-		       investment_model = #{investmentModel},
-		       project_model_ids = #{project_model_ids,jdbcType=VARCHAR},
-		       need_meeting = #{need_meeting},
-		       meeting_date = to_date(#{meeting_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
-		       is_supplement_review = #{is_supplement_review},
-		       emergencyLevel = #{emergencyLevel,jdbcType=VARCHAR},
-		       isUrgent = #{isUrgent},
-		       pertainAreaId = #{pertainAreaId,jdbcType=VARCHAR},
-		       isTZ = #{isTZ,jdbcType=VARCHAR},
-		       wf_state = #{wf_state},
-		       create_date = to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
-		       apply_date = to_date(#{apply_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
-		       complete_date = to_date(#{complete_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
-		       stage = #{stage,jdbcType=VARCHAR},
-		       oldData = #{oldData,jdbcType=VARCHAR},
-		       createby = #{createBy,jdbcType=VARCHAR},
-		       last_update_date = to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss') 
-		 where businessid  = #{businessid} 
+		update rcm_pre_info f 
+		   set f.projectName = #{projectName},
+		       f.projectNum = #{projectNum},
+		       f.serviceType_id = #{serviceType_id},
+		       f.investment_model = #{investment_model},
+		       f.project_model_ids = #{project_model_ids,jdbcType=VARCHAR},
+		       f.need_meeting = #{need_meeting},
+		       f.meeting_date = to_date(#{meeting_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.is_supplement_review = #{is_supplement_review},
+		       f.emergencyLevel = #{emergencyLevel,jdbcType=VARCHAR},
+		       f.isurgent = #{isurgent},
+		       f.pertainAreaId = #{pertainAreaId,jdbcType=VARCHAR},
+		       f.isTZ = #{isTZ,jdbcType=VARCHAR},
+		       f.wf_state = #{wf_state},
+		       f.create_date = to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.apply_date = to_date(#{apply_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.complete_date = to_date(#{complete_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.stage = #{stage,jdbcType=VARCHAR},
+		       f.oldData = #{oldData,jdbcType=VARCHAR},
+		       f.createby = #{createBy},
+		       f.last_update_date = to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')  
+		 where f.BUSINESSID = #{businessId}
 	</update>
 	
 	<!-- 通过业务ID删除项目数据 -->

@@ -20,7 +20,9 @@ import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
+import com.yk.rcm.fillMaterials.dao.IFillMaterialsMapper;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
+import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 import com.yk.rcm.formalAssessment.service.IFormalReportService;
@@ -55,6 +57,12 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
+	
+	@Resource
+	private IFillMaterialsMapper fillMaterialsMapper;
+	
+	@Resource
+	private IFormalAssessmentInfoMapper formalAssessmentInfoMapper;
 	
 	private Logger logger = Logger.getLogger("FormalReportServiceImpl");
 
@@ -219,7 +227,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		statusMap.put("filed", "IS_SUBMIT_REPORT");
 		statusMap.put("status", "1");
 		statusMap.put("BUSINESSID", projectFormalId);
-		this.fillMaterialsService.updateProjectStaus(statusMap);
+		this.fillMaterialsMapper.updateProjectStaus(statusMap);
 		
 		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(projectFormalId);
 		if(Util.isNotEmpty(Object)) {
@@ -476,7 +484,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		statusMap.put("filed", "IS_SUBMIT_BIDDING");
 		statusMap.put("status", "0");
 		statusMap.put("BUSINESSID", businessId);
-		this.fillMaterialsService.updateProjectStaus(statusMap);
+		statusMap.put("BIDDING_TYPE", "NORMAL");
+		this.fillMaterialsService.updateProjectBiddingStaus(statusMap);
 
 		// 验证边界条件
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -789,6 +798,70 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("stage", queryById.get(1));
 		return param;
+	}
+
+	@Override
+	public Result addPptecision(String json, String method) {
+		System.out.println("查看是提交还是暂存  method="+method);
+		Result result = new Result();
+		result.setResult_data(true);
+		Document bjson = Document.parse(json);
+		String businessId = bjson.getString("projectFormalId");
+		
+		Map<String, Object> statusMap = new HashMap<String, Object>();
+		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
+		statusMap.put("filed", "IS_SUBMIT_BIDDING");
+		statusMap.put("status", "0");
+		statusMap.put("BUSINESSID", businessId);
+		statusMap.put("BIDDING_TYPE", "PPT");
+		this.fillMaterialsService.updateProjectBiddingStaus(statusMap);
+
+		// 2、添加提交时间,修改阶段
+		if ("ss".equals(method)) {
+			if (this.isHaveMeetingInfo(businessId)) {
+				Map<String, Object> statusMap1 = new HashMap<String, Object>();
+				statusMap1.put("table", "RCM_FORMALASSESSMENT_INFO");
+				statusMap1.put("filed", "IS_SUBMIT_BIDDING");
+				statusMap1.put("status", "1");
+				statusMap1.put("BUSINESSID", businessId);
+				this.fillMaterialsService.updateProjectStaus(statusMap1);
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
+				if(Util.isNotEmpty(Object)) {
+					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
+						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+							map.put("stage", "4");
+						}
+					}
+				}
+//				map.put("stage", "4");
+				map.put("decision_commit_time", Util.format(Util.now()));
+				map.put("businessid", businessId);
+				this.formalReportMapper.changeState(map);
+			} else {
+				return result.setResult_data(false);
+			}
+		}
+		
+		// 修改评审意见汇总-------------Start-------------------------
+		Document projectSummary = (Document) bjson.get("projectSummary");
+		saveOrUpdateFormalProjectSummary(projectSummary);
+		// 修改评审意见汇总-------------End-------------------------
+		
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> findFormalPptSummary(String businessId, String type) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(type.equals("pfr")) {
+			Map<String, Object> project = this.formalAssessmentInfoMapper.getFormalAssessmentById(businessId);
+			map.put("project", project);
+		}
+		Map<String, Object> summary = this.baseMongo.queryById(businessId, Constants.RCM_FORMAL_SUMMARY);
+		map.put("summary", summary);
+		return map;
 	}
 
 }

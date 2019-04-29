@@ -85,6 +85,7 @@ ctmApp.directive('directUserMultiDialog', function () {
             parentSaveSelected:"&"
         },
         controller: function ($scope, $http, $element) {
+            ;
             if ($scope.url == null || '' == $scope.url) {
                 $scope.url = "user/queryUserForSelected.do";
             }
@@ -890,7 +891,7 @@ ctmApp.directive('directiveUserList', function() {
             }
             $scope.queryUser=function(){
                 $scope.paginationConf.queryObj = $scope.queryObj;
-                var  url = 'fnd/SysUser/getAll';
+                var  url = 'fnd/user/getAll';
                 $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
                     // 变更分页的总数
                     if(data.result_code == "S") {
@@ -1580,16 +1581,30 @@ ctmApp.directive('bbsChatNew', function() {
         replace: true,
         scope:{
             id: "@",// 组件ID
+            viaUserQueryUrl:"@",// 查询访问的url
+            messageType:"@",// 消息类型
             businessId:"@",// 业务ID
             initMessagesArray:"=",// 初始化
             initUuid:"=",// 当前登录用户
             isPagination:'@',//是否开启分页，默认为false
-            isAlertUser:'@'//是否弹出用户信息，默认为false
+            isAlertUser:'@',//是否弹出用户信息，默认为false
+            isShowShare:'@',//是否显示分享，默认为false
+            isShowDt:'@',// 显示分享到钉钉，默认为false
+            isShowWx:'@',// 显示分享到微信，默认为false
+            isShowEmail:'@',//显示分享到邮箱，默认为false
+            isShowSms:'@',// 显示分享到短信，默认为false
+            isShowPublishBtn:'@',// 是否显示发表留言按钮，默认为true
+            isShowReplyBtn:'@',// 是否显示回复按钮，默认为true
         },
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, $element){
-            // 初始化是否分页、是否弹出用户设置
+            $scope._message_type_ = $scope.messageType;
+            $scope._message_business_id_ = $scope.businessId;
+            if(isEmpty($scope.viaUserQueryUrl)){
+                $scope._via_user_query_url_ = 'message/queryViaUsers.do?message_business_id=' + $scope.businessId + '&message_type=' + $scope.messageType;
+            }
+            // 初始化是否分页、是否弹出用户设置、是否显示分享按钮等
             if(isEmpty($scope.isPagination)){
                 $scope._is_pagination_ = false;
             }else{
@@ -1599,6 +1614,41 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._is_alert_user_ = false;
             }else{
                 $scope._is_alert_user_ = $scope.isAlertUser == 'true';
+            }
+            if(isEmpty($scope.isShowPublishBtn)){
+                $scope._is_show_publish_btn_ = true;
+            }else{
+                $scope._is_show_publish_btn_ = $scope.isShowPublishBtn == 'true';
+            }
+            if(isEmpty($scope.isShowReplyBtn)){
+                $scope._is_show_reply_btn_ = true;
+            }else{
+                $scope._is_show_reply_btn_ = $scope.isShowReplyBtn == 'true';
+            }
+            if(isEmpty($scope.isShowShare)){
+                $scope._is_show_share_ = false;
+            }else{
+                $scope._is_show_share_ = $scope.isShowShare == 'true';
+            }
+            if(isEmpty($scope.isShowDt)){
+                $scope._is_show_dt_ = false;
+            }else{
+                $scope._is_show_dt_ = $scope.isShowDt == 'true';
+            }
+            if(isEmpty($scope.isShowWx)){
+                $scope._is_show_wx_ = false;
+            }else{
+                $scope._is_show_wx_ = $scope.isShowWx == 'true';
+            }
+            if(isEmpty($scope.isShowSms)){
+                $scope._is_show_sms_ = false;
+            }else{
+                $scope._is_show_sms_ = $scope.isShowSms == 'true';
+            }
+            if(isEmpty($scope.isShowEmail)){
+                $scope._is_show_email_ = false;
+            }else{
+                $scope._is_show_email_ = $scope.isShowEmail == 'true';
             }
             // 初始化留言表单内容
             $scope._message = {};
@@ -1672,6 +1722,7 @@ ctmApp.directive('bbsChatNew', function() {
                 if(_common_get_string_byte_length(formData.messageContent) > 2500){
                     $.alert('内容不能超过2500个字符!');
                 }
+                formData.messageType = $scope.messageType;
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/add.do',
@@ -1693,8 +1744,13 @@ ctmApp.directive('bbsChatNew', function() {
                 });
             };
             // 删除留言信息
-            $scope._delete_message_ = function (_message_id_) {
-                $.confirm('删除该留言吗?', function(){
+            $scope._delete_message_ = function (_message_id_, _message_) {
+                var _message_date_ = _message_['messageDate'];
+                if(_common_get_ttl(new Date(_message_date_), 3) < 0){
+                    $.alert('只能撤回3分钟以内的留言！');
+                    return;
+                }
+                $.confirm('确定撤回该留言吗?', function(){
                     $http({
                         method: 'post',
                         url: srvUrl + 'message/delete.do',
@@ -1708,7 +1764,15 @@ ctmApp.directive('bbsChatNew', function() {
                         }else{
                             $scope._query_messages_list_(0);
                         }
-                        $.alert('删除留言成功!');
+                        if(isEmpty(data)){
+                            $.alert('服务器错误！撤回留言失败!');
+                        }else{
+                            if(data.success){
+                                $.alert('撤回留言成功!');
+                            }else{
+                                $.alert("撤回留言失败!" + data.result_name);
+                            }
+                        }
                     });
                 });
             };
@@ -1800,7 +1864,7 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._share_type_ = 'DT';
             // 展示分享弹窗
             $scope._show_share_message_form_ = function(_message_id_){
-                $('#_share_message_type_span_').text('钉钉');
+                $('#_share_message_type_span_').text('');
                 $scope._share_type_ = 'DT';
                 $('#_share_message_dialog').modal('show');
                 $scope._share_message_id_ = _message_id_;
@@ -2796,7 +2860,8 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         'docCode': $scope.businessId,
                         'pageLocation': $scope.pageLocation,
                         "oldFileId": _item.fileid,
-                        "reason": _item.reason
+                        "reason": _item.reason,
+                        "oldFileName": _item.fileName
                     }
                 }).then(function (resp) {
                     var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
@@ -2851,7 +2916,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                             }
                             $scope.initUpdate({'id': $scope.businessId});
                             $scope.cancel();
-                            debugger
+                            
                         }else{
                             $.alert(data.result_name);
                         }
@@ -3651,6 +3716,7 @@ ctmApp.directive('directPromptBoxFormal', function() {
                 $scope.summaryTemplateChange({type:$scope.template});
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
+                $('#main-body').removeClass("modal-open");
             }
         },
         controller: function($scope, $http, $element, Upload){
@@ -3668,6 +3734,7 @@ ctmApp.directive('directPromptBoxFormal', function() {
                 $scope.template = angular.copy($scope.templateBak);
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
+                $('#main-body').removeClass("modal-open");
             }
         }
     };
@@ -4783,7 +4850,7 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $scope.showReviewToConfirm = false;
                     $scope.showLegalToConfirm = false;
                 }
-                debugger
+                
                 if ("submit" == $scope.approve.operateType) {
                     $scope.submit();
                 } else if ("audit" == $scope.approve.operateType) {
@@ -5379,14 +5446,24 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
         templateUrl: 'page/sys/directive/directFillMaterialPage.html',
         replace: 'true',
         controller: function ($scope, $location, $http) {
+
+            // $scope.paginationConf
+
             $scope.initData = function () {
+                if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
+                    $scope.paginationConf.queryObj = {};
+                }
+                $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
+                $scope.paginationConf.itemsPerPage = 5;
                 $http({
-                    method: 'post',
-                    url: srvUrl + "fillMaterials/queryAllList.do",
-                }).success(function (result) {
-                    console.log(result);
-                    $scope.noSubmitList = result.result_data.noSubmitList;
-                    $scope.submitList = result.result_data.submitList;
+                    method:'post',
+                    url: srvUrl + "fillMaterials/queryNoSubmitList.do",
+                    data: $.param({
+                        "page":JSON.stringify($scope.paginationConf),
+                        "json":JSON.stringify($scope.paginationConf.queryObj)
+                    })
+                }).success(function(result){
+                    $scope.noSubmitList = result.result_data.list;
                 });
             };
             $scope.initData();
@@ -5395,6 +5472,11 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
             $scope.openRFIReport = function (noSubmit) {
                 $scope.toCreateReport = noSubmit;
                 $scope.r.pmodel="FormalReviewReport/Create";
+            };
+            $scope.y = {};
+            $scope.openRFIBiddingInfo = function (noSubmit) {
+                $scope.toCreateBiddingInfo = noSubmit;
+                $scope.y.pmodel="normal";
             };
 
             //编辑评审报告
@@ -5412,6 +5494,17 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     $('#addModal').modal('hide');
                     $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
                 }
+            }
+
+            //编辑正是评审提交决策会材料
+            $scope.createRFIBiddingInfo = function(model,uuid){
+                console.log(model);
+                console.log(uuid);
+                var ind = model.lastIndexOf("/");
+                var modelAction = model.substring(ind + 1,model.length);
+                var routePath = model.substring(0,ind);
+                $('#addModal4').modal('hide');
+                $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
             }
 
             /**
@@ -5537,7 +5630,7 @@ ctmApp.directive('cloudFile', function () {
             btnAreaStyle:'@',// 按钮域类
             btnAreaClass:'@'// 按钮域样式
         },
-        controller: function ($scope, $location, $http, Upload) {
+        controller: function ($scope, $location, $http, Upload, $window) {
             // 样式与类初始化
             if(isEmpty($scope.btnClass)){
                 $scope._cloud_btn_class_ = 'btn-add btn-scale';
@@ -5726,7 +5819,7 @@ ctmApp.directive('cloudFile', function () {
                 if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.download3d)){
                     return;
                 }
-                window.open(_cloud_file_dto_.download3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(_cloud_file_dto_.download3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
             // 删除
             $scope._cloud_delete_ = function(_cloud_){
@@ -5756,9 +5849,166 @@ ctmApp.directive('cloudFile', function () {
                 if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.preview3d)){
                     return;
                 }
-                window.open(_cloud_file_dto_.preview3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(_cloud_file_dto_.preview3d);
             };
             $scope._cloud_init_();
+        }
+    }
+});
+
+ctmApp.directive('directLeaderDialog', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directLeaderDialog.html',
+        replace: true,
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            url: "@",
+            //查询参数
+            queryParams: "=",
+            //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
+            //checkedUser: "=",
+            //映射的key，value，{nameField:'username',valueField:'uuid'}，
+            //默认为{nameField:'NAME',valueField:'VALUE'}
+            mappedKeyValue: "=",
+            callback: "="
+        },
+        controller:function($scope,$http,$element){
+            $scope.initData = function(){
+                if($scope.queryParams == null){
+                    return;
+                }
+                $scope.queryUser();
+            }
+            $scope.queryUser = function(){
+                var config = {
+                    method:'post',
+                    url:srvUrl + $scope.url,
+                    data:$.param($scope.queryParams)
+                };
+                $http(config).success(function(data){
+                    if(data.success){
+                        var users = data.result_data;
+                        $scope.users = [];
+                        for(var k = 0; k < users.length; k++){
+                            $scope.users.push({"VALUE":users[k][$scope.mappedKeyValue.valueField],"NAME":users[k][$scope.mappedKeyValue.nameField]});
+                        }
+                        //加载候选委员
+                        $scope.queryLeaderUser();
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            }
+            $scope.queryLeaderUser = function(){
+                var config = {
+                    method:'post',
+                    url:srvUrl + 'role/queryRoleuserByCode.do',
+                    data:$.param({"code":"DECISION_LEADERS"})
+                };
+                $http(config).success(function(data){
+                    if(data.success){
+                        var leaders = data.result_data;
+                        for(var k = 0; k < leaders.length; k++){
+                            //是否已经存在
+                            var flag = false;
+                            for(var i = 0; i < $scope.users.length; i++){
+                                if(leaders[k]['VALUE'] == $scope.users[i].VALUE){
+                                    flag = true;break;
+                                }
+                            }
+                            if(flag){
+                                leaders.splice(k, 1);
+                                k--;
+                            }
+                        }
+                        $scope.leaders = leaders;
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            }
+            $scope.cancelSelected = function(){
+                $scope.initData();
+            }
+            $scope.saveSelected = function(){
+                var checkboxs = $(".checkbox-inline :checkbox");
+                var checkedUser = [];
+                $(checkboxs).each(function(i,box){
+                    if(box.checked){
+                        var user = {};
+                        user[$scope.mappedKeyValue.nameField] = box.name;
+                        user[$scope.mappedKeyValue.valueField] = box.value;
+                        checkedUser.push(user);
+                    }
+                });
+                if($scope.callback != null){
+                    $scope.callback(checkedUser);
+                }
+            }
+            $scope.$watch('queryParams', $scope.initData, true);
+        }
+    };
+});
+
+
+//决策通知书提交弹出框
+ctmApp.directive('directCommonUpload', function(){
+    return {
+        restrrict:'AE',
+        templateUrl:'page/sys/directive/directCommonUpload.html',
+        replace:'true',
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            //id: "@",
+            //对话框的标题，如果没设置，默认为“人员选择”
+            title: "@",
+            attachment: "@",
+            callback: "="
+        },
+        controller:function($scope,$location,$http,Upload){
+            $scope.errorAttach=[];
+            $scope.upload = function (file,errorFile, idx) {
+                if(errorFile && errorFile.length>0){
+                    var errorMsg = fileErrorMsg(errorFile);
+                    $scope.errorAttach[idx]={msg:errorMsg};
+                }else if(file){
+                    $scope.errorAttach[idx]={msg:''};
+                    Upload.upload({
+                        url:srvUrl+'common/RcmFile/upload',
+                        data: {file: file, typeKey:"noticeDecisionFinalPath"}
+                    }).then(function (resp) {
+                        var retData = resp.data.result_data[0];
+                        $scope.attachment=retData;
+                    }, function (resp) {
+                    }, function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope["progress"+idx]=progressPercentage == 100 ? "":progressPercentage+"%";
+                    });
+                }
+            };
+            $scope.submit = function(){
+                if(isEmptyObject($scope.attachment)){
+                    $.alert("附件不能为空！");
+                    return false;
+                }
+                if($scope.callback!=null){
+                    $scope.callback($scope.attachment);
+                }
+            };
+            $scope.cancel = function(){
+                $scope.attachment={};
+            }
+            //jquery判断是否对象非空
+            function isEmptyObject(e) {
+                var t;
+                for (t in e)
+                    return !1;
+                return !0
+            }
         }
     }
 });
