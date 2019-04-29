@@ -722,11 +722,45 @@ ctmApp.directive('directFzrSingleDialog', function() {
                                 }
                             }
                         }
+                        $scope._setDefaultUser();
                     }else{
                         $.alert(data.result_name);
                     }
                 });
             }
+            // 设定默认选中的人相关方法开始 add by LiPan 2019-04-29
+            $scope._jsonIsEmpty = function(_json){
+                var _length = 0;
+                for (var i in _json){
+                    _length ++;
+                }
+                return _length == 0;
+            };
+            $scope._setDefaultUser = function(){
+                var _users = [];
+                for(var _i = 0; _i < $scope.users.length; _i ++){
+                    var _user = $scope.users[_i];
+                    if(_user.ISGROUP == 0){
+                        _users.push(_user);
+                    }
+                }
+                _users.sort(function(o1_, o2_){
+                    return o1_.ORDERNUM - o2_.ORDERNUM;
+                });
+                _users.sort(function(o1_, o2_){
+                    return o1_.CPN_ - o2_.CPN_;
+                });
+                if($scope.isMultiSelect == "false"){
+                    if($scope._jsonIsEmpty($scope.tempCheckedUser) || $scope._jsonIsEmpty($scope.checkedUser)){
+                        $scope.tempCheckedUser = {'VALUE':_users[0].VALUE,'NAME':_users[0].NAME};
+                    }
+                }else if($scope.isMultiSelect == "true"){
+                    if($scope.tempCheckedUser.length < 0 || $scope.checkedUser.length < 0){
+                        $scope.tempCheckedUser.push({'VALUE':_users[0].VALUE,'NAME':_users[0].NAME});
+                    }
+                }
+            };
+            // 设定默认选中的人相关方法结束 add by LiPan 2019-04-29
             $scope.removeSelectedUser = function(user){
                 if($scope.isMultiSelect == "false"){
                     $scope.tempCheckedUser = {};

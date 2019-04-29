@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="queryPsfzrUsers" resultType="hashmap">
-			 select * from ( 
+		select ta.*, nvl(cp_info.cpn_, 0) as cpn_ from (
 		    select t.team_name name , t.uuid value ,'' pid,'1' isgroup , '' isLeader ,t.ordernum,1 seq from team t where t.type in 
 			<foreach collection="psfzrTypes" item="type" open="(" close=")" separator=",">
 				#{type}
@@ -51,7 +51,7 @@
 		       rownum ordernum,
 		       3 seq 
 		  from team_item it 
-		 where it.team_id in (select uuid from team where type in 
+		 where it.team_id in (select uuid from team where type in
 			<foreach collection="psfzrTypes" item="type" open="(" close=")" separator=",">
 				#{type}
 			</foreach>  
@@ -61,8 +61,32 @@
 			<foreach collection="psfzrTypes" item="type" open="(" close=")" separator=",">
 				#{type}
 			</foreach>  
-		 )
-		    ) ta order by ta.seq , isgroup desc,isleader desc,ordernum 
+		  )
+		) ta
+		left join
+		(
+			select
+			cp_.audituserid as cpu_,
+			count(cp_.businessid) as cpn_
+			from
+			(
+				select
+				distinct plg.audituserid,
+				plg.businessid
+				from rcm_pre_log plg
+				where plg.iswaiting = '1'
+				union
+				select
+				distinct flg.audituserid, flg.businessid
+				from rcm_formalassessment_log flg
+				where  flg.iswaiting = '1'
+			) cp_
+			where cp_.audituserid is not null
+			group by cp_.audituserid
+		) cp_info
+		on cp_info.cpu_ = ta.value
+		where 1 = 1
+		order by ta.seq , isgroup desc,isleader desc,ordernum
 	</select>
 	
 	<select id="ifRoleContainUser" parameterType="map" resultType="int">

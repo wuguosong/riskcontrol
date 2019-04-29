@@ -27,6 +27,8 @@
                                     <label class="checkbox-inline">
                                         <input class="px" type="checkbox" id="chk_{{id}}_{{member[mappedKeyValue.valueField]}}" name="{{member[mappedKeyValue.nameField]}}" ng-checked="isChecked(member)" ng-click="toggleChecked(member)"/>
                                         <span class="lbl">{{member[mappedKeyValue.nameField]}}</span>
+                                        <span class="addlabel red" ng-if="member.CPN_ > 3" style="min-width:5px;padding: 0 10px 0 6px;height: 18px;font-size: 11px;">{{member.CPN_}}</span>
+                                        <span class="addlabel green" ng-if="member.CPN_ <= 3" style="min-width:5px;padding: 0 10px 0 6px;height: 18px;font-size: 11px;">{{member.CPN_}}</span>
                                     </label>
                                 </div>
                             </div>
