@@ -5571,7 +5571,11 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                 var modelAction = model.substring(ind + 1,model.length);
                 var routePath = model.substring(0,ind);
                 $('#addModal4').modal('hide');
-                $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+                if (model == 'normal') {
+                    $location.path("/FormalBiddingInfo/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable') + '/0');
+                } else {
+                    $location.path("/"+model+""+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+                }
             }
 
             /**
