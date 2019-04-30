@@ -2295,6 +2295,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             } else {
                 formalPreview.projectRating = '';
             }
+            formalPreview.projectFormalId = $scope.businessId;
             formalPreview.projectName = $scope.formalReport.projectName;
             if ($scope.formalReport.policyDecision != undefined) {
                 formalPreview.fileList = $scope.formalReport.policyDecision.fileList;
