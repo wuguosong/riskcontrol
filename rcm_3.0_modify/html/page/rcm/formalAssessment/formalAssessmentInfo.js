@@ -94,6 +94,10 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             $scope.pfr  = data.result_data.mongoData;
             $scope.pfrOracle  = data.result_data.oracleDate;
 
+            // 处理附件需要的数据
+            $scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
+            $scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
+
             // 初始化项目规则需要使用的变量
             $scope.service = angular.copy($scope.pfr.apply.serviceType[0]);
             $scope.projectModel = angular.copy($scope.pfr.apply.projectModel[0]);

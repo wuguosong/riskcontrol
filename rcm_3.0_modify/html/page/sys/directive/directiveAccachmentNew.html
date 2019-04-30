@@ -30,12 +30,12 @@
             <tr>
                 <th width="5%">序号</th>
                 <!--<th width="8%">业务类型</th>-->
-                <th width="10%">资源类型</th>
-                <th width="15%">附件内容</th>
+                <th width="20%">资源类型</th>
+                <th width="20%">附件内容</th>
                 <!--<th ng-if="businessType != 'bulletin'"  width="8%">编制人</th>
                 <th ng-if="businessType != 'bulletin'"  width="8%">审核人</th>-->
-                <th  width="8%">最后提交人</th>
-                <th  width="10%">最后提交时间</th>
+                <th  width="12%">最后提交人</th>
+                <th  width="15%">最后提交时间</th>
                 <th ng-if="isEdite || wfState =='0' || wfState == undefined || wfState =='1'">相关操作</th>
             </tr>
             </thead>
@@ -83,7 +83,7 @@
                 <td>{{item.lastUpdateBy.NAME}}</td>
                 <td>{{item.lastUpdateData}}</td>
                 <td ng-if="isEdite || wfState =='0' || wfState == undefined || wfState =='1'">
-                    <button type="button" class="btn btn-danger"  ng-click="_delete(item.fileid)">删除</button>
+                    <!--<button type="button" class="btn btn-danger"  ng-click="_delete(item.fileid)">删除</button>-->
                     <button ng-if="item.preview3d != null && (isEdite || wfState =='0' || wfState == undefined || wfState =='1')" type="button" class="btn btn-info"  ng-click="_review(item.preview3d)">预览</button>
                    <!-- <directive-replace-file old-item="item"></directive-replace-file>-->
                     <!--<button ng-if="item.newFile == null && showController.isInvestmentManager && hasWaiting  ||item.newFile == null && wfState =='0' || wfState == undefined" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="_uploadReplace($file,$invalidFiles,item')">替换</button>-->

@@ -2760,7 +2760,12 @@ ctmApp.directive('directiveAccachmentNew', function() {
                     return false;
                 }
                 var serviceCode = $scope.serviceType[0].KEY;
-                var projectModelName = $scope.projectModel[0].VALUE;
+                var projectModelName = '';
+                if(isEmpty($scope.projectModel[0])) {
+                    projectModelName = $scope.projectModel.VALUE;
+                } else {
+                    projectModelName = $scope.projectModel[0].VALUE;
+                }
                 var functionType = '';
                 if ($scope.businessType == 'formalReview'){
                     functionType = '正式评审';

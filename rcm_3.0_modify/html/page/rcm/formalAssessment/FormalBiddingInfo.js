@@ -297,9 +297,13 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 url: srvUrl + "formalReport/findFormalAndReport.do",
                 data: $.param({"projectFormalId": projectFormalId})
             }).success(function (data) {
-                
                 $scope.formalReport = data.result_data.Report;
                 $scope.pfr = data.result_data.Formal;
+
+                // 处理附件需要的数据
+                $scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
+                $scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
+
                 if (isEmpty(data.result_data.MeetInfo)){
                     $scope.meetInfo = {};
                 } else {
