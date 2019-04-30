@@ -103,14 +103,14 @@ ctmApp.register.controller('NoticeDecisionDraftDetail',['$http','$scope','$locat
 				if($scope.nod == null){
 					$scope.nod = {};
 				}
+                console.log($scope.credentials)
 		        $scope.nod.projectFormalId = $scope.pfr._id;
 		        $scope.nod.projectName = $scope.pfr.apply.projectName;
 	  	        $scope.nod.reportingUnit={};
-	  	        $scope.nod.reportingUnit.name = $scope.pfr.apply.reportingUnit.VALUE;
-	  	        $scope.nod.reportingUnit.value = $scope.pfr.apply.reportingUnit.KEY;
 	  	        $scope.nod.pertainArea = $scope.pfr.apply.pertainArea;
 	  	        $scope.nod.projectNo = $scope.pfr.apply.projectNo;
 	  	        $scope.nod.controllerVal="NoticeDecision";
+
 	  	        $scope.nod.createBy = {name:$scope.credentials.userName, value:$scope.credentials.UUID};
 	  	        //项目业务类型
 	  	        var pt1NameArr=[];
