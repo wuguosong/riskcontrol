@@ -638,6 +638,17 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //        });
 //    }
 
+     $scope.getReplaceReasonsList = function(businessId){
+         var  url = 'cloud/getReplaceReasonList.do';
+         $http({
+             method:'post',
+             url:srvUrl+url,
+             data: $.param({"id":businessId})
+         }).success(function(result){
+         	$scope.replaceReasons = result.result_data;
+         });
+	 };
+
 	//固定小组成员选人指令提供参数
 	$scope.queryParams = {code:"4"};
 	$scope.fixGroupModelCallBack = function(checkedUsers){
@@ -1463,6 +1474,11 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}).success(function(data){
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
+
+			// 处理附件需要的数据
+			$scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
+			$scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
+
 			//处理任务人
 			//数据回显
 			if($scope.pfr.taskallocation !=null ){
@@ -1547,6 +1563,8 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 				$scope.changDate($scope.pfr.apply.expectedContractDate);
 			}
 		});
+        // 查询文件变更记录
+        $scope.getReplaceReasonsList($scope.businessId);
 	}
 	$scope.changDate=function(values){
 		var date = new Date();

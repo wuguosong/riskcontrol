@@ -272,7 +272,7 @@ public class FileService implements IFileService {
         return logDto;
     }
     
-    public void saveSysLog(String businessId, String reason, String success, String ip) {
+    public void saveSysLog(String businessId, String reason, String success, String ip, String oldFileName) {
     	SysLogDto sysLogDto = new SysLogDto();
 		sysLogDto.setUser(UserUtil.getCurrentUserUuid());
 		sysLogDto.setUserName(UserUtil.getCurrentUser().getName());
@@ -280,6 +280,7 @@ public class FileService implements IFileService {
 		sysLogDto.setOperation(LogConstant.REPLACE);
 		sysLogDto.setCode(businessId);
 		sysLogDto.setDescription(reason);
+		sysLogDto.setParams(oldFileName);
 		sysLogDto.setCreateDate(DateUtil.getCurrentDate());
 		sysLogDto.setMethod("com.yk.rcm.file.controller.YunkuController.replace()");
 		if(success.equals("S")){
@@ -327,4 +328,14 @@ public class FileService implements IFileService {
   
         return messageBack;
     }
+
+	@Override
+	public List<Map<String, Object>> getReplaceReasonList(String id) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("businessID", id);
+		params.put("module", LogConstant.MODULE_ATTACHMENT);
+		params.put("operation", LogConstant.REPLACE);
+		List<Map<String, Object>> resultData = sysLogService.getReplaceReasonList(params);
+		return resultData;
+	}
 }

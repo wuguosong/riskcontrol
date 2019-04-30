@@ -195,7 +195,7 @@ public class YunkuController {
      */
     @RequestMapping("/replace")
     @ResponseBody
-    public Result replace(HttpServletRequest request, String docType, String docCode, String pageLocation, String oldFileId, String reason) {
+    public Result replace(HttpServletRequest request, String docType, String docCode, String pageLocation, String oldFileId, String reason, String oldFileName) {
         Result result = new Result();
         String optName = UserUtil.getCurrentUserName();
         try {
@@ -260,9 +260,24 @@ public class YunkuController {
         }
         
         // 保存系统日志
-        fileService.saveSysLog(docCode, reason, result.getResult_code(), IPUtils.getIpAddr(request));
+        fileService.saveSysLog(docCode, reason, result.getResult_code(), IPUtils.getIpAddr(request), oldFileName);
         
         return result;
+    }
+    
+    /**
+     * @param request      HttpServletRequest
+     * @param id      业务ID
+     * @return Result
+     * @description 文件替换原因列表
+     */
+    @RequestMapping("/getReplaceReasonList")
+    @ResponseBody
+    public Result getReplaceReasonList(HttpServletRequest request, String id) {
+    	Result result = new Result();
+		List<Map<String, Object>> queryList = this.fileService.getReplaceReasonList(id);
+		result.setResult_data(queryList);
+		return result;        
     }
     
     /**

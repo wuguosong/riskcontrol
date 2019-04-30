@@ -2,6 +2,10 @@ package com.yk.log.dao;
 
 import com.yk.common.BaseMapper;
 import com.yk.log.entity.SysLogDto;
+
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ISysLogMapper extends BaseMapper {
     void insert(@Param("sysLog")SysLogDto sysLogDto);
+
+	List<Map<String, Object>> getReplaceReasonList(Map<String, Object> params);
 }

@@ -26,4 +26,5 @@ public interface LogConstant {
     String MODULE_FILL_MATERIALS = "FILL_MATERIALS"; // 资料填写管理
     
     String MODULE_ATTACHMENT = "ATTACHMENT"; // 附件相关
+    String MODULE_INTERFACE = "INTERFACE"; // 接口相关
 }

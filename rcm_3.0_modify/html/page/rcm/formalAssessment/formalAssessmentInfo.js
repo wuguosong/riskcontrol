@@ -102,7 +102,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
             // 回显数据-人员信息
-            var paramsVal = "";
+            let paramsVal = "";
             if($scope.pfr.apply.companyHeader != undefined && $scope.pfr.apply.companyHeader != null && $scope.pfr.apply.companyHeader != ""){
                 paramsVal = "companyHeader"
                 $("label[for='companyHeaderName']").remove();
@@ -315,18 +315,20 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         if($("#investmentModel").is(':checked')){
             pid="1";
             $scope.pfr.apply.investmentModel = '1';
+            $scope.getprojectmodel('1');
         }else{
             pid="2";
             $scope.pfr.apply.investmentModel = '0';
+            $scope.getprojectmodel('0');
         }
         $("#s2id_projectmodeboxName").find(".select2-choices .select2-search-choice").remove();
         $scope.pfr.apply.projectModel=null;
     }
 
     // 获取项目模式
-    $scope.getprojectmodel=function(){
+    $scope.getprojectmodel=function(key){
         var url= "common/commonMethod/selectsyncbusinessmodel";
-        $scope.httpData(url).success(function(data){
+        $scope.httpData(url, key).success(function(data){
             if(data.result_code === 'S'){
                 $scope.dicSyn.projectModelValue=data.result_data;
             }else{
@@ -498,7 +500,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         // 初始化业务类型下拉框
         $scope.getSyncbusinessmodel('0');
         // 初始化项目模式的值
-        $scope.getprojectmodel();
+        $scope.getprojectmodel('0');
     });
 }]);
 

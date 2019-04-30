@@ -27,7 +27,7 @@
 		<if test="dic_type!=null and dic_type!='' "> and dic_type = #{dic_type} </if>
 	</select> -->
 	<select id="selectsyncbusinessmodel" resultType="map" useCache="false">
-		SELECT ENUMCODE KEY, ENUMNAME VALUE FROM ZSJ.MDM_PRODICTENUM WHERE DICTCODE = 210 ORDER BY ENUMCODE
+		SELECT ${key}  KEY, VALUE FROM SYNC_BUSINESS_MODEL WHERE DIC_TYPE = '3' ORDER BY to_number(ID)
 	</select>
 	<select id="selectsyncbusinessmodelBykey" resultType="map" useCache="false">
 		select key,value from sync_business_model where 1=1 and state='1'
@@ -133,5 +133,9 @@ SELECT MA.PROJECTID,
 	<select id="queryAllProjectTypes" resultType="map" useCache="false">
 		select * from sync_business_model b where state='1' and parent_id in
 		(select id from sync_business_model where type_id='1')
+	</select>
+	<!-- 查询附件类型 -->
+	<select id="getAttachmentList" resultType="map" useCache="false">
+		SELECT ATTACHMENT_CODE ITEM_CODE, ATTACHMENT_NAME ITEM_NAME FROM SYS_BUSINESS_ATTACHMENT SBA WHERE STATE = 1 AND SBA.BUSINESS_NAME = '${projectModelName}' AND SBA.FUCTIONTYPE = '${functionType}' AND SBA.SERVICECODE = '${serviceCode}'
 	</select>
 </mapper>

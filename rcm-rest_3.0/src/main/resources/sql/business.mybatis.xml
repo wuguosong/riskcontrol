@@ -3,16 +3,32 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 模块名 -->
 <mapper namespace="business">
-<select id="selectBusiness" resultType="map" useCache="false">
+<!-- <select id="selectBusiness" resultType="map" useCache="false">
 		select b.id,b.key,b.value,b.dic_type from sync_business_model b where b.dic_type in (1,2)
 		     <if test="VALUE!=null and VALUE!='' "> and value like '%${VALUE}%' </if>
 			 <if test="KEY!=null and KEY!='' "> and key like '%${KEY}%'</if> 
 			order by b.key 
-		<!-- select * from sys_dictionary_item i  where exists
+		select * from sys_dictionary_item i  where exists
             (select *  from sys_dictionary t where 1 = 1 and dictionary_name = '项目模式' and i.fk_dictionary_uuid = t.uuid)
 		    <if test="ITEM_NAME!=null and ITEM_NAME!='' "> and item_name like '%${ITEM_NAME}%' </if>
 			<if test="ITEM_CODE!=null and ITEM_CODE!='' "> and item_code = #{ITEM_CODE} </if> 
-			 order by i.item_code -->
+			 order by i.item_code
+	</select> -->
+	
+	<select id="selectBusiness" resultType="map" useCache="false">
+		SELECT 
+		  SBL.ID, 
+		  SBL.KEY, 
+		  SBL.VALUE, 
+		  SBL.CUST_TEXT01 KEY1, 
+		  SBL.DIC_TYPE, 
+		  SBL.STATE  
+		FROM SYNC_BUSINESS_MODEL SBL 
+	   WHERE SBL.DIC_TYPE = '3' 
+	     AND SBL.STATE = '1'
+		     <if test="VALUE!=null and VALUE!='' "> AND SBL.VALUE like '%${VALUE}%' </if>
+			 <if test="KEY!=null and KEY!='' "> AND SBL.KEY like '%${KEY}%'</if> 
+		ORDER BY to_number(SBL.KEY)
 	</select>
 
 </mapper>

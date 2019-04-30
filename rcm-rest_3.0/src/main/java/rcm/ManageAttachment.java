@@ -71,11 +71,13 @@ public class ManageAttachment extends BaseService {
 			paramMap2.put("business_name", bjson.get("BBUSINESS_NAME").toString());
 			paramMap2.put("state", "1");
 			paramMap2.put("fuctiontype", bjson.get("BUSINESS_TYPE").toString());
+			paramMap2.put("service_code", bjson.get("SERVICE_CODE").toString());
 //			paramMap2.put("describe", bjson.get("BITEM_NAME").toString());
 			paramMap2.put("attachment_uuid", id);
-			String obj=DbUtil.openSession().selectOne("attachment.selectDictionaryName", paramMap2);
+			Map<String, String> obj =DbUtil.openSession().selectOne("attachment.selectDictionaryName", paramMap2);
 			DbUtil.close();
-			paramMap2.put("attachment_name",obj);
+			paramMap2.put("attachment_code",obj.get("ITEM_CODE"));
+			paramMap2.put("attachment_name",obj.get("ITEM_NAME"));
 			String count=DbUtil.openSession().selectOne("attachment.selectCountAttachment", paramMap2);
 			DbUtil.close();
 			if("0".equals(count)){

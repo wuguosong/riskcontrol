@@ -117,7 +117,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
 
 
             // 回显数据-人员信息
-            let paramsVal = "";
+            var paramsVal = "";
             if($scope.pre.apply.companyHeader != undefined && $scope.pre.apply.companyHeader != null && $scope.pre.apply.companyHeader != ""){
                 paramsVal = "companyHeader"
                 $("label[for='companyHeaderName']").remove();
@@ -147,7 +147,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             // 回显数据-投资模式
             if($scope.pre.apply.investmentModel == '1'){
                 $scope.investmentModel = true;
-                $scope.getprojectmodel('1');
+                $scope.getprojectmodel('0');
             }
             if($scope.pre.apply.projectModel != undefined && $scope.pre.apply.projectModel != null && $scope.pre.apply.projectModel != {} ){
                 commonModelValue2('projectmodebox',$scope.pre.apply.projectModel);
@@ -332,7 +332,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             pid="1";
             $scope.pre.apply.investmentModel = '1';
         }else{
-            pid="2";
+            pid="0";
             $scope.pre.apply.investmentModel = '0';
         }
         $("#s2id_projectmodeboxName").find(".select2-choices .select2-search-choice").remove();
@@ -341,9 +341,9 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     }
 
     // 获取项目模式
-    $scope.getprojectmodel=function(){
+    $scope.getprojectmodel=function(key){
         var url= "common/commonMethod/selectsyncbusinessmodel";
-        $scope.httpData(url).success(function(data){
+        $scope.httpData(url,key).success(function(data){
             if(data.result_code === 'S'){
                 $scope.dicSyn.projectModelValue=data.result_data;
             }else{
@@ -519,7 +519,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         // 初始化业务类型下拉框
         $scope.getSyncbusinessmodel('0');
         // 初始化项目模式的值
-        $scope.getprojectmodel('2');
+        $scope.getprojectmodel('0');
     });
 }]);
 

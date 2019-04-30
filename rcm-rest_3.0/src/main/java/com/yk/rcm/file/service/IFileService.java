@@ -1,6 +1,7 @@
 package com.yk.rcm.file.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.goukuai.dto.FileDto;
 import com.goukuai.dto.LinkDto;
@@ -208,7 +209,7 @@ public interface IFileService {
 	 * @param ip         操作IP
 	 * @return List<FileDto>
 	 * */
-	void saveSysLog(String businessId, String reason, String success, String ip);
+	void saveSysLog(String businessId, String reason, String success, String ip, String oldFileName);
 	
 	/**
 	 * @description 执行替换操作时执行分享信息操作
@@ -218,4 +219,12 @@ public interface IFileService {
 	 * @return MessageBack
 	 * */
 	MessageBack remindPerson(String message, String shareUsers, String type);
+	
+	/**
+	 * @description 从系统日志中查找该项目的替换原因列表
+	 * @param id 业务id
+	 * @return List<String>
+	 * @throws Exception
+	 */
+	List<Map<String, Object>> getReplaceReasonList(String id);
 }

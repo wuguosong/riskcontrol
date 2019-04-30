@@ -43,6 +43,10 @@
                     <div class="col-sm-4 col-md-2">
                         <select ng-model="conf.ITEM_TYPE"   id="ITEM_TYPE" ng-options="item.ITEM_NAME as item.ITEM_NAME for item in allname track by item.ITEM_NAME"  class="form-control ng-pristine ng-valid ng-touched">   </select>
                     </div>
+                    <label class="col-sm-3 col-md-2 control-label">请选择业务类型</label>
+                    <div class="col-sm-4 col-md-2">
+                        <select ng-model="conf.SERVICE"   id="SERVICE" ng-options="sy.VALUE for sy in Syncbusinessmodel track by sy.KEY"  class="form-control ng-pristine ng-valid ng-touched">   </select>
+                    </div>
                 </div>
                 <div class="row nobottom-mar">
                     <div class="table-responsive table-list">

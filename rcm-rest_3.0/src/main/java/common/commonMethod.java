@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.poi.util.SystemOutLogger;
 import org.bson.Document;
 
 import util.CrudUtil;
@@ -15,6 +16,8 @@ import util.DbUtil;
 import util.ThreadLocalUtil;
 import util.Util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCursor;
 
@@ -188,8 +191,13 @@ public class commonMethod extends BaseService{
 			
 			return docList;
 		}
-		public List<Map> selectsyncbusinessmodel(){
+		public List<Map> selectsyncbusinessmodel(String key){
 			Map<String, String> paramMap = new HashMap<String, String>();
+			if (key.equals("0")){
+				paramMap.put("key", "CUST_TEXT01");
+			}else {
+				paramMap.put("key", "KEY");
+			}
 			List<Map> list =DbUtil.openSession().selectList("common.selectsyncbusinessmodel", paramMap);
 			DbUtil.close();
 			return list;
@@ -284,5 +292,16 @@ public class commonMethod extends BaseService{
 		 */
 		public List<Map<String, Object>> queryAllProjectTypes(){
 			return DbUtil.openSession().selectList("common.queryAllProjectTypes");
+		}
+		
+		/**
+		 * 查询附件类型
+		 * */
+		public List<Map> getAttachmentType(String json){
+			System.out.println(json);
+			Map<String, Object> paramMap = Util.parseJson2Map(json);
+			List<Map> list =DbUtil.openSession().selectList("common.getAttachmentList", paramMap);
+			DbUtil.close();
+			return list;
 		}
 }

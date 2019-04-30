@@ -1,4 +1,4 @@
-<div class="panel-body wpanel" >
+<div class="panel-body" >
     <form class="form-horizontal ng-pristine ng-valid" >
         <div class="">
             <div class="header detail-page">
@@ -39,12 +39,56 @@
                                      <!--旧流程图-->
                                     <directive-process-list ng-if="isOldFlow"></directive-process-list>
                                 </div>
-                                <div class="tab-pane" id="contracts_resources">
-                                    <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
-									<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
-															  last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
-															  init-update="initUpdate(id)"></directive-accachment-new>
-                                </div>
+								<div class="tab-pane  clearfix row" id="contracts_resources">
+									<!-- &lt;!&ndash;<directive-project-formal-file-list></directive-project-formal-file-list>&ndash;&gt;
+                                     <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+                                                               last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
+                                                               init-update="initUpdate(id)"></directive-accachment-new>-->
+									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+										<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+																  last-update-by="pfr.apply.investmentManager" wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
+																  init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
+																  is-edite="true" service-type="serviceType" project-model="projectModel"></directive-accachment-new>
+										<div style="margin-top: 10px">
+											<div class="panel-heading">
+												<a class="accordion-toggle collapsed" href="/#xieyiyijian" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">附件变更记录<i class="i-triangle"></i></span></a>
+											</div>
+											<div id="xieyiyijian" class="panel-collapse collapse">
+												<div class="panel-collapse collapse in">
+													<div class="row">
+														<div class="table-light">
+															<div class="table-responsive">
+																<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center txc">
+																	<thead>
+																	<tr>
+																		<th>序号</th>
+																		<th>变更文件名</th>
+																		<th>变更原因</th>
+																		<th>变更人</th>
+																		<th>变更时间</th>
+																	</tr>
+																	</thead>
+																	<tbody id="optionList">
+																	<tr ng-repeat="msg in replaceReasons track by $index" repeat-formal-report-finish>
+																		<td>{{ $index + 1 }}</td>
+																		<td>{{msg.params}}</td>
+																		<td>{{msg.description}}</td>
+																		<td>{{msg.user_name}}</td>
+																		<td>{{msg.create_date}}</td>
+																	</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formal" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+									</div>
+								</div>
 								<div class="tab-pane clearfix row" id="bbs_chat">
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
 

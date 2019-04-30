@@ -2710,6 +2710,9 @@ ctmApp.directive('directiveAccachmentNew', function() {
             businessId: "=",
             wfState: "=",
             lastUpdateBy: "=",
+            // mongo数据同步
+            serviceType: "=",
+            projectModel: "=",
             // 替换发送相关信息
             projectName: "=",
             toSend: "=",
@@ -2722,7 +2725,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
         },
         link:function(scope,element,attr){
         },
-        controller:function($scope,$http,$element,Upload){
+        controller:function($scope,$http,$element,Upload,$window){
             $scope.getDate = function () {
                 var myDate = new Date();
                 //获取当前年
@@ -2745,12 +2748,34 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 } else {
                     $scope.isEdite = false;
                 }
-                $scope.attachmentType = $scope._selectItemType("ACCACHMENT_TYPE");
-                $scope.itemType = $scope._selectItemType("LEGAL_TYPE");
+                $scope.getAttachmentType();
                 $scope.isShow = false;
             };
             $scope._selectItemType = function (docCode) {
                 return selectDocItem(docCode);
+            };
+            // 获取附件类型
+            $scope.getAttachmentType = function(){
+                if (isEmpty($scope.serviceType)){
+                    return false;
+                }
+                var serviceCode = $scope.serviceType[0].KEY;
+                var projectModelName = $scope.projectModel[0].VALUE;
+                var functionType = '';
+                if ($scope.businessType == 'formalReview'){
+                    functionType = '正式评审';
+                } else {
+                    functionType = '预评审';
+                }
+
+                var url= "common/commonMethod/getAttachmentType";
+                $scope.$parent.httpData(url,{"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType}).success(function(data){
+                    if(data.result_code === 'S'){
+                        $scope.attachmentType=data.result_data;
+                    }else{
+                        alert(data.result_name);
+                    }
+                });
             };
             $scope._initData();
             /*// 全选
@@ -2764,6 +2789,9 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 新增文件
             $scope._addOneNewFile = function () {
+                if (isEmpty($scope.attachmentType)){
+                    $scope.getAttachmentType();
+                }
                 function _addBlankRow(_array) {
                     var blankRow = {
                         newFile: true,
@@ -2861,9 +2889,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                     _item.fileId = _fileList[_fileList.length-1].fileid + "";
                     _item.lastUpdateBy = $scope.lastUpdateBy;
                     _item.lastUpdateData = $scope.getDate();
-                    if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
-                        _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;
-                    }
+
                     $http({
                         method:'post',
                         url:srvUrl + url,
@@ -2886,6 +2912,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 替换
             $scope._uploadReplace = function (_file, _idx, _item) {
+                $scope.cancel();
                 Upload.upload({
                     url: srvUrl + 'cloud/replace.do',
                     data: {
@@ -2898,6 +2925,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         "oldFileName": _item.fileName
                     }
                 }).then(function (resp) {
+
                     var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
 
                     var url = '';
@@ -2920,6 +2948,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         url:srvUrl + url,
                         data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
                     }).success(function(data){
+                        alert(data.result_name);
                         if(data.success){
                             if (!isEmpty($scope.toSend)){
                                 var message = $scope.projectName + "中类型为" + _item.itemType.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
@@ -2949,8 +2978,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                                 });
                             }
                             $scope.initUpdate({'id': $scope.businessId});
-                            $scope.cancel();
-                            
+
                         }else{
                             $.alert(data.result_name);
                         }
@@ -2970,11 +2998,12 @@ ctmApp.directive('directiveAccachmentNew', function() {
             $scope.cancel = function () {
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
+                $('#main-body').removeClass("modal-open");
             };
 
             // 预览
             $scope._review = function (uri) {
-                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
 
             // 下载
@@ -3015,8 +3044,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
             };
             // 切换资源类型时修改附件名称逻辑
             $scope._changeItemType = function (item) {
-                console.log(item);
-                item.fileName = item.itemType.ITEM_NAME;
+                item.fileName = item.type.ITEM_NAME;
             };
         }
     };
@@ -5538,11 +5566,7 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                 var modelAction = model.substring(ind + 1,model.length);
                 var routePath = model.substring(0,ind);
                 $('#addModal4').modal('hide');
-                if (model == 'normal') {
-                    $location.path("/FormalBiddingInfo/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable') + '/0');
-                } else {
-                    $location.path("/"+model+""+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
-                }
+                $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
             }
 
             /**

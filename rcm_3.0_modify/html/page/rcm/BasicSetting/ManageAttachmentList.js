@@ -64,6 +64,7 @@ ctmApp.register.controller('ManageAttachmentList', ['$http','$scope','$location'
         });
         //$scope.selectType('01');
         $scope.selectType('04');
+        $scope.getSyncbusinessmodel('0');
     };
 
     //添加用户到角色
@@ -90,8 +91,16 @@ ctmApp.register.controller('ManageAttachmentList', ['$http','$scope','$location'
         	$.alert("请选择其中一条或多条数据！");
             return false;
         }else {
+            if (isEmpty($scope.conf.ITEM_TYPE)){
+                $.alert("功能模块不能为空！");
+                return false;
+            }
+            if(isEmpty($scope.conf.SERVICE)){
+                $.alert("业务类型不能为空！");
+                return false;
+            }
             var aMethed = "rcm/ManageAttachment/addAttachment";
-            statevar = {"UUID": uid, BUUID: Buuid,BBUSINESS_NAME:Bbusiness_name,"BUSINESS_TYPE":item_type,"DIC_TYPE":business_type};
+            statevar = {"UUID": uid, BUUID: Buuid,BBUSINESS_NAME:Bbusiness_name,"BUSINESS_TYPE":item_type,"DIC_TYPE":business_type, "SERVICE_CODE" : $scope.conf.SERVICE.KEY};
             $scope.httpData(aMethed, statevar).success(
                 function (data) {
                     if(data.result_code=="S"){
@@ -103,6 +112,19 @@ ctmApp.register.controller('ManageAttachmentList', ['$http','$scope','$location'
                 }
             );
         }
+    }
+
+    // 获取业务类型
+    $scope.getSyncbusinessmodel=function(keys) {
+        var url = "businessDict/queryBusinessType.do";
+        $scope.httpData(url, keys).success(function (data) {
+            if (data.success) {
+                debugger
+                $scope.Syncbusinessmodel = data.result_data;
+            } else {
+                alert(data.result_name);
+            }
+        });
     }
 
     // 配置分页基本参数

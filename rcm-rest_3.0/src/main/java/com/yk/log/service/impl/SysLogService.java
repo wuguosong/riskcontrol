@@ -6,6 +6,9 @@ import com.yk.log.service.ISysLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 /**
@@ -20,4 +23,8 @@ public class SysLogService implements ISysLogService{
     public void save(SysLogDto sysLogDto) {
         sysLogMapper.insert(sysLogDto);
     }
+	@Override
+	public List<Map<String, Object>> getReplaceReasonList(Map<String, Object> params) {
+		return sysLogMapper.getReplaceReasonList(params);
+	}
 }

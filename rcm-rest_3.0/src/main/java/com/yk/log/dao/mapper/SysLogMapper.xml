@@ -36,4 +36,10 @@
 		#{sysLog.createDate}
 		)
 	</insert>
+	
+	<select id="getReplaceReasonList" parameterType="map" resultType="hashmap">
+	   select SL."user_name",SL."code",SL."description",SL."create_date",DBMS_LOB.substr(SL."params") "params" from  sys_log SL
+	   where SL."module" = #{module,jdbcType=DATE} AND SL."operation" = #{operation,jdbcType=DATE} and SL."code" = #{businessID,jdbcType=DATE} 
+	   order by SL."create_date" desc
+	</select>
 </mapper>
