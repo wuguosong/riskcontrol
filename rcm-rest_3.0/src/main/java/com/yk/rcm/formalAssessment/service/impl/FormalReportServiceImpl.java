@@ -818,30 +818,26 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 		// 2、添加提交时间,修改阶段
 		if ("ss".equals(method)) {
-			if (this.isHaveMeetingInfo(businessId)) {
-				Map<String, Object> statusMap1 = new HashMap<String, Object>();
-				statusMap1.put("table", "RCM_FORMALASSESSMENT_INFO");
-				statusMap1.put("filed", "IS_SUBMIT_BIDDING");
-				statusMap1.put("status", "1");
-				statusMap1.put("BUSINESSID", businessId);
-				this.fillMaterialsService.updateProjectStaus(statusMap1);
-				
-				Map<String, Object> map = new HashMap<String, Object>();
-				Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
-				if(Util.isNotEmpty(Object)) {
-					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
-							map.put("stage", "4");
-						}
+			Map<String, Object> statusMap1 = new HashMap<String, Object>();
+			statusMap1.put("table", "RCM_FORMALASSESSMENT_INFO");
+			statusMap1.put("filed", "IS_SUBMIT_BIDDING");
+			statusMap1.put("status", "1");
+			statusMap1.put("BUSINESSID", businessId);
+			this.fillMaterialsService.updateProjectStaus(statusMap1);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
+			if(Util.isNotEmpty(Object)) {
+				if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
+					if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+						map.put("stage", "4");
 					}
 				}
-//				map.put("stage", "4");
-				map.put("decision_commit_time", Util.format(Util.now()));
-				map.put("businessid", businessId);
-				this.formalReportMapper.changeState(map);
-			} else {
-				return result.setResult_data(false);
 			}
+//			map.put("stage", "4");
+			map.put("decision_commit_time", Util.format(Util.now()));
+			map.put("businessid", businessId);
+			this.formalReportMapper.changeState(map);
 		}
 		
 		// 修改评审意见汇总-------------Start-------------------------

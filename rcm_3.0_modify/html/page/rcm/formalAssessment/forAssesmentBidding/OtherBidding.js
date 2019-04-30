@@ -116,7 +116,7 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                     } else if (method == "ss") {
                         if (data.result_data) {
                             alertData = "提交成功!";
-                            $location.path("/FormalBiddingInfoPreview/" + $scope.businessId + "/" + $filter('encodeURI') + "/2");
+                            // $location.path("/FormalBiddingInfoPreview/" + $scope.businessId + "/" + $filter('encodeURI') + "/2");
                         } else {
                             $.alert("请确保参会信息已填写完毕!");
                             return false;
