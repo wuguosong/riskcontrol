@@ -19,6 +19,7 @@ ctmApp.register.controller('FormalBiddingInfoPreviewOld', ['$http','$scope','$lo
             } else {
                 $scope.businessId = $scope.waitId;
             }
+            $scope.wfState = '2';
         };
 
         //处理附件列表

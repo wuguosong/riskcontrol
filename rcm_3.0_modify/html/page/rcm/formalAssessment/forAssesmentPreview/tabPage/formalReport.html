@@ -6,7 +6,7 @@
             <cloud-file
                     file-id="pfrOtherReport"
                     file-type="FormalReportInfo"
-                    file-code="{{paramId}}"
+                    file-code="{{businessId}}"
                     file-location="pfrOtherReport"
                     show-upload="false"
                     show-preview="false"
@@ -23,8 +23,8 @@
         <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
         <div id='content3_table' class="mytable">
             <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"
-                                      last-update-by="currentUser" wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
-                                      init-update="initUpdate(id)" is-edite="false"></directive-accachment-new>
+                                      wf-state="wfState" file-list="newAttachment"
+                                      init-update="initUpdate(id)"></directive-accachment-new>
             <!--<table  class="table table-bordered">
                 <thead>
                 <tr class="info">

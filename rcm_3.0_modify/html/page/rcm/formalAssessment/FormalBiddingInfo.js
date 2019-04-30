@@ -320,6 +320,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 $scope.projectSummary = {};
                 // 模板选择框给默认值 初始化模板数据
                 if (data.result_data.summary == null || data.result_data.summary == undefined) {
+                    if (isEmpty($scope.formalReport)){
+                        $scope.formalReport = [];
+                        $scope.formalReport.projectName = $scope.pfr.apply.projectName;
+                    }
                     $scope.formalReport.summaryTemplate = $scope.SUMMARY_TEMPLATE[0];
                     $scope.summaryTemplateChange($scope.formalReport.summaryTemplate);
                 } else {
@@ -2234,7 +2238,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId; // 正式评审项目id
             $scope.projectSummary.projectName = $scope.formalReport.projectName; // 项目名称
             $scope.projectSummary.projectNo = $scope.formalReport.projectNo;  // 项目编号
-            $scope.projectSummary.reportingUnit = $scope.formalReport.reportingUnit; // 所属大区
             $scope.projectSummary.state = $scope.stage;  // 数据状态值 提交前为3.9 提交后为4.0
             // 不同模板存入不同的模板code
             if ($scope.formalReport.summaryTemplate.ITEM_CODE == "1000") {
@@ -2292,7 +2295,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             } else {
                 formalPreview.projectRating = '';
             }
-            formalPreview.filePath = $scope.formalReport.filePath;
             formalPreview.projectName = $scope.formalReport.projectName;
             if ($scope.formalReport.policyDecision != undefined) {
                 formalPreview.fileList = $scope.formalReport.policyDecision.fileList;
