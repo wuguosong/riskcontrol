@@ -187,8 +187,8 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 			params.put("serviceTypePersonId", investmentPerson.getString("VALUE"));
 		}
 		//创建人(投资经理)
-		Document createby = (Document) apply.get("investmentManager");
-		params.put("createBy", createby.getString("VALUE"));
+		String createby = apply.get("createby").toString();
+		params.put("createBy", createby);
 		
 		//创建时间与mongDB 一致
 		params.put("create_date", doc.get("create_date"));
@@ -243,7 +243,6 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		Document item = (Document) doc.get("item");
 		String fileId = (String) item.get("fileId");
 		Document type = (Document) item.get("type");
-		Document itemType = (Document) item.get("itemType");
 		String fileName = (String) item.get("fileName");
 		//申请人信息
 		Document programmed = (Document) item.get("programmed");
@@ -264,7 +263,6 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 			file.put("fileName", fileName);
 			file.put("oldFileName", oldFileName);
 			file.put("type", type);
-			file.put("itemType", itemType);
 			file.put("programmed", programmed);
 			file.put("approved", approved);
 			file.put("lastUpdateBy", lastUpdateBy);
@@ -276,7 +274,6 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 			file.put("fileName", fileName);
 			file.put("oldFileName", oldFileName);
 			file.put("type", type);
-			file.put("itemType", itemType);
 			file.put("programmed", programmed);
 			file.put("approved", approved);
 			file.put("lastUpdateBy", lastUpdateBy);
