@@ -42,8 +42,8 @@ function test_process_config() {
 function test_process_allConfig(){
     var result = null;
     test_process_commonAjax('post', 'http://localhost:8080/rcm-rest/process/allConfig.do', {
-        'processKey': 'preAssessment',
-        'businessKey': '58c7909122ddf2207a7cd6c9'
+        'processKey': 'formalReview',
+        'businessKey': '5cca5344e252c833503ad2a4'
     }, function (data) {
         result = data;
     }, function (data) {

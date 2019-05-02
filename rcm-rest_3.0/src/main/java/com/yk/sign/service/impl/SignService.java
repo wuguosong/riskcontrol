@@ -34,7 +34,6 @@ import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
@@ -132,14 +131,21 @@ public class SignService implements ISignService {
             throw new BusinessException("BUSINESS_ID不能为空!");
         }
         if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
-            return this.preLogs(business_id);
+            return this.dealDate(this.preLogs(business_id));
         } else if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
-            return this.formalLogs(business_id);
+            return this.dealDate(this.formalLogs(business_id));
         } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
-            return this.bulletLogs(business_id);
+            return this.dealDate(this.bulletLogs(business_id));
         } else {
             throw new BusinessException("BUSINESS_MODULE不在系统业务中!");
         }
+    }
+
+    private List<Map<String, Object>> dealDate(List<Map<String, Object>> logs){
+        if(CollectionUtils.isNotEmpty(logs)){
+            logs.get(logs.size() - 1).put("AUDITTIME", "");
+        }
+        return logs;
     }
 
 
@@ -805,9 +811,9 @@ public class SignService implements ISignService {
     }
 
     @Override
-    public Map<String, Map<String, Object>> list2Map(List<Map<String, Object>> list){
+    public Map<String, Map<String, Object>> list2Map(List<Map<String, Object>> list) {
         Map<String, Map<String, Object>> map = new LinkedHashMap<String, Map<String, Object>>();
-        for(Map<String, Object> hashMap : list){
+        for (Map<String, Object> hashMap : list) {
             System.out.println(hashMap.get("TASKDESC") + " " + hashMap.get("AUDITUSERNAME") + " " + hashMap.get("AUDITTIME"));
             map.put(String.valueOf(hashMap.get("TASKDESC")), hashMap);
         }
@@ -815,21 +821,21 @@ public class SignService implements ISignService {
     }
 
     @Override
-    public JSONObject put(Map<String, Map<String, Object>> map, JSONObject jsonObject){
+    public JSONObject put(Map<String, Map<String, Object>> map, JSONObject jsonObject) {
         String _approvalKey = jsonObject.getString(_ApprovalNode._approvalKey);
         Map<String, Object> hashMap = null;
-        if(_approvalKey.contains(",")){
+        if (_approvalKey.contains(",")) {
             String[] _approvalKeyArray = _approvalKey.split(",");
-            for(String key : _approvalKeyArray){
+            for (String key : _approvalKeyArray) {
                 hashMap = map.get(key);
-                if(hashMap != null){
+                if (hashMap != null) {
                     break;
                 }
             }
-        }else{
+        } else {
             hashMap = map.get(_approvalKey);
         }
-        if(hashMap == null){
+        if (hashMap == null) {
             jsonObject.put(_ApprovalNode._approvalState, _ApprovalNode._approvalStateDo);
             jsonObject.put(_ApprovalNode._approvalUser, "");
             jsonObject.put(_ApprovalNode._approvalDate, "");
@@ -863,9 +869,9 @@ public class SignService implements ISignService {
             _reviewApproval.set_reviewChargeApproval(this.put(map, _reviewApproval.get_reviewChargeApproval()));
             _reviewApproval.set_reviewChargeConfirm(this.put(map, _reviewApproval.get_reviewChargeConfirm()));
             _reviewApproval.set_completed(this.put(map, _reviewApproval.get_completed()));
-            for(Task task : tasks){
+            for (Task task : tasks) {
                 String name = task.getName();
-                _reviewApproval.set_drafting(this.put(map, _reviewApproval.get_drafting()));
+                _reviewApproval.set_drafting(this.judgeTask(_reviewApproval.get_drafting(), name));
                 _reviewApproval.set_investmentManagerDrafting(this.judgeTask(_reviewApproval.get_investmentManagerDrafting(), name));
                 _reviewApproval.set_businessAreaApproval(this.judgeTask(_reviewApproval.get_businessAreaApproval(), name));
                 _reviewApproval.set_waterInvestmentCenter(this.judgeTask(_reviewApproval.get_waterInvestmentCenter(), name));
@@ -891,9 +897,9 @@ public class SignService implements ISignService {
             _formalApproval.set_reviewChargeApproval(this.put(map, _formalApproval.get_reviewChargeApproval()));
             _formalApproval.set_reviewChargeConfirm(this.put(map, _formalApproval.get_reviewChargeConfirm()));
             _formalApproval.set_completed(this.put(map, _formalApproval.get_completed()));
-            for(Task task : tasks){
+            for (Task task : tasks) {
                 String name = task.getName();
-                _formalApproval.set_drafting(this.put(map, _formalApproval.get_drafting()));
+                _formalApproval.set_drafting(this.judgeTask(_formalApproval.get_drafting(), name));
                 _formalApproval.set_investmentManagerDrafting(this.judgeTask(_formalApproval.get_investmentManagerDrafting(), name));
                 _formalApproval.set_businessAreaApproval(this.judgeTask(_formalApproval.get_businessAreaApproval(), name));
                 _formalApproval.set_waterInvestmentCenter(this.judgeTask(_formalApproval.get_waterInvestmentCenter(), name));
@@ -918,7 +924,7 @@ public class SignService implements ISignService {
             _bulletinApproval.set_lawChargeApproval(this.put(map, _bulletinApproval.get_lawChargeApproval()));
             _bulletinApproval.set_reviewChargeApproval(this.put(map, _bulletinApproval.get_reviewChargeApproval()));
             _bulletinApproval.set_completed(this.put(map, _bulletinApproval.get_completed()));
-            for(Task task : tasks){
+            for (Task task : tasks) {
                 String name = task.getName();
                 _bulletinApproval.set_drafting(this.judgeTask(_bulletinApproval.get_drafting(), name));
                 _bulletinApproval.set_unitChargeApproval(this.judgeTask(_bulletinApproval.get_unitChargeApproval(), name));
@@ -940,12 +946,13 @@ public class SignService implements ISignService {
 
     /**
      * 根据当前任务进行判断
+     *
      * @param js
      * @param name
      * @return
      */
-    private JSONObject judgeTask(JSONObject js, String name){
-        if(js.getString(_ApprovalNode._approvalKey).contains(name)){
+    private JSONObject judgeTask(JSONObject js, String name) {
+        if (js.getString(_ApprovalNode._approvalKey).contains(name)) {
             js.put(_ApprovalNode._approvalState, _ApprovalNode._approvalStateDoing);
             js.put(_ApprovalNode._approvalDate, "");
             js.put(_ApprovalNode._approvalStateCode, 1);// 正在执行
@@ -953,11 +960,18 @@ public class SignService implements ISignService {
         return js;
     }
 
-    private Map<String, Map<String, Object>> judgeTaskMap(Map<String, Map<String, Object>> map, List<Task> tasks){
+    /**
+     * 进行重复性过滤
+     *
+     * @param map
+     * @param tasks
+     * @return
+     */
+    private Map<String, Map<String, Object>> judgeTaskMap(Map<String, Map<String, Object>> map, List<Task> tasks) {
         List<Integer> idx = new ArrayList<Integer>();// 存储当前任务出现的索引位置
         System.out.println("+++++++++++++++++++++++有序map开始++++++++++++++++++++++");
-        for(Iterator<Map.Entry<String, Map<String, Object>>> it = map.entrySet().iterator();it.hasNext();){
-            Map.Entry<String, Map<String, Object>> entry = it.next();
+        for (Iterator<Map.Entry<String, Map<String, Object>>> iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry<String, Map<String, Object>> entry = iterator.next();
             String key = entry.getKey();
             Map<String, Object> value = entry.getValue();
             System.out.println(key + " " + JSON.toJSONString(value));
@@ -965,10 +979,10 @@ public class SignService implements ISignService {
         System.out.println("++++++++++++++++++++++有序map结束+++++++++++++++++++++++");
         List<Map<String, Object>> list = this.map2List(map);
         System.out.println("移除前：" + list.size() + " " + map.size());
-        for(Task task : tasks){
+        for (Task task : tasks) {
             String name = task.getName();
-            for(Map<String, Object> obj : list){
-                if(obj.get("TASKDESC").equals(name)){
+            for (Map<String, Object> obj : list) {
+                if (obj.get("TASKDESC").equals(name)) {
                     idx.add(list.indexOf(obj));
                     System.out.println("name:" + name + " desc:" + obj.get("TASKDESC"));
                 }
@@ -977,9 +991,9 @@ public class SignService implements ISignService {
         Collections.sort(idx);// 排序
         System.out.println(JSON.toJSONString(idx));
         List<Map<String, Object>> subList = new ArrayList<Map<String, Object>>();
-        if(CollectionUtils.isNotEmpty(idx)){
+        if (CollectionUtils.isNotEmpty(idx)) {
             subList = list.subList(0, idx.get(0));// List.subList后不要试图操作父List，该方法返回的是一个视图
-        }else{
+        } else {
             subList = list;
         }
         Map<String, Map<String, Object>> subMap = this.list2Map(subList);
@@ -987,9 +1001,15 @@ public class SignService implements ISignService {
         return map;
     }
 
-    private List<Map<String, Object>> map2List(Map<String, Map<String, Object>> map){
+    /**
+     * Map转换为List
+     *
+     * @param map
+     * @return
+     */
+    private List<Map<String, Object>> map2List(Map<String, Map<String, Object>> map) {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        for(Iterator<Map.Entry<String, Map<String, Object>>> iterator = map.entrySet().iterator();iterator.hasNext();){
+        for (Iterator<Map.Entry<String, Map<String, Object>>> iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
             list.add(iterator.next().getValue());
         }
         return list;

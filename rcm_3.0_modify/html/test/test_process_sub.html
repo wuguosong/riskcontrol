@@ -109,12 +109,24 @@
         DIR_TB: "TB",
         DIR_BT: "BT"
     };
+    function test_process_allConfig(){
+        var result = null;
+        test_process_commonAjax('post', 'http://localhost:8080/rcm-rest/process/allConfig.do', {
+            'processKey': 'formalReview',
+            'businessKey': '5cca5344e252c833503ad2a4'
+        }, function (data) {
+            result = data;
+        }, function (data) {
+            console.log(data);
+        });
+        return result;
+    }
     var data = test_process_allConfig();
     var map = eval(data.nodes);
     for (var key in map) {
         console.log(key);
         if (key === "subprocess1") {
-             data = map[key];// 子流程1
+             // data = map[key];// 子流程1
         } else {
              // data = map[key];// 主流程
         }
