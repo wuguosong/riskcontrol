@@ -1,5 +1,7 @@
 package com.yk.sign.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.yk.sign.entity._ApprovalNode;
 import com.yk.sign.service.ISignService;
 import common.Constants;
 import common.PageAssistant;
@@ -165,5 +167,20 @@ public class SignController {
     @ResponseBody
     public HashMap<String, Object> getCurrentTask(String processKey, String businessKey){
         return signService.getCurrentTask(processKey, businessKey);
+    }
+
+
+    /**
+     * 获取流程图进度
+     * @param processKey
+     * @param processId
+     * @return
+     */
+    @RequestMapping(value = "getProcessImageStep", method = RequestMethod.POST)
+    @ResponseBody
+    public _ApprovalNode getProcessImageStep(String processKey, String processId){
+        _ApprovalNode _approvalNode = signService.getNewProcessImageStep(processKey, processId);
+        System.out.println(JSON.toJSONString(_approvalNode));
+        return _approvalNode;
     }
 }

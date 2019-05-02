@@ -109,4 +109,43 @@
             and lg.businessid = #{business_id}
         </if>
     </select>
+    <select id="selectUniqueTasksForImageStep" parameterType="string" resultType="map">
+        <if test="key != null and key != '' and key == 'formalReview'">
+            select tmp.*
+            from (
+            select t.*,
+            (select i.project_name
+            from rcm_project_info i
+            where i.business_id = t.businessid) bulletinname,
+            (select name from sys_user where uuid = t.audituserid) auditusername,
+            row_number () over (partition by (t.taskdesc) order by t.orderby desc) idx
+            from rcm_formalassessment_log t
+            where t.businessid = #{business_id}
+            order by iswaiting asc, orderby asc
+            ) tmp
+            where tmp.idx = 1
+        </if>
+        <if test="key != null and key != '' and key == 'preReview'">
+            select tmp.*
+            from (
+            select t.*,(select name from sys_user where uuid=t.audituserid) auditUserName,
+            row_number() over (partition by (t.taskdesc) order by t.orderby desc) idx
+            from rcm_pre_log t
+            where t.businessid=#{business_id} order by iswaiting asc,orderby asc
+            ) tmp
+            where tmp.idx = 1
+        </if>
+        <if test="key != null and key != '' and key == 'bulletin'">
+            select tmp.*
+            from (
+            select t.*,
+            (select bulletinname from rcm_bulletin_info where businessid=t.businessid) bulletinName,
+            (select name from sys_user where uuid=t.audituserid) auditUserName,
+            row_number() over (partition by (t.taskdesc) order by t.orderby desc) idx
+            from rcm_bulletin_log t
+            where businessid=#{business_id} order by iswaiting,orderby
+            ) tmp
+            where tmp.idx = 1
+        </if>
+    </select>
 </mapper>

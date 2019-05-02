@@ -1,5 +1,7 @@
 package com.yk.sign.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.yk.sign.entity._ApprovalNode;
 import common.PageAssistant;
 import org.activiti.engine.impl.task.TaskDefinition;
 
@@ -74,4 +76,10 @@ public interface ISignService {
      * @return
      */
     HashMap<String, Object> getCurrentTask(String business_module, String business_id);
+
+    ///////////////////////////////新流程图专用////////////////////////////////
+    Map<String, Map<String, Object>> list2Map(List<Map<String, Object>> list);
+    JSONObject put(Map<String, Map<String, Object>> map, JSONObject jsonObject);
+    _ApprovalNode getNewProcessImageStep(String processKey, String processId);
+    ///////////////////////////////新流程图专用////////////////////////////////
 }

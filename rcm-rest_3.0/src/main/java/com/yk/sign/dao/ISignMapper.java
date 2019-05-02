@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -33,4 +34,7 @@ public interface ISignMapper extends BaseMapper {
      * @return
      */
     List<HashMap> getCurrentTaskInfo(@Param("key") String key, @Param("business_id")String business_id);
+    ///////////////////////////////新流程图专用////////////////////////////////
+    List<Map<String, Object>>selectUniqueTasksForImageStep(@Param("key")String key, @Param("business_id")String business_id);
+    ///////////////////////////////新流程图专用////////////////////////////////
 }

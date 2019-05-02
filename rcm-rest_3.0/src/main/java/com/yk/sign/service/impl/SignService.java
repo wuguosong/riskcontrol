@@ -13,6 +13,7 @@ import com.yk.rcm.newFormalAssessment.dao.IFormalAssessmentInfoCreateMapper;
 import com.yk.rcm.newPre.dao.IPreInfoCreateMapper;
 import com.yk.rcm.pre.dao.IPreAuditLogMapper;
 import com.yk.sign.dao.ISignMapper;
+import com.yk.sign.entity._ApprovalNode;
 import com.yk.sign.service.ISignService;
 import common.Constants;
 import common.PageAssistant;
@@ -33,6 +34,7 @@ import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
@@ -41,9 +43,7 @@ import util.UserUtil;
 import util.Util;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by LiPan on 2019/3/6.
@@ -802,5 +802,196 @@ public class SignService implements ISignService {
         validate.put("code", code);
         validate.put("comment", comment);
         return validate;
+    }
+
+    @Override
+    public Map<String, Map<String, Object>> list2Map(List<Map<String, Object>> list){
+        Map<String, Map<String, Object>> map = new LinkedHashMap<String, Map<String, Object>>();
+        for(Map<String, Object> hashMap : list){
+            System.out.println(hashMap.get("TASKDESC") + " " + hashMap.get("AUDITUSERNAME") + " " + hashMap.get("AUDITTIME"));
+            map.put(String.valueOf(hashMap.get("TASKDESC")), hashMap);
+        }
+        return map;
+    }
+
+    @Override
+    public JSONObject put(Map<String, Map<String, Object>> map, JSONObject jsonObject){
+        String _approvalKey = jsonObject.getString(_ApprovalNode._approvalKey);
+        Map<String, Object> hashMap = null;
+        if(_approvalKey.contains(",")){
+            String[] _approvalKeyArray = _approvalKey.split(",");
+            for(String key : _approvalKeyArray){
+                hashMap = map.get(key);
+                if(hashMap != null){
+                    break;
+                }
+            }
+        }else{
+            hashMap = map.get(_approvalKey);
+        }
+        if(hashMap == null){
+            jsonObject.put(_ApprovalNode._approvalState, _ApprovalNode._approvalStateDo);
+            jsonObject.put(_ApprovalNode._approvalUser, "");
+            jsonObject.put(_ApprovalNode._approvalDate, "");
+            jsonObject.put(_ApprovalNode._approvalStateCode, 0);// 还未执行
+            return jsonObject;
+        }
+        jsonObject.put(_ApprovalNode._approvalDate, hashMap.get("AUDITTIME"));
+        jsonObject.put(_ApprovalNode._approvalUser, hashMap.get("AUDITUSERNAME"));
+        jsonObject.put(_ApprovalNode._approvalState, _ApprovalNode._approvalStateDone);
+        jsonObject.put(_ApprovalNode._approvalStateCode, -1);// 已经执行
+        return jsonObject;
+    }
+
+    @Override
+    public _ApprovalNode getNewProcessImageStep(String processKey, String processId) {
+        List<Map<String, Object>> list = signMapper.selectUniqueTasksForImageStep(processKey, processId);
+        _ApprovalNode _approvalNode = new _ApprovalNode();
+        Map<String, Map<String, Object>> map = this.list2Map(list);
+        // 任务判断
+        List<Task> tasks = taskService.createTaskQuery().processDefinitionKey(processKey).processInstanceBusinessKey(processId).list();
+        // 退回等过滤操作
+        map = this.judgeTaskMap(map, tasks);
+        if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(processKey)) {
+            // 投标评审
+            _ApprovalNode._ReviewApproval _reviewApproval = new _ApprovalNode._ReviewApproval();
+            _reviewApproval.set_drafting(this.put(map, _reviewApproval.get_drafting()));
+            _reviewApproval.set_investmentManagerDrafting(this.put(map, _reviewApproval.get_investmentManagerDrafting()));
+            _reviewApproval.set_businessAreaApproval(this.put(map, _reviewApproval.get_businessAreaApproval()));
+            _reviewApproval.set_waterInvestmentCenter(this.put(map, _reviewApproval.get_waterInvestmentCenter()));
+            _reviewApproval.set_assignmentTask(this.put(map, _reviewApproval.get_assignmentTask()));
+            _reviewApproval.set_reviewChargeApproval(this.put(map, _reviewApproval.get_reviewChargeApproval()));
+            _reviewApproval.set_reviewChargeConfirm(this.put(map, _reviewApproval.get_reviewChargeConfirm()));
+            _reviewApproval.set_completed(this.put(map, _reviewApproval.get_completed()));
+            for(Task task : tasks){
+                String name = task.getName();
+                _reviewApproval.set_drafting(this.put(map, _reviewApproval.get_drafting()));
+                _reviewApproval.set_investmentManagerDrafting(this.judgeTask(_reviewApproval.get_investmentManagerDrafting(), name));
+                _reviewApproval.set_businessAreaApproval(this.judgeTask(_reviewApproval.get_businessAreaApproval(), name));
+                _reviewApproval.set_waterInvestmentCenter(this.judgeTask(_reviewApproval.get_waterInvestmentCenter(), name));
+                _reviewApproval.set_assignmentTask(this.judgeTask(_reviewApproval.get_assignmentTask(), name));
+                _reviewApproval.set_reviewChargeApproval(this.judgeTask(_reviewApproval.get_reviewChargeApproval(), name));
+                _reviewApproval.set_reviewChargeConfirm(this.judgeTask(_reviewApproval.get_reviewChargeConfirm(), name));
+                _reviewApproval.set_completed(this.judgeTask(_reviewApproval.get_completed(), name));
+            }
+            _reviewApproval.execute();
+            _approvalNode.set_reviewApproval(_reviewApproval);
+            _approvalNode.set_processId(processId);
+            _approvalNode.set_processKey(processKey);
+        } else if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(processKey)) {
+            // 正式评审
+            _ApprovalNode._FormalApproval _formalApproval = new _ApprovalNode._FormalApproval();
+            _formalApproval.set_drafting(this.put(map, _formalApproval.get_drafting()));
+            _formalApproval.set_investmentManagerDrafting(this.put(map, _formalApproval.get_investmentManagerDrafting()));
+            _formalApproval.set_businessAreaApproval(this.put(map, _formalApproval.get_businessAreaApproval()));
+            _formalApproval.set_waterInvestmentCenter(this.put(map, _formalApproval.get_waterInvestmentCenter()));
+            _formalApproval.set_assignmentTask(this.put(map, _formalApproval.get_assignmentTask()));
+            _formalApproval.set_legalDistribution(this.put(map, _formalApproval.get_legalDistribution()));
+            _formalApproval.set_lawChargeApproval(this.put(map, _formalApproval.get_lawChargeApproval()));
+            _formalApproval.set_reviewChargeApproval(this.put(map, _formalApproval.get_reviewChargeApproval()));
+            _formalApproval.set_reviewChargeConfirm(this.put(map, _formalApproval.get_reviewChargeConfirm()));
+            _formalApproval.set_completed(this.put(map, _formalApproval.get_completed()));
+            for(Task task : tasks){
+                String name = task.getName();
+                _formalApproval.set_drafting(this.put(map, _formalApproval.get_drafting()));
+                _formalApproval.set_investmentManagerDrafting(this.judgeTask(_formalApproval.get_investmentManagerDrafting(), name));
+                _formalApproval.set_businessAreaApproval(this.judgeTask(_formalApproval.get_businessAreaApproval(), name));
+                _formalApproval.set_waterInvestmentCenter(this.judgeTask(_formalApproval.get_waterInvestmentCenter(), name));
+                _formalApproval.set_assignmentTask(this.judgeTask(_formalApproval.get_assignmentTask(), name));
+                _formalApproval.set_legalDistribution(this.judgeTask(_formalApproval.get_legalDistribution(), name));
+                _formalApproval.set_lawChargeApproval(this.judgeTask(_formalApproval.get_lawChargeApproval(), name));
+                _formalApproval.set_reviewChargeApproval(this.judgeTask(_formalApproval.get_reviewChargeApproval(), name));
+                _formalApproval.set_reviewChargeConfirm(this.judgeTask(_formalApproval.get_reviewChargeConfirm(), name));
+                _formalApproval.set_completed(this.judgeTask(_formalApproval.get_completed(), name));
+            }
+            _formalApproval.execute();
+            _approvalNode.set_formalApproval(_formalApproval);
+            _approvalNode.set_processId(processId);
+            _approvalNode.set_processKey(processKey);
+        } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(processKey)) {
+            // 其它评审
+            _ApprovalNode._BulletinApproval _bulletinApproval = new _ApprovalNode._BulletinApproval();
+            _bulletinApproval.set_drafting(this.put(map, _bulletinApproval.get_drafting()));
+            _bulletinApproval.set_unitChargeApproval(this.put(map, _bulletinApproval.get_unitChargeApproval()));
+            _bulletinApproval.set_businessLeaderApproval(this.put(map, _bulletinApproval.get_businessLeaderApproval()));
+            _bulletinApproval.set_assignmentTask(this.put(map, _bulletinApproval.get_assignmentTask()));
+            _bulletinApproval.set_lawChargeApproval(this.put(map, _bulletinApproval.get_lawChargeApproval()));
+            _bulletinApproval.set_reviewChargeApproval(this.put(map, _bulletinApproval.get_reviewChargeApproval()));
+            _bulletinApproval.set_completed(this.put(map, _bulletinApproval.get_completed()));
+            for(Task task : tasks){
+                String name = task.getName();
+                _bulletinApproval.set_drafting(this.judgeTask(_bulletinApproval.get_drafting(), name));
+                _bulletinApproval.set_unitChargeApproval(this.judgeTask(_bulletinApproval.get_unitChargeApproval(), name));
+                _bulletinApproval.set_businessLeaderApproval(this.judgeTask(_bulletinApproval.get_businessLeaderApproval(), name));
+                _bulletinApproval.set_assignmentTask(this.judgeTask(_bulletinApproval.get_assignmentTask(), name));
+                _bulletinApproval.set_lawChargeApproval(this.judgeTask(_bulletinApproval.get_lawChargeApproval(), name));
+                _bulletinApproval.set_reviewChargeApproval(this.judgeTask(_bulletinApproval.get_reviewChargeApproval(), name));
+                _bulletinApproval.set_completed(this.judgeTask(_bulletinApproval.get_completed(), name));
+            }
+            _bulletinApproval.execute();
+            _approvalNode.set_bulletinApproval(_bulletinApproval);
+            _approvalNode.set_processId(processId);
+            _approvalNode.set_processKey(processKey);
+        } else {
+            return null;
+        }
+        return _approvalNode;
+    }
+
+    /**
+     * 根据当前任务进行判断
+     * @param js
+     * @param name
+     * @return
+     */
+    private JSONObject judgeTask(JSONObject js, String name){
+        if(js.getString(_ApprovalNode._approvalKey).contains(name)){
+            js.put(_ApprovalNode._approvalState, _ApprovalNode._approvalStateDoing);
+            js.put(_ApprovalNode._approvalDate, "");
+            js.put(_ApprovalNode._approvalStateCode, 1);// 正在执行
+        }
+        return js;
+    }
+
+    private Map<String, Map<String, Object>> judgeTaskMap(Map<String, Map<String, Object>> map, List<Task> tasks){
+        List<Integer> idx = new ArrayList<Integer>();// 存储当前任务出现的索引位置
+        System.out.println("+++++++++++++++++++++++有序map开始++++++++++++++++++++++");
+        for(Iterator<Map.Entry<String, Map<String, Object>>> it = map.entrySet().iterator();it.hasNext();){
+            Map.Entry<String, Map<String, Object>> entry = it.next();
+            String key = entry.getKey();
+            Map<String, Object> value = entry.getValue();
+            System.out.println(key + " " + JSON.toJSONString(value));
+        }
+        System.out.println("++++++++++++++++++++++有序map结束+++++++++++++++++++++++");
+        List<Map<String, Object>> list = this.map2List(map);
+        System.out.println("移除前：" + list.size() + " " + map.size());
+        for(Task task : tasks){
+            String name = task.getName();
+            for(Map<String, Object> obj : list){
+                if(obj.get("TASKDESC").equals(name)){
+                    idx.add(list.indexOf(obj));
+                    System.out.println("name:" + name + " desc:" + obj.get("TASKDESC"));
+                }
+            }
+        }
+        Collections.sort(idx);// 排序
+        System.out.println(JSON.toJSONString(idx));
+        List<Map<String, Object>> subList = new ArrayList<Map<String, Object>>();
+        if(CollectionUtils.isNotEmpty(idx)){
+            subList = list.subList(0, idx.get(0));// List.subList后不要试图操作父List，该方法返回的是一个视图
+        }else{
+            subList = list;
+        }
+        Map<String, Map<String, Object>> subMap = this.list2Map(subList);
+        System.out.println("移除后：" + subList.size() + " " + subMap.size());
+        return map;
+    }
+
+    private List<Map<String, Object>> map2List(Map<String, Map<String, Object>> map){
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for(Iterator<Map.Entry<String, Map<String, Object>>> iterator = map.entrySet().iterator();iterator.hasNext();){
+            list.add(iterator.next().getValue());
+        }
+        return list;
     }
 }

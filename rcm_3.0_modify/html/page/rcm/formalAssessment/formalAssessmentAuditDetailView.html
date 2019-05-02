@@ -35,7 +35,8 @@
                                 </div>
                                 <div class="tab-pane" id="flow_chart">
                                 	<!-- 新流程图 -->
-                                    <directive-process-page ng-if="!isOldFlow"></directive-process-page>
+                                    <!--<directive-process-page ng-if="!isOldFlow"></directive-process-page>-->
+									<directive-process-page-new ng-if="!isOldFlow" process-key="formalReview"></directive-process-page-new>
                                     <!-- 旧流程图 -->
                                     <directive-process-list ng-if="isOldFlow"></directive-process-list>
                                 </div>

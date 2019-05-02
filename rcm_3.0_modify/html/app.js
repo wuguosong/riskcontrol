@@ -920,6 +920,27 @@ function wf_listTaskLog(business_module, business_id) {
     });
     return logs;
 }
+/**
+ * 获取流程图进度
+ * @param processKey
+ * @param processId
+ * @returns {*}
+ */
+function wf_getProcessImageStep(processKey, processId) {
+    var url = srvUrl + "sign/getProcessImageStep.do";
+    var _node = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"processKey": processKey, 'processId': processId},
+        async: false,
+        success: function (data) {
+            _node = data;
+        }
+    });
+    return _node;
+}
 
 /**
  * 获取当前任务日志

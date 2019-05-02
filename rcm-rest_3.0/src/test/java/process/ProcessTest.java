@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yk.process.entity.FlowConfig;
 import com.yk.process.entity.NodeConfig;
 import com.yk.process.entity.TaskConfig;
+import com.yk.sign.entity._ApprovalNode;
 import com.yk.process.service.IProcessService;
 import com.yk.sign.service.ISignService;
 import common.Constants;
@@ -19,7 +20,6 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.*;
 import org.activiti.engine.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -448,5 +448,61 @@ public class ProcessTest {
         }
         BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
         return bpmnModel;
+    }
+
+    @Test
+    public void testNew(){
+        List<Map<String, Object>> list = signService.listLogs("bulletin", "dde576b18b234e94ba4f501dd1bd420c");// processService.listProcessNode("bulletin", "dde576b18b234e94ba4f501dd1bd420c");
+        _ApprovalNode _approvalNode = new _ApprovalNode();
+        Map<String, Map<String, Object>> map = this.list2Map(list);
+        _ApprovalNode._BulletinApproval _bulletinApproval = new _ApprovalNode._BulletinApproval();
+        _bulletinApproval.set_unitChargeApproval(this.putValue(map, _bulletinApproval.get_unitChargeApproval()));
+        _bulletinApproval.set_businessLeaderApproval(this.putValue(map, _bulletinApproval.get_businessLeaderApproval()));
+        _bulletinApproval.set_lawChargeApproval(this.putValue(map, _bulletinApproval.get_lawChargeApproval()));
+        _bulletinApproval.set_reviewChargeApproval(this.putValue(map, _bulletinApproval.get_reviewChargeApproval()));
+        _bulletinApproval.set_assignmentTask(this.putValue(map, _bulletinApproval.get_assignmentTask()));
+        _bulletinApproval.set_completed(this.putValue(map, _bulletinApproval.get_completed()));
+        _bulletinApproval.set_drafting(this.putValue(map, _bulletinApproval.get_drafting()));
+        _approvalNode.set_bulletinApproval(_bulletinApproval);
+        _bulletinApproval.execute();
+        System.out.println(JSON.toJSONString(_approvalNode));
+    }
+
+    public JSONObject putValue(Map<String, Map<String, Object>> map, JSONObject jsonObject){
+        Map<String, Object> hashMap = map.get(jsonObject.getString(_ApprovalNode._approvalKey));
+        if(hashMap == null){
+            jsonObject.put(_ApprovalNode._approvalState, "nodeItem");
+            jsonObject.put(_ApprovalNode._approvalUser, null);
+            jsonObject.put(_ApprovalNode._approvalDate, null);
+            return jsonObject;
+        }
+        jsonObject.put(_ApprovalNode._approvalDate, hashMap.get("AUDITTIME"));
+        jsonObject.put(_ApprovalNode._approvalUser, hashMap.get("AUDITUSERNAME"));
+        jsonObject.put(_ApprovalNode._approvalState, "activeNode");
+        return jsonObject;
+    }
+
+    public Map<String, Map<String, Object>> list2Map(List<Map<String, Object>> list){
+        Map<String, Map<String, Object>> map = new HashMap<String, Map<String, Object>>();
+        for(Map<String, Object> hashMap : list){
+            map.put(String.valueOf(hashMap.get("TASKDESC")), hashMap);
+        }
+        return map;
+    }
+
+    @Test
+    public void testNew2(){
+        NodeConfig nodeConfig = processService.createNodeConfig("bulletin", "dde576b18b234e94ba4f501dd1bd420c");
+        // 渲染所有节点
+        nodeConfig = processService.renderNodeConfig(nodeConfig);
+        System.out.println(JSON.toJSONString(nodeConfig));
+    }
+
+    @Test
+    public void testNew3(){
+       List<Map<String, Object>> list = signService.listLogs("bulletin", "dde576b18b234e94ba4f501dd1bd420c");
+        for(Object o : list){
+            System.out.println(JSON.toJSONString(o));
+        }
     }
 }
