@@ -1687,12 +1687,14 @@ ctmApp.directive('bbsChatNew', function() {
             // 初始化留言表单内容
             $scope._message = {};
             $scope._message.originalId = 0;
+            $scope._message.messageTitle = '';
             $scope._message.parentId = 0;
             $scope._message.procInstId = $scope.businessId;
             $scope._message.repliedBy = '';
             $scope._message.repliedName = '';
             $scope._message_first = {};
             $scope._message_first.originalId = 0;
+            $scope._message_first.messageTitle = '';
             $scope._message_first.parentId = 0;
             $scope._message_first.procInstId = $scope.businessId;
             $scope._message_first.repliedBy = '';
@@ -1718,11 +1720,13 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._message.repliedBy = '';
                 $scope._message.repliedName = '';
                 $scope._message.messageContent = '';
+                $scope._message.messageTitle = '';
                 $scope._message_first.originalId = '';
                 $scope._message_first.parentId = '';
                 $scope._message_first.repliedBy = '';
                 $scope._message_first.repliedName = '';
                 $scope._message_first.messageContent = '';
+                $scope._message_first.messageTitle = '';
                 $scope._clear_via_users_();
                 $scope._clear_share_users_();
             };
@@ -1736,6 +1740,7 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.repliedBy = '';
                     formData.repliedName = 0;
                     formData.messageContent = $('#_message_first_0').text();
+                    formData.messageTitle = $('#_message_first_title_0').text();
                     formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
                 }else{
                     formData = $scope._message;
@@ -1745,6 +1750,12 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.repliedName = _replied_name_;
                     formData.messageContent = $('#_message_textarea_bottom_' + _idx_).text();
                 }
+                if (isEmpty(formData.messageTitle)) {
+                    if(_is_first_ == 'Y'){
+                        $.alert('留言主题不能为空!');
+                        return;
+                    }
+                }
                 if (isEmpty(formData.messageContent)) {
                     if(_is_first_ == 'Y'){
                         $.alert('留言内容不能为空!');
@@ -1753,8 +1764,15 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                     return;
                 }
+                if(_is_first_ == 'Y'){
+                    if(_common_get_string_byte_length(formData.messageTitle) > 128){
+                        $.alert('标题不能超过128个字符!');
+                        return;
+                    }
+                }
                 if(_common_get_string_byte_length(formData.messageContent) > 2500){
                     $.alert('内容不能超过2500个字符!');
+                    return;
                 }
                 formData.messageType = $scope.messageType;
                 $http({
@@ -1771,6 +1789,7 @@ ctmApp.directive('bbsChatNew', function() {
                     $scope._clear_message_from();
                     if(_is_first_ == 'Y'){
                         $('#_message_first_0').text('');
+                        $('#_message_first_title_0').text('');
                         $.alert('发表留言成功!');
                     }else{
                         $.alert('回复留言成功!');

@@ -19,8 +19,13 @@ public class Message{
     private Long originalId;// 原始留言id
     private String createdBy;// 留言或者回复人id
     private String createdName;// 留言或者回复人
+    private String createdDept;// 创建人部门
+    private String createdPosition;// 创建人职位
     private String repliedBy;// 被回复人id
     private String repliedName;// 被回复人
+    private String repliedDept;// 被回复人部门
+    private String repliedPosition;// 被回复人职位
+    private String messageTitle;// 留言主题
     private String messageContent;// 留言或者回复内容
     private Timestamp messageDate;// 留言或者回复日期
     private String pushFlag;// 推送成功标志(Y/N)
@@ -198,6 +203,46 @@ public class Message{
     }
     public void setChildren(List<Message> children) {
         this.children = children;
+    }
+
+    public String getCreatedDept() {
+        return createdDept;
+    }
+
+    public void setCreatedDept(String createdDept) {
+        this.createdDept = createdDept;
+    }
+
+    public String getCreatedPosition() {
+        return createdPosition;
+    }
+
+    public void setCreatedPosition(String createdPosition) {
+        this.createdPosition = createdPosition;
+    }
+
+    public String getRepliedDept() {
+        return repliedDept;
+    }
+
+    public void setRepliedDept(String repliedDept) {
+        this.repliedDept = repliedDept;
+    }
+
+    public String getRepliedPosition() {
+        return repliedPosition;
+    }
+
+    public void setRepliedPosition(String repliedPosition) {
+        this.repliedPosition = repliedPosition;
+    }
+
+    public String getMessageTitle() {
+        return messageTitle;
+    }
+
+    public void setMessageTitle(String messageTitle) {
+        this.messageTitle = messageTitle;
     }
 }
 

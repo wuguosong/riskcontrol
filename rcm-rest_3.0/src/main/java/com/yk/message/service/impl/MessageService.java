@@ -52,6 +52,47 @@ public class MessageService implements IMessageService {
     @Override
     public Message save(Message message) {
         message.setMessageDate(DateUtil.getCurrentDate());
+        // 设置创建人和回复人相关信息
+        String createdBy = message.getCreatedBy();
+        if(StringUtils.isNotBlank(createdBy)){
+            List<HashMap<String,Object>> about = messageMapper.selectUserAbout(createdBy);
+            if(CollectionUtils.isNotEmpty(about)){
+                HashMap<String, Object> user = about.get(0);
+                String dept = "";
+                String position = "";
+                if(user.get("ORGNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("ORGNAME")))){
+                    dept = String.valueOf(user.get("ORGNAME"));
+                    if(user.get("DEPTNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("DEPTNAME")))){
+                        dept += "-" + String.valueOf(user.get("DEPTNAME"));
+                    }
+                }
+                if(user.get("JOBNAME") != null && "null".equalsIgnoreCase(String.valueOf(user.get("JOBNAME")))){
+                    position = String.valueOf(user.get("JOBNAME"));
+                }
+                message.setCreatedDept(dept);
+                message.setCreatedPosition(position);
+            }
+        }
+        String repliedBy = message.getRepliedBy();
+        if(StringUtils.isNotBlank(repliedBy)){
+            List<HashMap<String,Object>> about = messageMapper.selectUserAbout(repliedBy);
+            if(CollectionUtils.isNotEmpty(about)){
+                HashMap<String, Object> user = about.get(0);
+                String dept = "";
+                String position = "";
+                if(user.get("ORGNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("ORGNAME")))){
+                    dept = String.valueOf(user.get("ORGNAME"));
+                    if(user.get("DEPTNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("DEPTNAME")))){
+                        dept += "-" + String.valueOf(user.get("DEPTNAME"));
+                    }
+                }
+                if(user.get("JOBNAME") != null && "null".equalsIgnoreCase(String.valueOf(user.get("JOBNAME")))){
+                    position = String.valueOf(user.get("JOBNAME"));
+                }
+                message.setRepliedDept(dept);
+                message.setRepliedPosition(position);
+            }
+        }
         messageMapper.insertMessage(message);
         return message;
     }

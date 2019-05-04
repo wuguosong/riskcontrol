@@ -11,8 +11,13 @@
         <result column="original_id" property="originalId" javaType="java.lang.Long"/>
         <result column="created_by" property="createdBy" javaType="java.lang.String"/>
         <result column="created_name" property="createdName" javaType="java.lang.String"/>
+        <result column="created_dept" property="createdDept" javaType="java.lang.String"/>
+        <result column="created_position" property="createdPosition" javaType="java.lang.String"/>
         <result column="replied_by" property="repliedBy" javaType="java.lang.String"/>
         <result column="replied_name" property="repliedName" javaType="java.lang.String"/>
+        <result column="replied_dept" property="repliedDept" javaType="java.lang.String"/>
+        <result column="replied_position" property="repliedPosition" javaType="java.lang.String"/>
+        <result column="message_title" property="messageTitle" javaType="java.lang.String"/>
         <result column="message_content" property="messageContent" javaType="java.lang.String"/>
         <result column="message_date" property="messageDate" javaType="java.sql.Timestamp"/>
         <result column="push_flag" property="pushFlag" javaType="java.lang.String"/>
@@ -33,8 +38,13 @@
        original_id,
        created_by,
        created_name,
+       created_dept,
+       created_position,
        replied_by,
        replied_name,
+       replied_dept,
+       replied_position,
+       message_title,
        message_content,
        message_date,
        push_flag,
@@ -90,9 +100,14 @@
 		#{originalId},
 		#{createdBy},
 		#{createdName},
+        #{createdDept},
+        #{createdPosition},
 		#{repliedBy},
 		#{repliedName},
-		#{messageContent},
+        #{repliedDept},
+        #{repliedPosition},
+		#{messageTitle},
+        #{messageContent},
 		#{messageDate},
 		#{pushFlag},
 		#{readFlag},
@@ -113,8 +128,13 @@
 		original_id = #{message.originalId},
 		created_by = #{message.createdBy},
 		created_name = #{message.createdName},
+		created_dept = #{message.createdDept},
+		created_position = #{message.createdPosition},
 		replied_by = #{message.repliedBy},
 		replied_name = #{message.repliedName},
+		replied_dept = #{message.repliedDept},
+		replied_position = #{message.repliedPosition},
+		message_title = #{message.messageTitle},
 		message_content = #{message.messageContent},
 		message_date = #{message.messageDate},
 		push_flag = #{message.pushFlag},
@@ -252,6 +272,10 @@
                         select 1 from rcm_formalassessment_info f
                         where f.businessid = '${message_business_id}'
                         and f.firstlevellawyerpersonid = u.uuid
+                        union
+                        select 1 from rcm_formalassessment_log lg
+                        where lg.businessid = '${message_business_id}'
+                        and lg.audituserid = u.uuid
                     </if>
                     /*投标评审*/
                     <if test="message_type == 'preview'">
@@ -271,6 +295,10 @@
                         select 1 from rcm_pre_info p
                         where p.businessid = '${message_business_id}'
                         and p.reviewpersonid = u.uuid
+                        union
+                        select 1 from rcm_pre_log lg
+                        where lg.businessid = '${message_business_id}'
+                        and lg.audituserid = u.uuid
                     </if>
                     /*其它评审*/
                     <if test="message_type == 'bulletin'">
@@ -282,6 +310,10 @@
                         select 1 from rcm_bulletin_info b
                         where b.businessid = '${message_business_id}'
                         and b.reviewleaderid = u.uuid
+                        union
+                        select 1 from rcm_bulletin_log lg
+                        where lg.businessid = '${message_business_id}'
+                        and lg.audituserid = u.uuid
                     </if>
                 </if>
             )
@@ -291,5 +323,16 @@
         <if test="username != null and username != ''"> and tmp.name like '%${username}%' </if>
         <if test="username != null and username != ''"> or tmp.account like '%${username}%' </if>
         <if test="username != null and username != ''"> or tmp.orgname like '%${username}%' </if>
+    </select>
+    <select id="selectUserAbout" parameterType="java.lang.String" resultType="java.util.HashMap">
+       select u.*,
+       (select s.name from sys_org s where s.orgpkvalue = u.orgpkvalue) orgname,
+       u.deptpkvalue,
+       (select o.name from sys_org o where o.orgpkvalue = u.deptpkvalue) deptname,
+       po.jobname,
+       po.jobtype
+       from sys_user u
+       left join sys_user_position po on po.PSNPKVALUE = u.PSNPKVALUE
+       where u.uuid = #{uuid}
     </select>
 </mapper>
