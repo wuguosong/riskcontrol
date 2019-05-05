@@ -49,7 +49,11 @@ ctmApp.register.controller('PreDetailView', ['$routeParams','$http','$scope','$l
 			$scope.pre  = data.result_data.mongo;
 			$scope.pre.oracle  = data.result_data.oracle;
 			$scope.pre.apply.projectModel;
-			
+
+            // 处理附件需要的数据
+            $scope.serviceType = angular.copy($scope.pre.apply.serviceType);
+            $scope.projectModel = angular.copy($scope.pre.apply.projectModel);
+
 			$scope.attach = data.result_data.attach;
 			//处理附件
             $scope.reduceAttachment(data.result_data.mongo.attachmentList, businessId);

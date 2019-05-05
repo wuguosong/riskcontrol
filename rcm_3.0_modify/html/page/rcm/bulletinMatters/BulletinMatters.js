@@ -133,6 +133,8 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	$scope.otherFields = ["FZRNAME","FZRID"];
 	$scope.selectOrgCallback = function(checkedOrg){
 		$scope.checkedOrg = checkedOrg;
+        $scope.bulletin.applyUnit.NAME = $scope.checkedOrg.ORGNAME;
+        $scope.bulletin.applyUnit.VALUE = $scope.checkedOrg.ORGID;
         $scope.setUnitPerson($scope.checkedOrg.FZRID, $scope.checkedOrg.FZRNAME);
 	};
 	
@@ -557,7 +559,6 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 
      // 选择项目后，写入项目名称
      $scope.setDirectiveCompanyList=function(project){
-     	debugger
          $scope.bulletin.projectNo = project.PROJECTCODE;  // 存储用编码
          $scope.bulletin.projectNoNew = project.PROJECTCODENEW; // 显示用编码
          $scope.bulletin.projectName = project.PROJECTNAME; // 项目名称

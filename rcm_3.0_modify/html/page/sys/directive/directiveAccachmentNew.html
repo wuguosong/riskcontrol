@@ -37,6 +37,7 @@
                 <th  width="12%">最后提交人</th>
                 <th  width="15%">最后提交时间</th>
                 <th ng-if="isEdite || wfState =='0' || wfState == undefined || wfState =='1'">相关操作</th>
+                <th ng-if="isChoose">上会附件</th>
             </tr>
             </thead>
             <tbody ng-repeat="item in fileList" ng-init="outerIndex = $index">
@@ -115,6 +116,12 @@
                             </div>
                         </div>
                     </div>
+                </td>
+                <td ng-if="isChoose">
+                    <label class="checkbox-inline choose">
+                        <input type="checkbox" name="fileChoose{{$index}}" ng-click="changeChoose($index, item.fileid)" class="px"/>
+                        <span class="lbl">&nbsp;</span>
+                    </label>
                 </td>
             </tr>
             </tbody>
