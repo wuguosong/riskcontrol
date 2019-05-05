@@ -1,57 +1,70 @@
-<div class="table-responsive table-list no-selectbox">
-    <table class="table table-hover ">
+<div class=" table-list no-selectbox clearfix fixtable" style="overflow:hidden;">
+    <div class="lltable">
+        <table class="table table-hover maintable">
+            <thead>
+            <tr>
+                <th width="5%">序号</th>
+                <th width="10%">项目名称</th>
+                <th width="10%">评审类型</th>
+                <th width="10%">所属大区</th>
+                <th width="15%">投资经理</th>
+                <th width="5%">申请时间</th>
+                <th width="5%">审批状态</th>
+                <th width="5%">评审状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="noSubmit in noSubmitList">
+                <td>
+                    {{ $index + 1 }}
+                </td>
+                <td>
+                    {{ noSubmit.PROJECTNAME }}
+                </td>
+                <td ng-if="'pfr' == noSubmit.PROJECT_TYPE">
+                    正式评审
+                </td>
+                <td ng-if="'pre' == noSubmit.PROJECT_TYPE">
+                    投标评审
+                </td>
+                <td ng-if="'bulletin' == noSubmit.PROJECT_TYPE">
+                    其他评审
+                </td>
+                <td>
+                    {{ noSubmit.PERTAINAREANAME }}
+                </td>
+                <td>
+                    {{ noSubmit.INVESTMENTNAME }}
+                </td>
+                <td>
+                    {{ noSubmit.APPLY_DATE }}
+                </td>
+
+                <td ng-if="'1'== noSubmit.STAGE">申请阶段</td>
+                <td ng-if="'2'== noSubmit.STAGE">任务分配</td>
+                <td ng-if="'3'== noSubmit.STAGE">风控处理</td>
+                <td ng-if="'4'== noSubmit.STAGE">准备上会</td>
+                <td ng-if="'5'== noSubmit.STAGE">已决策</td>
+                <td ng-if="'9'== noSubmit.STAGE">已终止</td>
+
+                <td>
+                    {{ noSubmit.STATUS }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <table class="table table-hover lefttable">
         <thead>
         <tr>
-            <th width="5%">序号</th>
-            <th width="10%">项目名称</th>
-            <th width="10%">评审类型</th>
-            <th width="10%">所属大区</th>
-            <th width="15%">投资经理</th>
-            <th width="5%">申请时间</th>
-            <th width="5%">审批状态</th>
-            <th width="5%">评审状态</th>
-            <th width="30%">填写评审资料</th>
+            <th  class="fixedth">填写评审资料</th>
         </tr>
+
         </thead>
         <tbody>
         <tr ng-repeat="noSubmit in noSubmitList">
             <td>
-                {{ $index + 1 }}
-            </td>
-            <td>
-                {{ noSubmit.PROJECTNAME }}
-            </td>
-            <td ng-if="'pfr' == noSubmit.PROJECT_TYPE">
-                正式评审
-            </td>
-            <td ng-if="'pre' == noSubmit.PROJECT_TYPE">
-                投标评审
-            </td>
-            <td ng-if="'bulletin' == noSubmit.PROJECT_TYPE">
-                其他评审
-            </td>
-            <td>
-                {{ noSubmit.PERTAINAREANAME }}
-            </td>
-            <td>
-                {{ noSubmit.INVESTMENTNAME }}
-            </td>
-            <td>
-                {{ noSubmit.APPLY_DATE }}
-            </td>
-
-            <td ng-if="'1'== noSubmit.STAGE">申请阶段</td>
-            <td ng-if="'2'== noSubmit.STAGE">任务分配</td>
-            <td ng-if="'3'== noSubmit.STAGE">风控处理</td>
-            <td ng-if="'4'== noSubmit.STAGE">准备上会</td>
-            <td ng-if="'5'== noSubmit.STAGE">已决策</td>
-            <td ng-if="'9'== noSubmit.STAGE">已终止</td>
-
-            <td>
-                {{ noSubmit.STATUS }}
-            </td>
-            <td>
-
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pfr' && (noSubmit.RFI_IS_SUBMIT_REPORT != 0 && noSubmit.RFI_IS_SUBMIT_REPORT != 1)"
                         ng-click="openRFIReport(noSubmit)"
                         class="btn btn-sm btn-grey btn-left"
@@ -167,6 +180,7 @@
             </td>
         </tr>
         </tbody>
+
     </table>
     <div id="addModal" class="modal" tabindex="-1" role="dialog"
          style="display: none;">

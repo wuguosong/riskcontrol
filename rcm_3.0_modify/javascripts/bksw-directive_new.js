@@ -3665,6 +3665,19 @@ ctmApp.directive('directiveFormalProtocolOpinion', function() {
         }
     };
 });
+
+// 意见（NEW）
+ctmApp.directive('directiveFormalOpinionNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalOpinionNew.html',
+        replace: true,
+        controller:function($scope,$http,$element,$location,$routeParams) {
+
+        }
+    };
+});
+
 // 评审用成本及费用
 ctmApp.directive('directiveFormalReportCbfy', function() {
     return {
@@ -6177,7 +6190,6 @@ ctmApp.directive('directiveProcessPageNew', function() {
             processKey:'@'// 流程Key
         },
         controller:function($scope, $routeParams){
-            debugger;
             $scope._process_key_ = $scope.processKey;
             $scope._process_id_ = $routeParams.id;
             // 监听流程变化

@@ -70,7 +70,7 @@
 	
 	<select id="queryTbsxUserRelations" resultType="hashmap">
 		select ur.*,(select name from sys_user where uuid=ur.user_id) as username
-		from sys_user_role ur where ur.code like 'TBSX_BUSINESS%'
+		from sys_user_role ur where ur.code like 'TBSX_BUSINESS%' AND UR.STATE = '1'
 	</select>
 	
 	<update id="updateByBusinessId" parameterType="map">

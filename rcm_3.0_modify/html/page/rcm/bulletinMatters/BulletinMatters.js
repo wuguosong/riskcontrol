@@ -224,6 +224,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 				};
 				$scope.tbsxType = data.tbsxType;
 				$scope.businessUsers = data.businessUsers;
+				console.log($scope.businessUsers);
 				$scope.isNotCityService = true;
 				$scope.isNotbusinessService = true;
 			}
@@ -291,7 +292,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	$scope.initDefaultData();
 	// 修改事项类型事件
 	$scope.changeTbsxType = function(){
-        $scope.bulletinNameBuild();
+        /*$scope.bulletinNameBuild();*/
 		var tbsxTypeModel = $scope.tbsxTypeModel;
 		if(tbsxTypeModel == null){
 			return;
@@ -413,7 +414,6 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	};
 	// 标准项目名称构建
 	 $scope.bulletinNameBuild = function () {
-	 	debugger;
          $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
 	 	if ($scope.qtType != ''){
             $scope.couldStr = $scope.bulletin.bulletinName.indexOf("项目");

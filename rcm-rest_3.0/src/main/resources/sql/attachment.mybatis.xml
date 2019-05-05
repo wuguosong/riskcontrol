@@ -24,6 +24,7 @@
        where t.business_id= #{business_id}
        and t.fuctiontype=#{fuctiontype}
        and t.attachment_name=#{attachment_name}
+       and t.servicecode=#{service_code}
 </select> 
 
 <select id="ListBusinessAndAttachment" resultType="map"  useCache="false">

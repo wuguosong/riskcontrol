@@ -31,6 +31,39 @@
                                 <div class="tab-pane in active" id="contracts_file_info">
 <!--                                     <directive-project-formal-review></directive-project-formal-review> -->
                                     <directive-project-formal-assessment-info></directive-project-formal-assessment-info>
+									<directive-project-formal-assessment-info></directive-project-formal-assessment-info>
+									<div class="panel" ng-if="(pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != '') && (pfr.tzProtocolOpinion != null &&pfr.tzProtocolOpinion != '')">
+										<directive-formal-opinion-new></directive-formal-opinion-new>
+									</div>
+									<!-- 分配任务 -->
+									<div class="panel" ng-show="showController.isTask || pfr.taskallocation.reviewLeader != null && pfr.taskallocation.reviewLeader !=''" >
+										<div class="panel-heading">
+											<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+										</div>
+										<div id="taskAssignment1" class="panel-collapse collapse in">
+											<div class="panel-body">
+												<div class="row">
+													<label  class="col-sm-2 control-label">评审负责人</label>
+													<div class="col-sm-4" >
+														<direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}" checked-user="myTaskallocation.reviewLeader"
+																				  is-editable="isTaskEdit" url="{{'role/queryReviewUsers.do'}}" ng-if="isTaskEdit == 'true'">
+														</direct-fzr-single-select>
+														<input class="form-control" type="text" ng-if="isTaskEdit == 'false'" ng-model="pfr.taskallocation.reviewLeader.NAME" readonly/>
+													</div>
+													<label ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask)|| pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-2 control-label">法律评审负责人</label>
+													<div   ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask) || pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-4">
+														<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
+																				  checked-user="myTaskallocation.legalReviewLeader"
+																				  is-editable="isTaskLegalEdit"
+																				  url="{{'role/queryLegalUsers.do'}}"
+																				  ng-if="isTaskLegalEdit == 'true'"
+														></direct-fzr-single-select>
+														<input class="form-control" type="text" ng-if="isTaskLegalEdit == 'false'" ng-model="pfr.taskallocation.legalReviewLeader.NAME" readonly/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
                                 </div>
                                 <div class="tab-pane" id="flow_chart">
                                     <!--<directive-process-page></directive-process-page>-->
@@ -46,10 +79,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel" ng-if="pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != ''">
+                <!--<div class="panel" ng-if="pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != ''">
                     <directive-formal-cesuan-opinion></directive-formal-cesuan-opinion>
                 </div>
-                <!--协议意见-->
+                &lt;!&ndash;协议意见&ndash;&gt;
                 <div class="panel" ng-if="pfr.tzProtocolOpinion != null &&pfr.tzProtocolOpinion != ''">
                     <directive-formal-protocol-opinion></directive-formal-protocol-opinion>
                 </div>
@@ -78,7 +111,7 @@
 						</div>
 					</div>
             	</div>
-            	<!-- 专业评审人员 填写意见-->
+            	&lt;!&ndash; 专业评审人员 填写意见&ndash;&gt;
                 <div class="panel" ng-show="(approveShow && pfr.approveAttachment != null && pfr.approveAttachment != '') || showController.isReviewLeader">
 					<div class="panel-heading">
 						<a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">初步评审意见<i class="i-triangle"></i></span></a>
@@ -196,7 +229,7 @@
 											<td>
 												<select id="attachmentNew{{$index}}"  ng-disabled="!showController.isReviewLeader || am.isReviewLeaderEdit=='0'" ng-model="am.attachmentUList"
 														ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
-													<option value="">---请选择---</option>
+													<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
 												</select>
 												<input type="hidden" id="programmed{{$index}}" ng-model="am.programmed.NAME">
 												<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE">
@@ -343,7 +376,7 @@
 											<td>
 												<select id="attachmentNew1{{$index}}"  ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader" ng-model="am.attachmentUList"
 														ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
-													<option value="">---请选择---</option>
+													<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
 												</select>
 												<input type="hidden" id="programmed1{{$index}}" ng-model="am.programmed.NAME">
 												<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE">
@@ -371,7 +404,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
             </div>
         </div>
         <div class="button-group">
