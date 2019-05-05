@@ -450,7 +450,13 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 			data: $.param({"json": JSON.stringify($scope.bulletin)})
 		}).success(function (result) {
             if (result.success){
-                $.alert(result.result_name);
+                $scope.bulletin._id = result.result_data;
+                if (callBack && typeof callBack == 'function') {
+                    callBack();
+                }
+                if(callBack == null){
+                    $.alert(result.result_name);
+                }
                 $location.path("/BulletinMattersDetail/" + result.result_data);
             } else {
                 $.alert(result.result_name);
