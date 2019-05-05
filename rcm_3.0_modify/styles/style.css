@@ -1920,3 +1920,32 @@ td btn-scale:first-child{
     background: #ebebeb;
 
 }
+.fixtable{
+    width: 100%;
+    white-space: nowrap;
+    position: relative;
+}
+.lltable{
+    width: 70%;
+    overflow-x: auto;
+    float: left;
+}
+.fixtable .maintable{
+    /*width: 70%;*/
+    /*float: left;*/
+    overflow: hidden;
+    overflow-x:auto ;
+}
+.fixtable .lefttable{
+    width: 30%;
+    float: left;
+    position: absolute;
+    top: -1px;
+    right: 0;
+}
+.fixtable .table > thead >tr>th{
+    background: #1ea9f0 ;
+    color:white;
+    border: none;
+}
+
