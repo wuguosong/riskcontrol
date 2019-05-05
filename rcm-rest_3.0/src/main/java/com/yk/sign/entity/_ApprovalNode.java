@@ -383,8 +383,13 @@ public class _ApprovalNode {
                 this.get_completed().put(_ApprovalNode._approvalStateCode, -1);
                 this.get_completed().put(_ApprovalNode._approvalState, _ApprovalNode._approvalStateDone);
             }
-            this.get_drafting().put(_ApprovalNode._approvalState, this.get_unitChargeApproval().get(_ApprovalNode._approvalState));
-            this.get_drafting().put(_ApprovalNode._approvalStateCode, this.get_unitChargeApproval().get(_ApprovalNode._approvalStateCode));
+            if(this.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == -1){
+                this.get_drafting().put(_ApprovalNode._approvalState, this.get_unitChargeApproval().get(_ApprovalNode._approvalState));
+                this.get_drafting().put(_ApprovalNode._approvalStateCode, this.get_unitChargeApproval().get(_ApprovalNode._approvalStateCode));
+            }else if(this.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1){
+                this.get_drafting().put(_ApprovalNode._approvalState, _ApprovalNode._approvalStateDone);
+                this.get_drafting().put(_ApprovalNode._approvalStateCode, -1);
+            }
         }
 
         public void set_drafting(JSONObject _drafting) {
