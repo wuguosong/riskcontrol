@@ -377,7 +377,7 @@ ctmApp.directive('directReportOrgSelect', function() {
             //是否可编辑，默认为true
             isEditable:"=",
             //是否分页，默认为false
-            isPage:"=",
+            isPage:"=?bind",
             //查询参数，非必填
             queryParams: "=",
             //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
@@ -564,7 +564,7 @@ ctmApp.directive('directReportOrgDialog', function() {
                     }
                 }
                 if($scope.callback != null){
-                    $scope.callback($scope.checkedOrg);
+                    $scope.callback(cus);
                 }
             }
             $scope.$watch('checkedOrg', $scope.initData);
@@ -3067,16 +3067,34 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 });
             };
 
-            // 切换业务类型时查询资源类型的值
-            $scope._changeType = function (type) {
-                console.log(type);
-                $scope.itemType = $scope._selectItemType(type.ITEM_CODE);
+            // 切换资源类型时修改附件名称逻辑
+            $scope._changeItemType = function (item) {
+                item.fileName = item.type.ITEM_NAME;
             };
 
             // 选择上会文件
             $scope.changeChoose = function (index, fileId) {
                 console.log(index);
                 console.log(fileId);
+                if ($scope.businessType == 'preReview') {
+                    url = "preInfoCreate/changeMeetingAttach.do";
+                } else if ($scope.businessType == 'formalReview') {
+                    url = "formalAssessmentInfoCreate/changeMeetingAttach.do";
+                } else {
+                    url = "bulletinInfo/changeMeetingAttach.do";
+                }
+                $http({
+                    method:'post',
+                    url:srvUrl + url,
+                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
+                }).success(function(data){
+                    if(data.success){
+                        $.alert(data.result_name);
+                        $scope.initUpdate({'id': $scope.businessId});
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
             }
         }
     };
