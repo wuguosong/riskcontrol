@@ -15,8 +15,8 @@
 								<a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
 							</li>
 							<li>
-                                <a href="/#flow_chart" data-toggle="tab" ng-if="queryParamId != '0'">流程图</a>
-                            </li>
+								<a href="/#flow_chart" data-toggle="tab" ng-if="queryParamId != '0'">流程图</a>
+							</li>
 							<li >
 								<a href="/#contracts_resources" data-toggle="tab" ng-if="queryParamId != '0'">相关资源</a>
 							</li>
@@ -34,7 +34,6 @@
 									<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
 									<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
 								</div>
-								</div>
 							</div>
 							<div class="row">
 								<label class="col-sm-2 control-label"><span class="required-m">*</span>所属大区</label>
@@ -43,11 +42,11 @@
 
 										<input type="text" ng-show="isNotbusinessService" readonly required class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
 										<!--
-										<input type="text" ng-if="!isNotbusinessService"  class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
-										 -->
+                                        <input type="text" ng-if="!isNotbusinessService"  class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+                                         -->
 										<direct-report-org-select ng-if="!isNotbusinessService"  id ="{{'rorg'}}" titel ="{{'所属大区选择'}}" url = "{{'org/queryReportOrg.do'}}"   mapped-key-value = "mappedKeyValue"
-											callback = "selectOrgCallback" checked-org ="checkedOrg" other-fields ="otherFields" is-editable ="'true'"  is-page="'true'"
-											columns = "columns">
+																  callback = "selectOrgCallback" checked-org ="checkedOrg" other-fields ="otherFields" is-editable ="'true'"
+																  columns = "columns">
 										</direct-report-org-select>
 
 										<input type="hidden" required class="form-control" id="applyUnitId" name="applyUnitId" ng-model="bulletin.applyUnit.VALUE">
@@ -73,13 +72,15 @@
 									<i class="fa fa-calendar form-control-feedback"></i>
 								</div>
 							</div>
+
 							<div class="row">
+								{{bulletin.bulletinType.VALUE}}
 								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
 								<div class="col-sm-4">
 									<select name="tbsxType" ng-model="tbsxTypeModel" id="tbsxType" class="form-control" ng-change="changeTbsxType()">
 										<option value=''>-- 请选择 --</option>
 										<option ng-repeat="item in tbsxType" value="{{item}}"
-											ng-selected="item.UUID==bulletin.bulletinType.VALUE" >{{item.ITEM_NAME}}</option>
+												ng-selected="item.UUID==bulletin.bulletinType.VALUE" >{{item.ITEM_NAME}}</option>
 									</select>
 								</div>
 								<label ng-if="isNotCityService" class="col-sm-2 control-label"><span class="required-m">*</span>职能部门负责人</label>
@@ -118,7 +119,79 @@
 									<textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
 								</div>
 							</div>
-							<!--<div class="row">
+						</div>
+						<div class="tab-pane" id="flow_chart">
+							<!--<directive-process-page></directive-process-page>-->
+							<directive-process-page-new process-key="bulletin"></directive-process-page-new>
+						</div>
+						<div class="tab-pane" id="contracts_resources">
+							<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+													  last-update-by="bulletin.applyUser" wf-state="bulletin.WF_STATE" file-list="newAttachment"
+													  init-update="initUpdate(id)"></directive-accachment-new>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option">
+					<a class="btn btn-info" href="#/BulletinMatters/0"><i class="fa fa-reply"></i>返回</a>
+					<button type="button" ng-click="save()"  class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+					<button type="button" id="subBtn" ng-click="showSubmitModal()"  class="btn btn-info"><i class="fa fa-save"></i>提交</button>
+
+					<div id="submitModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+						<bpmn-pop-win approve="approve"></bpmn-pop-win>
+					</div>
+					<!--<button ng-if="isHide" ng-click="generateApplication()" class="btn btn-info"><i class="fa fa-file-o"></i>导出申请单</button>-->
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<directive-user-list></directive-user-list>
+<directive-user-radio-list></directive-user-radio-list>
+<directive-company-list></directive-company-list>
+
+<script  type="text/javascript">
+    $(function() {
+        $("#tabUl a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        // validate signup form on keyup and submit
+        $("#myForm").validate({
+            rules: {
+                projectNameTZ:"required",
+                // projectName:"required",
+                tbsxType:"required",
+                reason:"required",
+                bulletinName:"required",
+                unitPersonName:"required",
+                applyUserName:"required",
+                applyUnitName:"required",
+                applyRequirement:"required",
+                businessPersonName:"required"
+            },
+            messages: {
+                projectNameTZ:"此项必填",
+                // projectName:"此项必填",
+                tbsxType:"此项必填",
+                reason:"此项必填",
+                bulletinName:"此项必填",
+                unitPersonName:"此项必填",
+                applyUserName:"此项必填",
+                applyUnitName:"此项必填",
+                applyRequirement:"此项必填",
+                businessPersonName:"此项必填"
+            }
+        });
+    });
+
+</script>
+<!--<div class="row">
 								<div class="row-tit">附件列表</div>
 								<button  type="button" class="btn btn-info" ng-click="addFileList()"><i class="glyphicon glyphicon-plus"></i>新增</button>
 								<button  type="button" class="btn btn-info" ng-click="commonDdelete()"><i class="glyphicon glyphicon-trash"></i>删除</button>
@@ -155,75 +228,3 @@
 									</tbody>
 								</table>
 							</div>-->
-						</div>
-						<div class="tab-pane" id="flow_chart">
-							<!--<directive-process-page></directive-process-page>-->
-							<directive-process-page-new process-key="bulletin"></directive-process-page-new>
-						</div>
-						<div class="tab-pane" id="contracts_resources">
-							<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
-													  last-update-by="bulletin.applyUser" wf-state="bulletin.WF_STATE" file-list="newAttachment"
-													  init-update="initUpdate(id)"></directive-accachment-new>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="button-group">
-			<div class="row">
-				<div class="option">
-					<a class="btn btn-info" href="#/BulletinMatters/0"><i class="fa fa-reply"></i>返回</a>
-					<button type="button" ng-click="save()"  class="btn btn-info"><i class="fa fa-save"></i>保存</button>
-					<button type="button" id="subBtn" ng-click="showSubmitModal()"  class="btn btn-info"><i class="fa fa-save"></i>提交</button>
-					
-					<div id="submitModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
-						<bpmn-pop-win approve="approve"></bpmn-pop-win>
-					</div>
-					<!--<button ng-if="isHide" ng-click="generateApplication()" class="btn btn-info"><i class="fa fa-file-o"></i>导出申请单</button>-->
-				</div>
-			</div>
-		</div>
-	</form>
-</div>
-
-<directive-user-list></directive-user-list>
-<directive-user-radio-list></directive-user-radio-list>
-<directive-company-list></directive-company-list>
-
-<script  type="text/javascript">
-	$(function() {
-		$("#tabUl a").click(function(e){
-			e.preventDefault();
-			$(this).tab('show');
-		}); 
-		// validate signup form on keyup and submit
-		$("#myForm").validate({
-			rules: {
-                projectNameTZ:"required",
-                // projectName:"required",
-				tbsxType:"required",
-				reason:"required",
-				bulletinName:"required",
-				unitPersonName:"required",
-				applyUserName:"required",
-				applyUnitName:"required",
-				applyRequirement:"required",
-				businessPersonName:"required"
-			},
-			messages: {
-                projectNameTZ:"此项必填",
-                // projectName:"此项必填",
-				tbsxType:"此项必填",
-				reason:"此项必填",
-				bulletinName:"此项必填",
-				unitPersonName:"此项必填",
-				applyUserName:"此项必填",
-				applyUnitName:"此项必填",
-				applyRequirement:"此项必填",
-				businessPersonName:"此项必填"
-			}
-		});
-	});
-
-</script>

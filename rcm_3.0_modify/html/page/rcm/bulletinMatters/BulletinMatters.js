@@ -132,9 +132,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	}]
 	$scope.otherFields = ["FZRNAME","FZRID"];
 	$scope.selectOrgCallback = function(checkedOrg){
-	    $scope.checkedOrg = checkedOrg;
-        $scope.bulletin.applyUnit.NAME = $scope.checkedOrg.ORGNAME;
-        $scope.bulletin.applyUnit.VALUE = $scope.checkedOrg.ORGID;
+		$scope.checkedOrg = checkedOrg;
         $scope.setUnitPerson($scope.checkedOrg.FZRID, $scope.checkedOrg.FZRNAME);
 	};
 	
@@ -452,26 +450,20 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 			data: $.param({"json": JSON.stringify($scope.bulletin)})
 		}).success(function (result) {
             if (result.success){
-                $scope.bulletin._id = result.result_data;
-                if (callBack && typeof callBack == 'function') {
-                    callBack();
-                }
-                if(callBack == null){
-                    $.alert(result.result_name);
-                }
+                $.alert(result.result_name);
                 $location.path("/BulletinMattersDetail/" + result.result_data);
             } else {
                 $.alert(result.result_name);
             }
 			/*if (data.success) {
-			 $scope.bulletin._id = data.result_data;
-			 if (callBack && typeof callBack == 'function') {
-			 callBack();
-			 }
-			 }
-			 if(callBack == null){
-			 $.alert(data.result_name);
-			 }*/
+				$scope.bulletin._id = data.result_data;
+				if (callBack && typeof callBack == 'function') {
+					callBack();
+				}
+			}
+			if(callBack == null){
+				$.alert(data.result_name);
+			}*/
 		});
 	};
 	

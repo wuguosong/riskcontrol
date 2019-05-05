@@ -286,6 +286,10 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 $scope.stage = data.result_data.stage;
                 $scope.reportOracle = data.result_data.reportOracle;
 
+                // 处理附件需要的数据
+                $scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
+                $scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
+
                 $scope.reduceAttachment($scope.pfr.attachmentList, $scope.businessId);
 
                 if(flag == 1){

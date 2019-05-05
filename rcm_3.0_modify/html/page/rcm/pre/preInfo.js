@@ -113,6 +113,10 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             $scope.pre  = data.result_data.mongoData;
             $scope.preOracle  = data.result_data.oracleDate;
 
+            // 处理附件需要的数据
+            $scope.serviceType = angular.copy($scope.pre.apply.serviceType);
+            $scope.projectModel = angular.copy($scope.pre.apply.projectModel);
+
             $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
 
