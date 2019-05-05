@@ -30,7 +30,7 @@
             <tr>
                 <th width="8%">序号</th>
                 <!--<th width="8%">业务类型</th>-->
-                <th width="20%">资源类型</th>
+                <th width="20%" ng-if="businessType != 'bulletin'">资源类型</th>
                 <th width="20%">附件内容</th>
                 <!--<th ng-if="businessType != 'bulletin'"  width="8%">编制人</th>
                 <th ng-if="businessType != 'bulletin'"  width="8%">审核人</th>-->
@@ -43,7 +43,7 @@
             <tbody ng-repeat="item in fileList" ng-init="outerIndex = $index">
             <tr>
                 <td>{{outerIndex+1}}</td>
-                <td>
+                <td ng-if="businessType != 'bulletin'">
                     <span ng-if="!item.newFile">{{item.type.ITEM_NAME}}</span>
                     <div ng-if="item.newFile">
                         <select ng-model="item.type"  ng-options="y.ITEM_NAME for y in attachmentType track by y.ITEM_CODE" ng-change="_changeItemType(item)">
