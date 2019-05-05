@@ -601,7 +601,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 						$('#submitModal').modal('hide');
 						$("#submitBtn").hide();
 						$("#saveBtn").hide();
-                        // $scope.initData();
+                        $scope.initPage();
 						$scope.showSubmit = false;
 
 					},
