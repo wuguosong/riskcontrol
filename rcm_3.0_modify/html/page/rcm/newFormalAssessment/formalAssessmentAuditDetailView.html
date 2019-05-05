@@ -1,22 +1,22 @@
 <div class="panel-body" >
-    <form class="form-horizontal ng-pristine ng-valid" >
-        <div class="">
-            <div class="header detail-page">
-                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">申请信息及审批意见汇总</span>
-            </div>
-            <div id="professionalReviewComments" class="panel-group">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <a class="accordion-toggle collapsed" href="/#porjectPreReview" data-parent="#professionalReviewComments" data-toggle="collapse"><span class="text">项目正式评审申请单<i class="i-triangle"></i></span></a>
-                    </div>
-                    <div id="porjectPreReview" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div id="myTab" class="myTab">
+	<form class="form-horizontal ng-pristine ng-valid" >
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">申请信息及审批意见汇总</span>
+			</div>
+			<div id="professionalReviewComments" class="panel-group">
+				<div class="panel">
+					<div class="panel-heading">
+						<a class="accordion-toggle collapsed" href="/#porjectPreReview" data-parent="#professionalReviewComments" data-toggle="collapse"><span class="text">项目正式评审申请单<i class="i-triangle"></i></span></a>
+					</div>
+					<div id="porjectPreReview" class="panel-collapse collapse in">
+						<div class="panel-body">
+							<div id="myTab" class="myTab">
 								<ul class="nav nav-tabs bs-tabdrop-example">
 									<a class="btn tab tab-90 active" href="/#contracts_file_info" data-toggle="tab">流程表单</a>
 									<a class="btn tab tab-90" href="/#flow_chart" data-toggle="tab">流程图</a>
 									<a class="btn tab tab-90" href="/#contracts_resources" data-toggle="tab">相关资源</a>
-									<a class="btn tab tab-90" href="/#bbs_chat" data-toggle="tab">留言区</a>
+									<!--<a class="btn tab tab-90" href="/#bbs_chat" data-toggle="tab">留言区</a>-->
 									<!--<li class="active">
                                         <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
                                     </li>
@@ -27,49 +27,485 @@
                                         <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
                                     </li>-->
 								</ul>
-                            </div>
-                            <div class="tab-content tab-content-bordered">
-                                <div class="tab-pane in active" id="contracts_file_info">
-<!--                                     <directive-project-formal-review></directive-project-formal-review> -->
-                                    <directive-project-formal-assessment-info></directive-project-formal-assessment-info>
-                                </div>
-                                <div class="tab-pane" id="flow_chart">
-                                	<!-- 新流程图 -->
-                                    <!--<directive-process-page ng-if="!isOldFlow"></directive-process-page>-->
-									<directive-process-page-new ng-if="!isOldFlow" process-key="formalReview"></directive-process-page-new>
-                                    <!-- 旧流程图 -->
-                                    <directive-process-list ng-if="isOldFlow"></directive-process-list>
-                                </div>
-                                <div class="tab-pane" id="contracts_resources">
-                                    <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
-									<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
-															  last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
-															  init-update="initUpdate(id)"></directive-accachment-new>
-                                </div>
-								<div class="tab-pane clearfix row" id="bbs_chat">
+							</div>
+							<div class="tab-content tab-content-bordered">
+								<div class="tab-pane in active" id="contracts_file_info">
+									<!--                                     <directive-project-formal-review></directive-project-formal-review> -->
+									<directive-project-formal-assessment-info></directive-project-formal-assessment-info>
+									<div class="panel" ng-if="(pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != '') && (pfr.tzProtocolOpinion != null &&pfr.tzProtocolOpinion != '')">
+										<directive-formal-opinion-new></directive-formal-opinion-new>
+									</div>
+									<!-- 分配任务 -->
+									<div class="panel" ng-show="showController.isTask || pfr.taskallocation.reviewLeader != null && pfr.taskallocation.reviewLeader !=''" >
+										<div class="panel-heading">
+											<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+										</div>
+										<div id="taskAssignment1" class="panel-collapse collapse in">
+											<div class="panel-body">
+												<div class="row">
+													<label  class="col-sm-2 control-label">评审负责人</label>
+													<div class="col-sm-4" >
+														<direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}" checked-user="myTaskallocation.reviewLeader"
+																				  is-editable="isTaskEdit" url="{{'role/queryReviewUsers.do'}}" ng-if="isTaskEdit == 'true'">
+														</direct-fzr-single-select>
+														<input class="form-control" type="text" ng-if="isTaskEdit == 'false'" ng-model="pfr.taskallocation.reviewLeader.NAME" readonly/>
+													</div>
+													<label ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask)|| pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-2 control-label">法律评审负责人</label>
+													<div   ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask) || pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-4">
+														<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
+																				  checked-user="myTaskallocation.legalReviewLeader"
+																				  is-editable="isTaskLegalEdit"
+																				  url="{{'role/queryLegalUsers.do'}}"
+																				  ng-if="isTaskLegalEdit == 'true'"
+														></direct-fzr-single-select>
+														<input class="form-control" type="text" ng-if="isTaskLegalEdit == 'false'" ng-model="pfr.taskallocation.legalReviewLeader.NAME" readonly/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- 固定小组成员意见 汇总-->
+									<div class="panel" ng-if="pfr.fixGroupOption != null && pfr.fixGroupOption != ''">
+										<div class="panel-heading">
+											<a class="accordion-toggle collapsed" href="/#summaryOfComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">小组固定成员意见汇总<i class="i-triangle"></i></span></a>
+										</div>
+										<div id="summaryOfComments" class="panel-collapse collapse">
+											<div class="panel-body">
+												<div class="row">
+													<ul class="apply-list">
+														<li>
+															<div class="row" style="font-weight: bold;">
+																<div class="col-md-2">成员姓名</div>
+																<div class="col-md-10">成员意见</div>
+															</div>
+														</li>
+														<li ng-repeat="g in pfr.fixGroupOption">
+															<div class="row">
+																<div class="col-md-2">{{g.USERNAME}}</div>
+																<div class="col-md-10">{{g.OPINION}}</div>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--审批-->
+									<div class="panel" ng-show="!isOldFlow && hasWaiting">
+										<div class="panel-heading">
+											<a class="accordion-toggle collapsed" href="/#approvalPart"
+											   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
+										</div>
+										<div id="approvalPart" class="panel-collapse collapse in">
+											<!--审批阶段-->
+											<div class="panel-body" ng-show="approve.operateType=='audit'">
+												<div class="row">
+													<label class="col-sm-3 control-label">下一环节：</label>
+													<div class="col-sm-8">
+														<div ng-repeat="x in approve.processOptions">
+															<label class="radio radio-inline">
+																<input id="showAttr" class="px" type="radio"
+																	   init-bind="a=x.documentation" aaa="{{x.documentation}}"
+																	   ng-click="showMarkMethod(x.documentation)"
+																	   name="bpmnProcessOption" ng-checked="$index==0"
+																	   value="{{x.sequenceFlow}}"/>
+																<span class="lbl">
+                                                <div class="text">{{x.flowName}}</div>
+                                            </span>
+															</label>
+														</div>
+													</div>
+												</div>
+												<!--知会人-->
+												<div class="row" ng-include="'page/sys/common/notify-user.html'">
+												</div>
+												<!--快捷意见-->
+												<div class="row">
+													<label class="col-sm-3 control-label">快捷意见：</label>
+													<div class="col-sm-8">
+														<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+															<input class="px" type="radio"
+																   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+																   name="_quickComments" ng-checked="$index==0"
+																   value="{{comment}}"/>
+															<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+														</label>
+													</div>
+												</div>
+												<div class="row" id="cesuanFileOpinionDiv" ng-if="approve.showController.isServiewType">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>测算文件意见：</label>
+													<div class="col-sm-8">
+														<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.cesuanFileOpinion"></textarea>
+													</div>
+												</div>
+												<div class="row" id="tzProtocolOpinionDiv" ng-if="approve.showController.isServiewType">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>投资协议意见：</label>
+													<div class="col-sm-8">
+														<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.tzProtocolOpinion"></textarea>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">处理意见：</label>
+													<div class="col-sm-8">
+												<textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
+														  data-ng-init="flowVariables.opinion=''"
+														  ng-model="flowVariables.opinion"></textarea>
+													</div>
+												</div>
+												<hr ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" >
+												<div class="panel nobottom-mar" ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)">
+													<div class="panel-body pop-first-col-fixed" style="overflow-y: auto;height: 300px;"  >
+														<div ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" class="row">
+															<!-- 首次进入业务评审节点 -->
+															<div ng-show="showReviewFirstMark" >
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		合规-审批流程熟悉度
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="15" ng-model="mark.flowMark" ng-click="validMark(50)">
+																		<span class="required-m">(满分：15分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.flowMarkReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1、合格标准：流程完整为满分。</div><div>2 、缺少一个前置审批流程环节扣3-5分，以此累加，最低分得为0分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<div ng-show="showReviewToConfirm">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		资料-及时性
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="9" ng-model="mark.fileTime">
+																		<span class="required-m">(满分：9分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.fileTimeReason">
+																		<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top" data-html="true"
+																		   title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<div ng-show="showReviewToConfirm">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		资料-完整性
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="9" ng-model="mark.fileContent">
+																		<span class="required-m">(满分：9分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.fileContentReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1 、每缺少一项资料或资料无相关人员签字确认扣2分，以此累加，最低得分为0分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<div ng-show="showReviewFirstMark">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		核心-财务测算能力
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="12" ng-model="mark.moneyCalculate">
+																		<span class="required-m">(满分：12分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.moneyCalculateReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1 、测算有错误或取值不合理，但测算思路正确，可得8-12分。</div><div>2、测算错误较多，且思路不正确，可得0-8分。</p><p>3、未独立进行测算的项目此项不得分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
+															<div ng-show="showReviewFirstMark">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		资料-准确性
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="6" ng-model="mark.reviewFileAccuracy">
+																		<span class="required-m">(满分：6分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.reviewFileAccuracyReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<div ng-show="showReviewToConfirm">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		核心-风险识别及规避能力
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="12" ng-model="mark.riskControl">
+																		<span class="required-m">(满分：12分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.riskControlReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1 、若投资部门风险识别及规避工作较好，评审阶段无发现新增重大风险，可得6-12分；</div><div>2 、若投资部门开展了风险识别及规避工作，但效果一般，评审阶段发现多个新增重大风险，可得0-6分；</div><div>3 、若投资部门未开展风险识别及规避工作，此项不得分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<div ng-show="showReviewFirstMark">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		核心-方案设计能力
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="4" ng-model="mark.planDesign">
+																		<span class="required-m">(满分：4分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.planDesignReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1 、若交易结构不合理或无人员安置方案，可扣0-4分，最低分为0分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<!-- -------------------------------评审负责人到确认  end--------------------------------------------- -->
+															<!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
+															<div ng-show="showLegalToConfirm">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		资料-准确性
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="6" ng-model="mark.legalFileAccuracy">
+																		<span class="required-m">(满分：6分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.legalFileAccuracyReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<div ng-show="showLegalToConfirm">
+																<div class="row">
+																	<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+																	<div class="col-sm-5 col-md-5">
+																		核心-协议谈判能力
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+																	<div class="col-sm-8">
+																		<input class="mark" type="number" min="0" max="12" ng-model="mark.talks">
+																		<span class="required-m">(满分：12分)</span>
+																	</div>
+																</div>
+																<div class="row">
+																	<label class="col-sm-3 control-label">扣分原因：</label>
+																	<div class="col-sm-8">
+																		<input type="text" ng-model="mark.talksReason">
+																		<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+																		   title="<div>1 、是否依据集团要求在谈判中落实关键条款，若情况较好，得6-10分，若不理想得0-6分，最低分为0分。</div><div>2 、未独立进行谈判或者未能独立起草协议的项目，此项不得分。</div>">提示</a>
+																	</div>
+																</div>
+															</div>
+															<!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
+														</div>
+													</div>
+												</div>
+
+											</div>
+											<!--加签阶段-->
+											<div class="panel-body" ng-show="approve.operateType=='change'">
+												<div class="row">
+													<label class="col-sm-3 control-label">下一环节：</label>
+													<div class="col-sm-8">
+														<div>
+															<label class="radio radio-inline">
+																<input class="px" type="radio" name="bpmnProcessOption"
+																	   id="workOver" value="WORKOVER"/>
+																<span class="lbl">
+                                                <div class="text">完结</div>
+                                            </span>
+															</label>
+														</div>
+													</div>
+												</div>
+												<!--知会人-->
+												<div class="row" ng-include="'page/sys/common/notify-user.html'">
+												</div>
+												<!--快捷意见-->
+												<div class="row">
+													<label class="col-sm-3 control-label">快捷意见：</label>
+													<div class="col-sm-8">
+														<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+															<input class="px" type="radio"
+																   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+																   name="_quickComments" ng-checked="$index==0"
+																   value="{{comment}}"/>
+															<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+														</label>
+													</div>
+												</div>
+												<!--审批意见-->
+												<div class="row">
+													<label class="col-sm-3 control-label">处理意见：</label>
+													<div class="col-sm-8">
+														<textarea class="form-control" rows="4" cols="" id="comments2" ng-change="_signFillSignComments('comments2')"
+																  data-ng-init="flowVariables.opinion=''" ng-model="flowVariables.opinion"></textarea>
+													</div>
+												</div>
+											</div>
+											<!--提交按钮-->
+											<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="flow_chart">
+									<!--新流程图-->
+									<directive-process-page-new process-key="formalReview"></directive-process-page-new>
+									<!--<directive-process-page ng-if="!isOldFlow"></directive-process-page>
+									&lt;!&ndash;旧流程图&ndash;&gt;
+									<directive-process-list ng-if="isOldFlow"></directive-process-list>-->
+								</div>
+								<div class="tab-pane  clearfix row" id="contracts_resources">
+									<!-- &lt;!&ndash;<directive-project-formal-file-list></directive-project-formal-file-list>&ndash;&gt;
+                                     <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+                                                               last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
+                                                               init-update="initUpdate(id)"></directive-accachment-new>-->
+									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+										<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+																  last-update-by="pfr.apply.investmentManager" wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
+																  init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
+																  is-edite="true" service-type="serviceType" project-model="projectModel"></directive-accachment-new>
+										<!--<div style="margin-top: 10px">
+											<div class="panel-heading">
+												<a class="accordion-toggle collapsed" href="/#xieyiyijian" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">附件变更记录<i class="i-triangle"></i></span></a>
+											</div>
+											<div id="xieyiyijian" class="panel-collapse collapse">
+												<div class="panel-collapse collapse in">
+													<div class="row">
+														<div class="table-light">
+															<div class="table-responsive">
+																<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center txc">
+																	<thead>
+																	<tr>
+																		<th>序号</th>
+																		<th>变更文件名</th>
+																		<th>变更原因</th>
+																		<th>变更人</th>
+																		<th>变更时间</th>
+																	</tr>
+																	</thead>
+																	<tbody id="optionList">
+																	<tr ng-repeat="msg in replaceReasons track by $index" repeat-formal-report-finish>
+																		<td>{{ $index + 1 }}</td>
+																		<td>{{msg.params}}</td>
+																		<td>{{msg.description}}</td>
+																		<td>{{msg.user_name}}</td>
+																		<td>{{msg.create_date}}</td>
+																	</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>-->
+									</div>
+									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formal" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+									</div>
+								</div>
+								<!--<div class="tab-pane clearfix row" id="bbs_chat">
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
 
 									</div>
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
 										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formal" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
 									</div>
-								</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <!--测算意见-->
-                <div class="panel" ng-if="pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != ''">
+								</div>-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--测算意见-->
+				<!--<div class="panel" ng-if="pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != ''">
                     <directive-formal-cesuan-opinion></directive-formal-cesuan-opinion>
                 </div>
-                <!--协议意见-->
+                &lt;!&ndash;协议意见&ndash;&gt;
                 <div class="panel" ng-if="pfr.tzProtocolOpinion != null &&pfr.tzProtocolOpinion != ''">
                     <directive-formal-protocol-opinion></directive-formal-protocol-opinion>
-                </div>
+                </div>-->
 				<!-- 初步评审意见反馈 -->
-				
-                <!--专业评审start-->
-				<div class="panel" ng-show="(approveShow && pfr.approveAttachment != null && pfr.approveAttachment != '') || showController.isReviewLeader">
+
+				<!--专业评审start-->
+				<!--<div class="panel" ng-show="(approveShow && pfr.approveAttachment != null && pfr.approveAttachment != '') || showController.isReviewLeader">
 					<div class="panel-heading">
 						<a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">初步评审意见<i class="i-triangle"></i></span></a>
 					</div>
@@ -160,7 +596,7 @@
 									<button  type="button" class="btn btn-primary" ng-click="deleteFormalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
 								</div>
 							</div>
-							
+
 							<div class="row">
 								<span class="prompt" ng-if="showController.isReviewLeader  && hasWaiting" >*请选择投资经理需要替换的附件</span>
 								<span class="prompt" ng-if="showController.isInvestmentManagerBack && hasWaiting" >*请替换需要更新的附件</span>
@@ -186,7 +622,7 @@
 											<td>
 												<select id="attachmentNew{{$index}}"  ng-disabled="!showController.isReviewLeader || am.isReviewLeaderEdit=='0'" ng-model="am.attachmentUList"
 														ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
-													<option value="">---请选择---</option>
+													<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
 												</select>
 												<input type="hidden" id="programmed{{$index}}" ng-model="am.programmed.NAME">
 												<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE">
@@ -203,7 +639,7 @@
 														<button ng-if="!showController.isInvestmentManagerBack && !showController.isReviewLeader" class="btn btn-primary attachmentBtn"  ng-disabled=" true" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
 														<button ng-if="showController.isInvestmentManagerBack && hasWaiting" class="btn btn-primary attachmentBtn"  ng-disabled="!(am.isInvestmentManagerBackEdit!='0' || !showController.isInvestmentManagerBack)" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
 														<button ng-if="showController.isReviewLeader && hasWaiting" class="btn btn-primary attachmentBtn"  ng-disabled=" !(showController.isReviewLeader && am.isReviewLeaderEdit!='0' )" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
-													</div>	
+													</div>
 												</div>
 											</td>
 										</tr>
@@ -214,9 +650,9 @@
 						</div>
 					</div>
 				</div>
-				<!--专业评审end-->
-				
-                <!-- 法律评审 start-->
+				&lt;!&ndash;专业评审end&ndash;&gt;
+
+                &lt;!&ndash; 法律评审 start&ndash;&gt;
                 <div class="panel" ng-show="(approveLegalShow && null != pfr.approveLegalAttachment  && '' != pfr.approveLegalAttachment) || showController.isLegalReviewLeader ">
 					<div class="panel-heading">
 						<a class="accordion-toggle collapsed" href="/#legalReviewComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">法律初步评审意见<i class="i-triangle"></i></span></a>
@@ -334,7 +770,7 @@
 											<td>
 												<select id="attachmentNew1{{$index}}"  ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader" ng-model="am.attachmentUList"
 														ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
-													<option value="">---请选择---</option>
+													<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
 												</select>
 												<input type="hidden" id="programmed1{{$index}}" ng-model="am.programmed.NAME">
 												<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE">
@@ -362,131 +798,131 @@
 							</div>
 						</div>
 					</div>
-				</div>
-            	<!-- 法律评审 end-->
-            	<!-- 分配任务 -->
-            	<div class="panel" ng-show="showController.isTask || pfr.taskallocation != null && pfr.taskallocation !=''" >
-            		<div class="panel-heading">
-						<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
-					</div>
-					<div id="taskAssignment1" class="panel-collapse collapse in">
-						<div class="panel-body">
-							<div class="row">
-								<label  class="col-sm-2 control-label">评审负责人</label>
-								<div class="col-sm-4" >
-									<direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}" checked-user="myTaskallocation.reviewLeader" 
-									 	is-editable="isTaskEdit" url="{{'role/queryReviewUsers.do'}}" >
-									</direct-fzr-single-select>
-								</div>
-								<label ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask)|| pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-2 control-label">法律评审负责人</label>
-								<div   ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask) || pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-4">
-									<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}" 
-									 checked-user="myTaskallocation.legalReviewLeader" 
-									 is-editable="isTaskLegalEdit"
-									 url="{{'role/queryLegalUsers.do'}}" 
-									 >
-								</div>
-							</div>
-						</div>
-					</div>
-            	</div>
-            	
-            	
-            	<!-- 选择专业评审人员 -->
-<!--             	<div class="panel" ng-show="(approveShow && pfr.approveAttachment != null && pfr.approveAttachment != '') || showController.isReviewLeader"> -->
-<!-- 					<div class="panel-heading"> -->
-<!-- 						<a class="accordion-toggle collapsed" href="/#taskAssignment5" data-parent="#professionalReviewers" data-toggle="collapse"><span class="text">专业评审人员<i class="i-triangle"></i></span></a> -->
-<!-- 					</div> -->
-<!-- 					<div id="taskAssignment5" class="panel-collapse collapse in"> -->
-<!-- 						<div class="panel-body"> -->
-<!-- 							<div class="row"> -->
-<!-- 								<label class="col-sm-2 control-label">专业评审人员</label> -->
-<!-- 								<div class="col-sm-4"> -->
-<!-- 									<direct-fzr-single-select is-group="{{'true'}}" id="{{'professionalReviewersSelect'}}" checked-user="myTaskallocation.professionalReviewers"  -->
-<!-- 									 	is-multi-select="{{'true'}}"   is-editable="isApproveMajorShow" url="{{'profession/queryProfessionReview.do'}}" > -->
-<!-- 									</direct-fzr-single-select> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!--             	</div> -->
-            	
-            	<!-- 专业评审人员 填写意见-->
-<!--             	<div class="panel" ng-if=" (pfr.approveMajorCommonts !='' && pfr.approveMajorCommonts != null) || (showController.isMajorMember != '' && showController.isMajorMember != null) "> -->
-<!--                     <div class="panel-heading"> -->
-<!--                         <a class="accordion-toggle collapsed" href="/#majorMemberComments" data-parent="#preMajorMemberComments" data-toggle="collapse"><span class="text">专业评审人员意见<i class="i-triangle"></i></span></a> -->
-<!--                     </div> -->
-<!--                     <div id="majorMemberComments" class="panel-collapse collapse"> -->
-<!--                     专业评审填写意见 begin -->
-<!--                         <div class="panel-body"> -->
-<!--                         	<div id="" class=""> -->
-<!--                                 <ul class="nav nav-tabs bs-tabdrop-example"> -->
-<!--                                 {active: activeProject == project} -->
-<!--                                     <li ng-class="{active: {{item.majorApply.VALUE == currentUserId || (!isValueExist(pfr.approveMajorCommonts, 'majorApply.VALUE',currentUserId) && $index == 0) }}}" ng-repeat="item in pfr.approveMajorCommonts track by $index"> -->
-<!--                                         <a href="/#tab_{{item.majorApply.VALUE}}" data-toggle="tab">{{item.reviewType.VALUE}}({{item.majorApply.NAME}})</a> -->
-<!--                                     </li> -->
-<!--                                 </ul> -->
-<!--                             </div> -->
-<!--                             <div class="tab-content tab-content-bordered"> -->
-<!--                             ng-class="{true: 'active', false: 'inactive'}[isActive]" -->
-<!--                                 <div  ng-class="{true:'tab-pane in active' , false: 'tab-pane'}[{{i.majorApply.VALUE == currentUserId || (!isValueExist(pfr.approveMajorCommonts, 'majorApply.VALUE',currentUserId) && $index == 0)}}]"  -->
-<!--                                 		id="tab_{{i.majorApply.VALUE}}" ng-repeat="i in pfr.approveMajorCommonts track by $index" ng-init="outIndex = $index"> -->
-<!-- 									<div class="row" ng-show="showController.isMajorMember != null && showController.isMajorMember != '' "> -->
-<!-- 										<div class="txl"> -->
-<!-- 											<button  type="button" class="btn btn-primary" ng-click="addFormalMajorComment(i)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-plus"></i>新增</button> -->
-<!-- 											<button  type="button" class="btn btn-primary" ng-click="deleteFormalMajorComment(i, $index)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-trash"></i>删除</button> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="row"> -->
-<!-- 										<div class="table-responsive"> -->
-<!-- 											<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center reviewCommentsTable"> -->
-<!-- 												<thead> -->
-<!-- 													<tr> -->
-<!-- 														<th style="width:1%;">选择</th> -->
-<!-- 														<th style="width:1%;">序号</th> -->
-<!-- 														<th>专业问题落实</th> -->
-<!-- 													</tr> -->
-<!-- 												</thead> -->
-<!-- 												<tbody id=""> -->
-		
-<!-- 												<tr ng-repeat="m in i.commentsList track by $index"> -->
-<!-- 													<td class="txc"> -->
-<!-- 														<label class="checkbox-inline"> -->
-<!-- 															<input type="checkbox" id="com_{{outIndex}}_{{$index}}" name="com_{{outIndex}}" value="{{$index}}" class="px" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "  ng-model="m.selected" > -->
-<!-- 															<span class="lbl">&nbsp;</span> -->
-<!-- 														</label> -->
-<!-- 													</td> -->
-<!-- 													<td class="txc">{{ $index + 1 }}</td> -->
-<!-- 													<td> -->
-<!-- 														<textarea name="" ng-readonly="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId" ng-model="m.professionalQuestion" rows="" cols="" class="form-control" ></textarea> -->
-<!-- 													</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr class="tr-max"> -->
-<!-- 													<td colspan="2">专业评审结论<input type="text" style="border:0;color:red;background-color:#ffffff;" readonly value = "*"/> </td> -->
-<!-- 													<td> -->
-<!-- 														<textarea  name="conclusion" id="conclusion_{{$index}}"  ng-readonly="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId" rows="3" ng-model="i.conclusion" class="form-control"></textarea> -->
-<!-- 													</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr class="tr-max"> -->
-<!-- 													<td colspan="2">特殊说明</td> -->
-<!-- 													<td> -->
-<!-- 														<textarea name="description" id="description"  ng-readonly="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId" rows="3"  ng-model="i.description" class="form-control" ></textarea> -->
-<!-- 													</td> -->
-<!-- 												</tr> -->
-<!-- 												</tbody> -->
-<!-- 											</table> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!-- 						</div> -->
-<!-- 					 专业评审填写意见 end -->
-<!--                     </div> -->
-<!--                 </div> -->
-            	
-            	
-            	<!-- 固定小组成员意见 汇总-->
-            	<div class="panel" ng-if="pfr.fixGroupOption != null && pfr.fixGroupOption != ''">
+				</div>-->
+				<!-- 法律评审 end-->
+				<!--&lt;!&ndash; 分配任务 &ndash;&gt;
+                <div class="panel" ng-show="showController.isTask || pfr.taskallocation != null && pfr.taskallocation !=''" >
+                    <div class="panel-heading">
+                        <a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+                    </div>
+                    <div id="taskAssignment1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <label  class="col-sm-2 control-label">评审负责人</label>
+                                <div class="col-sm-4" >
+                                    <direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}" checked-user="myTaskallocation.reviewLeader"
+                                         is-editable="isTaskEdit" url="{{'role/queryReviewUsers.do'}}" >
+                                    </direct-fzr-single-select>
+                                </div>
+                                <label ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask)|| pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-2 control-label">法律评审负责人</label>
+                                <div   ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask) || pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-4">
+                                    <direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
+                                     checked-user="myTaskallocation.legalReviewLeader"
+                                     is-editable="isTaskLegalEdit"
+                                     url="{{'role/queryLegalUsers.do'}}"
+                                     >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                &lt;!&ndash; 选择专业评审人员 &ndash;&gt;
+&lt;!&ndash;             	<div class="panel" ng-show="(approveShow && pfr.approveAttachment != null && pfr.approveAttachment != '') || showController.isReviewLeader"> &ndash;&gt;
+&lt;!&ndash; 					<div class="panel-heading"> &ndash;&gt;
+&lt;!&ndash; 						<a class="accordion-toggle collapsed" href="/#taskAssignment5" data-parent="#professionalReviewers" data-toggle="collapse"><span class="text">专业评审人员<i class="i-triangle"></i></span></a> &ndash;&gt;
+&lt;!&ndash; 					</div> &ndash;&gt;
+&lt;!&ndash; 					<div id="taskAssignment5" class="panel-collapse collapse in"> &ndash;&gt;
+&lt;!&ndash; 						<div class="panel-body"> &ndash;&gt;
+&lt;!&ndash; 							<div class="row"> &ndash;&gt;
+&lt;!&ndash; 								<label class="col-sm-2 control-label">专业评审人员</label> &ndash;&gt;
+&lt;!&ndash; 								<div class="col-sm-4"> &ndash;&gt;
+&lt;!&ndash; 									<direct-fzr-single-select is-group="{{'true'}}" id="{{'professionalReviewersSelect'}}" checked-user="myTaskallocation.professionalReviewers"  &ndash;&gt;
+&lt;!&ndash; 									 	is-multi-select="{{'true'}}"   is-editable="isApproveMajorShow" url="{{'profession/queryProfessionReview.do'}}" > &ndash;&gt;
+&lt;!&ndash; 									</direct-fzr-single-select> &ndash;&gt;
+&lt;!&ndash; 								</div> &ndash;&gt;
+&lt;!&ndash; 							</div> &ndash;&gt;
+&lt;!&ndash; 						</div> &ndash;&gt;
+&lt;!&ndash; 					</div> &ndash;&gt;
+&lt;!&ndash;             	</div> &ndash;&gt;
+
+                &lt;!&ndash; 专业评审人员 填写意见&ndash;&gt;
+&lt;!&ndash;             	<div class="panel" ng-if=" (pfr.approveMajorCommonts !='' && pfr.approveMajorCommonts != null) || (showController.isMajorMember != '' && showController.isMajorMember != null) "> &ndash;&gt;
+&lt;!&ndash;                     <div class="panel-heading"> &ndash;&gt;
+&lt;!&ndash;                         <a class="accordion-toggle collapsed" href="/#majorMemberComments" data-parent="#preMajorMemberComments" data-toggle="collapse"><span class="text">专业评审人员意见<i class="i-triangle"></i></span></a> &ndash;&gt;
+&lt;!&ndash;                     </div> &ndash;&gt;
+&lt;!&ndash;                     <div id="majorMemberComments" class="panel-collapse collapse"> &ndash;&gt;
+&lt;!&ndash;                     专业评审填写意见 begin &ndash;&gt;
+&lt;!&ndash;                         <div class="panel-body"> &ndash;&gt;
+&lt;!&ndash;                         	<div id="" class=""> &ndash;&gt;
+&lt;!&ndash;                                 <ul class="nav nav-tabs bs-tabdrop-example"> &ndash;&gt;
+&lt;!&ndash;                                 {active: activeProject == project} &ndash;&gt;
+&lt;!&ndash;                                     <li ng-class="{active: {{item.majorApply.VALUE == currentUserId || (!isValueExist(pfr.approveMajorCommonts, 'majorApply.VALUE',currentUserId) && $index == 0) }}}" ng-repeat="item in pfr.approveMajorCommonts track by $index"> &ndash;&gt;
+&lt;!&ndash;                                         <a href="/#tab_{{item.majorApply.VALUE}}" data-toggle="tab">{{item.reviewType.VALUE}}({{item.majorApply.NAME}})</a> &ndash;&gt;
+&lt;!&ndash;                                     </li> &ndash;&gt;
+&lt;!&ndash;                                 </ul> &ndash;&gt;
+&lt;!&ndash;                             </div> &ndash;&gt;
+&lt;!&ndash;                             <div class="tab-content tab-content-bordered"> &ndash;&gt;
+&lt;!&ndash;                             ng-class="{true: 'active', false: 'inactive'}[isActive]" &ndash;&gt;
+&lt;!&ndash;                                 <div  ng-class="{true:'tab-pane in active' , false: 'tab-pane'}[{{i.majorApply.VALUE == currentUserId || (!isValueExist(pfr.approveMajorCommonts, 'majorApply.VALUE',currentUserId) && $index == 0)}}]"  &ndash;&gt;
+&lt;!&ndash;                                 		id="tab_{{i.majorApply.VALUE}}" ng-repeat="i in pfr.approveMajorCommonts track by $index" ng-init="outIndex = $index"> &ndash;&gt;
+&lt;!&ndash; 									<div class="row" ng-show="showController.isMajorMember != null && showController.isMajorMember != '' "> &ndash;&gt;
+&lt;!&ndash; 										<div class="txl"> &ndash;&gt;
+&lt;!&ndash; 											<button  type="button" class="btn btn-primary" ng-click="addFormalMajorComment(i)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-plus"></i>新增</button> &ndash;&gt;
+&lt;!&ndash; 											<button  type="button" class="btn btn-primary" ng-click="deleteFormalMajorComment(i, $index)" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "><i class="glyphicon glyphicon-trash"></i>删除</button> &ndash;&gt;
+&lt;!&ndash; 										</div> &ndash;&gt;
+&lt;!&ndash; 									</div> &ndash;&gt;
+&lt;!&ndash; 									<div class="row"> &ndash;&gt;
+&lt;!&ndash; 										<div class="table-responsive"> &ndash;&gt;
+&lt;!&ndash; 											<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center reviewCommentsTable"> &ndash;&gt;
+&lt;!&ndash; 												<thead> &ndash;&gt;
+&lt;!&ndash; 													<tr> &ndash;&gt;
+&lt;!&ndash; 														<th style="width:1%;">选择</th> &ndash;&gt;
+&lt;!&ndash; 														<th style="width:1%;">序号</th> &ndash;&gt;
+&lt;!&ndash; 														<th>专业问题落实</th> &ndash;&gt;
+&lt;!&ndash; 													</tr> &ndash;&gt;
+&lt;!&ndash; 												</thead> &ndash;&gt;
+&lt;!&ndash; 												<tbody id=""> &ndash;&gt;
+
+&lt;!&ndash; 												<tr ng-repeat="m in i.commentsList track by $index"> &ndash;&gt;
+&lt;!&ndash; 													<td class="txc"> &ndash;&gt;
+&lt;!&ndash; 														<label class="checkbox-inline"> &ndash;&gt;
+&lt;!&ndash; 															<input type="checkbox" id="com_{{outIndex}}_{{$index}}" name="com_{{outIndex}}" value="{{$index}}" class="px" ng-disabled="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId "  ng-model="m.selected" > &ndash;&gt;
+&lt;!&ndash; 															<span class="lbl">&nbsp;</span> &ndash;&gt;
+&lt;!&ndash; 														</label> &ndash;&gt;
+&lt;!&ndash; 													</td> &ndash;&gt;
+&lt;!&ndash; 													<td class="txc">{{ $index + 1 }}</td> &ndash;&gt;
+&lt;!&ndash; 													<td> &ndash;&gt;
+&lt;!&ndash; 														<textarea name="" ng-readonly="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId" ng-model="m.professionalQuestion" rows="" cols="" class="form-control" ></textarea> &ndash;&gt;
+&lt;!&ndash; 													</td> &ndash;&gt;
+&lt;!&ndash; 												</tr> &ndash;&gt;
+&lt;!&ndash; 												<tr class="tr-max"> &ndash;&gt;
+&lt;!&ndash; 													<td colspan="2">专业评审结论<input type="text" style="border:0;color:red;background-color:#ffffff;" readonly value = "*"/> </td> &ndash;&gt;
+&lt;!&ndash; 													<td> &ndash;&gt;
+&lt;!&ndash; 														<textarea  name="conclusion" id="conclusion_{{$index}}"  ng-readonly="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId" rows="3" ng-model="i.conclusion" class="form-control"></textarea> &ndash;&gt;
+&lt;!&ndash; 													</td> &ndash;&gt;
+&lt;!&ndash; 												</tr> &ndash;&gt;
+&lt;!&ndash; 												<tr class="tr-max"> &ndash;&gt;
+&lt;!&ndash; 													<td colspan="2">特殊说明</td> &ndash;&gt;
+&lt;!&ndash; 													<td> &ndash;&gt;
+&lt;!&ndash; 														<textarea name="description" id="description"  ng-readonly="!showController.isMajorMember || !hasWaiting || i.majorApply.VALUE != currentUserId" rows="3"  ng-model="i.description" class="form-control" ></textarea> &ndash;&gt;
+&lt;!&ndash; 													</td> &ndash;&gt;
+&lt;!&ndash; 												</tr> &ndash;&gt;
+&lt;!&ndash; 												</tbody> &ndash;&gt;
+&lt;!&ndash; 											</table> &ndash;&gt;
+&lt;!&ndash; 										</div> &ndash;&gt;
+&lt;!&ndash; 									</div> &ndash;&gt;
+&lt;!&ndash;                                 </div> &ndash;&gt;
+&lt;!&ndash;                             </div> &ndash;&gt;
+&lt;!&ndash; 						</div> &ndash;&gt;
+&lt;!&ndash; 					 专业评审填写意见 end &ndash;&gt;
+&lt;!&ndash;                     </div> &ndash;&gt;
+&lt;!&ndash;                 </div> &ndash;&gt;
+
+
+                &lt;!&ndash; 固定小组成员意见 汇总&ndash;&gt;
+                <div class="panel" ng-if="pfr.fixGroupOption != null && pfr.fixGroupOption != ''">
                     <div class="panel-heading">
                         <a class="accordion-toggle collapsed" href="/#summaryOfComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">小组固定成员意见汇总<i class="i-triangle"></i></span></a>
                     </div>
@@ -511,383 +947,383 @@
                         </div>
                     </div>
                 </div>
-				<!--审批-->
-				<div class="panel" ng-show="!isOldFlow && hasWaiting">
-					<div class="panel-heading">
-						<a class="accordion-toggle collapsed" href="/#approvalPart"
-						   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
-					</div>
-					<div id="approvalPart" class="panel-collapse collapse in">
-						<!--审批阶段-->
-						<div class="panel-body" ng-show="approve.operateType=='audit'">
-							<div class="row">
-								<label class="col-sm-3 control-label">下一环节：</label>
-								<div class="col-sm-8">
-									<div ng-repeat="x in approve.processOptions">
-										<label class="radio radio-inline">
-											<input id="showAttr" class="px" type="radio"
-												   init-bind="a=x.documentation" aaa="{{x.documentation}}"
-												   ng-click="showMarkMethod(x.documentation)"
-												   name="bpmnProcessOption" ng-checked="$index==0"
-												   value="{{x.sequenceFlow}}"/>
-											<span class="lbl">
+                &lt;!&ndash;审批&ndash;&gt;
+                <div class="panel" ng-show="!isOldFlow && hasWaiting">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle collapsed" href="/#approvalPart"
+                           data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
+                    </div>
+                    <div id="approvalPart" class="panel-collapse collapse in">
+                        &lt;!&ndash;审批阶段&ndash;&gt;
+                        <div class="panel-body" ng-show="approve.operateType=='audit'">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">下一环节：</label>
+                                <div class="col-sm-8">
+                                    <div ng-repeat="x in approve.processOptions">
+                                        <label class="radio radio-inline">
+                                            <input id="showAttr" class="px" type="radio"
+                                                   init-bind="a=x.documentation" aaa="{{x.documentation}}"
+                                                   ng-click="showMarkMethod(x.documentation)"
+                                                   name="bpmnProcessOption" ng-checked="$index==0"
+                                                   value="{{x.sequenceFlow}}"/>
+                                            <span class="lbl">
                                                 <div class="text">{{x.flowName}}</div>
                                             </span>
-										</label>
-									</div>
-								</div>
-							</div>
-							<!--知会人-->
-							<div class="row" ng-include="'page/sys/common/notify-user.html'">
-							</div>
-							<!--快捷意见-->
-							<div class="row">
-								<label class="col-sm-3 control-label">快捷意见：</label>
-								<div class="col-sm-8">
-									<label class="radio radio-inline" ng-repeat="comment in _quickComments">
-										<input class="px" type="radio"
-											   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
-											   name="_quickComments" ng-checked="$index==0"
-											   value="{{comment}}"/>
-										<span class="lbl">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            &lt;!&ndash;知会人&ndash;&gt;
+                            <div class="row" ng-include="'page/sys/common/notify-user.html'">
+                            </div>
+                            &lt;!&ndash;快捷意见&ndash;&gt;
+                            <div class="row">
+                                <label class="col-sm-3 control-label">快捷意见：</label>
+                                <div class="col-sm-8">
+                                    <label class="radio radio-inline" ng-repeat="comment in _quickComments">
+                                        <input class="px" type="radio"
+                                               ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+                                               name="_quickComments" ng-checked="$index==0"
+                                               value="{{comment}}"/>
+                                        <span class="lbl">
                                                 <div class="text">{{comment}}</div>
                                         </span>
-									</label>
-								</div>
-							</div>
-							<div class="row" id="cesuanFileOpinionDiv" ng-if="approve.showController.isServiewType">
-								<label class="col-sm-3 control-label"><span class="required">*</span>测算文件意见：</label>
-								<div class="col-sm-8">
-									<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.cesuanFileOpinion"></textarea>
-								</div>
-							</div>
-							<div class="row" id="tzProtocolOpinionDiv" ng-if="approve.showController.isServiewType">
-								<label class="col-sm-3 control-label"><span class="required">*</span>投资协议意见：</label>
-								<div class="col-sm-8">
-									<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.tzProtocolOpinion"></textarea>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-3 control-label">处理意见：</label>
-								<div class="col-sm-8">
-												<textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
-														  data-ng-init="flowVariables.opinion=''"
-														  ng-model="flowVariables.opinion"></textarea>
-								</div>
-							</div>
-							<hr ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" >
-							<div class="panel nobottom-mar" ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)">
-								<div class="panel-body pop-first-col-fixed" style="overflow-y: auto;height: 300px;"  >
-									<div ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" class="row">
-										<!-- 首次进入业务评审节点 -->
-										<div ng-show="showReviewFirstMark" >
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													合规-审批流程熟悉度
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="15" ng-model="mark.flowMark" ng-click="validMark(50)">
-													<span class="required">(满分：15分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.flowMarkReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1、合格标准：流程完整为满分。</div><div>2 、缺少一个前置审批流程环节扣3-5分，以此累加，最低分得为0分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<div ng-show="showReviewToConfirm">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													资料-及时性
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="9" ng-model="mark.fileTime">
-													<span class="required">(满分：9分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.fileTimeReason">
-													<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top" data-html="true"
-													   title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<div ng-show="showReviewToConfirm">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													资料-完整性
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="9" ng-model="mark.fileContent">
-													<span class="required">(满分：9分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.fileContentReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1 、每缺少一项资料或资料无相关人员签字确认扣2分，以此累加，最低得分为0分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<div ng-show="showReviewFirstMark">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													核心-财务测算能力
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="12" ng-model="mark.moneyCalculate">
-													<span class="required">(满分：12分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.moneyCalculateReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1 、测算有错误或取值不合理，但测算思路正确，可得8-12分。</div><div>2、测算错误较多，且思路不正确，可得0-8分。</p><p>3、未独立进行测算的项目此项不得分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
-										<div ng-show="showReviewFirstMark">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													资料-准确性
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="6" ng-model="mark.reviewFileAccuracy">
-													<span class="required">(满分：6分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.reviewFileAccuracyReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<div ng-show="showReviewToConfirm">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													核心-风险识别及规避能力
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="12" ng-model="mark.riskControl">
-													<span class="required">(满分：12分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.riskControlReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1 、若投资部门风险识别及规避工作较好，评审阶段无发现新增重大风险，可得6-12分；</div><div>2 、若投资部门开展了风险识别及规避工作，但效果一般，评审阶段发现多个新增重大风险，可得0-6分；</div><div>3 、若投资部门未开展风险识别及规避工作，此项不得分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<div ng-show="showReviewFirstMark">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													核心-方案设计能力
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="4" ng-model="mark.planDesign">
-													<span class="required">(满分：4分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.planDesignReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1 、若交易结构不合理或无人员安置方案，可扣0-4分，最低分为0分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<!-- -------------------------------评审负责人到确认  end--------------------------------------------- -->
-										<!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
-										<div ng-show="showLegalToConfirm">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													资料-准确性
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="6" ng-model="mark.legalFileAccuracy">
-													<span class="required">(满分：6分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.legalFileAccuracyReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<div ng-show="showLegalToConfirm">
-											<div class="row">
-												<label class="col-sm-3 col-md-3 control-label">打分项：</label>
-												<div class="col-sm-5 col-md-5">
-													核心-协议谈判能力
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label"><span class="required">*</span>分数：</label>
-												<div class="col-sm-8">
-													<input class="mark" type="number" min="0" max="12" ng-model="mark.talks">
-													<span class="required">(满分：12分)</span>
-												</div>
-											</div>
-											<div class="row">
-												<label class="col-sm-3 control-label">扣分原因：</label>
-												<div class="col-sm-8">
-													<input type="text" ng-model="mark.talksReason">
-													<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
-													   title="<div>1 、是否依据集团要求在谈判中落实关键条款，若情况较好，得6-10分，若不理想得0-6分，最低分为0分。</div><div>2 、未独立进行谈判或者未能独立起草协议的项目，此项不得分。</div>">提示</a>
-												</div>
-											</div>
-										</div>
-										<!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
-									</div>
-								</div>
-							</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row" id="cesuanFileOpinionDiv" ng-if="approve.showController.isServiewType">
+                                <label class="col-sm-3 control-label"><span class="required-m">*</span>测算文件意见：</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.cesuanFileOpinion"></textarea>
+                                </div>
+                            </div>
+                            <div class="row" id="tzProtocolOpinionDiv" ng-if="approve.showController.isServiewType">
+                                <label class="col-sm-3 control-label"><span class="required-m">*</span>投资协议意见：</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.tzProtocolOpinion"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-3 control-label">处理意见：</label>
+                                <div class="col-sm-8">
+                                                <textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
+                                                          data-ng-init="flowVariables.opinion=''"
+                                                          ng-model="flowVariables.opinion"></textarea>
+                                </div>
+                            </div>
+                            <hr ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" >
+                            <div class="panel nobottom-mar" ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)">
+                                <div class="panel-body pop-first-col-fixed" style="overflow-y: auto;height: 300px;"  >
+                                    <div ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" class="row">
+                                        &lt;!&ndash; 首次进入业务评审节点 &ndash;&gt;
+                                        <div ng-show="showReviewFirstMark" >
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    合规-审批流程熟悉度
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="15" ng-model="mark.flowMark" ng-click="validMark(50)">
+                                                    <span class="required-m">(满分：15分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.flowMarkReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1、合格标准：流程完整为满分。</div><div>2 、缺少一个前置审批流程环节扣3-5分，以此累加，最低分得为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-及时性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="9" ng-model="mark.fileTime">
+                                                    <span class="required-m">(满分：9分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.fileTimeReason">
+                                                    <a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top" data-html="true"
+                                                       title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-完整性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="9" ng-model="mark.fileContent">
+                                                    <span class="required-m">(满分：9分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.fileContentReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、每缺少一项资料或资料无相关人员签字确认扣2分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewFirstMark">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-财务测算能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="12" ng-model="mark.moneyCalculate">
+                                                    <span class="required-m">(满分：12分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.moneyCalculateReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、测算有错误或取值不合理，但测算思路正确，可得8-12分。</div><div>2、测算错误较多，且思路不正确，可得0-8分。</p><p>3、未独立进行测算的项目此项不得分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        &lt;!&ndash; &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;评审负责人到确认 start&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;
+                                        <div ng-show="showReviewFirstMark">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-准确性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="6" ng-model="mark.reviewFileAccuracy">
+                                                    <span class="required-m">(满分：6分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.reviewFileAccuracyReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-风险识别及规避能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="12" ng-model="mark.riskControl">
+                                                    <span class="required-m">(满分：12分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.riskControlReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、若投资部门风险识别及规避工作较好，评审阶段无发现新增重大风险，可得6-12分；</div><div>2 、若投资部门开展了风险识别及规避工作，但效果一般，评审阶段发现多个新增重大风险，可得0-6分；</div><div>3 、若投资部门未开展风险识别及规避工作，此项不得分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showReviewFirstMark">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-方案设计能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="4" ng-model="mark.planDesign">
+                                                    <span class="required-m">(满分：4分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.planDesignReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、若交易结构不合理或无人员安置方案，可扣0-4分，最低分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        &lt;!&ndash; -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;评审负责人到确认  end-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;
+                                        &lt;!&ndash; -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;法律负责人到确认  start-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;
+                                        <div ng-show="showLegalToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    资料-准确性
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="6" ng-model="mark.legalFileAccuracy">
+                                                    <span class="required-m">(满分：6分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.legalFileAccuracyReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="showLegalToConfirm">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-md-3 control-label">打分项：</label>
+                                                <div class="col-sm-5 col-md-5">
+                                                    核心-协议谈判能力
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="mark" type="number" min="0" max="12" ng-model="mark.talks">
+                                                    <span class="required-m">(满分：12分)</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-3 control-label">扣分原因：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="mark.talksReason">
+                                                    <a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+                                                       title="<div>1 、是否依据集团要求在谈判中落实关键条款，若情况较好，得6-10分，若不理想得0-6分，最低分为0分。</div><div>2 、未独立进行谈判或者未能独立起草协议的项目，此项不得分。</div>">提示</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        &lt;!&ndash; -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;法律负责人到确认  end-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;
+                                    </div>
+                                </div>
+                            </div>
 
-						</div>
-						<!--加签阶段-->
-						<div class="panel-body" ng-show="approve.operateType=='change'">
-							<div class="row">
-								<label class="col-sm-3 control-label">下一环节：</label>
-								<div class="col-sm-8">
-									<div>
-										<label class="radio radio-inline">
-											<input class="px" type="radio" name="bpmnProcessOption"
-												   id="workOver" value="WORKOVER"/>
-											<span class="lbl">
+                        </div>
+                        &lt;!&ndash;加签阶段&ndash;&gt;
+                        <div class="panel-body" ng-show="approve.operateType=='change'">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">下一环节：</label>
+                                <div class="col-sm-8">
+                                    <div>
+                                        <label class="radio radio-inline">
+                                            <input class="px" type="radio" name="bpmnProcessOption"
+                                                   id="workOver" value="WORKOVER"/>
+                                            <span class="lbl">
                                                 <div class="text">完结</div>
                                             </span>
-										</label>
-									</div>
-								</div>
-							</div>
-							<!--知会人-->
-							<div class="row" ng-include="'page/sys/common/notify-user.html'">
-							</div>
-							<!--快捷意见-->
-							<div class="row">
-								<label class="col-sm-3 control-label">快捷意见：</label>
-								<div class="col-sm-8">
-									<label class="radio radio-inline" ng-repeat="comment in _quickComments">
-										<input class="px" type="radio"
-											   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
-											   name="_quickComments" ng-checked="$index==0"
-											   value="{{comment}}"/>
-										<span class="lbl">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            &lt;!&ndash;知会人&ndash;&gt;
+                            <div class="row" ng-include="'page/sys/common/notify-user.html'">
+                            </div>
+                            &lt;!&ndash;快捷意见&ndash;&gt;
+                            <div class="row">
+                                <label class="col-sm-3 control-label">快捷意见：</label>
+                                <div class="col-sm-8">
+                                    <label class="radio radio-inline" ng-repeat="comment in _quickComments">
+                                        <input class="px" type="radio"
+                                               ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+                                               name="_quickComments" ng-checked="$index==0"
+                                               value="{{comment}}"/>
+                                        <span class="lbl">
                                                 <div class="text">{{comment}}</div>
                                         </span>
-									</label>
-								</div>
-							</div>
-							<!--审批意见-->
-							<div class="row">
-								<label class="col-sm-3 control-label">处理意见：</label>
-								<div class="col-sm-8">
+                                    </label>
+                                </div>
+                            </div>
+                            &lt;!&ndash;审批意见&ndash;&gt;
+                            <div class="row">
+                                <label class="col-sm-3 control-label">处理意见：</label>
+                                <div class="col-sm-8">
                                     <textarea class="form-control" rows="4" cols="" id="comments2" ng-change="_signFillSignComments('comments2')"
-											  data-ng-init="flowVariables.opinion=''"
-											  ng-model="flowVariables.opinion"></textarea>
-								</div>
-							</div>
-						</div>
-						<!--提交按钮-->
-						<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
-						</div>
+                                              data-ng-init="flowVariables.opinion=''"
+                                              ng-model="flowVariables.opinion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        &lt;!&ndash;提交按钮&ndash;&gt;
+                        <div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+                        </div>
+                    </div>
+                </div>-->
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="btn-group-gap txl">
+					<a class="btn btn-primary" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='2'" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='4'" href="#/ProjectFormalReviewList"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='5'" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='8'" href="#/FormalAssessmentAuditList/0"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='9'" href="#/FormalAssessmentAuditList/1"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='10'" href="#/FormalAssessmentInfoList/1"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='11'" href="#/formalReportBoardList"><i class="fa fa-reply"></i>返回</a>
+					<a class="btn btn-primary" ng-if="flag=='12'" href="#/ConferenceInformation/1"><i class="fa fa-reply"></i>返回</a>
+					<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
+					<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
+					<!-- 8.22新增 专家评审显示保存按钮 -->
+					<button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+					<!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
+					<button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+					<!-- 新提交模态框 -->
+					<!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                        <formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
+                    </div>-->
+					<!-- 旧提交模态框 -->
+					<div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+						<approve-pop-win approvearr="approve"></approve-pop-win>
 					</div>
 				</div>
 			</div>
-        </div>
-        <div class="button-group">
-            <div class="row">
-                <div class="btn-group-gap txl">
-                    <a class="btn btn-primary" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-primary" ng-if="flag=='2'" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-primary" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-primary" ng-if="flag=='4'" href="#/ProjectFormalReviewList"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-primary" ng-if="flag=='5'" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-primary" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-primary" ng-if="flag=='8'" href="#/FormalAssessmentAuditList/0"><i class="fa fa-reply"></i>返回</a>
-                    <a class="btn btn-primary" ng-if="flag=='9'" href="#/FormalAssessmentAuditList/1"><i class="fa fa-reply"></i>返回</a>
-                   	<a class="btn btn-primary" ng-if="flag=='10'" href="#/FormalAssessmentInfoList/1"><i class="fa fa-reply"></i>返回</a>
-                   	<a class="btn btn-primary" ng-if="flag=='11'" href="#/formalReportBoardList"><i class="fa fa-reply"></i>返回</a>
-                   	<a class="btn btn-primary" ng-if="flag=='12'" href="#/ConferenceInformation/1"><i class="fa fa-reply"></i>返回</a>
-                   	<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
-                   	<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
-                   	<!-- 8.22新增 专家评审显示保存按钮 -->
-                    <button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
-                    <!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
-                    <button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
-                    <!-- 新提交模态框 -->
-                    <!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
-						<formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
-                    </div>-->
-                    <!-- 旧提交模态框 -->
-                    <div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
-                        <approve-pop-win approvearr="approve"></approve-pop-win>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+		</div>
+	</form>
 </div>
 <script>
     angular.element(document).ready(function() {
-		var options = {
-	            todayBtn: "linked",
-	            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-	        }
-	    $('#approveFeedbackTime').datepicker(options);
-	    $('#approveLegalFeedbackTime').datepicker(options);
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#approveFeedbackTime').datepicker(options);
+        $('#approveLegalFeedbackTime').datepicker(options);
     });
 </script>
 <!--加签弹窗(页面)-->

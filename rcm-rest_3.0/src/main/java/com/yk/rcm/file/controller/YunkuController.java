@@ -200,9 +200,9 @@ public class YunkuController {
         String optName = UserUtil.getCurrentUserName();
         try {
             FileDto fileDto = fileService.getFile(oldFileId);
-            if (fileDto != null) {
+            /*if (fileDto != null) {
                 fileDto = fileService.fileDelete(fileDto, optName);
-            }
+            }*/
             Integer optId = new Integer(UserUtil.getCurrentUserId());
             try {
                 // 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）

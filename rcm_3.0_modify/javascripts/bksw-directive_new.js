@@ -3602,6 +3602,19 @@ ctmApp.directive('directiveFormalProtocolOpinion', function() {
         }
     };
 });
+
+// 意见（NEW）
+ctmApp.directive('directiveFormalOpinionNew', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalOpinionNew.html',
+        replace: true,
+        controller:function($scope,$http,$element,$location,$routeParams) {
+
+        }
+    };
+});
+
 // 评审用成本及费用
 ctmApp.directive('directiveFormalReportCbfy', function() {
     return {
