@@ -90,6 +90,150 @@
 									<textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
 								</div>
 							</div>
+
+							<div class="panel" ng-show="showController.isTask || showController.isRiskTask || bulletin.taskallocation != null && bulletin.taskallocation !='' ">
+								<div class="panel-heading">
+									<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+								</div>
+								<div id="taskAssignment1" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div ng-show="bulletin.taskallocation.reviewLeader.NAME != null || showController.isTask" class="row">
+											<label class="col-sm-2 control-label">评审负责人</label>
+											<div class="col-sm-4">
+												<direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}"
+																		  checked-user="myTaskallocation.reviewLeader"
+																		  is-editable="isTaskEdit"
+																		  url="{{'role/queryReviewUsers.do'}}"
+																		  ng-if="isTaskEdit == 'true'"
+												>
+												</direct-fzr-single-select>
+												<input ng-if="isTaskEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.reviewLeader.NAME" readonly/>
+											</div>
+											<label class="col-sm-2 control-label">法律评审负责人</label>
+											<div class="col-sm-4">
+												<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
+																		  checked-user="myTaskallocation.legalLeader"
+																		  is-editable="isTaskEdit"
+																		  url="{{'role/queryLegalUsers.do'}}"
+																		  ng-if="isTaskEdit == 'true'"
+												></direct-fzr-single-select>
+												<input ng-if="isTaskEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.legalLeader.NAME" readonly/>
+											</div>
+										</div>
+										<div ng-show="bulletin.taskallocation.riskLeader.NAME != null || showController.isRiskTask" class="row">
+											<label class="col-sm-2 control-label">风控评审负责人</label>
+											<div class="col-sm-4">
+												<direct-fzr-single-select is-group="{{'true'}}" id="{{'abbc'}}"
+																		  checked-user="myTaskallocation.riskLeader"
+																		  is-editable="isTaskEdit"
+																		  url="{{'role/queryPsfzr.do'}}"
+																		  ng-if="isTaskEdit == 'true'"
+												>
+												</direct-fzr-single-select>
+												<input ng-if="isTaskEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.riskLeader.NAME" readonly/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--审批-->
+							<div class="panel" ng-show="showSubmit">
+								<div class="panel-heading">
+									<a class="accordion-toggle collapsed" href="/#approvalPart"
+									   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
+								</div>
+								<div id="approvalPart" class="panel-collapse collapse in">
+									<!--审批阶段-->
+									<div class="panel-body" ng-show="approve.operateType=='audit'">
+										<div class="row">
+											<label class="col-sm-3 control-label">下一环节：</label>
+											<div class="col-sm-8">
+												<div  ng-repeat="x in approve.processOptions">
+													<label class="radio radio-inline">
+														<input class="px" type="radio" name="bpmnProcessOption" aaa="{{x.documentation}}" ng-checked="$index==0" value="{{x.sequenceFlow}}"/>
+														<span class="lbl">
+                                    <div class="text">{{x.flowName}}</div>
+                                </span>
+													</label>
+												</div>
+											</div>
+										</div>
+										<!--知会人-->
+										<div class="row" ng-include="'page/sys/common/notify-user.html'">
+										</div>
+										<!--快捷意见-->
+										<div class="row">
+											<label class="col-sm-3 control-label">快捷意见：</label>
+											<div class="col-sm-8">
+												<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+													<input class="px" type="radio"
+														   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+														   name="_quickComments" ng-checked="$index==0"
+														   value="{{comment}}"/>
+													<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+												</label>
+											</div>
+										</div>
+										<div class="row">
+											<label class="col-sm-3 control-label">处理意见：</label>
+											<div class="col-sm-8">
+												<textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
+														  data-ng-init="flowVariables.opinion=''"
+														  ng-model="flowVariables.opinion"></textarea>
+											</div>
+										</div>
+									</div>
+									<!--加签阶段-->
+									<div class="panel-body" ng-show="approve.operateType=='change'">
+										<div class="row">
+											<label class="col-sm-3 control-label">下一环节：</label>
+											<div class="col-sm-8">
+												<div>
+													<label class="radio radio-inline">
+														<input class="px" type="radio" name="bpmnProcessOption"
+															   id="workOver" value="WORKOVER"/>
+														<span class="lbl">
+                                                <div class="text">完结</div>
+                                            </span>
+													</label>
+												</div>
+											</div>
+										</div>
+										<!--知会人-->
+										<div class="row" ng-include="'page/sys/common/notify-user.html'">
+										</div>
+										<!--快捷意见-->
+										<div class="row">
+											<label class="col-sm-3 control-label">快捷意见：</label>
+											<div class="col-sm-8">
+												<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+													<input class="px" type="radio"
+														   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+														   name="_quickComments" ng-checked="$index==0"
+														   value="{{comment}}"/>
+													<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+												</label>
+											</div>
+										</div>
+										<!--审批意见-->
+										<div class="row">
+											<label class="col-sm-3 control-label">处理意见：</label>
+											<div class="col-sm-8">
+                                    <textarea class="form-control" rows="4" cols="" id="comments2" ng-change="_signFillSignComments('comments2')"
+											  data-ng-init="flowVariables.opinion=''"
+											  ng-model="flowVariables.opinion"></textarea>
+											</div>
+										</div>
+									</div>
+									<!--提交按钮-->
+									<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="tab-pane" id="flow_chart">
 							<directive-process-page-new process-key="bulletin"></directive-process-page-new>
@@ -151,7 +295,7 @@
 				</div>
 			</div>
             	<!-- 风控负责人审批 -->
-            	<div  class="panel" ng-show="( null != bulletin.riskLeaderAttachment  && '' != bulletin.riskLeaderAttachment) || ( null != bulletin.riskLeaderOpinion  && '' != bulletin.riskLeaderOpinion) ||showController.isRiskLeader ">
+            	<!--<div  class="panel" ng-show="( null != bulletin.riskLeaderAttachment  && '' != bulletin.riskLeaderAttachment) || ( null != bulletin.riskLeaderOpinion  && '' != bulletin.riskLeaderOpinion) ||showController.isRiskLeader ">
             		<div class="panel-heading">
 						<a class="accordion-toggle collapsed" href="/#riskLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">风控负责人意见<i class="i-triangle"></i></span></a>
 					</div>
@@ -203,9 +347,9 @@
 							</div>
 						</div>
 					</div>
-            	</div>
+            	</div>-->
 				<!-- 分配任务 -->
-            	<div class="panel" ng-show="showController.isTask || showController.isRiskTask || bulletin.taskallocation != null && bulletin.taskallocation !='' ">
+            	<!--<div class="panel" ng-show="showController.isTask || showController.isRiskTask || bulletin.taskallocation != null && bulletin.taskallocation !='' ">
             		<div class="panel-heading">
 						<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
 					</div>
@@ -243,9 +387,9 @@
 							</div>
 						</div>
 					</div>
-            	</div>
+            	</div>-->
             	<!-- 评审负责人意见 -->
-            	<div  class="panel" ng-show="( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader ">
+            	<!--<div  class="panel" ng-show="( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader ">
             		<div class="panel-heading">
 						<a class="accordion-toggle collapsed" href="/#reviewLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">评审负责人意见<i class="i-triangle"></i></span></a>
 					</div>
@@ -298,7 +442,7 @@
 						</div>
 					</div>
             	</div>
-            	<!-- 法律评审负责人意见 -->
+            	&lt;!&ndash; 法律评审负责人意见 &ndash;&gt;
             	<div  class="panel" ng-show="( null != bulletin.legalLeaderAttachment  && '' != bulletin.legalLeaderAttachment) || ( null != bulletin.legalLeaderOpinion  && '' != bulletin.legalLeaderOpinion) ||showController.isLegalLeader ">
             		<div class="panel-heading">
 						<a class="accordion-toggle collapsed" href="/#legalLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">法律负责人意见<i class="i-triangle"></i></span></a>
@@ -351,15 +495,15 @@
 							</div>
 						</div>
 					</div>
-            	</div>
-			<!--审批-->
+            	</div>-->
+			<!--&lt;!&ndash;审批&ndash;&gt;
 			<div class="panel" ng-show="showSubmit">
 				<div class="panel-heading">
 					<a class="accordion-toggle collapsed" href="/#approvalPart"
 					   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
 				</div>
 				<div id="approvalPart" class="panel-collapse collapse in">
-					<!--审批阶段-->
+					&lt;!&ndash;审批阶段&ndash;&gt;
 					<div class="panel-body" ng-show="approve.operateType=='audit'">
 						<div class="row">
 							<label class="col-sm-3 control-label">下一环节：</label>
@@ -374,10 +518,10 @@
 								</div>
 							</div>
 						</div>
-						<!--知会人-->
+						&lt;!&ndash;知会人&ndash;&gt;
 						<div class="row" ng-include="'page/sys/common/notify-user.html'">
 						</div>
-						<!--快捷意见-->
+						&lt;!&ndash;快捷意见&ndash;&gt;
 						<div class="row">
 							<label class="col-sm-3 control-label">快捷意见：</label>
 							<div class="col-sm-8">
@@ -401,7 +545,7 @@
 							</div>
 						</div>
 					</div>
-					<!--加签阶段-->
+					&lt;!&ndash;加签阶段&ndash;&gt;
 					<div class="panel-body" ng-show="approve.operateType=='change'">
 						<div class="row">
 							<label class="col-sm-3 control-label">下一环节：</label>
@@ -417,10 +561,10 @@
 								</div>
 							</div>
 						</div>
-						<!--知会人-->
+						&lt;!&ndash;知会人&ndash;&gt;
 						<div class="row" ng-include="'page/sys/common/notify-user.html'">
 						</div>
-						<!--快捷意见-->
+						&lt;!&ndash;快捷意见&ndash;&gt;
 						<div class="row">
 							<label class="col-sm-3 control-label">快捷意见：</label>
 							<div class="col-sm-8">
@@ -435,7 +579,7 @@
 								</label>
 							</div>
 						</div>
-						<!--审批意见-->
+						&lt;!&ndash;审批意见&ndash;&gt;
 						<div class="row">
 							<label class="col-sm-3 control-label">处理意见：</label>
 							<div class="col-sm-8">
@@ -445,11 +589,11 @@
 							</div>
 						</div>
 					</div>
-					<!--提交按钮-->
+					&lt;!&ndash;提交按钮&ndash;&gt;
 					<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
 					</div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 		<!--<div  id="userSinDialog"  class="modal" tabindex="-1" role="dialog" style="display: none;">
 			<direct-user-single-dialog id="userSinDialog1" title="{{title}}" checked-user="checkedUser"

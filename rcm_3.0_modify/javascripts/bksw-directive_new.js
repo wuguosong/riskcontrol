@@ -6127,7 +6127,6 @@ ctmApp.directive('directiveProcessPageNew', function() {
             processKey:'@'// 流程Key
         },
         controller:function($scope, $routeParams){
-            debugger;
             $scope._process_key_ = $scope.processKey;
             $scope._process_id_ = $routeParams.id;
             // 监听流程变化
