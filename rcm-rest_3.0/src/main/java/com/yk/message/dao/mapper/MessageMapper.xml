@@ -28,6 +28,8 @@
         <result column="attri_text03" property="attriText03" javaType="java.lang.String"/>
         <result column="attri_text04" property="attriText04" javaType="java.lang.String"/>
         <result column="via_users" property="viaUsers" javaType="java.lang.String"/>
+        <result column="message_priority" property="messagePriority" javaType="java.lang.Long"/>
+        <result column="message_file" property="messageFile" javaType="java.lang.Long"/>
     </resultMap>
     <!-- 基本数据列 -->
     <sql id="baseColumn">
@@ -50,6 +52,8 @@
        push_flag,
        read_flag,
        bs_uni_related,
+       message_priority,
+       message_file,
        attri_text01,
        attri_text02,
        attri_text03,
@@ -68,7 +72,7 @@
         <if test="parentId != null">
             and parent_id = #{parentId}
         </if>
-        order by message_date asc
+        order by message_priority desc,message_date asc
     </select>
     <!-- 查询一个留言下的所有叶子留言 -->
     <select id="selectMessageChildren" resultMap="messageMap" parameterType="long">
@@ -113,6 +117,8 @@
 		#{readFlag},
 		#{bsUniRelated},
         #{viaUsers},
+        #{messagePriority},
+        #{messageFile},
 		#{attriText01},
 		#{attriText02},
 		#{attriText03},
@@ -140,6 +146,8 @@
 		push_flag = #{message.pushFlag},
 		read_flag = #{message.readFlag},
 		bs_uni_related = #{message.bsUniRelated},
+		message_priority = #{message.messagePriority},
+		message_file = #{message.messageFile},
 		attri_text01 = #{message.attriText01},
 		attri_text02 = #{message.attriText02},
 		attri_text03 = #{message.attriText03},
@@ -173,7 +181,7 @@
         <if test="createdBy != null and createdBy != '' and notIncludeCreatedBy != null and 'true'.toString() == notIncludeCreatedBy.toString()">
             and created_by <![CDATA[ <> ]]> #{createdBy}
         </if>
-        order by message_id, message_date asc
+        order by message_priority desc, message_id, message_date asc
     </select>
     
      <select id="selectLeavesMessageList" resultMap="messageMap">
@@ -213,7 +221,7 @@
         <if test="parentId != null">
             and parent_id = #{parentId}
         </if>
-        order by message_id, message_date asc
+        order by message_priority desc,message_id, message_date asc
     </select>
     <select id="selectMessageNotify" resultMap="messageMap" parameterType="string">
         select

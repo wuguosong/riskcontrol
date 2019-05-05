@@ -2,6 +2,7 @@ package com.yk.message.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.goukuai.dto.FileDto;
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
 import com.yk.exception.BusinessException;
@@ -9,6 +10,7 @@ import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import com.yk.power.dao.IUserMapper;
+import com.yk.rcm.file.service.IFileService;
 import common.Constants;
 import common.PageAssistant;
 import fnd.UserDto;
@@ -106,6 +108,10 @@ public class MessageService implements IMessageService {
     @Override
     public Message delete(Long messageId) {
         Message message = messageMapper.selectMessageById(messageId);
+        if(message.getMessageFile() != null){
+            FileDto fileDto = fileService.getFile(String.valueOf(message.getMessageFile()));
+            fileService.deleteFile(fileDto);
+        }
         messageMapper.deleteMessage(messageId);
         return message;
     }
@@ -203,6 +209,7 @@ public class MessageService implements IMessageService {
                     DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
             // 将根节点装入聊天组中
             this.setViaUsers(jsonObject);
+            this.setMessageFileInfo(jsonObject);
             jsonObjectLeaves.add(jsonObject);
             // 把根节点下面的叶子节点全部都查出来
             List<Message> leaves = messageMapper.selectLeavesMessageList(procInstId, message.getMessageId());
@@ -217,6 +224,7 @@ public class MessageService implements IMessageService {
                 leaveObject.put("messageDate",
                         DateUtil.getOracleDateToString(leave.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
                 this.setViaUsers(leaveObject);
+                this.setMessageFileInfo(leaveObject);
                 jsonObjectLeaves.add(leaveObject);
             }
 
@@ -363,6 +371,7 @@ public class MessageService implements IMessageService {
                     DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
             // 将根节点装入聊天组中
             this.setViaUsers(jsonObject);
+            this.setMessageFileInfo(jsonObject);
             jsonObjectLeaves.add(jsonObject);
             // 把根节点下面的叶子节点全部都查出来
             List<Message> leaves = messageMapper.selectLeavesMessageList(String.valueOf(params.get("procInstId")), message.getMessageId());
@@ -376,6 +385,7 @@ public class MessageService implements IMessageService {
                 leaveObject.put("messageDate",
                         DateUtil.getOracleDateToString(leave.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
                 this.setViaUsers(leaveObject);
+                this.setMessageFileInfo(leaveObject);
                 jsonObjectLeaves.add(leaveObject);
             }
             jsonObjects.add(jsonObjectLeaves);
@@ -403,5 +413,26 @@ public class MessageService implements IMessageService {
         params.put("orderBy", orderBy);
         List<Map<String, Object>> list = messageMapper.selectUserByCondition(params);
         page.setList(list);
+    }
+
+    @Resource
+    private IFileService fileService;
+    private void setMessageFileInfo(JSONObject message){
+        if(message != null){
+            if(message.getLong("messageFile") != null){
+                Long fileId = message.getLong("messageFile");
+                FileDto fileDto = fileService.getFile(String.valueOf(fileId));
+                if(fileDto != null){
+                    try{
+                        List<FileDto> list = fileService.createFileList(fileDto.getDoctype(), fileDto.getDoccode(), fileDto.getPagelocation());
+                        if(CollectionUtils.isNotEmpty(list)){
+                            message.put("fileDto", list.get(0));
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+            }
+        }
     }
 }

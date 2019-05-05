@@ -227,4 +227,6 @@ public interface IFileService {
 	 * @throws Exception
 	 */
 	List<Map<String, Object>> getReplaceReasonList(String id);
+
+	List<FileDto> createFileList(String docType, String docCode, String pageLocation)  throws Exception ;
 }

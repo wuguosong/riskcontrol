@@ -10,15 +10,34 @@
         <!--头部留言表单部分-->
         <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
               style="margin-bottom: 5px;">
-            主题：
-            <div contenteditable="true" class="form-control" style="background: #fff;min-height: 30px;" id="_message_first_title_0"></div>
-            内容：
-            <div contenteditable="true" class="form-control" style="background: #fff;min-height: 80px;" id="_message_first_0"></div>
-            <input type="text" ng-model="_message_first.parentId" ng-hide="true">
-            <input type="text" ng-model="_message_first.originalId" ng-hide="true">
-            <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
-            <input type="text" ng-model="_message_first.repliedBy" ng-hide="true">
-            <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
+            <div>
+                <div>主题：</div>
+                <div contenteditable="true" class="form-control" style="background: #fff;min-height: 30px;" id="_message_first_title_0"></div>
+            </div>
+            <!--下拉框-->
+            <div ng-if="false">
+                <div>优先级：</div>
+                <select class="form-control" ng-model="_message_first.messagePriority" ng-options="_message_priority_.key as _message_priority_.value for _message_priority_ in _message_priorities_"></select>
+            </div>
+            <!--单选框-->
+            <div ng-if="true">
+                <div>优先级：</div>
+                <label class="radio radio-inline" ng-repeat="_message_priority_ in _message_priorities_">
+                    <input class="px" type="radio" ng-model="_message_first.messagePriority" value="{{_message_priority_.key}}"/>
+                    <span class="lbl">
+                        <div class="text">{{_message_priority_.value}}</div>
+                    </span>
+                </label>
+            </div>
+            <div>
+                <div>内容：</div>
+                <div contenteditable="true" class="form-control" style="background: #fff;min-height: 80px;" id="_message_first_0"></div>
+                <input type="text" ng-model="_message_first.parentId" ng-hide="true">
+                <input type="text" ng-model="_message_first.originalId" ng-hide="true">
+                <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
+                <input type="text" ng-model="_message_first.repliedBy" ng-hide="true">
+                <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
+            </div>
         </form>
         <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
             <div id="_via_Model"
@@ -57,8 +76,8 @@
                 <span class="text" ng-if="!_is_pagination_">{{$index + 1}}楼
                     <i class="i-triangle"></i>
                 </span>-->
-                <span class="text">{{_messages_[0].messageTitle}}
-                    <i class="i-triangle"></i>
+                <span class="text" style="">{{_messages_[0].messageTitle}}
+                    <i class="i-triangle" style=""></i>
                 </span>
                 <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
                 </span>
@@ -80,6 +99,7 @@
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
                            ng-click="_delete_message_(_message_.messageId, _message_)"
                            ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0">撤回</a>
+                        <span ng-include="'page/sys/common/message_file.html'" ng-if="_message_.createdBy == _init_uuid_global_"></span>
                     </div>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
@@ -97,6 +117,7 @@
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
                            ng-click="_delete_message_(_message_.messageId, _message_)"
                            ng-if="_message_.createdBy == _init_uuid_global_">撤回</a>
+                        <span ng-include="'page/sys/common/message_file.html'" ng-if="_message_.createdBy == _init_uuid_global_"></span>
                     </div>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                         <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
@@ -145,6 +166,7 @@
                    data-target="#_via_users_mul_dialog">
                     <span class="addlabel blue">@用户</span>
                 </a>-->
+                </cloud-file>
             </form>
         </div>
     </div>

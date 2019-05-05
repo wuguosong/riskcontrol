@@ -114,7 +114,7 @@ public class YunkuController {
     public Result list(String docType, String docCode, String pageLocation) {
         Result result = new Result();
         try {
-            List<FileDto> list = this.createFileList(docType, docCode, pageLocation);
+            List<FileDto> list = fileService.createFileList(docType, docCode, pageLocation);
             result.setSuccess(true);
             result.setResult_code(Constants.S);
             result.setResult_data(list);
@@ -165,6 +165,7 @@ public class YunkuController {
      * @throws Exception
      * @description 创建公共的文件列表
      */
+    @Deprecated
     private List<FileDto> createFileList(String docType, String docCode, String pageLocation) throws Exception {
         List<FileDto> list = fileService.listFile(docType, docCode, pageLocation);
         for (FileDto fileDto : list) {
@@ -200,9 +201,9 @@ public class YunkuController {
         String optName = UserUtil.getCurrentUserName();
         try {
             FileDto fileDto = fileService.getFile(oldFileId);
-            if (fileDto != null) {
+            /*if (fileDto != null) {
                 fileDto = fileService.fileDelete(fileDto, optName);
-            }
+            }*/
             Integer optId = new Integer(UserUtil.getCurrentUserId());
             try {
                 // 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
@@ -279,13 +280,14 @@ public class YunkuController {
 		result.setResult_data(queryList);
 		return result;        
     }
-    
+
     /**
-	 * 上传替换提醒功能
-	 * @param messageId
-	 * @param shareUsers
-	 * @return
-	 */
+     * 上传替换提醒功能
+     * @param message
+     * @param shareUsers
+     * @param type
+     * @return
+     */
 	@RequestMapping(value = "remind", method = RequestMethod.POST)
 	@ResponseBody
 	public Result share(String message, String shareUsers, String type) {

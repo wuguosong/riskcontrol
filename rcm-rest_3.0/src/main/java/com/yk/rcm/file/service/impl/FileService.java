@@ -338,4 +338,23 @@ public class FileService implements IFileService {
 		List<Map<String, Object>> resultData = sysLogService.getReplaceReasonList(params);
 		return resultData;
 	}
+
+    @Override
+    public List<FileDto> createFileList(String docType, String docCode, String pageLocation)  throws Exception {
+        List<FileDto> list = this.listFile(docType, docCode, pageLocation);
+        for (FileDto fileDto : list) {
+            String fullPath = fileDto.getFullpath().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
+            LinkDto download = this.fileDownloadLink(fullPath);
+            if (download != null) {
+                fileDto.setDownload3d(download.getLink());
+                fileDto.setDownloadqr3d(download.getQr_url());
+            }
+            LinkDto preview = this.filePreviewLink(fullPath);
+            if (preview != null) {
+                fileDto.setPreview3d(preview.getLink());
+                fileDto.setPrevieqr3d(preview.getQr_url());
+            }
+        }
+        return list;
+    }
 }

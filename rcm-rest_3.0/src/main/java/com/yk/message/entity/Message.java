@@ -31,11 +31,13 @@ public class Message{
     private String pushFlag;// 推送成功标志(Y/N)
     private String readFlag;// 已读标志(Y/N)
     private String bsUniRelated;// 业务唯一关联信息(备用)
+    private String viaUsers;// @的用户
+    private Long messagePriority;// 留言优先级
+    private Long messageFile;// 留言过程附件ID
     private String attriText01;// 备用字段1
     private String attriText02;// 备用字段2
     private String attriText03;// 备用字段3
     private String attriText04;// 备用字段4
-    private String viaUsers;// @的用户
 
     public Long getMessageId() {
         return messageId;
@@ -243,6 +245,22 @@ public class Message{
 
     public void setMessageTitle(String messageTitle) {
         this.messageTitle = messageTitle;
+    }
+
+    public Long getMessagePriority() {
+        return messagePriority;
+    }
+
+    public void setMessagePriority(Long messagePriority) {
+        this.messagePriority = messagePriority;
+    }
+
+    public Long getMessageFile() {
+        return messageFile;
+    }
+
+    public void setMessageFile(Long messageFile) {
+        this.messageFile = messageFile;
     }
 }
 
