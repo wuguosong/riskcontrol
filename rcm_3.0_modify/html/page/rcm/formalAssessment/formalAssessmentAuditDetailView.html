@@ -16,7 +16,7 @@
 									<a class="btn tab tab-90 active" href="/#contracts_file_info" data-toggle="tab">流程表单</a>
 									<a class="btn tab tab-90" href="/#flow_chart" data-toggle="tab">流程图</a>
 									<a class="btn tab tab-90" href="/#contracts_resources" data-toggle="tab">相关资源</a>
-									<a class="btn tab tab-90" href="/#bbs_chat" data-toggle="tab">留言区</a>
+									<!--<a class="btn tab tab-90" href="/#bbs_chat" data-toggle="tab">留言区</a>-->
 									<!--<li class="active">
                                         <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
                                     </li>
@@ -40,20 +40,25 @@
                                     <!-- 旧流程图 -->
                                     <directive-process-list ng-if="isOldFlow"></directive-process-list>
                                 </div>
-                                <div class="tab-pane" id="contracts_resources">
+                                <div class="tab-pane clearfix row" id="contracts_resources">
                                     <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
-									<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
-															  last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
-															  init-update="initUpdate(id)"></directive-accachment-new>
-                                </div>
-								<div class="tab-pane clearfix row" id="bbs_chat">
+									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+										<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+																  last-update-by="pfr.apply.investmentManager" wf-state="WF_STATE" file-list="newAttachment"
+																  init-update="initUpdate(id)"></directive-accachment-new>
+									</div>
+									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formal" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+									</div>
+								</div>
+								<!--<div class="tab-pane clearfix row" id="bbs_chat">
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
 
 									</div>
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
 										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formal" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
 									</div>
-								</div>
+								</div>-->
                             </div>
                         </div>
                     </div>

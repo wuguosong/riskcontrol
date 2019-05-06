@@ -377,7 +377,7 @@ ctmApp.directive('directReportOrgSelect', function() {
             //是否可编辑，默认为true
             isEditable:"=",
             //是否分页，默认为false
-            isPage:"=?bind",
+            isPage:"@",
             //查询参数，非必填
             queryParams: "=",
             //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
@@ -484,6 +484,7 @@ ctmApp.directive('directReportOrgDialog', function() {
                 });
             }*/
             $scope.queryOrg = function(){
+                debugger
                 var config = {
                     method:'post',
                     url:srvUrl + $scope.url
@@ -564,7 +565,7 @@ ctmApp.directive('directReportOrgDialog', function() {
                     }
                 }
                 if($scope.callback != null){
-                    $scope.callback(cus);
+                    $scope.callback($scope.checkedOrg);
                 }
             }
             $scope.$watch('checkedOrg', $scope.initData);
@@ -2055,7 +2056,7 @@ ctmApp.directive('bbsChatNew', function() {
                     url: srvUrl + 'cloud/upload.do',
                     data: {
                         file: _file_,
-                        'docType':_message_.messageType,
+                        'docType':'sys_message_' + _message_.messageType,
                         'docCode':_message_.procInstId,
                         'pageLocation':_message_.messageId
                     }
@@ -2803,6 +2804,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
             // 设置属性
             isEdite: "@",
             isChoose: "@",
+            isShowMeetingAttachment: "@",
             // 调用父组件操作
             initUpdate: "&initUpdate"
         },
@@ -2836,6 +2838,12 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 } else {
                     $scope.isChoose = false;
                 }
+                if($scope.isShowMeetingAttachment == "true"){
+                    $scope.isShowMeetingAttachment = true;
+                } else {
+                    $scope.isShowMeetingAttachment = false;
+                }
+
                 $scope.getAttachmentType();
                 $scope.isShow = false;
             };
@@ -3136,7 +3144,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
             };
 
             // 选择上会文件
-            $scope.changeChoose = function (index, fileId) {
+            $scope._changeChoose = function (index, fileId) {
                 console.log(index);
                 console.log(fileId);
                 if ($scope.businessType == 'preReview') {
@@ -3149,11 +3157,14 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 $http({
                     method:'post',
                     url:srvUrl + url,
-                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
+                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":fileId})})
                 }).success(function(data){
                     if(data.success){
-                        $.alert(data.result_name);
-                        $scope.initUpdate({'id': $scope.businessId});
+                        if (data.result_data == '0'){
+                            $.alert("删除上会附件成功");
+                        } else {
+                            $.alert("添加上会附件成功");
+                        }
                     }else{
                         $.alert(data.result_name);
                     }
@@ -6219,7 +6230,7 @@ ctmApp.directive('directiveProcessPageNew', function() {
             $scope._process_key_ = $scope.processKey;
             $scope._process_id_ = $routeParams.id;
             // 监听流程变化
-            $scope.$parent.$watch("refreshImg", function(){
+            $scope.$watch("refreshImg", function(){
                 // 获取流程审批记录
                 $scope._process_logs_ = wf_listTaskLog($scope._process_key_, $scope._process_id_);
                 // 获取流程审批进度

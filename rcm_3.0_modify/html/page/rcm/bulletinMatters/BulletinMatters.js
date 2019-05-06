@@ -133,6 +133,8 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	$scope.otherFields = ["FZRNAME","FZRID"];
 	$scope.selectOrgCallback = function(checkedOrg){
 		$scope.checkedOrg = checkedOrg;
+        $scope.bulletin.applyUnit.NAME = $scope.checkedOrg.ORGNAME;
+        $scope.bulletin.applyUnit.VALUE = $scope.checkedOrg.ORGID;
         $scope.setUnitPerson($scope.checkedOrg.FZRID, $scope.checkedOrg.FZRNAME);
 	};
 	

@@ -19,6 +19,7 @@ ctmApp.register.controller('PreBiddingInfoPreview', ['$http','$scope','$location
             } else {
                 $scope.newAttachment = $scope.prePreview.newAttachment;
             }
+            $scope.wfState = '2';
         };
 
         //处理附件列表

@@ -16,9 +16,10 @@
                     area-code="1"
                     text-before="false"
             >
+        </h5>
            <!-- <a ng-click="downLoadFormalBiddingInfoFile(prePreview.filePath,prePreview.projectName)">
-                {{prePreview.projectName}}-正式评审报告.docx</a></h5>-->
-        <div class="mytable" style="margin-top: 20px">
+                {{prePreview.projectName}}-正式评审报告.docx</a>-->
+        <!--<div class="mytable" style="margin-top: 20px">
             <table class="table table-bordered">
                 <thead>
                 <tr class="info">
@@ -56,12 +57,12 @@
                 </tbody>
 
             </table>
-        </div>
+        </div>-->
         <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
         <div id='content3_table' class="mytable">
             <directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo" business-id="preBidding.id"
-                                      last-update-by="currentUser" wf-state="preOracle.WF_STATE" file-list="newAttachment"
-                                      init-update="initUpdate(id)" is-show-choose="true" is-edite="true"></directive-accachment-new>
+                                      last-update-by="currentUser" wf-state="wfState" file-list="newAttachment"
+                                      init-update="initUpdate(id)" is-show-meeting-attachment="true"></directive-accachment-new>
             <!--<table  class="table table-bordered">
                 <thead>
                 <tr class="info">

@@ -96,6 +96,16 @@ public class preInfoCreateController {
 		
 		return result;
 	}
+	@RequestMapping("/changeMeetingAttach")
+	@ResponseBody
+	public Result changeMeetingAttach(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+	    String flag = this.preInfoCreateService.changeMeetingAttach(json);
+	    result.setResult_data(flag);
+		
+		return result;
+	}
 	
 	/**
 	 * 新增会议信息(保存到mongo)

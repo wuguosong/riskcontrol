@@ -1,12 +1,11 @@
-<span   style="font-size: small;font-weight:bold;">附件</span>
 <a      style="font-size: small;color: blue;"
         href="javascript:void(0);"
-        ng-click="_message_preview_file_(_message_.fileDto.preview3d)">{{_message_.fileDto.filename}}</a>
+        ng-click="_message_preview_file_(_message_.fileDto.preview3d)">{{_message_.fileDto.filename}}&nbsp;{{_message_.fileDto.filesize/1024 | number:2}}<span ng-if="_message_.messageFile != null && _is_show_reply_btn_">Mb</span></a>
 <a      style="font-size: small;color: blue;"
-        ng-if="_message_.messageFile == null"
+        ng-if="_message_.messageFile == null && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_"
         ngf-max-size="100MB" ngf-select="_message_upload_file_($file, _message_)"
-        href="javascript:void(0);">添加</a>
+        href="javascript:void(0);">添加附件</a>
 <a      style="font-size: small;color: blue;"
-        ng-if="_message_.messageFile != null"
+        ng-if="_message_.messageFile != null && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_"
         ng-click="_message_delete_file_(_message_);"
-        href="javascript:void(0);">删除</a>
+        href="javascript:void(0);">删除附件</a>

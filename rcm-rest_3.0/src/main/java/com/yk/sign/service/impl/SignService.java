@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yk.bpmn.service.IBpmnService;
 import com.yk.common.BaseMongo;
 import com.yk.exception.BusinessException;
+import com.yk.power.service.IRoleService;
 import com.yk.process.service.IProcessService;
 import com.yk.rcm.bulletin.dao.IBulletinAuditMapper;
 import com.yk.rcm.bulletin.dao.IBulletinInfoMapper;
@@ -849,6 +850,8 @@ public class SignService implements ISignService {
         return jsonObject;
     }
 
+    @Resource
+    private IRoleService roleService;
     @Override
     public _ApprovalNode getNewProcessImageStep(String processKey, String processId) {
         List<Map<String, Object>> list = signMapper.selectUniqueTasksForImageStep(processKey, processId);
@@ -935,6 +938,55 @@ public class SignService implements ISignService {
                 _bulletinApproval.set_completed(this.judgeTask(_bulletinApproval.get_completed(), name));
             }
             _bulletinApproval.execute();
+            int choice = 1;
+            int isCityService = 0;
+            int isSkipUnitAudit = 0;
+            // 设置选择哪一个流程图
+            Map<String, Object> bulletinInfo = bulletinInfoMapper.queryByBusinessId(processId);
+            if(bulletinInfo != null){
+                String unitPersonId = (String)bulletinInfo.get("UNITPERSONID");
+                String bulletinTypeCode = (String) bulletinInfo.get("BULLETINTYPECODE");
+                if("TBSX_BUSINESS_SUBCOMPANYTZ".equals(bulletinTypeCode)){
+                    isCityService = 1;
+                }else{
+                    String businessPersonRole = bulletinAuditMapper.queryBusinessRole(processId);
+                    if(StringUtils.isNotBlank(businessPersonRole)){
+                        List<Map<String, Object>> users = roleService.queryUserById(businessPersonRole);
+                        if(CollectionUtils.isNotEmpty(users)){
+                            String uid = (String) users.get(0).get("UUID");
+                            if(uid.equals(unitPersonId)){
+                                isSkipUnitAudit = 1;
+                            }
+                        }
+                    }
+                }
+            }
+            if(isCityService == 1){
+                choice = 2;
+            }else {
+                if(isSkipUnitAudit == 0){
+                    choice = 1;
+                }else{
+                    choice = 2;
+                }
+            }
+            _bulletinApproval.set_choice(choice);
+            // choice 2 情况下，修正线条颜色
+            String _background = "";
+            if(choice == 2){
+                if(_bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                    _background = "background: #999!important;";
+                }else{
+                    _background = "";
+                }
+                _bulletinApproval.get_businessLeaderApproval().put("_background", _background);
+                if(_bulletinApproval.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                    _background = "background: #999!important;";
+                }else{
+                    _background = "";
+                }
+                _bulletinApproval.get_unitChargeApproval().put("_background", _background);
+            }
             _approvalNode.set_bulletinApproval(_bulletinApproval);
             _approvalNode.set_processId(processId);
             _approvalNode.set_processKey(processKey);
