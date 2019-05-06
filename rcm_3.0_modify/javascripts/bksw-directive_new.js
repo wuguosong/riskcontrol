@@ -2055,7 +2055,7 @@ ctmApp.directive('bbsChatNew', function() {
                     url: srvUrl + 'cloud/upload.do',
                     data: {
                         file: _file_,
-                        'docType':_message_.messageType,
+                        'docType':'sys_message_' + _message_.messageType,
                         'docCode':_message_.procInstId,
                         'pageLocation':_message_.messageId
                     }
