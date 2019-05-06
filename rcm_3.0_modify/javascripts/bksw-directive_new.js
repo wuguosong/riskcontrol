@@ -564,7 +564,7 @@ ctmApp.directive('directReportOrgDialog', function() {
                     }
                 }
                 if($scope.callback != null){
-                    $scope.callback(cus);
+                    $scope.callback($scope.checkedOrg);
                 }
             }
             $scope.$watch('checkedOrg', $scope.initData);
@@ -1632,13 +1632,7 @@ ctmApp.directive('bbsChatNew', function() {
         },
         link:function(scope, element, attr){
         },
-        controller:function($scope, $http, Upload, $window){
-            // 初始化留言优先级
-            $scope._message_priorities_ = [
-                {key:0, value:'一般'},
-                {key:1, value:'紧急'},
-                {key:2, value:'特急'}
-            ];
+        controller:function($scope, $http, $element){
             $scope._message_type_ = $scope.messageType;
             $scope._message_business_id_ = $scope.businessId;
             if(isEmpty($scope.viaUserQueryUrl)){
@@ -1702,7 +1696,6 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._message_first.originalId = 0;
             $scope._message_first.messageTitle = '';
             $scope._message_first.parentId = 0;
-            $scope._message_first.messagePriority = 0;
             $scope._message_first.procInstId = $scope.businessId;
             $scope._message_first.repliedBy = '';
             $scope._message_first.repliedName = '';
@@ -1734,14 +1727,12 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._message_first.repliedName = '';
                 $scope._message_first.messageContent = '';
                 $scope._message_first.messageTitle = '';
-                $scope._message_first.messagePriority = 0;
                 $scope._clear_via_users_();
                 $scope._clear_share_users_();
             };
             // 保存留言表单信息
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var formData = null;
-                debugger;
                 if(_is_first_ == 'Y'){
                     formData = $scope._message_first;
                     formData.originalId = 0;
@@ -2047,60 +2038,6 @@ ctmApp.directive('bbsChatNew', function() {
                 }
                 if(!isEmpty(_share_type_)){
                     $scope._share_type_ = _share_type_;
-                }
-            };
-            // 留言中的过程附件
-            $scope._message_upload_file_ = function(_file_, _message_){
-                Upload.upload({
-                    url: srvUrl + 'cloud/upload.do',
-                    data: {
-                        file: _file_,
-                        'docType':'sys_message_' + _message_.messageType,
-                        'docCode':_message_.procInstId,
-                        'pageLocation':_message_.messageId
-                    }
-                }).then(function (_resp_) {
-                    var _result = _resp_.data;
-                    if(!isEmpty(_result)){
-                        if(_result.success){
-                            var _cloud_file_dto_ = _result['result_data'];
-                            if(!isEmpty(_cloud_file_dto_)){
-                                _message_.messageFile = _cloud_file_dto_.fileid;
-                                $scope._message_update_(_message_);
-                            }
-                        }
-                    }
-                }, function (_resp_) {
-                }, function (_evt_) {
-                });
-            };
-            $scope._message_delete_file_ = function(_message_){
-                attach_delete(_message_.messageFile);
-                _message_.messageFile = null;
-                $scope._message_update_(_message_);
-                if($scope._is_pagination_){
-                    $scope._query_messages_list_page_();
-                }else{
-                    $scope._query_messages_list_(0);
-                }
-            };
-            $scope._message_update_ = function(_message_){
-                $http({
-                    method: 'post',
-                    url: srvUrl + 'message/update.do',
-                    data: $.param(_message_),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (data) {
-                    if($scope._is_pagination_){
-                        $scope._query_messages_list_page_();
-                    }else{
-                        $scope._query_messages_list_(0);
-                    }
-                });
-            };
-            $scope._message_preview_file_ = function(_url_){
-                if(!isEmpty(_url_)){
-                    $window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
                 }
             };
         }
@@ -2803,6 +2740,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
             // 设置属性
             isEdite: "@",
             isChoose: "@",
+            isShowMeetingAttachment: "@",
             // 调用父组件操作
             initUpdate: "&initUpdate"
         },
@@ -2836,6 +2774,12 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 } else {
                     $scope.isChoose = false;
                 }
+                if($scope.isShowMeetingAttachment == "true"){
+                    $scope.isShowMeetingAttachment = true;
+                } else {
+                    $scope.isShowMeetingAttachment = false;
+                }
+
                 $scope.getAttachmentType();
                 $scope.isShow = false;
             };
@@ -3136,7 +3080,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
             };
 
             // 选择上会文件
-            $scope.changeChoose = function (index, fileId) {
+            $scope._changeChoose = function (index, fileId) {
                 console.log(index);
                 console.log(fileId);
                 if ($scope.businessType == 'preReview') {
@@ -3149,11 +3093,14 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 $http({
                     method:'post',
                     url:srvUrl + url,
-                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
+                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":fileId})})
                 }).success(function(data){
                     if(data.success){
-                        $.alert(data.result_name);
-                        $scope.initUpdate({'id': $scope.businessId});
+                        if (data.result_data == '0'){
+                            $.alert("删除上会附件成功");
+                        } else {
+                            $.alert("添加上会附件成功");
+                        }
                     }else{
                         $.alert(data.result_name);
                     }

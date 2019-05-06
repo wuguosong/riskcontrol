@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="row table-responsive">
-        <table class="table table-bordered table-hover datatable table-text-mid table-light">
+        <table class="table table-bordered table-hover datatable table-text-mid table-light" ng-if="!isShowMeetingAttachment">
             <thead>
             <tr>
                 <th width="8%">序号</th>
@@ -119,10 +119,33 @@
                 </td>
                 <td ng-if="isChoose">
                     <label class="checkbox-inline choose">
-                        <input type="checkbox" name="fileChoose{{$index}}" ng-click="changeChoose($index, item.fileid)" class="px"/>
+                        <input type="checkbox" name="fileChoose{{$index}}" ng-click="_changeChoose($index, item.fileid)" class="px" ng-checked="item.isMettingAttachment == '1'"/>
                         <span class="lbl">&nbsp;</span>
                     </label>
                 </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover datatable table-text-mid table-light" ng-if="isShowMeetingAttachment">
+            <thead>
+            <tr>
+                <th width="20%" ng-if="businessType != 'bulletin'">资源类型</th>
+                <th width="20%">附件内容</th>
+                <th  width="12%">最后提交人</th>
+                <th  width="15%">最后提交时间</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="item in fileList" ng-if="item.isMettingAttachment == '1'" ng-init="outerIndex = $index">
+            <tr>
+                <td ng-if="businessType != 'bulletin'">
+                    <span>{{item.type.ITEM_NAME}}</span>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="!item.newFile">{{item.fileName}}</a>
+                </td>
+                <td>{{item.lastUpdateBy.NAME}}</td>
+                <td>{{item.lastUpdateData}}</td>
             </tr>
             </tbody>
         </table>
