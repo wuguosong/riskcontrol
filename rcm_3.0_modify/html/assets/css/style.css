@@ -7,7 +7,7 @@ body {
 }
 
 #content-wrapper {
-  padding: 20px 10px;
+  padding: 20px 20px;
   background-color: #e5e5e5;
 }
 
@@ -132,7 +132,7 @@ a.tab {
 .short-menu {
   position: fixed;
   top: 82px;
-  right: 10px;
+  right: 20px;
   background-color: #fff;
   width: 15%;
   box-sizing: border-box;

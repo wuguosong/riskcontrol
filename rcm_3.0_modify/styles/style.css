@@ -1847,7 +1847,8 @@ td btn-scale:first-child{
     margin-right: 25px;
 }
 .table-responsive>.table > thead >tr>th{
-    background: #1ea9f0 ;
+    /*background: #1ea9f0 ;*/
+    background: #2294cf;
     color:white;
     border: none;
 }
@@ -1866,13 +1867,13 @@ td btn-scale:first-child{
     transform: translateX(50%);
     top: -10px;
     right: 0;
-    height: 30px;
+    height: 25px;
     border-radius: 50%;
-    width: 30px;
+    width: 25px;
     background: #ed4014;
     border: 1px solid transparent;
     color: #fff;
-    line-height: 28px;
+    line-height: 24px;
     text-align: center;
 
     font-size: 12px;
@@ -1926,7 +1927,7 @@ td btn-scale:first-child{
     position: relative;
 }
 .lltable{
-    width: 70%;
+    width: 75%;
     overflow-x: auto;
     float: left;
 }
@@ -1937,14 +1938,14 @@ td btn-scale:first-child{
     overflow-x:auto ;
 }
 .fixtable .lefttable{
-    width: 30%;
+    width: 25%;
     float: left;
     position: absolute;
     top: -1px;
     right: 0;
 }
 .fixtable .table > thead >tr>th{
-    background: #1ea9f0 ;
+    background: #2294cf ;
     color:white;
     border: none;
 }
