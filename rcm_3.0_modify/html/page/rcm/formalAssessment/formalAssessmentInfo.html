@@ -169,8 +169,9 @@
                                 </div>
                                 <label  class="col-sm-2 control-label"><span class="required-r">*</span>预计签约时间</label>
                                 <div class="col-sm-4 has-feedback">
-                                    <input type="text" class="form-control" id="expectedContractDate" name="expectedContractDate" ng-model="pfr.apply.expectedContractDate"  />
+                                    <input type="text"  id="expectedContractDate" name="expectedContractDate" value="{{pfr.apply.expectedContractDate}}" ng-model="pfr.apply.expectedContractDate" class="form-control" />
                                     <i class="fa fa-calendar form-control-feedback"></i>
+                                    <span id="showdate" ></span>
                                 </div>
                             </div>
                         </div>
@@ -238,21 +239,19 @@
         });
     });
     angular.element(document).ready(function() {
-        var options = {
-            todayBtn: "linked",
-            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-        }
-        $('#bs-datepicker-edit').datepicker();
-        $('#tenderTime').datepicker(options);
-        $('#paymentTime').datepicker(options);
         var date = new Date();
         date.setDate(date.getDate());
         var curDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-        var tenderOptions = {
+        var options = {
+            todayBtn: "linked",
             orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto',
             startDate:curDate
         }
-        $('#expectedContractDate').datepicker(tenderOptions);
+        $('#bs-datepicker-edit').datepicker();
+        $('#tenderTime').datepicker(options);
+
+
+        $('#expectedContractDate').datepicker(options);
         $("#headeroneservicetypebox select").select2();
         $("#headerprojectmodebox select").select2();
     });
