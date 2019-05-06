@@ -6230,7 +6230,7 @@ ctmApp.directive('directiveProcessPageNew', function() {
             $scope._process_key_ = $scope.processKey;
             $scope._process_id_ = $routeParams.id;
             // 监听流程变化
-            $scope.$watch("refreshImg", function(){
+            $scope.$parent.$watch("refreshImg", function(){
                 // 获取流程审批记录
                 $scope._process_logs_ = wf_listTaskLog($scope._process_key_, $scope._process_id_);
                 // 获取流程审批进度

@@ -134,7 +134,7 @@
                 </div>
             </div>
             <!--投标-->
-            <div class="imgArea" ng-if="_process_key_ == 'preReview'">
+            <div class="imgArea" ng-if="_process_key_ == 'preReview'" style="margin-left: 20px;">
                 <!--timeNode 为普通节点 activeNode 为节点运行过 activingNode 为节点正在审批-->
                 <div class="{{_approvalNode_._reviewApproval._investmentManagerDrafting._approvalState}}" nodeNum = "1"  style="top: 200px;left: 50px;">
                     <!--节点前线 第一个节点没有-->
@@ -198,7 +198,7 @@
                     </div>
                 </div>
                 <div class="{{_approvalNode_._reviewApproval._reviewChargeConfirm._approvalState}} " nodeNum = "6" style="top: 200px;left:1320px;">
-                    <div class="preLine" style="top: 4px;left: -216px;width: 217px"></div>
+                    <div class="preLine" style="top: 4px;left: -218px;width: 218px"></div>
                     <!--节点-->
                     <div class="timeNode" ></div>
                     <!--节点下的文字-->
@@ -209,17 +209,15 @@
 
                     </div>
                 </div>
-                <!--<div class="timeNode" nodeNum = "7"  style="top: 200px;left:1540px">
-                    <div class="preLine" style="top: 4px;left: -216px;width: 217px;"></div>
-                    &lt;!&ndash;节点&ndash;&gt;
+                <div class="{{_approvalNode_._reviewApproval._completed._approvalState}}" nodeNum = "7"  style="top: 200px;left:1540px">
+                    <div class="preLine" style="top: 4px;left: -207px;width: 217px;"></div>
                     <div class="timeNode"></div>
-                    &lt;!&ndash;节点下的文字&ndash;&gt;
                     <div class="nodeName " style="top:30px;left:-94px;"><p>完成</p></div>
                     <div class="nodeInfo" style="top: 55px;left: -95px">
-                        <p class="operator">钉钉</p>
-                        <p class="opetimeYMD"></p>
+                        <p class="operator"></p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._completed._approvalDate}}</p>
                     </div>
-                </div>-->
+                </div>
             </div>
             <!--其他-->
             <div class="imgArea" ng-if="_process_key_ == 'bulletin'">
