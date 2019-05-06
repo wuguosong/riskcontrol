@@ -53,6 +53,13 @@ public interface IPreInfoCreateService {
 	 * @param json
 	 */
 	/*void updateAttachment(String json);*/
+	
+	/**
+	 * 修改附件是否上会标识
+	 * @param json
+	 */
+	String changeMeetingAttach(String json);
+	/**
 	/**
 	 * 新增会议信息(保存到mongo)
 	 * @param json

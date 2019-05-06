@@ -267,6 +267,7 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 			file.put("approved", approved);
 			file.put("lastUpdateBy", lastUpdateBy);
 			file.put("lastUpdateData", lastUpdateData);
+			file.put("isMettingAttachment", "0");
 			attachmentList.add(file);
 		} else {
 			Map<String, Object> file = new HashMap<String,Object>();
@@ -278,6 +279,7 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 			file.put("approved", approved);
 			file.put("lastUpdateBy", lastUpdateBy);
 			file.put("lastUpdateData", lastUpdateData);
+			file.put("isMettingAttachment", "0");
 			attachmentList.add(file);
 		}
 
@@ -312,6 +314,45 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
 	}
 
+	
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public String changeMeetingAttach(String json) {
+		
+		Document doc = Document.parse(json);
+		
+		String flag = "";
+		
+		String businessId = (String) doc.get("businessId");
+		String fileId = doc.get("fileId").toString();
+		
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_PRE_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		
+		for(int i = 0; i < attachmentList.size(); i++){
+			Document attachment = (Document) attachmentList.get(i);
+			if(attachment.get("fileId").toString().equals(fileId)){
+				if(attachment.get("isMettingAttachment").toString().equals("1")){
+					attachment.put("isMettingAttachment", "0");
+					attachmentList.set(i, attachment);
+					flag = "0";
+				} else {
+					attachment.put("isMettingAttachment", "1");
+					attachmentList.set(i, attachment);
+					flag = "1";
+				}
+				break;
+			}
+		}
+
+		
+		Map<String, Object> data = new HashMap<String,Object>();
+		data.put("attachmentList", attachmentList);
+		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
+		return flag;
+	}
+	
 	/*@SuppressWarnings("unchecked")
 	@Override
 	public void updateAttachment(String json) {
