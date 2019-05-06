@@ -1177,7 +1177,7 @@ ctmApp.directive('directiveCompanyList', function() {
             var carouselScope = $element.parent().scope();
             $scope.selectProjejct =null;
             $scope.getSelection = function(selectProjejct){
-                $scope.selectProjejct=selectProjejct;
+                $scope.selectProjejct = angular.copy(selectProjejct);
             }
             $scope.paginationConf = {
                 currentPage: 1,
@@ -1210,8 +1210,20 @@ ctmApp.directive('directiveCompanyList', function() {
                 $scope.selectProjejct =null;
             }
             $scope.saveCompanyListforDiretive=function(){
-                carouselScope.setDirectiveCompanyList($scope.selectProjejct);
-                $scope.selectProjejct =null;
+                var ORGCODE = $scope.selectProjejct.ORGCODE;
+                var  url = 'common/commonMethod/gePertainArea';
+                $scope.$parent.httpData(url, ORGCODE).success(function(data){
+                    // 变更分页的总数
+                    if(data.result_code == "S") {
+                        if(!isEmpty(data.result_data)){
+                            var org = data.result_data[0];
+                            $scope.selectProjejct.ORGCODE = org.ORGPKVALUE;
+                            $scope.selectProjejct.ORGNAME = org.NAME;
+                        }
+                    }
+                    carouselScope.setDirectiveCompanyList($scope.selectProjejct);
+                    $scope.selectProjejct =null;
+                });
             }
             angular.element(document).ready(function() {
                 $scope.selectProjejct =null;

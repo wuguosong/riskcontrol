@@ -52,7 +52,7 @@
 	
 	<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
 	<select id="directiveUser" resultType="map" useCache="false">
-		 select u.*, up.JOBNAME as job_name from sys_user u, sys_user_position up where u.PSNPKVALUE = up.PSNPKVALUE(+) and u.ACCOUNT is not null and u.state='2' 
+		 select u.*, up.JOBNAME as job_name,(select o.NAME from sys_org o where u.ORGPKVALUE = o.ORGPKVALUE) as ORGNAME from sys_user u, sys_user_position up where u.PSNPKVALUE = up.PSNPKVALUE(+) and u.ACCOUNT is not null and u.state='2' 
             <if test="ORGID!=null and ORGID!='' "> 
             	<choose>
             		<when test="categoryCode != null and categoryCode != ''">

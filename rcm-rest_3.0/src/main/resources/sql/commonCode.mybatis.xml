@@ -138,4 +138,14 @@ SELECT MA.PROJECTID,
 	<select id="getAttachmentList" resultType="map" useCache="false">
 		SELECT ATTACHMENT_CODE ITEM_CODE, ATTACHMENT_NAME ITEM_NAME FROM SYS_BUSINESS_ATTACHMENT SBA WHERE STATE = 1 AND SBA.BUSINESS_NAME = '${projectModelName}' AND SBA.FUCTIONTYPE = '${functionType}' AND SBA.SERVICECODE = '${serviceCode}'
 	</select>
+	
+	<!-- 查询所属大区 -->
+	<select id="gePertainArea" resultType="map" useCache="false">		
+SELECT SO.NAME,SO.CODE,SO.ORGPKVALUE,SO.PARENTCODE,LEVEL
+  FROM SYS_ORG SO 
+ WHERE SO.PARENTCODE = '${CODE}'
+ START WITH SO.ORGPKVALUE = '${ORGCODE}'
+CONNECT BY PRIOR SO.PARENTCODE =  SO.CODE
+	</select>
+	
 </mapper>

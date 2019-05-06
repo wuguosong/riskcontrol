@@ -466,6 +466,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
 
     // 选择项目后，填写项目相关默认值
     $scope.setDirectiveCompanyList=function(project){
+        debugger;
         $scope.pfr.apply.projectNo = project.PROJECTCODE;  // 存储用编码
         $scope.pfr.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
         $scope.pfr.apply.projectName = project.PROJECTNAME; // 项目名称

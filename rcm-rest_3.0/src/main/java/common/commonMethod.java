@@ -304,4 +304,17 @@ public class commonMethod extends BaseService{
 			DbUtil.close();
 			return list;
 		}
+		
+		/**
+		 * 通过组织key，查出对应大区的值
+		 * */
+		public List<Map> gePertainArea(String json){
+			System.out.println(json);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("ORGCODE", json);
+			paramMap.put("CODE", Constants.SYS_ORG_CODE_ROOT);
+			List<Map> list = DbUtil.openSession().selectList("common.gePertainArea", paramMap);
+			DbUtil.close();
+			return list;
+		}
 }
