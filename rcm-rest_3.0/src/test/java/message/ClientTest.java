@@ -158,7 +158,7 @@ public class ClientTest {
         todoList.setTodolist(todoInfoList);
         TodoClient agencyClient = new TodoClient();
         System.out.println(JSON.toJSONString(todoList));
-        String msg = agencyClient.agencyList(todoList);
+        String msg = agencyClient.sendTodoList(todoList);
         System.out.println(msg);
     }
 }

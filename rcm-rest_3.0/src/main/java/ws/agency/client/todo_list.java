@@ -1,12 +1,16 @@
 package ws.agency.client;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2019/4/25 0025.
  */
+@XmlRootElement(name="todo_list")
 public class todo_list {
+    @XmlElement(name="xmlname")
     private header header;
     private List<todo_info> todolist = new ArrayList<todo_info>();
 

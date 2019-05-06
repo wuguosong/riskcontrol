@@ -230,8 +230,8 @@
 										</div>
 									</div>
 									<!--提交按钮-->
-									<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
-									</div>
+									<!--<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+									</div>-->
 								</div>
 							</div>
 						</div>
@@ -607,7 +607,8 @@
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
 					<!--<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
 					<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
-					
+					<a ng-if="showSubmit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+					   ng-click="submitNext()">提交</a>
 					<!--<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
 						<bpmn-pop-win approve="approve"></bpmn-pop-win>
 					</div>-->

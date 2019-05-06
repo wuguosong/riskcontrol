@@ -462,8 +462,8 @@
                                                 </div>
                                             </div>
                                             <!--提交按钮-->
-                                            <div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
-                                            </div>
+                                            <!--<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+                                            </div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -1202,7 +1202,8 @@
                     <button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button"
                             id="submitlbtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交
                     </button>
-
+                    <a ng-if="!isOldFlow && hasWaiting"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+                       ng-click="submitNext()">提交</a>
 
                     <!-- 新提交模态框 -->
                     <!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">

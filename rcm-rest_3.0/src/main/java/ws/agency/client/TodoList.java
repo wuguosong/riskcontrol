@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "todoList", propOrder = {
     "arg0"
-})
+},namespace="http://todoList.service.ws.com/")
 public class TodoList {
 
     protected String arg0;

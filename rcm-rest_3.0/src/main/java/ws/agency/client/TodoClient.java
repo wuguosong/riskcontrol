@@ -16,8 +16,10 @@ public class TodoClient {
         upToDoService = new UpToDoServiceImplService().getTodoPort();
     }
 
-    public String agencyList(todo_list agencyList){
-
-        return upToDoService.todoList(JSON.toJSONString(agencyList));
+    public String sendTodoList(todo_list todoList){
+        todoList.getHeader().setSyscode(SYS_CODE);
+        TodoList todoList1 = new TodoList();
+        todoList1.setArg0(JSON.toJSONString(todoList1));
+        return upToDoService.todoList(JSON.toJSONString(todoList1));
     }
 }

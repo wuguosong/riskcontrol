@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "todoListResponse", propOrder = {
     "_return"
-})
+},namespace="http://todoListResponse.service.ws.com/")
 public class TodoListResponse {
 
     @XmlElement(name = "return")
