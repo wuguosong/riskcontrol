@@ -306,6 +306,7 @@ public class _ApprovalNode {
      * 其它评审
      */
     public static class _BulletinApproval implements _Approval{
+        private Integer _choice;
         private JSONObject _drafting;// 创建人提交
         private JSONObject _unitChargeApproval;// 单位负责人审批
         private JSONObject _businessLeaderApproval;// 业务负责人审批
@@ -336,7 +337,7 @@ public class _ApprovalNode {
             if(_businessLeaderApproval == null){
                 _businessLeaderApproval = new JSONObject();
             }
-            _businessLeaderApproval.put(_ApprovalNode._approvalKey, "业务负责人审批");
+            _businessLeaderApproval.put(_ApprovalNode._approvalKey, "业务负责人审批,风控负责人审批");
             return _businessLeaderApproval;
         }
 
@@ -370,6 +371,14 @@ public class _ApprovalNode {
             }
             _completed.put(_ApprovalNode._approvalKey, "通过结束");
             return _completed;
+        }
+
+        public Integer get_choice() {
+            return _choice;
+        }
+
+        public void set_choice(Integer _choice) {
+            this._choice = _choice;
         }
 
         @Override
