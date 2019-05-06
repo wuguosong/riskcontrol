@@ -260,7 +260,24 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 		}).success(function(result){
 			var data = result.result_data;
 			$scope.bulletin = data.bulletinMongo;
-
+			   //匹配ng-model
+           	for(var i =0 ; i<data.tbsxType.length;i++){
+           		if($scope.bulletin.bulletinType.VALUE == data.tbsxType[i].UUID){
+           			//控制右边和能否选地区
+           			if(data.tbsxType[i].ITEM_CODE =='TBSX_BUSINESS_BORROWMONEY') {
+                        $scope.isNotbusinessService = false;
+                        $scope.isNotCityService = true;
+                    }else if(data.tbsxType[i].ITEM_CODE =='TBSX_BUSINESS_SUBCOMPANYTZ'){
+                        $scope.isNotCityService = false;
+                        $scope.isNotbusinessService = true;
+                    }else{
+                        $scope.isNotCityService = true;
+                        $scope.isNotbusinessService = true;
+					}
+           			$scope.tbsxTypeModel = JSON.stringify(data.tbsxType[i]);
+           			break;
+                }
+			}
             // 处理附件
             $scope.reduceAttachment(data.bulletinMongo.attachmentList, id);
 			$scope.checkedOrg = {
@@ -292,7 +309,9 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	$scope.initDefaultData();
 	// 修改事项类型事件
 	$scope.changeTbsxType = function(){
+
         /*$scope.bulletinNameBuild();*/
+		console.log($scope.tbsxTypeModel);
 		var tbsxTypeModel = $scope.tbsxTypeModel;
 		if(tbsxTypeModel == null){
 			return;
@@ -591,6 +610,7 @@ ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$loca
 		$scope.wfInfo = {processKey:'bulletin', "businessId":$scope.queryParamId};
 		$scope.initUpdate($scope.queryParamId);
 	};
+
      //处理附件列表
      $scope.reduceAttachment = function(attachment, id){
          $scope.newAttachment = attach_list("bulletin", id, "BulletinMattersDetail").result_data;
