@@ -95,11 +95,11 @@
                         <span style="font-size: small;">{{_message_.messageDate}}</span>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
                            ng-click="_delete_message_(_message_.messageId, _message_)"
-                           ng-if="_messages_.length > 1 && _message_.createdBy == _init_uuid_global_ && $index > 0">撤回</a>
+                           ng-if="_messages_.length > 1 && _message_.createdBy == _init_uuid_global_ && $index > 0 && _is_show_reply_btn_">撤回</a>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
                            ng-click="_delete_message_(_message_.messageId, _message_)"
-                           ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0">撤回</a>
-                        <span ng-include="'page/sys/common/message_file.html'" ng-if="_message_.createdBy == _init_uuid_global_"></span>
+                           ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0 && _is_show_reply_btn_">撤回</a>
+                        <span ng-include="'page/sys/common/message_file.html'"></span>
                     </div>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
@@ -116,8 +116,8 @@
                         <span style="font-size: small;">{{_message_.messageDate}}</span>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
                            ng-click="_delete_message_(_message_.messageId, _message_)"
-                           ng-if="_message_.createdBy == _init_uuid_global_">撤回</a>
-                        <span ng-include="'page/sys/common/message_file.html'" ng-if="_message_.createdBy == _init_uuid_global_"></span>
+                           ng-if="_message_.createdBy == _init_uuid_global_ && _is_show_reply_btn_">撤回</a>
+                        <span ng-include="'page/sys/common/message_file.html'"></span>
                     </div>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                         <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
