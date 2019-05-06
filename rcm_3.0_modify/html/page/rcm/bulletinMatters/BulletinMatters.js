@@ -261,7 +261,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 			var data = result.result_data;
 			$scope.bulletin = data.bulletinMongo;
 			   //匹配ng-model
-           	for(var i =0 ; i<data.tbsxType.length;i++){
+           /*	for(var i =0 ; i<data.tbsxType.length;i++){
            		if($scope.bulletin.bulletinType.VALUE == data.tbsxType[i].UUID){
            			//控制右边和能否选地区
            			if(data.tbsxType[i].ITEM_CODE =='TBSX_BUSINESS_BORROWMONEY') {
@@ -277,7 +277,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
            			$scope.tbsxTypeModel = JSON.stringify(data.tbsxType[i]);
            			break;
                 }
-			}
+			}*/
             // 处理附件
             $scope.reduceAttachment(data.bulletinMongo.attachmentList, id);
 			$scope.checkedOrg = {
@@ -304,6 +304,13 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 			
 			$scope.APPLYHEADER_NAME = $scope.bulletin.unitPerson.NAME;
 			$scope.APPLYHEADER_ID = $scope.bulletin.unitPerson.VALUE;
+
+            angular.forEach($scope.tbsxType, function (data, index) {
+                if (data.UUID == $scope.bulletin.bulletinType.VALUE){
+                    $scope.tbsxTypeModel = JSON.stringify(angular.copy(data));
+                }
+            });
+            $scope.changeTbsxType();
 		});
 	};
 	$scope.initDefaultData();

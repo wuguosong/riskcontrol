@@ -515,3 +515,21 @@ form .left-content {
 .datepicker thead th.prev:after{
   color: #333333;
 }
+
+
+/** 弹出框查询图片 **/
+.search-p {
+  background-color: transparent;
+  border: 0;
+  width: 5%;
+  position: relative;
+  right: -95%;
+  margin: -5% -5% 0% 0%;
+  top: -34px;
+}
+
+.form-horizontal .search-input .fa-search{
+  right: -95%;
+  width: 5%;
+  top: -26px;
+}

@@ -6,8 +6,8 @@
 	<select id="queryAllOrg"  parameterType="hashmap" resultType="hashmap">
 		select o.ORGPKVALUE,o.name name,p.name pname from sys_org o left join sys_org p on o.PARENTPKVALUE=p.ORGPKVALUE
 		where 1 = 1
-		<if test="NAME != null and NAME != ''">
-			and o.name like '%${NAME}%'
+		<if test="ORGNAME != null and ORGNAME != ''">
+			and o.name like '%${ORGNAME}%'
 		</if>
 	</select>
 	

@@ -28,9 +28,10 @@
 					</div>
 					<div>
 <!-- 					   <form id="mySearchForm" name="myorgform" class="form-horizontal ng-pristine ng-valid" novalidate> -->
-					       <div class="search-input has-feedback">
-					           <input type="text" id="myorgname" name="myorgname" dynamic-model="'queryParams.'+mappedKeyValue.nameField" class="in-t form-control" />
-					           <button class="fa fa-search" style="background-color:transparent;border: 0;" ng-click="queryOrg()" ></button>
+					       <div class="search-input has-feedback" style="height: 30px;">
+					          <!-- <input type="text" id="myorgname" style="width: 95%;" name="myorgname" dynamic-model="'queryParams.'+mappedKeyValue.nameField" class="in-t form-control" />-->
+                               <input type="text" name="myorgname" style="width: 95%;" ng-model="queryParams.ORGNAME" class="in-t form-control" placeholder="请输入组织名称" />
+					           <button class="fa fa-search search-p" ng-click="queryOrg()" ></button>
 					       </div>
 <!-- 					   </form> -->
 					</div>

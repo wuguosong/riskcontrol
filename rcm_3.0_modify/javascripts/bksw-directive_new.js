@@ -484,7 +484,6 @@ ctmApp.directive('directReportOrgDialog', function() {
                 });
             }*/
             $scope.queryOrg = function(){
-                debugger
                 var config = {
                     method:'post',
                     url:srvUrl + $scope.url
