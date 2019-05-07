@@ -307,4 +307,7 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 		$scope.getSelectTypeByCode("06");
 		$scope.getSelectTypeByCode2("09");
 	});
+	/////////////////
+     var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
+     $scope._message_publish_reply_ = !isEmpty(curTask) && curTask.TASK_DEF_KEY_ != 'usertask17';
 }]);

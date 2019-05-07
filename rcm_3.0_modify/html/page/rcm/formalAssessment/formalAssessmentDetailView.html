@@ -68,11 +68,16 @@
                                     <!--<directive-process-page></directive-process-page>-->
 									<directive-process-page-new process-key="formalReview"></directive-process-page-new>
                                 </div>
-                                <div class="tab-pane" id="contracts_resources">
+                                <div class="tab-pane clearfix row" id="contracts_resources">
                                     <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
-									<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+                                    <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                                        <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
 															  last-update-by="pfr.apply.investmentManager" wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
 															  init-update="initUpdate(id)"></directive-accachment-new>
+                                    </div>
+                                    <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                                        <bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formal" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+                                    </div>
                                 </div>
                             </div>
                         </div>
