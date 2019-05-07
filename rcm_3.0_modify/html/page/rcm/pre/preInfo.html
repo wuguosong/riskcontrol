@@ -201,7 +201,7 @@
                     <button ng-if="flag == 2" type="button" ng-click="update()" id="updatebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
                     <button ng-show="preOracle.WF_STATE=='0'" ng-click="showSubmitModal()" id="submitbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
                     <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-                        <pre-review-bpmn-pop-win approve="approve"></pre-review-bpmn-pop-win>
+                        <pre-review-bpmn-pop-win approve="approve" before-submit="beforeSubmit()"></pre-review-bpmn-pop-win>
                     </div>
                 </div>
             </div>

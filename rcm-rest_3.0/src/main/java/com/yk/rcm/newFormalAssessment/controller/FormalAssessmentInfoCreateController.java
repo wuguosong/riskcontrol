@@ -135,6 +135,17 @@ public class FormalAssessmentInfoCreateController {
 		return result;
 	}
 	
+	@RequestMapping("/checkAttachment")
+	@ResponseBody
+	public Result checkAttachment(HttpServletRequest request){
+		Result result = new Result();
+		String Json = request.getParameter("json");
+		List<Map> list = this.formalAssessmentInfoCreateService.checkAttachment(Json);
+	    result.setResult_data(list);
+		
+		return result;
+	}
+	
 	/**
 	 * 新增会议信息(保存到mongo)
 	 * @param request

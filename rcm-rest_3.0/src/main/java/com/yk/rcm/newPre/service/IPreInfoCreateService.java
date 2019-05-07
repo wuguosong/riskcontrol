@@ -60,6 +60,11 @@ public interface IPreInfoCreateService {
 	 */
 	String changeMeetingAttach(String json);
 	/**
+	 * 提交检查附件
+	 * @param Json
+	 */
+	List<Map> checkAttachment(String Json);
+	/**
 	/**
 	 * 新增会议信息(保存到mongo)
 	 * @param json

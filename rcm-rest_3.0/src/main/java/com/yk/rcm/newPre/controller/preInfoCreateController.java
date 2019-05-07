@@ -1,5 +1,6 @@
 package com.yk.rcm.newPre.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -103,6 +104,17 @@ public class preInfoCreateController {
 		String json = request.getParameter("json");
 	    String flag = this.preInfoCreateService.changeMeetingAttach(json);
 	    result.setResult_data(flag);
+		
+		return result;
+	}
+	
+	@RequestMapping("/checkAttachment")
+	@ResponseBody
+	public Result checkAttachment(HttpServletRequest request){
+		Result result = new Result();
+		String Json = request.getParameter("json");
+		List<Map> list = this.preInfoCreateService.checkAttachment(Json);
+	    result.setResult_data(list);
 		
 		return result;
 	}

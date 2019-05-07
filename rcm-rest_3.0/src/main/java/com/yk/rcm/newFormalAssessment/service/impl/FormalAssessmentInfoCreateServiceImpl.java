@@ -1,8 +1,11 @@
 package com.yk.rcm.newFormalAssessment.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -23,6 +26,7 @@ import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService
 
 import common.Constants;
 import common.PageAssistant;
+import common.commonMethod;
 
 
 @Service
@@ -342,6 +346,50 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		data.put("attachmentList", attachmentList);
 		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_FORMALASSESSMENT_INFO);
 		return flag;
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public List<Map> checkAttachment(String json) {
+		
+		Document doc = Document.parse(json);
+		
+		List<Map> list = new  ArrayList<Map>();
+		
+		String businessId = (String) doc.get("businessId");
+		
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_FORMALASSESSMENT_INFO);
+		
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		commonMethod common = new commonMethod();
+		List<Map> attachmentTypeList = common.getAttachmentType(json);
+		
+		if(Util.isNotEmpty(attachmentTypeList)){
+			if(Util.isNotEmpty(attachmentList)){
+				for(int i = 0; i < attachmentTypeList.size(); i++){
+					int count = 0;
+					for(int j = 0; j < attachmentList.size(); j++){
+						Document type = (Document)attachmentList.get(j).get("type");
+						if(attachmentTypeList.get(i).get("ITEM_CODE").equals(type.get("ITEM_CODE"))){
+							count++;
+							break;
+						}
+					}
+					if(count == 0){
+						list.add(attachmentTypeList.get(i));
+					}
+				}
+			} else {
+				list = attachmentTypeList;
+			}
+		} else {
+			Map<String, String> msg = new HashMap<String, String>();
+			msg.put("code", "500");
+			list.add(msg);
+		}
+		
+		
+		return list;
 	}
 
 	/*@SuppressWarnings("unchecked")

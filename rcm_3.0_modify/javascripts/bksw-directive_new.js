@@ -4275,7 +4275,11 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
         restrict: 'AE',
         templateUrl: 'page/sys/directive/preReviewBpmnPopWin.html',
         replace: 'true',
-        scope: {approve: '='},
+        scope: {
+            approve: '=',
+            // 调用父组件操作
+            beforeSubmit: "&beforeSubmit"
+        },
         controller: function ($scope, $location, $http, Upload) {
             $scope.changeTypeSelected = "";
             $scope.changeTypes = [{key: 'before', value: '前加签'}, {key: 'after', value: '后加签'}];
@@ -4516,6 +4520,15 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
             $scope.submitInfo = {};
             $scope.submitInfo.currentTaskVar = {};
             $scope.submitNext = function () {
+                if(!isEmpty($scope.beforeSubmit)){
+                    if(typeof $scope.beforeSubmit == 'function'){
+                        if(!$scope.beforeSubmit()){
+                            $('#submitModal').modal('hide');
+                            $("#submibtnn").hide();
+                            return;
+                        }
+                    }
+                }
                 /********Add By LiPan
                  * 此处发现选择了"加签"单选以后,
                  * $scope.showReviewToConfirm的值依然是true
@@ -4788,7 +4801,11 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
         restrict: 'AE',
         templateUrl: 'page/sys/directive/formalAssessmentBpmnPopWin.html',
         replace: 'true',
-        scope: {approve: '='},
+        scope: {
+            approve: '=',
+            // 调用父组件操作
+            beforeSubmit: "&beforeSubmit"
+        },
         controller: function ($scope, $location, $http, Upload) {
             $scope.changeTypeSelected = "";
             $scope.changeTypes = [{key: 'before', value: '前加签'}, {key: 'after', value: '后加签'}];
@@ -5047,6 +5064,15 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
             $scope.submitInfo = {};
             $scope.submitInfo.currentTaskVar = {};
             $scope.submitNext = function () {
+                if(!isEmpty($scope.beforeSubmit)){
+                    if(typeof $scope.beforeSubmit == 'function'){
+                        if(!$scope.beforeSubmit()){
+                            $('#submitModal').modal('hide');
+                            $("#submibtnn").hide();
+                            return;
+                        }
+                    }
+                }
                 /********Add By LiPan
                  * 此处发现选择了"加签"单选以后,
                  * $scope.showReviewToConfirm的值依然是true

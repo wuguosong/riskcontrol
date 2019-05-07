@@ -317,4 +317,5 @@ public class commonMethod extends BaseService{
 			DbUtil.close();
 			return list;
 		}
+		
 }

@@ -53,6 +53,11 @@ public interface IFormalAssessmentInfoCreateService {
 	 */
 	String changeMeetingAttach(String json);
 	/**
+	 * 提交检查附件
+	 * @param Json
+	 */
+	List<Map> checkAttachment(String Json);
+	/**
 	 * 替换附件
 	 * @param json
 	 */
