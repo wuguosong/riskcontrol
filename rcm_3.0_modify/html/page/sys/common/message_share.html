@@ -10,8 +10,11 @@
                      id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
                     <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
                         <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
-                            <span class="text">{{$index + 1}}楼
+                            <!--<span class="text">{{$index + 1}}楼
                                 <i class="i-triangle"></i>
+                            </span>-->
+                            <span class="text" style="">{{_messages_[0].messageTitle}}
+                                <i class="i-triangle" style=""></i>
                             </span>
                             <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
                             </span>
@@ -24,7 +27,10 @@
                                  id="_message_left_{{$index}}_{{_message_.messageId}}">
                                 <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
                                     <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
+                                    <span>{{_message_.createdDept}}</span>
+                                    <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
+                                    <span ng-include="'page/sys/common/message_file.html'"></span>
                                 </div>
                                 <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                                     <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
@@ -36,7 +42,10 @@
                                  id="_message_right_{{$index}}_{{_message_.messageId}}">
                                 <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
                                     <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
+                                    <span>{{_message_.createdDept}}</span>
+                                    <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
+                                    <span ng-include="'page/sys/common/message_file.html'"></span>
                                 </div>
                                 <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                                     <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span

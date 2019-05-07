@@ -1,8 +1,8 @@
 /**
  * Created by Administrator on 2019/4/8 0008.
  */
-ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter',
-    function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter) {
+ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter','$window',
+    function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter, $window) {
         $scope.url = $routeParams.url;
         $scope.message = {};
         $scope._message = {};
@@ -46,6 +46,20 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             }
             $('#_span_hide_content_' + _idx_).html(_span);
         };
+        $scope.getParentMessageInfo = function(){
+            var _l = $scope._messages_array_.length;
+            for(var _i = 0; _i < _l; _i ++){
+                var _subArray = $scope._messages_array_[_i];
+                var _subL = _subArray.length;
+                for(var _j = 0; _j < _subL; _j++){
+                    var _m = _subArray[_j];
+                    if(_m.messageId == $routeParams.id){
+                        return _m;
+                    }
+                }
+            }
+            return null;
+        };
         $scope.initMessage = function(messageId){
             $http({
                 method: 'post',
@@ -70,7 +84,6 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             $scope._message.messageContent = '';
         };
         $scope._submit_message_form_ = function (_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
-            debugger;
             var formData = null;
             formData = $scope._message;
             formData.originalId = _original_id_;
@@ -85,6 +98,11 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             if(_common_get_string_byte_length(formData.messageContent) > 2500){
                 $.alert('内容不能超过2500个字符!');
             }
+            debugger;
+            var pm = $scope.getParentMessageInfo();
+            if(!isEmpty(pm)){
+                formData.messageType = pm.messageType;
+            }
             $http({
                 method: 'post',
                 url: srvUrl + 'message/add.do',
@@ -97,4 +115,54 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             });
         };
         $scope.initMessage($routeParams.id);
+        $scope._init_uuid_global_ = $scope.credentials.UUID;
+        $scope._is_show_reply_btn_ = true;
+        // 留言中的过程附件
+        $scope._message_upload_file_ = function(_file_, _message_){
+            Upload.upload({
+                url: srvUrl + 'cloud/upload.do',
+                data: {
+                    file: _file_,
+                    'docType':'sys_message_' + _message_.messageType,
+                    'docCode':_message_.procInstId,
+                    'pageLocation':_message_.messageId
+                }
+            }).then(function (_resp_) {
+                var _result = _resp_.data;
+                if(!isEmpty(_result)){
+                    if(_result.success){
+                        var _cloud_file_dto_ = _result['result_data'];
+                        if(!isEmpty(_cloud_file_dto_)){
+                            _message_.messageFile = _cloud_file_dto_.fileid;
+                            $scope._message_update_(_message_);
+                        }
+                    }
+                }
+            }, function (_resp_) {
+            }, function (_evt_) {
+            });
+        };
+        $scope._message_delete_file_ = function(_message_){
+            attach_delete(_message_.messageFile);
+            _message_.messageFile = null;
+            $scope._message_update_(_message_);
+            $scope.initMessage($routeParams.id);
+            $location.path("/message/share/" + $routeParams.id);
+        };
+        $scope._message_update_ = function(_message_){
+            $http({
+                method: 'post',
+                url: srvUrl + 'message/update.do',
+                data: $.param(_message_),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                $scope.initMessage($routeParams.id);
+                $location.path("/message/share/" + $routeParams.id);
+            });
+        };
+        $scope._message_preview_file_ = function(_url_){
+            if(!isEmpty(_url_)){
+                $window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            }
+        };
     }]);
