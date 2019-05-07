@@ -953,9 +953,13 @@ public class SignService implements ISignService {
                     if(StringUtils.isNotBlank(businessPersonRole)){
                         List<Map<String, Object>> users = roleService.queryUserById(businessPersonRole);
                         if(CollectionUtils.isNotEmpty(users)){
-                            String uid = (String) users.get(0).get("UUID");
-                            if(uid.equals(unitPersonId)){
-                                isSkipUnitAudit = 1;
+                            for(Map<String, Object> user : users){
+                                String uid = (String) user.get("UUID");
+                                if(uid.equals(unitPersonId)){
+                                    //如果单位负责人和业务负责人是同一人，那么跳过单位负责人审批
+                                    isSkipUnitAudit = 1;
+                                    break;
+                                }
                             }
                         }
                     }

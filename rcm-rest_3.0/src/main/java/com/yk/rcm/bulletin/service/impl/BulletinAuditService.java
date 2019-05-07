@@ -21,6 +21,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -115,7 +116,7 @@ public class BulletinAuditService implements IBulletinAuditService {
 			}
 			variables.put("businessPersonRole", businessPersonRole);
 			List<Map<String, Object>> users = this.roleService.queryUserById(businessPersonRole);
-			if(users == null || users.size()!=1){
+			/*if(users == null || users.size()!=1){
 				throw new BulletinAuditRoleException("对应的业务审核角色没有人！");
 			}	
 			String uid = (String) users.get(0).get("UUID");
@@ -123,7 +124,20 @@ public class BulletinAuditService implements IBulletinAuditService {
 			if(uid.equals(unitPersonId)){
 				//如果单位负责人和业务负责人是同一人，那么跳过单位负责人审批
 				isSkipUnitAudit = "1";
+			}*/
+			String isSkipUnitAudit = "0";
+			if(CollectionUtils.isEmpty(users)){
+				throw new BulletinAuditRoleException("对应的业务审核角色没有人！");
 			}
+			for(Map<String, Object> user : users){
+				String uid = (String) user.get("UUID");
+				if(uid.equals(unitPersonId)){
+					//如果单位负责人和业务负责人是同一人，那么跳过单位负责人审批
+					isSkipUnitAudit = "1";
+					break;
+				}
+			}
+
 			variables.put("isSkipUnitAudit", isSkipUnitAudit);
 		}
 		ProcessResult<ProcessInstance> pr = this.bpmnAuditService.startFlow(Constants.PROCESS_KEY_BULLETIN, businessId, variables);
