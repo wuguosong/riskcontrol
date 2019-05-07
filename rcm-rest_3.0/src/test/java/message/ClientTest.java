@@ -3,7 +3,6 @@ package message;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import ws.agency.client.TodoClient;
-import ws.agency.client.todo_list;
 import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 import ws.msg.client.MessageStatus;
@@ -145,20 +144,5 @@ public class ClientTest {
 
     @Test
     public void test(){
-        todo_list todoList = new todo_list();
-        todo_list.header header = new todo_list.header();
-        header.setSyscode("T0094");
-        todoList.setHeader(header);
-        todo_list.todo_info todoInfo = new todo_list.todo_info();
-        List<todo_list.todo_info> todoInfoList = todoList.getTodolist();
-        todoInfo.setAgreeurl("");
-        todoInfo.setCreated("");
-        todoInfo.setDenyurl("");
-        todoInfoList.add(todoInfo);
-        todoList.setTodolist(todoInfoList);
-        TodoClient agencyClient = new TodoClient();
-        System.out.println(JSON.toJSONString(todoList));
-        String msg = agencyClient.sendTodoList(todoList);
-        System.out.println(msg);
     }
 }
