@@ -1,5 +1,5 @@
 <div  id="userRaido-modal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-    <div class="modal-dialog selection-pop">
+    <div class="modal-dialog selection-pop" style="width: 900px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -30,9 +30,8 @@
                                     <button class="fa fa-search search-p" type="submit"></button>
                                 </div>
                             </div>
-                            <div class="row"></div>
                             <div class="panel nobottom-mar">
-                                <div class="panel-body">
+                                <div class="panel-body" style="padding: 0; padding-top: 5px">
                                     <div class="form-group row table-list">
                                         <table border="0" cellspacing="0" cellpadding="0" class="table  table-hover datatable pop-first-col-fixed">
                                             <thead>
@@ -45,7 +44,7 @@
                                             </thead>
                                             <tbody id="userListTbody">
                                             <tr ng-repeat="u in sysUserradio" on-finish-render-filters>
-                                                <td>
+                                                <td style="height: 30px; line-height: 30px;">
                                                     <div class="radio radio-inline choose">
                                                         <label>
                                                             <input class="px" type="radio" id="RaidoNAME" name="RaidoNAME"  ng-click="setSelection(u.UUID,u.NAME)"/>
