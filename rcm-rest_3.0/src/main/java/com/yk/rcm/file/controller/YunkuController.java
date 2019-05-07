@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yk.log.utils.IPUtils;
 import com.yk.message.service.IMessageService;
+import com.yk.rcm.file.constant.FileOpt;
 import com.yk.rcm.file.service.IFileService;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -201,9 +202,10 @@ public class YunkuController {
         String optName = UserUtil.getCurrentUserName();
         try {
             FileDto fileDto = fileService.getFile(oldFileId);
-            /*if (fileDto != null) {
-                fileDto = fileService.fileDelete(fileDto, optName);
-            }*/
+            if (fileDto != null) {
+            	fileDto.setLogicopt(FileOpt.REPLACE);
+                fileService.updateFile(fileDto);
+            }
             Integer optId = new Integer(UserUtil.getCurrentUserId());
             try {
                 // 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）

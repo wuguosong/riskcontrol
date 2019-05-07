@@ -306,7 +306,7 @@ public class commonMethod extends BaseService{
 		}
 		
 		/**
-		 * 通过组织key，查出对应大区的值
+		 * 通过组织key，查出对应大区的值和大区对应的负责人值
 		 * */
 		public List<Map> gePertainArea(String json){
 			System.out.println(json);

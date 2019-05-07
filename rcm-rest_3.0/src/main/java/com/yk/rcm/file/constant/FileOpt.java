@@ -25,4 +25,8 @@ public interface FileOpt {
 	 * 搜索
 	 */
 	public static final String SEARCH = "SEARCH";
+	/**
+	 * 替换
+	 * */
+	public static final String REPLACE = "REPLACE";
 }

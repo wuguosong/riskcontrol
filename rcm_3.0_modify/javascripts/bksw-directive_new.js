@@ -1194,7 +1194,10 @@ ctmApp.directive('directiveCompanyList', function() {
                 }
             }
             $scope.queryCompany=function(){
-                $scope.paginationConf.queryObj = $scope.queryObj;
+                if (!isEmpty($scope.queryObj)){
+                    $scope.paginationConf.queryObj = $scope.queryObj;
+                }
+                $scope.paginationConf.queryObj.USERID = $scope.$parent.credentials.UUID;
                 var  url = 'common/commonMethod/getDirectiveCompanyList';
                 $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
                     // 变更分页的总数
@@ -1219,6 +1222,8 @@ ctmApp.directive('directiveCompanyList', function() {
                             var org = data.result_data[0];
                             $scope.selectProjejct.ORGCODE = org.ORGPKVALUE;
                             $scope.selectProjejct.ORGNAME = org.NAME;
+                            $scope.selectProjejct.ORGHEADERNAME = org.ORGHEADERNAME;
+                            $scope.selectProjejct.ORGHEADERID = org.ORGHEADERID;
                         }
                     }
                     carouselScope.setDirectiveCompanyList($scope.selectProjejct);
@@ -3040,7 +3045,75 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
                     var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
 
-                    var url = '';
+                    var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
+
+                    var addUrl = '';
+                    var delUrl = '';
+                    // 判断文件路径
+                    if ($scope.businessType == 'preReview') {
+                        addUrl = "preInfoCreate/addAttachmengInfoToMongo.do";
+                        delUrl = "preInfoCreate/deleteAttachmengInfoInMongo.do";
+                    } else if ($scope.businessType == 'formalReview') {
+                        addUrl = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
+                        delUrl = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
+                    } else {
+                        addUrl = "bulletinInfo/addAttachmengInfoToMongo.do";
+                        delUrl = "bulletinInfo/deleteAttachmengInfoInMongo.do";
+                    }
+                    $http({
+                        method:'post',
+                        url:srvUrl + delUrl,
+                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":_item.fileid})})
+                    }).success(function(data){
+                        _item.fileId = _fileList[_fileList.length-1].fileid + "";
+                        _item.lastUpdateBy = $scope.lastUpdateBy;
+                        _item.lastUpdateData = $scope.getDate();
+                        if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
+                            _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;
+                        }
+                        $http({
+                            method:'post',
+                            url:srvUrl + addUrl,
+                            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
+                        }).success(function(data){
+                            alert(data.result_name);
+                            if(data.success){
+                                if (!isEmpty($scope.toSend)){
+                                    var message = $scope.projectName + "中类型为" + _item.itemType.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
+                                    $http({
+                                        method: 'post',
+                                        url: srvUrl + 'cloud/remind.do',
+                                        data: $.param({
+                                            'message': message,
+                                            'shareUsers': $scope.toSend.VALUE,
+                                            'type':'DT'
+                                        }),
+                                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                    }).success(function (data) {
+                                        if(isEmpty(data)){
+                                            $.alert('推送消息失败!');
+                                        }else{
+                                            if(data['result_code'] == 'S'){
+                                                $scope._share_message_id_ = '';
+                                                $scope._clear_share_users_();
+                                                $('#_share_message_dialog').modal('hide');
+                                                $.alert(data['result_name']);
+                                                // $scope._share_message_result_test_(data['result_data']);
+                                            }else{
+                                                $.alert(data['result_name']);
+                                            }
+                                        }
+                                    });
+                                }
+                                $scope.initUpdate({'id': $scope.businessId});
+
+                            }else{
+                                $.alert(data.result_name);
+                            }
+                        });
+                    });
+
+                    /*var url = '';
                     // 判断文件路径
                     if ($scope.businessType == 'preReview') {
                         url = "preInfoCreate/addAttachmengInfoToMongo.do";
@@ -3094,7 +3167,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         }else{
                             $.alert(data.result_name);
                         }
-                    });
+                    });*/
                 }, function (resp) {
 
                 }, function (evt) {

@@ -40,7 +40,12 @@
                                     <input type="text" class="form-control" data-toggle="modal" data-target="#myModal1" id="pertainAreaName" name="pertainAreaName" ng-model="pfr.apply.pertainArea.VALUE" readonly/>
                                     <input type="hidden" class="form-control" id="pertainAreaValue" name="pertainAreaValue" ng-model="pfr.apply.pertainArea.KEY" readonly/>
                                 </div>
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目归属单位负责人</label>
+                                <label  class="col-sm-2 control-label">项目归属单位负责人</label>
+                                <div  id="companyHeader-type-box" class="col-sm-4">
+                                    <input type="text" class="form-control" id="companyHeaderName" name="companyHeaderName" ng-model="pfr.apply.companyHeader.NAME" value="{{pfr.apply.companyHeader.NAME}}" readonly/>
+                                    <input type="hidden" class="form-control" id="companyHeaderValue" name="companyHeaderValue" ng-model="pfr.apply.companyHeader.VALUE"  />
+                                </div>
+                                <!--<label  class="col-sm-2 control-label"><span class="required-r">*</span>项目归属单位负责人</label>
                                 <div  id="companyHeader-type-box" class="col-sm-4">
                                     <div id="headercompanyHeaderName">
                                         <div ng-click="setDirectiveParam('companyHeader',0)"  data-toggle="modal" data-target="#userRaido-modal"   class="select2-success">
@@ -57,7 +62,7 @@
                                     </div>
                                     <input type="hidden" id="companyHeaderName" name="companyHeaderName" ng-model="pfr.apply.companyHeader.NAME" value="{{pfr.apply.companyHeader.NAME}}" />
                                     <input type="hidden" id="companyHeaderValue" name="companyHeaderValue" ng-model="pfr.apply.companyHeader.VALUE"  />
-                                </div>
+                                </div>-->
                             </div>
                             <div class="row">
                                 <label  class="col-sm-2 control-label">投资经理</label>
@@ -92,7 +97,7 @@
                                 </div>
                                 <label  class="col-sm-2 control-label">项目所在地</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="projectAddress" name="projectAddress" ng-model="pfr.apply.projectAddress" />
+                                    <input type="text" class="form-control" id="projectAddress" name="projectAddress" ng-model="pfr.apply.projectAddress" readonly/>
                                 </div>
                             </div>
                             <div class="row">
@@ -218,7 +223,7 @@
         $("#myFormPfR").validate({
             rules: {
                 //	personLiable:"required",
-                companyHeaderName:"required",
+                // companyHeaderName:"required",
                 grassrootsLegalStaffName:"required",
                 projectName:"required",
                 investmentPersonName:"required",
@@ -228,7 +233,7 @@
             },
             messages: {
                 //	personLiable:"此项必填",
-                companyHeaderName:"此项必填",
+                // companyHeaderName:"此项必填",
                 grassrootsLegalStaffName:"此项必填",
                 projectName:"此项必填",
                 investmentPersonName:"此项必填",

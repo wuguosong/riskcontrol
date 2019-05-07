@@ -130,6 +130,7 @@
 	<select id="listFile" parameterType="string" resultMap="fileDtoMap">
 		select fd.* from file_dto fd
 		where nvl(fd.logicopt, 'UPLOAD') <![CDATA[ <> ]]> 'DELETE'
+		  and nvl(fd.logicopt, 'UPLOAD') <![CDATA[ <> ]]> 'REPLACE'
 		<if test="docType != null and docType != ''">
 			and fd.docType = #{docType}
 		</if>

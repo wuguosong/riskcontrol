@@ -103,6 +103,7 @@ SELECT MA.PROJECTID,
 	 AND SO.ORGPKVALUE(+) = MP.STAGEBELONGTODEPTKEY
    AND MA.PROJECTTYPEENUMCODE = '10'
 	 AND MP.PROJECTSTAGEENUMCODE = '10'
+	 AND MP.RESPONSIBLEUSERKEY = '${USERID}'
  ) T 
  WHERE 1 = 1
  <if test="projectname!=null and projectname!='' "> and T.PROJECTNAME like '%${projectname}%' </if>
@@ -140,12 +141,19 @@ SELECT MA.PROJECTID,
 	</select>
 	
 	<!-- 查询所属大区 -->
-	<select id="gePertainArea" resultType="map" useCache="false">		
-SELECT SO.NAME,SO.CODE,SO.ORGPKVALUE,SO.PARENTCODE,LEVEL
-  FROM SYS_ORG SO 
- WHERE SO.PARENTCODE = '${CODE}'
- START WITH SO.ORGPKVALUE = '${ORGCODE}'
-CONNECT BY PRIOR SO.PARENTCODE =  SO.CODE
+	<select id="gePertainArea" resultType="map" useCache="false">	
+	       SELECT SO.NAME,
+                  SO.CODE,
+                  SO.ORGPKVALUE,
+                  SO.PARENTCODE,
+                  LEVEL, 
+                  SGUR.COMPANYHEADER_NAME ORGHEADERNAME, 
+	              SGUR.COMPANYHEADER_ID ORGHEADERID
+             FROM SYS_ORG SO, SYS_GROUP_USER_REPORTINGUNIT SGUR
+            WHERE SO.PARENTCODE = '${CODE}'
+              AND SGUR.REPORTINGUNIT_ID(+) = SO.ORGPKVALUE
+       START WITH SO.ORGPKVALUE = '${ORGCODE}'
+ CONNECT BY PRIOR SO.PARENTCODE =  SO.CODE	
 	</select>
 	
 </mapper>

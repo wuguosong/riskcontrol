@@ -533,3 +533,7 @@ form .left-content {
   width: 5%;
   top: -26px;
 }
+
+.form-control{
+  background-color: white;
+}

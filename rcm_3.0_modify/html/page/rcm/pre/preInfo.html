@@ -48,7 +48,12 @@
                                         <input type="hidden"  readonly id="investmentManagerValue" name="investmentManagerValue"  ng-model="pre.apply.investmentManager.VALUE"/>
                                     </div>
                                 </div>
-                                <label class="col-sm-2 control-label"><span class="required-r">*</span>项目归属单位负责人</label>
+                                <label  class="col-sm-2 control-label">项目归属单位负责人</label>
+                                <div  id="companyHeader-type-box" class="col-sm-4">
+                                    <input type="text" class="form-control" id="companyHeaderName" name="companyHeaderName" ng-model="pre.apply.companyHeader.NAME" value="{{pre.apply.companyHeader.NAME}}" readonly/>
+                                    <input type="hidden" class="form-control" id="companyHeaderValue" name="companyHeaderValue" ng-model="pre.apply.companyHeader.VALUE"  />
+                                </div>
+                                <!--<label class="col-sm-2 control-label"><span class="required-r">*</span>项目归属单位负责人</label>
                                 <div  id="companyHeader-type-box" class="col-sm-4">
                                     <div id="headercompanyHeaderName">
                                         <div ng-click="setDirectiveParam('companyHeader',0)"  data-toggle="modal" data-target="#userRaido-modal"   class="select2-success">
@@ -65,7 +70,7 @@
                                     </div>
                                     <input type="hidden" id="companyHeaderName" name="companyHeaderName" ng-model="pre.apply.companyHeader.NAME" value="{{pre.apply.companyHeader.NAME}}" />
                                     <input type="hidden" id="companyHeaderValue" name="companyHeaderValue" ng-model="pre.apply.companyHeader.VALUE"  />
-                                </div>
+                                </div>-->
                             </div>
                             <div class="row">
                                 <label class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
