@@ -124,6 +124,17 @@ public class FormalAssessmentInfoCreateController {
 		return result;
 	}
 	
+	@RequestMapping("/changeMeetingAttach")
+	@ResponseBody
+	public Result changeMeetingAttach(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+	    String flag = this.formalAssessmentInfoCreateService.changeMeetingAttach(json);
+	    result.setResult_data(flag);
+		
+		return result;
+	}
+	
 	/**
 	 * 新增会议信息(保存到mongo)
 	 * @param request

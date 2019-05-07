@@ -655,7 +655,6 @@ public class BulletinInfoService implements IBulletinInfoService {
 		Document item = (Document) doc.get("item");
 		String fileId = (String) item.get("fileId");
 		Document type = (Document) item.get("type");
-		String fileName = (String) item.get("fileName");
 		//最後提交人信息
 		Document lastUpdateBy = (Document) item.get("lastUpdateBy");
 		String lastUpdateData = (String) item.get("lastUpdateData"); 
@@ -668,20 +667,20 @@ public class BulletinInfoService implements IBulletinInfoService {
 			attachmentList = new ArrayList<Map<String, Object>>();
 			Map<String, Object> file = new HashMap<String,Object>();
 			file.put("fileId", fileId);
-			file.put("fileName", fileName);
 			file.put("oldFileName", oldFileName);
 			file.put("type", type);
 			file.put("lastUpdateBy", lastUpdateBy);
 			file.put("lastUpdateData", lastUpdateData);
+			file.put("isMettingAttachment", "0");
 			attachmentList.add(file);
 		} else {
 			Map<String, Object> file = new HashMap<String,Object>();
 			file.put("fileId", fileId);
-			file.put("fileName", fileName);
 			file.put("oldFileName", oldFileName);
 			file.put("type", type);
 			file.put("lastUpdateBy", lastUpdateBy);
 			file.put("lastUpdateData", lastUpdateData);
+			file.put("isMettingAttachment", "0");
 			attachmentList.add(file);
 		}
 

@@ -48,6 +48,11 @@ public interface IFormalAssessmentInfoCreateService {
 	 */
 	void deleteAttachment(String json);
 	/**
+	 * 修改附件是否上会标识
+	 * @param json
+	 */
+	String changeMeetingAttach(String json);
+	/**
 	 * 替换附件
 	 * @param json
 	 */
