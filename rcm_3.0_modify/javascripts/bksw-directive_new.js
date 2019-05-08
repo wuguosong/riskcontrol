@@ -1647,24 +1647,42 @@ ctmApp.directive('bbsChatNew', function() {
             isShowPublishBtn:'@',// 是否显示发表留言按钮，默认为true
             isShowReplyBtn:'@',// 是否显示回复按钮，默认为true
             isShowPriority:'@',// 是否展示优先级设置，默认false
+            priorityType:'@',// 优先级展示方式：select或者radio方式，默认为radio
+            priorityDescription:'@',// 优先级别文字描述,如：特急,一般,紧急
         },
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, Upload, $window){
             // 定义查询参数
             var _query_params_ = {};
-            debugger;
             if(isEmpty($scope.isShowPriority)){
                 $scope._is_show_priority_ = false;
             }else{
                 $scope._is_show_priority_ = $scope.isShowPriority == 'true';
             }
+            if(isEmpty($scope.priorityType)){
+                $scope._priority_type_ = 'radio';
+            }else{
+                if($scope.priorityType == 'select'){
+                    $scope._priority_type_ = 'select';
+                }else{
+                    $scope._priority_type_ = 'radio';
+                }
+            }
             // 初始化留言优先级
-            $scope._message_priorities_ = [
-                {key:0, value:'一般'},
-                {key:1, value:'紧急'},
-                {key:2, value:'特急'}
-            ];
+            var _priorities_desc_ = [];
+            if(isEmpty($scope.priorityDescription)){
+                _priorities_desc_ = ['一般','紧急','特急'];
+            }else{
+                _priorities_desc_ = $scope.priorityDescription.split(",");
+            }
+            $scope._message_priorities_ = [];
+            for(var _ix = 0; _ix < _priorities_desc_.length; _ix ++){
+                var _js = {};
+                _js.key = _ix;
+                _js.value = _priorities_desc_[_ix];
+                $scope._message_priorities_.push(_js);
+            }
             $scope._message_type_ = $scope.messageType;
             $scope._message_business_id_ = $scope.businessId;
             if(isEmpty($scope.viaUserQueryUrl)){

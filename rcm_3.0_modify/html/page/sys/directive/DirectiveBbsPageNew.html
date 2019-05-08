@@ -15,12 +15,12 @@
                 <div contenteditable="true" class="form-control" style="background: #fff;min-height: 30px;" id="_message_first_title_0"></div>
             </div>
             <!--下拉框-->
-            <div ng-if="_is_show_priority_">
+            <div ng-if="_is_show_priority_ && _priority_type_ == 'select'">
                 <div>优先级：</div>
                 <select class="form-control" ng-model="_message_first.messagePriority" ng-options="_message_priority_.key as _message_priority_.value for _message_priority_ in _message_priorities_"></select>
             </div>
             <!--单选框-->
-            <div ng-if="_is_show_priority_">
+            <div ng-if="_is_show_priority_ && _priority_type_ == 'radio'">
                 <div>优先级：</div>
                 <label class="radio radio-inline" ng-repeat="_message_priority_ in _message_priorities_">
                     <input class="px" type="radio" ng-model="_message_first.messagePriority" value="{{_message_priority_.key}}"/>
