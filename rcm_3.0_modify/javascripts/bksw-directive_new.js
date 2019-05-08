@@ -1646,10 +1646,19 @@ ctmApp.directive('bbsChatNew', function() {
             isShowSms:'@',// 显示分享到短信，默认为false
             isShowPublishBtn:'@',// 是否显示发表留言按钮，默认为true
             isShowReplyBtn:'@',// 是否显示回复按钮，默认为true
+            isShowPriority:'@',// 是否展示优先级设置，默认false
         },
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, Upload, $window){
+            // 定义查询参数
+            var _query_params_ = {};
+            debugger;
+            if(isEmpty($scope.isShowPriority)){
+                $scope._is_show_priority_ = false;
+            }else{
+                $scope._is_show_priority_ = $scope.isShowPriority == 'true';
+            }
             // 初始化留言优先级
             $scope._message_priorities_ = [
                 {key:0, value:'一般'},
