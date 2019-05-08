@@ -23,13 +23,13 @@
         <result column="push_flag" property="pushFlag" javaType="java.lang.String"/>
         <result column="read_flag" property="readFlag" javaType="java.lang.String"/>
         <result column="bs_uni_related" property="bsUniRelated" javaType="java.lang.String"/>
+        <result column="via_users" property="viaUsers" javaType="java.lang.String"/>
+        <result column="message_priority" property="messagePriority" javaType="java.lang.Long"/>
+        <result column="message_file" property="messageFile" javaType="java.lang.String"/>
         <result column="attri_text01" property="attriText01" javaType="java.lang.String"/>
         <result column="attri_text02" property="attriText02" javaType="java.lang.String"/>
         <result column="attri_text03" property="attriText03" javaType="java.lang.String"/>
         <result column="attri_text04" property="attriText04" javaType="java.lang.String"/>
-        <result column="via_users" property="viaUsers" javaType="java.lang.String"/>
-        <result column="message_priority" property="messagePriority" javaType="java.lang.Long"/>
-        <result column="message_file" property="messageFile" javaType="java.lang.Long"/>
     </resultMap>
     <!-- 基本数据列 -->
     <sql id="baseColumn">
@@ -52,13 +52,13 @@
        push_flag,
        read_flag,
        bs_uni_related,
+       via_users,
        message_priority,
        message_file,
        attri_text01,
        attri_text02,
        attri_text03,
-       attri_text04,
-       via_users
+       attri_text04
 	</sql>
     <!-- 查询某个根下的子节点 -->
     <select id="selectMessageList" resultMap="messageMap">

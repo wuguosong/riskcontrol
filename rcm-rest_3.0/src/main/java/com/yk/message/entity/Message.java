@@ -33,7 +33,7 @@ public class Message{
     private String bsUniRelated;// 业务唯一关联信息(备用)
     private String viaUsers;// @的用户
     private Long messagePriority;// 留言优先级
-    private Long messageFile;// 留言过程附件ID
+    private String messageFile;// 留言过程附件ID
     private String attriText01;// 备用字段1
     private String attriText02;// 备用字段2
     private String attriText03;// 备用字段3
@@ -255,11 +255,11 @@ public class Message{
         this.messagePriority = messagePriority;
     }
 
-    public Long getMessageFile() {
+    public String getMessageFile() {
         return messageFile;
     }
 
-    public void setMessageFile(Long messageFile) {
+    public void setMessageFile(String messageFile) {
         this.messageFile = messageFile;
     }
 }
