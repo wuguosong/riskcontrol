@@ -21,7 +21,7 @@ public interface IMessageMapper extends BaseMapper {
      *
      * @return List<Message>
      */
-    List<Message> selectMessageList(@Param("procInstId") String procInstId, @Param("parentId") Long parentId);
+    List<Message> selectMessageList(Map<String, Object> params);
 
     /**
      * 通过ID查询留言
@@ -79,4 +79,6 @@ public interface IMessageMapper extends BaseMapper {
     List<Map<String, Object>> selectUserByCondition(Map<String, Object> params);
 
     List<HashMap<String, Object>> selectUserAbout(@Param("uuid") String uuid);
+
+    List<Map<String, Object>> selectProjectByTypeAndId(@Param("type") String type, @Param("id") String id);
 }

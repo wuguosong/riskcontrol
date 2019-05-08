@@ -113,7 +113,7 @@ public interface IMessageService {
      */
     List<JSONObject> messages(String procInstId, String createdBy);
 
-	List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId);
+	List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId, String _query_params_);
 
     /**
      * 分享留言
@@ -130,4 +130,6 @@ public interface IMessageService {
     List<Message> getMessageNotify();
 
     void queryViaUsers(PageAssistant page);
+
+    List<Map> getAttachmentType(String message_business_id, String message_type);
 }

@@ -26,6 +26,8 @@
         <result column="via_users" property="viaUsers" javaType="java.lang.String"/>
         <result column="message_priority" property="messagePriority" javaType="java.lang.Long"/>
         <result column="message_file" property="messageFile" javaType="java.lang.String"/>
+        <result column="message_file_type" property="messageFileType" javaType="java.lang.String"/>
+        <result column="message_screen_type" property="messageScreenType" javaType="java.lang.String"/>
         <result column="attri_text01" property="attriText01" javaType="java.lang.String"/>
         <result column="attri_text02" property="attriText02" javaType="java.lang.String"/>
         <result column="attri_text03" property="attriText03" javaType="java.lang.String"/>
@@ -55,13 +57,15 @@
        via_users,
        message_priority,
        message_file,
+       message_file_type,
+       message_screen_type,
        attri_text01,
        attri_text02,
        attri_text03,
        attri_text04
 	</sql>
     <!-- 查询某个根下的子节点 -->
-    <select id="selectMessageList" resultMap="messageMap">
+    <select id="selectMessageList" resultMap="messageMap" parameterType="map">
         select
         <include refid="baseColumn"/>
         from sys_message
@@ -71,6 +75,9 @@
         </if>
         <if test="parentId != null">
             and parent_id = #{parentId}
+        </if>
+        <if test="messageScreenType != null">
+            and message_screen_type = #{messageScreenType}
         </if>
         order by message_priority desc,message_date asc
     </select>
@@ -119,6 +126,8 @@
         #{viaUsers},
         #{messagePriority},
         #{messageFile},
+        #{messageFileType},
+        #{messageScreenType},
 		#{attriText01},
 		#{attriText02},
 		#{attriText03},
@@ -148,6 +157,8 @@
 		bs_uni_related = #{message.bsUniRelated},
 		message_priority = #{message.messagePriority},
 		message_file = #{message.messageFile},
+		message_file_type = #{message.messageFileType},
+		message_screen_type = #{message.messageScreenType},
 		attri_text01 = #{message.attriText01},
 		attri_text02 = #{message.attriText02},
 		attri_text03 = #{message.attriText03},
@@ -220,6 +231,9 @@
         </if>
         <if test="parentId != null">
             and parent_id = #{parentId}
+        </if>
+        <if test="messageScreenType != null">
+            and message_screen_type = #{messageScreenType}
         </if>
         order by message_priority desc,message_id, message_date asc
     </select>
@@ -342,5 +356,31 @@
        from sys_user u
        left join sys_user_position po on po.PSNPKVALUE = u.PSNPKVALUE
        where u.uuid = #{uuid}
+    </select>
+    <select id="selectProjectByTypeAndId" resultType="java.util.HashMap">
+        /*正式评审审批*/
+        <if test="type != null and type != '' and type == 'formalReview'">
+            select
+            lg.*,
+            lg.projectname as "projectName"
+            from  rcm_formalassessment_info lg
+            where lg.businessid = #{id}
+        </if>
+        /*投标评审审批*/
+        <if test="type != null and type != '' and type == 'preReview'">
+            select
+            lg.*,
+            lg.projectname as "projectName"
+            from  rcm_pre_info lg
+            where lg.businessid = #{id}
+        </if>
+        /*其它评审审批*/
+        <if test="type != null and type != '' and type == 'bulletin'">
+            select
+            lg.*,
+            lg.bulletinname as "projectName"
+            from  rcm_bulletin_info lg
+            where lg.businessid = #{id}
+        </if>
     </select>
 </mapper>

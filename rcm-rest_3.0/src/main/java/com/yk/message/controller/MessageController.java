@@ -1,11 +1,14 @@
 package com.yk.message.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
 import common.Constants;
 import common.PageAssistant;
 import common.Result;
+import common.commonMethod;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -282,10 +285,10 @@ public class MessageController {
 	 */
 	@RequestMapping(value = "queryMessagesList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<List<JSONObject>> queryMessagesList(String procInstId, String parentId) {
+	public List<List<JSONObject>> queryMessagesList(String procInstId, String parentId, String queryParams) {
 		List<List<JSONObject>> messages = null;
 		try {
-			messages = messageService.queryMessagesList(procInstId, new Long(parentId));
+			messages = messageService.queryMessagesList(procInstId, new Long(parentId), queryParams);
 			logger.info("获取信息成功!");
 		} catch (Exception e) {
 			logger.error("获取信息失败!" + e.getMessage());
@@ -296,10 +299,20 @@ public class MessageController {
 
 	@RequestMapping(value = "queryMessagesListPage", method = RequestMethod.POST)
 	@ResponseBody
-	public Result queryMessagesListPage(String page) {
+	public Result queryMessagesListPage(String page, String queryParams) {
 		Result result = new Result();
 		try {
 			PageAssistant pageAssistant = new PageAssistant(page);
+			if(StringUtils.isNotBlank(queryParams)){
+				Map _paramsMap = JSON.parseObject(queryParams, HashMap.class);
+				Map<String, Object> paramMap = pageAssistant.getParamMap();
+				if(paramMap == null){
+					paramMap = new HashMap<String, Object>();
+				}
+				paramMap.putAll(_paramsMap);
+				pageAssistant.setParamMap(paramMap);
+			}
+			System.out.println("***********_query_params_********" + queryParams);
 			messageService.queryMessagesListPage(pageAssistant);
 			result.setResult_data(pageAssistant);
 			logger.info("获取信息成功!");
@@ -380,6 +393,12 @@ public class MessageController {
 		messageService.queryViaUsers(page);
 		result.setResult_data(page);
 		return result;
+	}
+
+	@RequestMapping("/getAttachmentType")
+	@ResponseBody
+	public List<Map> getAttachmentType(String message_business_id, String message_type){
+		return messageService.getAttachmentType(message_business_id, message_type);
 	}
 
 }

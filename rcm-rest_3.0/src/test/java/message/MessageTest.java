@@ -107,4 +107,14 @@ public class MessageTest {
         List<Message> list = messageService.getMessageNotify();
         System.out.println(list.size());
     }
+
+    @Test
+    public void testAttachmentType(){
+        messageService.getAttachmentType("5c46d1b85049b5283c49a7e3","formalReview");
+    }
+
+    @Test
+    public void testAttachmentType2(){
+        messageService.getAttachmentType("5cd007417ad1b42bb860fb81","preReview");
+    }
 }

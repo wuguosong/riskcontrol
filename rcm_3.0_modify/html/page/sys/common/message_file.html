@@ -1,16 +1,29 @@
+<div>
+<span style="font-size: small;">资源类型</span>
+<select ng-disabled="_message_.messageFileType != -1 && _message_.messageFile != null" style="font-size: small;" ng-model="_message_.messageFileType" ng-options="_attach_type_.ITEM_CODE as _attach_type_.ITEM_NAME for _attach_type_ in _attach_types_"></select>
 <a      style="font-size: small;color: blue;"
         href="javascript:void(0);"
-        ng-click="_message_preview_file_(_message_.fileDto.preview3d)">{{_message_.fileDto.filename}}&nbsp;
-        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576">{{_message_.fileDto.filesize/1024 | number:2}}</span>
-        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576">KB</span>
-        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576">{{_message_.fileDto.filesize/1024/1024 | number:2}}</span>
-        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576">MB</span>
+        ng-click="_message_preview_file_(_message_.fileDto.preview3d)">{{_message_.fileDto.filename}}
+        <span ng-if="_message_.messageFile != null">&nbsp;</span>
+        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576">
+                {{_message_.fileDto.filesize/1024 | number:2}}
+        </span>
+        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576">
+                KB
+        </span>
+        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576">
+                {{_message_.fileDto.filesize/1024/1024 | number:2}}
+        </span>
+        <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576">
+                MB
+        </span>
 </a>
 <a      style="font-size: small;color: blue;"
         ng-if="_message_.messageFile == null && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_"
         ngf-max-size="100MB" ngf-select="_message_upload_file_($file, _message_)"
-        href="javascript:void(0);">添加附件</a>
+        href="javascript:void(0);">选择</a>
 <a      style="font-size: small;color: blue;"
         ng-if="_message_.messageFile != null && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_"
         ng-click="_message_delete_file_(_message_);"
-        href="javascript:void(0);">删除附件</a>
+        href="javascript:void(0);">移除</a>
+</div>

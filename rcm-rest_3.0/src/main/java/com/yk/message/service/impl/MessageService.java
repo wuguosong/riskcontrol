@@ -1,10 +1,12 @@
 package com.yk.message.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.goukuai.dto.FileDto;
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
+import com.yk.common.IBaseMongo;
 import com.yk.exception.BusinessException;
 import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
@@ -13,6 +15,7 @@ import com.yk.power.dao.IUserMapper;
 import com.yk.rcm.file.service.IFileService;
 import common.Constants;
 import common.PageAssistant;
+import common.commonMethod;
 import fnd.UserDto;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -43,7 +46,10 @@ public class MessageService implements IMessageService {
 
     @Override
     public List<Message> list(String procInstId, Long parentId) {
-        return messageMapper.selectMessageList(procInstId, parentId);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("procInstId", procInstId);
+        params.put("parentId", parentId);
+        return messageMapper.selectMessageList(params);
     }
 
     @Override
@@ -118,8 +124,11 @@ public class MessageService implements IMessageService {
 
     @Override
     public List<Message> getMessageTree(String procInstId, Long parentId) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("procInstId", procInstId);
+        params.put("parentId",parentId);
         // 获取根节点
-        List<Message> roots = messageMapper.selectMessageList(procInstId, parentId);
+        List<Message> roots = messageMapper.selectMessageList(params);
         List<Message> messages = new ArrayList<Message>();
         if (CollectionUtils.isEmpty(roots)) {
             return messages;
@@ -196,11 +205,18 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId) {
+    public List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId, String _query_params_) {
         List<List<JSONObject>> jsonObjects = new ArrayList<List<JSONObject>>();
         // 查询所有的根节点
-        List<Message> messages = messageMapper.selectMessageList(procInstId, parentId);
+        Map<String, Object> _paramsMap = new HashMap<String, Object>();
+        if(StringUtils.isNotBlank(_query_params_)){
+            _paramsMap = JSON.parseObject(_query_params_, HashMap.class);
+        }
+        _paramsMap.put("procInstId", procInstId);
+        _paramsMap.put("parentId", parentId);
+        List<Message> messages = messageMapper.selectMessageList(_paramsMap);
         for (Message message : messages) {
+            this.setMessageFileType(message);
             List<JSONObject> jsonObjectLeaves = new ArrayList<JSONObject>();
             // this.setViaUsers(message);
             JSONObject jsonObject = JSON.parseObject(message.toString());
@@ -214,6 +230,7 @@ public class MessageService implements IMessageService {
             // 把根节点下面的叶子节点全部都查出来
             List<Message> leaves = messageMapper.selectLeavesMessageList(procInstId, message.getMessageId());
             for (Message leave : leaves) {
+                this.setMessageFileType(leave);
                 // this.setViaUsers(leave);
                 JSONObject leaveObject = JSON.parseObject(leave.toString());
                 if (leave.getCreatedBy().equals(message.getCreatedBy())) {
@@ -231,6 +248,12 @@ public class MessageService implements IMessageService {
             jsonObjects.add(jsonObjectLeaves);
         }
         return jsonObjects;
+    }
+
+    private void setMessageFileType(Message message){
+        if(StringUtils.isBlank(message.getMessageFileType())){
+            message.setMessageFileType("-1");
+        }
     }
 
     private void setViaUsers(Message message) {
@@ -364,6 +387,7 @@ public class MessageService implements IMessageService {
         // 查询所有的根节点
         List<Message> messages = messageMapper.selectMessageListPage(params);
         for (Message message : messages) {
+            this.setMessageFileType(message);
             List<JSONObject> jsonObjectLeaves = new ArrayList<JSONObject>();
             JSONObject jsonObject = JSON.parseObject(message.toString());
             jsonObject.put("position", "left");
@@ -376,6 +400,7 @@ public class MessageService implements IMessageService {
             // 把根节点下面的叶子节点全部都查出来
             List<Message> leaves = messageMapper.selectLeavesMessageList(String.valueOf(params.get("procInstId")), message.getMessageId());
             for (Message leave : leaves) {
+                this.setMessageFileType(leave);
                 JSONObject leaveObject = JSON.parseObject(leave.toString());
                 if (leave.getCreatedBy().equals(message.getCreatedBy())) {
                     leaveObject.put("position", "left");
@@ -434,5 +459,58 @@ public class MessageService implements IMessageService {
                 }
             }
         }
+    }
+
+    @Resource
+    private IBaseMongo baseMongo;
+    @Override
+    public List<Map> getAttachmentType(String message_business_id, String message_type) {
+        String serviceCode = "";
+        String projectModelName = "";
+        String functionType = "";
+        Map<String, Object> mongo = null;
+        if(Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(message_type)){
+            functionType = "正式评审";
+            mongo = this.baseMongo.queryById(message_business_id, Constants.RCM_FORMALASSESSMENT_INFO);
+        }else if(Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(message_type)){
+            functionType = "预评审";
+            mongo = baseMongo.queryById(message_business_id, Constants.RCM_PRE_INFO);
+        }else{
+            return null;
+        }
+        if(mongo == null){
+            throw new BusinessException("获取附件类型失败！没有相关单据信息！");
+        }
+        JSONObject mongoJs = JSON.parseObject(JSON.toJSONString(mongo), JSONObject.class);
+        JSONObject applyJs = mongoJs.getJSONObject("apply");
+        if(applyJs != null){
+            JSONArray  pmJss = applyJs.getJSONArray("projectModel");
+            if(CollectionUtils.isEmpty(pmJss)){
+                throw new BusinessException("获取附件类型失败！投资模式为空！");
+            }
+            JSONObject pmJs = pmJss.getJSONObject(0);
+            projectModelName = pmJs.getString("VALUE");
+            JSONArray stJss = applyJs.getJSONArray("serviceType");
+            if(CollectionUtils.isEmpty(stJss)){
+                throw new BusinessException("获取附件类型失败！业务类型为空！");
+            }
+            JSONObject stJs = stJss.getJSONObject(0);
+            serviceCode = stJs.getString("KEY");
+        }
+        System.out.println(mongoJs);
+        commonMethod cm = new commonMethod();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("serviceCode", serviceCode);
+        jsonObject.put("projectModelName", projectModelName);
+        jsonObject.put("functionType", functionType);
+        List<Map> list = cm.getAttachmentType(JSON.toJSONString(jsonObject));
+        System.out.println(list.size());
+        System.out.println(JSON.toJSONString(list));
+        Map choice = new HashMap();
+        choice.put("ITEM_CODE", "-1");
+        choice.put("ITEM_NAME", "");
+        list.add(0, choice);
+        System.out.println(list.size());
+        return list;
     }
 }

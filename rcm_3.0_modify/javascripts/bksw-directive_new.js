@@ -1649,12 +1649,21 @@ ctmApp.directive('bbsChatNew', function() {
             isShowPriority:'@',// 是否展示优先级设置，默认false
             priorityType:'@',// 优先级展示方式：select或者radio方式，默认为radio
             priorityDescription:'@',// 优先级别文字描述,如：特急,一般,紧急
+            screenType:'@',//分屏类型
         },
         link:function(scope, element, attr){
         },
         controller:function($scope, $http, Upload, $window){
+            // 定义附件类型
+            $scope._attach_types_ = [];
             // 定义查询参数
-            var _query_params_ = {};
+            $scope._query_params_ = {};
+            if(!isEmpty($scope.screenType)){
+                $scope._query_params_.messageScreenType = $scope.screenType;
+            }else{
+                $scope.screenType = '';
+            }
+            // 任何关于查询的参数，将在此处进行添加延申...
             if(isEmpty($scope.isShowPriority)){
                 $scope._is_show_priority_ = false;
             }else{
@@ -1742,6 +1751,7 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._message.procInstId = $scope.businessId;
             $scope._message.repliedBy = '';
             $scope._message.repliedName = '';
+            $scope._message.messageFileType = -1;
             $scope._message_first = {};
             $scope._message_first.originalId = 0;
             $scope._message_first.messageTitle = '';
@@ -1750,6 +1760,29 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._message_first.procInstId = $scope.businessId;
             $scope._message_first.repliedBy = '';
             $scope._message_first.repliedName = '';
+            // 查询附件类型
+            $scope._query_attach_types_ = function(){
+                $http({
+                    method: 'post',
+                    url: srvUrl + 'message/getAttachmentType.do',
+                    data: $.param({
+                        'message_business_id': $scope.businessId,
+                        'message_type': $scope.messageType
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope._attach_types_ = data;
+                    if(!isEmpty(data)){
+                        for(var _ak = 0; _ak < $scope._attach_types_.length; _ak ++){
+                            if($scope._attach_types_[_ak].ITEM_CODE == '-1'){
+                                $scope._attach_types_[_ak].ITEM_NAME = '---请选择---';
+                                break;
+                            }
+                        }
+                    }
+                });
+            };
+            $scope._query_attach_types_();
             // 查询留言信息
             $scope._query_messages_list_ = function (_parent_id_) {
                 $http({
@@ -1757,7 +1790,8 @@ ctmApp.directive('bbsChatNew', function() {
                     url: srvUrl + 'message/queryMessagesList.do',
                     data: $.param({
                         'procInstId': $scope.businessId,
-                        'parentId': _parent_id_
+                        'parentId': _parent_id_,
+                        'queryParams':JSON.stringify($scope._query_params_)
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
@@ -1772,6 +1806,7 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._message.repliedName = '';
                 $scope._message.messageContent = '';
                 $scope._message.messageTitle = '';
+                $scope._message.messageFileType = -1;
                 $scope._message_first.originalId = '';
                 $scope._message_first.parentId = '';
                 $scope._message_first.repliedBy = '';
@@ -1785,7 +1820,6 @@ ctmApp.directive('bbsChatNew', function() {
             // 保存留言表单信息
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var formData = null;
-                debugger;
                 if(_is_first_ == 'Y'){
                     formData = $scope._message_first;
                     formData.originalId = 0;
@@ -1828,6 +1862,7 @@ ctmApp.directive('bbsChatNew', function() {
                     return;
                 }
                 formData.messageType = $scope.messageType;
+                formData.messageScreenType = $scope.screenType;
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/add.do',
@@ -2049,7 +2084,7 @@ ctmApp.directive('bbsChatNew', function() {
                 $http({
                     method: 'post',
                     url: srvUrl + "message/queryMessagesListPage.do",
-                    data: $.param({"page": JSON.stringify($scope._message_pagination_configuration_)})
+                    data: $.param({"page": JSON.stringify($scope._message_pagination_configuration_),'queryParams':JSON.stringify($scope._query_params_)})
                 }).success(function(data){
                     $scope._message_pagination_configuration_.totalItems = data['result_data'].totalItems;
                     $scope._messages_array_ = data['result_data'].list;
@@ -2095,6 +2130,10 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 留言中的过程附件
             $scope._message_upload_file_ = function(_file_, _message_){
+                if(_message_.messageFileType == -1){
+                    $.alert("请选择资源类型！");
+                    return;
+                }
                 Upload.upload({
                     url: srvUrl + 'cloud/upload.do',
                     data: {
@@ -2121,6 +2160,7 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._message_delete_file_ = function(_message_){
                 attach_delete(_message_.messageFile);
                 _message_.messageFile = null;
+                _message_.messageFileType = -1;
                 $scope._message_update_(_message_);
                 if($scope._is_pagination_){
                     $scope._query_messages_list_page_();

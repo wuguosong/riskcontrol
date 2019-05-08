@@ -34,6 +34,8 @@ public class Message{
     private String viaUsers;// @的用户
     private Long messagePriority;// 留言优先级
     private String messageFile;// 留言过程附件ID
+    private String messageFileType;// 附件类型
+    private String messageScreenType;// 消息分屏类型
     private String attriText01;// 备用字段1
     private String attriText02;// 备用字段2
     private String attriText03;// 备用字段3
@@ -261,6 +263,22 @@ public class Message{
 
     public void setMessageFile(String messageFile) {
         this.messageFile = messageFile;
+    }
+
+    public String getMessageFileType() {
+        return messageFileType;
+    }
+
+    public void setMessageFileType(String messageFileType) {
+        this.messageFileType = messageFileType;
+    }
+
+    public String getMessageScreenType() {
+        return messageScreenType;
+    }
+
+    public void setMessageScreenType(String messageScreenType) {
+        this.messageScreenType = messageScreenType;
     }
 }
 
