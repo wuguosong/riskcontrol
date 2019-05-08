@@ -306,6 +306,7 @@ public class _ApprovalNode {
      * 其它评审
      */
     public static class _BulletinApproval implements _Approval{
+        private String _backgroundFirstLine;
         private Integer _choice;
         private JSONObject _drafting;// 创建人提交
         private JSONObject _unitChargeApproval;// 单位负责人审批
@@ -379,6 +380,14 @@ public class _ApprovalNode {
 
         public void set_choice(Integer _choice) {
             this._choice = _choice;
+        }
+
+        public String get_backgroundFirstLine() {
+            return _backgroundFirstLine;
+        }
+
+        public void set_backgroundFirstLine(String _backgroundFirstLine) {
+            this._backgroundFirstLine = _backgroundFirstLine;
         }
 
         @Override

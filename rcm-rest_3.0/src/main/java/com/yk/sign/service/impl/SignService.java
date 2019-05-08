@@ -975,9 +975,10 @@ public class SignService implements ISignService {
                 }
             }
             _bulletinApproval.set_choice(choice);
+            String _backgroundFirstLine = "";
             // choice 2 情况下，修正线条颜色
-            String _background = "";
             if(choice == 2){
+                String _background = "";
                 if(_bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == 0){
                     _background = "background: #999!important;";
                 }else{
@@ -989,8 +990,13 @@ public class SignService implements ISignService {
                 }else{
                     _background = "";
                 }
+                if(_bulletinApproval.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 0
+                        && (_bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == 1 || _bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == -1)){
+                    _backgroundFirstLine = "background: #2d8cf0!important;";
+                }
                 _bulletinApproval.get_unitChargeApproval().put("_background", _background);
             }
+            _bulletinApproval.set_backgroundFirstLine(_backgroundFirstLine);
             _approvalNode.set_bulletinApproval(_bulletinApproval);
             _approvalNode.set_processId(processId);
             _approvalNode.set_processKey(processKey);
