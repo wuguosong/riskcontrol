@@ -589,7 +589,6 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 
      // 选择项目后，写入项目名称
      $scope.setDirectiveCompanyList=function(project){
-     	debugger
          $scope.bulletin.projectNo = project.PROJECTCODE;  // 存储用编码
          $scope.bulletin.projectNoNew = project.PROJECTCODENEW; // 显示用编码
          $scope.bulletin.projectName = project.PROJECTNAME; // 项目名称
