@@ -2835,7 +2835,6 @@ ctmApp.directive('directiveAccachmentNew', function() {
             // 项目Oracle数据
             businessId: "=",
             wfState: "=",
-            lastUpdateBy: "=",
             // mongo数据同步
             serviceType: "=",
             projectModel: "=",
@@ -3031,7 +3030,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         url = "bulletinInfo/addAttachmengInfoToMongo.do";
                     }
                     _item.fileId = _fileList[_fileList.length-1].fileid + "";
-                    _item.lastUpdateBy = $scope.lastUpdateBy;
+                    _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
                     _item.lastUpdateData = $scope.getDate();
 
                     $http({
@@ -3093,7 +3092,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":_item.fileid})})
                     }).success(function(data){
                         _item.fileId = _fileList[_fileList.length-1].fileid + "";
-                        _item.lastUpdateBy = $scope.lastUpdateBy;
+                        _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
                         _item.lastUpdateData = $scope.getDate();
                         if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
                             _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;
@@ -3150,7 +3149,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         url = "bulletinInfo/addAttachmengInfoToMongo.do";
                     }
                     _item.fileId = _fileList[_fileList.length-1].fileid + "";
-                    _item.lastUpdateBy = $scope.lastUpdateBy;
+                    _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
                     _item.lastUpdateData = $scope.getDate();
                     if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
                         _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;

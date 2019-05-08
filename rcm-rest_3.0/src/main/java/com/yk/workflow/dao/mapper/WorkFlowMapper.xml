@@ -400,7 +400,7 @@ SELECT count(1)
                (SELECT businessid
                   FROM rcm_pre_log fg
                  WHERE fg.iswaiting = '0'
-                   AND fg.audituserid = '0001N6100000000HADK0')
+                   AND fg.audituserid = '${userId}')
                    UNION
         SELECT RFI.BUSINESSID business_key_,
                to_char(RFI.CREATE_DATE, 'yyyy-mm-dd hh24:mi:ss') start_time_,
@@ -557,7 +557,7 @@ SELECT ta.*
                (SELECT businessid
                   FROM rcm_pre_log fg
                  WHERE fg.iswaiting = '0'
-                   AND fg.audituserid = '0001N6100000000HADK0')
+                   AND fg.audituserid = '${userId}')
                    UNION
         SELECT RFI.BUSINESSID business_key_,
                to_char(RFI.CREATE_DATE, 'yyyy-mm-dd hh24:mi:ss') start_time_,

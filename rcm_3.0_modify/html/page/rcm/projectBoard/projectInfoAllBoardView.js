@@ -329,7 +329,7 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                     }
                 });
             };
-            //处理附件列表
+            /*//处理附件列表
             $scope.reduceAttachment = function(attachment){
                 $scope.newAttachment = [];
                 for(var i in attachment){
@@ -345,7 +345,7 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                     }
 
                 }
-            }
+            }*/
             //在后台调用公共方法，把他们两个都放入一个map中  在前台取一下。
             $scope.getSelectTypeByCode=function(typeCode){
                 var  url = 'common/commonMethod/selectDataDictionByCode';
