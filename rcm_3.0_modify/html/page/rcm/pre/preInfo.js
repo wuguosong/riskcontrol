@@ -117,6 +117,12 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             $scope.serviceType = angular.copy($scope.pre.apply.serviceType);
             $scope.projectModel = angular.copy($scope.pre.apply.projectModel);
 
+            // 初始化项目规则需要使用的变量
+            $scope.service = angular.copy($scope.pre.apply.serviceType[0]);
+            $scope.projectModel = angular.copy($scope.pre.apply.projectModel[0]);
+            console.log("service = " +   $scope.service);
+            console.log("projectModel = " +   $scope.projectModel);
+
             $scope.reduceAttachment(data.result_data.mongoData.attachmentList, id);
 
 
@@ -377,7 +383,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
                 $.alert(result.result_name);
             }
         });
-    }
+    };
 
     // 修改
     $scope.update = function(){
@@ -402,6 +408,26 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             } else {
                 $.alert(result.result_name);
                 $scope.initUpdate($scope.id);
+            }
+        });
+    };
+
+    // 验证项目是否在流程或者评审中
+    $scope.vaildProject = function(){
+        var type = "formalReview";
+        $http({
+            method:'post',
+            url: srvUrl + 'common/validateProject.do',
+            data: $.param({"type":type, "id": $scope.id})
+        }).success(function(result){
+            if (!result.approval.success){
+                alert(result.approval.message);
+                return;
+            } else if (!result.review.success){
+                alert(result.review.message);
+                return;
+            } else {
+                $scope.showSubmitModal();
             }
         });
     };
@@ -446,7 +472,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     };
 
 
-    /*// 标准项目名称构建
+    // 标准项目名称构建
     $scope.changeServiceType = function () {
         if ($scope.pre.apply.serviceType[0] != undefined) {
             // 管网未确定
@@ -466,6 +492,29 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     };
 
     $scope.changeProjectModel = function () {
+        if ($scope.pre.apply.projectName != undefined) {
+            if (!isEmpty($scope.pre.apply.projectModel)) {
+                // 管网未确定
+                $scope.projectModel = angular.copy($scope.pre.apply.projectModel[0]);
+                var serviceCode = $scope.service.KEY;
+                // 1402-水环境 1403-固废 1404-环卫
+                if (serviceCode == '1401'){
+                    var str = $scope.pre.apply.projectName.split($scope.projectModel.VALUE);
+                    if(str.length < 2){
+                        $scope.pre.apply.projectName = $scope.pre.apply.projectName + $scope.projectModel.VALUE + '项目'
+                    }
+                }
+            } else {
+                var serviceCode = $scope.service.KEY;
+                if (serviceCode == '1401'){
+                    var name = $scope.pre.apply.projectName.split($scope.projectModel.VALUE);
+                    $scope.pre.apply.projectName = name[0];
+                }
+            }
+        }
+    };
+
+    /*$scope.changeProjectModel = function () {
         if ($scope.pre.apply.projectModel[0] != undefined) {
             // 管网未确定
             $scope.projectModel = angular.copy($scope.pre.apply.projectModel[0]);
@@ -489,7 +538,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     $scope.setDirectiveCompanyList=function(project){
         $scope.pre.apply.projectNo = project.PROJECTCODE;  // 存储用编码
         $scope.pre.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
-        $scope.pre.apply.projectName = project.PROJECTNAME; // 项目名称
+        $scope.pre.apply.projectNameTZ = project.PROJECTNAME; // 项目名称
         $scope.pre.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
         $scope.pre.apply.investmentManager = {NAME:project.RESPONSIBLEUSER,VALUE:project.RESPONSIBLEUSERID};
         if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
@@ -505,12 +554,14 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             }
         });
         $scope.pre.apply.projectAddress=project.ADDRESS; // 项目所在地
+        $scope.pre.apply.projectName = project.ADDRESS + project.PROJECTNAME;
+        $scope.changeServiceType();
 
-        $("#projectName").val(name);
-        $("label[for='projectName']").remove();
+        $("#projectNameTZ").val(name);
+        $("label[for='projectNameTZ']").remove();
     };
 
-
+    // 确认提交前验证附件
     $scope.beforeSubmit = function(){
         var serviceCode = $scope.serviceType[0].KEY;
         var projectModelName = '';
@@ -552,6 +603,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         });
     };
 
+    $scope.$watch('pre.apply.projectModel', $scope.changeProjectModel);
 
     $scope.initData();
 

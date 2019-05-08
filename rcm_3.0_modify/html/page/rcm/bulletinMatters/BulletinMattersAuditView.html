@@ -28,6 +28,17 @@
 					<div class="tab-content tab-content-bordered">
 						<div class="tab-pane in active special-form" id="contracts_file_info">
 							<div class="row">
+								<label class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-4">
+									<input type="text"  class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}" readonly/>
+								</div>
+								<label class="col-sm-2 control-label">项目编号</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
+									<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
+								</div>
+							</div>
+							<div class="row">
 								<label for="" class="col-sm-2 control-label">所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
 									<div class="full-drop">
@@ -51,7 +62,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
+								<label class="col-sm-2 control-label">事项类型</label>
 								<div class="col-sm-4">
 									<input type="text" readonly required-m class="form-control" id="bulletinType" name="bulletinType" ng-model="bulletin.bulletinType.NAME">
 								</div>
@@ -61,19 +72,19 @@
 								</div>
 							</div>
 							<div class="row">
-								<label for="" class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
+								<label for="" class="col-sm-2 control-label">申报事项</label>
 								<div class="col-sm-10">
 									<input type="text" readonly required-m class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
 								</div>
 							</div>
 							<div class="row">
-								<label for="" class="col-sm-2 control-label"><span class="required-m">*</span>事项原因</label>
+								<label for="" class="col-sm-2 control-label">事项原因</label>
 								<div class="col-sm-10">
 									<textarea readonly required-m class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
 								</div>
 							</div>
 							<div class="row">
-								<label for="" class="col-sm-2 control-label"><span class="required-m">*</span>申请需求</label>
+								<label for="" class="col-sm-2 control-label">申请需求</label>
 								<div class="col-sm-10">
 									<textarea readonly required-m class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
 								</div>

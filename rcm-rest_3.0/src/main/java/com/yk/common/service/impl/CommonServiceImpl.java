@@ -57,10 +57,10 @@ public class CommonServiceImpl implements ICommonService {
         } else {
             String projectName = String.valueOf(list.get(0).get("projectName"));
             if (REVIEW.equalsIgnoreCase(validateType)) {
-                validate.put(MESSAGE, "项目" + projectName + "已经在评审当中");
+                validate.put(MESSAGE, "项目" + projectName + "已经在评审当中，不可提交！");
             }
             if (APPROVAL.equalsIgnoreCase(validateType)) {
-                validate.put(MESSAGE, "项目" + projectName + "已经在审批当中");
+                validate.put(MESSAGE, "项目" + projectName + "已经在审批当中，不可提交！");
             }
             validate.put(SUCCESS, false);
         }

@@ -91,7 +91,11 @@
 							<div class="row">
 								<label class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
+									<input type="text" class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName" style="width: 95%"/>
+									<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true" class="titleText"
+									   data-backColor="white"
+									   title="{{title}}">提示</a>
 								</div>
 							</div>
 							<div class="row">
@@ -142,7 +146,7 @@
 				<div class="option">
 					<a class="btn btn-info" href="#/BulletinMatters/0"><i class="fa fa-reply"></i>返回</a>
 					<button type="button" ng-click="save()"  class="btn btn-info"><i class="fa fa-save"></i>保存</button>
-					<button type="button" id="subBtn" ng-click="showSubmitModal()"  class="btn btn-info"><i class="fa fa-save"></i>提交</button>
+					<button type="button" id="subBtn" ng-click="vaildProject()"  class="btn btn-info"><i class="fa fa-save"></i>提交</button>
 
 					<div id="submitModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
 						<bpmn-pop-win approve="approve"></bpmn-pop-win>

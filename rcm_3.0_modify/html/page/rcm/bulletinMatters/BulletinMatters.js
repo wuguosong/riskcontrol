@@ -317,8 +317,9 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 	// 修改事项类型事件
 	$scope.changeTbsxType = function(){
 
-        /*$scope.bulletinNameBuild();*/
-		console.log($scope.tbsxTypeModel);
+        $scope.bulletinNameBuild();
+        $scope.setTitle();
+        console.log($scope.tbsxTypeModel);
 		var tbsxTypeModel = $scope.tbsxTypeModel;
 		if(tbsxTypeModel == null){
 			return;
@@ -438,7 +439,31 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 			}
 		}
 	};
-	// 标准项目名称构建
+
+     // 标准项目名称构建
+     $scope.bulletinNameBuild = function () {
+     	if (!isEmpty($scope.tbsxTypeModel)){
+            $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
+            if ($scope.qtType != ''){
+                $scope.couldStr = $scope.bulletin.projectName.indexOf("项目");
+                if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_BORROWMONEY') {
+                    if ($scope.couldStr > 0) {
+                        $scope.bulletin.bulletinName = $scope.bulletin.projectName + '公司针对' + $scope.bulletin.projectName + '的借款事项';
+                    } else {
+                        $scope.bulletin.bulletinName = $scope.bulletin.projectName + '项目公司针对' + $scope.bulletin.projectName + '项目的借款事项';
+                    }
+                } else if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_NEWCOMPANY') {
+                    $scope.bulletin.bulletinName = '新设' + $scope.bulletin.projectName + '公司申请';
+                } else if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_OTHER'){
+                    $scope.bulletin.bulletinName = '关于' + $scope.bulletin.projectName + '事项的汇报/申请';
+                } else {
+                    $scope.bulletin.bulletinName = $scope.bulletin.projectName;
+                }
+            }
+		}
+     };
+
+	/*// 标准项目名称构建
 	 $scope.bulletinNameBuild = function () {
          $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
 	 	if ($scope.qtType != ''){
@@ -460,7 +485,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
         } else {
 	 		$scope.setDirectiveCompanyList($scope.bakProject);
 		}
-     };
+     };*/
 
 
 	//保存
@@ -498,30 +523,47 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 			}*/
 		});
 	};
-	
-	
+
+     // 验证项目是否在流程或者评审中
+     $scope.vaildProject = function(){
+         var type = "formalReview";
+         $http({
+             method:'post',
+             url: srvUrl + 'common/validateProject.do',
+             data: $.param({"type":type, "id": $scope.id})
+         }).success(function(result){
+             if (!result.approval.success){
+                 alert(result.approval.message);
+                 return;
+             } else if (!result.review.success){
+                 alert(result.review.message);
+                 return;
+             } else {
+                 $scope.showSubmitModal();
+             }
+         });
+     };
+
 	//提交
 	$scope.showSubmitModal = function(){
-		
-		$scope.save(function(){
-			$scope.approve = {
-				operateType: "submit",
-				processKey: "bulletin",
-				businessId: $scope.bulletin._id,
-				callbackSuccess: function(result){
-					$.alert(result.result_name);
-					$('#submitModal').modal('hide');
-					$("#subBtn").hide();
-					var oldurl = window.btoa(encodeURIComponent(escape("#/BulletinMatters/1")))
-					$location.path("/BulletinMattersAuditView/"+$scope.bulletin._id+"/"+oldurl);
-					//#/BulletinMattersAuditView/9b8e9d76984a415dbe4a31dd3c5b1ad2/JTI1MjMlMkZCdWxsZXRpbk1hdHRlcnMlMkYx
-				},
-				callbackFail: function(result){
-					$.alert(result.result_name);
-				}
-			};
-			$('#submitModal').modal('show');
-		});
+        $scope.approve = {
+            operateType: "submit",
+            processKey: "bulletin",
+            businessId: $scope.bulletin._id,
+            callbackSuccess: function(result){
+                $.alert(result.result_name);
+                $('#submitModal').modal('hide');
+                $("#subBtn").hide();
+                var oldurl = window.btoa(encodeURIComponent(escape("#/BulletinMatters/1")))
+                $location.path("/BulletinMattersAuditView/"+$scope.bulletin._id+"/"+oldurl);
+                //#/BulletinMattersAuditView/9b8e9d76984a415dbe4a31dd3c5b1ad2/JTI1MjMlMkZCdWxsZXRpbk1hdHRlcnMlMkYx
+            },
+            callbackFail: function(result){
+                $.alert(result.result_name);
+            }
+        };
+        $('#submitModal').modal('show');
+
 	};
 	/*//新增附件
 	$scope.addFileList = function(){
@@ -596,6 +638,10 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
          if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
              $scope.bulletin.unitPerson = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};
          }*/
+         $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
+         if(!isEmpty($scope.qtType)){
+             $scope.bulletinNameBuild();
+		 }
 
          $("#projectName").val(name);
          $("label[for='projectName']").remove();
@@ -606,6 +652,23 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
          $scope.bulletin.unitPerson.VALUE = id;
          $scope.bulletin.unitPerson.NAME = name;
      };
+
+     // 项目名称提示
+	 $scope.setTitle = function () {
+         if (!isEmpty($scope.tbsxTypeModel)){
+             if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_BORROWMONEY'){
+                 $scope.title = 'xxx项目公司针对xxx项目的借款事项';
+             } else if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_NEWCOMPANY'){
+                 $scope.title = '新设xxx公司申请';
+             } else if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_OTHER'){
+                 $scope.title = '关于xxx事项的汇报/申请';
+             } else {
+                 $scope.title = '暂无规则';
+             }
+         }
+     };
+
+     $scope.$watch('tbsxTypeModel', $scope.bulletinNameBuild);
 }]);
 
 ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$location', '$routeParams', '$filter',

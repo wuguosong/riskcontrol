@@ -204,7 +204,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                 ztree1.addNodes(parentNode, nodeArray, true);
             }
         });
-    }
+    };
     $scope.addTreeNode2 = function (parentNode){
         var pid = '';
         if(parentNode && parentNode.id) pid = parentNode.id;
@@ -230,7 +230,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                 ztree2.addNodes(parentNode, nodeArray, true);
             }
         });
-    }
+    };
 
     // 选择人员后给变量赋值
     $scope.setDirectiveRadioUserList=function(value,name){
@@ -388,6 +388,26 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         });
     };
 
+    // 验证项目是否在流程或者评审中
+    $scope.vaildProject = function(){
+        var type = "formalReview";
+        $http({
+            method:'post',
+            url: srvUrl + 'common/validateProject.do',
+            data: $.param({"type":type, "id": $scope.id})
+        }).success(function(result){
+            if (!result.approval.success){
+                alert(result.approval.message);
+                return;
+            } else if (!result.review.success){
+                alert(result.review.message);
+                return;
+            } else {
+                $scope.showSubmitModal();
+            }
+        });
+    };
+
     //模态框
     $scope.showSubmitModal = function(){
         $scope.approve = {
@@ -426,28 +446,50 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     };
     $scope.wfInfo = {processKey:'formalReview'};
 
-    /*// 标准项目名称构建
+    // 标准项目名称构建
     $scope.changeServiceType = function () {
-        if ($scope.pfr.apply.serviceType.length() < 1){
-            if ($scope.pfr.apply.serviceType[0] != undefined) {
+        if ($scope.pfr.apply.serviceType[0] != undefined) {
+            // 管网未确定
+            $scope.service = angular.copy($scope.pfr.apply.serviceType[0]);
+            var serviceCode = $scope.service.KEY;
+            // 1402-水环境 1403-固废 1404-环卫
+            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                $scope.pfr.apply.projectName = $scope.pfr.apply.projectName + $scope.service.VALUE + '项目'
+            }
+        } else {
+            var serviceCode = $scope.service.KEY;
+            if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
+                var name = $scope.pfr.apply.projectName.split($scope.service.VALUE);
+                $scope.pfr.apply.projectName = name[0];
+            }
+        }
+    };
+
+    $scope.changeProjectModel = function () {
+        if ($scope.pfr.apply.projectName != undefined) {
+            if (!isEmpty($scope.pfr.apply.projectModel)) {
                 // 管网未确定
-                $scope.service = angular.copy($scope.pfr.apply.serviceType[0]);
+                $scope.projectModel = angular.copy($scope.pfr.apply.projectModel[0]);
                 var serviceCode = $scope.service.KEY;
                 // 1402-水环境 1403-固废 1404-环卫
-                if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
-                    $scope.pfr.apply.projectName = $scope.pfr.apply.projectName + $scope.service.VALUE + '项目'
+                if (serviceCode == '1401'){
+                    var str = $scope.pfr.apply.projectName.split($scope.projectModel.VALUE);
+                    if(str.length < 2){
+                        $scope.pfr.apply.projectName = $scope.pfr.apply.projectName + $scope.projectModel.VALUE + '项目'
+                    }
                 }
             } else {
                 var serviceCode = $scope.service.KEY;
-                if (serviceCode == '1402' || serviceCode == '1403' || serviceCode == '1404' ){
-                    var name = $scope.pfr.apply.projectName.split($scope.service.VALUE);
+                if (serviceCode == '1401'){
+                    var name = $scope.pfr.apply.projectName.split($scope.projectModel.VALUE);
                     $scope.pfr.apply.projectName = name[0];
                 }
             }
         }
     };
 
-    $scope.changeProjectModel = function () {
+    /*$scope.changeProjectModel = function () {
+        debugger
         if ($scope.pfr.apply.projectModel[0] != undefined) {
             // 管网未确定
             $scope.projectModel = angular.copy($scope.pfr.apply.projectModel[0]);
@@ -470,7 +512,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
     $scope.setDirectiveCompanyList=function(project){
         $scope.pfr.apply.projectNo = project.PROJECTCODE;  // 存储用编码
         $scope.pfr.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
-        $scope.pfr.apply.projectName = project.PROJECTNAME; // 项目名称
+        $scope.pfr.apply.projectNameTZ = project.PROJECTNAME; // 项目名称
         $scope.pfr.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
         $scope.pfr.apply.investmentManager = {NAME:project.RESPONSIBLEUSER,VALUE:project.RESPONSIBLEUSERID};
         if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
@@ -486,11 +528,14 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             }
         });
         $scope.pfr.apply.projectAddress=project.ADDRESS; // 项目所在地
+        $scope.pfr.apply.projectName = project.ADDRESS + project.PROJECTNAME;
+        $scope.changeServiceType();
 
-        $("#projectName").val(name);
-        $("label[for='projectName']").remove();
+        $("#projectNameTZ").val(name);
+        $("label[for='projectNameTZ']").remove();
     };
 
+    // 确认提交前验证附件
     $scope.beforeSubmit = function(){
         var serviceCode = $scope.serviceType[0].KEY;
         var projectModelName = '';
@@ -505,7 +550,6 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             url: srvUrl + 'formalAssessmentInfoCreate/checkAttachment.do',
             data: $.param({"json":JSON.stringify({"businessId":$scope.id,"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType})})
         }).success(function(result){
-            debugger
             if (result.success) {
                 if(!isEmpty(result.result_data)){
                     if (result.result_data[0].code != '500'){
@@ -534,6 +578,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         });
     };
 
+    $scope.$watch('pfr.apply.projectModel', $scope.changeProjectModel);
 
     $scope.initData();
 

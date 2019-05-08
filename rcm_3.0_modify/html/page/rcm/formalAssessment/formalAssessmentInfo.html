@@ -24,9 +24,9 @@
                     <div class="tab-content tab-content-bordered">
                         <div class="tab-pane in active special-form" id="contracts_file_info">
                             <div class="row">
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>投资项目名称</label>
                                 <div class="col-sm-4">
-                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" value="{{pfr.apply.projectName}}"/>
+                                    <input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectNameTZ" name="projectNameTZ" ng-model="pfr.apply.projectNameTZ" value="{{pfr.apply.projectNameTZ}}"/>
                                 </div>
                                 <label class="col-sm-2 control-label">项目编号</label>
                                 <div class="col-sm-4">
@@ -111,7 +111,7 @@
                                 <div id="headerprojectmodebox" class="col-sm-3 noleft-pad">
                                     <div class="select2-success">
                                         <select multiple="multiple" id="projectmodeboxName" name="projectmodeboxName" class="form-control"  ng-model="pfr.apply.projectModel"
-                                                ng-options="pm.VALUE for pm in dicSyn.projectModelValue track by pm.KEY" ng-change="changeProjectModel()">
+                                                ng-options="pm.VALUE for pm in dicSyn.projectModelValue track by pm.KEY">
                                         </select>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>投资中心/水环境投资中心项目负责人</label>
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>市场投资中心项目负责人</label>
                                 <div class="col-sm-4 has-feedback">
                                     <div id="headerinvestmentPersonName" class="col-sm-6 noleft-pad noright-pad"
                                          style="width: calc(50% - 2.5px);margin-right: 5px">
@@ -179,6 +179,12 @@
                                     <span id="showdate" ></span>
                                 </div>
                             </div>
+                            <div class="row">
+                                <label  class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="projectName" name="projectName" ng-model="pfr.apply.projectName" value="{{pfr.apply.projectName}}"/>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane" id="flow_chart">
                             <!--<directive-process-page></directive-process-page>-->
@@ -203,7 +209,7 @@
                     <!--<a class="btn btn-info" href="#/FormalAssessmentInfoList/0"><i class="fa fa-reply"></i>返回</a>
                     <button ng-if="flag == 1" type="button" ng-click="save()" id="savebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
                     <button ng-if="flag == 2" type="button" ng-click="update()" id="updatebtn" class="btn btn-info"><i class="fa fa-save"></i>保存</button>-->
-                    <button ng-show="pfrOracle.WF_STATE=='0'" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <button ng-show="pfrOracle.WF_STATE=='0'" ng-click="vaildProject()" type="button" id="submitlbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
                     <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
                         <!--                         <approve-pop-win approve="approve"></approve-pop-win> -->
                         <formal-assessment-bpmn-pop-win  approve="approve" before-submit="beforeSubmit()"></formal-assessment-bpmn-pop-win>
@@ -226,6 +232,7 @@
                 // companyHeaderName:"required",
                 grassrootsLegalStaffName:"required",
                 projectName:"required",
+                projectNameTZ:"required",
                 investmentPersonName:"required",
                 directPersonName:"required",
                 projectmodeboxName:"required",
@@ -236,6 +243,7 @@
                 // companyHeaderName:"此项必填",
                 grassrootsLegalStaffName:"此项必填",
                 projectName:"此项必填",
+                projectNameTZ:"此项必填",
                 investmentPersonName:"此项必填",
                 directPersonName:"此项必填",
                 projectmodeboxName:"此项必填",

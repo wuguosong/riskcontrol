@@ -28,6 +28,17 @@
 					<div class="tab-content tab-content-bordered">
 						<div class="tab-pane in active special-form" id="contracts_file_info">
 							<div class="row">
+								<label class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-4">
+									<input type="text"  class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}" readonly/>
+								</div>
+								<label class="col-sm-2 control-label">项目编号</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
+									<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
+								</div>
+							</div>
+							<div class="row">
 								<label class="col-sm-2 control-label">所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
 									<div class="full-drop">

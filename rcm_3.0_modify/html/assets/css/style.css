@@ -537,3 +537,11 @@ form .left-content {
 .form-control{
   background-color: white;
 }
+
+/** 整行提示样式 **/
+.titleText {
+  width: 5%;
+  position: relative;
+  right: -97%;
+  top: -23px;
+}
