@@ -465,6 +465,11 @@ public class MessageService implements IMessageService {
     private IBaseMongo baseMongo;
     @Override
     public List<Map> getAttachmentType(String message_business_id, String message_type) {
+        List<Map> list = new ArrayList<Map>();
+        Map choice = new HashMap();
+        choice.put("ITEM_CODE", "-1");
+        choice.put("ITEM_NAME", "");
+        list.add(0, choice);
         String serviceCode = "";
         String projectModelName = "";
         String functionType = "";
@@ -476,41 +481,39 @@ public class MessageService implements IMessageService {
             functionType = "预评审";
             mongo = baseMongo.queryById(message_business_id, Constants.RCM_PRE_INFO);
         }else{
-            return null;
+            return list;
         }
         if(mongo == null){
-            throw new BusinessException("获取附件类型失败！没有相关单据信息！");
+            return list;
         }
         JSONObject mongoJs = JSON.parseObject(JSON.toJSONString(mongo), JSONObject.class);
         JSONObject applyJs = mongoJs.getJSONObject("apply");
         if(applyJs != null){
             JSONArray  pmJss = applyJs.getJSONArray("projectModel");
             if(CollectionUtils.isEmpty(pmJss)){
-                throw new BusinessException("获取附件类型失败！投资模式为空！");
+                return list;
             }
             JSONObject pmJs = pmJss.getJSONObject(0);
             projectModelName = pmJs.getString("VALUE");
             JSONArray stJss = applyJs.getJSONArray("serviceType");
             if(CollectionUtils.isEmpty(stJss)){
-                throw new BusinessException("获取附件类型失败！业务类型为空！");
+                return list;
             }
             JSONObject stJs = stJss.getJSONObject(0);
             serviceCode = stJs.getString("KEY");
+        }else{
+            return list;
         }
-        System.out.println(mongoJs);
         commonMethod cm = new commonMethod();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("serviceCode", serviceCode);
         jsonObject.put("projectModelName", projectModelName);
         jsonObject.put("functionType", functionType);
-        List<Map> list = cm.getAttachmentType(JSON.toJSONString(jsonObject));
-        System.out.println(list.size());
-        System.out.println(JSON.toJSONString(list));
-        Map choice = new HashMap();
+        list = cm.getAttachmentType(JSON.toJSONString(jsonObject));
+        choice = new HashMap();
         choice.put("ITEM_CODE", "-1");
         choice.put("ITEM_NAME", "");
         list.add(0, choice);
-        System.out.println(list.size());
         return list;
     }
 }
