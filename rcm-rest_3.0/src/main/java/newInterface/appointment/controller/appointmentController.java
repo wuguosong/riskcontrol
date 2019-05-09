@@ -46,7 +46,9 @@ public class appointmentController {
 	@ResponseBody
 	public Result getMeetingTypeInfo(String par){
 		Result result = new Result();
-		System.out.println("查看约会系统传送过来的会议类型相关数据，par = " + par);
+		
+		System.out.println("-------------------------------------------------查看约会系统传送过来的会议类型相关数据，par = " + par
+				+ "------------------------------------------------------------------------------------");
 		/*try {*/
 			//this.appointmentService.saveMeeting(par);
 			result.setError_code("200");
