@@ -1162,6 +1162,10 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
             $.alert("审批意见不能为空！");
             return;
         }
+        if ($scope.flowVariables.opinion.length < 20) {
+            $.alert("审批意见不能少于20字！");
+            return;
+        }
         if ($scope.flowVariables.opinion.length > 650) {
             $.alert("审批意见不能超过650字！");
             return;
@@ -1201,6 +1205,10 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
         //人员验证
         if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
             $.alert("审批意见不能为空！");
+            return;
+        }
+        if ($scope.flowVariables.opinion.length < 20) {
+            $.alert("审批意见不能少于20字！");
             return;
         }
         if ($scope.flowVariables.opinion.length > 650) {
@@ -1527,6 +1535,10 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 
         if ($scope.flowVariables == null || $scope.flowVariables == 'undefined' || $scope.flowVariables.opinion == undefined || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
             $.alert("审批意见不能为空！");
+            return;
+        }
+        if ($scope.flowVariables.opinion.length < 20) {
+            $.alert("审批意见不能少于20字！");
             return;
         }
         if ($scope.flowVariables.opinion.length > 650) {

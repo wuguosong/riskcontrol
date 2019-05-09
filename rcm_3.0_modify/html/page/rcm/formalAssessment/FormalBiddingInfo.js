@@ -351,7 +351,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     if (storage.newAttachment != "undefined"  && storage.newAttachment != "" && storage.newAttachment != null){
                         $scope.newAttachment = angular.copy(JSON.parse(storage.newAttachment));
                     }
+
                     $scope.formalReport.projectName = angular.copy(storage.projectName);
+                    $scope.meetInfo.projectRating = angular.copy(JSON.parse(storage.projectRating));
                     $scope.meetInfo.ratingReason = angular.copy(storage.ratingReason);
                     if(storage.projectType1 == 'true'){
                         $scope.meetInfo.projectType1 = true;
@@ -2337,12 +2339,14 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 storage.newAttachment = JSON.stringify($scope.newAttachment);
                 storage.mark = JSON.stringify($scope.mark);
                 if ($scope.meetInfo != null) {
+                    storage.projectRating = JSON.stringify($scope.meetInfo.projectRating);
                     storage.ratingReason = $scope.meetInfo.ratingReason;
                     storage.projectType1 = $scope.meetInfo.projectType1;
                     storage.projectType2 = $scope.meetInfo.projectType2;
                     storage.projectType3 = $scope.meetInfo.projectType3;
                     storage.isUrgent = $scope.meetInfo.isUrgent;
                 } else {
+                    storage.projectRating = '';
                     storage.ratingReason = '';
                     storage.projectType1 = '';
                     storage.projectType2 = '';
