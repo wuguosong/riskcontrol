@@ -122,11 +122,11 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                 $("label[for='investmentPersonName']").remove();
                 commonModelOneValue(paramsVal,$scope.pfr.apply.investmentPerson.VALUE,$scope.pfr.apply.investmentPerson.NAME);
             }
-            if($scope.pfr.apply.directPerson != undefined && $scope.pfr.apply.directPerson != null && $scope.pfr.apply.directPerson != ""){
+            /*if($scope.pfr.apply.directPerson != undefined && $scope.pfr.apply.directPerson != null && $scope.pfr.apply.directPerson != ""){
                 paramsVal = "directPerson"
                 $("label[for='directPersonName']").remove();
                 commonModelOneValue(paramsVal,$scope.pfr.apply.directPerson.VALUE,$scope.pfr.apply.directPerson.NAME);
-            }
+            }*/
 
             // 回显数据-业务类型
             if($scope.pfr.apply.serviceType != undefined && $scope.pfr.apply.serviceType != null && $scope.pfr.apply.serviceType != {} ){
@@ -248,15 +248,16 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             commonModelOneValue(paramsVal,value,name);
         }else if(paramsVal=="investmentPerson"){
             $scope.pfr.apply.investmentPerson ={NAME:name,VALUE:value};//赋值保存到数据库
+            $scope.pfr.apply.directPerson ={NAME:name,VALUE:value};//赋值保存到数据库
             $("#investmentPersonName").val(name);
             $("label[for='investmentPersonName']").remove();
             commonModelOneValue(paramsVal,value,name);
-        }else if(paramsVal=="directPerson"){
+        }/*else if(paramsVal=="directPerson"){
             $scope.pfr.apply.directPerson ={NAME:name,VALUE:value};//赋值保存到数据库
             $("#directPersonName").val(name);
             $("label[for='directPersonName']").remove();
             commonModelOneValue(paramsVal,value,name);
-        }
+        }*/
     }
 
     // 选择人员后显示人员的值
@@ -612,11 +613,12 @@ function delObj(o,paramsVal,value,name){
             $("#grassrootsLegalStaffName").val("");
         }else if(paramsVal=="investmentPerson"){
             scope.pfr.apply.investmentPerson ={NAME:'',VALUE:''};//赋值保存到数据库
+            scope.pfr.apply.directPerson ={NAME:'',VALUE:''};//赋值保存到数据库
             $("#investmentPersonName").val("");
-        }else if(paramsVal=="directPerson"){
+        }/*else if(paramsVal=="directPerson"){
             scope.pfr.apply.directPerson ={NAME:'',VALUE:''};//赋值保存到数据库
             $("#directPersonName").val("");
-        }
+        }*/
     });
 }
 function delSelect(o,paramsVal,name,id){
