@@ -142,6 +142,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                 $("#projectmodeboxName").select2("val", " ");
                 commonModelValue2('projectmodebox',$scope.pfr.apply.projectModel);
             }
+            hide_Mask();
         });
     }
 

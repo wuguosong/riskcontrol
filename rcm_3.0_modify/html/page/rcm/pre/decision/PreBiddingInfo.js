@@ -344,8 +344,10 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 if($scope.stage == '3' || $scope.stage == '3.5' || $scope.stage == '3.7' || $scope.stage == '3.9'){
                     $scope.selectFlag = 'true';
                 }
+                hide_Mask();
             }).error(function(data,status,header,config){
                 $.alert(status);
+                hide_Mask();
             });
         }
 

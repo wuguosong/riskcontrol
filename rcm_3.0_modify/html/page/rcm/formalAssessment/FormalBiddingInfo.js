@@ -393,6 +393,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                     $scope.selectFlag = 'true';
                     $scope.hasWaiting = true;
                 }
+                hide_Mask();
             }).error(function (data, status, header, config) {
                 $.alert(status);
             });

@@ -22,7 +22,7 @@
 						<div class="row">
 							<span class="col-md-2 noPadding">项目基本信息</span>
 							<span class="col-md-10 slim">
-								<textarea class="form-control"id="basicInfoOfProject" ng-model="pre.reviewReport.essentialInformation.basicInfoOfProject"  name="basicInfoOfProject"  rows="" cols="" auto-height></textarea>
+								<textarea class="form-control"id="basicInfoOfProject" ng-model="pre.reviewReport.essentialInformation.basicInfoOfProject"  name="basicInfoOfProject"  rows="" cols="" auto-height readonly></textarea>
 							</span>
 						</div>
 					</div>
@@ -303,7 +303,7 @@
 						<div class="row">
 							<span class="col-md-4 noPadding">收入构成</span>
 							<span class="col-md-6 slim">
-								<textarea name="incomeComposition" required ng-model="pre.reviewReport.essentialInformation.incomeComposition"   rows="" cols="" class="form-control" auto-height></textarea>
+								<textarea readonly name="incomeComposition" required ng-model="pre.reviewReport.essentialInformation.incomeComposition"   rows="" cols="" class="form-control" auto-height></textarea>
 							</span>
 						</div>
 					</div>
@@ -311,7 +311,7 @@
 						<div class="row">
 							<span class="col-md-4 noPadding">测算水量</span>
 							<span class="col-md-6 slim">
-								<textarea name="measuringWaterQuantity" required ng-model="pre.reviewReport.essentialInformation.measuringWaterQuantity" rows="" cols="" class="form-control" auto-height></textarea>
+								<textarea readonly name="measuringWaterQuantity" required ng-model="pre.reviewReport.essentialInformation.measuringWaterQuantity" rows="" cols="" class="form-control" auto-height></textarea>
 							</span>
 						</div>
 					</div>
@@ -348,7 +348,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<textarea ng-model="pre.reviewReport.projectConcernsIssues.projectSummary" name="" rows="" cols="" class="form-control"></textarea>
+							<textarea readonly ng-model="pre.reviewReport.projectConcernsIssues.projectSummary" name="" rows="" cols="" class="form-control"></textarea>
 						</div>
 					</div>
 				</div>
@@ -410,7 +410,7 @@
 				<div class="row normalline">
 					<div class="col-md-12 col-sm-12  col-xs-12">
 						<div class="row">
-							<textarea ng-model="pre.reviewReport.projectConcernsIssues.projectSummary" name="" rows="" cols="" class="form-control"></textarea>
+							<textarea readonly ng-model="pre.reviewReport.projectConcernsIssues.projectSummary" name="" rows="" cols="" class="form-control"></textarea>
 						</div>
 					</div>
 				</div>
@@ -436,112 +436,112 @@
 							<td>电度电费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.electricityTariffYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.electricityTariffTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.electricityTariffRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.electricityTariffExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.electricityTariffRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.electricityTariffExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>2</td>
 							<td>基本电费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.basicElectricityYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.basicElectricityTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.basicElectricityRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.basicElectricityExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.basicElectricityRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.basicElectricityExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>3</td>
 							<td>药剂费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.reagentCostYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.reagentCostTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.reagentCostRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.reagentCostExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.reagentCostRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.reagentCostExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>4</td>
 							<td>污泥运输/处置费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.disposalFeeYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.disposalFeeTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.disposalFeeRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.disposalFeeExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.disposalFeeRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.disposalFeeExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>5</td>
 							<td>自来水费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.waterRatesYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.waterRatesTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.waterRatesRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.waterRatesExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.waterRatesRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.waterRatesExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>6</td>
 							<td>人工成本费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laborCostYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laborCostTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.laborCostRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.laborCostExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laborCostRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laborCostExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>7</td>
 							<td>维修及大修费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.maintenanceCostYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.maintenanceCostTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.maintenanceCostRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.maintenanceCostExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.maintenanceCostRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.maintenanceCostExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>8</td>
 							<td>化验检测费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeTonsWater" name="" class="form-control"></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>9</td>
 							<td>财产保险费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>10</td>
 							<td>土地使用税与房产税</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.taxationYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.taxationTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.taxationRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.taxationExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.taxationRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.taxationExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>11</td>
 							<td>取暖费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.heatingFeeYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.heatingFeeTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.heatingFeeRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.heatingFeeExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.heatingFeeRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.heatingFeeExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr><!-- Year TonsWater Remarks  Explain-->
 							<td>12</td>
 							<td>管理费</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.managementExpenseYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.managementExpenseTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.managementExpenseRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.managementExpenseExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.managementExpenseRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.managementExpenseExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>13</td>
 							<td>增值税</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.valueAddedTaxYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.valueAddedTaxTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.valueAddedTaxRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.valueAddedTaxExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.valueAddedTaxRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.valueAddedTaxExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						<tr>
 							<td>14</td>
 							<td>所得税</td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.incomeTaxYear" name="" class="form-control" /></td>
 							<td><input type="text" ng-model="pre.reviewReport.costEstimate.incomeTaxTonsWater" name="" class="form-control" /></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.incomeTaxRemarks" name="" class="form-control" auto-height></textarea></td>
-							<td><textarea rows="" cols="" ng-model="pre.reviewReport.costEstimate.incomeTaxExplain" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.incomeTaxRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.incomeTaxExplain" name="" class="form-control" auto-height></textarea></td>
 						</tr>
 						</tbody>
 					</table>

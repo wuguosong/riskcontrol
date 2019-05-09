@@ -199,7 +199,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 	//新流程相关
 	$scope.initPage = function(){
 		if($scope.isOldFlow){
-			debugger;
 			//旧流程
 			$scope.oldFlowTask();
 			if(typeof (params[1])=='string' && typeof (params[2])=='string' && params[1]!='' && params[2]!=''){//已经启动流程
@@ -249,14 +248,10 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 			$scope.pre  = data.result_data.mongo;
 			
 			$scope.attach = data.result_data.attach;
-            /*********附件问题使JS报错,导致后面代码不再执行 AddByLiPan*********/
+
             //处理附件
-            if(!isEmpty(data.result_data.mongoData)){
-                if(!isEmpty(data.result_data.mongoData.attachmentList)){
-                    $scope.reduceAttachment(data.result_data.mongoData.attachmentList, businessId);
-                }
-            }
-			/*********附件问题使JS报错,导致后面代码不再执行 AddByLiPan*********/
+			$scope.reduceAttachment(data.result_data.mongo.attachmentList, businessId);
+
 			if(!$scope.pre.approveAttachment){
 				$scope.addFormalComment();
 				$scope.approveShow = false;
@@ -1149,7 +1144,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
         $("#userSinDialog").modal('show');
     };
     $scope.changeWork = function () {
-        debugger;
         console.log($scope.approve);
         //人员验证
         if ($scope.checkedUser.NAME == null || $scope.checkedUser.NAME == '') {

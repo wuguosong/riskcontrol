@@ -163,6 +163,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
                 $("#projectmodeboxName").select2("val", " ");
                 commonModelValue2('projectmodebox',$scope.pre.apply.projectModel);
             }
+            hide_Mask();
         });
     };
 

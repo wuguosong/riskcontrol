@@ -1,5 +1,5 @@
 ctmApp.register.controller('PreNormalReportView',['$http','$scope','$location','$routeParams','$timeout',function ($http,$scope,$location,$routeParams,$timeout) {
-	
+	console.log("PreNormalReportView")
 	$scope.oldUrl = $routeParams.url;
     $scope.paramId = $routeParams.id;
     

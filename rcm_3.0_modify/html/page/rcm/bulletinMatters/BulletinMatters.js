@@ -714,6 +714,7 @@ ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$loca
             $scope.reduceAttachment(data.bulletinMongo.attachmentList, id);
 
 			$scope.initPage();
+            hide_Mask();
 		});
 	};
 	$scope.initDefaultData();

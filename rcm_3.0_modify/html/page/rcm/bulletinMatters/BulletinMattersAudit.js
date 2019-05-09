@@ -356,6 +356,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			$scope.auditLogs = data.logs;
 			$scope.initPage();
 			$scope.getTaskInfoByBusinessId($scope.queryParamId,"bulletin");
+            hide_Mask();
 		});
 	};
 	$scope.initDefaultData();

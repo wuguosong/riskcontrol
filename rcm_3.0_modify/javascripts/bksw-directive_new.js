@@ -3062,6 +3062,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 上传
             $scope._uploadThat = function (_file, _idx, _item) {
+                show_Mask();
                 Upload.upload({
                     url: srvUrl + 'cloud/upload.do',
                     data: {
@@ -3109,6 +3110,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 替换
             $scope._uploadReplace = function (_file, _idx, _item) {
+                show_Mask();
                 $scope.cancel();
                 Upload.upload({
                     url: srvUrl + 'cloud/replace.do',
