@@ -93,7 +93,7 @@
                     <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
                         <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
                         <span>{{_message_.createdDept}}</span>
-                        <span>{{_message_.createdPosition}}</span>
+                        <span>{{_message_.createdPosition}}</span><br>
                         <span style="font-size: small;">{{_message_.messageDate}}</span>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
                            ng-click="_delete_message_(_message_.messageId, _message_)"
@@ -102,10 +102,12 @@
                            ng-click="_delete_message_(_message_.messageId, _message_)"
                            ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0 && _is_show_reply_btn_">撤回</a>
                     </div>
-                    <div ng-include="'page/sys/common/message_file.html'"></div>
+                    <div ng-if="!_attach_file_is_popup_" ng-include="'page/sys/common/message_file.html'"></div>
+                    <a ng-if="_attach_file_is_popup_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)">附件</a>
+                    <span ng-if="_attach_file_is_popup_" ng-include="'page/sys/common/file_info.html'"></span>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
-                                  readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
+                             readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
                                 style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
                 </div>
@@ -114,13 +116,15 @@
                     <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
                         <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
                         <span>{{_message_.createdDept}}</span>
-                        <span>{{_message_.createdPosition}}</span>
+                        <span>{{_message_.createdPosition}}</span><br>
                         <span style="font-size: small;">{{_message_.messageDate}}</span>
                         <a href="javascript:void(0);" style="font-size: small;color: blue; "
                            ng-click="_delete_message_(_message_.messageId, _message_)"
                            ng-if="_message_.createdBy == _init_uuid_global_ && _is_show_reply_btn_">撤回</a>
                     </div>
-                    <div ng-include="'page/sys/common/message_file.html'"></div>
+                    <div ng-if="!_attach_file_is_popup_" ng-include="'page/sys/common/message_file.html'"></div>
+                    <a ng-if="_attach_file_is_popup_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)">附件</a>
+                    <span ng-if="_attach_file_is_popup_" ng-include="'page/sys/common/file_info.html'"></span>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                         <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
                                 style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
@@ -337,6 +341,52 @@
                             <input type="text" class="form-control"  ng-model="_message_user.EMAIL" ng-readonly="true">
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="button-group">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--附件选择弹窗-->
+    <div id="_message_attach_dialog{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content panel">
+                <div class="modal-header panel-heading" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="_message_attach_dialog_close_()">×</button>
+                    <h4 class="modal-title" id="_my_message_attach_modal_label{{_screen_type_}}">附件上传</h4>
+                </div>
+                <div class="modal-body panel-body">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-6 td-checkbox txl noLeftPadMin">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" class="px" name="_is_show_upload_part_" id="_is_show_upload_part_{{_screen_type_}}" ng-model="_is_show_upload_part_" ng-checked="_is_show_upload_part_" ng-click="_show_link_resources_popup()"/>
+                            <span class="lbl">替换相关资源附件</span>
+                        </label>
+                        <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_" ng-include="'page/sys/common/message_file.html'"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="button-group">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--相关资源附件弹窗-->
+    <div id="_relation_resources_popup_{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content panel">
+                <div class="modal-header panel-heading" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="_relation_resources_popup_close_()">×</button>
+                    <h4 class="modal-title" id="_relation_resources_abel_{{_screen_type_}}">相关资源</h4>
+                </div>
+                <div class="modal-body panel-body" id="_relation_resources_popup_body{{_screen_type_}}">
                 </div>
                 <div class="modal-footer">
                     <div class="button-group">

@@ -1651,6 +1651,10 @@ ctmApp.directive('bbsChatNew', function() {
             priorityDescription:'@',// 优先级别文字描述,如：特急,一般,紧急
             screenType:'@',//分屏类型
             pageTitle:'@',// 留言页面描述,多tab情况下用来进行tab区分
+            isValidateAttachType:'@',// 是否进行附件类型的校验， 默认为true
+            isShowAttachType:'@',// 是否展示附件类型选项，默认为true
+            attachFileIsPopup:'@',// 附件上传是否选择弹窗方式，默认true
+            relationSourcesPopup:'@',// 业务附件弹窗ID
         },
         link:function(scope, element, attr){
         },
@@ -1661,8 +1665,28 @@ ctmApp.directive('bbsChatNew', function() {
             }else{
                 $scope._page_title_ = $scope.pageTitle;
             }
+            // 附件上传是否选择弹窗方式
+            if(isEmpty($scope.attachFileIsPopup)){
+                $scope._attach_file_is_popup_ = true;
+            }else{
+                $scope._attach_file_is_popup_ = $scope.attachFileIsPopup == 'true';
+            }
+            // 是否显示附加类型下拉框
+            if(isEmpty($scope.isShowAttachType)){
+                $scope._is_show_attach_type_ = true;
+            }else{
+                $scope._is_show_attach_type_ = $scope.isShowAttachType == 'true';
+            }
             // 是否进行附件类型检测
-            $scope._is_check_attach_type_ = $scope.messageType == 'preReview' || $scope.messageType == 'formalReview';
+            if(isEmpty($scope.isValidateAttachType)){
+                $scope._is_validate_attach_type_ = true;
+            }else{
+                $scope._is_validate_attach_type_ = $scope.isValidateAttachType == 'true';
+            }
+            // 再次判断
+            if(!$scope._is_show_attach_type_){
+                $scope._is_validate_attach_type_ = false;
+            }
             // 定义附件类型
             $scope._attach_types_ = [];
             // 定义查询参数
@@ -2141,7 +2165,7 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 留言中的过程附件
             $scope._message_upload_file_ = function(_file_, _message_){
-                if($scope._is_check_attach_type_){
+                if($scope._is_validate_attach_type_){
                     if(_message_.messageFileType == -1){
                         $.alert("请选择资源类型！");
                         return;
@@ -2200,6 +2224,36 @@ ctmApp.directive('bbsChatNew', function() {
                     $window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
                 }
             };
+            // 展示上传附件弹窗
+            $scope._show_message_attach_popup = function(_message_){
+                $scope._is_show_upload_part_ = false;
+                $('#_message_attach_dialog' + $scope._screen_type_).modal('show');
+                $scope._message_ = _message_;
+            };
+            // 展示相关资源弹窗
+            $scope._show_link_resources_popup = function(){
+                if(!isEmpty($scope.relationSourcesPopup)){
+                    if($scope._is_show_upload_part_){
+                        $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
+                        $('#_relation_resources_popup_body' + $scope._screen_type_).append($('#' + $scope.relationSourcesPopup).html());
+                        $('#_relation_resources_popup_' + $scope._screen_type_).modal('show');
+                    }else{
+                        $('#_relation_resources_popup_' + $scope._screen_type_).modal('hide');
+                        $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
+                    }
+                }
+            };
+            // 附件上传弹窗关闭事件
+            $scope._message_attach_dialog_close_ = function(){
+                $scope._is_show_upload_part_ = false;
+            };
+            $scope._relation_resources_popup_close_ = function(){
+                $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
+            };
+            // 相关资源弹窗关闭事件
+            /*$('#_relation_resources_popup_' + $scope._screen_type_).on('hide.bs.modal', function () {
+             // 执行其它操作
+             });*/
         }
     };
 });
