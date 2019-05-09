@@ -1661,6 +1661,8 @@ ctmApp.directive('bbsChatNew', function() {
             }else{
                 $scope._page_title_ = $scope.pageTitle;
             }
+            // 是否进行附件类型检测
+            $scope._is_check_attach_type_ = $scope.messageType == 'preReview' || $scope.messageType == 'formalReview';
             // 定义附件类型
             $scope._attach_types_ = [];
             // 定义查询参数
@@ -2139,9 +2141,11 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 留言中的过程附件
             $scope._message_upload_file_ = function(_file_, _message_){
-                if(_message_.messageFileType == -1){
-                    $.alert("请选择资源类型！");
-                    return;
+                if($scope._is_check_attach_type_){
+                    if(_message_.messageFileType == -1){
+                        $.alert("请选择资源类型！");
+                        return;
+                    }
                 }
                 Upload.upload({
                     url: srvUrl + 'cloud/upload.do',

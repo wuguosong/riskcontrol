@@ -256,7 +256,22 @@
 														  init-update="initUpdate(id)"></directive-accachment-new>
 							</div>
 							<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
-								<bbs-chat-new id="bulletinMattersAuditBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+								<div class="panel-body">
+									<div class="myTab">
+										<ul class="nav nav-tabs bs-tabdrop-example">
+											<a class="btn tab tab-90 active" href="/#reviewMessageTab" data-toggle="tab">评审留言</a>
+											<a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a>
+										</ul>
+									</div>
+									<div class="tab-content tab-content-bordered clearfix row">
+										<div class="tab-pane in active" id="reviewMessageTab">
+											<bbs-chat-new id="bulletinMattersAuditBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" page-title="评审留言"></bbs-chat-new>
+										</div>
+										<div class="tab-pane" id="legalMessageTab">
+											<bbs-chat-new id="bulletinMattersAuditBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" page-title="法律留言"></bbs-chat-new>
+										</div>
+									</div>
+								</div>
 							</div>
 							<!--<div class="row">
 								<button type="button" ng-click="batchDownload()" id="batchDownloadBtn" class="btn btn-info" title="">

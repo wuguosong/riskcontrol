@@ -7,7 +7,7 @@
         }
     </style>
     <a ng-if="_messages_array_.length  > 0" href="javascript:void(0);" id="_first_floor_{{_screen_type_}}"></a>
-    <div style="text-align: center;font-size: larger;font-weight: bolder;" ng-if="_page_title_ != ''">{{_page_title_}}</div>
+    <div ng-if="_page_title_ != ''" style="text-align: center;font-size: larger;font-weight: bolder;">{{_page_title_}}</div>
     <div ng-if="_is_show_publish_btn_">
         <!--头部留言表单部分-->
         <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"

@@ -479,7 +479,22 @@
 										</div>-->
 									</div>
 									<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
-										<bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+										<div class="panel-body">
+											<div class="myTab">
+												<ul class="nav nav-tabs bs-tabdrop-example">
+													<a class="btn tab tab-90 active" href="/#reviewMessageTab" data-toggle="tab">评审留言</a>
+													<a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a>
+												</ul>
+											</div>
+											<div class="tab-content tab-content-bordered clearfix row">
+												<div class="tab-pane in active" id="reviewMessageTab">
+													<bbs-chat-new id="formAssessmentAuditDetailBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" page-title="评审留言"></bbs-chat-new>
+												</div>
+												<div class="tab-pane" id="legalMessageTab">
+													<bbs-chat-new id="formAssessmentAuditDetailBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" page-title="法律留言"></bbs-chat-new>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 								<!--<div class="tab-pane clearfix row" id="bbs_chat">
