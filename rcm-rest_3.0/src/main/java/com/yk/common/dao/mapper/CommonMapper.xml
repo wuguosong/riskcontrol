@@ -10,8 +10,8 @@
             lg.*,
             lg.projectname as "projectName"
             from  rcm_formalassessment_info lg
-            where lg.stage = '1'
-            and lg.businessid = #{id}
+            where lg.WF_STATE = '1'
+            and lg.PROJECTNUM = #{id}
         </if>
         /*投标评审审批*/
         <if test="type != null and type != '' and type == 'preReview'">
@@ -19,8 +19,8 @@
             lg.*,
             lg.projectname as "projectName"
             from  rcm_pre_info lg
-            where lg.stage = '1'
-            and lg.businessid = #{id}
+            where lg.WF_STATE = '1'
+            and lg.PROJECTNUM = #{id}
         </if>
         /*其它评审审批*/
         <if test="type != null and type != '' and type == 'bulletin'">
@@ -28,8 +28,8 @@
             lg.*,
             lg.bulletinname as "projectName"
             from  rcm_bulletin_info lg
-            where lg.stage = '1'
-            and lg.businessid = #{id}
+            where lg.AUDITSTATUS = '1'
+            and lg.PROJECTNUM = #{id}
         </if>
     </select>
     <!--查询评审中的项目-->

@@ -428,7 +428,49 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
                 alert(result.review.message);
                 return;
             } else {
-                $scope.showSubmitModal();
+                $scope.beforeSubmit();
+            }
+        });
+    };
+
+    // 确认提交前验证附件
+    $scope.beforeSubmit = function(){
+        var serviceCode = $scope.serviceType[0].KEY;
+        var projectModelName = '';
+        if(isEmpty($scope.projectModel[0])) {
+            projectModelName = $scope.projectModel.VALUE;
+        } else {
+            projectModelName = $scope.projectModel[0].VALUE;
+        }
+        var functionType = '预评审';
+        $http({
+            method:'post',
+            url: srvUrl + 'preInfoCreate/checkAttachment.do',
+            data: $.param({"json":JSON.stringify({"businessId":$scope.id,"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType})})
+        }).success(function(result){
+            if (result.success) {
+                if(!isEmpty(result.result_data)){
+                    if (result.result_data[0].code != '500'){
+                        var type = '';
+                        var pmNameArr=[];
+                        var pm=result.result_data;
+                        if(null!=pm && pm.length>0){
+                            for(var j=0;j<pm.length;j++){
+                                pmNameArr.push(pm[j].ITEM_NAME);
+                            }
+                            type = pmNameArr.join("、");
+                        }
+                        alert("附件类型为" + type + "的附件没有添加，请添加后再提交！");
+                        return;
+                    } else {
+                        alert("该模式附件类型为空，请联系管理员！");
+                        return;
+                    }
+                } else {
+                    $scope.showSubmitModal();
+                }
+            } else {
+                $.alert(result.result_name);
             }
         });
     };
@@ -562,47 +604,6 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         $("label[for='projectNameTZ']").remove();
     };
 
-    // 确认提交前验证附件
-    $scope.beforeSubmit = function(){
-        var serviceCode = $scope.serviceType[0].KEY;
-        var projectModelName = '';
-        if(isEmpty($scope.projectModel[0])) {
-            projectModelName = $scope.projectModel.VALUE;
-        } else {
-            projectModelName = $scope.projectModel[0].VALUE;
-        }
-        var functionType = '预评审';
-        $http({
-            method:'post',
-            url: srvUrl + 'preInfoCreate/checkAttachment.do',
-            data: $.param({"json":JSON.stringify({"businessId":$scope.id,"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType})})
-        }).success(function(result){
-            if (result.success) {
-                if(!isEmpty(result.result_data)){
-                    if (result.result_data[0].code != '500'){
-                        var type = '';
-                        var pmNameArr=[];
-                        var pm=result.result_data;
-                        if(null!=pm && pm.length>0){
-                            for(var j=0;j<pm.length;j++){
-                                pmNameArr.push(pm[j].ITEM_NAME);
-                            }
-                            type = pmNameArr.join("、");
-                        }
-                        alert("附件类型为" + type + "的附件没有添加，请添加后再提交！");
-                        return false;
-                    } else {
-                        alert("该模式附件类型为空，请联系管理员！");
-                        return false;
-                    }
-                } else {
-                    return true;
-                }
-            } else {
-                $.alert(result.result_name);
-            }
-        });
-    };
 
     $scope.$watch('pre.apply.projectModel', $scope.changeProjectModel);
 

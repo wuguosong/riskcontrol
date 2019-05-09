@@ -1785,7 +1785,6 @@ ctmApp.directive('bbsChatNew', function() {
             // 保存留言表单信息
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var formData = null;
-                debugger;
                 if(_is_first_ == 'Y'){
                     formData = $scope._message_first;
                     formData.originalId = 0;
@@ -4560,16 +4559,19 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                 }
                 var processOptions = $scope.approve.processOptions;
 
-                if (processOptions[0].documentation != null && processOptions[0].documentation != '') {
-                    var docObj = JSON.parse(processOptions[0].documentation);
+                if (!isEmpty(processOptions)) {
+                    if (processOptions[0].documentation != null && processOptions[0].documentation != '') {
+                        var docObj = JSON.parse(processOptions[0].documentation);
 
-                    if (docObj.mark == "reviewPassMark") {
-                        $scope.showReviewToConfirm = true;
-                    }
-                    if (docObj.mark == "legalPassMark") {
-                        $scope.showLegalToConfirm = true;
+                        if (docObj.mark == "reviewPassMark") {
+                            $scope.showReviewToConfirm = true;
+                        }
+                        if (docObj.mark == "legalPassMark") {
+                            $scope.showLegalToConfirm = true;
+                        }
                     }
                 }
+
 
                 //流程选项
                 for (var i in processOptions) {
@@ -4619,15 +4621,6 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
             $scope.submitInfo = {};
             $scope.submitInfo.currentTaskVar = {};
             $scope.submitNext = function () {
-                if(!isEmpty($scope.beforeSubmit)){
-                    if(typeof $scope.beforeSubmit == 'function'){
-                        if(!$scope.beforeSubmit()){
-                            $('#submitModal').modal('hide');
-                            $("#submibtnn").hide();
-                            return;
-                        }
-                    }
-                }
                 /********Add By LiPan
                  * 此处发现选择了"加签"单选以后,
                  * $scope.showReviewToConfirm的值依然是true
@@ -5045,14 +5038,16 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                 }
                 var processOptions = $scope.approve.processOptions;
 
-                if (processOptions[0].documentation != null && processOptions[0].documentation != '') {
-                    var docObj = JSON.parse(processOptions[0].documentation);
+                if (!isEmpty(processOptions)) {
+                    if (processOptions[0].documentation != null && processOptions[0].documentation != '') {
+                        var docObj = JSON.parse(processOptions[0].documentation);
 
-                    if (docObj.mark == "reviewPassMark") {
-                        $scope.showReviewToConfirm = true;
-                    }
-                    if (docObj.mark == "legalPassMark") {
-                        $scope.showLegalToConfirm = true;
+                        if (docObj.mark == "reviewPassMark") {
+                            $scope.showReviewToConfirm = true;
+                        }
+                        if (docObj.mark == "legalPassMark") {
+                            $scope.showLegalToConfirm = true;
+                        }
                     }
                 }
 
@@ -5163,15 +5158,6 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
             $scope.submitInfo = {};
             $scope.submitInfo.currentTaskVar = {};
             $scope.submitNext = function () {
-                if(!isEmpty($scope.beforeSubmit)){
-                    if(typeof $scope.beforeSubmit == 'function'){
-                        if(!$scope.beforeSubmit()){
-                            $('#submitModal').modal('hide');
-                            $("#submibtnn").hide();
-                            return;
-                        }
-                    }
-                }
                 /********Add By LiPan
                  * 此处发现选择了"加签"单选以后,
                  * $scope.showReviewToConfirm的值依然是true

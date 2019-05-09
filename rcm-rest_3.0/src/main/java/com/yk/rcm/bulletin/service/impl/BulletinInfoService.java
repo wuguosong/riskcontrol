@@ -91,6 +91,8 @@ public class BulletinInfoService implements IBulletinInfoService {
 		data.put("auditStatus", "0");
 		data.put("status", "0");
 		data.put("stage", "1");
+		data.put("projectName", doc.get("projectName"));
+		data.put("projectNum", doc.get("projectNo"));
 		this.bulletinInfoMapper.save(data);
 		this.saveDefaultProRole(data);
 		System.out.println((String)data.get("businessId"));

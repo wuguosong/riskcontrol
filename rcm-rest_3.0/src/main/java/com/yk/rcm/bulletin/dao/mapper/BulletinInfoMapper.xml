@@ -36,8 +36,8 @@
 	</update>
 	<insert id="save" parameterType="map">
 		insert into rcm_bulletin_info(bulletinname,bulletintypeid,businessid,applyunitid,
-		unitpersonid,createby,auditstatus,status,stage,PERTAINAREAID)values(#{bulletinName},#{bulletinTypeId},
-		#{businessId},#{applyUnitId},#{unitPersonId},#{createBy},#{auditStatus},#{status},#{stage},#{pertainareaId})
+		unitpersonid,createby,auditstatus,status,stage,PERTAINAREAID,projectname,projectnum)values(#{bulletinName},#{bulletinTypeId},
+		#{businessId},#{applyUnitId},#{unitPersonId},#{createBy},#{auditStatus},#{status},#{stage},#{pertainareaId},#{projectName},#{projectNum})
 	</insert>
 
 	<delete id="deleteByBusinessId" parameterType="string">
