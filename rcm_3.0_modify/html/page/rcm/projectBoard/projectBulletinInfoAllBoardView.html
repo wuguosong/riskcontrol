@@ -31,18 +31,18 @@
 								<label class="col-sm-2 control-label">所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
 									<div class="full-drop">
-										<input type="text" readonly required class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+										<input type="text" readonly required-m class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
 									</div>
 								</div>
-								<label class="col-sm-2 control-label"><span class="required"></span>单位负责人</label>
+								<label class="col-sm-2 control-label"><span class="required-m"></span>单位负责人</label>
 								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
+									<input type="text" readonly required-m class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
 								</div>
 							</div>
 							<div class="row">
 								<label class="col-sm-2 control-label">申请人</label>
 								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
+									<input type="text" readonly required-m class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
 								</div>
 								<label class="col-sm-2 control-label">申请时间</label>
 								<div class="col-sm-4 has-feedback">
@@ -51,31 +51,31 @@
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>事项类型</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
 								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="bulletinType" name="bulletinType" ng-model="bulletin.bulletinType.NAME">
+									<input type="text" readonly required-m class="form-control" id="bulletinType" name="bulletinType" ng-model="bulletin.bulletinType.NAME">
 								</div>
 								<label ng-if="bulletin.businessPerson.NAME!=null" class="col-sm-2 control-label">职能部门负责人</label>
 								<div ng-if="bulletin.businessPerson.NAME!=null" class="col-sm-4">
-									<input class="form-control" readonly required id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
+									<input class="form-control" readonly required-m id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>申报事项</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
 								<div class="col-sm-10">
-									<input type="text" readonly required class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
+									<input type="text" readonly required-m class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>事项原因</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项原因</label>
 								<div class="col-sm-10">
-									<textarea readonly required class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
+									<textarea readonly required-m class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>申请需求</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>申请需求</label>
 								<div class="col-sm-10">
-									<textarea readonly required class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
+									<textarea readonly required-m class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
 								</div>
 							</div>
 							<div ng-show="bulletin.businessOpinion!=null && bulletin.businessOpinion!=''" class="row">

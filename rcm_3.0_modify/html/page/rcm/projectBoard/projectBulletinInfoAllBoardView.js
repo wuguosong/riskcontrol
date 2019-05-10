@@ -15,9 +15,7 @@ ctmApp.register.controller('projectBulletinInfoAllBoardView', ['$http','$scope',
              console.log(file);
              for (var j in $scope.newAttachment){
                  if (file.fileId == $scope.newAttachment[j].fileid){
-                     $scope.newAttachment[j].fileName = file.fileName;
-                     $scope.newAttachment[j].type = file.type;
-                     $scope.newAttachment[j].itemType = file.itemType;
+                     $scope.newAttachment[j].fileName = file.oldFileName;
                      $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
                      $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
                      break;

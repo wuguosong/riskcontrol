@@ -120,7 +120,7 @@
                 </td>
                 <td ng-if="isChoose">
                     <label class="checkbox-inline choose">
-                        <input type="checkbox" name="fileChoose{{$index}}" ng-click="_changeChoose($index, item.fileid)" class="px" ng-checked="item.isMettingAttachment == '1'"/>
+                        <input type="checkbox" disabled="isDisabled" name="fileChoose{{$index}}" ng-click="_changeChoose($index, item.fileid)" class="px" ng-checked="item.isMettingAttachment == '1'"/>
                         <span class="lbl">&nbsp;</span>
                     </label>
                 </td>
