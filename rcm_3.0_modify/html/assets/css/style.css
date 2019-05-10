@@ -392,7 +392,9 @@ form .left-content {
   color: red;
 }
 .gt-ie8 .radio-inline.local input.px+.lbl:before,
-.gt-ie8 .radio-inline.local input.px+.lbl:after{
+.gt-ie8 .radio-inline.local input.px+.lbl:after,
+.gt-ie8 .checkbox-inline.local input.px+.lbl:before,
+.gt-ie8 .checkbox-inline.local input.px+.lbl:after{
   margin: 10px 3px -4px -20px!important
 }
 
@@ -404,11 +406,6 @@ form .left-content {
 .gt-ie8 .checkbox-inline.choose input.px+.lbl:before,
 .gt-ie8 .checkbox-inline.choose input.px+.lbl:after{
   margin: 15px 3px -4px -20px!important;
-}
-
-.gt-ie8 .checkbox-inline.local input.px+.lbl:before,
-.gt-ie8 .checkbox-inline.local input.px+.lbl:after{
-  margin: 10px 3px -4px -20px!important;
 }
 
 .gt-ie8 .checkbox-inline.zchoose input.px+.lbl:before,

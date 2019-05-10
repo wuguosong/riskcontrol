@@ -209,11 +209,11 @@
                 <div class="row">
                     <span class="col-md-6 noPadding">是否紧急上会</span>
                     <span class="col-md-6 slim">
-                        <label class="radio radio-inline">
-                            <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px" ng-checked="true"/><span class="lbl">否</span>
+                        <label class="radio radio-inline local">
+                            <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="0" class="px" ng-checked="true" disabled/><span class="lbl">否</span>
                         </label>
-                        <label class="radio radio-inline">
-                            <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="1" class="px"/><span class="lbl">是</span>
+                        <label class="radio radio-inline local">
+                            <input type="radio"  name="isurgent" ng-model="meetInfo.isUrgent" value="1" class="px" disabled/><span class="lbl">是</span>
                         </label>
                     </span>
                 </div>
@@ -226,21 +226,17 @@
                 <textarea style="resize:vertical;"
                           name="ratingReason"
                           ng-model="meetInfo.ratingReason"
-                          class="form-control ng-pristine ng-valid ng-touched" required></textarea>
-                <div class="error-messages"
-                     ng-if="interacted(formalReportForm.ratingReason)">
-                    这里是必填项
-                </div>
+                          class="form-control ng-pristine ng-valid ng-touched" disabled></textarea>
                 <div class="radioline">
-                    <label class="checkbox-inline">
+                    <label class="checkbox-inline local">
                         <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType1" name="projectType"/>
                         <span class="lbl">项目简单</span>
                     </label>
-                    <label class="checkbox-inline">
+                    <label class="checkbox-inline local">
                         <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType2" name="projectType"/>
                         <span class="lbl">风险较低</span>
                     </label>
-                    <label class="checkbox-inline">
+                    <label class="checkbox-inline local">
                         <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType3" name="projectType"/>
                         <span class="lbl">收益较好</span>
                     </label>
