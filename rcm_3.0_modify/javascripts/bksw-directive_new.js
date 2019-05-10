@@ -6116,7 +6116,7 @@ ctmApp.directive('cloudFile', function () {
             showReplace:'@',// 是否展示替换按钮，默认为false
             showDownload:'@',// 是否展示下载按钮，默认为true
             showDelete:'@',// 是否展示删除按钮，默认true
-            showUploadOrReplace: '@', // 是否展示浏览按钮，默认true
+            showUploadOrReplace: '@', // 是否展示浏览按钮，默认false
             uploadText:'@',// 上传按钮本本，默认：选择
             downloadText:'@',//下载按钮文本，默认：下载
             previewText:'@',// 预览按钮文本，默认：预览
@@ -6241,7 +6241,7 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
             }
             if(isEmpty($scope.showUploadOrReplace)){
-                $scope._cloud_show_upload_or_replace_ = true;
+                $scope._cloud_show_upload_or_replace_ = false;
             }else{
                 $scope._cloud_show_upload_or_replace_ = $scope.showUploadOrReplace == 'true';
             }

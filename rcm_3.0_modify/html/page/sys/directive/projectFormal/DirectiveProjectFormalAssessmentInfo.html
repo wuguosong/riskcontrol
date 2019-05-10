@@ -69,6 +69,10 @@
      <div class="row">
          <label class="col-sm-2 control-label">市场投资中心项目负责人</label>
          <div class="col-sm-4">
+             <input type="text" readonly  class="form-control" name="investmentPersonName" id="investmentPersonName"   ng-model="pfr.apply.investmentPerson.NAME" >
+             <input type="hidden" name="investmentPersonValue" ng-model="pfr.apply.investmentPerson.VALUE">
+         </div>
+         <!--<div class="col-sm-4">
              <div class="col-sm-6 noleft-pad noright-pad has-feedback">
                  <input type="text" readonly  class="form-control" name="investmentPersonName" id="investmentPersonName"   ng-model="pfr.apply.investmentPerson.NAME" >
                  <input type="hidden" name="investmentPersonValue" ng-model="pfr.apply.investmentPerson.VALUE">
@@ -77,7 +81,7 @@
                  <input type="text"  readonly class="form-control" name="directPersonName" id="directPersonName" ng-model="pfr.apply.directPerson.NAME">
                  <input type="hidden" name="directPersonValue" ng-model="pfr.apply.directPerson.VALUE" >
              </div>
-         </div>
+         </div>-->
          <label for="projectSize" class="col-sm-2 control-label">项目规模</label>
          <div class="col-sm-4">
              <textarea  readonly class="form-control" id="projectSize" name="projectSize" ng-model="pfr.apply.projectSize" placeholder=""></textarea>

@@ -21,6 +21,23 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     $scope.title = "";
 
     // 获取系统当前时间
+    $scope.getShowDate = function () {
+        var myDate = new Date();
+        //获取当前年
+        var year = myDate.getFullYear();
+        //获取当前月
+        var month = myDate.getMonth() + 1;
+        if (month < 10){
+            month = '0' + month;
+        }
+        //获取当前日
+        var date = myDate.getDate();
+        if (date < 10){
+            date = '0' + date;
+        }
+        var now = year + '-' + month + "-" + date;
+        return now;
+    };
     $scope.getDate = function () {
         var myDate = new Date();
         //获取当前年
@@ -56,6 +73,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     // 初始化新增数据
     $scope.initCreate = function () {
         $scope.pre.create_date = $scope.getDate();
+        $scope.showCreateDate = $scope.getShowDate();
         $scope.pre.apply.createby = $scope.credentials.UUID;
         $scope.pre.apply.investmentModel = '0';
        /* $scope.pre.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};

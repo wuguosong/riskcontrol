@@ -96,6 +96,10 @@
         <div class="row">
             <label class="col-sm-2 control-label">市场投资中心项目负责人</label>
             <div class="col-sm-4">
+                <input type="text" readonly  class="form-control" name="investmentPersonName" id="investmentPersonName"   ng-model="pre.apply.investmentPerson.NAME" >
+                <input type="hidden" name="investmentPersonValue" ng-model="pre.apply.investmentPerson.VALUE">
+            </div>
+            <!--<div class="col-sm-4">
                 <div class="col-sm-6 noleft-pad noright-pad has-feedback">
                     <input type="text" readonly  class="form-control" name="investmentPersonName" id="investmentPersonName"   ng-model="pre.apply.investmentPerson.NAME" >
                     <input type="hidden" name="investmentPersonValue" ng-model="pre.apply.investmentPerson.VALUE">
@@ -104,7 +108,7 @@
                     <input type="text"  readonly class="form-control" name="directPersonName" id="directPersonName" ng-model="pre.apply.directPerson.NAME">
                     <input type="hidden" name="directPersonValue" ng-model="pre.apply.directPerson.VALUE" >
                 </div>
-            </div>
+            </div>-->
             <label class="col-sm-2 control-label">申请填写日期</label>
             <div class="col-sm-4 has-feedback">
                 <input type="text"  readonly class="form-control"  readonly id="create_date" name="create_date" ng-model="pre.create_date" />
