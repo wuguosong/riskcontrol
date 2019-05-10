@@ -6222,6 +6222,7 @@ ctmApp.directive('cloudFile', function () {
             }else{
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
             }
+
             // 云组件root初始化
             $scope._cloud_ = $scope.fileId + '_' + $scope.fileLocation + '_' + $scope._cloud_area_code_;
             // 显示初始化
@@ -6457,7 +6458,8 @@ ctmApp.directive('directCommonUpload', function(){
             //对话框的标题，如果没设置，默认为“人员选择”
             title: "@",
             attachment: "@",
-            callback: "="
+            callback: "=",
+            businessid: "="
         },
         controller:function($scope,$location,$http,Upload){
             $scope.errorAttach=[];

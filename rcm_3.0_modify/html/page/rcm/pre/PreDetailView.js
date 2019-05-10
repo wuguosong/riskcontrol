@@ -76,6 +76,7 @@ ctmApp.register.controller('PreDetailView', ['$routeParams','$http','$scope','$l
 				}
 				$scope.pre.apply.serviceType=pt1NameArr.join(",");
 			}
+			hide_Mask();
 		});
 	}
 	

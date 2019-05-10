@@ -42,20 +42,20 @@
 								<label class="col-sm-2 control-label">所属大区</label>
 								<div class="col-sm-4 has-feedback reporting-unit">
 									<div class="full-drop">
-										<input type="text" readonly required class="form-control" id="applyUnitName"
+										<input type="text" readonly required-m class="form-control" id="applyUnitName"
 											   name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
 									</div>
 								</div>
-								<label class="col-sm-2 control-label"><span class="required"></span>单位负责人</label>
+								<label class="col-sm-2 control-label"><span class="required-m"></span>单位负责人</label>
 								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="unitPersonName"
+									<input type="text" readonly required-m class="form-control" id="unitPersonName"
 										   name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
 								</div>
 							</div>
 							<div class="row">
 								<label class="col-sm-2 control-label">申请人</label>
 								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="applyUserName"
+									<input type="text" readonly required-m class="form-control" id="applyUserName"
 										   name="applyUserName" ng-model="bulletin.applyUser.NAME">
 								</div>
 								<label class="col-sm-2 control-label">申请时间</label>
@@ -66,35 +66,35 @@
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>事项类型</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
 								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="bulletinType"
+									<input type="text" readonly required-m class="form-control" id="bulletinType"
 										   name="bulletinType" ng-model="bulletin.bulletinType.NAME">
 								</div>
 								<label class="col-sm-2 control-label">职能部门负责人</label>
 								<div class="col-sm-4">
-									<input class="form-control" readonly required id="businessPersonName"
+									<input class="form-control" readonly required-m id="businessPersonName"
 										   name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>申报事项</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
 								<div class="col-sm-10">
-									<input type="text" readonly required class="form-control" id="bulletinName"
+									<input type="text" readonly required-m class="form-control" id="bulletinName"
 										   name="bulletinName" ng-model="bulletin.bulletinName"/>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>事项原因</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项原因</label>
 								<div class="col-sm-10">
-                                    <textarea readonly required class="form-control" name="reason" id="reason"
+                                    <textarea readonly required-m class="form-control" name="reason" id="reason"
 											  ng-model="bulletin.reason" placeholder="" auto-height></textarea>
 								</div>
 							</div>
 							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required">*</span>申请需求</label>
+								<label class="col-sm-2 control-label"><span class="required-m">*</span>申请需求</label>
 								<div class="col-sm-10">
-                                    <textarea readonly required class="form-control" id="applyRequirement"
+                                    <textarea readonly required-m class="form-control" id="applyRequirement"
 											  name="applyRequirement" ng-model="bulletin.applyRequirement"
 											  auto-height></textarea>
 								</div>
@@ -139,7 +139,7 @@
 				<div id="riskLeaderOption" class="panel-collapse collapse in">
 					<div class="panel-body">
 						<div class="row">
-							<label class="col-sm-2 control-label"><span class="required">*</span>风控负责人意见：</label>
+							<label class="col-sm-2 control-label"><span class="required-m">*</span>风控负责人意见：</label>
 							<div class="col-sm-10">
                                 <textarea class="form-control" ng-readonly="!showController.isRiskLeader" rows=""
 										  cols="" ng-model="bulletin.riskLeaderOpinion" auto-height></textarea>
@@ -178,7 +178,7 @@
 											<div class="col-sm-9 noleft-pad noright-pad">
 												<span ng-bind="progress$index"></span>
 												<span style="">{{errorAttach[$index].msg}}</span>
-												<span class="required">*</span>
+												<span class="required-m">*</span>
 												<a href="javascript:void(0);" ng-click="downLoadFile(item)"
 												   style="line-height: 27px;">{{item.fileName}}</a>
 											</div>
@@ -252,7 +252,7 @@
 				<div id="reviewLeaderOption" class="panel-collapse collapse in">
 					<div class="panel-body">
 						<div class="row">
-							<label class="col-sm-2 control-label"><span class="required">*</span>评审负责人意见：</label>
+							<label class="col-sm-2 control-label"><span class="required-m">*</span>评审负责人意见：</label>
 							<div class="col-sm-10">
                                 <textarea class="form-control" ng-readonly="!showController.isReviewLeader" rows=""
 										  cols="" ng-model="bulletin.reviewLeaderOpinion" auto-height></textarea>
@@ -271,7 +271,7 @@
 				<div id="legalLeaderOption" class="panel-collapse collapse in">
 					<div class="panel-body">
 						<div class="row">
-							<label class="col-sm-2 control-label"><span class="required">*</span>法律评审负责人意见：</label>
+							<label class="col-sm-2 control-label"><span class="required-m">*</span>法律评审负责人意见：</label>
 							<div class="col-sm-10">
                                 <textarea class="form-control"
 										  ng-readonly="!showSubmit || !showController.isLegalLeader" rows="" cols=""
@@ -313,7 +313,7 @@
 											<div class="col-sm-9 noleft-pad noright-pad">
 												<span ng-bind="progress$index"></span>
 												<span style="">{{errorAttach[$index].msg}}</span>
-												<span class="required">*</span>
+												<span class="required-m">*</span>
 												<a href="javascript:void(0);" ng-click="downLoadFile(item)"
 												   style="line-height: 27px;">{{item.fileName}}</a>
 											</div>
@@ -372,10 +372,10 @@
         // validate signup form on keyup and submit
         $("#myForm").validate({
             rules: {
-                tbsxType: "required",
-                reason: "required",
-                bulletinName: "required",
-                applyRequirement: "required"
+                tbsxType: "required-m",
+                reason: "required-m",
+                bulletinName: "required-m",
+                applyRequirement: "required-m"
             },
             messages: {
                 tbsxType: "此项必填",

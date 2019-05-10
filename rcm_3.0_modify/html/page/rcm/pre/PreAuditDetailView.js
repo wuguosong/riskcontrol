@@ -313,6 +313,7 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
                     $scope.fileName.push(arr);
                 }
 			}
+			hide_Mask();
 		});
 	}
 	

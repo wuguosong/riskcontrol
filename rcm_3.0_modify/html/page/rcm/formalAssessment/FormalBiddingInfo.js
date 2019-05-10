@@ -397,6 +397,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 }
                 hide_Mask();
             }).error(function (data, status, header, config) {
+                hide_Mask();
                 $.alert(status);
             });
         }

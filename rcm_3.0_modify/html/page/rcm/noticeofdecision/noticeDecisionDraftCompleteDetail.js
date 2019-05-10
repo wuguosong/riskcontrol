@@ -15,6 +15,7 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
 	}];
     $scope.initData = function(){
     	$scope.getNoticeDecstionByID($scope.businessid);
+        $scope.initAttchment();
     	$scope.noticePersonLiable={"nameField":"name","valueField":"value"};
     	$scope.responsibilityUnitMapped={"nameField":"NAME","valueField":"ORGPKVALUE"};
     	$scope.subjectOfImplementationMapped={"nameField":"NAME","valueField":"ORGPKVALUE"};
@@ -53,7 +54,16 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
 	             }
 			});
 	  }
-	}
+	};
+    /*// 初始化附件
+	$scope.initAttchment = function (){
+		debugger
+        $scope.attachment = attach_list("FormalDecisionDraftInfo", $scope.businessid, "pfrDecisionDraft").result_data;
+        if (!isEmpty($scope.attachment)) {
+            $('#noticeAttechment').
+		}
+	};*/
+
    //查询决策通知书详情信息
    $scope.getNoticeDecstionByID=function(id){
         var  url = 'noticeDecisionDraftInfo/queryNoticeDecstion.do';

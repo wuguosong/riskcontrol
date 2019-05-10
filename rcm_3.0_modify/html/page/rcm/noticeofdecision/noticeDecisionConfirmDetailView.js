@@ -4,6 +4,7 @@ ctmApp.register.controller('NoticeDecisionConfirmDetailView',['$http','$scope','
     var formalId = $routeParams.id;
     $scope.oldUrl = $routeParams.url;
     $scope.tabIndex =  $routeParams.tabIndex;
+    $scope.businessid = $routeParams.id;
     $scope.nod={};
     $scope.initData = function(){
     	$scope.getNoticeDecstionByID();

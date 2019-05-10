@@ -94,7 +94,12 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 		}).success(function(data){
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
-			$scope.pfr.oracle  = data.result_data.formalAssessmentOracle;
+			$scope.pfr.oracle  = data.result_data.formalAssessmentOracle
+
+            // 处理附件需要的数据
+            $scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
+            $scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
+
 			//处理任务人
 			//数据回显
 			if($scope.pfr.taskallocation !=null ){
@@ -178,6 +183,7 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 			if (null != $scope.pfr.apply.expectedContractDate) {
 				$scope.changDate($scope.pfr.apply.expectedContractDate);
 			}
+			hide_Mask();
 		});
 	}
 	$scope.changDate=function(values){

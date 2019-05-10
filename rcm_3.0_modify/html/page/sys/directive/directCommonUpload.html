@@ -1,27 +1,29 @@
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-body">
-         	<div class="row">
-				<label class="col-sm-4 control-label">上传决策通知书附件：</label>
-                <cloud-file
-                        file-id="pfrDecisionDraft"
-                        file-type="FormalDecisionDraftInfo"
-                        file-code="{{paramId}}"
-                        file-location="pfrDecisionDraft"
-                        show-upload="true"
-                        show-preview="false"
-                        show-replace="false"
-                        show-download="false"
-                        show-delete="false"
-                        area-code="1"
-                        text-before="false"
-                        btn-class="btn btn-primary"
-                        text-class="col-md-8 slim"
-                        btn-area-class="col-md-1 slim"
-                        upload-text="浏览"
-                >
-                </cloud-file>
-			</div>
+            <div class="col-md-12 col-sm-12  col-xs-12">
+                <div class="row">
+                    <label class="col-sm-4 control-label">上传决策通知书附件：</label>
+                    <cloud-file
+                            file-id="pfrDecisionDraft"
+                            file-type="FormalDecisionDraftInfo"
+                            file-code="{{businessid}}"
+                            file-location="pfrDecisionDraft"
+                            show-upload="true"
+                            show-preview="false"
+                            show-replace="false"
+                            show-download="false"
+                            show-delete="false"
+                            area-code="1"
+                            text-before="false"
+                            btn-class="btn btn-primary"
+                            text-class="col-md-8 slim"
+                            btn-area-class="col-md-1 slim"
+                            upload-text="浏览"
+                    >
+                    </cloud-file>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" ng-click="cancel()">取消</button>
