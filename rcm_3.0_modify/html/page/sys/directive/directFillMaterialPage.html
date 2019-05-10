@@ -110,6 +110,12 @@
                    title="">
                     决策会材料
                 </a>
+                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 1 && noSubmit.BIDDING_TYPE == 'PPT'"
+                   href="#/OtherBidding/0/View/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
+                   class="btn btn-sm btn-success btn-center"
+                   title="">
+                    决策会材料
+                </a>
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && (noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 0 && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 1)"
                    href="#/NoticeDecisionDraftDetail/Create/{{ noSubmit.BUSINESSID }}"
                    class="btn btn-sm btn-grey btn-right"
