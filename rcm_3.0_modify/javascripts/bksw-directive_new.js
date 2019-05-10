@@ -1855,7 +1855,6 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var formData = null;
                 if(_is_first_ == 'Y'){
-                    debugger;
                     formData = $scope._message_first;
                     formData.originalId = 0;
                     formData.parentId = 0;
@@ -2211,12 +2210,15 @@ ctmApp.directive('bbsChatNew', function() {
                     url: srvUrl + 'message/update.do',
                     data: $.param(_message_),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (data) {
-                    if(data.success){
+                }).success(function (_resp) {
+                    if(_resp.success){
                         if($scope._is_pagination_){
                             $scope._query_messages_list_page_();
                         }else{
                             $scope._query_messages_list_(0);
+                        }
+                        if($scope._attach_file_is_popup_){
+                            $scope._message_ = _resp.result_data;
                         }
                     }
                 });
@@ -2260,10 +2262,10 @@ ctmApp.directive('bbsChatNew', function() {
                 $scope._is_show_upload_part_ = false;
             };
             // 相关资源弹窗关闭事件
-            $scope._relation_resources_popup_close_ = function(){
+            /*$scope._relation_resources_popup_close_ = function(){
                 $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
                 $scope._is_show_upload_part_ = false;
-            };
+            };*/
         }
     };
 });

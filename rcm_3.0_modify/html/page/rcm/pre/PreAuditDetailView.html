@@ -486,16 +486,39 @@
                                         <div class="panel-body">
                                             <div class="myTab">
                                                 <ul class="nav nav-tabs bs-tabdrop-example">
-                                                    <a class="btn tab tab-90 active" href="/#reviewMessageTab" data-toggle="tab">评审留言</a>
-                                                    <a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a>
+                                                    <li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+                                                    <li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
                                                 </ul>
                                             </div>
                                             <div class="tab-content tab-content-bordered clearfix row">
                                                 <div class="tab-pane in active" id="reviewMessageTab">
-                                                    <bbs-chat-new id="prePreviewBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" page-title="评审留言"></bbs-chat-new>
+                                                    <bbs-chat-new id="prePreviewBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" relation-sources-popup="preInfoRelationResourcesPopup"></bbs-chat-new>
                                                 </div>
                                                 <div class="tab-pane" id="legalMessageTab">
-                                                    <bbs-chat-new id="prePreviewBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" page-title="法律留言"></bbs-chat-new>
+                                                    <bbs-chat-new id="prePreviewBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="preInfoRelationResourcesPopup"></bbs-chat-new>
+                                                </div>
+                                                <!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
+                                                <div id="preInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content panel">
+                                                            <div class="modal-header panel-heading" style="text-align: center;">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                <h4 class="modal-title" id="preInfoRelationResourcesPopupLabel">相关资源</h4>
+                                                            </div>
+                                                            <div class="modal-body panel-body">
+                                                                <directive-accachment-new id="preInfo2" business-type="preReview" page-location="preInfo" business-id="pre.id"
+                                                                                          wf-state="0" file-list="newAttachment"
+                                                                                          init-update="initUpdate(id)">
+                                                                </directive-accachment-new>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <div class="button-group">
+                                                                    <div class="row">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

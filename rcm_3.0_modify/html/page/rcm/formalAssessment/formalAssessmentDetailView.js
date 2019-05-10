@@ -314,8 +314,8 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 		$scope.getSelectTypeByCode2("09");
 	});
 	/////////////////
-     $scope._init_uuid_ = $scope.credentials.UUID;
-     $scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
-     var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
-     $scope._message_publish_reply_ = !isEmpty(curTask) && curTask.TASK_DEF_KEY_ != 'usertask17';
+     //$scope._init_uuid_ = $scope.credentials.UUID;
+     //$scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
+     //var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
+     //$scope._message_publish_reply_ = !isEmpty(curTask) && curTask.TASK_DEF_KEY_ != 'usertask17';
 }]);

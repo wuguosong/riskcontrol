@@ -360,14 +360,13 @@
                     <h4 class="modal-title" id="_my_message_attach_modal_label{{_screen_type_}}">附件上传</h4>
                 </div>
                 <div class="modal-body panel-body">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10 td-checkbox txl noLeftPadMin">
+                    <div class="td-checkbox txl noLeftPadMin">
                         <label class="checkbox-inline">
                             <input type="checkbox" class="px" name="_is_show_upload_part_" id="_is_show_upload_part_{{_screen_type_}}" ng-model="_is_show_upload_part_" ng-checked="_is_show_upload_part_" ng-click="_show_link_resources_popup()"/>
                             <span class="lbl">替换相关资源附件</span>
                         </label>
-                        <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_" ng-include="'page/sys/common/message_file.html'"></div>
                     </div>
+                    <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_" ng-include="'page/sys/common/message_file.html'"></div>
                 </div>
                 <div class="modal-footer">
                     <div class="button-group">
