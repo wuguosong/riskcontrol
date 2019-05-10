@@ -279,7 +279,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="mcontent content1" id="noticeAttechment">
+				<div class="mcontent content1" id="noticeAttechment" ng-show="isShow">
 					<h3 class='text-blue'>决策通知书附件</h3>
 					<div class="row normalline">
 						<div class="col-md-12 col-sm-12  col-xs-12">
@@ -331,13 +331,13 @@
 	<direct-common-upload title="{{'决策通知书附件'}}" attachment="attachment" callback="confirm" businessid="businessid"></direct-common-upload>
 </div>
 <script  type="text/javascript">
-	$(document).ready(function () {
+	/*$(document).ready(function () {
 	    var fileName = $("input[name='_fileName_cloud_']").val();
 	    if (isEmpty(fileName)){
 	       $("#noticeAttechment").hide();
 		}
-        /*alert($("input[name='_fileName_cloud_']").val())*/
-    });
+        /!*alert($("input[name='_fileName_cloud_']").val())*!/
+    });*/
 	angular.element(document).ready(function() {
 		var options = {
 			todayBtn: "linked",

@@ -6120,7 +6120,7 @@ ctmApp.directive('cloudFile', function () {
             btnAreaStyle:'@',// 按钮域类
             btnAreaClass:'@'// 按钮域样式
         },
-        controller: function ($scope, $location, $http, Upload, $window) {
+        controller: function ($scope, $location, $http, Upload, $window, $element) {
             // 样式与类初始化
             if(isEmpty($scope.btnClass)){
                 $scope._cloud_btn_class_ = 'btn-add btn-scale';
@@ -6223,6 +6223,9 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
             }
 
+            //获取父作用域
+            var carouselScope = $element.parent().scope();
+
             // 云组件root初始化
             $scope._cloud_ = $scope.fileId + '_' + $scope.fileLocation + '_' + $scope._cloud_area_code_;
             // 显示初始化
@@ -6285,6 +6288,7 @@ ctmApp.directive('cloudFile', function () {
                                 var _cloud_file_dto_ = _result['result_data'];
                                 $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + _cloud_).val(JSON.stringify(_cloud_file_dto_));
                                 $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_'  + _cloud_).text(_cloud_file_dto_.filename);
+                                carouselScope.initAttchment();
                             }
                         }
                     }, function (_resp_) {

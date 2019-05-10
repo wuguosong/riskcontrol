@@ -55,14 +55,15 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
 			});
 	  }
 	};
-    /*// 初始化附件
+    // 初始化附件
 	$scope.initAttchment = function (){
-		debugger
         $scope.attachment = attach_list("FormalDecisionDraftInfo", $scope.businessid, "pfrDecisionDraft").result_data;
-        if (!isEmpty($scope.attachment)) {
-            $('#noticeAttechment').
+        if (isEmpty($scope.attachment)) {
+        	$scope.isShow = false;
+		} else {
+            $scope.isShow = true;
 		}
-	};*/
+	};
 
    //查询决策通知书详情信息
    $scope.getNoticeDecstionByID=function(id){

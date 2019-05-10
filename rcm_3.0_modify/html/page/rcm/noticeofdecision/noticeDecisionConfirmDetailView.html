@@ -1,256 +1,317 @@
-<div class="panel-body">
-	<!--form表单开始-->
-	<form  class="form-horizontal" name="noticeName" id="noticeName"  onsubmit="return false;"  novalidate>
-		<div class="">
-			<div class="header detail-page">
-				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{titleName}}</span>
-			</div>
-			<div class="panel" >
-				<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">决策通知书<i class="i-triangle"></i></span></div></div>
-				<div class="panel-body">
-					<div id="myTab" class="myTab">
-						<ul class="nav nav-tabs bs-tabdrop-example">
-							<li class="active">
-								<a href="javascript:;" data-toggle="tab">决策通知书</a>
-							</li>
-						</ul>
-					</div>
-					<div class="tab-content tab-content-bordered">
-						<div class="tab-pane in active" id="contracts_file_info">
+<div class="xh-content container-fluid">
+	<form name="noticeName" novalidate class="row">
+		<div class="main-content col-md-12 col-sm-12 col-xs-12">
+			<div class="">
+				<h3 class='text-blue item-name'>
+					{{titleName}}
+				</h3>
+
+				<div class="mcontent content1">
+					<h3 class='text-blue'>决策通知书</h3>
+					<div class="row normalline">
+						<div class="col-md-6 col-sm-6  col-xs-12">
 							<div class="row">
-								<div class="table-responsive">
-									<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light">
-										<tbody>
-											<tr>
-												<td>项目名称</td>
-												<td colspan="3">{{nod.projectName}}</td>
-											</tr>
-											<tr class="tr-max" ng-if="!serviceController">
-												<td>合同规模<span class="required-r">*</span></td>
-												<td colspan="3">
-													<div class="has-feedback">
-														<input disabled="disabled" type="text" name="contractScale" id="contractScale" class="form-control" ng-model="nod.contractScale"/>
-														<span class="unit-s-td">万吨/日</span>
-													</div>
-												</td>
-											</tr>
-											<tr class="tr-max" ng-if="serviceController">
-												<td>合同规模</td>
-												<td colspan="3">
-													<div class="has-feedback">
-														<input type="text" name="contractScale" id="contractScale" 
-														class="form-control" ng-model="nod.contractScale" disabled="disabled"/>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>评审规模</td>
-												<td>
-													<div class="has-feedback" ng-if="!serviceController">
-														<input disabled="disabled" type="text" name="evaluationScale" id="evaluationScale" class="form-control" ng-model="nod.evaluationScale" />
-														<span class="unit-s-td">万吨/日</span>
-													</div>
-													<div class="has-feedback" ng-if="serviceController">
-														<input type="text" name="evaluationScale" id="evaluationScale"
-														class="form-control" ng-model="nod.evaluationScale" disabled="disabled"/>
-													</div>
-												</td>
-												<td>评审总投资<span class="required-r">*</span></td>
-												<td>
-													<div class="has-feedback" style="float: left;">
-														<input disabled="disabled" type="text" name="reviewOfTotalInvestment" id="reviewOfTotalInvestment" class="form-control" ng-model="nod.reviewOfTotalInvestment"
-															   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
-															   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
-															   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
-														<span class="unit-my-td">万元</span>
-													</div>
-													<div style="float: left;">
-													<select disabled="disabled" class="form-control" ng-model='nod.reviOfTotaInveType'><option ng-repeat="pszt in pingShenZongTouZiList" value="{{pszt.ITEM_NAME}}">{{pszt.ITEM_NAME}}</option></select>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>所属大区</td>
-												<td>
-													<input type="text" readonly class="form-control" id="pertainArea" name="pertainArea" ng-model="nod.pertainArea.VALUE" placeholder="" readonly>
-												</td>
-												<td>原有项目再投资或已投资项目补充评审<span class="required-r">*</span></td>
-												<td>
-													<select disabled="disabled" name="additionalReview" id="additionalReview" class="form-control" ng-model="nod.additionalReview">
-														<option value="">请选择...</option>
-														<option value="1">是</option>
-														<option value="2">否</option>
-													</select>
-												</td>
-											</tr>
-											<tr>
-												<td>投资决策会议期次<span class="required-r">*</span></td>
-												<td><input disabled="disabled" type="text" name="decisionStage" id="decisionStage" class="form-control" ng-model="nod.decisionStage" /></td>
-												<td>会议日期<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
-												<td>
-													<div class="has-feedback">
-														<input disabled="disabled" ="text" name="dateOfMeeting" id="dateOfMeeting" class="form-control" ng-model="nod.dateOfMeeting" />
-														<i class="fa fa-calendar form-control-feedback date-form"></i>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>项目投资决策意见
-													<span class="required-r">*</span>
-												</td>
-												<td colspan="3" class="radio-group">
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="1"/>
-														<span class="lbl">同意投资</span>
-													</label>
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="2"  />
-														<span class="lbl">不同意投资</span>
-													</label>
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="3" />
-														<span class="lbl">同意有条件投资</span>
-													</label>
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="4" />
-														<span class="lbl">择期决议</span>
-													</label>
-													<!--<span class="radio-verify error">此项必填</span>-->
-													<label for="consentToInvestment" class="radio-verify error">此项必填</label>
-												</td>
-											</tr>
-											<tr class="tr-max">
-												<td>项目投资前须落实事项</td>
-												<td colspan="3"><textarea disabled="disabled" name="" ng-model="nod.implementationMatters" rows="" cols="" class="form-control" auto-height></textarea></td>
-											</tr>
-											<tr>
-												<td>项目实施主体<span class="required-r">*</span></td>
-												<td>
-
-												<input disabled="disabled" type="text"  ng-click="setDirectiveParam('subjectOfImplementation')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="subjectOfImplementationName" name="subjectOfImplementationName" ng-model="nod.subjectOfImplementation.name" value="{{nod.subjectOfImplementation.name}}"  >
-												<input type="hidden"  class="form-control" id="subjectOfImplementation" name="subjectOfImplementation"  ng-model="nod.subjectOfImplementation.value"/>
-
-												</td>
-												<td>北控水务股权比例<span class="required-r">*</span></td>
-												<td>
-													<div class="has-feedback">
-														<input disabled="disabled" type="text" name="equityRatio" id="equityRatio" ng-model="nod.equityRatio" class="form-control"
-															   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
-															   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
-															   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
-														<span class="percent">%</span>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>是否新注册项目公司<span class="required-r">*</span></td>
-												<td>
-													<select disabled="disabled" name="register" id="register" class="form-control" ng-model="nod.register">
-														<option value="">请选择...</option>
-														<option value="1">是</option>
-														<option value="2">否</option>
-													</select>
-												</td>
-												<td>注册资本金</td>
-												<td>
-													<div class="has-feedback">
-														<input disabled="disabled" type="text" name="registeredCapital" id="registeredCapital" ng-model="nod.registeredCapital" class="form-control"/>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>责任单位<span class="required-r">*</span></td>
-												<td>
-													<input disabled="disabled" type="text"  ng-click="setDirectiveParam('responsibilityUnit')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="responsibilityUnitName" name="responsibilityUnitName" ng-model="nod.responsibilityUnit.name" value="{{nod.responsibilityUnit.name}}"  >
-													<input type="hidden"  class="form-control" id="responsibilityUnit" name="responsibilityUnit"  ng-model="nod.responsibilityUnit.value"/>
-												<td>责任人<span class="required-r">*</span></td>
-												<td>
-													<div >
-														<input disabled="disabled" type="text" value="{{nod.personLiableName}}" disabled class="form-control" />
-													</div>
-													<input type="hidden" id="personLiableName" name="personLiableName" ng-model="nod.personLiable.name"  class="form-control" value="{{nod.personLiable}}" />
-													<input type="hidden" ng-model="nod.personLiable.value"  />
-												</td>
-											</tr>
-											<tr class="tr-max">
-												<td>执行要求</td>
-												<td colspan="3">
-													<label class="radio checkbox-inline">
-														<input type="checkbox" class="px" ng-model="requireTask1" ng-click="nod.require1=null" disabled="disabled"/>
-														<span class="lbl">纳入收益考核要求</span>
-													</label>
-													<label class="radio checkbox-inline">
-														<input type="checkbox" class="px" ng-model="requireTask2" ng-click="nod.require2=null" disabled="disabled"/>
-														<span class="lbl">单独考核要求</span>
-													</label>
-													<label class="radio checkbox-inline">
-														<input type="checkbox" class="px" ng-model="requireTask3" ng-click="nod.require3=null" disabled="disabled"/>
-														<span class="lbl">建议及挖潜</span>
-													</label>
-													<div ng-if="requireTask1">
-													纳入收益考核要求<textarea ng-model="nod.require1" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
-													</div>
-													<div ng-if="requireTask2">
-													单独考核要求<textarea ng-model="nod.require2" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
-													</div>
-													<div ng-if="requireTask3">
-													建议及挖潜<textarea ng-model="nod.require3" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
-													</div>
-												</td>
-											</tr>
-											<tr class="tr-max" ng-if="null!=noticeLeader && ''!=noticeLeader" >
-												<td>主管领导签发</td>
-												<td colspan="3">{{noticeLeader[0].OPINION}}</td>
-											</tr>
-											<tr class="tr-max">
-												<td>决策编号<span class="required-r">*</span></td>
-												<td colspan="3">
-													<input disabled="disabled" type="text" name="decisionNo" id="decisionNo" class="form-control" ng-model="nod.decisionNo"/>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+								<span class="col-md-4 noPadding">项目名称</span>
+								<span class="col-md-6 slim">
+                                      {{nod.projectName}}
+                                </span>
 							</div>
-						</div>
-						<div class="tab-pane" id="flow_chart">
-							<directive-process-page></directive-process-page>
+
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="panel" ng-if="nod.attachment !=null">
-				<div class="panel-heading">
-					<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">上传决策通知书附件<i class="i-triangle"></i></span></div></div>
-					<div class="panel-body">
-						<div class="row">
-							<label class="col-sm-2 control-label">决策通知书相关附件</label>
-							<div class="col-sm-10">
-								<div class="col-sm-10 noleft-pad">
-									<!-- <div class="col-sm-2">
-										<button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
-									</div> -->
-									<div class="col-sm-10 noleft-pad">
-										<span ng-bind="progress$index"></span>
-										<!--<span style="">{{errorAttach[$index].msg}}</span>-->
-										<a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
+
+					<div class="row normalline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<span class="col-md-2 noPadding">合同规模</span>
+								<span class="col-md-9 slim">
+									<div class="has-feedback"  ng-if="!serviceController">
+										<input disabled="disabled" type="text" name="contractScale" id="contractScale" class="form-control" ng-model="nod.contractScale"/>
+										<span class="unit-s-td">万吨/日</span>
 									</div>
-								</div>
+						             <div class="has-feedback"  ng-if="serviceController">
+										 <input type="text" name="contractScale" id="contractScale1" class="form-control" ng-model="nod.contractScale" disabled="disabled"/>
+									 </div>
+                                </span>
 							</div>
 						</div>
 					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">评审规模</span>
+								<span class="col-md-6 slim">
+									<div class="has-feedback" ng-if="!serviceController">
+										<input disabled="disabled" type="text" name="evaluationScale" id="evaluationScale" class="form-control" ng-model="nod.evaluationScale" />
+										<span class="unit-s-td">万吨/日</span>
+									</div>
+									<div class="has-feedback" ng-if="serviceController">
+										<input type="text" name="evaluationScale" id="evaluationScale1"
+											   class="form-control" ng-model="nod.evaluationScale" disabled="disabled"/>
+									</div>
+					             </span>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">评审总投资</span>
+								<span class="col-md-6 slim">
+									<div class="has-feedback" style="float: left;">
+										<input disabled="disabled" type="text" name="reviewOfTotalInvestment" id="reviewOfTotalInvestment" class="form-control" ng-model="nod.reviewOfTotalInvestment"
+											   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+											   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+											   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+										<span class="unit-my-td">万元</span>
+									</div>
+									<div style="float: left;">
+										<select class="form-control" disabled="disabled" ng-model='nod.reviOfTotaInveType'><option ng-repeat="pszt in pingShenZongTouZiList" value="{{pszt.ITEM_NAME}}">{{pszt.ITEM_NAME}}</option></select>
+									</div>
+					              </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">所属大区</span>
+								<span class="col-md-6 slim">
+						             <input type="text"  disabled="disabled"  class="form-control" id="pertainArea" name="pertainArea" ng-model="nod.pertainArea.VALUE" placeholder="" >
+					             </span>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">原有项目再投资或已投资项目补充评审</span>
+								<span class="col-md-6 slim">
+									<select name="additionalReview"  disabled="disabled"  id="additionalReview" class="form-control" ng-model="nod.additionalReview">
+					            		<option value="">请选择...</option>
+					            		<option value="1">是</option>
+					            		<option value="2">否</option>
+					            	</select>
+					            </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">会议日期</span>
+								<span class="col-md-6 slim">
+                                    <div class="has-feedback">
+					            		<input type="text" disabled="disabled"  name="dateOfMeeting" id="dateOfMeeting" class="form-control" ng-model="nod.dateOfMeeting" />
+					            		<i class="fa fa-calendar form-control-feedback date-form"></i>
+					            	</div>
+                                </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<span class="col-md-2 noPadding">项目投资决策意见</span>
+								<span class="col-md-9 slim">
+                                   <label class="radio radio-inline local">
+									   <input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="1"/>
+									   <span class="lbl">同意投资</span>
+								   </label>
+									<label class="radio radio-inline local">
+										<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="2"  />
+										<span class="lbl">不同意投资</span>
+									</label>
+									<label class="radio radio-inline local">
+										<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="3" />
+										<span class="lbl">同意有条件投资</span>
+									</label>
+									<label class="radio radio-inline local">
+										<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="4" />
+										<span class="lbl">择期决议</span>
+									</label><!--<span class="radio-verify error">此项必填</span>-->
+									<label for="consentToInvestment" class="radio-verify error">此项必填</label>
+                                </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<span class="col-md-2 noPadding">项目投资前须落实事项</span>
+								<span class="col-md-9 slim">
+                                    <textarea disabled="disabled" name="" ng-model="nod.implementationMatters" rows="" cols="" class="form-control" auto-height></textarea>
+                                </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">项目实施主体</span>
+								<span class="col-md-6 slim">
+                                   <input type="text"  ng-click="setDirectiveParam('subjectOfImplementation')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="subjectOfImplementationName" name="subjectOfImplementationName" ng-model="nod.subjectOfImplementation.name" value="{{nod.subjectOfImplementation.name}}" disabled="disabled" >
+									<input type="hidden"  class="form-control" id="subjectOfImplementation" name="subjectOfImplementation"  ng-model="nod.subjectOfImplementation.value"/>
+                                </span>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">北控水务股权比例</span>
+								<span class="col-md-6 slim">
+                                    <div class="has-feedback">
+										<input type="text" name="equityRatio" id="equityRatio" ng-model="nod.equityRatio" class="form-control" disabled="disabled"
+											   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+											   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+											   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+										<span class="percent">%</span>
+									</div>
+                                </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">是否新注册项目公司</span>
+								<span class="col-md-6 slim">
+									<select name="register" id="register" class="form-control" ng-model="nod.register" disabled="disabled">
+										<option value="">请选择...</option>
+										<option value="1">是</option>
+										<option value="2">否</option>
+									</select>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">注册资本金</span>
+								<span class="col-md-6 slim">
+                                    <div class="has-feedback">
+										<input disabled="disabled" type="text" name="registeredCapital" id="registeredCapital" ng-model="nod.registeredCapital" class="form-control"/>
+									</div>
+                                </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">责任单位</span>
+								<span class="col-md-6 slim">
+                                    <input type="text" disabled="disabled" ng-click="setDirectiveParam('responsibilityUnit')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="responsibilityUnitName" name="responsibilityUnitName" ng-model="nod.responsibilityUnit.name" value="{{nod.responsibilityUnit.name}}"  >
+									<input type="hidden"  class="form-control" id="responsibilityUnit" name="responsibilityUnit"  ng-model="nod.responsibilityUnit.value"/>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6  col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">责任人</span>
+								<span class="col-md-6 slim">
+                                  <div >
+									  <input type="text" value="{{nod.personLiableName}}" disabled="disabled" class="form-control" />
+								  </div>
+									<input type="hidden" id="personLiableName" name="personLiableName" ng-model="nod.personLiable.name"  class="form-control" value="{{nod.personLiable}}" />
+									<input type="hidden" ng-model="nod.personLiable.value"  />
+                               </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<span class="col-md-2 noPadding">执行要求</span>
+								<span class="col-md-9 slim">
+									<label class="radio checkbox-inline local">
+										<input type="checkbox" class="px" ng-model="requireTask1" ng-click="nod.require1=null" disabled="disabled"/>
+										<span class="lbl">纳入收益考核要求</span>
+									</label>
+									<label class="radio checkbox-inline local">
+										<input type="checkbox" class="px" ng-model="requireTask2" ng-click="nod.require2=null" disabled="disabled"/>
+										<span class="lbl">单独考核要求</span>
+									</label>
+									<label class="radio checkbox-inline local">
+										<input type="checkbox" class="px" ng-model="requireTask3" ng-click="nod.require3=null" disabled="disabled"/>
+										<span class="lbl">建议及挖潜</span>
+									</label>
+									<div ng-if="requireTask1">
+										纳入收益考核要求<textarea ng-model="nod.require1" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
+									</div>
+									<div ng-if="requireTask2">
+										单独考核要求<textarea ng-model="nod.require2" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
+									</div>
+									<div ng-if="requireTask3">
+										建议及挖潜<textarea ng-model="nod.require3" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
+									</div>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row normalline titline" ng-if="null!=noticeLeader && ''!=noticeLeader">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<span class="col-md-2 noPadding">主管领导签发</span>
+								<span class="col-md-9 slim">
+						           {{noticeLeader[0].OPINION}}
+                                </span>
+							</div>
+
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<div class="button-group">
-			<div class="row">
-				<div class="option txl">
+
+
+				<div class="mcontent content1" id="noticeAttechment" ng-show="isShow">
+					<h3 class='text-blue'>决策通知书附件</h3>
+					<div class="row normalline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<span class="col-md-2 noPadding">决策通知书相关附件</span>
+								<cloud-file
+										file-id="pfrDecisionDraft"
+										file-type="FormalDecisionDraftInfo"
+										file-code="{{businessid}}"
+										file-location="pfrDecisionDraft"
+										show-upload="false"
+										show-preview="false"
+										show-replace="false"
+										show-download="false"
+										show-delete="false"
+										area-code="1"
+										text-before="false"
+										btn-class="btn btn-primary"
+										text-class="col-md-8 slim"
+										btn-area-class="col-md-1 slim"
+								>
+								</cloud-file>
+								<!--<span class="col-md-9 slim">
+						             <span ng-bind="progress$index"></span>
+									&lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
+						                 <a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
+                                     </span>-->
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="button-group">
+					<div class="row">
+						<div class="option txl">
 					<span ng-if="'nothing'!=oldUrl">
  					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
  					</span>
-					<button ng-if="tabIndex=='0'" ng-click="showSubmitModal()" type="button"  id="submibtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>确认</button>
-					<button type="button" id="wordbtn" ng-click="createWord()" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button>
+							<button ng-if="tabIndex=='0'" ng-click="showSubmitModal()" type="button"  id="submibtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>确认</button>
+							<button type="button" id="wordbtn" ng-click="createWord()" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button>
+						</div>
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</form>
