@@ -2212,10 +2212,12 @@ ctmApp.directive('bbsChatNew', function() {
                     data: $.param(_message_),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    if($scope._is_pagination_){
-                        $scope._query_messages_list_page_();
-                    }else{
-                        $scope._query_messages_list_(0);
+                    if(data.success){
+                        if($scope._is_pagination_){
+                            $scope._query_messages_list_page_();
+                        }else{
+                            $scope._query_messages_list_(0);
+                        }
                     }
                 });
             };
@@ -2230,16 +2232,26 @@ ctmApp.directive('bbsChatNew', function() {
                 $('#_message_attach_dialog' + $scope._screen_type_).modal('show');
                 $scope._message_ = _message_;
             };
-            // 展示相关资源弹窗
+            // 展示相关资源弹窗，该方法对应页面上启用的引用弹窗方式
+            /*$scope._show_link_resources_popup = function(){
+             if(!isEmpty($scope.relationSourcesPopup)){
+             if($scope._is_show_upload_part_){
+             var _popupEle = $('#' + $scope.relationSourcesPopup);
+             $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
+             $('#_relation_resources_popup_body' + $scope._screen_type_).append(_popupEle.html());
+             $('#_relation_resources_popup_' + $scope._screen_type_).modal('show');
+             }else{
+             $('#_relation_resources_popup_' + $scope._screen_type_).modal('hide');
+             $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
+             }
+             }
+             };*/
             $scope._show_link_resources_popup = function(){
                 if(!isEmpty($scope.relationSourcesPopup)){
                     if($scope._is_show_upload_part_){
-                        $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
-                        $('#_relation_resources_popup_body' + $scope._screen_type_).append($('#' + $scope.relationSourcesPopup).html());
-                        $('#_relation_resources_popup_' + $scope._screen_type_).modal('show');
+                        $('#' + $scope.relationSourcesPopup).modal('show');
                     }else{
-                        $('#_relation_resources_popup_' + $scope._screen_type_).modal('hide');
-                        $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
+                        $('#' + $scope.relationSourcesPopup).modal('hide');
                     }
                 }
             };
@@ -2247,13 +2259,11 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._message_attach_dialog_close_ = function(){
                 $scope._is_show_upload_part_ = false;
             };
+            // 相关资源弹窗关闭事件
             $scope._relation_resources_popup_close_ = function(){
                 $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
+                $scope._is_show_upload_part_ = false;
             };
-            // 相关资源弹窗关闭事件
-            /*$('#_relation_resources_popup_' + $scope._screen_type_).on('hide.bs.modal', function () {
-             // 执行其它操作
-             });*/
         }
     };
 });

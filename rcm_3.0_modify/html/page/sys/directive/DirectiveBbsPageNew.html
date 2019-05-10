@@ -103,8 +103,8 @@
                            ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0 && _is_show_reply_btn_">撤回</a>
                     </div>
                     <div ng-if="!_attach_file_is_popup_" ng-include="'page/sys/common/message_file.html'"></div>
-                    <a ng-if="_attach_file_is_popup_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)">附件</a>
-                    <span ng-if="_attach_file_is_popup_" ng-include="'page/sys/common/file_info.html'"></span>
+                    <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)" data-target=".bs-example-modal-lg">选择附件</a>
+                    <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" ng-include="'page/sys/common/file_info.html'"></span>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
                              readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
@@ -123,8 +123,8 @@
                            ng-if="_message_.createdBy == _init_uuid_global_ && _is_show_reply_btn_">撤回</a>
                     </div>
                     <div ng-if="!_attach_file_is_popup_" ng-include="'page/sys/common/message_file.html'"></div>
-                    <a ng-if="_attach_file_is_popup_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)">附件</a>
-                    <span ng-if="_attach_file_is_popup_" ng-include="'page/sys/common/file_info.html'"></span>
+                    <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)" data-target=".bs-example-modal-lg">选择附件</a>
+                    <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" ng-include="'page/sys/common/file_info.html'"></span>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                         <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
                                 style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
@@ -361,7 +361,7 @@
                 </div>
                 <div class="modal-body panel-body">
                     <div class="col-sm-1"></div>
-                    <div class="col-sm-6 td-checkbox txl noLeftPadMin">
+                    <div class="col-sm-10 td-checkbox txl noLeftPadMin">
                         <label class="checkbox-inline">
                             <input type="checkbox" class="px" name="_is_show_upload_part_" id="_is_show_upload_part_{{_screen_type_}}" ng-model="_is_show_upload_part_" ng-checked="_is_show_upload_part_" ng-click="_show_link_resources_popup()"/>
                             <span class="lbl">替换相关资源附件</span>
@@ -378,9 +378,9 @@
             </div>
         </div>
     </div>
-    <!--相关资源附件弹窗-->
-    <div id="_relation_resources_popup_{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
-        <div class="modal-dialog">
+    <!--相关资源附件弹窗,该方式直接将要弹出的popup进行引用，缺陷是只读状态，目前弃用了-->
+    <div id="_relation_resources_popup_{{_screen_type_}}" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content panel">
                 <div class="modal-header panel-heading" style="text-align: center;">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="_relation_resources_popup_close_()">×</button>
