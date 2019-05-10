@@ -584,6 +584,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         $scope.pre.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
         $scope.pre.apply.projectNameTZ = project.PROJECTNAME; // 项目名称
         $scope.pre.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
+        $scope.pfr.apply.reportingUnit = {KEY: project.REPORTINGUNITCODE, VALUE: project.REPORTINGUNITNAME}; // 申报单位
         $scope.pre.apply.investmentManager = {NAME:project.RESPONSIBLEUSER,VALUE:project.RESPONSIBLEUSERID};
         if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
             $scope.pre.apply.companyHeader = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};

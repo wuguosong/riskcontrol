@@ -117,6 +117,9 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		params.put("projectName", apply.getString("projectName"));
 		params.put("projectNum", apply.getString("projectNo"));
 		
+		Document reportingUnit = (Document) apply.get("reportingUnit");
+		params.put("reportingUnitId", reportingUnit.getString("KEY"));
+		
 		Document pertainArea = (Document) apply.get("pertainArea");
 		params.put("pertainAreaId", pertainArea.getString("KEY"));
 		

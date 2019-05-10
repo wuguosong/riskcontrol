@@ -146,6 +146,10 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		
 		params.put("isUrgent", null);
 		
+		Document reportingUnit = (Document) apply.get("reportingUnit");
+		params.put("reportingUnitId", reportingUnit.getString("KEY"));
+		
+		
 		Document pertainArea = (Document) apply.get("pertainArea");
 		params.put("pertainAreaId", pertainArea.getString("KEY"));
 		

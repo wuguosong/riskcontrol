@@ -32,7 +32,8 @@
 			TASKPERSONID, 
 			REVIEWPERSONID, 
 			majorMemberIds,
-			fixedgrouppersonids
+			fixedgrouppersonids,
+			REPORTINGUNIT_ID
 		)
 		values (
 			#{businessId,jdbcType=VARCHAR}, 
@@ -61,7 +62,8 @@
 			#{taskPersonId,jdbcType=VARCHAR}, 
 			#{reviewPersonId,jdbcType=VARCHAR}, 
 			#{majorMemberIds,jdbcType=VARCHAR},
-			#{fixedGroupPersonIds,jdbcType=VARCHAR}
+			#{fixedGroupPersonIds,jdbcType=VARCHAR},
+			#{reportingUnitId,jdbcType=VARCHAR}
 		)
 	</insert>
 	
@@ -78,6 +80,7 @@
 		       f.is_supplement_review = #{is_supplement_review},
 		       f.emergencyLevel = #{emergencyLevel,jdbcType=VARCHAR},
 		       f.isurgent = #{isurgent},
+		       f.REPORTINGUNIT_ID = #{reportingUnitId,jdbcType=VARCHAR},
 		       f.pertainAreaId = #{pertainAreaId,jdbcType=VARCHAR},
 		       f.isTZ = #{isTZ,jdbcType=VARCHAR},
 		       f.wf_state = #{wf_state},

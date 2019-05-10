@@ -558,7 +558,8 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
         $scope.pfr.apply.projectNo = project.PROJECTCODE;  // 存储用编码
         $scope.pfr.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
         $scope.pfr.apply.projectNameTZ = project.PROJECTNAME; // 项目名称
-        $scope.pfr.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
+        $scope.pfr.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME}; // 所属大区
+        $scope.pfr.apply.reportingUnit = {KEY: project.REPORTINGUNITCODE, VALUE: project.REPORTINGUNITNAME}; // 申报单位
         $scope.pfr.apply.investmentManager = {NAME:project.RESPONSIBLEUSER,VALUE:project.RESPONSIBLEUSERID};
         if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
             $scope.pfr.apply.companyHeader = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};

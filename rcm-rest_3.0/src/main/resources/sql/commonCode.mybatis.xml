@@ -54,8 +54,10 @@ SELECT MA.PROJECTID,
        MA.PROJECTNAME, /*项目名称*/
        MA.PROJECTCODE, /*存储用编码*/
        MA.PROJECTCODENEW, /*显示用编码*/
-       SO.NAME AS ORGNAME, /*组织名称*/
-       SO.ORGPKVALUE ORGCODE, /*组织编码*/
+       SO.ORGPKVALUE REPORTINGUNITCODE, /*申报单位编码*/
+       SO.NAME AS REPORTINGUNITNAME, /*申报单位组织名称*/
+       SO.ORGPKVALUE ORGCODE, /*所属大区编码*/
+       SO.NAME AS ORGNAME, /*所属大区名称*/
 	   SO.ID,
        SGUR.COMPANYHEADER_NAME ORGHEADERNAME, /*项目归属单位负责人*/
 	   SGUR.COMPANYHEADER_ID ORGHEADERID, /*项目归属单位负责人ID*/

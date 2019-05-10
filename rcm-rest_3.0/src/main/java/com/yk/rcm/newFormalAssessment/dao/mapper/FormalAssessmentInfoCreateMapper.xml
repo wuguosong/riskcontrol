@@ -33,7 +33,8 @@
 			reviewpersonid,
 			grassrootslegalpersonid,
 			firstlevellawyerpersonid,
-			fixedgrouppersonids
+			fixedgrouppersonids,
+			REPORTINGUNIT_ID
 		) values (
 			#{businessid},
 			#{projectName},
@@ -63,7 +64,8 @@
 			#{reviewPersonId,jdbcType=VARCHAR},
 			#{grassRootsLegalPersonId,jdbcType=VARCHAR},
 			#{firstLevelLawyerPersonId,jdbcType=VARCHAR},
-			#{fixedGroupPersonIds,jdbcType=VARCHAR}
+			#{fixedGroupPersonIds,jdbcType=VARCHAR},
+			#{reportingUnitId,jdbcType=VARCHAR}
 		)
 	</insert>
 	
@@ -80,6 +82,7 @@
 		       is_supplement_review = #{is_supplement_review},
 		       emergencyLevel = #{emergencyLevel,jdbcType=VARCHAR},
 		       isurgent = #{isurgent},
+		       REPORTINGUNIT_ID = #{reportingUnitId,jdbcType=VARCHAR},
 		       pertainAreaId = #{pertainAreaId,jdbcType=VARCHAR},
 		       isTZ = #{isTZ,jdbcType=VARCHAR},
 		       wf_state = #{wf_state},
