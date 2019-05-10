@@ -1,4 +1,4 @@
-package ws.agency.client;
+package ws.todo.client;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

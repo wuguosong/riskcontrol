@@ -1,4 +1,4 @@
-package ws.agency.client;
+package ws.todo.client;
 
 import java.net.MalformedURLException;
 import java.net.URL;

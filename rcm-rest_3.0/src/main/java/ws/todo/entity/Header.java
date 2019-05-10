@@ -1,9 +1,9 @@
-package ws.agency.entity;
+package ws.todo.entity;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by Administrator on 2019/5/7 0007.
+ * 代办列表头信息
  */
 @XmlRootElement(name="header")
 public class Header {

@@ -6134,6 +6134,34 @@ ctmApp.directive('cloudFile', function () {
             btnAreaClass:'@'// 按钮域样式
         },
         controller: function ($scope, $location, $http, Upload, $window, $element) {
+            // jQuery选择器
+            var _eleArray = $('div[name="cloud-file"]');
+            var _eleArrayAll = [];
+            for(var _idx = 0; _idx < _eleArray.length; _idx ++){
+                var _eleX = $(_eleArray[_idx]);
+                for(var _idy = 0; _idy < _eleArray.length; _idy ++){
+                    var _eleY = $(_eleArray[_idy]);
+                    if(_eleX.attr("file-type") == _eleY.attr("file-type")
+                        && _eleX.attr("file-code") == _eleY.attr("file-code")
+                        && _eleX.attr("file-location") == _eleY.attr("file-location")){
+                        _eleArrayAll.push(_eleX);
+                    }
+                }
+            }
+            $scope._omg_crazy_fun_ = function(_cloud_file_dto_){
+                if(!isEmpty(_eleArrayAll) && _eleArrayAll.length > 1){
+                    for(var _ide = 0; _ide < _eleArrayAll.length; _ide ++){
+                        var _ele = $(_eleArray[_ide]);
+                        var _fc =  _ele.attr("file-code");
+                        var _fl = _ele.attr("file-location");
+                        var _fi = _ele.attr("file-id");
+                        var _fac = _ele.attr("area-code");
+                        var _c = _fi + '_' + _fl + '_' + _fac;
+                        $('#_cloud_file_ipt_' + _fac + '_' + _c).val(JSON.stringify(_cloud_file_dto_));
+                        $('#_cloud_file_a_' + _fac + '_'  + _c).text(_cloud_file_dto_.filename);
+                    }
+                }
+            };
             // 样式与类初始化
             if(isEmpty($scope.btnClass)){
                 $scope._cloud_btn_class_ = 'btn-add btn-scale';
@@ -6314,6 +6342,7 @@ ctmApp.directive('cloudFile', function () {
                                 if (!isEmpty(carouselScope.showAttachment)) {
                                     carouselScope.showAttachment();
                                 }
+                                $scope._omg_crazy_fun_(_cloud_file_dto_);
                             }
                         }
                     }, function (_resp_) {

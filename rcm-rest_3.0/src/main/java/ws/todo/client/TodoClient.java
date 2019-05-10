@@ -1,11 +1,11 @@
-package ws.agency.client;
+package ws.todo.client;
 
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
-import ws.agency.entity.Header;
-import ws.agency.entity.To_Do_Info;
-import ws.agency.entity.To_Do_List;
-import ws.agency.utils.JaXmlBeanUtil;
+import ws.todo.entity.Header;
+import ws.todo.entity.To_Do_Info;
+import ws.todo.entity.To_Do_List;
+import ws.todo.utils.JaXmlBeanUtil;
 
 import java.util.List;
 
@@ -26,7 +26,8 @@ public class TodoClient {
         Header header = new Header();
         header.setSyscode(SYS_CODE);
         to_do_list.setHeader(header);
-        String xml = JaXmlBeanUtil.object2Xml(to_do_infoList);
+        to_do_list.setToDoInfoList(to_do_infoList);
+        String xml = JaXmlBeanUtil.object2Xml(to_do_list);
         return upToDoService.todoList(xml);
     }
 }

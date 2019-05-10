@@ -1,23 +1,22 @@
 
-package ws.agency.client;
+package ws.todo.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>todoListResponse complex type的 Java 类。
+ * <p>todoList complex type的 Java 类。
  * 
  * <p>以下模式片段指定包含在此类中的预期内容。
  * 
  * <pre>
- * &lt;complexType name="todoListResponse"&gt;
+ * &lt;complexType name="todoList"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -27,36 +26,35 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "todoListResponse", propOrder = {
-    "_return"
-},namespace="http://todoListResponse.service.ws.com/")
-public class TodoListResponse {
+@XmlType(name = "todoList", propOrder = {
+    "arg0"
+},namespace="http://todoList.service.ws.com/")
+public class TodoList {
 
-    @XmlElement(name = "return")
-    protected String _return;
+    protected String arg0;
 
     /**
-     * 获取return属性的值。
+     * 获取arg0属性的值。
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getReturn() {
-        return _return;
+    public String getArg0() {
+        return arg0;
     }
 
     /**
-     * 设置return属性的值。
+     * 设置arg0属性的值。
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setReturn(String value) {
-        this._return = value;
+    public void setArg0(String value) {
+        this.arg0 = value;
     }
 
 }

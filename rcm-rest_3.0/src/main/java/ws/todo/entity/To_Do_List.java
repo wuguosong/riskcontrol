@@ -1,12 +1,11 @@
-package ws.agency.entity;
+package ws.todo.entity;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * Created by Administrator on 2019/5/7 0007.
+ * 代办列表
  */
 @XmlRootElement(name="todo_list")
 public class To_Do_List {

@@ -1,26 +1,26 @@
-package ws.agency.entity;
+package ws.todo.entity;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by Administrator on 2019/5/7 0007.
+ * 代办信息
  */
-@XmlRootElement(name="todo_info")
+@XmlRootElement(name = "todo_info")
 public class To_Do_Info {
-    private String uniid;
-    private String title;
-    private String sender;
-    private String depart;
-    private String url;
-    private String agreeurl;
-    private String denyurl;
-    private String owner;
-    private String created;
-    private String type;
-    private String status;
-    private String record_status;
-    private String priority;
-    private String mobileUrl;
+    private String uniid;// Y,待办的唯一ID，在子系统内必须唯一
+    private String title;// Y,待办的标题
+    private String created;// Y,生成待办时间，格式例如2008-12-01 20:01:01
+    private String url;// Y,点击该待办，打开的处理页面
+    private String type;// Y,该字段标识传递的信息属于何种事件 1:待办 3.待阅
+    private String status;// Y,任务的状态 1.待办 2.已办 3.待阅 4.已阅 5.删除
+    private String owner;// Y,待办的处理人的唯一ID(主数据的pk_psndoc)
+    private String sender;// N,起草人姓名(第一个发起人)
+    private String depart;// N,起草人部门名称(第一个发起人)
+    private String agree_url;// N,同意流程的URL，用户通过该链接来操作该流程，执行同意操作；如果没有，字段值为空。
+    private String deny_url;// N,退回流程的URL，用户通过该链接来操作该流程，执行退回操作；如果没有，字段值为空。
+    private String record_status;// N,待办记录状态 1.新增 2.状态修改
+    private String priority;// N,紧急程度 1.低 2.中 3.高
+    private String mobileUrl;// N,手机url
 
     public String getUniid() {
         return uniid;
@@ -62,20 +62,20 @@ public class To_Do_Info {
         this.url = url;
     }
 
-    public String getAgreeurl() {
-        return agreeurl;
+    public String getAgree_url() {
+        return agree_url;
     }
 
-    public void setAgreeurl(String agreeurl) {
-        this.agreeurl = agreeurl;
+    public void setAgree_url(String agree_url) {
+        this.agree_url = agree_url;
     }
 
-    public String getDenyurl() {
-        return denyurl;
+    public String getDeny_url() {
+        return deny_url;
     }
 
-    public void setDenyurl(String denyurl) {
-        this.denyurl = denyurl;
+    public void setDeny_url(String deny_url) {
+        this.deny_url = deny_url;
     }
 
     public String getOwner() {

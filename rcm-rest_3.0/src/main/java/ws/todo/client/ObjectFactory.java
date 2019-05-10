@@ -1,5 +1,5 @@
 
-package ws.agency.client;
+package ws.todo.client;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

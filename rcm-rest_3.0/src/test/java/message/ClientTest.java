@@ -2,12 +2,9 @@ package message;
 
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
-import ws.agency.client.TodoClient;
 import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 import ws.msg.client.MessageStatus;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2019/4/18 0018.
