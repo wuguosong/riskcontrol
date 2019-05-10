@@ -15,7 +15,7 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
 	}];
     $scope.initData = function(){
     	$scope.getNoticeDecstionByID($scope.businessid);
-        $scope.initAttchment();
+        $scope.initAttachment();
     	$scope.noticePersonLiable={"nameField":"name","valueField":"value"};
     	$scope.responsibilityUnitMapped={"nameField":"NAME","valueField":"ORGPKVALUE"};
     	$scope.subjectOfImplementationMapped={"nameField":"NAME","valueField":"ORGPKVALUE"};
@@ -56,7 +56,7 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
 	  }
 	};
     // 初始化附件
-	$scope.initAttchment = function (){
+	$scope.initAttachment = function (){
         $scope.attachment = attach_list("FormalDecisionDraftInfo", $scope.businessid, "pfrDecisionDraft").result_data;
         if (isEmpty($scope.attachment)) {
         	$scope.isShow = false;
@@ -106,7 +106,7 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
 				$scope.serviceType14011402 = result.result_data.SERVICETYPE == "1401" || result.result_data.SERVICETYPE == "1402";
 			});
 		});
-    }
+    };
     $scope.downLoadBiddingFile = function(idx){
     	var isExists = validFileExists(idx.filePath);
     	if(!isExists){
@@ -174,13 +174,14 @@ ctmApp.register.controller('NoticeDecisionDraftCompleteDetail',['$http','$scope'
 		$('#submitModal').modal('show');
 	}
 	$scope.confirm = function(attc){
+		debugger
 		var  url = 'noticeDecisionConfirmInfo/comfirm.do';
-		if(attc == null || attc.fileName == null || attc.fileName == ""){
+		if(isEmpty(attc)){
 			$.alert("请上传决策通知书附件！");
 			return;
 		}
 		show_Mask();
-		var attachment = JSON.stringify(attc);
+		var attachment = JSON.stringify(attc[0]);
 		var params = {
 			"formalId":$scope.businessid,
 			"attachment": attachment,

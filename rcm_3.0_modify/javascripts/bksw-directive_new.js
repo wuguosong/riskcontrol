@@ -6101,7 +6101,6 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
     }
 }]);
 /*云文件指令*/
-/*云文件指令*/
 ctmApp.directive('cloudFile', function () {
     return {
         restrict: 'AE',
@@ -6117,11 +6116,13 @@ ctmApp.directive('cloudFile', function () {
             showReplace:'@',// 是否展示替换按钮，默认为false
             showDownload:'@',// 是否展示下载按钮，默认为true
             showDelete:'@',// 是否展示删除按钮，默认true
+            showUploadOrReplace: '@', // 是否展示浏览按钮，默认true
             uploadText:'@',// 上传按钮本本，默认：选择
             downloadText:'@',//下载按钮文本，默认：下载
             previewText:'@',// 预览按钮文本，默认：预览
             deleteText:'@',// 删除按钮文本，默认：删除
             replaceText:'@',// 替换按钮文本，默认：替换
+            uploadOrReplaceText:'@', // 上传或替换按钮文本，默认：浏览
             fileCheck:'@',// 是否进行文件名校验，默认false
             areaCode:'@', // 附件操作区域选择
             textBefore:'@',// 是否将文件名置于前面，其它操作按钮置于后面，默认true。false：操作按钮在前，文件名在后
@@ -6208,6 +6209,11 @@ ctmApp.directive('cloudFile', function () {
             }else{
                 $scope._cloud_replace_text_ = $scope.replaceText;
             }
+            if(isEmpty($scope.uploadOrReplaceText)){
+                $scope._cloud_upload_or_replace_text_ = '浏览';
+            }else{
+                $scope._cloud_upload_or_replace_text_ = $scope.replaceText;
+            }
             // 按钮显示与否初始化
             if(isEmpty($scope.showUpload)){
                 $scope._cloud_show_upload_ = true;
@@ -6233,6 +6239,11 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_show_delete_ = true;
             }else{
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
+            }
+            if(isEmpty($scope.showUploadOrReplace)){
+                $scope._cloud_show_upload_or_replace_ = true;
+            }else{
+                $scope._cloud_show_upload_or_replace_ = $scope.showUploadOrReplace == 'true';
             }
 
             //获取父作用域
@@ -6300,7 +6311,9 @@ ctmApp.directive('cloudFile', function () {
                                 var _cloud_file_dto_ = _result['result_data'];
                                 $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + _cloud_).val(JSON.stringify(_cloud_file_dto_));
                                 $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_'  + _cloud_).text(_cloud_file_dto_.filename);
-                                carouselScope.initAttchment();
+                                if (!isEmpty(carouselScope.showAttachment)) {
+                                    carouselScope.showAttachment();
+                                }
                             }
                         }
                     }, function (_resp_) {
@@ -6358,6 +6371,30 @@ ctmApp.directive('cloudFile', function () {
                 }
                 $window.open(_cloud_file_dto_.preview3d);
             };
+            // 上传/替换
+            $scope._cloud_upload_or_replace_ = function (_file_, _cloud_) {
+                var _cloud_file_dto_ = $scope._cloud_ipt_to_json_(_cloud_);
+                if (isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)) {
+                    var _data = {
+                        file: _file_,
+                        "docType": $scope.fileType,
+                        "docCode": $scope.fileCode,
+                        "pageLocation": $scope.fileLocation
+                    };
+                    $scope._private_cloud_backend_call(_file_, 'upload', _data, _cloud_);
+                } else {
+                    var _data = {
+                        file: _file_,
+                        "docType": $scope.fileType,
+                        "docCode": $scope.fileCode,
+                        "pageLocation": $scope.fileLocation,
+                        "oldFileId": _cloud_file_dto_.fileid,
+                        "reason": "replace"
+                    };
+                    $scope._private_cloud_backend_call(_file_, 'replace', _data, _cloud_);
+                }
+            };
+
             $scope._cloud_init_();
         }
     }
@@ -6473,11 +6510,11 @@ ctmApp.directive('directCommonUpload', function(){
             //id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
             title: "@",
-            attachment: "@",
+            attachment: "=",
             callback: "=",
             businessid: "="
         },
-        controller:function($scope,$location,$http,Upload){
+        controller:function($scope,$location,$http,Upload,$element){
             $scope.errorAttach=[];
             $scope.upload = function (file,errorFile, idx) {
                 if(errorFile && errorFile.length>0){
@@ -6498,11 +6535,19 @@ ctmApp.directive('directCommonUpload', function(){
                     });
                 }
             };
+
+            //获取父作用域
+            var carouselScope = $element.parent().scope();
+
+            $scope.showAttachment = function (){
+                carouselScope.initAttachment();
+            };
+
             $scope.submit = function(){
-                if(isEmptyObject($scope.attachment)){
+                /*if(isEmptyObject($scope.attachment)){
                     $.alert("附件不能为空！");
                     return false;
-                }
+                }*/
                 if($scope.callback!=null){
                     $scope.callback($scope.attachment);
                 }
@@ -6510,13 +6555,13 @@ ctmApp.directive('directCommonUpload', function(){
             $scope.cancel = function(){
                 $scope.attachment={};
             }
-            //jquery判断是否对象非空
+           /* //jquery判断是否对象非空
             function isEmptyObject(e) {
                 var t;
                 for (t in e)
                     return !1;
                 return !0
-            }
+            }*/
         }
     }
 });

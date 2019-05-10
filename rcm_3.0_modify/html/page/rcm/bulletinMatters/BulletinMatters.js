@@ -311,6 +311,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
                 }
             });
             $scope.changeTbsxType();
+            hide_Mask();
 		});
 	};
 	$scope.initDefaultData();

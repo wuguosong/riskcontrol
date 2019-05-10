@@ -34,6 +34,10 @@
             <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ng-if="_cloud_show_replace_" class="btn-add btn-scale" ngf-max-size="100MB" ngf-select="_cloud_replace_($file,_cloud_)">
                 <span>{{_cloud_replace_text_}}</span>
             </button>
+            <!--上传或替换按钮-->
+            <button style="{{_cloud_btn_style_}}" class="{{_cloud_btn_class_}}" ng-if="_cloud_show_upload_or_replace_" class="btn-add btn-scale" ngf-max-size="100MB" ngf-select="_cloud_upload_or_replace_($file,_cloud_)">
+                <span>{{_cloud_upload_or_replace_text_}}</span>
+            </button>
         </div>
     </div>
     <div ng-if="_cloud_area_code_ == '2'">
