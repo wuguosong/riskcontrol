@@ -259,16 +259,16 @@
 								<div class="panel-body">
 									<div class="myTab">
 										<ul class="nav nav-tabs bs-tabdrop-example">
-											<a class="btn tab tab-90 active" href="/#reviewMessageTab" data-toggle="tab">评审留言</a>
-											<a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a>
+											<li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+											<li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
 										</ul>
 									</div>
 									<div class="tab-content tab-content-bordered clearfix row">
 										<div class="tab-pane in active" id="reviewMessageTab">
-											<bbs-chat-new id="bulletinMattersAuditBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" page-title="评审留言" is-show-attach-type="false" attach-file-is-popup="false"></bbs-chat-new>
+											<bbs-chat-new id="bulletinMattersAuditBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" is-show-attach-type="false" attach-file-is-popup="false"></bbs-chat-new>
 										</div>
 										<div class="tab-pane" id="legalMessageTab">
-											<bbs-chat-new id="bulletinMattersAuditBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" page-title="法律留言" is-show-attach-type="false" attach-file-is-popup="false"></bbs-chat-new>
+											<bbs-chat-new id="bulletinMattersAuditBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" is-show-attach-type="false" attach-file-is-popup="false"></bbs-chat-new>
 										</div>
 									</div>
 								</div>
