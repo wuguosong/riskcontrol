@@ -130,7 +130,7 @@
 	
 	<!-- 修改投资经理是否提交参会信息标识 -->
 	<update id="updateManagerSubmitState" parameterType="hashmap">
-		update RCM_PRE_INFO 
+		update rcm_formalAssessment_info 
 		   set is_investmentmanager_submit=#{is_investmentmanager_submit},
 		       need_meeting=#{need_meeting},
 		       metting_commit_time=to_date(#{metting_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')  
@@ -139,7 +139,7 @@
 	
 	<!-- 修改投资经理是否提交参会信息标识 -->
 	<update id="updateNeedMeeting" parameterType="hashmap">
-	    update rcm_formalAssessment_info set need_meeting=#{need_meeting}
+	    update rcm_formalAssessment_info set need_meeting=#{need_meeting}, stage=#{stage},
 		where businessid in (#{businessId,jdbcType=VARCHAR})
 	</update>
 </mapper>

@@ -2387,6 +2387,33 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
                  });
              }
          }
+
+         //验证确认节点是否选择上会
+         if ($scope.approve.showController.isReviewLeaderConfirm) {
+         	debugger
+             if ($scope.pfr == null || $scope.pfr.needMeeting == null) {
+                 $.alert("请选择是否需要上会！");
+                 return;
+             }
+
+             $.ajax({
+                 type: 'post',
+                 url: srvUrl + "formalAssessmentInfoCreate/saveNeedMeeting.do",
+                 data: $.param({
+                     "needMeeting": $scope.pfr.needMeeting,
+                     'businessId': $scope.approve.businessId
+                 }),
+                 dataType: "json",
+                 async: false,
+                 success: function (result) {
+                     if (!result.success) {
+                         alert(result.result_name);
+                         return;
+                     }
+                 }
+             });
+         }
+
          if ($scope.flowVariables == null || $scope.flowVariables == 'undefined' || $scope.flowVariables.opinion == undefined || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
              $.alert("审批意见不能为空！");
              return;
@@ -2529,7 +2556,10 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
      };
 
      /*************************    新增保存是否参会字段   ******************************/
-
+     $scope.checkReport = function () {
+         $scope.pfr.needReport = "1";
+         $scope.pfr.decisionOpinion = null;
+     };
      /*************************    新增保存是否参会字段   ******************************/
 
 

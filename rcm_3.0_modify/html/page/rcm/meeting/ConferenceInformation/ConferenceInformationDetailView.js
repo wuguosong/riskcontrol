@@ -46,7 +46,25 @@ ctmApp.register.controller('ConferenceInformationDetailView', ['$http','$scope',
 		    url:srvUrl+url, 
 		    data: $.param({"formalId":id})
 		}).success(function(data){
-			$scope.meeting= data.result_data;
+			$scope.meeting= data.result_data
+
+			// 处理需要显示的数据
+            var mdNameArr=[],miNameArr=[];
+
+            var md=$scope.meeting.division;
+            if(null!=md && md.length>0){
+                for(var j=0;j<md.length;j++){
+                    mdNameArr.push(md[j].name);
+                }
+                $scope.meeting.division=mdNameArr.join(",");
+            }
+            var mi=$scope.meeting.investment;
+            if(null!=mi && mi.length>0){
+                for(var j=0;j<mi.length;j++){
+                    miNameArr.push(mi[j].name);
+                }
+                $scope.meeting.investment=miNameArr.join(",");
+            }
 		});
 	};
 	

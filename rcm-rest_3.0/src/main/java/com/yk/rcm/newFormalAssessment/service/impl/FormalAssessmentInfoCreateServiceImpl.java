@@ -477,6 +477,11 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		
 		params.put("need_meeting", needMeeting);
 		params.put("businessId", id);
+		if(needMeeting.equals("0")){
+			params.put("stage", "9");
+		} else {
+			params.put("stage", "3");
+		}
 		this.formalAssessmentInfoCreateMapper.updateNeedMeeting(params);
 	}
 }
