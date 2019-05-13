@@ -345,7 +345,7 @@
 													<input type="text"  ng-disabled="actionparm== 'View'" value="{{btpp.buyBackDate}}" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate"  placeholder="从XX时间开始回购" class="form-control" />
                                                     <i class="fa fa-calendar form-control-feedback"></i>
                                                     <span id="showdate" ></span>
-											</span>
+											    </span>
 												<span class="col-md-3 slim">
 								                <input type="text" name="" ng-model="btpp.buyBackPeriod" class="form-control"/>
 												<span class="unit-m">年</span>
@@ -547,16 +547,14 @@
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
 												<span class="col-md-4 noPadding">特许经营期</span>
-												<span class="col-md-3 slim">
-								                     <label class="checkbox-inline">
+												<span class="col-md-2 slim">
+								                     <label class="checkbox-inline local">
 														<input class="px" type="checkbox" ng-disabled="actionparm== 'View'" ng-model="gsbot.containConstructionPeriod" ng-change="changeInvestmentModel()" id="containConstructionPeriod" name="containConstructionPeriod">
 														<span class="lbl">含建设期</span>
 													</label>
 												</span>
-												<span class="col-md-3 slim">
-								                     <label class="checkbox-inline">
-														<input type="text" ng-model="gsbot.franchisePeriod" name="" class="form-control" /><span class="unit-n">年</span>
-													</label>
+												<span class="col-md-4 slim">
+													<input type="text" ng-model="gsbot.franchisePeriod" name="" class="form-control" /><span class="unit-n">年</span>
 												</span>
 											</div>
 										</div>
@@ -564,9 +562,7 @@
 											<div class="row">
 												<span class="col-md-4 noPadding" >建设期</span>
 												<span class="col-md-6 slim">
-								                     <label class="checkbox-inline">
-														<input type="text" ng-model="gsbot.constructionPeriod" name="" class="form-control" /><span class="unit-n">年</span>
-													</label>
+													<input type="text" ng-model="gsbot.constructionPeriod" name="" class="form-control" /><span class="unit-n">年</span>
 												</span>
 											</div>
 										</div>
@@ -602,7 +598,7 @@
 										</div>
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
-												<span class="col-md-4 noPadding" style="font-weight: normal">评审规模</span>
+												<span class="col-md-4 noPadding">评审规模</span>
 												<span class="col-md-6 slim">
 								                <input type="text" ng-model="gsbot.evaluationScale" name="" class="form-control" /><span class="unit-s">万吨/日</span>
 											</span>
@@ -1138,16 +1134,14 @@
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
 												<span class="col-md-4 noPadding">特许经营期</span>
-												<span class="col-md-3 slim">
-								                     <label class="checkbox-inline">
+												<span class="col-md-2 slim">
+								                     <label class="checkbox-inline local">
 														<input class="px" type="checkbox" ng-disabled="actionparm== 'View'" ng-model="gstot.containConstructionPeriod" ng-change="changeInvestmentModel()">
 														<span class="lbl">含建设期</span>
 													</label>
 												</span>
-												<span class="col-md-3 slim">
-								                     <label class="checkbox-inline">
-														<input type="text" ng-model="gstot.franchisePeriod" name="" class="form-control" /><span class="unit-n">年</span>
-													</label>
+												<span class="col-md-4 slim">
+													<input type="text" ng-model="gstot.franchisePeriod" name="" class="form-control" /><span class="unit-n">年</span>
 												</span>
 											</div>
 										</div>
@@ -1155,9 +1149,7 @@
 											<div class="row">
 												<span class="col-md-4 noPadding" >建设期</span>
 												<span class="col-md-6 slim">
-								                     <label class="checkbox-inline">
-														<input type="text" ng-model="gstot.constructionPeriod" name="" class="form-control" /><span class="unit-n">年</span>
-													</label>
+													<input type="text" ng-model="gstot.constructionPeriod" name="" class="form-control" /><span class="unit-n">年</span>
 												</span>
 											</div>
 										</div>
@@ -1193,7 +1185,7 @@
 										</div>
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
-												<span class="col-md-4 noPadding" style="font-weight: normal">评审规模</span>
+												<span class="col-md-4 noPadding">评审规模</span>
 												<span class="col-md-6 slim">
 								                <input type="text" ng-model="gstot.evaluationScale" name="" class="form-control" /><span class="unit-s">万吨/日</span>
 											</span>
@@ -2284,16 +2276,14 @@
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
 												<span class="col-md-4 noPadding">特许经营期</span>
-												<span class="col-md-3 slim">
-								                     <label class="checkbox-inline">
+												<span class="col-md-2 slim">
+								                     <label class="checkbox-inline local">
 														<input class="px" type="checkbox" ng-disabled="actionparm== 'View'" ng-model="wsbot.containConstructionPeriod" ng-change="changeInvestmentModel()"/>
 														<span class="lbl">含建设期</span>
 													</label>
 												</span>
-												<span class="col-md-3 slim">
-								                     <label class="checkbox-inline">
-														<input type="text" name="" class="form-control" ng-model="wsbot.concessionaryTime"/><span class="unit-n">年</span>
-													</label>
+												<span class="col-md-4 slim">
+													<input type="text" name="" class="form-control" ng-model="wsbot.concessionaryTime"/><span class="unit-n">年</span>
 												</span>
 											</div>
 										</div>
@@ -2301,9 +2291,7 @@
 											<div class="row">
 												<span class="col-md-4 noPadding" >建设期</span>
 												<span class="col-md-6 slim">
-								                     <label class="checkbox-inline">
-														<input type="text" name="" class="form-control" ng-model="wsbot.construction"/><span class="unit-n">年</span>
-													</label>
+													<input type="text" name="" class="form-control" ng-model="wsbot.construction"/><span class="unit-n">年</span>
 												</span>
 											</div>
 										</div>
@@ -2338,7 +2326,7 @@
 										</div>
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
-												<span class="col-md-4 noPadding" style="font-weight: normal">调价周期</span>
+												<span class="col-md-4 noPadding">调价周期</span>
 												<span class="col-md-6 slim">
 								                <input type="text" name="" class="form-control" ng-model="wsbot.priceCicle"/>
 											</span>
@@ -2356,7 +2344,7 @@
 										</div>
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
-												<span class="col-md-4 noPadding" style="font-weight: normal">测算水量</span>
+												<span class="col-md-4 noPadding">测算水量</span>
 												<span class="col-md-6 slim">
 								                <input type="text" name="" class="form-control"  ng-model="wsbot.measuringWater"/><span class="unit-s">万吨/日</span>
 											</span>
@@ -2374,7 +2362,7 @@
 										</div>
 										<div class="col-md-6 col-sm-6  col-xs-12">
 											<div class="row">
-												<span class="col-md-4 noPadding" style="font-weight: normal">评审规模</span>
+												<span class="col-md-4 noPadding">评审规模</span>
 												<span class="col-md-6 slim">
 								                <input type="text" name="" class="form-control"  ng-model="wsbot.reviewScale"/><span class="unit-s">万吨/日</span>
 											</span>
