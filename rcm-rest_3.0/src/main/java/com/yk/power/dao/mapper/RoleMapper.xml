@@ -75,11 +75,19 @@
 				plg.businessid
 				from rcm_pre_log plg
 				where plg.iswaiting = '1'
+				and plg.audituserid is not null
 				union
 				select
 				distinct flg.audituserid, flg.businessid
 				from rcm_formalassessment_log flg
 				where  flg.iswaiting = '1'
+				and flg.audituserid is not null
+				union
+				select
+				distinct blg.audituserid, blg.businessid
+				from rcm_bulletin_log blg
+				where  blg.iswaiting = '1'
+				and blg.audituserid is not null
 			) cp_
 			where cp_.audituserid is not null
 			group by cp_.audituserid
