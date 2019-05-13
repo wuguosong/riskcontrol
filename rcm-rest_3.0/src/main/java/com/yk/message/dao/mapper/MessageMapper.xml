@@ -266,6 +266,7 @@
                 select 1 from sys_dictionary sd, sys_dictionary_item st
                 where sd.dictionary_code in('REGIONAL_INFORMER', 'INSPECTION_TEAM')
                 and sd.uuid = st.fk_dictionary_uuid
+                and st.is_enabled = '1'
                 and st.item_code = u.uuid
                 <if test="message_type != null and message_type != '' and message_business_id != null and message_business_id != ''">
                     /*正式评审*/
