@@ -66,8 +66,8 @@
 								<div class="col-sm-4">
 									<input type="text" readonly required-m class="form-control" id="bulletinType" name="bulletinType" ng-model="bulletin.bulletinType.NAME">
 								</div>
-								<label for="" class="col-sm-2 control-label">职能部门负责人</label>
-								<div class="col-sm-4">
+								<label ng-if="isNotCityService" class="col-sm-2 control-label">职能部门负责人</label>
+								<div ng-if="isNotCityService" class="col-sm-4">
 									<input class="form-control" readonly required-m id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
 								</div>
 							</div>
