@@ -342,11 +342,9 @@
 											<div class="row">
 												<span class="col-md-4 noPadding">回购期</span>
 												<span class="col-md-3 slim">
-													<input type="text"  ng-disabled="actionparm== 'View'" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate"  placeholder="从XX时间开始回购" class="form-control" />
+													<input type="text"  ng-disabled="actionparm== 'View'" value="{{btpp.buyBackDate}}" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate"  placeholder="从XX时间开始回购" class="form-control" />
                                                     <i class="fa fa-calendar form-control-feedback"></i>
                                                     <span id="showdate" ></span>
-								                <input type="text" class="form-control loadtime"/>
-												<i class="fa fa-calendar form-control-feedback" style="right:0;"></i>
 											</span>
 												<span class="col-md-3 slim">
 								                <input type="text" name="" ng-model="btpp.buyBackPeriod" class="form-control"/>
@@ -3597,15 +3595,6 @@
 <directive-org-list></directive-org-list>
 
 <script type="text/javascript">
-    angular.element(document).ready(function() {
-
-        var options = {
-            todayBtn: "linked",
-            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-        }
-        $('#buyBackDate').datepicker(options);
-        $('#paymentTime').datepicker(options);
-    });
     $().ready(function() {
         // validate signup form on keyup and submit
         $("#FormalReviewReport").validate({
@@ -3626,6 +3615,19 @@
                 operationsUnitName:"此项必填"
             }
         });
+    });
+
+    angular.element(document).ready(function() {
+        var date = new Date();
+        date.setDate(date.getDate());
+        var curDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto',
+            startDate:curDate
+        }
+        $('#bs-datepicker-edit').datepicker();
+        $('#buyBackDate').datepicker(options);
     });
 
     //dom监听resize事件
