@@ -338,7 +338,11 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			var data = result.result_data;
 			$scope.bulletinOracle = data.bulletinOracle;
 			$scope.bulletin = data.bulletinMongo;
-
+			if($scope.bulletinOracle.BULLETINTYPECODE != 'TBSX_BUSINESS_SUBCOMPANYTZ'){
+                $scope.isNotCityService = true;
+			}else{
+                $scope.isNotCityService = false;
+			}
             // 处理附件
             $scope.reduceAttachment(data.bulletinMongo.attachmentList, id);
 
