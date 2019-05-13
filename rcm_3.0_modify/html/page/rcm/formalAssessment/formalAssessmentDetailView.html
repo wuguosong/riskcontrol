@@ -422,7 +422,7 @@
                     <a class="btn btn-info" ng-if="flag=='5'" href="#/OverTask"><i class="fa fa-reply"></i>返回</a>
                     <a class="btn btn-info" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>-->
                      <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-                    <button ng-show="pfrOracle.WF_STATE=='0'" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <button ng-show="pfrOracle.WF_STATE=='0'" ng-click="vaildProject()" type="button" id="submitlbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
                     <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
 <!--                         <approve-pop-win approve="approve"></approve-pop-win> -->
 						<formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>

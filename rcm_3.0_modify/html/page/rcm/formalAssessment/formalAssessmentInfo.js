@@ -524,10 +524,12 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
                     }
                 }
             } else {
-                var serviceCode = $scope.service.KEY;
-                if (serviceCode == '1401'){
-                    var name = $scope.pfr.apply.projectName.split($scope.projectModel.VALUE);
-                    $scope.pfr.apply.projectName = name[0];
+                if (!isEmpty($scope.projectModel)) {
+                    var serviceCode = $scope.service.KEY;
+                    if (serviceCode == '1401'){
+                        var name = $scope.pfr.apply.projectName.split($scope.projectModel.VALUE);
+                        $scope.pfr.apply.projectName = name[0];
+                    }
                 }
             }
         }

@@ -7,7 +7,8 @@
 				</div>
             <label class="col-sm-2 control-label">项目编号</label>
             <div class="col-sm-4">
-                <input type="text" readonly class="form-control" id="projectNo" name="projectNo" ng-model="pre.apply.projectNo" placeholder="" readonly>
+                <input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="pre.apply.projectNoNew" placeholder="" readonly/>
+                <input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="pre.apply.projectNo" placeholder="" readonly/>
             </div>
         </div>
         <div class="row">
@@ -111,7 +112,8 @@
             </div>-->
             <label class="col-sm-2 control-label">申请填写日期</label>
             <div class="col-sm-4 has-feedback">
-                <input type="text"  readonly class="form-control"  readonly id="create_date" name="create_date" ng-model="pre.create_date" />
+                <input type="text" readonly class="form-control"  id="showCreateDate" name="showCreateDate" ng-model="pre.showCreateDate" />
+                <input type="hidden" readonly class="form-control"  id="create_date" name="create_date" ng-model="pre.create_date" />
                 <i class="fa fa-calendar form-control-feedback"></i>
             </div>
         </div>

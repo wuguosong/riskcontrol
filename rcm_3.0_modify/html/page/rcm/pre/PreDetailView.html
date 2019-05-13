@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="option">
                 	<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-                    <button ng-show="pre.oracle.WF_STATE=='0'" ng-click="showSubmitModal()" id="submitbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                    <button ng-show="pre.oracle.WF_STATE=='0'" ng-click="vaildProject()" id="submitbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
                 	<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
                 		<pre-review-bpmn-pop-win approve="approve"></pre-review-bpmn-pop-win>
                 	</div>

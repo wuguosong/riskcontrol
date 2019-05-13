@@ -398,6 +398,13 @@ form .left-content {
   margin: 10px 3px -4px -20px!important
 }
 
+.gt-ie8 .radio-inline.xlocal input.px+.lbl:before,
+.gt-ie8 .radio-inline.xlocal input.px+.lbl:after,
+.gt-ie8 .checkbox-inline.xlocal input.px+.lbl:before,
+.gt-ie8 .checkbox-inline.xlocal input.px+.lbl:after{
+  margin: 14px 3px -4px -20px!important;
+}
+
 .gt-ie8 .radio-inline.choose input.px+.lbl:before,
 .gt-ie8 .radio-inline.choose input.px+.lbl:after{
   margin: 13px 0px 0px -31px!important

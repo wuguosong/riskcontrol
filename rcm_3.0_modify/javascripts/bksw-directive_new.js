@@ -3235,10 +3235,12 @@ ctmApp.directive('directiveAccachmentNew', function() {
                                 url:srvUrl + addUrl,
                                 data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
                             }).success(function(data){
+                                hide_Mask();
                                 alert(data.result_name);
+                                $scope.initUpdate({'id': $scope.businessId});
                                 if(data.success){
                                     if (!isEmpty($scope.toSend)){
-                                        var message = $scope.projectName + "中类型为" + _item.itemType.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
+                                        var message = $scope.projectName + "中类型为" + _item.type.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
                                         $http({
                                             method: 'post',
                                             url: srvUrl + 'cloud/remind.do',
@@ -3252,19 +3254,15 @@ ctmApp.directive('directiveAccachmentNew', function() {
                                             if(isEmpty(data)){
                                                 $.alert('推送消息失败!');
                                             }else{
-                                                if(data['result_code'] == 'S'){
-                                                    $scope._share_message_id_ = '';
-                                                    $scope._clear_share_users_();
-                                                    $('#_share_message_dialog').modal('hide');
+                                                /*if(data['result_code'] == 'S'){
                                                     $.alert(data['result_name']);
                                                     // $scope._share_message_result_test_(data['result_data']);
                                                 }else{
                                                     $.alert(data['result_name']);
-                                                }
+                                                }*/
                                             }
                                         });
                                     }
-                                    $scope.initUpdate({'id': $scope.businessId});
 
                                 }else{
                                     $.alert(data.result_name);

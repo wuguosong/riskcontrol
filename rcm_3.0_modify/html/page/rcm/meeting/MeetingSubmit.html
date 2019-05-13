@@ -87,13 +87,13 @@
 												<td class="title-column">是否紧急上会</td>
 												<td colspan="3">
 													<div class="col-sm-4">
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input type="radio" name="isurgentPfr{{$index}}" ng-model="formal.isUrgent" value="0" class="px"/><span class="lbl">否</span>
 														</label>
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input type="radio" name="isurgentPfr{{$index}}"  ng-model="formal.isUrgent" value="1" class="px"/><span class="lbl">是</span>
 														</label>
-	
+
 													</div>
 												</td>
 											</tr>
@@ -102,8 +102,8 @@
 												<td colspan="3">
 													<div class="row nobottom-mar">
 														<div class="col-sm-5 noleft-pad meeting-time-input">
-															<select name="projectRating" 
-																class="form-control ng-pristine ng-untouched ng-valid" 
+															<select name="projectRating"
+																class="form-control ng-pristine ng-untouched ng-valid"
 																ng-model="formal.projectRating"
 																ng-options="nv.name for nv in nameValue track by  nv.value">
 																<option value="">请选择...</option>
@@ -111,15 +111,15 @@
 														</div>
 														<div class="col-sm-1"></div>
 														<div class="col-sm-6 td-checkbox txl noLeftPadMin">
-															<label class="checkbox-inline"> <input
+															<label class="checkbox-inline xlocal"> <input
 																type="checkbox" class="px" name="projectType1"
 																id="projectType1" ng-model="formal.projectType1" value="1" />
 																<span class="lbl">项目简单</span>
-															</label> <label class="checkbox-inline"> <input
+															</label> <label class="checkbox-inline xlocal"> <input
 																type="checkbox" class="px" name="projectType2"
 																id="projectType2" ng-model="formal.projectType2" value="2" />
 																<span class="lbl">风险较低</span>
-															</label> <label class="checkbox-inline"> <input
+															</label> <label class="checkbox-inline xlocal"> <input
 																type="checkbox" class="px" name="projectType3"
 																id="projectType3" ng-model="formal.projectType3" value="3" />
 																<span class="lbl">收益较好</span>
@@ -135,19 +135,17 @@
 											</tr>
 											<tr>
 												<td class="title-column">大区人员参会方式</td>
-												<td colspan="3" class="radio-group">
-													<label class="radio radio-inline">
-														<input type="radio" class="px" name="participantModePfr{{$index}}" ng-model="formal.participantMode" value="1"/>
-														<span class="lbl">现场</span>
-													</label>
-													<label class="radio radio-inline">
-														<input type="radio" class="px" name="participantModePfr{{$index}}" ng-model="formal.participantMode" value="2"/>
-														<span class="lbl">视频</span>
-													</label>
-<!-- 													<label class="radio radio-inline"> -->
-<!-- 														<input type="radio" class="px" name="participantModePfr{{$index}}" ng-model="formal.participantMode" value="3"/> -->
-<!-- 														<span class="lbl">电话</span> -->
-<!-- 													</label> -->
+												<td colspan="3">
+													<div class="col-sm-4">
+														<label class="radio radio-inline xlocal">
+															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="1"/>
+															<span class="lbl">现场</span>
+														</label>
+														<label class="radio radio-inline xlocal">
+															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="2"/>
+															<span class="lbl">视频</span>
+														</label>
+													</div>
 												</td>
 											</tr>
 											<tr>
@@ -278,10 +276,10 @@
 												<td class="title-column">是否紧急上会</td>
 												<td colspan="3">
 													<div class="col-sm-4">
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input type="radio" name="isurgentPre{{$index}}" ng-model="pre.isUrgent" value="0" class="px"/><span class="lbl">否</span>
 														</label>
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input type="radio" name="isurgentPre{{$index}}" ng-model="pre.isUrgent" value="1" class="px"/><span class="lbl">是</span>
 														</label>
 													</div>
@@ -292,8 +290,8 @@
 												<td colspan="3">
 													<div class="row nobottom-mar">
 														<div class="col-sm-5 noleft-pad meeting-time-input">
-															<select name="projectRating" 
-																class="form-control ng-pristine ng-untouched ng-valid" 
+															<select name="projectRating"
+																class="form-control ng-pristine ng-untouched ng-valid"
 																ng-model="pre.projectRating"
 																ng-options="nv.name for nv in nameValue track by  nv.value">
 																<option value="">请选择...</option>
@@ -301,15 +299,15 @@
 														</div>
 														<div class="col-sm-1"></div>
 														<div class="col-sm-6 td-checkbox txl noLeftPadMin">
-															<label class="checkbox-inline"> <input
+															<label class="checkbox-inline xlocal"> <input
 																type="checkbox" class="px" name="projectType1"
 																id="projectType1" ng-model="pre.projectType1" value="1" />
 																<span class="lbl">项目简单</span>
-															</label> <label class="checkbox-inline"> <input
+															</label> <label class="checkbox-inline xlocal"> <input
 																type="checkbox" class="px" name="projectType2"
 																id="projectType2" ng-model="pre.projectType2" value="2" />
 																<span class="lbl">风险较低</span>
-															</label> <label class="checkbox-inline"> <input
+															</label> <label class="checkbox-inline xlocal"> <input
 																type="checkbox" class="px" name="projectType3"
 																id="projectType3" ng-model="pre.projectType3" value="3" />
 																<span class="lbl">收益较好</span>
@@ -325,19 +323,17 @@
 											</tr>
 											<tr>
 												<td class="title-column">大区人员参会方式</td>
-												<td colspan="3" class="radio-group">
-													<label class="radio radio-inline">
-														<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="1"/>
-														<span class="lbl">现场</span>
-													</label>
-													<label class="radio radio-inline">
-														<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="2"/>
-														<span class="lbl">视频</span>
-													</label>
-<!-- 													<label class="radio radio-inline"> -->
-<!-- 														<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="3"/> -->
-<!-- 														<span class="lbl">电话</span> -->
-<!-- 													</label> -->
+												<td colspan="3">
+													<div class="col-sm-4">
+														<label class="radio radio-inline xlocal">
+															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="1"/>
+															<span class="lbl">现场</span>
+														</label>
+														<label class="radio radio-inline xlocal">
+															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="2"/>
+															<span class="lbl">视频</span>
+														</label>
+													</div>
 												</td>
 											</tr>
 											<tr>

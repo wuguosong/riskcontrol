@@ -73,7 +73,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
     // 初始化新增数据
     $scope.initCreate = function () {
         $scope.pre.create_date = $scope.getDate();
-        $scope.showCreateDate = $scope.getShowDate();
+        $scope.pre.showCreateDate = $scope.getShowDate();
         $scope.pre.apply.createby = $scope.credentials.UUID;
         $scope.pre.apply.investmentModel = '0';
        /* $scope.pre.apply.investmentManager = {NAME:$scope.credentials.userName,VALUE:$scope.credentials.UUID};
@@ -434,7 +434,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
 
     // 验证项目是否在流程或者评审中
     $scope.vaildProject = function(){
-        var type = "formalReview";
+        var type = "preReview";
         $http({
             method:'post',
             url: srvUrl + 'common/validateProject.do',
@@ -567,10 +567,12 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
                     }
                 }
             } else {
-                var serviceCode = $scope.service.KEY;
-                if (serviceCode == '1401'){
-                    var name = $scope.pre.apply.projectName.split($scope.projectModel.VALUE);
-                    $scope.pre.apply.projectName = name[0];
+                if (!isEmpty($scope.projectModel)) {
+                    var serviceCode = $scope.service.KEY;
+                    if (serviceCode == '1401'){
+                        var name = $scope.pre.apply.projectName.split($scope.projectModel.VALUE);
+                        $scope.pre.apply.projectName = name[0];
+                    }
                 }
             }
         }
@@ -601,8 +603,8 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         $scope.pre.apply.projectNo = project.PROJECTCODE;  // 存储用编码
         $scope.pre.apply.projectNoNew = project.PROJECTCODENEW; // 显示用编码
         $scope.pre.apply.projectNameTZ = project.PROJECTNAME; // 项目名称
-        $scope.pre.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME};
-        $scope.pfr.apply.reportingUnit = {KEY: project.REPORTINGUNITCODE, VALUE: project.REPORTINGUNITNAME}; // 申报单位
+        $scope.pre.apply.pertainArea = {KEY: project.ORGCODE, VALUE: project.ORGNAME}; // 所属大区
+        $scope.pre.apply.reportingUnit = {KEY: project.REPORTINGUNITCODE, VALUE: project.REPORTINGUNITNAME}; // 申报单位
         $scope.pre.apply.investmentManager = {NAME:project.RESPONSIBLEUSER,VALUE:project.RESPONSIBLEUSERID};
         if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
             $scope.pre.apply.companyHeader = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};

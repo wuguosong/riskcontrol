@@ -140,7 +140,7 @@
 		<if test="pageLocation != null and pageLocation != ''">
 			and fd.pageLocation = #{pageLocation}
 		</if>
-		ORDER BY fd.fileid asc
+		ORDER BY fd.fileid desc
 	</select>
 	<!--获取-->
 	<select id="getFile" parameterType="string" resultMap="fileDtoMap">

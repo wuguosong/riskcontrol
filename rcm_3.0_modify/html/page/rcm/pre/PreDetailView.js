@@ -90,7 +90,69 @@ ctmApp.register.controller('PreDetailView', ['$routeParams','$http','$scope','$l
 		}).success(function(result){
 			$scope.auditLogs = result.result_data;
 		});
-	}
+	};
+
+    // 验证项目是否在流程或者评审中
+    $scope.vaildProject = function(){
+        var type = "preReview";
+        $http({
+            method:'post',
+            url: srvUrl + 'common/validateProject.do',
+            data: $.param({"type":type, "id": $scope.businessId})
+        }).success(function(result){
+            if (!result.approval.success){
+                alert(result.approval.message);
+                return;
+            } else if (!result.review.success){
+                alert(result.review.message);
+                return;
+            } else {
+                $scope.beforeSubmit();
+            }
+        });
+    };
+
+    // 确认提交前验证附件
+    $scope.beforeSubmit = function(){
+        var serviceCode = $scope.serviceType[0].KEY;
+        var projectModelName = '';
+        if(isEmpty($scope.projectModel[0])) {
+            projectModelName = $scope.projectModel.VALUE;
+        } else {
+            projectModelName = $scope.projectModel[0].VALUE;
+        }
+        var functionType = '预评审';
+        $http({
+            method:'post',
+            url: srvUrl + 'preInfoCreate/checkAttachment.do',
+            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId,"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType})})
+        }).success(function(result){
+            if (result.success) {
+                if(!isEmpty(result.result_data)){
+                    if (result.result_data[0].code != '500'){
+                        var type = '';
+                        var pmNameArr=[];
+                        var pm=result.result_data;
+                        if(null!=pm && pm.length>0){
+                            for(var j=0;j<pm.length;j++){
+                                pmNameArr.push(pm[j].ITEM_NAME);
+                            }
+                            type = pmNameArr.join("、");
+                        }
+                        alert("附件类型为" + type + "的附件没有添加，请添加后再提交！");
+                        return;
+                    } else {
+                        alert("该模式附件类型为空，请联系管理员！");
+                        return;
+                    }
+                } else {
+                    $scope.showSubmitModal();
+                }
+            } else {
+                $.alert(result.result_name);
+            }
+        });
+    };
 	
 	//弹出审批框新版
 	//提交

@@ -342,7 +342,10 @@
 											<div class="row">
 												<span class="col-md-4 noPadding">回购期</span>
 												<span class="col-md-3 slim">
-								                <input type="text" ng-disabled="actionparm== 'View'" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate" class="form-control loadtime" placeholder="从XX时间开始回购"/>
+													<input type="text"  ng-disabled="actionparm== 'View'" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate"  placeholder="从XX时间开始回购" class="form-control" />
+                                                    <i class="fa fa-calendar form-control-feedback"></i>
+                                                    <span id="showdate" ></span>
+								                <input type="text" class="form-control loadtime"/>
 												<i class="fa fa-calendar form-control-feedback" style="right:0;"></i>
 											</span>
 												<span class="col-md-3 slim">
@@ -3505,12 +3508,12 @@
 			</div>
 
 			<div class="mcontent content1" id="flag8-c">
-				<h3 class="text-blue">附件1：专业评审意见</h3>
+				<h3 class="text-blue">附件2：专业评审意见</h3>
 				<directive-formal-report-zypsyj-new></directive-formal-report-zypsyj-new>
 			</div>
 
 			<div class="mcontent content1" id="flag9-c">
-				<h3 class="text-blue">附件2：评审用成本及费用</h3>
+				<h3 class="text-blue">附件3：评审用成本及费用</h3>
 				<directive-formal-report-cbfy-new></directive-formal-report-cbfy-new>
 			</div>
 		</div>
@@ -3578,13 +3581,13 @@
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
-					附件1：专业评审意见
+					附件2：专业评审意见
 				</a>
 				<a id="flag9" class="catalog-list catalog-list-formal" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
-					附件2：评审用成本及费用
+					附件3：评审用成本及费用
 				</a>
 			</div>
 		</div>

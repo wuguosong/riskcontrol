@@ -1562,6 +1562,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			if (null != $scope.pfr.apply.expectedContractDate) {
 				$scope.changDate($scope.pfr.apply.expectedContractDate);
 			}
+			hide_Mask();
 		});
         // 查询文件变更记录
         $scope.getReplaceReasonsList($scope.businessId);
