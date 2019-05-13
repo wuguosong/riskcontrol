@@ -54,7 +54,7 @@
 													<div   ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask) || pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-4">
 														<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
 																				  checked-user="myTaskallocation.legalReviewLeader"
-																				  is-editable="isTaskLegalEdit"
+																				  is-editable="isTaskLegalEdit == 'true'"
 																				  url="{{'role/queryLegalUsers.do'}}"
 																				  ng-if="isTaskLegalEdit == 'true'"
 														></direct-fzr-single-select>
