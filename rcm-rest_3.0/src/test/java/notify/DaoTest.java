@@ -30,10 +30,10 @@ public class DaoTest {
         notify.setNotifyComments("Notify");
         notify.setNotifyCreated("1008411LiPan");
         notify.setNotifyCreatedName("LiPan");
-        notify.setNotifyStatus("0");
         notify.setNotifyUser("1005711This");
         notify.setNotifyUserName("This");
         notifyMapper.insertNotify(notify);
+        System.out.println(notify);
     }
 
     @Test
@@ -45,7 +45,6 @@ public class DaoTest {
     @Test
     public void testUpdate(){
         notify = notifyMapper.selectNotifyById("10041");
-        notify.setNotifyStatus("1");
         notifyMapper.modifyNotify(notify);
         System.out.println(notify);
     }

@@ -30,7 +30,6 @@ public class ServiceTest {
         notify.setNotifyComments("Notify");
         notify.setNotifyCreated("1008411LiPan");
         notify.setNotifyCreatedName("LiPan");
-        notify.setNotifyStatus("0");
         notify.setNotifyUser("1005711This");
         notify.setNotifyUserName("This");
         notifyService.save(notify);

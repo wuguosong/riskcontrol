@@ -11,7 +11,8 @@
         <result column="notify_user_name" property="notifyUserName" javaType="java.lang.String"/>
         <result column="notify_comments" property="notifyComments" javaType="java.lang.String"/>
         <result column="notify_date" property="notifyDate" javaType="java.sql.Timestamp"/>
-        <result column="notify_status" property="notifyStatus" javaType="java.lang.String"/>
+        <result column="portal_status" property="portalStatus" javaType="java.lang.String"/>
+        <result column="message_status" property="messageStatus" javaType="java.lang.String"/>
         <result column="notify_created" property="notifyCreated" javaType="java.lang.String"/>
         <result column="notify_created_name" property="notifyCreatedName" javaType="java.lang.String"/>
     </resultMap>
@@ -24,7 +25,8 @@
        notify_user_name,
        notify_comments,
        notify_date,
-       notify_status,
+       portal_status,
+       message_status,
        notify_created,
        notify_created_name
 	</sql>
@@ -60,7 +62,8 @@
 		notify_user_name = #{notify.notifyUserName},
 		notify_comments = #{notify.notifyComments},
 		notify_date = #{notify.notifyDate},
-		notify_status = #{notify.notifyStatus},
+		portal_status = #{notify.portalStatus},
+		message_status = #{notify.messageStatus},
 		notify_created = #{notify.notifyCreated},
 		notify_created_name = #{notify.notifyCreatedName}
 		where notify_id = #{notify.notifyId}
@@ -68,7 +71,7 @@
     <insert id="insertNotify" parameterType="com.yk.notify.entity.Notify">
 		insert into sys_notify
 		values(
-		sys_notify_seq.nextval,
+        sys_notify_seq.nextval,
 		#{notify.businessModule},
 		#{notify.businessId},
 		#{notify.associateId},
@@ -76,7 +79,8 @@
 		#{notify.notifyUserName},
 		#{notify.notifyComments},
 		sysdate,
-		#{notify.notifyStatus},
+		#{notify.portalStatus},
+        #{notify.messageStatus},
 		#{notify.notifyCreated},
 		#{notify.notifyCreatedName}
 		)

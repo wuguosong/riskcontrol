@@ -63,7 +63,6 @@ public class NotifyController {
     public Notify updateStatus(String notify_id, String notify_status) {
         try {
             notify = notifyService.get(notify_id);
-            notify.setNotifyStatus(notify_status);
             notifyService.update(notify);
             logger.info("更新知会状态成功!");
         } catch (Exception e) {

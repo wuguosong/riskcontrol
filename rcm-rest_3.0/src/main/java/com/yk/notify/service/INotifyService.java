@@ -48,4 +48,22 @@ public interface INotifyService {
      * @return
      */
     List<Notify> save(String business_module, String business_id, String notifies_user);
+
+    /**
+     * 同步到统一流程平台
+     * @param business_module
+     * @param business_id
+     * @param isTodo
+     * @param isRead
+     * @return
+     */
+    List<Notify> sendToPortal(String business_module, String business_id, boolean isTodo, boolean isRead);
+
+    /**
+     * 同步到统一消息平台
+     * @param business_module
+     * @param business_id
+     * @return
+     */
+    List<Notify> sendToMessage(String business_module, String business_id);
 }

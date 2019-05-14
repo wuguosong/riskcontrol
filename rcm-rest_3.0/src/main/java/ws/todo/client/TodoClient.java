@@ -30,9 +30,9 @@ public class TodoClient {
     private final String environment = prop.get("agency.wsdl.environment");
     // url
     public static final String SUFFIX_URL = prop.get("agency.wsdl.suffix.url");
-    public static final String PREFIX_FORMAL_URL = prop.get("agency.wsdl.prefix.formal.url");
-    public static final String PREFIX_OTHERS_URL = prop.get("agency.wsdl.prefix.others.url");
-    public static final String PREFIX_BIDDING_URL = prop.get("agency.wsdl.prefix.bidding.url");
+    public static final String PREFIX_FORMAL_URL = prop.get("agency.wsdl.prefix.url.formalReview");
+    public static final String PREFIX_OTHERS_URL = prop.get("agency.wsdl.prefix.url.bulletin");
+    public static final String PREFIX_BIDDING_URL = prop.get("agency.wsdl.prefix.url.preReview");
     // 服务
     private final IUpToDoService upToDoService = new UpToDoServiceImplService().getTodoPort();
     public static TodoClient getInstance(){

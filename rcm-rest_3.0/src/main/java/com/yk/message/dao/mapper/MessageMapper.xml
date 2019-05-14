@@ -363,7 +363,9 @@
         <if test="type != null and type != '' and type == 'formalReview'">
             select
             lg.*,
-            lg.projectname as "projectName"
+            lg.projectname as "projectName",
+            lg.createby as "sender",
+            lg.projectname as "title"
             from  rcm_formalassessment_info lg
             where lg.businessid = #{id}
         </if>
@@ -371,7 +373,9 @@
         <if test="type != null and type != '' and type == 'preReview'">
             select
             lg.*,
-            lg.projectname as "projectName"
+            lg.projectname as "projectName",
+            lg.createby as "sender",
+            lg.projectname as "title"
             from  rcm_pre_info lg
             where lg.businessid = #{id}
         </if>
@@ -379,7 +383,9 @@
         <if test="type != null and type != '' and type == 'bulletin'">
             select
             lg.*,
-            lg.bulletinname as "projectName"
+            lg.bulletinname as "projectName",
+            lg.createby as "sender",
+            lg.bulletinname as "title"
             from  rcm_bulletin_info lg
             where lg.businessid = #{id}
         </if>

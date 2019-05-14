@@ -17,7 +17,8 @@ public class Notify {
     private String associateId;
     private String notifyUser;
     private Timestamp notifyDate;
-    private String notifyStatus;
+    private String portalStatus;// 同步到统一代办的状态
+    private String messageStatus;// 同步到统一消息平台的状态
     private String notifyComments;
     private String notifyUserName;
     private String notifyCreated;
@@ -71,12 +72,20 @@ public class Notify {
         this.notifyDate = notifyDate;
     }
 
-    public String getNotifyStatus() {
-        return notifyStatus;
+    public String getPortalStatus() {
+        return portalStatus;
     }
 
-    public void setNotifyStatus(String notifyStatus) {
-        this.notifyStatus = notifyStatus;
+    public void setPortalStatus(String portalStatus) {
+        this.portalStatus = portalStatus;
+    }
+
+    public String getMessageStatus() {
+        return messageStatus;
+    }
+
+    public void setMessageStatus(String messageStatus) {
+        this.messageStatus = messageStatus;
     }
 
     public String getNotifyComments() {
