@@ -477,9 +477,13 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		Result result = new Result();
 		result.setResult_data(true);
 		Document bjson = Document.parse(json);
+		System.out.println(bjson);
 		String businessId = bjson.getString("projectFormalId");
+		System.out.println(bjson.get("projectFormalId"));
+		System.out.println(bjson.get("projectFormalId"));
 		
 		Map<String, Object> statusMap = new HashMap<String, Object>();
+		
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
 		statusMap.put("filed", "IS_SUBMIT_BIDDING");
 		statusMap.put("status", "0");
@@ -549,37 +553,42 @@ public class FormalReportServiceImpl implements IFormalReportService {
 				return result.setResult_data(false);
 			}
 		}
+		System.out.println(bjson.getString("_id"));
 		// 3、修改mongo数据
-		Document doc = (Document) this.baseMongo.queryById(bjson.getString("_id"), Constants.RCM_FORMALREPORT_INFO);
-		doc.put("_id", new ObjectId(bjson.getString("_id")));
-		doc.put("fkPsResult", bjson.getString("fkPsResult"));// 风控中心评审结论
-		doc.put("fkRiskTip", bjson.getString("fkRiskTip"));// 风控重点风险提示
+		
+		if(Util.isNotEmpty(bjson.getString("_id"))){
+			Document doc = (Document) this.baseMongo.queryById(bjson.getString("_id"), Constants.RCM_FORMALREPORT_INFO);
+			doc.put("_id", new ObjectId(bjson.getString("_id")));
+			doc.put("fkPsResult", bjson.getString("fkPsResult"));// 风控中心评审结论
+			doc.put("fkRiskTip", bjson.getString("fkRiskTip"));// 风控重点风险提示
 
-		// 获取投资部门提供的附件中被选中的附件
-		List<Document> decisionMakingCommitteeStaffFiles = (List<Document>) policyDecision
-				.get("decisionMakingCommitteeStaffFiles");
+			// 获取投资部门提供的附件中被选中的附件
+			List<Document> decisionMakingCommitteeStaffFiles = (List<Document>) policyDecision
+					.get("decisionMakingCommitteeStaffFiles");
 
-		for (Document item : decisionMakingCommitteeStaffFiles) {
+			for (Document item : decisionMakingCommitteeStaffFiles) {
 
-			String version = item.getString("version");
-			String uuid = item.getString("UUID");
-			if ("".equals(uuid) || null == uuid) {
-				item.put("version", "");
-			} else if ("".equals(version) || null == version) {
+				String version = item.getString("version");
+				String uuid = item.getString("UUID");
+				if ("".equals(uuid) || null == uuid) {
+					item.put("version", "");
+				} else if ("".equals(version) || null == version) {
 
-				int tmp = 1;
-				for (Document attachment : attachments) {
-					if (attachment.getString("UUID").equals(uuid)) {
-						List<Document> filesList = (List<Document>) attachment.get("files");
-						tmp = filesList.size();
+					int tmp = 1;
+					for (Document attachment : attachments) {
+						if (attachment.getString("UUID").equals(uuid)) {
+							List<Document> filesList = (List<Document>) attachment.get("files");
+							tmp = filesList.size();
+						}
 					}
+					item.put("version", String.valueOf(tmp));
 				}
-				item.put("version", String.valueOf(tmp));
 			}
+			doc.put("policyDecision", policyDecision);
+			doc.put("filePath", bjson.getString("filePath"));
+			this.baseMongo.updateSetByObjectId(bjson.getString("_id"), doc, Constants.RCM_FORMALREPORT_INFO);
 		}
-		doc.put("policyDecision", policyDecision);
-		doc.put("filePath", bjson.getString("filePath"));
-		this.baseMongo.updateSetByObjectId(bjson.getString("_id"), doc, Constants.RCM_FORMALREPORT_INFO);
+		
 
 		// 处理附件
 		if (null != attachments) {

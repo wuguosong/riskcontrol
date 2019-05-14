@@ -4,6 +4,11 @@ html,body,#content-wrapper{
 #main-page {
     height: calc(100% - 60px);
 }
+
+.ng-scope {
+    height: 100%;
+}
+
 #main-wrapper{
     overflow-y: auto!important;
     height: 100% ;
