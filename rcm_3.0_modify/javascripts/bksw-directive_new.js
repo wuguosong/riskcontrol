@@ -3349,7 +3349,8 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 预览
             $scope._review = function (uri) {
-                $window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(uri);
+                // $window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
 
             // 下载
