@@ -64,6 +64,8 @@
 		notify_date = #{notify.notifyDate},
 		portal_status = #{notify.portalStatus},
 		message_status = #{notify.messageStatus},
+		notify_url = #{notify.notifyUrl},
+		notify_status = #{notify.notifyStatus},
 		notify_created = #{notify.notifyCreated},
 		notify_created_name = #{notify.notifyCreatedName}
 		where notify_id = #{notify.notifyId}
@@ -81,6 +83,8 @@
 		sysdate,
 		#{notify.portalStatus},
         #{notify.messageStatus},
+        #{notify.notifyUrl},
+        #{notify.notifyStatus},
 		#{notify.notifyCreated},
 		#{notify.notifyCreatedName}
 		)

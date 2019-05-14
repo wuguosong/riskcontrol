@@ -20,6 +20,8 @@ public class Notify {
     private String portalStatus;// 同步到统一代办的状态
     private String messageStatus;// 同步到统一消息平台的状态
     private String notifyComments;
+    private String notifyUrl;
+    private String notifyStatus;
     private String notifyUserName;
     private String notifyCreated;
     private String notifyCreatedName;
@@ -118,6 +120,22 @@ public class Notify {
 
     public void setNotifyCreatedName(String notifyCreatedName) {
         this.notifyCreatedName = notifyCreatedName;
+    }
+
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public void setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
+    }
+
+    public String getNotifyStatus() {
+        return notifyStatus;
+    }
+
+    public void setNotifyStatus(String notifyStatus) {
+        this.notifyStatus = notifyStatus;
     }
 
     @Override

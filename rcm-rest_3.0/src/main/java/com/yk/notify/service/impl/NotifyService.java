@@ -88,6 +88,9 @@ public class NotifyService implements INotifyService {
             Map<String, Object> params = new HashMap<String, Object>();
             String notifyCreated = UserUtil.getCurrentUserUuid();
             String notifyCreatedName = UserUtil.getCurrentUserName();
+            String prefix = prop.get("agency.wsdl.prefix.url." + business_module);
+            String suffix = JaXmlBeanUtil.encodeScriptUrl(prop.get("agency.wsdl.suffix.url"));
+            String url = prefix + business_id + "/" + suffix;
             for(String notifyUser : notifiesUser){
                 params.put("UUID", notifyUser);
                 Map<String, Object> user = userMapper.selectAUser(params);
@@ -100,6 +103,8 @@ public class NotifyService implements INotifyService {
                     notify.setBusinessId(business_id);
                     notify.setPortalStatus("0");
                     notify.setMessageStatus("0");
+                    notify.setNotifyStatus("0");
+                    notify.setNotifyUrl(url);
                     notify.setNotifyComments(null);
                     notify.setAssociateId(null);
                     notifyMapper.insertNotify(notify);
