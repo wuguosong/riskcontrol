@@ -1,18 +1,24 @@
 package com.yk.notify.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yk.log.annotation.SysLog;
 import com.yk.log.constant.LogConstant;
 import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
+import common.PageAssistant;
+import common.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import util.ThreadLocalUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统知会功能
@@ -63,6 +69,7 @@ public class NotifyController {
     public Notify updateStatus(String notify_id, String notify_status) {
         try {
             notify = notifyService.get(notify_id);
+            notify.setNotifyStatus(notify_status);
             notifyService.update(notify);
             logger.info("更新知会状态成功!");
         } catch (Exception e) {
@@ -70,5 +77,45 @@ public class NotifyController {
             logger.error("更新知会状态失败!" + e.getMessage());
         }
         return notify;
+    }
+
+    @RequestMapping("queryNotifyInfo")
+    @ResponseBody
+    @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "查询待阅已阅")
+    public JSONObject queryNotifyInfo(){
+        JSONObject jsonObject = notifyService.queryNotifyInfo();
+        return jsonObject;
+    }
+
+    @RequestMapping("queryMyReadingPage")
+    @ResponseBody
+    @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "查询待阅")
+    public Result queryMyReadingPage(String page){
+        Result result = new Result();
+        PageAssistant pageAssistant = new PageAssistant(page);
+        Map<String, Object> paramMap = pageAssistant.getParamMap();
+        if(null == paramMap){
+            pageAssistant.setParamMap(new HashMap<String, Object>());
+        }
+        pageAssistant.getParamMap().put("notifyStatus", "0");
+        notifyService.queryNotifyInfoPage(pageAssistant);
+        result.setResult_data(pageAssistant);
+        return result;
+    }
+
+    @RequestMapping("queryMyReadPage")
+    @ResponseBody
+    @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "查询已阅")
+    public Result queryMyReadPage(String page){
+        Result result = new Result();
+        PageAssistant pageAssistant = new PageAssistant(page);
+        Map<String, Object> paramMap = pageAssistant.getParamMap();
+        if(null == paramMap){
+            pageAssistant.setParamMap(new HashMap<String, Object>());
+        }
+        pageAssistant.getParamMap().put("notifyStatus", "1");
+        notifyService.queryNotifyInfoPage(pageAssistant);
+        result.setResult_data(pageAssistant);
+        return result;
     }
 }

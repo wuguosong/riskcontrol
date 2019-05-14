@@ -1,5 +1,7 @@
 package notify;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yk.notify.dao.INotifyMapper;
 import com.yk.notify.entity.Notify;
 import org.junit.Test;
@@ -61,6 +63,14 @@ public class DaoTest {
         List<Notify> notifies = notifyMapper.selectNotifies(null, null);
         for(Notify notify : notifies){
             System.out.println(notify);
+        }
+    }
+
+    @Test
+    public void testReadList(){
+        List<JSONObject> list = notifyMapper.selectNotifyInfo("0001N6100000000MXI0K");
+        for(JSONObject jsonObject : list){
+            System.out.println(JSON.toJSONString(jsonObject));
         }
     }
 

@@ -1148,6 +1148,24 @@ function notify_mergeTempCheckedUsers(tempCheckedUsers) {
     notifiesUser = notifiesUser.substr(0, notifiesUser.lastIndexOf(","));
     return notifiesUser;
 }
+
+/**
+ * 更新只会状态
+ * @param notify_id
+ * @param notify_status
+ */
+function notify_UpdateStatus(notify_id, notify_status){
+    var url = srvUrl + 'notify/updateStatus.do';
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"notify_id": notify_id, 'notify_status': notify_status},
+        async: true,
+        success: function (data) {
+        }
+    });
+}
 /***留言的相关方法**/
 function _init_query_messages_list_(_proc_inst_id_) {
     var _messages_list_ = null;

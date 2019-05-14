@@ -1,6 +1,6 @@
 package com.yk.notify.service.impl;
 
-import bpm.WorkFlow;
+import com.alibaba.fastjson.JSONObject;
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
 import com.yk.exception.BusinessException;
@@ -9,8 +9,8 @@ import com.yk.notify.dao.INotifyMapper;
 import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
 import com.yk.power.dao.IUserMapper;
-import com.yk.rcm.meeting.dao.IMeetingMapper;
 import com.yk.sign.dao.ISignMapper;
+import common.PageAssistant;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,6 @@ import util.UserUtil;
 import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 import ws.todo.client.TodoClient;
-import ws.todo.entity.To_Do_Result;
 import ws.todo.entity.TodoBack;
 import ws.todo.entity.TodoInfo;
 import ws.todo.utils.JaXmlBeanUtil;
@@ -218,5 +217,38 @@ public class NotifyService implements INotifyService {
             }
         }
         return notifies;
+    }
+
+    @Override
+    public JSONObject queryNotifyInfo() {
+        String curUserUuid = UserUtil.getCurrentUserUuid();
+        List<JSONObject> list = notifyMapper.selectNotifyInfo(curUserUuid);
+        JSONObject jsonObject = new JSONObject();
+        List<JSONObject> myReadingList = new ArrayList<JSONObject>();
+        List<JSONObject> myReadList = new ArrayList<JSONObject>();
+        for(JSONObject js : list){
+            if("0".equalsIgnoreCase(js.getString("NOTIFY_STATUS"))){
+                myReadingList.add(js);
+            }else{
+                myReadList.add(js);
+            }
+        }
+        jsonObject.put("myReadingList", myReadingList);
+        jsonObject.put("myReadList", myReadList);
+        jsonObject.put("myReadingCount", myReadingList.size());
+        jsonObject.put("myReadCount", myReadList.size());
+        return jsonObject;
+    }
+
+    @Override
+    public void queryNotifyInfoPage(PageAssistant page) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("page", page);
+        if(null != page.getParamMap() && page.getParamMap().size() > 0){
+            params.putAll(page.getParamMap());
+        }
+        params.put("curUserUuid", UserUtil.getCurrentUserUuid());
+        List<Map<String, Object>> list = notifyMapper.selectNotifyInfoPage(params);
+        page.setList(list);
     }
 }

@@ -4,7 +4,7 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
 		$scope.initializeCurrUserTaskInfo();
 		$scope.initNotificationFlatformInfo();
 		$scope.queryMeetingNoticeTop();
-
+        $scope.queryMyToReadInformation();
 		$scope.showFlag = 0;
 
 		// 判断首页快捷菜单栏显示
@@ -79,6 +79,23 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
 		}).error(function(data,status,headers, config){
 			$.alert(status);
 		});
-    }
+    };
+
+    // 初始化待阅/已阅信息
+	$scope.queryMyToReadInformation = function(){
+        $http({
+            method:'post',
+            url:srvUrl+"notify/queryNotifyInfo.do"
+        }).success(function(_jsonObj){
+            $scope.myReadingList = _jsonObj.myReadingList;
+            $scope.myReadList = _jsonObj.myReadList;
+            $scope.myReadingCount = _jsonObj.myReadingCount;
+            $scope.myReadCount = _jsonObj.myReadCount;
+        });
+	};
+	// 更新只会信息状态
+	$scope.notify_UpdateStatus = function(id, status){
+        notify_UpdateStatus(id, status);
+	};
     $scope.initData();
 }]);

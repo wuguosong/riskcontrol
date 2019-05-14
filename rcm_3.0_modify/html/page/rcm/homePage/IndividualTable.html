@@ -26,7 +26,17 @@
                                 已办事项<span class="uibadge ">{{overTaskCount}}</span>
                             </a>
                         </li>
-
+                        <li role="presentation">
+                            <a href="/#toRead" data-toggle="tab" class="tab">
+                                待阅事项
+                                <span class="uibadge ">{{myReadingCount}}</span>
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="/#readDone" data-toggle="tab" class="tab">
+                                已阅事项<span class="uibadge ">{{myReadCount}}</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Tab panes -->
@@ -120,6 +130,74 @@
                         </div>
                         <div class="more">
                             <a href="#/OverTask/{{'#/'|encodeURI}}" title="">更多 &gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="toRead">
+                        <div class="table-responsive table-list no-selectbox">
+                            <table class="table table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>工单主题</th>
+                                    <th>工单类型</th>
+                                    <th>当前环节</th>
+                                    <th>创建时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="t in myReadingList">
+                                    <td>
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview'" ng-click="notify_UpdateStatus(t.NOTIFY_ID,'1')"
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview'" ng-click="notify_UpdateStatus(t.NOTIFY_ID,'1')"
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-click="notify_UpdateStatus(t.NOTIFY_ID,'1')"
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                    </td>
+                                    <td>{{t.TYPE_TEXT}}</td>
+                                    <td>{{t.NAME_}}</td>
+                                    <td>{{t.CREATE_TIME_}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="more">
+                            <a href="#/MyReading/{{'#/'|encodeURI}}" title="">更多 &gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="readDone">
+                        <div class="table-responsive table-list no-selectbox">
+                            <table class="table table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>工单主题</th>
+                                    <th>工单类型</th>
+                                    <th>当前环节</th>
+                                    <th>开始时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat=" t in myReadList">
+                                    <td><a ng-if="t.FORM_KEY_ == 'preAssessment'"
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'formalAssessment'"
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview'"
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview'"
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'bulletin'"
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                    </td>
+                                    <td>{{t.TYPE_TEXT}}</td>
+                                    <td>{{t.NAME_}}</td>
+                                    <td>{{t.CREATE_TIME_}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="more">
+                            <a href="#/MyRead/{{'#/'|encodeURI}}" title="">更多&gt;&gt;</a>
                         </div>
                     </div>
                 </div>

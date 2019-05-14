@@ -98,4 +98,183 @@
         where business_module = #{business_module}
         and business_id = #{business_id}
     </delete>
+    <select id="selectNotifyInfo" resultType="com.alibaba.fastjson.JSONObject">
+        select
+        t.*
+        from
+        (
+          select
+          tmp.*,
+          row_number()over(partition by tmp.business_key_,tmp.notify_user order by tmp.order_by desc, tmp.task_time desc ) as idx
+          from
+          (
+            select
+            n.notify_id as "NOTIFY_ID",
+            n.notify_user as "NOTIFY_USER",
+            n.notify_status as "NOTIFY_STATUS",
+            i.projectname as "SUBJECT",
+            n.business_module as "FORM_KEY_",
+            n.business_id as "BUSINESS_KEY_",
+            '投标评审' as "TYPE_TEXT",
+            g.taskdesc as "NAME_",
+            i.create_date as "CREATE_TIME_",
+            case g.iswaiting
+            when '0'
+            then g.createtime
+            else sysdate
+            end
+            as "TASK_TIME",
+            g.orderby as "ORDER_BY"
+            from sys_notify n
+            left join rcm_pre_log g on n.business_id = g.businessid
+            left join rcm_pre_info i on i.businessid = g.businessid and i.businessid = n.business_id
+            where n.business_module = 'preReview'
+            and i.businessid = n.business_id
+            union
+            select
+            n.notify_id as "NOTIFY_ID",
+            n.notify_user as "NOTIFY_USER",
+            n.notify_status as "NOTIFY_STATUS",
+            i.projectname as "SUBJECT",
+            n.business_module as "FORM_KEY_",
+            n.business_id as "BUSINESS_KEY_",
+            '正式评审' as "TYPE_TEXT",
+            g.taskdesc as "NAME_",
+            i.create_date as "CREATE_TIME_",
+            case g.iswaiting
+            when '0'
+            then g.createtime
+            else sysdate
+            end
+            as "TASK_TIME",
+            g.orderby as "ORDER_BY"
+            from sys_notify n
+            left join rcm_formalassessment_log g on n.business_id = g.businessid
+            left join rcm_formalassessment_info i on i.businessid = g.businessid and i.businessid = n.business_id
+            where n.business_module = 'formalReview'
+            and i.businessid = n.business_id
+            union
+            select
+            n.notify_id as "NOTIFY_ID",
+            n.notify_user as "NOTIFY_USER",
+            n.notify_status as "NOTIFY_STATUS",
+            i.bulletinname as "SUBJECT",
+            n.business_module as "FORM_KEY_",
+            n.business_id as "BUSINESS_KEY_",
+            '其它评审' as "TYPE_TEXT",
+            g.taskdesc as "NAME_",
+            i.createtime as "CREATE_TIME_",
+            case g.iswaiting
+            when '0'
+            then g.createtime
+            else sysdate
+            end
+            as "TASK_TIME",
+            g.orderby as "ORDER_BY"
+            from sys_notify n
+            left join rcm_bulletin_log g on n.business_id = g.businessid
+            left join rcm_bulletin_info i on i.businessid = g.businessid
+            where n.business_module = 'bulletin'
+            and i.businessid = n.business_id
+          ) tmp
+        ) t
+        where t.idx = 1
+        and t.notify_user = #{curUserUuid}
+    </select>
+    <select id="selectNotifyInfoPage" resultType="map">
+        select
+        t.*
+        from
+        (
+        select
+        tmp.*,
+        row_number()over(partition by tmp.business_key_,tmp.notify_user order by tmp.order_by desc, tmp.task_time desc ) as idx
+        from
+        (
+        select
+        n.notify_id as "NOTIFY_ID",
+        n.notify_user as "NOTIFY_USER",
+        n.notify_status as "NOTIFY_STATUS",
+        i.projectname as "SUBJECT",
+        n.business_module as "FORM_KEY_",
+        n.business_id as "BUSINESS_KEY_",
+        '投标评审' as "TYPE_TEXT",
+        g.taskdesc as "NAME_",
+        i.create_date as "CREATE_TIME_",
+        case g.iswaiting
+        when '0'
+        then g.createtime
+        else sysdate
+        end
+        as "TASK_TIME",
+        g.orderby as "ORDER_BY"
+        from sys_notify n
+        left join rcm_pre_log g on n.business_id = g.businessid
+        left join rcm_pre_info i on i.businessid = g.businessid and i.businessid = n.business_id
+        where n.business_module = 'preReview'
+        and i.businessid = n.business_id
+        union
+        select
+        n.notify_id as "NOTIFY_ID",
+        n.notify_user as "NOTIFY_USER",
+        n.notify_status as "NOTIFY_STATUS",
+        i.projectname as "SUBJECT",
+        n.business_module as "FORM_KEY_",
+        n.business_id as "BUSINESS_KEY_",
+        '正式评审' as "TYPE_TEXT",
+        g.taskdesc as "NAME_",
+        i.create_date as "CREATE_TIME_",
+        case g.iswaiting
+        when '0'
+        then g.createtime
+        else sysdate
+        end
+        as "TASK_TIME",
+        g.orderby as "ORDER_BY"
+        from sys_notify n
+        left join rcm_formalassessment_log g on n.business_id = g.businessid
+        left join rcm_formalassessment_info i on i.businessid = g.businessid and i.businessid = n.business_id
+        where n.business_module = 'formalReview'
+        and i.businessid = n.business_id
+        union
+        select
+        n.notify_id as "NOTIFY_ID",
+        n.notify_user as "NOTIFY_USER",
+        n.notify_status as "NOTIFY_STATUS",
+        i.bulletinname as "SUBJECT",
+        n.business_module as "FORM_KEY_",
+        n.business_id as "BUSINESS_KEY_",
+        '其它评审' as "TYPE_TEXT",
+        g.taskdesc as "NAME_",
+        i.createtime as "CREATE_TIME_",
+        case g.iswaiting
+        when '0'
+        then g.createtime
+        else sysdate
+        end
+        as "TASK_TIME",
+        g.orderby as "ORDER_BY"
+        from sys_notify n
+        left join rcm_bulletin_log g on n.business_id = g.businessid
+        left join rcm_bulletin_info i on i.businessid = g.businessid
+        where n.business_module = 'bulletin'
+        and i.businessid = n.business_id
+        ) tmp
+        ) t
+        where t.idx = 1
+        and t.notify_user = #{curUserUuid}
+        <if test="subject != null and subject != ''">
+            and t.subject like '%${subject}%'
+        </if>
+        <if test="notifyStatus != null and notifyStatus != ''">
+            and t.NOTIFY_STATUS = '${notifyStatus}'
+        </if>
+        <if test="processKey != null and processKey != ''">
+            and t.FORM_KEY_ = '${processKey}'
+        </if>
+        <if test="createTime != null and createTime != ''">
+            and to_char(t.CREATE_TIME_, 'yyyy-MM-dd') = '${createTime}'
+        </if>
+        order by t.CREATE_TIME_ desc
+    </select>
 </mapper>

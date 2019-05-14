@@ -3128,6 +3128,40 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+            // 待阅
+            .when('/MyReading/:url', {
+                controller: 'MyReadingCtrl',
+                templateUrl: 'page/rcm/taskManagement/MyReading.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/taskManagement/MyReadManager.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            //已阅
+            .when('/MyRead/:url',{
+                controller:'MyReadCtrl',
+                templateUrl:'page/rcm/taskManagement/MyRead.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/taskManagement/MyReadManager.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }
 ]);
 
