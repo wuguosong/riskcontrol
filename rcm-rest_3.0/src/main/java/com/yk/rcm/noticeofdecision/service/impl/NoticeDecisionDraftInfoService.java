@@ -345,12 +345,15 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 		//申报单位
 		String reportingUnit = null;
 		Document reportingUnitMap = (Document) data.get("pertainArea");
-		if(Util.isNotEmpty(reportingUnitMap) && Util.isNotEmpty(reportingUnitMap.get("NAME"))){
-			reportingUnit = reportingUnitMap.get("NAME").toString();
+		/*if(Util.isNotEmpty(reportingUnitMap) && Util.isNotEmpty(reportingUnitMap.get("NAME"))){
+			reportingUnit = reportingUnitMap.get("NAME").toString();*/
+		// 根据MongoDB存值修改取值逻辑
+		if(Util.isNotEmpty(reportingUnitMap) && Util.isNotEmpty(reportingUnitMap.get("VALUE"))){
+			reportingUnit = reportingUnitMap.get("VALUE").toString();
 		}else{
 			//旧数据没有大区,则使用原来的申报单位
 			reportingUnitMap = (Document) data.get("reportingUnit");
-			reportingUnit = reportingUnitMap.get("value").toString();
+			reportingUnit = reportingUnitMap.get("VALUE").toString();
 		}
 		//根据申报单位查大区
 		Map<String, Object> queryPertainArea = orgService.queryPertainArea(reportingUnit);

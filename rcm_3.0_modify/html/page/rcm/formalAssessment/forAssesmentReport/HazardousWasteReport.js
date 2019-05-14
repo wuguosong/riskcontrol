@@ -406,7 +406,7 @@ ctmApp.register.controller('HazardousWasteReport',['$http','$scope','$location',
                     hide_Mask();
                 }
             } else {
-                alert("请填写必填数据！")
+                alert("请填写必填数据！");
                 hide_Mask();
             }
         }else{

@@ -103,10 +103,11 @@ ctmApp.register.controller('NoticeDecisionDraftDetail',['$http','$scope','$locat
 				if($scope.nod == null){
 					$scope.nod = {};
 				}
+				debugger
                 console.log($scope.credentials)
 		        $scope.nod.projectFormalId = $scope.pfr._id;
 		        $scope.nod.projectName = $scope.pfr.apply.projectName;
-	  	        $scope.nod.reportingUnit={};
+	  	        $scope.nod.reportingUnit=$scope.pfr.apply.reportingUnit;
 	  	        $scope.nod.pertainArea = $scope.pfr.apply.pertainArea;
 	  	        $scope.nod.projectNo = $scope.pfr.apply.projectNo;
 	  	        $scope.nod.controllerVal="NoticeDecision";
