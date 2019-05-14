@@ -80,7 +80,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 $scope.attach = data.result_data.attach;
                 //控制新增文件
                 $scope.newPfr = data.result_data.Formal;
-                $scope.formalID = $scope.formalReport.projectFormalId;
+                $scope.formalID = $scope.waitId;
                 var ptNameArr = [], fgNameArr = [], fgValueArr = [], investmentaNameArr = [];
                 var pt = $scope.pfr.apply.projectType;
                 if (null != pt && pt.length > 0) {

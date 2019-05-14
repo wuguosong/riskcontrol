@@ -319,12 +319,12 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
                 // 定义模板数据变量
                 $scope.projectSummary = {};
+                if (isEmpty($scope.formalReport)){
+                    $scope.formalReport = {};
+                    $scope.formalReport.projectName = $scope.pfr.apply.projectName;
+                }
                 // 模板选择框给默认值 初始化模板数据
                 if (data.result_data.summary == null || data.result_data.summary == undefined) {
-                    if (isEmpty($scope.formalReport)){
-                        $scope.formalReport = [];
-                        $scope.formalReport.projectName = $scope.pfr.apply.projectName;
-                    }
                     $scope.formalReport.summaryTemplate = $scope.SUMMARY_TEMPLATE[0];
                     $scope.summaryTemplateChange($scope.formalReport.summaryTemplate);
                 } else {
@@ -587,6 +587,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         }
 
         $scope.submitSave = function () {
+            debugger
             // 验证必填项
             $scope.submit = true;
             if ($scope.formalReportForm.$invalid) {
@@ -608,7 +609,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 return;
             }
             console.log(flag);
-            
+
             if ($scope.validateFormalBiddingInfo()) {
                 if ($scope.isAttachmentBeChosen()) {
                     var data = $scope.dataForSubmit();
@@ -742,6 +743,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
 
             $scope.formalReport.projectSummary = $scope.combProjectSummaryJson();
 
+            if (isEmpty($scope.formalReport.projectFormalId)){
+                $scope.formalReport.projectFormalId = $scope.businessId;
+            }
+
             console.log($scope.formalReport);
 
             return $scope.formalReport;
@@ -755,7 +760,7 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
                 return false;
             }
 
-            var file = $scope.formalReport.policyDecision.fileList;
+            /*var file = $scope.formalReport.policyDecision.fileList;*/
 
             var chk_list = $("input[name='choose']")
             var fid = "";
@@ -869,6 +874,10 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             $scope.formalReport.ac_attachment = $scope.pfr.attachment;
 
             $scope.formalReport.projectSummary = $scope.combProjectSummaryJson();
+
+            if (isEmpty($scope.formalReport.projectFormalId)){
+                $scope.formalReport.projectFormalId = $scope.businessId;
+            }
 
             return $scope.formalReport;
         }
@@ -2240,9 +2249,9 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         $scope.combProjectSummaryJson = function () {
             // 模板通用属性
             $scope.projectSummary.reportlId = $scope.pfr.apply.investmentManager._id; //报告id
-            $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId; // 正式评审项目id
+            $scope.projectSummary.projectFormalId = $scope.businessId; // 正式评审项目id
             $scope.projectSummary.projectName = $scope.formalReport.projectName; // 项目名称
-            $scope.projectSummary.projectNo = $scope.formalReport.projectNo;  // 项目编号
+            $scope.projectSummary.projectNo = $scope.pfr.apply.projectNo;  // 项目编号
             $scope.projectSummary.state = $scope.stage;  // 数据状态值 提交前为3.9 提交后为4.0
             // 不同模板存入不同的模板code
             if ($scope.formalReport.summaryTemplate.ITEM_CODE == "1000") {
@@ -2262,6 +2271,8 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
             } else if ($scope.formalReport.summaryTemplate.ITEM_CODE == "8000") {
                 $scope.projectSummary.summaryType = "8000";
             }
+            $scope.projectSummary.summaryTemplate = $scope.formalReport.summaryTemplate;
+
             return $scope.projectSummary;
         };
 
