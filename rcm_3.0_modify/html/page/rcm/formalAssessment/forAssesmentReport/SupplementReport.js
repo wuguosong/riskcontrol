@@ -299,6 +299,9 @@ ctmApp.register.controller('SupplementReport',['$http','$scope','$location','$ro
         		}).error(function(data,status,headers,config){
         			$.alert(status);
         		});
+            } else {
+                alert("请填写必填数据！")
+                hide_Mask();
             }
         }else{
             var url_post;

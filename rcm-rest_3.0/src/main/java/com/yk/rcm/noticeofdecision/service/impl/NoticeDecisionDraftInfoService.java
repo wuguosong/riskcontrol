@@ -324,7 +324,9 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 		param.put("projectName", data.get("projectName"));
 		
 		//评审规模(传统水务或水环境任意输入,反之即数字+万吨/日)
-		Map<String, Object> formalReportParam = formalReportService.getOracleByBusinessId(businessId);
+		/*Map<String, Object> formalReportParam = formalReportService.getOracleByBusinessId(businessId);*/
+		// 由于调整录入顺序，因此此处报告可能没有值会造成空指针错误，因此此处取正式评审主数据中的业务类型值
+		Map<String, Object> formalReportParam = formalAssessmentInfoMapper.getFormalAssessmentById(businessId);
 		String serviceType = (String) formalReportParam.get("SERVICETYPE");
 		if("1401".equals(serviceType) || "1402".equals(serviceType)){
 			param.put("contScale", data.get("contractScale"));

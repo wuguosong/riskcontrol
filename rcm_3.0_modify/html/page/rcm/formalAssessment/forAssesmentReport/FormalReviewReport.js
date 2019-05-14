@@ -596,7 +596,10 @@ function ($http,$scope,$location,$routeParams,Upload) {
 	        		}).error(function(data,status,headers, config){
 	        			$.alert(status);
 	        		});
-			 }
+			 }else {
+                 alert("请填写必填数据！")
+                 hide_Mask();
+             }
 		 }else{
 			 var url_post;
 			 if(typeof ($scope.formalReport._id) != "undefined"){

@@ -369,39 +369,45 @@ ctmApp.register.controller('HazardousWasteReport',['$http','$scope','$location',
         var sum = parseInt(bankLoan)+parseInt(privateCapital);
         var total = parseInt(100);
         if(typeof callBack == 'function') {
-            if ($("#HazardousWasteReport").valid() && sum == total) {
-                var url_post;
-                if (typeof ($scope.formalReport._id) != "undefined") {
-                	url_post = 'formalReport/updateReport.do';
-                }else{
-                	var boolean = $scope.isReportExist();
-                	if(boolean){
-                		$.alert("请勿重复保存数据!");
-                		return false;
-                	}
-                	url_post = 'formalReport/createNewReport.do';
+            if ($("#HazardousWasteReport").valid()) {
+                if (sum == total){
+                    var url_post;
+                    if (typeof ($scope.formalReport._id) != "undefined") {
+                        url_post = 'formalReport/updateReport.do';
+                    }else{
+                        var boolean = $scope.isReportExist();
+                        if(boolean){
+                            $.alert("请勿重复保存数据!");
+                            return false;
+                        }
+                        url_post = 'formalReport/createNewReport.do';
+                    }
+                    $http({
+                        method:'post',
+                        url:srvUrl+url_post,
+                        data: $.param({"json":JSON.stringify($scope.formalReport)})
+                    }).success(function(data){
+                        if(data.success){
+                            $scope.formalReport._id = data.result_data;
+                            if(typeof callBack == 'function'){
+                                callBack();
+                            }else{
+                                $.alert("保存成功!");
+                            }
+                            $("#wordbtn").show();
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    }).error(function(data,status,headers,config){
+                        $.alert(status);
+                    });
+                } else {
+                    $.alert("必填项未填或银行贷款和自有资金之合须等于100%！");
+                    hide_Mask();
                 }
-                $http({
-    				method:'post',  
-    			    url:srvUrl+url_post, 
-    			    data: $.param({"json":JSON.stringify($scope.formalReport)})
-    			}).success(function(data){
-    				if(data.success){
-    					$scope.formalReport._id = data.result_data;
-    					if(typeof callBack == 'function'){
-    						callBack();
-    					}else{
-    						$.alert("保存成功!");
-    					}
-    					$("#wordbtn").show();
-    				}else{
-    					$.alert(data.result_name);
-    				}
-    			}).error(function(data,status,headers,config){
-    				$.alert(status);
-    			});
             } else {
-                $.alert("必填项未填或银行贷款和自有资金之合须等于100%！");
+                alert("请填写必填数据！")
+                hide_Mask();
             }
         }else{
             if (sum == total) {
