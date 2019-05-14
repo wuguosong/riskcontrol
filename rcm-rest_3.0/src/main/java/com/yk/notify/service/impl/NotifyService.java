@@ -139,23 +139,25 @@ public class NotifyService implements INotifyService {
                 todoInfo.setCreatedTime(createdTime);
                 todoInfo.setBusinessId(business_id);
                 for(Notify notify : notifies){
-                    todoInfo.setOwner(notify.getNotifyUser());
-                    if(isTodo && todoOpen){// 代办同步
-                        TodoBack todoBack = todoClient.sendTodo_ToDo(todoInfo);
-                        if(todoBack != null){// 更新
-                            if("0".equalsIgnoreCase(todoBack.getCode())){
-                                notify.setPortalStatus("1");// 已发送
-                                notifyMapper.modifyNotify(notify);
-                            }
-                        }
-                    }
-                    if(isRead && readOpen){// 待阅同步
-                        TodoBack todoBack = todoClient.sendTodo_ToRead(todoInfo);
-                        if(todoBack != null){
+                    if("0".equalsIgnoreCase(notify.getPortalStatus())){
+                        todoInfo.setOwner(notify.getNotifyUser());
+                        if(isTodo && todoOpen){// 代办同步
+                            TodoBack todoBack = todoClient.sendTodo_ToDo(todoInfo);
                             if(todoBack != null){// 更新
                                 if("0".equalsIgnoreCase(todoBack.getCode())){
                                     notify.setPortalStatus("1");// 已发送
                                     notifyMapper.modifyNotify(notify);
+                                }
+                            }
+                        }
+                        if(isRead && readOpen){// 待阅同步
+                            TodoBack todoBack = todoClient.sendTodo_ToRead(todoInfo);
+                            if(todoBack != null){
+                                if(todoBack != null){// 更新
+                                    if("0".equalsIgnoreCase(todoBack.getCode())){
+                                        notify.setPortalStatus("1");// 已发送
+                                        notifyMapper.modifyNotify(notify);
+                                    }
                                 }
                             }
                         }
@@ -185,11 +187,13 @@ public class NotifyService implements INotifyService {
                 StringBuffer userSb = new StringBuffer();
                 Map<String, Object> params = new HashMap<String, Object>();
                 for(Notify notify : notifies){
-                    params.put("UUID", notify.getNotifyUser());
-                    Map<String, Object> user = userMapper.selectAUser(params);
-                    if (user != null) {
-                        userSb.append(String.valueOf(user.get("ACCOUNT")));
-                        userSb.append(",");
+                    if("0".equalsIgnoreCase(notify.getMessageStatus())){
+                        params.put("UUID", notify.getNotifyUser());
+                        Map<String, Object> user = userMapper.selectAUser(params);
+                        if (user != null) {
+                            userSb.append(String.valueOf(user.get("ACCOUNT")));
+                            userSb.append(",");
+                        }
                     }
                 }
                 if(StringUtils.isNotBlank(userSb)){
@@ -198,8 +202,10 @@ public class NotifyService implements INotifyService {
                     if(messageBack != null){
                         if(messageBack.getCode() == 0){
                             for(Notify notify : notifies){
-                                notify.setMessageStatus("1");// 已发送
-                                notifyMapper.modifyNotify(notify);
+                                if("0".equalsIgnoreCase(notify.getMessageStatus())){
+                                    notify.setMessageStatus("1");// 已发送
+                                    notifyMapper.modifyNotify(notify);
+                                }
                             }
                         }
                     }
