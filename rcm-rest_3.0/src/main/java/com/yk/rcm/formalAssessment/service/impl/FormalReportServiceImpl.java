@@ -302,7 +302,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("filePath", path);
 		map.put("fileName", doc.getString("projectName"));
-
+		map.put("projectFormalId", doc.getString("projectFormalId"));
 		return map;
 	}
 

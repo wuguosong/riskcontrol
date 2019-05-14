@@ -1,14 +1,23 @@
 package com.yk.rcm.formalAssessment.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
+import com.goukuai.constant.YunkuConf;
+import com.goukuai.dto.FileDto;
+import com.goukuai.kit.PathKit;
 import com.yk.log.annotation.SysLog;
 import com.yk.log.constant.LogConstant;
+import com.yk.rcm.file.service.IFileService;
+import fnd.User;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +27,7 @@ import com.yk.rcm.formalAssessment.service.IFormalReportService;
 
 import common.PageAssistant;
 import common.Result;
+import util.UserUtil;
 
 @Controller
 @RequestMapping("/formalReport")
@@ -153,6 +163,9 @@ public class FormalReportController {
 		return result;
 	}
 
+	@Resource
+	private IFileService fileService;
+
 	@RequestMapping("/getPfrAssessmentWord")
 	@ResponseBody
 	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "获取正式评审评估词")
@@ -160,7 +173,41 @@ public class FormalReportController {
 		Result result = new Result();
 		Map<String, String> map = this.formalReportService.getPfrAssessmentWord(id);
 		result.setResult_data(map);
-
+		System.out.println(JSON.toJSONString(map));
+		/*云库同步代码开始 add by LiPan 2019-05-14*/
+		String fullPath = YunkuConf.UPLOAD_ROOT + "/FormalReportInfo/" + id + "/";
+		String filePath = map.get("filePath");
+		String fileName = map.get("fileName");// 这里是项目名称,不是XXX.doc格式
+		String fileExt = filePath.substring(filePath.lastIndexOf("."));
+		String finalName = "正式评审-" + fileName + "报告-混合模式" + fileExt;
+		File file = new File(filePath);
+		String optName = UserUtil.getCurrentUserName();
+		Integer optId = new Integer(UserUtil.getCurrentUserId());
+		String docType = "FormalReportInfo";
+		String docCode = map.get("projectFormalId");
+		String pageLocation = "pfrReport";
+		// 删除之前的
+		try{
+			fileService.fileDelete(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + finalName, optName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		try{
+			// 上传最新的
+			FileDto fileDto = fileService.fileUpload(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + finalName, file.getAbsolutePath(), docType, docCode, pageLocation, optName, optId);
+			// 获取其链接
+			List<FileDto> list = fileService.createFileList(docType, docCode, pageLocation);
+			if(CollectionUtils.isNotEmpty(list)){
+				fileDto = list.get(0);
+			}
+			Map<String, Object> newMap = new HashMap<String, Object>();
+			newMap.putAll(map);
+			newMap.put("fileDto", fileDto);
+			result.setResult_data(newMap);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		/*云库同步代码结束 add by LiPan 2019-05-14*/
 		return result;
 	}
 

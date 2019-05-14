@@ -1,13 +1,19 @@
 package com.yk.rcm.pre.controller;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.goukuai.constant.YunkuConf;
+import com.goukuai.dto.FileDto;
 import com.yk.log.annotation.SysLog;
 import com.yk.log.constant.LogConstant;
+import com.yk.rcm.file.service.IFileService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +23,7 @@ import com.yk.rcm.pre.service.IPreAuditReportService;
 
 import common.PageAssistant;
 import common.Result;
+import util.UserUtil;
 
 /**
  * 投资评审报告
@@ -212,6 +219,8 @@ public class PreAuditReportController {
 		return result;
 	}
 
+	@Resource
+	private IFileService fileService;
 	/**
 	 * 生成word文档
 	 * 
@@ -228,7 +237,40 @@ public class PreAuditReportController {
 		Result result = new Result();
 		Map<String, String> map = this.preAuditReportService.getPreWordReport(id);
 		result.setResult_data(map);
-
+		/*云库同步代码开始 add by LiPan 2019-05-14*/
+		String fullPath = YunkuConf.UPLOAD_ROOT + "/FormalReportInfo/" + id + "/";
+		String filePath = map.get("filePath");
+		String fileName = map.get("fileName");// 这里是项目名称,不是XXX.doc格式
+		String fileExt = filePath.substring(filePath.lastIndexOf("."));
+		String finalName = "投资评审-" + fileName + "报告" + fileExt;
+		File file = new File(filePath);
+		String optName = UserUtil.getCurrentUserName();
+		Integer optId = new Integer(UserUtil.getCurrentUserId());
+		String docType = "preReportInfo";
+		String docCode = id;
+		String pageLocation = "preReport";
+		// 删除之前的
+		try{
+			fileService.fileDelete(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + finalName, optName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		try{
+			// 上传最新的
+			FileDto fileDto = fileService.fileUpload(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + finalName, file.getAbsolutePath(), docType, docCode, pageLocation, optName, optId);
+			// 获取其链接
+			List<FileDto> list = fileService.createFileList(docType, docCode, pageLocation);
+			if(CollectionUtils.isNotEmpty(list)){
+				fileDto = list.get(0);
+			}
+			Map<String, Object> newMap = new HashMap<String, Object>();
+			newMap.putAll(map);
+			newMap.put("fileDto", fileDto);
+			result.setResult_data(newMap);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		/*云库同步代码结束 add by LiPan 2019-05-14*/
 		return result;
 	}
 	
