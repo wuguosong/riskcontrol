@@ -12,6 +12,18 @@
 				</div>
 			</div>
 			<div class="panel-body panel-group">
+				<div class="row" ng-show="meetingInfoList != null">
+					<label class="col-sm-2 control-label"><font color="red">*</font>选择会议</label>
+					<div class="col-sm-4 has-feedback noright-pad">
+						<select name="selectMeetingInfo"
+								class="form-control ng-pristine ng-untouched ng-valid"
+								ng-model="meetingInfo"
+								ng-options="m.meeting_theme for m in meetingInfoList track by  m.id"
+						        ng-change="changeMeetingInfo()">
+							<option value="">请选择...</option>
+						</select>
+					</div>
+				</div>
 				<div class="row">
 					<label class="col-sm-2 control-label"><font color="red">*</font>上会日期</label>
 					<div class="col-sm-4 has-feedback noright-pad">
