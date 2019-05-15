@@ -13,6 +13,19 @@ ctmApp.directive('directiveReturnBtn', function() {
         }
     };
 });
+ctmApp.directive('directiveReturnBtnMenu', function() {
+    return {
+        restrict: 'E',
+        //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
+        template: '<a class="btn btn-info menu-button" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
+        replace: true,
+        scope:{url:'@',callback:"&"},
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
 // 人员多选
 ctmApp.directive('directUserMultiSelect', function() {
     return {

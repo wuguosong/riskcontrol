@@ -4386,6 +4386,19 @@ ctmApp.directive('directiveFormalProtocolOpinion', function() {
         }
     };
 });
+ctmApp.directive('directiveReturnBtnMenu', function() {
+    return {
+        restrict: 'E',
+        //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
+        template: '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
+        replace: true,
+        scope:{url:'@',callback:"&"},
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
+        }
+    };
+});
 ctmApp.directive('directiveReturnBtn', function() {
     return {
         restrict: 'E',
