@@ -910,7 +910,7 @@ li {
 .left-content .linkline .line {
     position: absolute;
     width: 2px;
-    height: calc(100% - 40px);
+    height: calc(100% - 145px);
     top: 20px;
     left: 27px;
     background: #dbe5ef;
@@ -2102,5 +2102,5 @@ td btn-scale:first-child {
 }
 
 .new-line {
-    top: 100px!important;
+    top: calc(100% - 82%)!important;
 }
