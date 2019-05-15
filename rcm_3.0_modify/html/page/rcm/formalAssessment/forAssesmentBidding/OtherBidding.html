@@ -1,9 +1,22 @@
-<div class="xh-content container-fluid">
-    <form name="FormalReviewReport" novalidate class="row">
-        <div class="main-content col-md-12 col-sm-12 col-xs-12">
-            <h3 class='text-blue item-name'>
-                {{title}}
-            </h3>
+<div class="xh-content container-fluid padding0">
+    <form id="FormalReviewReport" name="FormalReviewReport" novalidate class="row">
+        <div class="visa-menu">
+            <div class="col-md-9">
+                <ol class="breadcrumb breadcrumb-menu">
+                    <li>
+                        <a class="breadcrumb-text breadcrumb-text-menu">
+                            资料填写
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                            {{title}}
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="main-content col-md-12 col-sm-12 col-xs-12 padding0">
             <div class="mcontent content1" id="flag1-c">
                 <h3 class="text-blue">上传电子版正式评审决策会材料</h3>
                 <div class="row normalline">
@@ -18,160 +31,165 @@
                     </div>
 
                     <div class="row normalline">
-                        <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="col-md-2 col-sm-2 col-xs-2">
                             <div class="row">
-                                <span class="col-md-2 noPadding">附件上传</span>
-                                <cloud-file
-                                        file-id="pfrOtherBidding"
-                                        file-type="FormalBiddingInfo"
-                                        file-code="{{paramId}}"
-                                        file-location="pfrOtherBidding"
-                                        show-upload="false"
-                                        show-preview="true"
-                                        show-replace="false"
-                                        show-download="false"
-                                        show-upload-or-replace="true"
-                                        show-delete="true"
-                                        area-code="1"
-                                        text-before="false"
-                                        btn-class="btn btn-primary"
-                                        text-class="col-md-8 slim"
-                                        btn-area-class="col-md-1 slim"
-                                        upload-text="浏览"
-                                >
-                                </cloud-file>
+                                <span class="noPadding">附件上传</span>
                             </div>
                         </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10">
+                            <cloud-file
+                                    file-id="pfrOtherBidding"
+                                    file-type="FormalBiddingInfo"
+                                    file-code="{{paramId}}"
+                                    file-location="pfrOtherBidding"
+                                    show-upload="false"
+                                    show-preview="true"
+                                    show-replace="false"
+                                    show-download="false"
+                                    show-upload-or-replace="true"
+                                    show-delete="true"
+                                    area-code="1"
+                                    text-before="false"
+                                    btn-class="btn btn-primary"
+                                    text-class="col-md-8 slim"
+                                    btn-area-class="col-md-1 slim"
+                                    upload-text="浏览"
+                            >
+                            </cloud-file>
+                        </div>
                     </div>
-                    <!--填写必填信息-->
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr class="info">
-                            <th width="17%">指标分类</th>
-                            <th width="47%">指标名称</th>
-                            <th width="36%">本项目指标</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td rowspan="3">投资指标</td>
-                            <td class="text-right">
-                                全投资内部收益率IRR
-                            </td>
-                            <td>
-                                <div class="has-feedback">
-                                    <input class="form-control" type="text" name="investmentGlobale"
-                                           ng-model="projectSummary.project.investmentGlobale" required/>
-                                    <span class="percent">%</span>
-                                    <div class="error-messages"
-                                         ng-if="interacted(formalReportForm.investmentGlobale )">
-                                        这里是必填项
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-right">
-                                自有资金内部收益率IRR
-                            </td>
-                            <td>
-                                <div class="has-feedback">
-                                    <input class="form-control" type="text" name="investmentInternal"
-                                           ng-model="projectSummary.project.investmentInternal" required/>
-                                    <span class="percent">%</span>
-                                    <div class="error-messages"
-                                         ng-if="interacted(formalReportForm.investmentInternal )">
-                                        这里是必填项
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-right">
-                                全投资静态回收期
-                            </td>
-                            <td>
-                                <div class="has-feedback">
-                                    <input class="form-control" type="text" name="investmentStatic"
-                                           ng-model="projectSummary.project.investmentStatic" required/>
-                                    <span class="percent">年</span>
-                                    <div class="error-messages"
-                                         ng-if="interacted(formalReportForm.investmentStatic )">
-                                        这里是必填项
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2">
-                                财务指标
-                            </td>
-                            <td class="text-right">
-                                运营期平均ROE
-                            </td>
-                            <td>
-                                <div class="has-feedback">
-                                    <input class="form-control" type="text" name="financialROE"
-                                           ng-model="projectSummary.project.financialROE" required/>
-                                    <span class="percent">%</span>
-                                    <div class="error-messages"
-                                         ng-if="interacted(formalReportForm.financialROE )">
-                                        这里是必填项
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-right">
-                                运营期平均ROI
-                            </td>
-                            <td>
-                                <div class="has-feedback">
-                                    <input class="form-control" type="text" name="financialROI"
-                                           ng-model="projectSummary.project.financialROI" required/>
-                                    <span class="percent">%</span>
-                                    <div class="error-messages"
-                                         ng-if="interacted(formalReportForm.financialROI )">
-                                        这里是必填项
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                现金流指标
-                            </td>
-                            <td class="text-right">
-                                自有资金前五年现金净流量
-                            </td>
-                            <td>
-                                <div class="has-feedback">
-                                    <input type="text" ng-model="projectSummary.project.indicatorCash" class="form-control"
-                                           name="indicatorCash" required/>
-                                </div>
+                </div>
+            </div>
+            <div class="mcontent content1" id="flag2-c">
+                <!--填写必填信息-->
+                <h3 class="text-blue">填写正式评审决策会材料</h3>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="info">
+                        <th width="17%">指标分类</th>
+                        <th width="47%">指标名称</th>
+                        <th width="36%">本项目指标</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td rowspan="3">投资指标</td>
+                        <td class="text-right">
+                            全投资内部收益率IRR
+                        </td>
+                        <td>
+                            <div class="has-feedback">
+                                <input class="form-control" type="text" name="investmentGlobale"
+                                       ng-model="projectSummary.project.investmentGlobale" required/>
+                                <span class="percent">%</span>
                                 <div class="error-messages"
-                                     ng-if="interacted(formalReportForm.indicatorCash )">
+                                     ng-if="interacted(formalReportForm.investmentGlobale )">
                                     这里是必填项
                                 </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="button-group">
-                    <div class="row">
-                        <div class="option txl">
-                            <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-                            <button type="button" ng-click="saveOnly()" class="btn btn-primary" id="savebtn"><i
-                                    class="fa fa-save"></i>保存
-                            </button>
-                            <div class="inline-div">
-                                <button type="button" class="btn btn-primary" id="submitbnt"
-                                        ng-click="submitSave()"><i class="fa fa-cloud-upload"></i>提交
-                                </button>
-                                <div id="passModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
-                                    <directive-need-meeting></directive-need-meeting>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            自有资金内部收益率IRR
+                        </td>
+                        <td>
+                            <div class="has-feedback">
+                                <input class="form-control" type="text" name="investmentInternal"
+                                       ng-model="projectSummary.project.investmentInternal" required/>
+                                <span class="percent">%</span>
+                                <div class="error-messages"
+                                     ng-if="interacted(formalReportForm.investmentInternal )">
+                                    这里是必填项
                                 </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            全投资静态回收期
+                        </td>
+                        <td>
+                            <div class="has-feedback">
+                                <input class="form-control" type="text" name="investmentStatic"
+                                       ng-model="projectSummary.project.investmentStatic" required/>
+                                <span class="percent">年</span>
+                                <div class="error-messages"
+                                     ng-if="interacted(formalReportForm.investmentStatic )">
+                                    这里是必填项
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">
+                            财务指标
+                        </td>
+                        <td class="text-right">
+                            运营期平均ROE
+                        </td>
+                        <td>
+                            <div class="has-feedback">
+                                <input class="form-control" type="text" name="financialROE"
+                                       ng-model="projectSummary.project.financialROE" required/>
+                                <span class="percent">%</span>
+                                <div class="error-messages"
+                                     ng-if="interacted(formalReportForm.financialROE )">
+                                    这里是必填项
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            运营期平均ROI
+                        </td>
+                        <td>
+                            <div class="has-feedback">
+                                <input class="form-control" type="text" name="financialROI"
+                                       ng-model="projectSummary.project.financialROI" required/>
+                                <span class="percent">%</span>
+                                <div class="error-messages"
+                                     ng-if="interacted(formalReportForm.financialROI )">
+                                    这里是必填项
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            现金流指标
+                        </td>
+                        <td class="text-right">
+                            自有资金前五年现金净流量
+                        </td>
+                        <td>
+                            <div class="has-feedback">
+                                <input type="text" ng-model="projectSummary.project.indicatorCash" class="form-control"
+                                       name="indicatorCash" required/>
+                            </div>
+                            <div class="error-messages"
+                                 ng-if="interacted(formalReportForm.indicatorCash )">
+                                这里是必填项
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="button-group">
+                <div class="row">
+                    <div class="option txl">
+                        <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                        <button type="button" ng-click="saveOnly()" class="btn btn-primary" id="savebtn"><i
+                                class="fa fa-save"></i>保存
+                        </button>
+                        <div class="inline-div">
+                            <button type="button" class="btn btn-primary" id="submitbnt"
+                                    ng-click="submitSave()"><i class="fa fa-cloud-upload"></i>提交
+                            </button>
+                            <div id="passModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                <directive-need-meeting></directive-need-meeting>
                             </div>
                         </div>
                     </div>

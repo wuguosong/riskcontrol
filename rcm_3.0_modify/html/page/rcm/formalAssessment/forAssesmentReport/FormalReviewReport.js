@@ -47,7 +47,9 @@ function ($http,$scope,$location,$routeParams,Upload) {
 	    }else if(action=="View"){
 	    	$scope.title = "正式评审报告-查看";
 	        $scope.getByID(objId);
+	        console.log("ssssssssssss")
 	        $("#savebtn").hide();
+            $("#submitbnt").hide();
 	    }
 	}
     
