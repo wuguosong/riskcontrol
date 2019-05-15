@@ -342,7 +342,14 @@
 											<div class="row">
 												<span class="col-md-4 noPadding">回购期</span>
 												<span class="col-md-3 slim">
-													<input type="text"  ng-disabled="actionparm== 'View'" value="{{btpp.buyBackDate}}" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate"  placeholder="从XX时间开始回购" class="form-control" />
+													<wui-date
+															format="yyyy-mm-dd"
+															placeholder="从XX时间开始回购"
+															id="buyBackDate"
+															btns="{'now':'今天'}"
+															ng-model="btpp.buyBackDate"
+													></wui-date>
+													<!--<input type="text"  ng-disabled="actionparm== 'View'" value="{{btpp.buyBackDate}}" id="buyBackDate" name="buyBackDate" ng-model="btpp.buyBackDate"  placeholder="从XX时间开始回购" class="form-control" />-->
                                                     <i class="fa fa-calendar form-control-feedback"></i>
                                                     <span id="showdate" ></span>
 											    </span>
@@ -3507,7 +3514,7 @@
 
 		<div class="left-content col-md-2 col-sm-2 hidden-xs">
 			<div class="row" align="center">
-				<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档</button>
+					<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档</button>
 			</div>
 			<div class="stage" >
 				<directive-return-btn url="{{oldUrl}}"></directive-return-btn>

@@ -1,5 +1,5 @@
 'use strict';
-var ctmApp = angular.module('ctmApp', ['ngRoute', 'ngCookies', 'treeGrid', 'pagination', 'paginationes', 'paginationhome', 'ngFileUpload']);
+var ctmApp = angular.module('ctmApp', ['ngRoute', 'ngCookies', 'treeGrid', 'pagination', 'paginationes', 'paginationhome', 'ngFileUpload','wui.date']);
 ctmApp.config(function ($httpProvider) {
     var user = $.parseJSON($.cookie('credentials'));
     if (user != null && user.UUID != null) {

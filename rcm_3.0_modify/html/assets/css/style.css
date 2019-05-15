@@ -557,3 +557,15 @@ form .left-content {
   opacity:0.5; -moz-opacity:0.5;
   display:none;
 }
+
+/** 调整新日期控件样式 **/
+.wui-date.small .wui-date-picker .wui-date-picker_panel {
+  width: 270px;
+}
+.wui-input {
+  border: 1px solid #cfcfcf;
+  height: 30px;
+  padding: 0 15px;
+  transition: all ease-in-out .35s;
+  border-radius: 4px;
+}
