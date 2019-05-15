@@ -6130,7 +6130,8 @@ ctmApp.directive('cloudFile', function () {
             textStyle:'@',// 文本类
             textClass:'@',// 文本样式
             btnAreaStyle:'@',// 按钮域类
-            btnAreaClass:'@'// 按钮域样式
+            btnAreaClass:'@',// 按钮域样式
+            isShowRelaceName: '@' // 判断是否开启页面相同ID同步文件名方法，默认为false
         },
         controller: function ($scope, $location, $http, Upload, $window, $element) {
             // jQuery选择器
@@ -6203,6 +6204,11 @@ ctmApp.directive('cloudFile', function () {
                 $scope._cloud_area_code_ = '1';
             }else{
                 $scope._cloud_area_code_ = $scope.areaCode;
+            }
+            if($scope.isShowRelaceName == 'true'){
+                $scope.isShowRelaceName = true;
+            }else{
+                $scope.isShowRelaceName = false;
             }
             // 文件校验初始化
             if(isEmpty($scope.fileCheck)){
@@ -6341,7 +6347,9 @@ ctmApp.directive('cloudFile', function () {
                                 if (!isEmpty(carouselScope.showAttachment)) {
                                     carouselScope.showAttachment();
                                 }
-                                $scope._omg_crazy_fun_(_cloud_file_dto_);
+                                if ($scope.isShowRelaceName){
+                                    $scope._omg_crazy_fun_(_cloud_file_dto_);
+                                }
                             }
                         }
                     }, function (_resp_) {
@@ -6377,8 +6385,8 @@ ctmApp.directive('cloudFile', function () {
                 }
                 $.confirm('删除该文件吗?', function(){
                     attach_delete(_cloud_file_dto_.fileid);
-                    $('#_cloud_file_a_' + _cloud_).text('');
-                    $('#_cloud_file_ipt_' + _cloud_).val('');
+                    $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + _cloud_).val('');
+                    $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_'  + _cloud_).text('');
                 });
             };
             // 替换

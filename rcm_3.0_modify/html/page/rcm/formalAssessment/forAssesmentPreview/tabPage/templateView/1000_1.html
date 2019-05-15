@@ -29,10 +29,10 @@
         </div>-->
         <div ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
             <cloud-file
-                    file-id="{{projectOverview.code}}{{$index}}"
+                    file-id="{{projectOverview.code}}{{$index}}_{{formalPreview.summaryType}}"
                     file-type="FormalBiddingInfo"
                     file-code="{{businessId}}"
-                    file-location="{{projectOverview.code}}{{$index}}"
+                    file-location="{{projectOverview.code}}{{$index}}_{{formalPreview.summaryType}}"
                     show-upload="false"
                     show-preview="false"
                     show-replace="false"
