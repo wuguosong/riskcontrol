@@ -5,13 +5,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>风险管控信息化管理系统</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <link href="assets/ui-bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+    <link href="assets/ui-bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="assets/stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
-    <link href="assets/swiper/swiper.css" rel="stylesheet" type="text/css" />
+    <link href="assets/swiper/swiper.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="assets/javascripts/wui-date/css/wui.min.css" type="text/css">
     <link rel="stylesheet" href="assets/javascripts/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css"/>
-    <link rel="stylesheet" href="../styles/style.css"  type="text/css"/>
+    <link rel="stylesheet" href="../styles/style.css" type="text/css"/>
     <link rel="stylesheet" href="assets/css/theme.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/webuploader-0.1.5/webuploader.css" type="text/css">
@@ -19,225 +20,238 @@
 
 <body id="main-body" class="theme-default main-menu-animated" ng-app="ctmApp">
 
-    <div id="main-page" class="navbar navbar-default" ng-controller="SysControl">
-        <input type="hidden" id="globalURLID" ng-model="globalURLID">
-        <div class="container-fluid">
-            <!-- 左边logo -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-right" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
+<div id="main-page" class="navbar navbar-default" ng-controller="SysControl">
+    <input type="hidden" id="globalURLID" ng-model="globalURLID">
+    <div class="container-fluid">
+        <!-- 左边logo -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-right"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-                <a class="navbar-brand clearfix" href="#/">
-                    <img src="assets/images/img/logo3.png" alt="" class="pull-left">
-                    <h1 class="pull-left">风控管理系统</h1>
-                </a>
-            </div>
-            <!-- 中间搜索 -->
-            <form class="navbar-form navbar-nav navbar-center hidden-sm hidden-xs">
-                <input type="text " class="search " ng-model="publicProjectName" id="publicProjectName" ng-keyup="publicKeyupSearchProject($event)" placeholder="项目名称 ">
-                <i class="icon-search" ng-click="publicSearchProject()">&#xe61e;</i>
-
-            </form>
-            <!-- 右边部分 -->
-            <div class="collapse navbar-collapse" id="navbar-right">
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- 菜单部分 -->
-                    <li class="dropdown nav-menu">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu">&#xe614;</i><span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <!-- 不带下级的菜单 -->
-                            <li ng-repeat="f in func" ng-if="f.URL!='#'" ng-click="DirectMenuCur($event)" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
-                                <a href="#/{{f.URL}}"><i class="{{f.FUNC_DESC}}"></i><span ng-bind="f.FUNC_NAME"></span></a>
-                            </li>
-                            <!-- 带下级菜单 -->
-                            <li class="dropdown-submenu pull-left" ng-repeat="f in func" ng-if="f.URL=='#'">
-                                <a href="#"><i class="{{f.FUNC_DESC}}"></i><span ng-bind="f.FUNC_NAME"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="fs in f.subFunc" ng-if="fs.URL!='##'" id="func{{fs.FUNC_ID}}" ng-click="GoPage($event)" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
-                                        <a tabindex="-1" href="#/{{fs.URL}}" style="padding: 15px 15px">{{fs.FUNC_NAME}}</a>
-                                    </li>
-                                    <li class="dropdown-submenu pull-left" ng-repeat="fs in f.subFunc" ng-if="fs.URL=='##'" id="func1{{fs.FUNC_ID}}" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
-                                        <a href="#">{{fs.FUNC_NAME}}</a>
-                                        <ul class="dropdown-menu">
-
-                                            <li ng-repeat="fss in fs.subsubFunc" ng-if="fss.URL != 'ConferenceInformation/0'" id="func{{fss.FUNC_ID}}" ng-click="GoPage($event)">
-                                                <a tabindex="-1" href="#/{{fss.URL}}">{{fss.FUNC_NAME}}</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- 主页按钮部分 -->
-                    <li class="home-btn">
-                        <a href="#/"><i class="icon-top">&#xe625;</i></a>
-                    </li>
-                    <!-- 用户名部分 -->
-                    <li class="uname"><a href="#"><i class="icon-top">&#xe62b;</i> <span ng-bind="credentials.userName"></span></a></li>
-                    <!-- 退出部分 -->
-                    <li class="quit-btn">
-                        <a href="javascript:void(0);" onclick="logout();"><i class="icon-quit">&#xe64d;</i></a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+            <a class="navbar-brand clearfix" href="#/">
+                <img src="assets/images/img/logo3.png" alt="" class="pull-left">
+                <h1 class="pull-left">风控管理系统</h1>
+            </a>
         </div>
+        <!-- 中间搜索 -->
+        <form class="navbar-form navbar-nav navbar-center hidden-sm hidden-xs">
+            <input type="text " class="search " ng-model="publicProjectName" id="publicProjectName"
+                   ng-keyup="publicKeyupSearchProject($event)" placeholder="项目名称 ">
+            <i class="icon-search" ng-click="publicSearchProject()">&#xe61e;</i>
+
+        </form>
+        <!-- 右边部分 -->
+        <div class="collapse navbar-collapse" id="navbar-right">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- 菜单部分 -->
+                <li class="dropdown nav-menu">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu">&#xe614;</i><span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <!-- 不带下级的菜单 -->
+                        <li ng-repeat="f in func" ng-if="f.URL!='#'" ng-click="DirectMenuCur($event)"
+                            ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
+                            <a href="#/{{f.URL}}"><i class="{{f.FUNC_DESC}}"></i><span ng-bind="f.FUNC_NAME"></span></a>
+                        </li>
+                        <!-- 带下级菜单 -->
+                        <li class="dropdown-submenu pull-left" ng-repeat="f in func" ng-if="f.URL=='#'">
+                            <a href="#"><i class="{{f.FUNC_DESC}}"></i><span ng-bind="f.FUNC_NAME"></span></a>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="fs in f.subFunc" ng-if="fs.URL!='##'" id="func{{fs.FUNC_ID}}"
+                                    ng-click="GoPage($event)" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
+                                    <a tabindex="-1" href="#/{{fs.URL}}" style="padding: 15px 15px">{{fs.FUNC_NAME}}</a>
+                                </li>
+                                <li class="dropdown-submenu pull-left" ng-repeat="fs in f.subFunc" ng-if="fs.URL=='##'"
+                                    id="func1{{fs.FUNC_ID}}" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
+                                    <a href="#">{{fs.FUNC_NAME}}</a>
+                                    <ul class="dropdown-menu">
+
+                                        <li ng-repeat="fss in fs.subsubFunc"
+                                            ng-if="fss.URL != 'ConferenceInformation/0'" id="func{{fss.FUNC_ID}}"
+                                            ng-click="GoPage($event)">
+                                            <a tabindex="-1" href="#/{{fss.URL}}">{{fss.FUNC_NAME}}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <!-- 主页按钮部分 -->
+                <li class="home-btn">
+                    <a href="#/"><i class="icon-top">&#xe625;</i></a>
+                </li>
+                <!-- 用户名部分 -->
+                <li class="uname"><a href="#"><i class="icon-top">&#xe62b;</i> <span
+                        ng-bind="credentials.userName"></span></a></li>
+                <!-- 退出部分 -->
+                <li class="quit-btn">
+                    <a href="javascript:void(0);" onclick="logout();"><i class="icon-quit">&#xe64d;</i></a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <div id="content-wrapper" class="wrapper">
         <div ng-view class="ng-scope">
         </div>
-        <!-- /.container-fluid -->
     </div>
+    <!-- /.container-fluid -->
+</div>
 
 
-    <!-- 遮罩层 -->
-    <div id="mask_" class="mask_" style='color:white;font-size:26px;overflow:hidden;border:1px solid #FF0099;text-align:center'  >处理中，请稍后......</div>
+<!-- 遮罩层 -->
+<div id="mask_" class="mask_"
+     style='color:white;font-size:26px;overflow:hidden;border:1px solid #FF0099;text-align:center'>处理中，请稍后......
+</div>
 
-    <!--[if !IE]> -->
-    <script type="text/javascript">
-        window.jQuery || document.write('<script src="assets/javascripts/jquery-1.8.3.min.js">' + "<" + "/script>");
-    </script>
-    <!-- <![endif]-->
-    <!--[if lte IE 9]>
+<!--[if !IE]> -->
+<script type="text/javascript">
+    window.jQuery || document.write('<script src="assets/javascripts/jquery-1.8.3.min.js">' + "<" + "/script>");
+</script>
+<!-- <![endif]-->
+<!--[if lte IE 9]>
 <script type="text/javascript"> window.jQuery || document.write('<script src="assets/javascripts/jquery-1.8.3.min.js">' + "<" + "/script>"); </script>
 <![endif]-->
 
-    <script type="text/javascript" src="assets/javascripts/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="assets/javascripts/jquery.cookie.js"></script>
-    <!--<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular.js"></script>-->
-    <script type="text/javascript" src="assets/angular-1.5.8/angular.min.js"></script>
-    <script type="text/javascript" src="assets/ui-bootstrap/js/ui-bootstrap-tpls-1.3.3.min.js"></script>
-    <script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
-    <script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-sanitize.js"></script>
-    <script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-cookies.js"></script>
-    <script type="text/javascript" src="assets/angularjs/upload/ng-file-upload-shim.js"></script>
-    <script type="text/javascript" src="assets/angularjs/upload/ng-file-upload.js"></script>
-    <script type="text/javascript" src="assets/swiper/swiper.js"></script>
-    <script type="text/javascript" src="assets/webuploader-0.1.5/webuploader.js"></script>
-    <!-- Pixel Admin's javascripts -->
-    <script type="text/javascript" src="assets/javascripts/tree-grid-directive.js"></script>
-    <script type="text/javascript" src="assets/javascripts/dtree/dtree.js"></script>
-    <script type="text/javascript" src="assets/javascripts/dtree/dtree-menu.js"></script>
-    <script type="text/javascript" src="assets/javascripts/echarts.js"></script>
-    <script type="text/javascript" src="assets/javascripts/shine.js"></script>
-    <script type="text/javascript" src="assets/javascripts/zTree/js/jquery.ztree.core.js"></script>
-    <script type="text/javascript" src="assets/javascripts/zTree/js/jquery.ztree.excheck.min.js"></script>
-    <script type="text/javascript" src="assets/javascripts/pagination/pagination.js"></script>
-    <script type="text/javascript" src="assets/javascripts/paginationes/paginationes.js"></script>
-    <script type="text/javascript" src="assets/javascripts/paginationhome/paginationhome.js"></script>
-    <script type="text/javascript" src="assets/javascripts/bootstrap-datepicker-1.3.0/bootstrap-datepicker.js"></script>
-    <script src="../javascripts/util/jquery.validate.js" type="text/javascript"></script>
-    <script type="text/javascript" src="assets/javascripts/wui-date/js/wui-date.js"></script>
+<script type="text/javascript" src="assets/javascripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="assets/javascripts/jquery.cookie.js"></script>
+<!--<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular.js"></script>-->
+<script type="text/javascript" src="assets/angular-1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="assets/ui-bootstrap/js/ui-bootstrap-tpls-1.3.3.min.js"></script>
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-sanitize.js"></script>
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-cookies.js"></script>
+<script type="text/javascript" src="assets/angularjs/upload/ng-file-upload-shim.js"></script>
+<script type="text/javascript" src="assets/angularjs/upload/ng-file-upload.js"></script>
+<script type="text/javascript" src="assets/swiper/swiper.js"></script>
+<script type="text/javascript" src="assets/webuploader-0.1.5/webuploader.js"></script>
+<!-- Pixel Admin's javascripts -->
+<script type="text/javascript" src="assets/javascripts/tree-grid-directive.js"></script>
+<script type="text/javascript" src="assets/javascripts/dtree/dtree.js"></script>
+<script type="text/javascript" src="assets/javascripts/dtree/dtree-menu.js"></script>
+<script type="text/javascript" src="assets/javascripts/echarts.js"></script>
+<script type="text/javascript" src="assets/javascripts/shine.js"></script>
+<script type="text/javascript" src="assets/javascripts/zTree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="assets/javascripts/zTree/js/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="assets/javascripts/pagination/pagination.js"></script>
+<script type="text/javascript" src="assets/javascripts/paginationes/paginationes.js"></script>
+<script type="text/javascript" src="assets/javascripts/paginationhome/paginationhome.js"></script>
+<script type="text/javascript" src="assets/javascripts/bootstrap-datepicker-1.3.0/bootstrap-datepicker.js"></script>
+<script src="../javascripts/util/jquery.validate.js" type="text/javascript"></script>
+<script type="text/javascript" src="assets/javascripts/wui-date/js/wui-date.js"></script>
 
-    <script src="assets/javascripts/bootstrap.js"></script>
-    <script src="assets/javascripts/pixel-admin.min.js"></script>
-    <script type="text/javascript" src="assets/requirejs/require.js"></script>
-    <script src="assets/javascripts/popWindow.js"></script>
+<script src="assets/javascripts/bootstrap.js"></script>
+<script src="assets/javascripts/pixel-admin.min.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>
+<script src="assets/javascripts/popWindow.js"></script>
 
-    <script type="text/javascript" src="app.js?v=2"></script>
-    <script type="text/javascript" src="appRoute_new.js"></script>
-    <script type="text/javascript" src="constants.js"></script>
-    <script src="../javascripts/bksw-directive_new.js"></script>
+<script type="text/javascript" src="app.js?v=2"></script>
+<script type="text/javascript" src="appRoute_new.js"></script>
+<script type="text/javascript" src="constants.js"></script>
+<script src="../javascripts/bksw-directive_new.js"></script>
 
-    <script src="assets/demo/demo.js"></script>
-    <script type="text/javascript">
-        var init = [];
-        //初始化,判断登录状态
-        var loged = false;
-        //loged=$.cookie('loged','true');
+<script src="assets/demo/demo.js"></script>
+<script type="text/javascript">
+    var init = [];
+    //初始化,判断登录状态
+    var loged = false;
+    //loged=$.cookie('loged','true');
 
-        //到cookie中读取登录信息
-        loged = $.cookie('loged');
-        if (!loged) {
-            var requestUrl = window.location.href;
-            if (requestUrl.indexOf("#") > 0) {
-                window.location.href = srvUrl + "index.jsp?requestUrl=" + requestUrl.substring(requestUrl.indexOf("#") + 2);
-            } else {
-                logout();
-            }
+    //到cookie中读取登录信息
+    loged = $.cookie('loged');
+    if (!loged) {
+        var requestUrl = window.location.href;
+        if (requestUrl.indexOf("#") > 0) {
+            window.location.href = srvUrl + "index.jsp?requestUrl=" + requestUrl.substring(requestUrl.indexOf("#") + 2);
+        } else {
+            logout();
         }
+    }
 
-        function logout() {
-            var urlControl = srvUrl == "http://riskcontrol.bewg.net.cn/rcm-rest/";
-            var userAccount = $.cookie('AuthUser_LoginId');
-            if (userAccount == null) {
-                // 			window.location.href="http://sso.bewg.net.cn";
-                // 			window.location.href="signin.html";
-                if (urlControl) {
-                    window.location.href = "http://sso.bewg.net.cn";
-                } else {
-                    window.location.href = "signin.html";
-                }
-            } else {
+    function logout() {
+        var urlControl = srvUrl == "http://riskcontrol.bewg.net.cn/rcm-rest/";
+        var userAccount = $.cookie('AuthUser_LoginId');
+        if (userAccount == null) {
+            // 			window.location.href="http://sso.bewg.net.cn";
+            // 			window.location.href="signin.html";
+            if (urlControl) {
                 window.location.href = "http://sso.bewg.net.cn";
-            }
-
-        }
-
-        init.push(function() {
-            // Javascript code here
-        })
-
-        window.PixelAdmin.start(init);
-        $(function() {
-            var hr = window.location.hash;
-            hr = hr.substr(2, hr.length);
-            if (hr == "MyTask") {
-                $("#func001").addClass("cur");
-                $("#func001").find(".fa-caret-left").css({
-                    display: "block"
-                });
-                $("#func001").siblings().removeClass("cur");
-                $("#func001").siblings().find(".fa-caret-left").css({
-                    display: "none"
-                });
-                $("#func001").parents(".mm-dropdown").siblings(".mm-dropdown").find("li").removeClass("cur");
-                $("#func001").parents(".mm-dropdown").siblings(".mm-dropdown").find("li .fa-caret-left").css({
-                    display: "none"
-                });
-            } else if (hr == "CompletedTask") {
-                $("#func002").addClass("cur");
-                $("#func002").find(".fa-caret-left").css({
-                    display: "block"
-                });
-                $("#func002").siblings().removeClass("cur");
-                $("#func002").siblings().find(".fa-caret-left").css({
-                    display: "none"
-                });
-                $("#func002").parents(".mm-dropdown").siblings(".mm-dropdown").find("li").removeClass("cur");
-                $("#func002").parents(".mm-dropdown").siblings(".mm-dropdown").find("li .fa-caret-left").css({
-                    display: "none"
-                });
-            }
-            accessScope("#globalURLID", function(scope) {
-                scope.globalURLID = hr;
-            });
-        });
-
-        function closeWP() {
-            var userAgent = navigator.userAgent;
-            if (userAgent.indexOf("Firefox") != -1 || userAgent.indexOf("Chrome") != -1) {
-                window.location.href = "about:blank";
-                window.close(true);
             } else {
-                window.opener = null;
-                window.open("", "_self");
-                window.close();
+                window.location.href = "signin.html";
             }
+        } else {
+            window.location.href = "http://sso.bewg.net.cn";
         }
 
-        javascript: window.history.forward(1);
-    </script>
-    <script type="text/javascript">
-        // bootstrap下拉菜单初始化
-        $(function() {
-            // 解决bootstrap下拉菜单第一次点击无反应问题
-            $('.dropdown-toggle').dropdown();
+    }
+
+    init.push(function () {
+        // Javascript code here
+    })
+
+    window.PixelAdmin.start(init);
+    $(function () {
+        var hr = window.location.hash;
+        hr = hr.substr(2, hr.length);
+        if (hr == "MyTask") {
+            $("#func001").addClass("cur");
+            $("#func001").find(".fa-caret-left").css({
+                display: "block"
+            });
+            $("#func001").siblings().removeClass("cur");
+            $("#func001").siblings().find(".fa-caret-left").css({
+                display: "none"
+            });
+            $("#func001").parents(".mm-dropdown").siblings(".mm-dropdown").find("li").removeClass("cur");
+            $("#func001").parents(".mm-dropdown").siblings(".mm-dropdown").find("li .fa-caret-left").css({
+                display: "none"
+            });
+        } else if (hr == "CompletedTask") {
+            $("#func002").addClass("cur");
+            $("#func002").find(".fa-caret-left").css({
+                display: "block"
+            });
+            $("#func002").siblings().removeClass("cur");
+            $("#func002").siblings().find(".fa-caret-left").css({
+                display: "none"
+            });
+            $("#func002").parents(".mm-dropdown").siblings(".mm-dropdown").find("li").removeClass("cur");
+            $("#func002").parents(".mm-dropdown").siblings(".mm-dropdown").find("li .fa-caret-left").css({
+                display: "none"
+            });
+        }
+        accessScope("#globalURLID", function (scope) {
+            scope.globalURLID = hr;
         });
-    </script>
+    });
+
+    function closeWP() {
+        var userAgent = navigator.userAgent;
+        if (userAgent.indexOf("Firefox") != -1 || userAgent.indexOf("Chrome") != -1) {
+            window.location.href = "about:blank";
+            window.close(true);
+        } else {
+            window.opener = null;
+            window.open("", "_self");
+            window.close();
+        }
+    }
+
+    javascript: window.history.forward(1);
+</script>
+<script type="text/javascript">
+    // bootstrap下拉菜单初始化
+    $(function () {
+        // 解决bootstrap下拉菜单第一次点击无反应问题
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
 
 </body>
 
