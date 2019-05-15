@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yk.notify.service.INotifyService;
+import common.Constants;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.ExecutionListener;
@@ -36,7 +38,8 @@ public class FormalAssessmentAuditLogListener implements ExecutionListener,TaskL
 	private IFormalAssessmentAuditService formalAssessmentAuditService;
 	@Resource 
 	private IFormalAssessmentAuditLogService formalAssessmentAuditLogService;
-	
+	@Resource
+	private INotifyService notifyService;
 	@Override
 	public void notify(DelegateExecution execution) throws Exception {
 		String statusStr = (String) status.getValue(execution);
@@ -65,6 +68,8 @@ public class FormalAssessmentAuditLogListener implements ExecutionListener,TaskL
 		log.put("taskdesc", taskdescStr);
 		log.put("executionId", execution.getId());
 		this.formalAssessmentAuditLogService.save(log);
+		// 同步待阅
+		notifyService.sendToPortal(Constants.PROCESS_KEY_FormalAssessment, businessId, false, true);
 	}
 
 	

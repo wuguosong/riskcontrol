@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yk.notify.service.INotifyService;
+import common.Constants;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.ExecutionListener;
@@ -28,6 +30,8 @@ public class PreAuditLogListener implements ExecutionListener,TaskListener {
 	private IPreAuditLogService preAuditLogService;
 	public Expression status;
 	public Expression taskdesc;
+	@Resource
+	private INotifyService notifyService;
 
 	@Override
 	public void notify(DelegateExecution execution) throws Exception {
@@ -51,6 +55,8 @@ public class PreAuditLogListener implements ExecutionListener,TaskListener {
 		log.put("taskdesc", taskdescStr);
 		log.put("executionId", execution.getId());
 		this.preAuditLogService.save(log);
+		// 同步待阅
+		notifyService.sendToPortal(Constants.PROCESS_KEY_PREREVIEW, businessId, false, true);
 	}
 
 	@Override
