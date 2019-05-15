@@ -1,242 +1,241 @@
-<div class="panel-body">
-	<div class="header">
-		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
-		<span class="hd-title">会议管理</span>
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!-- <i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					决策会
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					会议安排
+				</a>
+			</li>
+		</ol>
 	</div>
-	<div class="">
-		<ul class="nav nav-tabs bs-tabdrop-example">
-			<li class="{{tabIndex=='0'?'active':''}}"><a href="/#bs-tabdrop-tab1" data-toggle="tab">未提交</a></li>
-			<li class="{{tabIndex=='1'?'active':''}}"><a href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a></li>
-		</ul>
-		<div class="tab-content tab-content-bordered">
-			<div class="tab-pane{{tabIndex=='0'?' active':''}}" id="bs-tabdrop-tab1">
-				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
-						<div class="panel">
-							<div class="panel-heading search-box">
-								<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingApplication" href="/#searchbox">查询</a>
-							</div>
-							<div id="searchbox" class="panel-collapse collapse">
-								<div class="panel-body search-body">
-									<div class="row nobottom-mar sm-row">
-										<label class="col-sm-2 col-md-1 control-label">项目名称</label>
-										<div class="col-sm-4 col-md-2 sm-col"><input type="text" ng-model="paginationConf.queryObj.projectName" class="form-control" /></div>
-										<div class="col-sm-12 col-md-2 search">
-											<button class="btn btn-info" type="button" ng-click="queryCanArrangeProjectListByPage()"><i class="glyphicon glyphicon-search"></i>查询</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="panel">
-							<div class="panel-heading">
-								<a class="accordion-toggle" data-toggle="collapse"
-									data-parent="#notSubmitProjectApplication" href="/#notSubmitProjectBody">
-									<span class="text">待暂存<i class="i-triangle"></i></span>
-								</a>
-							</div>
-							<div id="notSubmitProjectBody"
-								class="panel-collapse collapse in">
-								<div class="panel-body special-form">
-									<div class="row">
-										<button type="button" class="btn btn-info" ng-click="toAddNotSubmitProject()"><i class="fa fa-bullhorn"></i>暂存</button>
-									</div>
-									<div class="row">
-										<div class="table-responsive table-list">
-											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
-												<thead>
-												<tr>
-													<th>选择</th>
-													<th>序号</th>
-													<th>项目名称</th>
-													<th>项目类型</th>
-													<th>申请时间</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr ng-repeat="m in canArrangeProjectList">
-													<td>
-														<label class="checkbox-inline choose">
-															<input type="checkbox" name="canArrangeProjectCheckbox" class="px" value="{{m}}"/>
-															<span class="lbl">&nbsp;</span>
-														</label>
-													</td>
-													<td>{{$index+1}}</td>
-													<td>
-														<!--<a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
-														<a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinMattersDetailView/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>-->
-														<a ng-if="'pre' == m.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
-														<a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{m.BUSINESS_ID}}/{{('#/meeting/MeetingArrangement/0') | encodeURI}}/4">{{m.PROJECT_NAME}}</a>
-														<a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{m.BUSINESS_ID}}_0/{{('#/meeting/MeetingArrangement/0') |encodeURI}}/4">{{m.PROJECT_NAME}}</a>
-													</td>
-													 <td>
-					                                	<font ng-if="'pfr' == m.PROJECT_TYPE">正式评审</font>
-														<font ng-if="'bulletin' == m.PROJECT_TYPE">其他评审</font>
-														<font ng-if="'pre' == m.PROJECT_TYPE">投标评审</font>
-					                                </td>
-													<td>{{m.APPLY_DATE==null?m.CREATE_DATE:m.APPLY_DATE}}</td>
-												</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="table-footer clearfix">
-				                <tm-pagination conf="paginationConf"></tm-pagination>
-				            </div>
-						</div>
-						<div class="panel">
-							<div class="panel-heading">
-								<a class="accordion-toggle" data-toggle="collapse"
-									data-parent="#addNotSubmitProjectApplication" href="/#addNotSubmitProjectBody">
-									<span class="text">已暂存未提交<i class="i-triangle"></i></span>
-								</a>
-							</div>
-							<div id="addNotSubmitProjectBody"
-								class="panel-collapse collapse in">
-								<div class="panel-body special-form">
-									<div class="row">
-										<button type="button" class="btn btn-info" ng-click="toApply()"><i class="fa fa-bullhorn"></i>上会信息填写</button>
-										<button type="button" class="btn btn-info" ng-click="toRemoveNotSubmitProject()"><i class="fa fa-bullhorn"></i>移除暂存</button>
-									</div>
-									<div class="row">
-										<div class="table-responsive table-list">
-											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
-												<thead>
-												<tr>
-													<th>选择</th>
-													<th>序号</th>
-													<th>项目名称</th>
-													<th>项目类型</th>
-													<th>申请时间</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr ng-repeat="m in notSubmitProjectList">
-													<td>
-														<label class="checkbox-inline choose" >
-															<input type="checkbox" name="notSubmitProjectCheckbox" class="px" value="{{m}}"/>
-															<span class="lbl">&nbsp;</span>
-														</label>
-													</td>
-													<td>{{$index+1}}</td>
-													<td>
-														<!--<a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
-														<a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinMattersDetailView/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>-->
-														<a ng-if="'pre' == m.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
-                                                        <a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{m.BUSINESS_ID}}/{{('#/meeting/MeetingArrangement/0') | encodeURI}}/4">{{m.PROJECT_NAME}}</a>
-                                                        <a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{m.BUSINESS_ID}}_0/{{('#/meeting/MeetingArrangement/0') |encodeURI}}/4">{{m.PROJECT_NAME}}</a>
-													</td>
-													 <td>
-					                                	<font ng-if="'pfr' == m.PROJECT_TYPE">正式评审</font>
-														<font ng-if="'bulletin' == m.PROJECT_TYPE">其他评审</font>
-														<font ng-if="'pre' == m.PROJECT_TYPE">投标评审</font>
-					                                </td>						
-													<td>{{m.APPLY_DATE==null?m.CREATE_DATE:m.APPLY_DATE}}</td>
-												</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-				</form>
+</div>
+<div class="panel-body">
+	<ul class="nav nav-tabs bs-tabdrop-example">
+		<li class="{{tabIndex=='0'?'active':''}}">
+			<a href="/#bs-tabdrop-tab1" data-toggle="tab">未提交</a>
+		</li>
+		<li class="{{tabIndex=='1'?'active':''}}">
+			<a href="/#bs-tabdrop-tab2" data-toggle="tab">已提交</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane {{tabIndex=='0'?'active':''}}" id="bs-tabdrop-tab1">
+			<div class="panel-heading">
+				<a class="accordion-toggle" data-toggle="collapse"
+				   data-parent="#notSubmitProjectApplication" href="/#notSubmitProjectBody">
+					<span class="text">待暂存<i class="i-triangle"></i></span>
+				</a>
 			</div>
-			
-			<div class="tab-pane{{tabIndex=='1'?' active':''}}" id="bs-tabdrop-tab2">
+			<div  id="notSubmitProjectBody" class="panel-collapse collapse in">
 				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
 					<div class="panel">
-						<div class="panel-heading search-box">
-							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#meetingAnnou" href="/#searchbox1">查询</a>
-						</div>
-						<div id="searchbox1" class="panel-collapse collapse">
-							<div class="panel-body search-body">
-								<div class="row nobottom-mar sm-row">
-									<label class="col-sm-2 col-md-1 control-label">会议期次</label>
-									<div class="col-sm-4 col-md-2 sm-col">
-										<input type="text" class="form-control" maxlength="5" ng-model="paginationConfes.queryObj.meetingIssue" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-									   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
-									</div>
-									<label class="col-sm-2 col-md-1 control-label">上会日期</label>
-									<div class="col-sm-4 col-md-2 has-feedback sm-col">
-										<input type="text" id="meetingTime" name="meetingTime" ng-model="paginationConfes.queryObj.meetingTime" class="form-control"/>
-										<i class="fa fa-calendar form-control-feedback"></i>
-									</div>
-									<div class="col-sm-12 col-md-2 search">
-										<button class="btn btn-info" type="button" ng-click="querySubmitMeetingListByPage()"><i class="glyphicon glyphicon-search"></i>查询</button>
+						<div class="panel-body">
+							<div class="form-group row">
+								<div class="txl col-md-2 padding0">
+									<button class="btn btn-info" ng-click="toAddNotSubmitProject()"><i class="fa fa-bullhorn"></i>暂存</button>
+									<button class="btn btn-info" ng-click="getForamlAssessmentSubmitedList()">查询</button>
+								</div>
+								<div class="txl col-md-10">
+									<div class="panel-body search-body" style="padding-top: 3px;">
+										<label class="col-sm-2 col-md-4 control-label">项目名称</label>
+										<div class="col-sm-4 col-md-4 sm-col">
+											<input type="text" ng-model="paginationConf.queryObj.projectName" class="form-control" />
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="panel">
-						<div class="panel-heading">
-							<a class="accordion-toggle" data-toggle="collapse"
-								data-parent="#submitProjectApplication" href="/#submitProjectBody">
-								<span class="text">已提交<i class="i-triangle"></i></span>
-							</a>
-						</div>
-						<div id="submitProjectBody"
-							class="panel-collapse collapse in">
-							<div class="panel-body special-form">
-								<div class="row">
-									<button ng-click="updateMeetingInfo()" type="button" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改会议项目信息</button>
-								</div>
-								<div class="row">
-									<div class="table-responsive table-list">
-										<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
-											<thead>
-											<tr>
-												<th>选择</th>
-												<th>序号</th>
-												<th>会议期次</th>
-												<th>会议日期</th>
-												<th>会议主席</th>
-												<th>委员人数</th>
-												<th>项目数量</th>
-											</tr>
-											</thead>
-											<tbody>
-												<tr ng-repeat="m in submitMeetingList">
-													<td ng-if="m.USEDTAG == 0">
-														<label class="checkbox-inline choose">
-															<input type="checkbox" name="submitProjectCheckbox" class="px" value="{{m.ID}}"/>
-															<span class="lbl">&nbsp;</span>
-														</label>
-													</td>
-													<td ng-if="m.USEDTAG != 0">
-													</td>
-													<td>{{$index+1}}</td>
-													<td><a href="#/MeetingProjectReviewList/{{m.ID}}/{{'#/meeting/MeetingArrangement/1'|encodeURI}}">{{m.MEETING_ISSUE}}</a></td>
-													<td>{{m.MEETING_TIME | limitTo:10}}</td>
-													<td>{{m.MEETING_CHAIRMANS[0].NAME}}</td>
-													<td>{{m.MEETINGLEADER_COUNT}}</td>
-													<td>{{m.PROJECT_COUNT}}</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
+							<div class="form-group row nobottom-mar table-responsive table-list">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+									<thead>
+									<tr>
+										<th>选择</th>
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>项目类型</th>
+										<th>申请时间</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="m in canArrangeProjectList">
+										<td>
+											<label class="checkbox-inline choose">
+												<input type="checkbox" name="canArrangeProjectCheckbox" class="px" value="{{m}}"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>{{$index+1}}</td>
+										<td>
+											<!--<a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
+                                            <a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinMattersDetailView/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>-->
+											<a ng-if="'pre' == m.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
+											<a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{m.BUSINESS_ID}}/{{('#/meeting/MeetingArrangement/0') | encodeURI}}/4">{{m.PROJECT_NAME}}</a>
+											<a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{m.BUSINESS_ID}}_0/{{('#/meeting/MeetingArrangement/0') |encodeURI}}/4">{{m.PROJECT_NAME}}</a>
+										</td>
+										<td>
+											<font ng-if="'pfr' == m.PROJECT_TYPE">正式评审</font>
+											<font ng-if="'bulletin' == m.PROJECT_TYPE">其他评审</font>
+											<font ng-if="'pre' == m.PROJECT_TYPE">投标评审</font>
+										</td>
+										<td>{{m.APPLY_DATE==null?m.CREATE_DATE:m.APPLY_DATE}}</td>
+									</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 						<div class="table-footer clearfix">
-			                <tm-pagination conf="paginationConfes"></tm-pagination>
-			            </div>
+							<tm-pagination conf="paginationConf"></tm-pagination>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="panel-heading" style="margin-top: 40px;">
+				<a class="accordion-toggle" data-toggle="collapse"
+				   data-parent="#addNotSubmitProjectApplication" href="/#addNotSubmitProjectBody">
+					<span class="text">已暂存未提交<i class="i-triangle"></i></span>
+				</a>
+			</div>
+			<div id="addNotSubmitProjectBody" class="panel-collapse collapse in">
+				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+					<div class="panel">
+						<div class="panel-body">
+							<div class="form-group row">
+								<div class="txl col-md-12">
+									<div class="txl col-md-4 padding0">
+										<button type="button" class="btn btn-info" ng-click="toApply()"><i class="fa fa-bullhorn"></i>上会信息填写</button>
+										<button type="button" class="btn btn-info" ng-click="toRemoveNotSubmitProject()"><i class="fa fa-bullhorn"></i>移除暂存</button>
+									</div>
+
+								</div>
+							</div>
+							<div class="form-group row nobottom-mar table-responsive table-list">
+								<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+									<thead>
+									<tr>
+										<th>选择</th>
+										<th>序号</th>
+										<th>项目名称</th>
+										<th>项目类型</th>
+										<th>申请时间</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="m in notSubmitProjectList">
+										<td>
+											<label class="checkbox-inline choose" >
+												<input type="checkbox" name="notSubmitProjectCheckbox" class="px" value="{{m}}"/>
+												<span class="lbl">&nbsp;</span>
+											</label>
+										</td>
+										<td>{{$index+1}}</td>
+										<td>
+											<!--<a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
+                                            <a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinMattersDetailView/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>-->
+											<a ng-if="'pre' == m.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{m.BUSINESS_ID}}/{{'#/meeting/MeetingArrangement/0'|encodeURI}}">{{m.PROJECT_NAME}}</a>
+											<a ng-if="'pfr' == m.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{m.BUSINESS_ID}}/{{('#/meeting/MeetingArrangement/0') | encodeURI}}/4">{{m.PROJECT_NAME}}</a>
+											<a ng-if="'bulletin' == m.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{m.BUSINESS_ID}}_0/{{('#/meeting/MeetingArrangement/0') |encodeURI}}/4">{{m.PROJECT_NAME}}</a>
+										</td>
+										<td>
+											<font ng-if="'pfr' == m.PROJECT_TYPE">正式评审</font>
+											<font ng-if="'bulletin' == m.PROJECT_TYPE">其他评审</font>
+											<font ng-if="'pre' == m.PROJECT_TYPE">投标评审</font>
+										</td>
+										<td>{{m.APPLY_DATE==null?m.CREATE_DATE:m.APPLY_DATE}}</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="table-footer clearfix">
+							<tm-pagination conf="paginationConf"></tm-pagination>
+						</div>
 					</div>
 				</form>
 			</div>
 		</div>
+
+		<div class="tab-pane {{tabIndex=='1'?'active':''}}" id="bs-tabdrop-tab2">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div class="panel">
+					<div class="panel-body">
+						<div class="form-group row">
+							<div class="txl col-md-4 padding0">
+								<button class="btn btn-info" ng-click="updateMeetingInfo()"><i class="glyphicon glyphicon-edit"></i>修改会议项目信息</button>
+								<button class="btn btn-info" ng-click="querySubmitMeetingListByPage()">查询</button>
+							</div>
+							<div class="txl col-md-8">
+								<div class="panel-body search-body" style="padding-top: 3px;">
+									<label class="col-sm-2 col-md-2 control-label">会议期次</label>
+									<div class="col-sm-4 col-md-4 sm-col">
+										<input type="text" class="form-control" maxlength="5" ng-model="paginationConfes.queryObj.meetingIssue" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+											   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+									</div>
+									<label class="col-sm-2 col-md-2 control-label">上会日期</label>
+									<div class="col-sm-4 col-md-4 sm-col">
+										<input type="text" id="meetingTime" name="meetingTime" ng-model="paginationConfes.queryObj.meetingTime" class="form-control"/>
+										<i class="fa fa-calendar form-control-feedback"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row nobottom-mar table-responsive table-list">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+								<thead>
+								<tr>
+									<th>选择</th>
+									<th>序号</th>
+									<th>会议期次</th>
+									<th>会议日期</th>
+									<th>会议主席</th>
+									<th>委员人数</th>
+									<th>项目数量</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="m in submitMeetingList">
+									<td ng-if="m.USEDTAG == 0">
+										<label class="checkbox-inline choose">
+											<input type="checkbox" name="submitProjectCheckbox" class="px" value="{{m.ID}}"/>
+											<span class="lbl">&nbsp;</span>
+										</label>
+									</td>
+									<td ng-if="m.USEDTAG != 0">
+									</td>
+									<td>{{$index+1}}</td>
+									<td><a href="#/MeetingProjectReviewList/{{m.ID}}/{{'#/meeting/MeetingArrangement/1'|encodeURI}}">{{m.MEETING_ISSUE}}</a></td>
+									<td>{{m.MEETING_TIME | limitTo:10}}</td>
+									<td>{{m.MEETING_CHAIRMANS[0].NAME}}</td>
+									<td>{{m.MEETINGLEADER_COUNT}}</td>
+									<td>{{m.PROJECT_COUNT}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
+
 <script>
-	angular.element(document).ready(function() {
-		var options = {
-			todayBtn: "linked",
-			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-		}
-		$('#applicationTime').datepicker(options);
-		$('#meetingTime').datepicker(options);
-	});
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#applicationTime').datepicker(options);
+        $('#meetingTime').datepicker(options);
+    });
 </script>
 
