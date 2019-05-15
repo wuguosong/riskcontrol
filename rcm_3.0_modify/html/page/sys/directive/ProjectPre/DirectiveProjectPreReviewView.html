@@ -7,7 +7,8 @@
 				</div>
             <label class="col-sm-2 control-label">项目编号</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="pre.apply.projectNoNew" placeholder="" readonly/>
+                <input ng-show="pre.apply.projectNoNew != null" type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="pre.apply.projectNoNew" placeholder="" readonly/>
+                <input ng-show="pre.apply.projectNoNew == null" type="text" class="form-control" id="projectNo1" name="projectNo1" ng-model="pre.apply.projectNo" placeholder="" readonly/>
                 <input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="pre.apply.projectNo" placeholder="" readonly/>
             </div>
         </div>

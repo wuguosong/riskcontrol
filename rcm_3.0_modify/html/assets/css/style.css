@@ -569,3 +569,16 @@ form .left-content {
   transition: all ease-in-out .35s;
   border-radius: 4px;
 }
+
+/** 页面整体样式调整 **/
+.nav {
+  margin-bottom: 15px;
+}
+
+.button-group {
+  margin-top: 25px;
+}
+
+.unit-my, .unit-n {
+  right: 15px;
+}

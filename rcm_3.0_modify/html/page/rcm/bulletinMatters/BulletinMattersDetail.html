@@ -1,143 +1,148 @@
-
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!--<i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					流程申请
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					其他评审申请
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
 <div class="panel-body">
-	<!--form表单开始-->
-	<form class="form-horizontal" name="myForm" id="myForm" onsubmit="return false;"  novalidate>
-		<div class="">
-			<div class="header detail-page">
-				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">其他需决策事项申请单</span><!--<span class="hd-title">{{titleName}}</span>-->
-			</div>
-			<div class="panel">
-				<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">其他需决策事项申请单<i class="i-triangle"></i></span></div></div>
-				<div class="panel-body">
-					<div id="myTab" class="myTab">
-						<ul class="nav nav-tabs bs-tabdrop-example">
-							<li class="active">
-								<a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
-							</li>
-							<li>
-								<a href="/#flow_chart" data-toggle="tab" ng-if="queryParamId != '0'">流程图</a>
-							</li>
-							<li >
-								<a href="/#contracts_resources" data-toggle="tab" ng-if="queryParamId != '0'">相关资源</a>
-							</li>
-						</ul>
-					</div>
-					<div class="tab-content tab-content-bordered">
-						<div class="tab-pane in active special-form" id="contracts_file_info">
-							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>项目名称</label>
-								<div class="col-sm-4">
-									<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
-								</div>
-								<label class="col-sm-2 control-label">项目编号</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
-									<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>所属大区</label>
-								<div class="col-sm-4 has-feedback reporting-unit">
-									<div class="full-drop">
-
-										<input type="text" ng-show="isNotbusinessService" readonly required class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
-										<!--
-                                        <input type="text" ng-if="!isNotbusinessService"  class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
-                                         -->
-										<direct-report-org-select ng-if="!isNotbusinessService"  id ="{{'rorg'}}" titel ="{{'所属大区选择'}}" url = "{{'org/queryReportOrg.do'}}"   mapped-key-value = "mappedKeyValue"
-																  callback = "selectOrgCallback" checked-org ="checkedOrg" other-fields ="otherFields" is-editable ="'true'"
-																  columns = "columns">
-										</direct-report-org-select>
-
-										<input type="hidden" required class="form-control" id="applyUnitId" name="applyUnitId" ng-model="bulletin.applyUnit.VALUE">
-										<div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-										</div>
-									</div>
-								</div>
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>单位负责人</label>
-								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME" value="{{bulletin.unitPerson.NAME}}">
-									<input type="hidden" required class="form-control" id="unitPersonId" name="unitPersonId" ng-model="bulletin.unitPerson.VALUE">
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>申请人</label>
-								<div class="col-sm-4">
-									<input type="text" readonly required class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
-									<input type="hidden" required class="form-control" id="applyUserId" name="applyUserId" ng-model="bulletin.applyUser.VALUE">
-								</div>
-								<label class="col-sm-2 control-label">申请时间</label>
-								<div class="col-sm-4 has-feedback">
-									<input type="text" class="form-control" id="createDate" name="createDate" ng-model="bulletin.createTime" readonly />
-									<i class="fa fa-calendar form-control-feedback"></i>
-								</div>
-							</div>
-
-							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
-								<div class="col-sm-4">
-									<select name="tbsxType" ng-model="tbsxTypeModel" id="tbsxType" class="form-control" ng-change="changeTbsxType()">
-										<option value=''>-- 请选择 --</option>
-										<option ng-repeat="item in tbsxType" value="{{item}}"
-												ng-selected="item.UUID==bulletin.bulletinType.VALUE" >{{item.ITEM_NAME}}</option>
-									</select>
-								</div>
-								<label ng-if="isNotCityService" class="col-sm-2 control-label"><span class="required-m">*</span>职能部门负责人</label>
-								<div ng-if="isNotCityService" class="col-sm-4">
-									<input class="form-control" readonly required id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
-									<input type="hidden" required class="form-control" id="businessPersonId" name="businessPersonId" ng-model="bulletin.businessPerson.VALUE">
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName" style="width: 95%"/>
-									<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
-									   data-html="true" class="titleText"
-									   data-backColor="white"
-									   title="{{title}}">提示</a>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>事项原因</label>
-								<div class="col-sm-10">
-									<textarea class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-2 control-label"><span class="required-m">*</span>申请需求</label>
-								<div class="col-sm-10">
-									<textarea type="text" class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
-								</div>
-							</div>
-							<div ng-show="bulletin.businessOpinion!=null && bulletin.businessOpinion!=''" class="row">
-								<label class="col-sm-2 control-label">职能部门审核意见</label>
-								<div class="col-sm-10">
-									<textarea class="form-control" name="businessOpinion" ng-model="bulletin.businessOpinion" placeholder="" readonly auto-height></textarea>
-								</div>
-							</div>
-							<div ng-show="bulletin.windControlOpinion!=null && bulletin.windControlOpinion!=''" class="row">
-								<label class="col-sm-2 control-label">风控中心审核意见</label>
-								<div class="col-sm-10">
-									<textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
-								</div>
-							</div>
+	<ul class="nav nav-tabs bs-tabdrop-example">
+		<li class="active">
+			<a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+		</li>
+		<li>
+			<a href="/#flow_chart" data-toggle="tab" ng-if="queryParamId != '0'">流程图</a>
+		</li>
+		<li >
+			<a href="/#contracts_resources" data-toggle="tab" ng-if="queryParamId != '0'">相关资源</a>
+		</li>
+	</ul>
+	<form class="form-horizontal" name="myFormPfR" id="myFormPfR" novalidate>
+		<div class="panel">
+			<div class="tab-content">
+				<div class="tab-pane in active special-form" id="contracts_file_info">
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>项目名称</label>
+						<div class="col-sm-4">
+							<input type="text"  data-toggle="modal" data-target="#companyProjectName-modal" class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}"/>
 						</div>
-						<div class="tab-pane" id="flow_chart">
-							<!--<directive-process-page></directive-process-page>-->
-							<directive-process-page-new process-key="bulletin"></directive-process-page-new>
-						</div>
-						<div class="tab-pane clearfix row" id="contracts_resources">
-							<!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
-								<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
-													  wf-state="bulletin.WF_STATE" file-list="newAttachment"
-													  init-update="initUpdate(id)"></directive-accachment-new>
-							<!--</div>
-							<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
-								<bbs-chat-new id="bulletinMattersAuditBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
-							</div>-->
+						<label class="col-sm-2 control-label">项目编号</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
+							<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
 						</div>
 					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>所属大区</label>
+						<div class="col-sm-4 has-feedback reporting-unit">
+							<div class="full-drop">
+
+								<input type="text" ng-show="isNotbusinessService" readonly required class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+								<!--
+                                <input type="text" ng-if="!isNotbusinessService"  class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+                                 -->
+								<direct-report-org-select ng-if="!isNotbusinessService"  id ="{{'rorg'}}" titel ="{{'所属大区选择'}}" url = "{{'org/queryReportOrg.do'}}"   mapped-key-value = "mappedKeyValue"
+														  callback = "selectOrgCallback" checked-org ="checkedOrg" other-fields ="otherFields" is-editable ="'true'"
+														  columns = "columns">
+								</direct-report-org-select>
+
+								<input type="hidden" required class="form-control" id="applyUnitId" name="applyUnitId" ng-model="bulletin.applyUnit.VALUE">
+								<div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+								</div>
+							</div>
+						</div>
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>单位负责人</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME" value="{{bulletin.unitPerson.NAME}}">
+							<input type="hidden" required class="form-control" id="unitPersonId" name="unitPersonId" ng-model="bulletin.unitPerson.VALUE">
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>申请人</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
+							<input type="hidden" required class="form-control" id="applyUserId" name="applyUserId" ng-model="bulletin.applyUser.VALUE">
+						</div>
+						<label class="col-sm-2 control-label">申请时间</label>
+						<div class="col-sm-4 has-feedback">
+							<input type="text" class="form-control" id="createDate" name="createDate" ng-model="bulletin.createTime" readonly />
+							<i class="fa fa-calendar form-control-feedback"></i>
+						</div>
+					</div>
+
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
+						<div class="col-sm-4">
+							<select name="tbsxType" ng-model="tbsxTypeModel" id="tbsxType" class="form-control" ng-change="changeTbsxType()">
+								<option value=''>-- 请选择 --</option>
+								<option ng-repeat="item in tbsxType" value="{{item}}"
+										ng-selected="item.UUID==bulletin.bulletinType.VALUE" >{{item.ITEM_NAME}}</option>
+							</select>
+						</div>
+						<label ng-if="isNotCityService" class="col-sm-2 control-label"><span class="required-m">*</span>职能部门负责人</label>
+						<div ng-if="isNotCityService" class="col-sm-4">
+							<input class="form-control" readonly required id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
+							<input type="hidden" required class="form-control" id="businessPersonId" name="businessPersonId" ng-model="bulletin.businessPerson.VALUE">
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName" style="width: 95%"/>
+							<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+							   data-html="true" class="titleText"
+							   data-backColor="white"
+							   title="{{title}}">提示</a>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>事项原因</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>申请需求</label>
+						<div class="col-sm-10">
+							<textarea type="text" class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
+						</div>
+					</div>
+					<div ng-show="bulletin.businessOpinion!=null && bulletin.businessOpinion!=''" class="row">
+						<label class="col-sm-2 control-label">职能部门审核意见</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" name="businessOpinion" ng-model="bulletin.businessOpinion" placeholder="" readonly auto-height></textarea>
+						</div>
+					</div>
+					<div ng-show="bulletin.windControlOpinion!=null && bulletin.windControlOpinion!=''" class="row">
+						<label class="col-sm-2 control-label">风控中心审核意见</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="flow_chart">
+					<!--<directive-process-page></directive-process-page>-->
+					<directive-process-page-new process-key="bulletin"></directive-process-page-new>
+				</div>
+				<div class="tab-pane clearfix row" id="contracts_resources">
+					<!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
+					<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+											  wf-state="bulletin.WF_STATE" file-list="newAttachment"
+											  init-update="initUpdate(id)"></directive-accachment-new>
+					<!--</div>
+                    <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                        <bbs-chat-new id="bulletinMattersAuditBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+                    </div>-->
 				</div>
 			</div>
 		</div>
