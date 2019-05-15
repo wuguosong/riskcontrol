@@ -277,4 +277,11 @@
         </if>
         order by t.CREATE_TIME_ desc
     </select>
+    <delete id="removeNotifyByJson">
+        delete from sys_notify
+        where business_module = #{business_module}
+        and business_id = #{business_id}
+        and notify_user = #{notify_user}
+        and notify_created = #{notify_created}
+    </delete>
 </mapper>

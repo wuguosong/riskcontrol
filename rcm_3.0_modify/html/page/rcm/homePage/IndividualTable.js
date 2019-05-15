@@ -94,8 +94,8 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
         });
 	};
 	// 更新只会信息状态
-	$scope.notify_UpdateStatus = function(id, status){
-        notify_UpdateStatus(id, status);
+	$scope.notify_UpdateStatus = function(id){
+        notify_UpdateStatus(id, 2);// 待阅->已阅
 	};
     $scope.initData();
 }]);

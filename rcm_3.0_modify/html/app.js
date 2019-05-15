@@ -1117,10 +1117,30 @@ function notify_notifiesTranslate(notifies) {
         var userJson = {};
         userJson.VALUE = notifies[i]['notifyUser'];
         userJson.NAME = notifies[i]['notifyUserName'];
+        userJson.AUTH = notifies[i]['notifyCreated'];
         userJsonArray.push(userJson);
     }
     return userJsonArray;
 }
+
+/**
+ * 只会人删除
+ * @param _temp
+ * @param _tempDisabled
+ * @returns {*}
+ */
+function _notifyUsersDelete(business_module, business_id, notify_user){
+    var url = srvUrl + 'notify/delete.do';
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"business_module":business_module, "business_id":business_id,"notify_user": JSON.stringify(notify_user)},
+        async: true,
+        success: function (data) {
+        }
+    });
+};
 
 /**
  * 直接初始化选中的知会人员信息

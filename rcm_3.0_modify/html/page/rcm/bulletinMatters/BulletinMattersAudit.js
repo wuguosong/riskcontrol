@@ -922,6 +922,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         $scope._notifyMappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
         $scope._notifyCheckedUsers = [];
         $scope._notifyTempCheckedUsers = [];
+        $scope._notifyTempCheckedUsersDisabled = [];
         // 移除知会人
         $scope._notifyRemoveSelectedUser = function (_user) {
             for (var _i = 0; _i < $scope._notifyTempCheckedUsers.length; _i++) {
@@ -930,9 +931,19 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
                     break;
                 }
             }
+            _notifyUsersDelete('bulletin', $routeParams.id, _user);
+            $scope._notifyInitNotifiesUser('bulletin', $routeParams.id);
             $scope._notifyCheckedUsers = $scope._notifyTempCheckedUsers;
-            // 保存知会人
-            $scope._notifySaveNotifiesUser($scope.approve.processKey, $scope.approve.businessId, $scope._notifyTempCheckedUsers);
+            $scope._notifyRemoveSelectedUser_p(_user);
+        };
+        $scope._notifyRemoveSelectedUser_p = function (_user) {
+            for (var _i = 0; _i < $scope._notifyTempCheckedUsers.length; _i++) {
+                if (_user.VALUE == $scope._notifyTempCheckedUsers[_i].VALUE) {
+                    $scope._notifyTempCheckedUsers.splice(_i, 1);
+                    break;
+                }
+            }
+            $scope._notifyCheckedUsers = $scope._notifyTempCheckedUsers;
         };
         // 指令执行的方法
         $scope._notifyParentSaveSelected = function(){
@@ -944,20 +955,29 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         };
         // 初始化知会人信息
         $scope._notifyInitNotifiesUser = function(_business_module, _business_id){
-            $scope._notifyTempCheckedUsers = notify_notifiesCheckedTranslate(_business_module, _business_id);
+            $scope._notifyCheckedUsers = [];
+            $scope._notifyTempCheckedUsers = [];
+            $scope._notifyTempCheckedUsersDisabled = [];
+            var init_notifyTempCheckedUsers = notify_notifiesCheckedTranslate(_business_module, _business_id);
             $scope._notifyCheckedUsers.splice(0, $scope._notifyCheckedUsers.length);
-            for (var i = 0; i < $scope._notifyTempCheckedUsers.length; i++) {
-                var user = {};
-                user[$scope._notifyMappedKeyValue.nameField] = $scope._notifyTempCheckedUsers[i].NAME;
-                user[$scope._notifyMappedKeyValue.valueField] = $scope._notifyTempCheckedUsers[i].VALUE;
-                $scope._notifyCheckedUsers.push(user);
-                delete user.$$hashKey;
+            for (var i = 0; i < init_notifyTempCheckedUsers.length; i++) {
+                if(init_notifyTempCheckedUsers[i].AUTH != $scope.credentials.UUID){
+                    $scope._notifyTempCheckedUsersDisabled.push(init_notifyTempCheckedUsers[i]);
+                }else{
+                    var user = {};
+                    user[$scope._notifyMappedKeyValue.nameField] = init_notifyTempCheckedUsers[i].NAME;
+                    user[$scope._notifyMappedKeyValue.valueField] = init_notifyTempCheckedUsers[i].VALUE;
+                    $scope._notifyCheckedUsers.push(user);
+                    $scope._notifyTempCheckedUsers.push(user);
+                    delete user.$$hashKey;
+                }
             }
         };
         // 保存知会人信息
         $scope._notifySaveNotifiesUser = function(_business_module, _business_id, _notifyTempCheckedUsers){
             var _notifiesUser = notify_mergeTempCheckedUsers(_notifyTempCheckedUsers);
             notify_saveNotifies(_business_module, _business_id, _notifiesUser);
+            $scope._notifyInitNotifiesUser('bulletin', $routeParams.id);
         };
         // 展示加签弹窗
         $scope._showSignDialog = function(){

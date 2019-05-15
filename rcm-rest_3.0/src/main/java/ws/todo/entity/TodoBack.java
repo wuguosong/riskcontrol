@@ -4,6 +4,7 @@ package ws.todo.entity;
  * 代办返回数据
  */
 public class TodoBack {
+    public static final String CODE_SUCCESS = "0";
     private String sysCode;// 业务系统编号
     private String sysInstanceId;// 业务系统实例ID
     private String code;// 接收结果 0:接收成功 1:接收失败

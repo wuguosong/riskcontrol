@@ -11,6 +11,10 @@ import java.sql.Timestamp;
  */
 @Component
 public class Notify {
+    public static final String STATUS_0 = "0";// 初始
+    public static final String STATUS_1 = "1";// 待阅/代办已发送/消息已发送
+    public static final String STATUS_2 = "2";// 已阅
+
     private Long notifyId;
     private String businessModule;
     private String businessId;

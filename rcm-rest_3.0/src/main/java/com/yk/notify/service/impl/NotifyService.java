@@ -1,5 +1,6 @@
 package com.yk.notify.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
@@ -81,7 +82,7 @@ public class NotifyService implements INotifyService {
 
     @Override
     public List<Notify> save(String business_module, String business_id, String notifies_user) {
-        notifyMapper.removeNotifyMultipleParameters(business_module, business_id);
+        // notifyMapper.removeNotifyMultipleParameters(business_module, business_id);
         if(StringUtils.isNotEmpty(notifies_user)){
             String[] notifiesUser = notifies_user.split(",");
             Map<String, Object> params = new HashMap<String, Object>();
@@ -100,9 +101,9 @@ public class NotifyService implements INotifyService {
                     notify.setNotifyCreatedName(notifyCreatedName);
                     notify.setBusinessModule(business_module);
                     notify.setBusinessId(business_id);
-                    notify.setPortalStatus("0");
-                    notify.setMessageStatus("0");
-                    notify.setNotifyStatus("0");
+                    notify.setPortalStatus(Notify.STATUS_0);
+                    notify.setMessageStatus(Notify.STATUS_0);
+                    notify.setNotifyStatus(Notify.STATUS_0);
                     notify.setNotifyUrl(url);
                     notify.setNotifyComments(null);
                     notify.setAssociateId(null);
@@ -143,13 +144,13 @@ public class NotifyService implements INotifyService {
                 todoInfo.setCreatedTime(createdTime);
                 todoInfo.setBusinessId(business_id);
                 for(Notify notify : notifies){
-                    if("0".equalsIgnoreCase(notify.getPortalStatus())){
+                    if(Notify.STATUS_0.equalsIgnoreCase(notify.getPortalStatus())){
                         todoInfo.setOwner(notify.getNotifyUser());
                         if(isTodo && todoOpen){// 代办同步
                             TodoBack todoBack = todoClient.sendTodo_ToDo(todoInfo);
                             if(todoBack != null){// 更新
-                                if("0".equalsIgnoreCase(todoBack.getCode())){
-                                    notify.setPortalStatus("1");// 已发送
+                                if(TodoBack.CODE_SUCCESS.equalsIgnoreCase(todoBack.getCode())){
+                                    notify.setPortalStatus(Notify.STATUS_1);// 已发送
                                     notifyMapper.modifyNotify(notify);
                                 }
                             }
@@ -158,8 +159,9 @@ public class NotifyService implements INotifyService {
                             TodoBack todoBack = todoClient.sendTodo_ToRead(todoInfo);
                             if(todoBack != null){
                                 if(todoBack != null){// 更新
-                                    if("0".equalsIgnoreCase(todoBack.getCode())){
-                                        notify.setPortalStatus("1");// 已发送
+                                    if(TodoBack.CODE_SUCCESS.equalsIgnoreCase(todoBack.getCode())){
+                                        notify.setPortalStatus(Notify.STATUS_1);// 已发送
+                                        notify.setNotifyStatus(Notify.STATUS_1);// 待阅
                                         notifyMapper.modifyNotify(notify);
                                     }
                                 }
@@ -191,7 +193,7 @@ public class NotifyService implements INotifyService {
                 StringBuffer userSb = new StringBuffer();
                 Map<String, Object> params = new HashMap<String, Object>();
                 for(Notify notify : notifies){
-                    if("0".equalsIgnoreCase(notify.getMessageStatus())){
+                    if(Notify.STATUS_0.equalsIgnoreCase(notify.getMessageStatus())){
                         params.put("UUID", notify.getNotifyUser());
                         Map<String, Object> user = userMapper.selectAUser(params);
                         if (user != null) {
@@ -206,8 +208,8 @@ public class NotifyService implements INotifyService {
                     if(messageBack != null){
                         if(messageBack.getCode() == 0){
                             for(Notify notify : notifies){
-                                if("0".equalsIgnoreCase(notify.getMessageStatus())){
-                                    notify.setMessageStatus("1");// 已发送
+                                if(Notify.STATUS_0.equalsIgnoreCase(notify.getMessageStatus())){
+                                    notify.setMessageStatus(Notify.STATUS_1);// 已发送
                                     notifyMapper.modifyNotify(notify);
                                 }
                             }
@@ -227,9 +229,9 @@ public class NotifyService implements INotifyService {
         List<JSONObject> myReadingList = new ArrayList<JSONObject>();
         List<JSONObject> myReadList = new ArrayList<JSONObject>();
         for(JSONObject js : list){
-            if("0".equalsIgnoreCase(js.getString("NOTIFY_STATUS"))){
+            if(Notify.STATUS_1.equalsIgnoreCase(js.getString("NOTIFY_STATUS"))){
                 myReadingList.add(js);
-            }else{
+            }else if(Notify.STATUS_2.equalsIgnoreCase(js.getString("NOTIFY_STATUS"))){
                 myReadList.add(js);
             }
         }
@@ -250,5 +252,14 @@ public class NotifyService implements INotifyService {
         params.put("curUserUuid", UserUtil.getCurrentUserUuid());
         List<Map<String, Object>> list = notifyMapper.selectNotifyInfoPage(params);
         page.setList(list);
+    }
+
+    @Override
+    public List<Notify> delete(String business_module, String business_id, String notify_user) {
+        JSONObject jsonObject = JSON.parseObject(notify_user, JSONObject.class);
+        String curId = UserUtil.getCurrentUserUuid();
+        notifyMapper.removeNotifyByJson(business_module, business_id, jsonObject.getString("VALUE"), curId);
+        List<Notify> list = notifyMapper.selectNotifies(business_module, business_id);
+        return list;
     }
 }

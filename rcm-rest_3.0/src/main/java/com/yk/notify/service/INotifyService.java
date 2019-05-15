@@ -90,4 +90,13 @@ public interface INotifyService {
      * @param page
      */
     void queryNotifyInfoPage(PageAssistant page);
+
+    /**
+     * 删除只会人
+     * @param business_module
+     * @param business_id
+     * @param notify_user
+     * @return
+     */
+    List<Notify> delete(String business_module, String business_id, String notify_user);
 }

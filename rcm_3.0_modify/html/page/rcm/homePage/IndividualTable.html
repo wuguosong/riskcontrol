@@ -146,11 +146,11 @@
                                 <tbody>
                                 <tr ng-repeat="t in myReadingList">
                                     <td>
-                                        <a ng-if="t.FORM_KEY_ == 'formalReview'" ng-click="notify_UpdateStatus(t.NOTIFY_ID,'1')"
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview'" ng-click="notify_UpdateStatus(t.NOTIFY_ID)"
                                            ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ == 'preReview'" ng-click="notify_UpdateStatus(t.NOTIFY_ID,'1')"
+                                        <a ng-if="t.FORM_KEY_ == 'preReview'" ng-click="notify_UpdateStatus(t.NOTIFY_ID)"
                                            ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-click="notify_UpdateStatus(t.NOTIFY_ID,'1')"
+                                        <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-click="notify_UpdateStatus(t.NOTIFY_ID)"
                                            ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>

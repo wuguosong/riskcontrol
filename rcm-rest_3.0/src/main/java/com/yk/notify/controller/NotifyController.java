@@ -97,7 +97,7 @@ public class NotifyController {
         if(null == paramMap){
             pageAssistant.setParamMap(new HashMap<String, Object>());
         }
-        pageAssistant.getParamMap().put("notifyStatus", "0");
+        pageAssistant.getParamMap().put("notifyStatus", Notify.STATUS_1);// 待阅
         notifyService.queryNotifyInfoPage(pageAssistant);
         result.setResult_data(pageAssistant);
         return result;
@@ -113,9 +113,24 @@ public class NotifyController {
         if(null == paramMap){
             pageAssistant.setParamMap(new HashMap<String, Object>());
         }
-        pageAssistant.getParamMap().put("notifyStatus", "1");
+        pageAssistant.getParamMap().put("notifyStatus", Notify.STATUS_2);// 已阅
         notifyService.queryNotifyInfoPage(pageAssistant);
         result.setResult_data(pageAssistant);
         return result;
+    }
+
+    @RequestMapping("delete")
+    @ResponseBody
+    @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.CREATE, description = "删除知会人")
+    public List<Notify> delete(String business_module, String business_id, String notify_user) {
+        List<Notify> notifies = new ArrayList<Notify>();
+        try {
+            notifies = notifyService.delete(business_module, business_id, notify_user);
+            logger.info("删除知会列表成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("删除知会列表失败!" + e.getMessage());
+        }
+        return notifies;
     }
 }

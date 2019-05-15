@@ -25,8 +25,8 @@ ctmApp.register.controller('MyReadingCtrl', ['$http','$scope','$location','$rout
         $scope.paginationConf.currentPage = 1;
         $scope.queryMyTaskByPage();
     };
-    $scope.notify_UpdateStatus = function(id, status){
-        notify_UpdateStatus(id, status);
+    $scope.notify_UpdateStatus = function(id){
+        notify_UpdateStatus(id, 2);
     };
     $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage',  $scope.queryMyTaskByPage);
 }]);
