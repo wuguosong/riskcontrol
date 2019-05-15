@@ -1,9 +1,25 @@
-<div class="xh-content container-fluid">
-	<form id="DropOutReport" name="DropOutReport" novalidate class="row">
-		<div class="main-content col-md-10 col-sm-10 col-xs-12">
-			<h3 class='text-blue item-name'>
-				{{title}}
-			</h3>
+<div class="xh-content container-fluid padding0">
+	<form id="FormalReviewReport" name="FormalReviewReport" novalidate class="row">
+		<div class="visa-menu">
+			<div class="col-md-9">
+				<ol class="breadcrumb breadcrumb-menu">
+					<li>
+						<a class="breadcrumb-text breadcrumb-text-menu">
+							资料填写
+						</a>
+					</li>
+					<li>
+						<a href="" class="breadcrumb-text breadcrumb-text-menu">
+							{{title}}
+						</a>
+					</li>
+				</ol>
+			</div>
+			<div class="col-md-3 padding0" align="right">
+				<directive-return-btn-menu url="{{oldUrl}}"></directive-return-btn-menu>
+			</div>
+		</div>
+		<div class="main-content col-md-10 col-sm-10 col-xs-12 padding0">
 			<div class="mcontent content1" id="flag1-c">
 				<h3 class="text-blue">退出原因</h3>
 				<div class="row normalline">
@@ -193,22 +209,21 @@
 				</div>
 			</div>
 
-			<div class="left-content col-md-2 col-sm-2 hidden-xs">
+			<div class="left-content col-md-2 col-sm-2 hidden-xs new-box">
 				<div class="row" align="center">
 					<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档</button>
 				</div>
-				<div class="stage" >
-					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-					<button type="button" ng-click="saveReport3()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
-					<div class="inline-div">
-						<button type="button" ng-if="tabIndex=='0'" class="btn btn-primary" id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
-						<div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-							<directive-need-meeting></directive-need-meeting>
+				<div class="linkline mcontent">
+					<div class="stage" >
+						<button type="button" ng-click="saveReport3()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
+						<div class="inline-div">
+							<button type="button" ng-if="tabIndex=='0'" class="btn btn-primary" id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+							<div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+								<directive-need-meeting></directive-need-meeting>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="linkline mcontent">
-					<div class="line"></div>
+					<div class="line new-line"></div>
 					<a id="flag1" class="catalog-list catalog-list-formal chose" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
