@@ -106,4 +106,9 @@ public interface IMeetingIssueService {
 	 * @return
 	 */
 	public boolean isShowPublicSearch();
+	
+	/**
+	 * 修改会议预备表中的标识
+	 * */
+	public void changeMeetingInfoFlag(String json);
 }

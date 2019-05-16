@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import util.ThreadLocalUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.power.service.IDictService;
@@ -242,5 +243,12 @@ public class MeetingIssueServiceImpl implements IMeetingIssueService {
 	@Override
 	public void updateMeetChai(Map<String, Object> meetIssu) {
 		meetingIssueMapper.updateMeetChai(meetIssu);		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void changeMeetingInfoFlag(String json) {
+		HashMap<String, Object> jsonMap = JSON.parseObject(json, HashMap.class);
+		this.meetingIssueMapper.changeMeetingInfoFlag(jsonMap);
 	}
 }

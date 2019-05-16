@@ -12,7 +12,17 @@
 					result.result_data.MEETING_LEADERS = [];
 				}
 				$scope.meetingIssue = result.result_data;
+				console.log($scope.meetingIssue);
 				$scope.meetingIssue.MEETING_TYPE = $scope.meetingIssue.MEETING_TYPE == null || $scope.meetingIssue.MEETING_TYPE == '' ? '4':'7';
+				if (!isEmpty($scope.meetingIssue.SELECTMEETINGINFOID)){
+					angular.forEach($scope.meetingInfoList, function (data, index) {
+						if (data.id == $scope.meetingIssue.SELECTMEETINGINFOID){
+                            $scope.meetingInfo = data;
+                            $scope.meetingIssue.START_TIME = $scope.meetingInfo.meeting_begin_time.substring(11, 16);
+                            $scope.meetingIssue.END_TIME = $scope.meetingInfo.meeting_end_time.substring(11, 16);
+						}
+                    })
+				}
 			}else{
 				$.alert(result.result_name);
 			}
@@ -32,7 +42,9 @@
 		$scope.meetingOtherPerson={"nameField":"name","valueField":"value"};
 		
 		$scope.nameValue=[{name:'A级（困难评审)',value:1},{name:'B级（中级评审)',value:2},{name:'C级（简单评审)',value:3}];
-		
+
+		$scope.getMeetingInfo();
+
    		//初始化项目
     	$scope.initQueryNotSubmProjList();
 	};
@@ -85,6 +97,9 @@
     		 hide_Mask();
     		 return false;
     	}
+    	if (!isEmpty($scope.meetingInfo)){
+    		$scope.changeFlag();
+		}
 		if(null == $scope.meetingIssue.MEETING_TIME || ""== $scope.meetingIssue.MEETING_TIME){
 			$.alert("上会时间不能为空！");
 			hide_Mask();
@@ -131,7 +146,7 @@
 	    		}
 			}
     	}
-    	if(-1 == projectIndexCount)
+    	/*if(-1 == projectIndexCount)
     	{
     		$.confirm("序号有重复,确认要继续提交吗？", function(){
     			$scope.submitMeetingIssue();
@@ -140,7 +155,7 @@
     	else
     	{
     		$scope.submitMeetingIssue();
-    	}
+    	}*/
     }
     //------------------------------------------------------
 	//验证表单  end
@@ -237,6 +252,59 @@
 	    }
     }
     //------------------------(上会时间点处理  end)------------------------------
+
+
+     //------------------------(选择会议，带出相关数据  start)------------------------------
+	 $scope.getMeetingInfo = function () {
+         var url = 'common/commonMethod/getMeetingInfoList';
+         $scope.httpData(url).success(function (data) {
+         	if (data.result_code === 'S') {
+                 $scope.meetingInfoList = data.result_data;
+                 console.log($scope.meetingInfoList)
+             } else {
+                 alert(data.result_name);
+             }
+         })
+     };
+
+    $scope.changeMeetingInfo = function () {
+    	debugger
+    	$scope.meetingIssue.MEETING_TIME = $scope.meetingInfo.meeting_begin_time.substring(0, 10);
+        var userIds = ''
+    	if (isEmpty($scope.meetingInfo.chairman)) {
+            userIds = $scope.meetingInfo.committee_member;
+        } else {
+            userIds = $scope.meetingInfo.chairman + ',' + $scope.meetingInfo.committee_member;
+		}
+    	$scope.meetingIssue.START_TIME = $scope.meetingInfo.meeting_begin_time.substring(11, 16);
+        $scope.meetingIssue.END_TIME = $scope.meetingInfo.meeting_end_time.substring(11, 16);
+        var url = 'common/commonMethod/getUserInfoList';
+        $scope.httpData(url, userIds).success(function (data) {
+            if (data.result_code === 'S') {
+                $scope.meetingIssue.MEETING_LEADERS = data.result_data;
+                console.log($scope.meetingIssue.MEETING_LEADERS);
+            } else {
+                alert(data.result_name);
+            }
+        });
+
+        $scope.meetingIssue.SELECTMEETINGINFOID = angular.copy($scope.meetingInfo.id);
+
+        $scope.changeMeetingTime();
+    };
+
+     $scope.changeFlag = function (){
+         $http({
+             method:'post',
+             url: srvUrl + 'meetingIssue/changeMeetingInfoFlag.do',
+             data: $.param({"meetingInfo":JSON.stringify($scope.meetingInfo)})
+         }).success(function(result){
+
+         });
+	 };
+     //------------------------(选择会议，带出相关数据  end)--------------------------------
+
+
     $scope.initData();
 }]);
 

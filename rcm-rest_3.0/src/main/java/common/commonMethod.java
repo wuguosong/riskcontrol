@@ -318,4 +318,30 @@ public class commonMethod extends BaseService{
 			return list;
 		}
 		
+		/**
+		 * 查询所有未上会的会议信息
+		 * */
+		public List<Map> getMeetingInfoList(){
+			List<Map> list = DbUtil.openSession().selectList("common.getMeetingInfoList");
+			DbUtil.close();
+			return list;
+		}
+		
+		/**
+		 * 通过参会人员ID，获取参会人员信息
+		 * */
+		public List<Map> getUserInfoList(String json){
+			System.out.println(json);
+			String[] userIds = json.split(",");
+			List<String> userList = new ArrayList<String>();
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			for(int i = 0; i < userIds.length; i++){
+				userList.add(userIds[i]);
+			}
+			paramMap.put("userList", userList);
+			List<Map> list = DbUtil.openSession().selectList("common.getUserInfoList", paramMap);
+			DbUtil.close();
+			return list;
+		}
+		
 }

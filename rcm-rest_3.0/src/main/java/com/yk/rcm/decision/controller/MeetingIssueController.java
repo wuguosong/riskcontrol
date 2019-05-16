@@ -121,4 +121,24 @@ public class MeetingIssueController {
 		result.setSuccess(fk);
 		return result;
 	}
+	
+	/**
+	 * 修改会议标识
+	 * @param meetingInfo
+	 * @return
+	 */
+	@RequestMapping("/changeMeetingInfoFlag")
+	@ResponseBody
+	public Result changeMeetingInfoFlag(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("meetingInfo");
+		try {
+			meetingIssueService.changeMeetingInfoFlag(json);
+			result.setResult_code("S");
+		} catch (Exception e) {
+			result.setResult_name(e.getMessage());
+		}
+		
+		return result;
+	}
 }
