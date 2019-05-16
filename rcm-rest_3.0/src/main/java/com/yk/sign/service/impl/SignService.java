@@ -998,7 +998,7 @@ public class SignService implements ISignService {
             }
             // 从[分配任务->法律负责人和评审负责人]过程中，位于法律负责人审批中的线条颜色设置
             String _backgroundLawLine = "";
-            if(_bulletinApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1 || _bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == -1){
+            if(_bulletinApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1 || _bulletinApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == -1){
                 // 审批中或已审批
                 _backgroundLawLine = "background: #2d8cf0!important;";
             }
