@@ -251,6 +251,7 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                     $scope.applyDate = data.result_data.applyDate;
                     $scope.stage = data.result_data.stage;
                     $scope.reportOracle = data.result_data.reportOracle;
+                    $scope.isReadOnly = 'true';
                 }).error(function(data,status,header,config){
                     $.alert(status);
                 });

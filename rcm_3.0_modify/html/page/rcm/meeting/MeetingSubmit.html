@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<div class="panel-body panel-group">
-				<div class="row" ng-show="meetingInfoList != null">
+				<div class="row" ng-show="meetingInfoList != null && (meetingIssue.MEETING_TIME == null || meetingInfo != null)">
 					<label class="col-sm-2 control-label"><font color="red">*</font>选择会议</label>
 					<div class="col-sm-4 has-feedback noright-pad">
 						<select id="selectMeetingInfo"
@@ -59,7 +59,7 @@
 						<i class="fa fa-calendar form-control-feedback"></i>
 					</div>
 				</div>
-				<div class="row" ng-show="meetingInfoList != null">
+				<div class="row" ng-show="meetingInfoList != null && meetingIssue.START_TIME != null">
 					<label class="col-sm-2 control-label">上会时间</label>
 					<div class="col-sm-6 has-feedback noright-pad" style="right: 10px;">
 						<div class="row nobottom-mar">

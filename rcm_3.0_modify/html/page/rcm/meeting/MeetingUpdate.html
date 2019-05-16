@@ -1,9 +1,31 @@
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					决策会
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					会议安排
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					已提交
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					上会通知信息修改
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
 <div class="panel-body">
 	<form class="form-horizontal" name="Meeting_Apply" id="Meeting_Apply">
-		<div class="header detail-page">
-			<img src="assets/images/icons/detail.png" width="" height="" alt=""
-				title="" /><span class="hd-title">上会通知信息修改</span>
-		</div>
 		<div class="panel">
 			<div class="panel-heading">
 				<div class="panel-hd-cont">
@@ -79,16 +101,16 @@
 											</tr>
 											<tr>
 												<td class="title-column">业务类型</td>
-												<td>{{p.mongdb.serviceType}}</td>
+												<td>{{p.mongdb.serviceType[0].VALUE}}</td>
 											</tr>
 											<tr>
 												<td class="title-column">是否紧急上会</td>
 												<td colspan="3">
 													<div class="col-sm-4">
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input disabled="disabled" type="radio" name="isurgentPfr{{$index}}" ng-model="p.mongdb.isUrgent" value="0" class="px" readonly="readonly"/><span class="lbl">否</span>
 														</label>
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input disabled="disabled" type="radio" name="isurgentPfr{{$index}}"  ng-model="p.mongdb.isUrgent" value="1" class="px" readonly="readonly"/><span class="lbl">是</span>
 														</label>
 	
@@ -109,15 +131,15 @@
 														</div>
 														<div class="col-sm-1"></div>
 														<div class="col-sm-6 td-checkbox txl noLeftPadMin">
-															<label class="checkbox-inline"> <input disabled="disabled" 
+															<label class="checkbox-inline xlocal"> <input disabled="disabled"
 																type="checkbox" class="px" name="projectType1"
 																id="projectType1" ng-model="p.mongdb.projectType1" value="1"  readonly="readonly"/>
 																<span class="lbl">项目简单</span>
-															</label> <label class="checkbox-inline"> <input disabled="disabled" 
+															</label> <label class="checkbox-inline xlocal"> <input disabled="disabled"
 																type="checkbox" class="px" name="projectType2"
 																id="projectType2" ng-model="p.mongdb.projectType2" value="2"  readonly="readonly"/>
 																<span class="lbl">风险较低</span>
-															</label> <label class="checkbox-inline"> <input disabled="disabled" 
+															</label> <label class="checkbox-inline xlocal"> <input disabled="disabled"
 																type="checkbox" class="px" name="projectType3"
 																id="projectType3" ng-model="p.mongdb.projectType3" value="3"  readonly="readonly"/>
 																<span class="lbl">收益较好</span>
@@ -133,15 +155,17 @@
 											</tr>
 											<tr>
 												<td class="title-column">大区人员参会方式</td>
-												<td colspan="3" class="radio-group">
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="participantModePfr{{$index}}" ng-model="p.mongdb.participantMode" value="1"/>
-														<span class="lbl">现场</span>
-													</label>
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="participantModePfr{{$index}}" ng-model="p.mongdb.participantMode" value="2"/>
-														<span class="lbl">视频</span>
-													</label>
+												<td colspan="3">
+													<div class="col-sm-4">
+													    <label class="radio radio-inline xlocal">
+													    	<input disabled="disabled" type="radio" class="px" name="participantModePfr{{$index}}" ng-model="p.mongdb.participantMode" value="1"/>
+													    	<span class="lbl">现场</span>
+													    </label>
+													    <label  class="radio radio-inline xlocal">
+													    	<input disabled="disabled" type="radio" class="px" name="participantModePfr{{$index}}" ng-model="p.mongdb.participantMode" value="2"/>
+													    	<span class="lbl">视频</span>
+													    </label>
+													</div>
 <!-- 													<label class="radio radio-inline"> -->
 <!-- 														<input type="radio" class="px" name="participantModePfr{{$index}}" ng-model="p.mongdb.participantMode" value="3"/> -->
 <!-- 														<span class="lbl">电话</span> -->
@@ -258,16 +282,16 @@
 											</tr>
 											<tr>
 												<td class="title-column">业务类型</td>
-												<td>{{p.mongdb.serviceType}}</td>
+												<td>{{p.mongdb.serviceType[0].VALUE}}</td>
 											</tr>
 											<tr>
 												<td class="title-column">是否紧急上会</td>
 												<td colspan="3">
 													<div class="col-sm-4">
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input disabled="disabled" type="radio" name="isurgentPre{{$index}}" ng-model="p.mongdb.isUrgent" value="0" class="px"/><span class="lbl">否</span>
 														</label>
-														<label class="radio radio-inline">
+														<label class="radio radio-inline xlocal">
 															<input disabled="disabled" type="radio" name="isurgentPre{{$index}}" ng-model="p.mongdb.isUrgent" value="1" class="px"/><span class="lbl">是</span>
 														</label>
 													</div>
@@ -287,15 +311,15 @@
 														</div>
 														<div class="col-sm-1"></div>
 														<div class="col-sm-6 td-checkbox txl noLeftPadMin">
-															<label class="checkbox-inline"> <input disabled="disabled" 
+															<label class="checkbox-inline xlocal"> <input disabled="disabled"
 																type="checkbox" class="px" name="projectType1"
 																id="projectType1" ng-model="p.mongdb.projectType1" value="1" />
 																<span class="lbl">项目简单</span>
-															</label> <label class="checkbox-inline"> <input disabled="disabled" 
+															</label> <label class="checkbox-inline xlocal"> <input disabled="disabled"
 																type="checkbox" class="px" name="projectType2"
 																id="projectType2" ng-model="p.mongdb.projectType2" value="2" />
 																<span class="lbl">风险较低</span>
-															</label> <label class="checkbox-inline"> <input disabled="disabled" 
+															</label> <label class="checkbox-inline xlocal"> <input disabled="disabled"
 																type="checkbox" class="px" name="projectType3"
 																id="projectType3" ng-model="p.mongdb.projectType3" value="3" />
 																<span class="lbl">收益较好</span>
@@ -311,15 +335,17 @@
 											</tr>
 											<tr>
 												<td class="title-column">大区人员参会方式</td>
-												<td colspan="3" class="radio-group">
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="participantModePre{{$index}}" ng-model="p.mongdb.participantMode" value="1"/>
-														<span class="lbl">现场</span>
-													</label>
-													<label class="radio radio-inline">
-														<input disabled="disabled" type="radio" class="px" name="participantModePre{{$index}}" ng-model="p.mongdb.participantMode" value="2"/>
-														<span class="lbl">视频</span>
-													</label>
+												<td colspan="3" >
+													<div class="col-sm-4">
+													    <label class="radio radio-inline xlocal">
+													    	<input disabled="disabled" type="radio" class="px" name="participantModePre{{$index}}" ng-model="p.mongdb.participantMode" value="1"/>
+													    	<span class="lbl">现场</span>
+													    </label>
+													    <label class="radio radio-inline xlocal">
+													    	<input disabled="disabled" type="radio" class="px" name="participantModePre{{$index}}" ng-model="p.mongdb.participantMode" value="2"/>
+													    	<span class="lbl">视频</span>
+													    </label>
+													</div>
 <!-- 													<label class="radio radio-inline"> -->
 <!-- 														<input disabled="disabled" type="radio" class="px" name="participantModePre{{$index}}" ng-model="p.mongdb.participantMode" value="3"/> -->
 <!-- 														<span class="lbl">电话</span> -->
