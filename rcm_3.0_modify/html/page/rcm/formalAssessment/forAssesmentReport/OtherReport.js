@@ -47,7 +47,8 @@ ctmApp.register.controller('OtherReport', ['$http', '$scope', '$location', '$rou
     }
 
     $scope.saveReport7 = function (callBack) {
-        var flie = attach_list("FormalReportInfo", $scope.paramId, "pfrOtherReport").result_data;
+        var flie = attach_list("FormalReportInfo", $scope.paramId, "pfrReport").result_data;
+
         if (null == flie || "" == flie) {
             $.alert("请上传附件");
             return false;

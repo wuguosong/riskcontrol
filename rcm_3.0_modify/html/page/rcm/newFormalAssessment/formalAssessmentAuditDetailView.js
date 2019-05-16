@@ -2689,5 +2689,5 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
      $scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
      //////// 审批阶段，对留言编辑权限的控制
 	 var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
-	 $scope._message_publish_reply_ = !isEmpty(curTask) && curTask.TASK_DEF_KEY_ != 'usertask17';
+	 $scope._message_publish_reply_ = !isEmpty(curTask);//&& curTask.TASK_DEF_KEY_ != 'usertask17';
 }]);
