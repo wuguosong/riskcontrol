@@ -33,6 +33,12 @@ public class NotifyController {
     @Resource
     private Notify notify;
 
+    /**
+     * 查询只会信息列表
+     * @param business_module 业务模块
+     * @param business_id 业务ID
+     * @return List<Notify> 只会信息列表
+     */
     @RequestMapping("list")
     @ResponseBody
     @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "查询知会信息列表")
@@ -48,6 +54,13 @@ public class NotifyController {
         return notifies;
     }
 
+    /**
+     * 保存只会信息
+     * @param business_module 业务模块
+     * @param business_id 业务Id
+     * @param notifies_user 只会人id字符串，格式形如："asfsafd,fafdasfsa,hfshfgh"
+     * @return List<Notify> 只会信息列表
+     */
     @RequestMapping("save")
     @ResponseBody
     @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.CREATE, description = "保存知会信息列表")
@@ -63,6 +76,12 @@ public class NotifyController {
         return notifies;
     }
 
+    /**
+     * 更改只会状态
+     * @param notify_id 只会id
+     * @param notify_status 状态
+     * @return Notify 只会信息
+     */
     @RequestMapping("updateStatus")
     @ResponseBody
     @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.UPDATE, description = "更新知会信息")
@@ -79,6 +98,10 @@ public class NotifyController {
         return notify;
     }
 
+    /**
+     * 查询待阅已阅相关信息
+     * @return JSONObject
+     */
     @RequestMapping("queryNotifyInfo")
     @ResponseBody
     @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "查询待阅已阅")
@@ -87,6 +110,11 @@ public class NotifyController {
         return jsonObject;
     }
 
+    /**
+     * 分页查询待阅
+     * @param page
+     * @return Result
+     */
     @RequestMapping("queryMyReadingPage")
     @ResponseBody
     @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "查询待阅")
@@ -103,6 +131,11 @@ public class NotifyController {
         return result;
     }
 
+    /**
+     * 分页查询已阅
+     * @param page
+     * @return Result
+     */
     @RequestMapping("queryMyReadPage")
     @ResponseBody
     @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "查询已阅")
@@ -119,6 +152,13 @@ public class NotifyController {
         return result;
     }
 
+    /**
+     * 删除只会人信息
+     * @param business_module 业务类型
+     * @param business_id 业务ID
+     * @param notify_user 只会人信息，格式如：{KEY:'',VALUE:''}
+     * @return List<Notify>
+     */
     @RequestMapping("delete")
     @ResponseBody
     @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.CREATE, description = "删除知会人")
