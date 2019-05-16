@@ -58,6 +58,11 @@ public class JaXmlBeanUtil {
         }
     }
 
+    /**
+     * js编码
+     * @param url
+     * @return
+     */
     public static String encodeScriptUrl(String url) {
         try {
             ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
@@ -70,6 +75,11 @@ public class JaXmlBeanUtil {
         }
     }
 
+    /**
+     * js解码
+     * @param encode
+     * @return
+     */
     public static String decodeScriptUrl(String encode) {
         try {
             ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
