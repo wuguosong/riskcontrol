@@ -495,10 +495,10 @@
                                     </div>
                                     <div class="tab-content tab-content-bordered clearfix row">
                                         <div class="tab-pane in active" id="reviewMessageTab">
-                                            <bbs-chat-new id="prePreviewBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" relation-sources-popup="preInfoRelationResourcesPopup"></bbs-chat-new>
+                                            <bbs-chat-new id="prePreviewBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" relation-sources-popup="preInfoRelationResourcesPopup" is-show-attach-type="false"></bbs-chat-new>
                                         </div>
                                         <div class="tab-pane" id="legalMessageTab">
-                                            <bbs-chat-new id="prePreviewBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="preInfoRelationResourcesPopup"></bbs-chat-new>
+                                            <bbs-chat-new id="prePreviewBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="preInfoRelationResourcesPopup" is-show-attach-type="false"></bbs-chat-new>
                                         </div>
                                         <!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
                                         <div id="preInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;">

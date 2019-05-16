@@ -20,9 +20,9 @@
                         <li>
                             <a ng-if="firstLevelOpinion!=null" href="/#bs-tabdrop-tab3" data-toggle="tab">一级业务单位意见</a>
                         </li>
-                        <li>
+                        <!--<li>
                             <a ng-if="fengkongOpinion!=null" href="/#bs-tabdrop-tab4"  data-toggle="tab">风控意见</a>
-                        </li>
+                        </li>-->
                         <li>
                             <a ng-show="mark!=null" href="/#bs-tabdrop-tab5" data-toggle="tab">能力评价</a>
                         </li>
@@ -43,7 +43,8 @@
                     </div>
                     <div class="tab-pane" id="flow_chart">
                         <!-- 新流程图 -->
-                        <directive-process-page ng-if="!isOldFlow"></directive-process-page>
+                        <directive-process-page-new ng-if="!isOldFlow" process-key="{{wfInfo.processKey}}"></directive-process-page-new>
+                        <!--<directive-process-page ng-if="!isOldFlow"></directive-process-page>-->
                         <!-- 旧流程图 -->
                         <directive-process-list ng-if="isOldFlow"></directive-process-list>
                     </div>
@@ -67,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="bs-tabdrop-tab4">
+                    <!--<div class="tab-pane" id="bs-tabdrop-tab4">
                         <div class="panel" ng-show="fengkongOpinion.approveAttachment!= null && fengkongOpinion.approveAttachment != ''">
                             <div class="panel-heading">
                                 <a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#commentsFeedback" data-toggle="collapse"><span class="text">初步评审意见反馈<i class="i-triangle"></i></span></a>
@@ -167,7 +168,7 @@
                                                     </td>
                                                     <td>
                                                         <select disabled="disabled" ng-model="m.attachmentUList"  ng-options="f.ITEM_NAME for f in fileName track by f.UUID" class="form-control">
-                                                            <option value="">---请选择---</option>
+                                                            <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
                                                         </select>
                                                     </td>
                                                     <td class="attachmentTd">
@@ -286,9 +287,9 @@
                                                             <span class="lbl">&nbsp;</span>
                                                         </label>
                                                     </td>
-                                                    <td>  <!--  ng-options="f.UUID as f.ITEM_NAME for f in  dic.fileName track by f.UUID"-->
+                                                    <td>  &lt;!&ndash;  ng-options="f.UUID as f.ITEM_NAME for f in  dic.fileName track by f.UUID"&ndash;&gt;
                                                         <select disabled="disabled" ng-model="am.attachmentUList"  ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
-                                                            <option value="">---请选择---</option>
+                                                            <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
                                                         </select>
                                                     </td>
                                                     <td class="attachmentTd">
@@ -310,7 +311,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="tab-pane" id="bs-tabdrop-tab5">
                         <div class="row">
                             <div class="row col-md-6" id="markPieChart" style="width: 500px;height: 330px;float: left;"></div>
