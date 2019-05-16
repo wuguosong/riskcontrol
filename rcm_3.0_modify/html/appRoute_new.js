@@ -1310,6 +1310,42 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            // 投标评审查看，用于起草查看评审报告
+            .when('/ProjectPreReviewViewReport/:action/:id',{
+                controller:'PreAuditDetailView',
+                templateUrl:'page/rcm/pre/PreAuditDetailView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/pre/PreAuditDetailView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 投标评审流程查看页面
+            .when('/ProjectPreReviewView/:id', {
+                controller: 'PreAuditDetailView',
+                templateUrl: 'page/rcm/pre/PreAuditDetailView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', 'Upload','$timeout',function ($q, $rootScope,Upload,$timeout) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/pre/PreAuditDetailView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 投标评审报告列表
             .when('/PreAuditReportList/:tabIndex', {
                 controller: 'PreAuditReportList',
@@ -1663,6 +1699,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                         var deferred = $q.defer();
                         require(['page/rcm/formalAssessment/formalAssessmentAuditList.js?_v=' + _version], function () {
                             $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            //正式审批查看
+            .when('/ProjectFormalReviewDetailView/:action/:id',{
+                controller:'FormalAssessmentAuditDetailView',
+                templateUrl:'page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
                                 deferred.resolve();
                             });
                         });
@@ -2571,24 +2625,6 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                         var deferred = $q.defer();
                         require(['page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.js?_v=' + _version], function () {
                             $rootScope.$apply(function () {
-                                deferred.resolve();
-                            });
-                        });
-                        return deferred.promise;
-                    }]
-                }
-            })
-
-            //正式审批查看
-            .when('/ProjectFormalReviewDetailView/:action/:id',{
-                controller:'FormalAssessmentAuditDetailView',
-                templateUrl:'page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.html',
-                controllerAs:'model',
-                resolve:{
-                    resolver:['$q','$rootScope',function($q,$rootScope){
-                        var deferred = $q.defer();
-                        require(['page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version],function(){
-                            $rootScope.$apply(function(){
                                 deferred.resolve();
                             });
                         });

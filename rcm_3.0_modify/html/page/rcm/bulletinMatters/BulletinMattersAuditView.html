@@ -31,7 +31,7 @@
 		<div class="panel">
 			<div class="tab-content">
 				<div class="tab-pane in active special-form" id="contracts_file_info">
-					<div class="row">
+					<div class="row" ng-show="bulletin.projectNo != null">
 						<label class="col-sm-2 control-label">项目名称</label>
 						<div class="col-sm-4">
 							<input type="text"  class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}" readonly/>
