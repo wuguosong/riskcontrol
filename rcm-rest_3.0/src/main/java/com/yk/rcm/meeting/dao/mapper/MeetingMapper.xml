@@ -59,7 +59,7 @@
 	</update>
 	
 	<insert id="addNotSubmitMeetingIssue" parameterType="map">
-		insert into RCM_MEETING_ISSUE(ID, MEETING_ISSUE, MEETING_ISSUE_NUMBER, MEETING_LEADERS,MEETING_CHAIRMANS,MEETING_TIME,MEETING_TYPE,STATUS) 
+		insert into RCM_MEETING_ISSUE(ID, MEETING_ISSUE, MEETING_ISSUE_NUMBER, MEETING_LEADERS,MEETING_CHAIRMANS,MEETING_TIME,MEETING_TYPE,STATUS,SELECTMEETINGINFOID) 
 		values(#{mi.ID,javaType=java.lang.String,jdbcType=VARCHAR}, 
 		#{mi.MEETING_ISSUE,javaType=java.lang.String,jdbcType=VARCHAR}, 
 		#{mi.MEETING_ISSUE_NUMBER,javaType=int,jdbcType=INTEGER}, 
@@ -67,7 +67,8 @@
 		#{mi.MEETING_CHAIRMANS,javaType=java.lang.String,jdbcType=VARCHAR}, 
 		#{mi.MEETING_TIME,javaType=java.util.Date,jdbcType=DATE}, 
 		#{mi.MEETING_TYPE,javaType=java.lang.String,jdbcType=VARCHAR}, 
-		#{mi.STATUS,javaType=java.lang.String,jdbcType=VARCHAR})
+		#{mi.STATUS,javaType=java.lang.String,jdbcType=VARCHAR}),
+		#{mi.SELECTMEETINGINFOID,javaType=java.lang.String,jdbcType=VARCHAR})
 	</insert>
 	
 	<update id="updateNotSubmitMeetingIssue" parameterType="map">
@@ -78,7 +79,8 @@
 		MEETING_CHAIRMANS = #{mi.MEETING_CHAIRMANS,javaType=java.lang.String,jdbcType=VARCHAR},
 		MEETING_TIME = #{mi.MEETING_TIME,javaType=java.util.Date,jdbcType=DATE},
 		MEETING_TYPE = #{mi.MEETING_TYPE,javaType=java.lang.String,jdbcType=VARCHAR},
-		STATUS = #{mi.STATUS,javaType=java.lang.String,jdbcType=VARCHAR} 
+		STATUS = #{mi.STATUS,javaType=java.lang.String,jdbcType=VARCHAR},
+		SELECTMEETINGINFOID = #{mi.SELECTMEETINGINFOID,javaType=java.lang.String,jdbcType=VARCHAR}
 		where ID = #{mi.ID}
 	</update>
 	
@@ -127,7 +129,16 @@
 	
 	<select id="queryContainTodayDate" parameterType="map" resultType="map">
 		<![CDATA[
-		select mi.* from rcm_meeting_issue mi
+		select mi.ID,
+		       mi.MEETING_ISSUE,
+		       mi.MEETING_ISSUE_NUMBER,
+		       mi.MEETING_LEADERS,
+		       TO_CHAR(mi.MEETING_TIME, 'yyyy-mm-dd') MEETING_TIME,
+		       mi.MEETING_TYPE,
+		       mi.STATUS,
+		       mi.MEETING_CHAIRMANS,
+		       mi.SELECTMEETINGINFOID
+		  from rcm_meeting_issue mi
 		where #{todayDate,jdbcType=DATE} <= mi.meeting_time 
 		]]>
 	</select>

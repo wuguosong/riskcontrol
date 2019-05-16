@@ -158,4 +158,33 @@ SELECT MA.PROJECTID,
  CONNECT BY PRIOR SO.PARENTCODE =  SO.CODE	
 	</select>
 	
+	<!-- 查询会议列表 -->
+	<select id="getMeetingInfoList" resultType="map" useCache="false">	
+	       SELECT RMPI."id",
+			      RMPI."appointment_meeting_id",
+			      RMPI."type_code",
+			      RMPI."meeting_theme",
+			      RMPI."meeting_content",
+			      RMPI."chairman",
+			      RMPI."committee_member",
+			      to_char(RMPI."meeting_begin_time", 'yyyy-mm-dd,hh24:mi:ss') "meeting_begin_time",
+			      to_char(RMPI."meeting_end_time", 'yyyy-mm-dd,hh24:mi:ss') "meeting_end_time",
+			      RMPI."flag"
+             FROM RCM_MEETING_PREP_INFO RMPI
+            WHERE RMPI."flag" = '0'
+              AND RMPI."meeting_begin_time" > sysdate
+            ORDER BY RMPI."id" DESC
+	</select>
+	
+	<!-- 根据UUID查询相关人员 -->
+	<select id="getUserInfoList" resultType="map" useCache="false">	
+	       SELECT SU.UUID VALUE,
+	              SU.NAME NAME
+             FROM SYS_USER SU
+            WHERE SU.UUID IN
+		   <foreach collection="userList" item="USERID" open="(" close=")" separator=",">
+			      #{USERID}
+		   </foreach>
+	</select>
+	
 </mapper>

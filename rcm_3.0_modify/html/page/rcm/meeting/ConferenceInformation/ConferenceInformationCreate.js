@@ -175,7 +175,7 @@ ctmApp.register.controller('ConferenceInformationCreate', ['$http','$scope','$lo
             }
             addBlankRow($scope.project.agenda);
 
-        }
+        };
         //移除第二部分对应数据
         $scope.deleteProfit = function(){
             var commentsObj = $scope.project.agenda;
@@ -187,7 +187,7 @@ ctmApp.register.controller('ConferenceInformationCreate', ['$http','$scope','$lo
                     }
                 }
             }
-        }
+        };
         $scope.setDirectiveRadioUserList=function(arrID,arrName) {
             var paramsVal=$scope.columnsName;
             var paramsNum=$scope.columnsNum;

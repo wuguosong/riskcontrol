@@ -568,7 +568,13 @@ form .left-content {
   padding: 0 15px;
   transition: all ease-in-out .35s;
   border-radius: 4px;
+  font-size: 15px;
 }
+
+.wui-date-editor .wui-date-input{
+  padding-left: 15px;
+}
+
 
 /** 页面整体样式调整 **/
 .nav {

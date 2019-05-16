@@ -121,6 +121,11 @@ public class MeetingService implements IMeetingService {
 				//防止出现空字符串导致更新sql 将""赋给date会报错!
 				meetingIssue.put("MEETING_TIME",null);
 			}
+			System.out.println(meetingIssue.get("SELECTMEETINGINFOID"));
+			System.out.println(meetingIssue.get("START_TIME"));
+			System.out.println(meetingIssue.get("END_TIME"));
+			meetingIssue.put("SELECTMEETINGINFOID", meetingIssue.get("SELECTMEETINGINFOID").toString());
+	
 			Object meetingLeadersObject = meetingIssue.get("MEETING_LEADERS");
 			if(meetingLeadersObject instanceof List){
 				StringBuffer leadersBuffer = new StringBuffer();

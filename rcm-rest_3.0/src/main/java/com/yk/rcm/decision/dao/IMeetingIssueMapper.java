@@ -82,4 +82,9 @@ public interface IMeetingIssueMapper extends BaseMapper {
 	 * @return
 	 */
 	public int isShowPublicSearch(@Param("userId")String userId);
+	
+	/**
+	 * 更新会议预备表标识
+	 */
+	public void changeMeetingInfoFlag(Map<String, Object> json);
 }
