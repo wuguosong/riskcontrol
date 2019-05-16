@@ -22,7 +22,7 @@
 
 	<bean id="propertiesUtil" class="util.PropertiesUtil">
 		<!-- 开发 -->
-		<!--<property name="location" value="classpath:dev_db.properties" />-->
+		<!-- <property name="location" value="classpath:dev_db.properties" /> -->
 		<!-- 测试  -->
  		<property name="location" value="classpath:test_db.properties" />
 		<!-- 生产 -->
