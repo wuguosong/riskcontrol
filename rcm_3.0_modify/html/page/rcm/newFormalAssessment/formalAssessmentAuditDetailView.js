@@ -2629,7 +2629,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
      };
      // 保存知会人信息
      $scope._notifySaveNotifiesUser = function(_business_module, _business_id, _notifyTempCheckedUsers){
-         var _notifiesUser = notify_mergeTempCheckedUsers($scope._notifyTempCheckedUsers);
+         var _notifiesUser = notify_mergeTempCheckedUsers(_notifyTempCheckedUsers);
          notify_saveNotifies(_business_module, _business_id, _notifiesUser);
          $scope._notifyInitNotifiesUser("formalReview", $routeParams.id);
      };

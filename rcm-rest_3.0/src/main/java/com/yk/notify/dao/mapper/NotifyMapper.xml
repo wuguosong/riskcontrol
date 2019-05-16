@@ -13,6 +13,7 @@
         <result column="notify_date" property="notifyDate" javaType="java.sql.Timestamp"/>
         <result column="portal_status" property="portalStatus" javaType="java.lang.String"/>
         <result column="message_status" property="messageStatus" javaType="java.lang.String"/>
+        <result column="notify_url" property="notifyUrl" javaType="java.lang.String"/>
         <result column="notify_created" property="notifyCreated" javaType="java.lang.String"/>
         <result column="notify_created_name" property="notifyCreatedName" javaType="java.lang.String"/>
     </resultMap>
@@ -27,6 +28,7 @@
        notify_date,
        portal_status,
        message_status,
+       notify_url,
        notify_created,
        notify_created_name
 	</sql>

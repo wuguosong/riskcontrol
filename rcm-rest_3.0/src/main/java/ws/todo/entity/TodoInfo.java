@@ -25,6 +25,17 @@ public class TodoInfo {
     private String priority;// 紧急程度 1.低 2.中 3.高
     private String mobileUrl;// 手机url
 
+    public TodoInfo(){}
+
+    public TodoInfo(String businessId, String title, String createdTime, String url, String owner, String sender) {
+        this.businessId = businessId;
+        this.title = title;
+        this.createdTime = createdTime;
+        this.url = url;
+        this.owner = owner;
+        this.sender = sender;
+    }
+
     public String getBusinessId() {
         return businessId;
     }
