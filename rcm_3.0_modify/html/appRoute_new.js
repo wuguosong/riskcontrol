@@ -2579,6 +2579,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            //正式审批查看
+            .when('/ProjectFormalReviewDetailView/:action/:id',{
+                controller:'FormalAssessmentAuditDetailView',
+                templateUrl:'page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/newFormalAssessment/formalAssessmentAuditDetailView.js?_v='+_version,'../javascripts/util/common.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 其他评审列表
             .when('/bulletinReportBoardList/:tabIndex', {
                 controller: 'bulletinReportBoardList',

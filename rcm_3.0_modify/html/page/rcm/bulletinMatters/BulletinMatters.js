@@ -639,8 +639,10 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
          if(!isEmpty(project.ORGHEADERNAME) && !isEmpty(project.ORGHEADERID)){
              $scope.bulletin.unitPerson = {NAME:project.ORGHEADERNAME,VALUE:project.ORGHEADERID};
          }*/
-         $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
-         if(!isEmpty($scope.qtType)){
+
+
+         if(!isEmpty($scope.tbsxTypeModel)){
+             $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
              $scope.bulletinNameBuild();
 		 }
 
