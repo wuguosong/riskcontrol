@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * Created by mnipa on 2019/1/21.
+ * 用户工具类
  */
 public class UserUtil {
     private final static Logger logger = LoggerFactory.getLogger(UserUtil.class);
