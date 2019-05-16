@@ -3368,7 +3368,8 @@ ctmApp.directive('directiveAccachmentNew', function() {
 
             // 下载
             $scope._download = function (uri) {
-                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(uri);
+                // window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
 
             // 删除
