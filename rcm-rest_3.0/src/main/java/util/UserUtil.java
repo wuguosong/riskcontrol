@@ -17,6 +17,11 @@ import java.util.Map;
 public class UserUtil {
     private final static Logger logger = LoggerFactory.getLogger(UserUtil.class);
 
+    /**
+     * 获取当前登录用户
+     * @param request 请求
+     * @return UserDto 用户实体
+     */
     public static UserDto getCurrentUser(HttpServletRequest request) {
         UserDto userDto = (UserDto) request.getSession().getAttribute("userInfo");
         Map<String, Object> map = null;
@@ -27,11 +32,19 @@ public class UserUtil {
         return userDto;
     }
 
+    /**
+     * 获取当前登录用户
+     * @return UserDto 用户实体
+     */
     public static UserDto getCurrentUser() {
         Map<String, Object> map = ThreadLocalUtil.getUser();
         return JSON.parseObject(JSON.toJSONString(map), UserDto.class);
     }
 
+    /**
+     * 获取当前登录用户ID
+     * @return String 用户Id
+     */
     public static String getCurrentUserId() {
         Map<String, Object> map = ThreadLocalUtil.getUser();
         if (map == null){
@@ -41,6 +54,10 @@ public class UserUtil {
         }
     }
 
+    /**
+     * 获取当前登录用户
+     * @return String UUID
+     */
     public static String getCurrentUserUuid() {
         Map<String, Object> map = ThreadLocalUtil.getUser();
         if (map == null){
@@ -50,6 +67,10 @@ public class UserUtil {
         }
     }
 
+    /**
+     * 获取当前登录用户名
+     * @return String 用户名
+     */
     public static String getCurrentUserName() {
         Map<String, Object> map = ThreadLocalUtil.getUser();
         if (map == null){
@@ -59,6 +80,10 @@ public class UserUtil {
         }
     }
 
+    /**
+     * 当前登录用户是否管理员
+     * @return Boolean
+     */
     public static Boolean getCurrentUserAdmin() {
         Map<String, Object> map = ThreadLocalUtil.getUser();
         if (map == null){
