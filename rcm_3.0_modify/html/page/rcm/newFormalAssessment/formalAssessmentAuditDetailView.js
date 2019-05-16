@@ -1,7 +1,6 @@
 ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','$location','$routeParams','Upload','$timeout', '$filter',
  function ($http,$scope,$location,$routeParams,Upload,$timeout,$filter) {
 	// debugger;
-	 $scope.progressType ='normal';
      $scope.url = $routeParams.url;
 	 /*加签功能初始化必需数据*/
      $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};
@@ -2093,17 +2092,21 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
              return;
          }
          var processOptions = $scope.approve.processOptions;
+		 if(processOptions != null && processOptions.length > 0){// 判断操作，防止页面JS报错
+            if (processOptions[0].documentation != null && processOptions[0].documentation != '') {
+                var docObj = JSON.parse(processOptions[0].documentation);
 
-         if (processOptions[0].documentation != null && processOptions[0].documentation != '') {
-             var docObj = JSON.parse(processOptions[0].documentation);
+                if (docObj.mark == "reviewPassMark") {
+                    $scope.showReviewToConfirm = true;
+                }
+                if (docObj.mark == "legalPassMark") {
+                    $scope.showLegalToConfirm = true;
+                }
+            }
+		 }else{
+		 	// TODO 是否需要其它操作？
+		 }
 
-             if (docObj.mark == "reviewPassMark") {
-                 $scope.showReviewToConfirm = true;
-             }
-             if (docObj.mark == "legalPassMark") {
-                 $scope.showLegalToConfirm = true;
-             }
-         }
 
          //流程选项
          for (var i in processOptions) {

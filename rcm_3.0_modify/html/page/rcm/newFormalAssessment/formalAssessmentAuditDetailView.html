@@ -443,7 +443,8 @@
 				</div>
 				<div class="tab-pane" id="flow_chart">
 					<!--<directive-process-page></directive-process-page>-->
-					<directive-process-page-new process-key="formalReview"></directive-process-page-new>
+					<directive-process-page-new ng-if="!isOldFlow" process-key="formalReview"></directive-process-page-new>
+					<directive-process-page ng-if="isOldFlow"></directive-process-page>
 				</div>
 				<div class="tab-pane" id="contracts_resources">
 					<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
