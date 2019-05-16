@@ -2040,7 +2040,7 @@ td btn-scale:first-child {
     padding-bottom: 0;
     background-color: #ffffff;
     color: #262626;
-    width: 20%;
+    width: 50%;
 }
 
 .breadcrumb > li + li:before {
@@ -2103,4 +2103,7 @@ td btn-scale:first-child {
 
 .new-line {
     top: calc(100% - 82%)!important;
+}
+#_cloud_btn_pfrOtherBidding_pfrOtherBidding_1_1 {
+    width: 100%;
 }

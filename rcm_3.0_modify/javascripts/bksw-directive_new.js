@@ -6100,7 +6100,7 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                         "mettingSummaryInfo": $scope.mettingSummary
                     })
                 }).success(function (result) {
-                    $('#submitModal').modal('hide');
+                    $('#addModal3').modal('hide');
                     $.alert(result.result_name);
                     $scope.$parent.initDefaultData();
                     $scope.mettingSummary = "";
@@ -6388,7 +6388,7 @@ ctmApp.directive('cloudFile', function () {
                 if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.download3d)){
                     return;
                 }
-                $window.open(_cloud_file_dto_.download3d, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(_cloud_file_dto_.download3d);
             };
             // 删除
             $scope._cloud_delete_ = function(_cloud_){
