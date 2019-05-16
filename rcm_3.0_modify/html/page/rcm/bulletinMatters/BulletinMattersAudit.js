@@ -1034,7 +1034,6 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         $scope._init_uuid_ = $scope.credentials.UUID;
         $scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
         ////////////审批阶段对留言编辑权限的控制
-		debugger;
         var curTask = wf_getCurrentTask('bulletin', $routeParams.id);
         $scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask7';
 }]);
