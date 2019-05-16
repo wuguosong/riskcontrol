@@ -34,10 +34,10 @@ public class NotifyController {
     private Notify notify;
 
     /**
-     * 查询只会信息列表
+     * 查询知会信息列表
      * @param business_module 业务模块
      * @param business_id 业务ID
-     * @return List<Notify> 只会信息列表
+     * @return List<Notify> 知会信息列表
      */
     @RequestMapping("list")
     @ResponseBody
@@ -55,11 +55,11 @@ public class NotifyController {
     }
 
     /**
-     * 保存只会信息
+     * 保存知会信息
      * @param business_module 业务模块
      * @param business_id 业务Id
-     * @param notifies_user 只会人id字符串，格式形如："asfsafd,fafdasfsa,hfshfgh"
-     * @return List<Notify> 只会信息列表
+     * @param notifies_user 知会人id字符串，格式形如："asfsafd,fafdasfsa,hfshfgh"
+     * @return List<Notify> 知会信息列表
      */
     @RequestMapping("save")
     @ResponseBody
@@ -77,10 +77,10 @@ public class NotifyController {
     }
 
     /**
-     * 更改只会状态
-     * @param notify_id 只会id
+     * 更改知会状态
+     * @param notify_id 知会id
      * @param notify_status 状态
-     * @return Notify 只会信息
+     * @return Notify 知会信息
      */
     @RequestMapping("updateStatus")
     @ResponseBody
@@ -153,10 +153,10 @@ public class NotifyController {
     }
 
     /**
-     * 删除只会人信息
+     * 删除知会人信息
      * @param business_module 业务类型
      * @param business_id 业务ID
-     * @param notify_user 只会人信息，格式如：{KEY:'',VALUE:''}
+     * @param notify_user 知会人信息，格式如：{KEY:'',VALUE:''}
      * @return List<Notify>
      */
     @RequestMapping("delete")

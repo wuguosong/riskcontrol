@@ -15,20 +15,20 @@ public class Notify {
     public static final String STATUS_1 = "1";// 待阅/代办已发送/消息已发送
     public static final String STATUS_2 = "2";// 已阅
 
-    private Long notifyId;
-    private String businessModule;
-    private String businessId;
-    private String associateId;
-    private String notifyUser;
-    private Timestamp notifyDate;
+    private Long notifyId;// 只会Id
+    private String businessModule;// 业务模块
+    private String businessId;// 业务ID
+    private String associateId;// 关联ID
+    private String notifyUser;// 知会人
+    private Timestamp notifyDate;// 只会日期
     private String portalStatus;// 同步到统一代办的状态
     private String messageStatus;// 同步到统一消息平台的状态
-    private String notifyComments;
-    private String notifyUrl;
-    private String notifyStatus;
-    private String notifyUserName;
-    private String notifyCreated;
-    private String notifyCreatedName;
+    private String notifyComments;// 只会意见
+    private String notifyUrl;// 只会url
+    private String notifyStatus;// 只会状态
+    private String notifyUserName;// 只会人名
+    private String notifyCreated;// 只会发起人
+    private String notifyCreatedName;// 只会发起人名
 
     public Long getNotifyId() {
         return notifyId;
