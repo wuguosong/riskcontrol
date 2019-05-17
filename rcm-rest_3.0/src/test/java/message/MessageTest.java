@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -116,5 +117,11 @@ public class MessageTest {
     @Test
     public void testAttachmentType2(){
         messageService.getAttachmentType("5cd007417ad1b42bb860fb81","preReview");
+    }
+
+    @Test
+    public void testDecode(){
+        System.out.println(JaXmlBeanUtil.encodeScriptUrl("10450"));
+        System.out.println(JaXmlBeanUtil.decodeScriptUrl("MTA0NTA="));
     }
 }

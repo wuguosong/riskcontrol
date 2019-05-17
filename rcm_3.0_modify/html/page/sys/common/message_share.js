@@ -3,7 +3,7 @@
  */
 ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter','$window',
     function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter, $window) {
-        $scope.url = $routeParams.url;
+        $scope.message_id_decode = $filter('decodeURI')($routeParams.id);
         $scope.message = {};
         $scope._message = {};
         $scope._message.originalId = 0;
@@ -53,7 +53,7 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
                 var _subL = _subArray.length;
                 for(var _j = 0; _j < _subL; _j++){
                     var _m = _subArray[_j];
-                    if(_m.messageId == $routeParams.id){
+                    if(_m.messageId == $scope.message_id_decode){
                         return _m;
                     }
                 }
@@ -109,12 +109,12 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
                 data: $.param(formData),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
-                $scope.initMessage($routeParams.id);
+                $scope.initMessage($scope.message_id_decode);
                 $scope._clear_message_from();
                 $.alert('回复留言成功!');
             });
         };
-        $scope.initMessage($routeParams.id);
+        $scope.initMessage($scope.message_id_decode);
         $scope._init_uuid_global_ = $scope.credentials.UUID;
         $scope._is_show_reply_btn_ = true;
         // 留言中的过程附件
@@ -146,7 +146,7 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             attach_delete(_message_.messageFile);
             _message_.messageFile = null;
             $scope._message_update_(_message_);
-            $scope.initMessage($routeParams.id);
+            $scope.initMessage($scope.message_id_decode);
             $location.path("/message/share/" + $routeParams.id);
         };
         $scope._message_update_ = function(_message_){
@@ -156,7 +156,7 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
                 data: $.param(_message_),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
-                $scope.initMessage($routeParams.id);
+                $scope.initMessage($scope.message_id_decode);
                 $location.path("/message/share/" + $routeParams.id);
             });
         };

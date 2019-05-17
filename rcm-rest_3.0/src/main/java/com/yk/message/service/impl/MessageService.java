@@ -26,6 +26,7 @@ import util.DateUtil;
 import util.UserUtil;
 import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
+import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -315,6 +316,7 @@ public class MessageService implements IMessageService {
         if (messageId == null) {
             throw new BusinessException("共享失败，留言Id为空！");
         }
+        String messageIdDecode = JaXmlBeanUtil.decodeScriptUrl(String.valueOf(messageId));
         if (StringUtils.isBlank(shareUsers)) {
             throw new BusinessException("共享失败，要共享的用户为空！");
         }
@@ -341,11 +343,11 @@ public class MessageService implements IMessageService {
         UserDto userDto = UserUtil.getCurrentUser();
         // 钉钉
         if(MessageClient._DT.equalsIgnoreCase(type)){
-            messageBack = client.sendDtLink(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), client._URL + messageId, client._TITLE, client._URL + messageId, client._CONTENT + client._URL + messageId);
+            messageBack = client.sendDtLink(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), client._URL + messageIdDecode, client._TITLE, client._URL + messageIdDecode, client._CONTENT + client._URL + messageIdDecode);
         }
         // 邮件
         if(MessageClient._EMAIL.equalsIgnoreCase(type)){
-            messageBack = client.sendEmail(userDto.getEmail(), emails.substring(0, emails.lastIndexOf(",")).replace(",", "|"), null, client._TITLE, client._CONTENT + client._URL + messageId);
+            messageBack = client.sendEmail(userDto.getEmail(), emails.substring(0, emails.lastIndexOf(",")).replace(",", "|"), null, client._TITLE, client._CONTENT + client._URL + messageIdDecode);
         }
         // 短信
         if(MessageClient._SMS.equalsIgnoreCase(type)){
@@ -353,11 +355,11 @@ public class MessageService implements IMessageService {
             if(StringUtils.isBlank(target)){
                 target = userDto.getContact2();
             }
-            messageBack = client.sendSms(target, client._CONTENT + client._URL + messageId, null);
+            messageBack = client.sendSms(target, client._CONTENT + client._URL + messageIdDecode, null);
         }
         // 微信
         if(MessageClient._WX.equalsIgnoreCase(type)){
-            messageBack = client.sendWxText(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), "", (short)0, client._CONTENT + client._URL + messageId);
+            messageBack = client.sendWxText(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), "", (short)0, client._CONTENT + client._URL + messageIdDecode);
         }
         // 如果同步成功，将返回的凭证存入，此凭证可用于查询消息发送状态
         if (messageBack != null && 0 == messageBack.getCode()) {
