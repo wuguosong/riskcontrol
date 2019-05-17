@@ -7,12 +7,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yk.common.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * 会议管理(已安排|待安排)
  * @author hubiao
  */
+@Repository
 public interface IMeetingMapper extends BaseMapper {
 	
 	public List<Map<String, Object>> queryCanArrangeProjectListByPage(Map<String, Object> params);

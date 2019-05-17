@@ -124,7 +124,7 @@ public class MeetingService implements IMeetingService {
 			System.out.println(meetingIssue.get("SELECTMEETINGINFOID"));
 			System.out.println(meetingIssue.get("START_TIME"));
 			System.out.println(meetingIssue.get("END_TIME"));
-			meetingIssue.put("SELECTMEETINGINFOID", meetingIssue.get("SELECTMEETINGINFOID").toString());
+			meetingIssue.put("SELECTMEETINGINFOID", String.valueOf(meetingIssue.get("SELECTMEETINGINFOID")));
 	
 			Object meetingLeadersObject = meetingIssue.get("MEETING_LEADERS");
 			if(meetingLeadersObject instanceof List){
@@ -323,9 +323,9 @@ public class MeetingService implements IMeetingService {
 			filter.clear();
 			filter.put("projectFormalId", data.get("formalId").toString());
 			updateToMongDb.clear();
-			updateToMongDb.put("decisionStage", meetingIssue.get("MEETING_ISSUE_NUMBER").toString());
+			updateToMongDb.put("decisionStage", String.valueOf(meetingIssue.get("MEETING_ISSUE_NUMBER")));
 			if(Util.isNotEmpty(meetingIssue.get("MEETING_TIME_STRING"))){
-				updateToMongDb.put("dateOfMeeting", meetingIssue.get("MEETING_TIME_STRING").toString());
+				updateToMongDb.put("dateOfMeeting", String.valueOf(meetingIssue.get("MEETING_TIME_STRING")));
 			}else{
 				updateToMongDb.put("dateOfMeeting", null);
 			}
