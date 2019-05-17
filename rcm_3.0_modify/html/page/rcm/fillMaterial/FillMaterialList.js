@@ -94,7 +94,8 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                 }*/
                 // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
                 if ($scope.projectSummary == null || $scope.projectSummary == undefined) {
-                    $location.path("/FormalBiddingInfo_view/" + id + "/" + path);
+                    // $location.path("/FormalBiddingInfoPreviewOld/" + id + "/" + path);
+                    $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/3");
                 } else if ($scope.stage == 7) {
                     $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/3");
                 } else {
