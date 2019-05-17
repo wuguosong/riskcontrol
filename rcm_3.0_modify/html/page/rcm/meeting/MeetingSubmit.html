@@ -49,14 +49,16 @@
 				<div class="row">
 					<label class="col-sm-2 control-label"><font color="red">*</font>上会日期</label>
 					<div class="col-sm-4 has-feedback noright-pad">
-						<wui-date
+						<input type="text" id="meetingTime" name="meetingTime" class="form-control" value="{{meetingIssue.MEETING_TIME | limitTo:10}}" ng-model="meetingIssue.MEETING_TIME" ng-change="changeMeetingTime()"/> <i
+							class="fa fa-calendar form-control-feedback"></i>
+						<!--<wui-date
 								format="yyyy-mm-dd"
 								id="meetingTime"
 								btns="{'now':'今天'}"
 								ng-model="meetingIssue.MEETING_TIME"
-								ng-change="changeMeetingTime()"
+								ng-click="changeMeetingTime()"
 						></wui-date>
-						<i class="fa fa-calendar form-control-feedback"></i>
+						<i class="fa fa-calendar form-control-feedback"></i>-->
 					</div>
 				</div>
 				<div class="row" ng-show="meetingInfoList != null && meetingIssue.START_TIME != null">
@@ -256,7 +258,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="row nobottom-mar">
+							<!--<div class="row nobottom-mar">
 								<div class="row-tit">会议通知信息</div>
 							</div>
 							<div class="row">
@@ -294,7 +296,7 @@
 										</tbody>
 									</table>
 								</div>
-							</div>
+							</div>-->
 						</div>
 						<div class="row"></div>
 					</div>
@@ -444,7 +446,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="row nobottom-mar">
+							<!--<div class="row nobottom-mar">
 								<div class="row-tit">会议通知信息</div>
 							</div>
 							<div class="row">
@@ -482,7 +484,7 @@
 										</tbody>
 									</table>
 								</div>
-							</div>
+							</div>-->
 						</div>
 						<div class="row"></div>
 					</div>
@@ -531,7 +533,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="row nobottom-mar">
+							<!--<div class="row nobottom-mar">
 								<div class="row-tit">会议通知信息</div>
 							</div>
 							<div class="row">
@@ -567,7 +569,7 @@
 										</tbody>
 									</table>
 								</div>
-							</div>
+							</div>-->
 						</div>
 						<div class="row"></div>
 					</div>
@@ -596,12 +598,12 @@
         var width = document.getElementById('selectMeetingInfo').offsetWidth;
         $('#meetingTime').attr("width", width);
     });
-    /*angular.element(document).ready(function() {
+    angular.element(document).ready(function() {
         var optionsDate = {
             todayBtn : "linked",
             orientation : $('body').hasClass('right-to-left') ? "auto right"
                     : 'auto auto'
         }
         $('#meetingTime').datepicker(optionsDate);
-    });*/
+    });
 </script>

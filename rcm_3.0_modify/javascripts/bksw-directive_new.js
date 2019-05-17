@@ -3169,7 +3169,8 @@ ctmApp.directive('directiveAccachmentNew', function() {
                         } else {
                             url = "bulletinInfo/addAttachmengInfoToMongo.do";
                         }
-                        _item.fileId = _fileList[_fileList.length-1].fileid + "";
+                        /*_item.fileId = _fileList[_fileList.length-1].fileid + "";*/
+                        _item.fileId = _fileList[0].fileid + "";
                         _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
                         _item.lastUpdateData = $scope.getDate();
                         _item.fileName = _file.name;
@@ -6640,3 +6641,51 @@ ctmApp.directive('directiveProcessPageNew', function() {
         }
     };
 });
+
+/*
+// 投票结果详情弹出框
+ctmApp.directive('directMeetingVoteResultInfo', function(){
+    return {
+        restrrict:'AE',
+        templateUrl:'page/sys/directive/directMeetingVoteResultInfo.html',
+        replace:'true',
+        scope:{
+            //必填,该指令所在modal的id，在当前页面唯一
+            id: "@",
+            // 查询数据ID
+            searchId: "=",
+            // 主席是否行使一票否决权
+            isYiPiaoFouJue: "="
+        },
+        controller:function($scope,$location,$http,Upload,$element){
+            $scope._initData = function () {
+                $http({
+                    method:'post',
+                    url:srvUrl+"decision/getDecisionResultInfo.do",
+                    data:$.param({"id":$scope.searchId})
+                }).success(function(data) {
+                    if (data.success) {
+                        if (data.result_data.userVoteStatus != null && data.result_data.userVoteStatus == "1") {
+                            $location.path("/MeetingVoteWait/" + data.result_data.ID + "/" + $scope.oldUrl);
+                        } else {
+                            console.log($scope.decision);
+                            $scope.decision = data.result_data;
+                            $scope.decision.tongYiCountStyle = [];
+                            $scope.decision.tongYiCountStyle.width = $scope.decision.tongYiCount / $scope.decision.zongRenShu * 100 + "%";
+                            $scope.decision.buTongYiCountStyle = [];
+                            $scope.decision.buTongYiCountStyle.width = $scope.decision.buTongYiCount / $scope.decision.zongRenShu * 100 + "%";
+                            $scope.decision.tiaoJianTongYiCountStyle = [];
+                            $scope.decision.tiaoJianTongYiCountStyle.width = $scope.decision.tiaoJianTongYiCount / $scope.decision.zongRenShu * 100 + "%";
+                            $scope.decision.zeQiShangHuiCountStyle = [];
+                            $scope.decision.zeQiShangHuiCountStyle.width = $scope.decision.zeQiShangHuiCount / $scope.decision.zongRenShu * 100 + "%";
+                            console.log($scope.decision);
+                        }
+                    } else {
+                        $.alert(data.result_name);
+                    }
+                });
+            };
+            $scope._initData();
+        }
+    }
+});*/
