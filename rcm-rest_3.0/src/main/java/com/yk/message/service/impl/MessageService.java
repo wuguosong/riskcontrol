@@ -29,10 +29,7 @@ import ws.msg.client.MessageClient;
 import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by LiPan on 2019/1/25.
@@ -44,6 +41,8 @@ public class MessageService implements IMessageService {
     IMessageMapper messageMapper;
     @Resource
     IUserMapper userMapper;
+    // 配置文件
+    private Prop prop = PropKit.use("wsdl_conf.properties");
 
     @Override
     public List<Message> list(String procInstId, Long parentId) {
@@ -63,19 +62,19 @@ public class MessageService implements IMessageService {
         message.setMessageDate(DateUtil.getCurrentDate());
         // 设置创建人和回复人相关信息
         String createdBy = message.getCreatedBy();
-        if(StringUtils.isNotBlank(createdBy)){
-            List<HashMap<String,Object>> about = messageMapper.selectUserAbout(createdBy);
-            if(CollectionUtils.isNotEmpty(about)){
+        if (StringUtils.isNotBlank(createdBy)) {
+            List<HashMap<String, Object>> about = messageMapper.selectUserAbout(createdBy);
+            if (CollectionUtils.isNotEmpty(about)) {
                 HashMap<String, Object> user = about.get(0);
                 String dept = "";
                 String position = "";
-                if(user.get("ORGNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("ORGNAME")))){
+                if (user.get("ORGNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("ORGNAME")))) {
                     dept = String.valueOf(user.get("ORGNAME"));
-                    if(user.get("DEPTNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("DEPTNAME")))){
+                    if (user.get("DEPTNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("DEPTNAME")))) {
                         dept += "-" + String.valueOf(user.get("DEPTNAME"));
                     }
                 }
-                if(user.get("JOBNAME") != null && "null".equalsIgnoreCase(String.valueOf(user.get("JOBNAME")))){
+                if (user.get("JOBNAME") != null && "null".equalsIgnoreCase(String.valueOf(user.get("JOBNAME")))) {
                     position = String.valueOf(user.get("JOBNAME"));
                 }
                 message.setCreatedDept(dept);
@@ -83,19 +82,19 @@ public class MessageService implements IMessageService {
             }
         }
         String repliedBy = message.getRepliedBy();
-        if(StringUtils.isNotBlank(repliedBy)){
-            List<HashMap<String,Object>> about = messageMapper.selectUserAbout(repliedBy);
-            if(CollectionUtils.isNotEmpty(about)){
+        if (StringUtils.isNotBlank(repliedBy)) {
+            List<HashMap<String, Object>> about = messageMapper.selectUserAbout(repliedBy);
+            if (CollectionUtils.isNotEmpty(about)) {
                 HashMap<String, Object> user = about.get(0);
                 String dept = "";
                 String position = "";
-                if(user.get("ORGNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("ORGNAME")))){
+                if (user.get("ORGNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("ORGNAME")))) {
                     dept = String.valueOf(user.get("ORGNAME"));
-                    if(user.get("DEPTNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("DEPTNAME")))){
+                    if (user.get("DEPTNAME") != null && !"null".equalsIgnoreCase(String.valueOf(user.get("DEPTNAME")))) {
                         dept += "-" + String.valueOf(user.get("DEPTNAME"));
                     }
                 }
-                if(user.get("JOBNAME") != null && "null".equalsIgnoreCase(String.valueOf(user.get("JOBNAME")))){
+                if (user.get("JOBNAME") != null && "null".equalsIgnoreCase(String.valueOf(user.get("JOBNAME")))) {
                     position = String.valueOf(user.get("JOBNAME"));
                 }
                 message.setRepliedDept(dept);
@@ -115,7 +114,7 @@ public class MessageService implements IMessageService {
     @Override
     public Message delete(Long messageId) {
         Message message = messageMapper.selectMessageById(messageId);
-        if(message.getMessageFile() != null){
+        if (message.getMessageFile() != null) {
             FileDto fileDto = fileService.getFile(String.valueOf(message.getMessageFile()));
             fileService.deleteFile(fileDto);
         }
@@ -127,7 +126,7 @@ public class MessageService implements IMessageService {
     public List<Message> getMessageTree(String procInstId, Long parentId) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("procInstId", procInstId);
-        params.put("parentId",parentId);
+        params.put("parentId", parentId);
         // 获取根节点
         List<Message> roots = messageMapper.selectMessageList(params);
         List<Message> messages = new ArrayList<Message>();
@@ -210,7 +209,7 @@ public class MessageService implements IMessageService {
         List<List<JSONObject>> jsonObjects = new ArrayList<List<JSONObject>>();
         // 查询所有的根节点
         Map<String, Object> _paramsMap = new HashMap<String, Object>();
-        if(StringUtils.isNotBlank(_query_params_)){
+        if (StringUtils.isNotBlank(_query_params_)) {
             _paramsMap = JSON.parseObject(_query_params_, HashMap.class);
         }
         _paramsMap.put("procInstId", procInstId);
@@ -251,8 +250,8 @@ public class MessageService implements IMessageService {
         return jsonObjects;
     }
 
-    private void setMessageFileType(Message message){
-        if(StringUtils.isBlank(message.getMessageFileType())){
+    private void setMessageFileType(Message message) {
+        if (StringUtils.isBlank(message.getMessageFileType())) {
             message.setMessageFileType("-1");
         }
     }
@@ -310,13 +309,13 @@ public class MessageService implements IMessageService {
      */
     @Override
     public MessageBack shareMessage(Long messageId, String shareUsers, String type) {
-        if(StringUtils.isBlank(type)){
+        if (StringUtils.isBlank(type)) {
             type = MessageClient._DT;
         }
         if (messageId == null) {
             throw new BusinessException("共享失败，留言Id为空！");
         }
-        String messageIdDecode = JaXmlBeanUtil.decodeScriptUrl(String.valueOf(messageId));
+        String messageIdDecode = JaXmlBeanUtil.encodeScriptUrl(String.valueOf(messageId));
         if (StringUtils.isBlank(shareUsers)) {
             throw new BusinessException("共享失败，要共享的用户为空！");
         }
@@ -342,24 +341,24 @@ public class MessageService implements IMessageService {
         MessageBack messageBack = null;
         UserDto userDto = UserUtil.getCurrentUser();
         // 钉钉
-        if(MessageClient._DT.equalsIgnoreCase(type)){
+        if (MessageClient._DT.equalsIgnoreCase(type)) {
             messageBack = client.sendDtLink(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), client._URL + messageIdDecode, client._TITLE, client._URL + messageIdDecode, client._CONTENT + client._URL + messageIdDecode);
         }
         // 邮件
-        if(MessageClient._EMAIL.equalsIgnoreCase(type)){
+        if (MessageClient._EMAIL.equalsIgnoreCase(type)) {
             messageBack = client.sendEmail(userDto.getEmail(), emails.substring(0, emails.lastIndexOf(",")).replace(",", "|"), null, client._TITLE, client._CONTENT + client._URL + messageIdDecode);
         }
         // 短信
-        if(MessageClient._SMS.equalsIgnoreCase(type)){
+        if (MessageClient._SMS.equalsIgnoreCase(type)) {
             String target = userDto.getContact1();
-            if(StringUtils.isBlank(target)){
+            if (StringUtils.isBlank(target)) {
                 target = userDto.getContact2();
             }
             messageBack = client.sendSms(target, client._CONTENT + client._URL + messageIdDecode, null);
         }
         // 微信
-        if(MessageClient._WX.equalsIgnoreCase(type)){
-            messageBack = client.sendWxText(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), "", (short)0, client._CONTENT + client._URL + messageIdDecode);
+        if (MessageClient._WX.equalsIgnoreCase(type)) {
+            messageBack = client.sendWxText(null, accounts.substring(0, accounts.lastIndexOf(",")).replace(",", "|"), "", (short) 0, client._CONTENT + client._URL + messageIdDecode);
         }
         // 如果同步成功，将返回的凭证存入，此凭证可用于查询消息发送状态
         if (messageBack != null && 0 == messageBack.getCode()) {
@@ -430,11 +429,11 @@ public class MessageService implements IMessageService {
     public void queryViaUsers(PageAssistant page) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", page);
-        if(page.getParamMap() != null){
+        if (page.getParamMap() != null) {
             params.putAll(page.getParamMap());
         }
         String orderBy = page.getOrderBy();
-        if(orderBy == null){
+        if (orderBy == null) {
             orderBy = " account ";
         }
         params.put("orderBy", orderBy);
@@ -444,18 +443,19 @@ public class MessageService implements IMessageService {
 
     @Resource
     private IFileService fileService;
-    private void setMessageFileInfo(JSONObject message){
-        if(message != null){
-            if(message.getLong("messageFile") != null){
+
+    private void setMessageFileInfo(JSONObject message) {
+        if (message != null) {
+            if (message.getLong("messageFile") != null) {
                 Long fileId = message.getLong("messageFile");
                 FileDto fileDto = fileService.getFile(String.valueOf(fileId));
-                if(fileDto != null){
-                    try{
+                if (fileDto != null) {
+                    try {
                         List<FileDto> list = fileService.createFileList(fileDto.getDoctype(), fileDto.getDoccode(), fileDto.getPagelocation());
-                        if(CollectionUtils.isNotEmpty(list)){
+                        if (CollectionUtils.isNotEmpty(list)) {
                             message.put("fileDto", list.get(0));
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -465,6 +465,7 @@ public class MessageService implements IMessageService {
 
     @Resource
     private IBaseMongo baseMongo;
+
     @Override
     public List<Map> getAttachmentType(String message_business_id, String message_type) {
         List<Map> list = new ArrayList<Map>();
@@ -476,34 +477,34 @@ public class MessageService implements IMessageService {
         String projectModelName = "";
         String functionType = "";
         Map<String, Object> mongo = null;
-        if(Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(message_type)){
+        if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(message_type)) {
             functionType = "正式评审";
             mongo = this.baseMongo.queryById(message_business_id, Constants.RCM_FORMALASSESSMENT_INFO);
-        }else if(Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(message_type)){
+        } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(message_type)) {
             functionType = "预评审";
             mongo = baseMongo.queryById(message_business_id, Constants.RCM_PRE_INFO);
-        }else{
+        } else {
             return list;
         }
-        if(mongo == null){
+        if (mongo == null) {
             return list;
         }
         JSONObject mongoJs = JSON.parseObject(JSON.toJSONString(mongo), JSONObject.class);
         JSONObject applyJs = mongoJs.getJSONObject("apply");
-        if(applyJs != null){
-            JSONArray  pmJss = applyJs.getJSONArray("projectModel");
-            if(CollectionUtils.isEmpty(pmJss)){
+        if (applyJs != null) {
+            JSONArray pmJss = applyJs.getJSONArray("projectModel");
+            if (CollectionUtils.isEmpty(pmJss)) {
                 return list;
             }
             JSONObject pmJs = pmJss.getJSONObject(0);
             projectModelName = pmJs.getString("VALUE");
             JSONArray stJss = applyJs.getJSONArray("serviceType");
-            if(CollectionUtils.isEmpty(stJss)){
+            if (CollectionUtils.isEmpty(stJss)) {
                 return list;
             }
             JSONObject stJs = stJss.getJSONObject(0);
             serviceCode = stJs.getString("KEY");
-        }else{
+        } else {
             return list;
         }
         commonMethod cm = new commonMethod();
@@ -517,5 +518,60 @@ public class MessageService implements IMessageService {
         choice.put("ITEM_NAME", "");
         list.add(0, choice);
         return list;
+    }
+
+    @Override
+    public void shareMessageToSameSubject(Message message) {
+        boolean open = prop.getBoolean("message.share.subject.open", false);
+        boolean othersOpen = prop.getBoolean("message.share.subject.others.open", false);
+        StringBuffer sb = new StringBuffer();
+        String curUserUuid = message.getCreatedBy();
+        List<Message> list = null;
+        String viaUsers = null;
+        String users = null;
+        // 排除掉当前登录用户
+        if (open) {
+            if (message.getParentId() == 0) {// 主题留言
+                viaUsers = message.getViaUsers();
+                if (othersOpen) {
+                    list = messageMapper.selectMessageChildren(message.getMessageId());
+                }
+            } else {// 非主题留言
+                if (othersOpen) {
+                    Message subjectMessage = messageMapper.selectMessageById(message.getParentId());
+                    viaUsers = subjectMessage.getViaUsers();
+                    list = messageMapper.selectMessageChildren(message.getParentId());
+                    list.add(subjectMessage);
+                }
+            }
+            if (CollectionUtils.isNotEmpty(list)) {
+                for (Message mess : list) {
+                    if (!sb.toString().contains(mess.getCreatedBy())) {
+                        if (StringUtils.isNotBlank(viaUsers)) {
+                            if (!viaUsers.contains(mess.getCreatedBy()) && !curUserUuid.equals(mess.getCreatedBy())) {
+                                sb.append(mess.getCreatedBy());
+                                sb.append(",");
+                            }
+                        } else {
+                            if (!curUserUuid.equals(mess.getCreatedBy())) {
+                                sb.append(mess.getCreatedBy());
+                                sb.append(",");
+                            }
+                        }
+                    }
+                }
+            }
+            if (StringUtils.isNotBlank(viaUsers)) {
+                users = sb.append(viaUsers).toString();
+            } else {
+                if (StringUtils.isNotBlank(sb)) {
+                    users = sb.substring(0, sb.lastIndexOf(","));
+                }
+            }
+            if (StringUtils.isNotBlank(users)) {
+                System.out.println(users);
+                this.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), users, MessageClient._DT);
+            }
+        }
     }
 }

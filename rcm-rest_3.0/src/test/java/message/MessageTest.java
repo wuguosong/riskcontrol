@@ -124,4 +124,10 @@ public class MessageTest {
         System.out.println(JaXmlBeanUtil.encodeScriptUrl("10450"));
         System.out.println(JaXmlBeanUtil.decodeScriptUrl("MTA0NTA="));
     }
+
+    @Test
+    public void testVia(){
+        Message message = messageService.get(new Long(10461));
+        messageService.shareMessageToSameSubject(message);
+    }
 }

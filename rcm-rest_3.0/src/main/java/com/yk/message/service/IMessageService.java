@@ -123,13 +123,42 @@ public interface IMessageService {
      */
     MessageBack shareMessage(Long messageId, String shareUsers, String type);
 
+    /**
+     * 通过用户uuid获取用户信息
+     * @param uuid
+     * @return
+     */
     HashMap<String, Object> getUserByUuid(String uuid);
 
+    /**
+     * 留言列表-分页查询
+     * @param pageAssistant
+     */
     void queryMessagesListPage(PageAssistant pageAssistant);
 
+    /**
+     * 获取当前登录人的留言列表
+     * @return List<Message>
+     */
     List<Message> getMessageNotify();
 
+    /**
+     * 查询@用户
+     * @param page
+     */
     void queryViaUsers(PageAssistant page);
 
+    /**
+     * 获取附件类型
+     * @param message_business_id
+     * @param message_type
+     * @return
+     */
     List<Map> getAttachmentType(String message_business_id, String message_type);
+
+    /**
+     * 向同一个主题的留言推送留言信息
+     * @param message
+     */
+    void shareMessageToSameSubject(Message message);
 }

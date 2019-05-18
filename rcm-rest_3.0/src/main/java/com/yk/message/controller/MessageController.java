@@ -108,9 +108,7 @@ public class MessageController {
 		try {
 			message = messageService.save(message);
 			// 保存成功后调用钉钉接口推送信息
-			if(StringUtils.isNotBlank(message.getViaUsers())){
-				messageService.shareMessage(message.getMessageId(), message.getViaUsers(), MessageClient._DT);
-			}
+			messageService.shareMessageToSameSubject(message);
 			result.setSuccess(true);
 			result.setResult_code(Constants.S);
 			result.setResult_data(message);
