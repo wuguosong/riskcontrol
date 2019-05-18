@@ -1866,6 +1866,7 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 保存留言表单信息
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
+                var _flag = true;
                 var formData = null;
                 if(_is_first_ == 'Y'){
                     formData = $scope._message_first;
@@ -1887,7 +1888,7 @@ ctmApp.directive('bbsChatNew', function() {
                 if (isEmpty(formData.messageTitle)) {
                     if(_is_first_ == 'Y'){
                         $.alert('留言主题不能为空!');
-                        return;
+                        return false;
                     }
                 }
                 if (isEmpty(formData.messageContent)) {
@@ -1896,17 +1897,21 @@ ctmApp.directive('bbsChatNew', function() {
                     }else{
                         $.alert('回复内容不能为空!');
                     }
-                    return;
+                    return false;
                 }
                 if(_is_first_ == 'Y'){
                     if(_common_get_string_byte_length(formData.messageTitle) > 128){
                         $.alert('标题不能超过128个字符!');
-                        return;
+                        return false;
                     }
                 }
                 if(_common_get_string_byte_length(formData.messageContent) > 2500){
                     $.alert('内容不能超过2500个字符!');
-                    return;
+                    return false;
+                }
+
+                if(!isEmptyJson($scope._form_file_)){
+                    formData.messageFile = $scope._form_file_.fileid;
                 }
                 formData.messageType = $scope.messageType;
                 formData.messageScreenType = $scope.screenType;
@@ -1916,6 +1921,15 @@ ctmApp.directive('bbsChatNew', function() {
                     data: $.param(formData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
+                    if(_is_first_ == 'Y'){
+                        if(!isEmptyJson($scope._form_first_)){
+                            $scope._form_first_ = {};
+                        }
+                    }else{
+                        if(!isEmptyJson($scope._form_file_)){
+                            $scope._form_file_ = {};
+                        }
+                    }
                     if($scope._is_pagination_){
                         $scope._query_messages_list_page_();
                     }else{
@@ -1929,7 +1943,9 @@ ctmApp.directive('bbsChatNew', function() {
                     }else{
                         $.alert('回复留言成功!');
                     }
+                    _flag = true;
                 });
+                return _flag;
             };
             // 删除留言信息
             $scope._delete_message_ = function (_message_id_, _message_) {
@@ -2176,20 +2192,20 @@ ctmApp.directive('bbsChatNew', function() {
                 }
             };
             // 留言中的过程附件
-            $scope._message_upload_file_ = function(_file_, _message_){
-                if($scope._is_validate_attach_type_){
-                    if(_message_.messageFileType == -1){
-                        $.alert("请选择资源类型！");
-                        return;
-                    }
+            $scope._message_upload_file_ = function(_file_,_is_first_mess){
+                var _pageLocationSequenceNumber = get_pageLocation_sequence_number($scope.messageType, $scope.businessId, $scope._init_uuid_global_);
+                if(_is_first_mess == 'Y'){
+                    $scope._form_first_ = {};
+                }else{
+                    $scope._form_file_ = {};
                 }
                 Upload.upload({
                     url: srvUrl + 'cloud/upload.do',
                     data: {
                         file: _file_,
-                        'docType':'sys_message_' + _message_.messageType,
-                        'docCode':_message_.procInstId,
-                        'pageLocation':_message_.messageId
+                        'docType':$scope.messageType,
+                        'docCode':$scope.businessId,
+                        'pageLocation':$scope._init_uuid_global_ + '_' + _pageLocationSequenceNumber
                     }
                 }).then(function (_resp_) {
                     var _result = _resp_.data;
@@ -2197,8 +2213,11 @@ ctmApp.directive('bbsChatNew', function() {
                         if(_result.success){
                             var _cloud_file_dto_ = _result['result_data'];
                             if(!isEmpty(_cloud_file_dto_)){
-                                _message_.messageFile = _cloud_file_dto_.fileid;
-                                $scope._message_update_(_message_);
+                                if(_is_first_mess == 'Y'){
+                                    $scope._form_first_ = _cloud_file_dto_;
+                                }else{
+                                    $scope._form_file_ = _cloud_file_dto_;
+                                }
                             }
                         }
                     }
@@ -2206,17 +2225,29 @@ ctmApp.directive('bbsChatNew', function() {
                 }, function (_evt_) {
                 });
             };
-            $scope._message_delete_file_ = function(_message_){
-                attach_delete(_message_.messageFile);
-                _message_.messageFile = null;
-                _message_.messageFileType = -1;
-                $scope._message_update_(_message_);
-                if($scope._is_pagination_){
-                    $scope._query_messages_list_page_();
-                }else{
-                    $scope._query_messages_list_(0);
+            // 删除留言
+            $scope._message_delete_file_ = function(_obj_, _from_type_){
+                if(_from_type_ == 'FIR'){// 表单附件删除
+                    attach_delete(_obj_.fileid);
+                    $scope._form_first_ = {};
+                }
+                if(_from_type_ == 'MES'){// 留言附件删除
+                    _obj_.messageFile = null;
+                    _obj_.messageFileType = -1;
+                    $scope._message_update_(_obj_);
+                    if($scope._is_pagination_){
+                        $scope._query_messages_list_page_();
+                    }else{
+                        $scope._query_messages_list_(0);
+                    }
+                    $scope._form_file_ = {};
+                }
+                if(_from_type_ == 'FOR'){// 留言附件删除
+                    attach_delete(_obj_.fileid);
+                    $scope._form_file_ = {};
                 }
             };
+            // 更新留言
             $scope._message_update_ = function(_message_){
                 $http({
                     method: 'post',
@@ -2236,31 +2267,20 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                 });
             };
+            // 附件预览
             $scope._message_preview_file_ = function(_url_){
                 if(!isEmpty(_url_)){
-                    $window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                    $window.open(_url_);
                 }
             };
             // 展示上传附件弹窗
-            $scope._show_message_attach_popup = function(_message_){
+            $scope._show_message_attach_popup = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
+                debugger;
+                $scope._setMessFileParam(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_);
                 $scope._is_show_upload_part_ = false;
                 $('#_message_attach_dialog' + $scope._screen_type_).modal('show');
-                $scope._message_ = _message_;
             };
-            // 展示相关资源弹窗，该方法对应页面上启用的引用弹窗方式
-            /*$scope._show_link_resources_popup = function(){
-             if(!isEmpty($scope.relationSourcesPopup)){
-             if($scope._is_show_upload_part_){
-             var _popupEle = $('#' + $scope.relationSourcesPopup);
-             $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
-             $('#_relation_resources_popup_body' + $scope._screen_type_).append(_popupEle.html());
-             $('#_relation_resources_popup_' + $scope._screen_type_).modal('show');
-             }else{
-             $('#_relation_resources_popup_' + $scope._screen_type_).modal('hide');
-             $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
-             }
-             }
-             };*/
+            // 展示相关资源弹窗
             $scope._show_link_resources_popup = function(){
                 if(!isEmpty($scope.relationSourcesPopup)){
                     if($scope._is_show_upload_part_){
@@ -2270,15 +2290,37 @@ ctmApp.directive('bbsChatNew', function() {
                     }
                 }
             };
+            // 弹窗保存
+            $scope._save_mess_file_dialog = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
+                var ret = $scope._submit_message_form_(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_);
+                if(ret){
+                    $('#_message_attach_dialog' + $scope._screen_type_).modal('hide');
+                    $scope._message_attach_dialog_close_();
+                }
+            };
+            // 弹窗保存必需值设置
+            $scope._setMessFileParam = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
+                $scope._is_first_mess = _is_first_;
+                $scope._original_id_mess = _original_id_;
+                $scope._parent_id_mess = _parent_id_;
+                $scope._replied_by_mess = _replied_by_;
+                $scope._replied_name_mess = _replied_name_;
+                $scope._idx_mess = _idx_;
+            };
+            // 弹窗保存必需值清空
+            $scope._clearMessFileParam = function(){
+                $scope._is_first_mess = '';
+                $scope._original_id_mess = '';
+                $scope._parent_id_mess = '';
+                $scope._replied_by_mess = '';
+                $scope._replied_name_mess = '';
+                $scope._idx_mess = '';
+            };
             // 附件上传弹窗关闭事件
             $scope._message_attach_dialog_close_ = function(){
                 $scope._is_show_upload_part_ = false;
+                $scope._clearMessFileParam();
             };
-            // 相关资源弹窗关闭事件
-            /*$scope._relation_resources_popup_close_ = function(){
-                $('#_relation_resources_popup_body' + $scope._screen_type_).empty();
-                $scope._is_show_upload_part_ = false;
-            };*/
         }
     };
 });

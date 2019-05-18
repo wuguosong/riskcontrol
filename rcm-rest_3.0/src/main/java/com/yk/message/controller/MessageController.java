@@ -393,10 +393,29 @@ public class MessageController {
 		return result;
 	}
 
+	/**
+	 * 获取附件类型
+	 * @param message_business_id 留言业务ID
+	 * @param message_type 留言类型
+	 * @return List<Map>
+	 */
 	@RequestMapping("/getAttachmentType")
 	@ResponseBody
 	public List<Map> getAttachmentType(String message_business_id, String message_type){
 		return messageService.getAttachmentType(message_business_id, message_type);
 	}
 
+	/**
+	 * 获取附件位置序列号
+	 * @param docType 附件类型
+	 * @param docCode 附件业务Id
+	 * @param pageLocation 附件位置
+	 * @return int 附件序列号
+	 */
+	@RequestMapping("/getPageLocationSequenceNumber")
+	@ResponseBody
+	public int getPageLocationSequenceNumber(String docType, String docCode, String pageLocation){
+		int pageLocationSequenceNumber = messageService.getPageLocationSequenceNumber(docType, docCode, pageLocation);
+		return pageLocationSequenceNumber;
+	}
 }

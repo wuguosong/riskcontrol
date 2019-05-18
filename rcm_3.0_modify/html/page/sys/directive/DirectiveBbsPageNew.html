@@ -61,6 +61,13 @@
                ng-click="_submit_message_form_('Y', '', '', '', '', '')">
                 <span class="addlabel blue">发表留言</span>
             </a>
+            <!--表单附件上传start-->
+            <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
+               ng-click="_show_message_attach_popup('Y', '', '', '', '', '')">
+                <span class="addlabel blue">选择附件</span>
+            </a>
+            <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_first.html'"></span>
+            <!--表单附件上传end-->
         </div>
     </div>
     <!--锚点-顶部-->
@@ -102,13 +109,12 @@
                            ng-click="_delete_message_(_message_.messageId, _message_)"
                            ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0 && _is_show_reply_btn_">撤回</a>
                     </div>
-                    <div ng-if="!_attach_file_is_popup_" ng-include="'page/sys/common/message_file.html'"></div>
-                    <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)" data-target=".bs-example-modal-lg">选择附件</a>
-                    <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" ng-include="'page/sys/common/file_info.html'"></span>
+                    <!--展示附件信息-->
+                    <span ng-if="_message_.createdBy == _init_uuid_global_" ng-include="'page/sys/common/file_info_mess.html'"></span>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
                              readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
-                                style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
+                             style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
                 </div>
                 <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
@@ -122,12 +128,11 @@
                            ng-click="_delete_message_(_message_.messageId, _message_)"
                            ng-if="_message_.createdBy == _init_uuid_global_ && _is_show_reply_btn_">撤回</a>
                     </div>
-                    <div ng-if="!_attach_file_is_popup_" ng-include="'page/sys/common/message_file.html'"></div>
-                    <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" style="font-size: small;color: blue;" href="javascript:void(0);" ng-click="_show_message_attach_popup(_message_)" data-target=".bs-example-modal-lg">选择附件</a>
-                    <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_" ng-include="'page/sys/common/file_info.html'"></span>
+                    <!--展示附件信息-->
+                    <span ng-if="_message_.createdBy == _init_uuid_global_" ng-include="'page/sys/common/file_info_mess.html'"></span>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                         <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
-                                style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
+                             style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
                 </div>
             </div>
@@ -172,7 +177,13 @@
                    data-target="#_via_users_mul_dialog">
                     <span class="addlabel blue">@用户</span>
                 </a>-->
-                </cloud-file>
+                <!--表单附件上传start-->
+                <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
+                   ng-click="_show_message_attach_popup('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
+                    <span class="addlabel blue">选择附件</span>
+                </a>
+                <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_form.html'"></span>
+                <!--表单附件上传end-->
             </form>
         </div>
     </div>
@@ -362,34 +373,30 @@
                 <div class="modal-body panel-body">
                     <div class="td-checkbox txl noLeftPadMin">
                         <label class="checkbox-inline">
-                            <input type="checkbox" class="px" name="_is_show_upload_part_" id="_is_show_upload_part_{{_screen_type_}}" ng-model="_is_show_upload_part_" ng-checked="_is_show_upload_part_" ng-click="_show_link_resources_popup()"/>
-                            <span class="lbl">替换相关资源附件</span>
+                            <input type="checkbox" class="px" name="_is_show_upload_part_" ng-model="_is_show_upload_part_" ng-checked="_is_show_upload_part_" ng-click="_show_link_resources_popup()"/>
+                            <span class="lbl">更新相关资源</span>
+                            &nbsp;&nbsp;
+                            <span class="lbl">
+                                <a ng-if="_form_file_.fileid == null && _is_show_reply_btn_"
+                                   style="color: blue;"
+                                   ngf-max-size="1000MB" ngf-select="_message_upload_file_($file, _is_first_mess)"
+                                   href="javascript:void(0);">选择附件
+                                </a>
+                            </span>
                         </label>
                     </div>
-                    <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_" ng-include="'page/sys/common/message_file.html'"></div>
-                </div>
-                <div class="modal-footer">
-                    <div class="button-group">
-                        <div class="row">
-                        </div>
+                    <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_ && _is_first_mess == 'N'" ng-include="'page/sys/common/file_info_form.html'">
+                    </div>
+                    <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_ && _is_first_mess == 'Y'" ng-include="'page/sys/common/file_info_first.html'">
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!--相关资源附件弹窗,该方式直接将要弹出的popup进行引用，缺陷是只读状态，目前弃用了-->
-    <div id="_relation_resources_popup_{{_screen_type_}}" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content panel">
-                <div class="modal-header panel-heading" style="text-align: center;">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="_relation_resources_popup_close_()">×</button>
-                    <h4 class="modal-title" id="_relation_resources_abel_{{_screen_type_}}">相关资源</h4>
-                </div>
-                <div class="modal-body panel-body" id="_relation_resources_popup_body{{_screen_type_}}">
-                </div>
                 <div class="modal-footer">
                     <div class="button-group">
                         <div class="row">
+                            <div class="option">
+                                <a href="javascript:void(0);" ng-click="_save_mess_file_dialog(_is_first_mess,_original_id_mess, _parent_id_mess, _replied_by_mess, _replied_name_mess, _idx_mess);">
+                                    <span class="addlabel blue">确定</span></a>
+                            </div>
                         </div>
                     </div>
                 </div>
