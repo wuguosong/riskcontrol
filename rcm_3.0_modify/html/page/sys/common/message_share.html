@@ -32,7 +32,8 @@
                                     <span>{{_message_.createdDept}}</span>
                                     <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
-                                    <span ng-include="'page/sys/common/message_file.html'"></span>
+                                    <!--展示附件信息-->
+                                    <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                                 </div>
                                 <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                                     <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
@@ -47,7 +48,8 @@
                                     <span>{{_message_.createdDept}}</span>
                                     <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
-                                    <span ng-include="'page/sys/common/message_file.html'"></span>
+                                    <!--展示附件信息-->
+                                    <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                                 </div>
                                 <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                                     <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
