@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.yk.log.annotation.SysLog;
 import com.yk.log.constant.LogConstant;
+import com.yk.message.controller.MessageController;
 
+import common.Constants;
 import common.Result;
 import newInterface.appointment.service.IAppointmentService;
 import util.EncryptUtil;
@@ -34,6 +38,8 @@ import util.Util;
 @RequestMapping("/meetingManage/appointmentAPI")
 @Controller
 public class appointmentController {
+	
+	private Logger logger = LoggerFactory.getLogger(MessageController.class);
 	
 	@Resource
 	private IAppointmentService appointmentService;
@@ -81,7 +87,7 @@ public class appointmentController {
 	
 	
 	/**
-	 * 调用约会系统接口，同步数据过去
+	 * 调用约会系统接口，获取会议类型数据
 	 * */
 	@RequestMapping("/sendData")
 	public String sendData(){
@@ -111,6 +117,7 @@ public class appointmentController {
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
+			logger.error("调用约会系统接口失败！" + e.getMessage());
 	    }finally{
 	      method.releaseConnection();
 	    }

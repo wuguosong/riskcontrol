@@ -16,6 +16,7 @@ import com.yk.log.annotation.SysLog;
 import com.yk.log.constant.LogConstant;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
 
+import common.Constants;
 import common.PageAssistant;
 import common.Result;
 
@@ -171,6 +172,32 @@ public class FormalAssessmentInfoCreateController {
 		String id = request.getParameter("businessId");
 		String needMeeting = request.getParameter("needMeeting");
 		this.formalAssessmentInfoCreateService.saveNeedMeeting(id, needMeeting);
+		return result;
+	}
+	
+	
+	/**
+	 * 获取某类型历史附件
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getHistoryList")
+	@ResponseBody
+	public Result getHistoryList(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		try {
+			List<Map<String, Object>> list = this.formalAssessmentInfoCreateService.getHistoryList(json);
+			result.setResult_code(Constants.S);
+			result.setSuccess(true);
+			result.setResult_data(list);
+		} catch (Exception e) {
+			result.setResult_code(Constants.R);
+			result.setSuccess(false);
+			result.setResult_data(e);
+			e.printStackTrace();
+			result.setResult_name("获取历史附件失败!" + e.getMessage());
+		}
 		return result;
 	}
 }

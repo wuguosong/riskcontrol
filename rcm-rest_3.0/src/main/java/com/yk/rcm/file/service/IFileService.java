@@ -221,12 +221,12 @@ public interface IFileService {
 	MessageBack remindPerson(String message, String shareUsers, String type);
 	
 	/**
-	 * @description 从系统日志中查找该项目的替换原因列表
+	 * @description 查找历史附件
 	 * @param id 业务id
 	 * @return List<String>
 	 * @throws Exception
 	 */
-	List<Map<String, Object>> getReplaceReasonList(String id);
+	List<Map<String, Object>> getAttachHistoryList(String id, String businessType, String pageLocation)  throws Exception;
 
 	List<FileDto> createFileList(String docType, String docCode, String pageLocation)  throws Exception ;
 }

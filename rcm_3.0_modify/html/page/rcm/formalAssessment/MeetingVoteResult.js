@@ -3,6 +3,7 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
 	$scope.oldUrl = $routeParams.url;
 	$scope.initialize = function () {
 		$scope.back();
+        $scope.isShowInfo();
     	$http({
 			method:'post',  
 		    url:srvUrl+"decision/getDecisionResultNew.do",
@@ -44,5 +45,22 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
             }
 		}
     };
+
+	// 判断是否有查看详细结果功能
+	$scope.isShowInfo = function () {
+        var currentUserRoles = $scope.credentials.roles;
+        $scope.showFlag = false;
+        angular.forEach(currentUserRoles, function (data, index, array) {
+            if (data.CODE == '1') { // 风控部门管理员角色
+                $scope.showFlag = true;
+            }
+        });
+	};
+
+	// 弹出结果页面
+	$scope.showResltInfo = function () {
+        $('#submitModal').modal('show');
+	};
+
     $scope.initialize();
 }]);

@@ -70,4 +70,10 @@ public interface IPreInfoCreateService {
 	 * @param json
 	 */
 	public void addConferenceInformation(String json, String method);
+	
+	/**
+	 * 获取历史附件
+	 * @param Json
+	 */
+	List<Map<String, Object>> getHistoryList(String Json) throws Exception;
 }

@@ -86,6 +86,12 @@ public interface IBulletinInfoService {
 	/*public void updateAttachment(String json);*/
 	
 	/**
+	 * 获取历史附件
+	 * @param Json
+	 */
+	List<Map<String, Object>> getHistoryList(String Json) throws Exception;
+	
+	/**
 	 * 根据业务id查询
 	 * @param businessId
 	 */

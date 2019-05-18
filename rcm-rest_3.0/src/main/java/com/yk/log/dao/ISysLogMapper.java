@@ -17,5 +17,5 @@ import org.springframework.stereotype.Repository;
 public interface ISysLogMapper extends BaseMapper {
     void insert(@Param("sysLog")SysLogDto sysLogDto);
 
-	List<Map<String, Object>> getReplaceReasonList(Map<String, Object> params);
+	List<Map<String, Object>> getReplaceFile(Map<String, Object> params);
 }

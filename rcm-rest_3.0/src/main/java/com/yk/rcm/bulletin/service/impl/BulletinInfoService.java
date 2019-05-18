@@ -16,6 +16,7 @@ import org.bson.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.daxt.service.IDaxtService;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -31,6 +32,7 @@ import com.yk.power.service.IUserService;
 import com.yk.rcm.bulletin.dao.IBulletinInfoMapper;
 import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
 import com.yk.rcm.bulletin.service.IBulletinInfoService;
+import com.yk.rcm.file.service.IFileService;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 
 import common.Constants;
@@ -65,6 +67,8 @@ public class BulletinInfoService implements IBulletinInfoService {
 	private IRoleMapper roleMapper;
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
+	@Resource
+    private IFileService fileService;
 	
 	/* (non-Javadoc)
 	 * @see com.yk.bulletin.service.IBulletinInfoService#save(java.lang.String)
@@ -656,6 +660,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 		String oldFileName = (String) doc.get("oldFileName");
 		Document item = (Document) doc.get("item");
 		String fileId = (String) item.get("fileId");
+		String uuid = (String) item.get("uuid");
 		Document type = (Document) item.get("type");
 		//最後提交人信息
 		Document lastUpdateBy = (Document) item.get("lastUpdateBy");
@@ -670,7 +675,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 			Map<String, Object> file = new HashMap<String,Object>();
 			file.put("fileId", fileId);
 			file.put("oldFileName", oldFileName);
-			file.put("type", type);
+			file.put("uuid", uuid);
 			file.put("lastUpdateBy", lastUpdateBy);
 			file.put("lastUpdateData", lastUpdateData);
 			file.put("isMettingAttachment", "0");
@@ -679,7 +684,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 			Map<String, Object> file = new HashMap<String,Object>();
 			file.put("fileId", fileId);
 			file.put("oldFileName", oldFileName);
-			file.put("type", type);
+			file.put("uuid", uuid);
 			file.put("lastUpdateBy", lastUpdateBy);
 			file.put("lastUpdateData", lastUpdateData);
 			file.put("isMettingAttachment", "0");
@@ -715,6 +720,40 @@ public class BulletinInfoService implements IBulletinInfoService {
 		Map<String, Object> data = new HashMap<String,Object>();
 		data.put("attachmentList", attachmentList);
 		baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getHistoryList(String Json) throws Exception {
+		HashMap<String, Object> jsonMap = JSON.parseObject(Json, HashMap.class);
+		String id = jsonMap.get("id").toString();
+		String businessType = jsonMap.get("businessType").toString();
+		String pageLocation = jsonMap.get("pageLocation").toString();
+		String fileType = jsonMap.get("fileType").toString();
+		// 获取mongo存储的附件信息
+        Map<String, Object> queryById = baseMongo.queryById(id, Constants.RCM_BULLETIN_INFO);
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		
+		// 获取云库存储的附件
+		List<Map<String, Object>> couldAttchmentList = fileService.getAttachHistoryList(id, businessType, pageLocation);
+		
+		// 初始化返回List
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		// 筛选符合条件的返回数据
+		for (int i = 0; i < couldAttchmentList.size(); i++){
+			for (int j = 0; j < attachmentList.size(); j++){
+				Map<String, Object> attach = new HashMap<String, Object>();
+				Map<String, Object> type = (Map<String, Object>)attachmentList.get(j).get("type");
+				if (fileType.equals(attachmentList.get(j).get("uuid").toString()) && couldAttchmentList.get(i).get("FILEID").toString().equals(attachmentList.get(j).get("fileId").toString())){
+					attach = couldAttchmentList.get(i);
+					attach.put("fileName", attachmentList.get(j).get("oldFileName"));
+					list.add(attach);
+					break;
+				}
+			}
+		}
+		
+		return list;
 	}
 
 	/*@SuppressWarnings("unchecked")

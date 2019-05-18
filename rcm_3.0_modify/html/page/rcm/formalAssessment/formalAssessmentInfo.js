@@ -144,7 +144,7 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
             }
             hide_Mask();
         });
-    }
+    };
 
     // 给申报单位变量赋值
     var ztree1, setting1 = {

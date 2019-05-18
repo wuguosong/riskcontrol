@@ -3168,6 +3168,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                             url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
                         } else {
                             url = "bulletinInfo/addAttachmengInfoToMongo.do";
+                            _item.uuid = _generateUUID();
                         }
                         /*_item.fileId = _fileList[_fileList.length-1].fileid + "";*/
                         _item.fileId = _fileList[0].fileid + "";
@@ -3217,132 +3218,68 @@ ctmApp.directive('directiveAccachmentNew', function() {
                     }
                 }).then(function (resp) {
 
-                   /* var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;*/
+                    /* var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;*/
                     if (resp.data.result_code == 'S'){
                         var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
 
                         var addUrl = '';
-                        var delUrl = '';
                         // 判断文件路径
                         if ($scope.businessType == 'preReview') {
                             addUrl = "preInfoCreate/addAttachmengInfoToMongo.do";
-                            delUrl = "preInfoCreate/deleteAttachmengInfoInMongo.do";
                         } else if ($scope.businessType == 'formalReview') {
                             addUrl = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
-                            delUrl = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
                         } else {
+                            debugger
                             addUrl = "bulletinInfo/addAttachmengInfoToMongo.do";
-                            delUrl = "bulletinInfo/deleteAttachmengInfoInMongo.do";
                         }
+                        /* _item.fileId = _fileList[_fileList.length-1].fileid + "";*/
+                        _item.fileId = _fileList[0].fileid + "";
+                        _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
+                        _item.lastUpdateData = $scope.getDate();
+                        _item.fileName = _file.name;
+
                         $http({
                             method:'post',
-                            url:srvUrl + delUrl,
-                            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":_item.fileid})})
+                            url:srvUrl + addUrl,
+                            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
                         }).success(function(data){
-                            _item.fileId = _fileList[_fileList.length-1].fileid + "";
-                            _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
-                            _item.lastUpdateData = $scope.getDate();
-                            _item.fileName = _file.name;
-
-                            $http({
-                                method:'post',
-                                url:srvUrl + addUrl,
-                                data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                            }).success(function(data){
-                                hide_Mask();
-                                alert(data.result_name);
-                                $scope.initUpdate({'id': $scope.businessId});
-                                if(data.success){
-                                    if (!isEmpty($scope.toSend)){
-                                        var message = $scope.projectName + "中类型为" + _item.type.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
-                                        $http({
-                                            method: 'post',
-                                            url: srvUrl + 'cloud/remind.do',
-                                            data: $.param({
-                                                'message': message,
-                                                'shareUsers': $scope.toSend.VALUE,
-                                                'type':'DT'
-                                            }),
-                                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                        }).success(function (data) {
-                                            if(isEmpty(data)){
-                                                $.alert('推送消息失败!');
+                            hide_Mask();
+                            alert(data.result_name);
+                            $scope.initUpdate({'id': $scope.businessId});
+                            if(data.success){
+                                if (!isEmpty($scope.toSend)){
+                                    var message = $scope.projectName + "中类型为" + _item.type.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
+                                    $http({
+                                        method: 'post',
+                                        url: srvUrl + 'cloud/remind.do',
+                                        data: $.param({
+                                            'message': message,
+                                            'shareUsers': $scope.toSend.VALUE,
+                                            'type':'DT'
+                                        }),
+                                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                    }).success(function (data) {
+                                        if(isEmpty(data)){
+                                            $.alert('推送消息失败!');
+                                        }else{
+                                            /*if(data['result_code'] == 'S'){
+                                                $.alert(data['result_name']);
+                                                // $scope._share_message_result_test_(data['result_data']);
                                             }else{
-                                                /*if(data['result_code'] == 'S'){
-                                                    $.alert(data['result_name']);
-                                                    // $scope._share_message_result_test_(data['result_data']);
-                                                }else{
-                                                    $.alert(data['result_name']);
-                                                }*/
-                                            }
-                                        });
-                                    }
-
-                                }else{
-                                    $.alert(data.result_name);
+                                                $.alert(data['result_name']);
+                                            }*/
+                                        }
+                                    });
                                 }
-                            });
+
+                            }else{
+                                $.alert(data.result_name);
+                            }
                         });
                     } else {
                         hide_Mask();
                         alert("上传失败，请联系管理员！");
                     }
-
-                    /*var url = '';
-                    // 判断文件路径
-                    if ($scope.businessType == 'preReview') {
-                        url = "preInfoCreate/addAttachmengInfoToMongo.do";
-                    } else if ($scope.businessType == 'formalReview') {
-                        url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
-                    } else {
-                        url = "bulletinInfo/addAttachmengInfoToMongo.do";
-                    }
-                    _item.fileId = _fileList[_fileList.length-1].fileid + "";
-                    _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
-                    _item.lastUpdateData = $scope.getDate();
-                    if (_item.fileNamSuffix != null && _item.fileNamSuffix != undefined) {
-                        _item.fileName = _item.fileName + "_" + _item.fileNamSuffix;
-                    }
-                    $http({
-                        method:'post',
-                        url:srvUrl + url,
-                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                    }).success(function(data){
-                        alert(data.result_name);
-                        if(data.success){
-                            if (!isEmpty($scope.toSend)){
-                                var message = $scope.projectName + "中类型为" + _item.itemType.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
-                                $http({
-                                    method: 'post',
-                                    url: srvUrl + 'cloud/remind.do',
-                                    data: $.param({
-                                        'message': message,
-                                        'shareUsers': $scope.toSend.VALUE,
-                                        'type':'DT'
-                                    }),
-                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                }).success(function (data) {
-                                    if(isEmpty(data)){
-                                        $.alert('推送消息失败!');
-                                    }else{
-                                        if(data['result_code'] == 'S'){
-                                            $scope._share_message_id_ = '';
-                                            $scope._clear_share_users_();
-                                            $('#_share_message_dialog').modal('hide');
-                                            $.alert(data['result_name']);
-                                            // $scope._share_message_result_test_(data['result_data']);
-                                        }else{
-                                            $.alert(data['result_name']);
-                                        }
-                                    }
-                                });
-                            }
-                            $scope.initUpdate({'id': $scope.businessId});
-
-                        }else{
-                            $.alert(data.result_name);
-                        }
-                    });*/
                 }, function (resp) {
 
                 }, function (evt) {
@@ -3351,10 +3288,43 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 });
             };
 
+            // 弹出替换原因
             $scope.showModel = function () {
                 $scope.isShow = true;
             };
 
+            // 弹出查看历史附件弹框
+            $scope.showHistory = function (fileType, uuid){
+                var url = '';
+                if ($scope.businessType == 'preReview') {
+                    url = "preInfoCreate/getHistoryList.do";
+                } else if ($scope.businessType == 'formalReview') {
+                    url = "formalAssessmentInfoCreate/getHistoryList.do";
+                } else {
+                    url = "bulletinInfo/getHistoryList.do";
+                    fileType = uuid;
+                }
+                $http({
+                    method:'post',
+                    url:srvUrl+url,
+                    data: $.param({"json":JSON.stringify({"id":$scope.businessId, "fileType": fileType, "businessType": $scope.businessType, "pageLocation": $scope.pageLocation})})
+                }).success(function(result){
+                    if (result.result_code == 'S'){
+                        if (isEmpty(result.result_data)){
+                            alert("此类型文档暂无历史附件");
+                        } else {
+                            $scope.attachHistoryList = result.result_data;
+                            $('#showHistoryList').modal('show');
+                        }
+                    } else {
+                        alert(result.result_name);
+                    }
+
+                });
+
+            };
+
+            // 关闭弹框
             $scope.cancel = function () {
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
@@ -3399,11 +3369,6 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 });
             };
 
-            /*// 切换资源类型时修改附件名称逻辑
-            $scope._changeItemType = function (item) {
-                item.fileName = item.type.ITEM_NAME;
-            };*/
-
             // 选择上会文件
             $scope._changeChoose = function (index, fileId) {
                 if ($scope.businessType == 'preReview') {
@@ -3434,6 +3399,18 @@ ctmApp.directive('directiveAccachmentNew', function() {
                     }
                 });
             }
+        }
+    };
+});
+// 历史附件
+ctmApp.directive('directiveAttachHistoryList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directiveAttachHistoryList.html',
+        replace: true,
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element){
         }
     };
 });

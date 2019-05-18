@@ -138,4 +138,14 @@ public interface IDecisionService {
 	public void addDecisionOpinionNew(String formalId, String formalType, String aagreeOrDisagree, String zhuxiStatus);
 
 	public Map<String, Object> getDecisionResultNew(String id);
+	
+
+	/**
+	 * 获取投票结果详情
+	 * 
+	 * @param id
+	 * @return Map
+	 */
+	public Map<String, Object> getDecisionResultInfo(String id);
+	
 }

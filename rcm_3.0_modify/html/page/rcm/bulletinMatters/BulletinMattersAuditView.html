@@ -309,7 +309,7 @@
 					<!-- 					<a class="btn btn-info" href="#/BulletinMattersAudit"><i class="fa fa-reply"></i>返回</a> -->
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
 					<!--<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
-					<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+					<!--<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>-->
 					<a ng-if="showSubmit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
 					   ng-click="submitNext()">提交</a>
 					<!--<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">

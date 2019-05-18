@@ -321,4 +321,20 @@ public class DecisionController {
 		result.setResult_data(decisions);
 		return result;
 	}
+	
+	/**
+	 * 获取投票详情
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/getDecisionResultInfo")
+	@ResponseBody
+	public Result getDecisionResultInfo(String id) {
+		Result result = new Result();
+		Map<String, Object> resultData = decisionService.getDecisionResultInfo(id);
+		result.setResult_data(resultData);
+		return result;
+	}
+	
 }

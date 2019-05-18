@@ -272,7 +272,7 @@ public class FileService implements IFileService {
         return logDto;
     }
     
-    public void saveSysLog(String businessId, String reason, String success, String ip, String oldFileName) {
+    public void saveSysLog(String businessId, String reason, String success, String ip, String oldFileId) {
     	SysLogDto sysLogDto = new SysLogDto();
 		sysLogDto.setUser(UserUtil.getCurrentUserUuid());
 		sysLogDto.setUserName(UserUtil.getCurrentUser().getName());
@@ -280,7 +280,7 @@ public class FileService implements IFileService {
 		sysLogDto.setOperation(LogConstant.REPLACE);
 		sysLogDto.setCode(businessId);
 		sysLogDto.setDescription(reason);
-		sysLogDto.setParams(oldFileName);
+		sysLogDto.setParams(oldFileId);
 		sysLogDto.setCreateDate(DateUtil.getCurrentDate());
 		sysLogDto.setMethod("com.yk.rcm.file.controller.YunkuController.replace()");
 		if(success.equals("S")){
@@ -328,15 +328,32 @@ public class FileService implements IFileService {
   
         return messageBack;
     }
-
+	
 	@Override
-	public List<Map<String, Object>> getReplaceReasonList(String id) {
+	public List<Map<String, Object>> getAttachHistoryList(String id, String businessType, String pageLocation) throws Exception {
 		Map<String,Object> params = new HashMap<String, Object>();
-		params.put("businessID", id);
+		params.put("id", id);
 		params.put("module", LogConstant.MODULE_ATTACHMENT);
 		params.put("operation", LogConstant.REPLACE);
-		List<Map<String, Object>> resultData = sysLogService.getReplaceReasonList(params);
-		return resultData;
+		params.put("businessType", businessType);
+		params.put("pageLocation", pageLocation);
+		List<Map<String, Object>> list = sysLogService.getReplaceFile(params);
+		
+		for (Map<String, Object> fileInfo : list) {
+			String fullPath = fileInfo.get("FULLPATH").toString().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
+            LinkDto download = this.fileDownloadLink(fullPath);
+            if (download != null) {
+            	fileInfo.put("DOWNLOAD3D", download.getLink());
+            	fileInfo.put("DOWNLOADQR3D", download.getQr_url());
+            }
+            LinkDto preview = this.filePreviewLink(fullPath);
+            if (preview != null) {
+            	fileInfo.put("DOWNLOAD3D", download.getLink());
+            	fileInfo.put("DOWNLOADQR3D", download.getQr_url());
+            }
+        }
+		
+		return list;
 	}
 
     @Override

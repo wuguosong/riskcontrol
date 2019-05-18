@@ -321,6 +321,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
                         $scope.newAttachment[j].fileName = file.oldFileName;
                         $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
                         $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                        $scope.newAttachment[j].uuid = file.uuid;
                         break;
                     }
                 }

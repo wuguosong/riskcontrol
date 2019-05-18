@@ -244,6 +244,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
                      $scope.newAttachment[j].fileName = file.oldFileName;
                      $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
                      $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                     $scope.newAttachment[j].uuid = file.uuid;
                      break;
                  }
              }
@@ -694,6 +695,7 @@ ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$loca
                      $scope.newAttachment[j].fileName = file.oldFileName;
                      $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
                      $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                     $scope.newAttachment[j].uuid = file.uuid;
                      break;
                  }
              }

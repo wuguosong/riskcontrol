@@ -4,11 +4,33 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
         var routeParams = $routeParams.id.split("_");
         $scope.flag = $routeParams.flag;
         var queryParamId = routeParams[0];
+        $scope.businessid = routeParams[0];
         $scope.tabIndex = routeParams[1];
         $scope.initDefaultData = function(){
-            $scope.initData();
+            $scope.WF_STATE = '2';
+            $scope.initUpdate();
         };
-        $scope.initData = function(){
+
+
+        //处理附件列表
+        $scope.reduceAttachment = function(attachment, id){
+            $scope.newAttachment = attach_list("bulletin", id, "BulletinMattersDetail").result_data;
+            for(var i in attachment){
+                var file = attachment[i];
+                console.log(file);
+                for (var j in $scope.newAttachment){
+                    if (file.fileId == $scope.newAttachment[j].fileid){
+                        $scope.newAttachment[j].fileName = file.oldFileName;
+                        $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                        $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                        $scope.newAttachment[j].uuid = file.uuid;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.initUpdate = function(){
             var url = srvUrl + "bulletinReview/queryViewDefaultInfo.do";
             $http({
                 method:'post',
@@ -18,6 +40,8 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
                 var data = result.result_data;
                 $scope.bulletinOracle = data.bulletinOracle;
                 $scope.bulletin = data.bulletinMongo;
+                // 处理附件
+                $scope.reduceAttachment(data.bulletinMongo.attachmentList, queryParamId);
             });
         };
         $scope.save = function(){

@@ -266,24 +266,9 @@ public class YunkuController {
         }
         
         // 保存系统日志
-        fileService.saveSysLog(docCode, reason, result.getResult_code(), IPUtils.getIpAddr(request), oldFileName);
+        fileService.saveSysLog(docCode, reason, result.getResult_code(), IPUtils.getIpAddr(request), oldFileId);
         
         return result;
-    }
-    
-    /**
-     * @param request      HttpServletRequest
-     * @param id      业务ID
-     * @return Result
-     * @description 文件替换原因列表
-     */
-    @RequestMapping("/getReplaceReasonList")
-    @ResponseBody
-    public Result getReplaceReasonList(HttpServletRequest request, String id) {
-    	Result result = new Result();
-		List<Map<String, Object>> queryList = this.fileService.getReplaceReasonList(id);
-		result.setResult_data(queryList);
-		return result;        
     }
 
     /**

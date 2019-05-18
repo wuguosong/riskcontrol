@@ -24,7 +24,7 @@ public class SysLogService implements ISysLogService{
         sysLogMapper.insert(sysLogDto);
     }
 	@Override
-	public List<Map<String, Object>> getReplaceReasonList(Map<String, Object> params) {
-		return sysLogMapper.getReplaceReasonList(params);
+	public List<Map<String, Object>> getReplaceFile(Map<String, Object> params) {
+		return sysLogMapper.getReplaceFile(params);
 	}
 }

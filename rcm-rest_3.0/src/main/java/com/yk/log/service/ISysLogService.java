@@ -15,5 +15,5 @@ public interface ISysLogService{
     /**
      * 查询文件替换日志
      * */
-    List<Map<String, Object>> getReplaceReasonList(Map<String, Object> params);
+    List<Map<String, Object>> getReplaceFile(Map<String, Object> params);
 }

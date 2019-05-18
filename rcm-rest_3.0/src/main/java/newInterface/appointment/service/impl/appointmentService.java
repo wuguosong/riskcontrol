@@ -31,21 +31,4 @@ public class appointmentService implements IAppointmentService {
 		this.appointmentMapper.insertMeeting(jsonMap);
 	}
 	
-	@SuppressWarnings("unused")
-	private Map<String, Object> packageDataForOracle(Document doc){
-		Map<String, Object> data = new HashMap<String, Object>();
-		
-		data.put("AppointmentMeeTingId", data.get("AppointmentMeeTingId"));
-		data.put("TypeCode", data.get("TypeCode"));
-		data.put("MeeTingTheme", data.get("MeeTingTheme"));
-		data.put("MeeTingContent", data.get("MeeTingContent"));
-		data.put("Chairman", data.get("Chairman"));
-		data.put("CommitteeMember", data.get("CommitteeMember"));
-		data.put("MeeTingBeginTime", data.get("MeeTingBeginTime"));
-		data.put("MeeTingEndTime", data.get("MeeTingEndTime"));
-		data.put("flag", "0");
-		
-		return data;
-	}
-	
 }

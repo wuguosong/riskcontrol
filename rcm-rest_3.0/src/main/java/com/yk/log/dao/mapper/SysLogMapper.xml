@@ -37,9 +37,30 @@
 		)
 	</insert>
 	
-	<select id="getReplaceReasonList" parameterType="map" resultType="hashmap">
-	   select SL."user_name",SL."code",SL."description",SL."create_date",DBMS_LOB.substr(SL."params") "params" from  sys_log SL
-	   where SL."module" = #{module,jdbcType=DATE} AND SL."operation" = #{operation,jdbcType=DATE} and SL."code" = #{businessID,jdbcType=DATE} 
-	   order by SL."create_date" desc
+	<select id="getReplaceFile" parameterType="map" resultType="hashmap">
+SELECT SL."user_name",
+	     SL."description",
+	     SL."create_date",
+	     DBMS_LOB.substr(SL."params") "params", 
+	     FD.FILENAME,
+		 FD.FULLPATH,
+		 FD.LAST_MEMBER_NAME,
+		 FD.FILEID,
+		 FD.DOCTYPE,
+		 FD.DOCCODE,
+		 FD.PAGELOCATION,
+		 FD.LOGICOPT
+  FROM SYS_LOG SL, FILE_DTO FD
+ WHERE DBMS_LOB.substr(SL."params") = FD.FILEID
+   AND SL."module" = #{module} 
+   AND SL."operation" = #{operation} 
+   AND SL."code" = #{id} 
+   <if test="businessType != null and businessType != ''">
+		AND FD.docType = #{businessType}
+	</if>
+	<if test="pageLocation != null and pageLocation != ''">
+		AND FD.pageLocation = #{pageLocation}
+	</if>
+ORDER BY SL."create_date" DESC
 	</select>
 </mapper>

@@ -3,6 +3,7 @@
  */
 package com.yk.rcm.bulletin.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import util.ThreadLocalUtil;
 
 import com.yk.rcm.bulletin.service.IBulletinInfoService;
+
+import common.Constants;
 import common.PageAssistant;
 import common.Result;
 
@@ -183,6 +186,30 @@ public class BulletinInfoController {
 		String json = request.getParameter("json");
 		this.bulletinInfoService.deleteAttachment(json);
 		
+		return result;
+	}
+	/**
+	 * 获取某类型历史附件
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getHistoryList")
+	@ResponseBody
+	public Result getHistoryList(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		try {
+			List<Map<String, Object>> list = this.bulletinInfoService.getHistoryList(json);
+			result.setResult_code(Constants.S);
+			result.setSuccess(true);
+			result.setResult_data(list);
+		} catch (Exception e) {
+			result.setResult_code(Constants.R);
+			result.setSuccess(false);
+			result.setResult_data(e);
+			e.printStackTrace();
+			result.setResult_name("获取历史附件失败!" + e.getMessage());
+		}
 		return result;
 	}
 //=============================================会议纪要==============================================================

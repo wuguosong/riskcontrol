@@ -18,6 +18,7 @@ import util.ThreadLocalUtil;
 import util.UserUtil;
 import util.Util;
 
+import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.log.constant.LogConstant;
@@ -25,6 +26,7 @@ import com.yk.log.entity.SysLogDto;
 import com.yk.log.utils.IPUtils;
 import com.yk.power.dao.IRoleMapper;
 import com.yk.power.service.IOrgService;
+import com.yk.rcm.file.service.IFileService;
 import com.yk.rcm.newPre.dao.IPreInfoCreateMapper;
 import com.yk.rcm.newPre.service.IPreInfoCreateService;
 
@@ -46,6 +48,8 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 	private IBaseMongo baseMongo;
 	@Resource
 	private IOrgService orgService;
+	@Resource
+    private IFileService fileService;
 	
 	@Override
 	public String createProject(String json) {
@@ -459,5 +463,39 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		Map<String, Object> data = new HashMap<String,Object>();
 		data.put("meetingInfo", meetingInfo);
 		baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_PRE_INFO);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getHistoryList(String Json) throws Exception {
+		HashMap<String, Object> jsonMap = JSON.parseObject(Json, HashMap.class);
+		String id = jsonMap.get("id").toString();
+		String businessType = jsonMap.get("businessType").toString();
+		String pageLocation = jsonMap.get("pageLocation").toString();
+		String fileType = jsonMap.get("fileType").toString();
+		// 获取mongo存储的附件信息
+        Map<String, Object> queryById = baseMongo.queryById(id, Constants.RCM_PRE_INFO);
+		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
+		
+		// 获取云库存储的附件
+		List<Map<String, Object>> couldAttchmentList = fileService.getAttachHistoryList(id, businessType, pageLocation);
+		
+		// 初始化返回List
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		// 筛选符合条件的返回数据
+		for (int i = 0; i < couldAttchmentList.size(); i++){
+			for (int j = 0; j < attachmentList.size(); j++){
+				Map<String, Object> attach = new HashMap<String, Object>();
+				Map<String, Object> type = (Map<String, Object>)attachmentList.get(j).get("type");
+				if (fileType.equals(type.get("ITEM_CODE")) && couldAttchmentList.get(i).get("FILEID").toString().equals(attachmentList.get(j).get("fileId").toString())){
+					attach = couldAttchmentList.get(i);
+					attach.put("fileName", attachmentList.get(j).get("fileName"));
+					list.add(attach);
+					break;
+				}
+			}
+		}
+		
+		return list;
 	}
 }

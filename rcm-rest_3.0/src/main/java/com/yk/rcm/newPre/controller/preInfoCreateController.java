@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yk.rcm.newPre.service.IPreInfoCreateService;
 
 import util.ThreadLocalUtil;
-
+import common.Constants;
 import common.PageAssistant;
 import common.Result;
 
@@ -131,6 +131,31 @@ public class preInfoCreateController {
 		String json = request.getParameter("information");
 		String method = request.getParameter("method");
 		this.preInfoCreateService.addConferenceInformation(json, method);
+		return result;
+	}
+	
+	/**
+	 * 获取某类型历史附件
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getHistoryList")
+	@ResponseBody
+	public Result getHistoryList(HttpServletRequest request){
+		Result result = new Result();
+		String json = request.getParameter("json");
+		try {
+			List<Map<String, Object>> list = this.preInfoCreateService.getHistoryList(json);
+			result.setResult_code(Constants.S);
+			result.setSuccess(true);
+			result.setResult_data(list);
+		} catch (Exception e) {
+			result.setResult_code(Constants.R);
+			result.setSuccess(false);
+			result.setResult_data(e);
+			e.printStackTrace();
+			result.setResult_name("获取历史附件失败!" + e.getMessage());
+		}
 		return result;
 	}
 }

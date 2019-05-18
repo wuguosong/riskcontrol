@@ -5,9 +5,9 @@ html,body,#content-wrapper{
     height: calc(100% - 60px);
 }
 
-.ng-scope {
+/*.ng-scope {
     height: 100%;
-}
+}*/
 
 #main-wrapper{
     overflow-y: auto!important;
