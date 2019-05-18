@@ -1980,7 +1980,7 @@ td btn-scale:first-child {
 }
 
 .lltable {
-    width: 75%;
+    width: 73%;
     overflow-x: auto;
     float: left;
 }
@@ -1993,7 +1993,7 @@ td btn-scale:first-child {
 }
 
 .fixtable .lefttable {
-    width: 25%;
+    width: 27%;
     float: left;
     position: absolute;
     top: -1px;

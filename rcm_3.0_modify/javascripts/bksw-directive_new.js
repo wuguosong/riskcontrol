@@ -5969,6 +5969,38 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                 $scope.paginationConf.itemsPerPage = 5;
                 $http({
                     method:'post',
+                    url: srvUrl + "fillMaterials/querySubmitList.do",
+                    data: $.param({
+                        "page":JSON.stringify($scope.paginationConf),
+                        "json":JSON.stringify($scope.paginationConf.queryObj)
+                    })
+                }).success(function(result){
+                    $scope.submitList = result.result_data.list;
+                });
+            };
+
+            $scope.initData();
+
+        }
+    }
+}]);
+ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
+    return {
+        restrict: 'AE',
+        templateUrl: 'page/sys/directive/directUnFillMaterialPage.html',
+        replace: 'true',
+        controller: function ($scope, $location, $http) {
+
+            // $scope.paginationConf
+
+            $scope.initData = function () {
+                if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
+                    $scope.paginationConf.queryObj = {};
+                }
+                $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
+                $scope.paginationConf.itemsPerPage = 5;
+                $http({
+                    method:'post',
                     url: srvUrl + "fillMaterials/queryNoSubmitList.do",
                     data: $.param({
                         "page":JSON.stringify($scope.paginationConf),
