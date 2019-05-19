@@ -6,7 +6,9 @@
             </div>
             <div id="messageComments" class="panel-group">
                 <div class="_message">
-                    <div ng-repeat="_messages_ in _messages_array_" ng-if="message.messageId == _messages_array_[$index][0].messageId"
+                    <!--去掉同一主题才能看见的限制-->
+                    <!--<div ng-repeat="_messages_ in _messages_array_" ng-if="message.messageId == _messages_array_[$index][0].messageId"-->
+                    <div ng-repeat="_messages_ in _messages_array_"
                      id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
                     <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
                         <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
@@ -30,7 +32,8 @@
                                     <span>{{_message_.createdDept}}</span>
                                     <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
-                                    <span ng-include="'page/sys/common/message_file.html'"></span>
+                                    <!--展示附件信息-->
+                                    <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                                 </div>
                                 <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                                     <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
@@ -45,7 +48,8 @@
                                     <span>{{_message_.createdDept}}</span>
                                     <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
-                                    <span ng-include="'page/sys/common/message_file.html'"></span>
+                                    <!--展示附件信息-->
+                                    <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                                 </div>
                                 <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                                     <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span

@@ -162,7 +162,7 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
         };
         $scope._message_preview_file_ = function(_url_){
             if(!isEmpty(_url_)){
-                $window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+                $window.open(_url_);
             }
         };
     }]);

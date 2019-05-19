@@ -390,4 +390,44 @@
             where lg.businessid = #{id}
         </if>
     </select>
+    <resultMap id="fileDtoMap" type="com.goukuai.dto.FileDto">
+        <id column="fileid" property="fileid" javaType="java.lang.Long" />
+        <result column="hash" property="hash" javaType="java.lang.String" />
+        <result column="dir" property="dir" javaType="java.lang.Integer" />
+        <result column="fullpath" property="fullpath" javaType="java.lang.String" />
+        <result column="filename" property="filename" javaType="java.lang.String" />
+        <result column="filehash" property="filehash" javaType="java.lang.String" />
+        <result column="filesize" property="filesize" javaType="java.lang.Long" />
+        <result column="create_member_name" property="create_member_name" javaType="java.lang.String" />
+        <result column="create_dateline" property="create_dateline" javaType="java.lang.Long" />
+        <result column="last_member_name" property="last_member_name" javaType="java.lang.String" />
+        <result column="last_dateline" property="last_dateline" javaType="java.lang.Long" />
+        <result column="property" property="property" javaType="java.lang.String" />
+        <result column="uploadserver" property="uploadserver" javaType="java.lang.String" />
+        <result column="uri" property="uri" javaType="java.lang.String" />
+        <result column="preview" property="preview" javaType="java.lang.String" />
+        <result column="thumbnail" property="thumbnail" javaType="java.lang.String" />
+        <result column="tag" property="tag" javaType="java.lang.String" />
+        <result column="doctype" property="doctype" javaType="java.lang.String" />
+        <result column="doccode" property="doccode" javaType="java.lang.String" />
+        <result column="rcmfilename" property="rcmfilename" javaType="java.lang.String" />
+        <result column="preview3d" property="preview3d" javaType="java.lang.String" />
+        <result column="download3d" property="download3d" javaType="java.lang.String" />
+        <result column="previeqr3d" property="previeqr3d" javaType="java.lang.String" />
+        <result column="downloadqr3d" property="downloadqr3d" javaType="java.lang.String" />
+        <result column="pagelocation" property="pagelocation" javaType="java.lang.String" />
+        <result column="logicopt" property="logicopt" javaType="java.lang.String" />
+    </resultMap>
+    <select id="selectPageLocationSequenceNumber" resultMap="fileDtoMap" parameterType="map">
+        select
+        f.*
+        from file_dto f
+        where
+        1 = 1
+        and f.doctype = #{docType}
+        and f.doccode = #{docCode}
+        and instr(f.pagelocation, #{tempUuid}) > 0
+        order by
+        f.fileid desc
+    </select>
 </mapper>

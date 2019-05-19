@@ -1,5 +1,6 @@
 package com.yk.message.dao;
 
+import com.goukuai.dto.FileDto;
 import com.yk.common.BaseMapper;
 import com.yk.message.entity.Message;
 import org.apache.ibatis.annotations.Param;
@@ -81,4 +82,11 @@ public interface IMessageMapper extends BaseMapper {
     List<HashMap<String, Object>> selectUserAbout(@Param("uuid") String uuid);
 
     List<Map<String, Object>> selectProjectByTypeAndId(@Param("type") String type, @Param("id") String id);
+
+    /**
+     * 查询留言过程附件的位置序列号
+     * @param params 查询条件
+     * @return List<FileDto> 文件实体列表
+     */
+    List<FileDto> selectPageLocationSequenceNumber(Map<String, Object> params);
 }

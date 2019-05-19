@@ -1242,3 +1242,42 @@ function _generateUUID() {
     });
     return uuid;
 }
+
+/**
+ * 获取附件文件位置序列号
+ * @param docType 附件类型
+ * @param docCode 附件业务ID
+ * @param tmpUuid 用户uuid
+ * @returns {*}
+ */
+function get_pageLocation_sequence_number(docType, docCode, pageLocation) {
+    var url = srvUrl + "message/getPageLocationSequenceNumber.do";
+    var result = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"docType": docType, 'docCode': docCode, 'pageLocation': pageLocation},
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+}
+/**
+ * 判断json对象是否为空
+ * @param _json
+ * @returns {boolean}
+ */
+function isEmptyJson(_json) {
+    if (typeof _json == "object") {
+        var _i = 0;
+        for(var _attr in _json){
+            console.log(_attr);
+            _i ++;
+        }
+        return _i == 0;
+    }
+    return true;
+}

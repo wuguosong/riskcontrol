@@ -161,4 +161,13 @@ public interface IMessageService {
      * @param message
      */
     void shareMessageToSameSubject(Message message);
+
+    /**
+     * 获取过程附件的位置序列号
+     * @param docType 附件类型
+     * @param docCode 附件业务ID
+     * @param tempUuid 临时UUID，这里用创建人的UUID
+     * @return 序列号
+     */
+    int getPageLocationSequenceNumber(String docType, String docCode, String tempUuid);
 }

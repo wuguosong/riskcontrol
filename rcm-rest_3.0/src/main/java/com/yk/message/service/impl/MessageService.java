@@ -570,8 +570,25 @@ public class MessageService implements IMessageService {
             }
             if (StringUtils.isNotBlank(users)) {
                 System.out.println(users);
-                this.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), users, MessageClient._DT);
+                // this.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), users, MessageClient._DT);
             }
+        }
+    }
+
+    @Override
+    public int getPageLocationSequenceNumber(String docType, String docCode, String tempUuid) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("docType", docType);
+        params.put("docCode", docCode);
+        params.put("tempUuid", tempUuid);
+        List<FileDto> list = messageMapper.selectPageLocationSequenceNumber(params);
+        if(CollectionUtils.isEmpty(list)){
+            return 0;
+        }else{
+            FileDto maxFileDto = list.get(0);
+            String pageLocation = maxFileDto.getPagelocation();
+            String sequence = pageLocation.split("_")[1];
+            return new Integer(sequence) + 1;
         }
     }
 }
