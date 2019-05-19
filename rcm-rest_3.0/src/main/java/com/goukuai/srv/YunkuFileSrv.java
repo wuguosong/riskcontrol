@@ -1,5 +1,6 @@
 package com.goukuai.srv;
 
+import java.io.File;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +75,21 @@ public class YunkuFileSrv {
             // 每次下载完成后,再查询一遍,获取文件更多的信息 TODO 或者有其它更好的操作建议
             fileDto = this.getFileInfo(fullPath);
             if (fileDto != null) {
-                fileDto.setUploadserver(file.uploadServer);
+                fileDto.setUploadserver(localFile);// 保存rcm服务器文件路径
                 fileDto.setHash(file.hash);
                 fileDto.setFilehash(file.fileHash);
+                // 设置原始文件名
+                String rcmFileName = null;
+                int index = fullPath.lastIndexOf("\\");
+                if(index > 0){
+                    rcmFileName = fullPath.substring(index + 1, fullPath.length());
+                }else{
+                    index = fullPath.lastIndexOf("/");
+                    if(index > 0){
+                        rcmFileName = fullPath.substring(index + 1, fullPath.length());
+                    }
+                }
+                fileDto.setRcmfilename(rcmFileName);
                 if(StringUtils.isNotBlank(file.filename)){
                     fileDto.setFilename(file.filename.replace("\\", "").replace("/", ""));
                 }
@@ -93,6 +106,15 @@ public class YunkuFileSrv {
             ReturnResult result = e.getReturnResult();
             if (result != null) {
                 this.parseError(result);
+            }
+        }finally {
+            try{
+                File local = new File(localFile);
+                if(local.exists()){
+                    local.delete();
+                }
+            }catch (Exception e){
+                LoggerFactory.getLogger(YunkuFileSrv.class).error(e.getMessage());
             }
         }
         return fileDto;
