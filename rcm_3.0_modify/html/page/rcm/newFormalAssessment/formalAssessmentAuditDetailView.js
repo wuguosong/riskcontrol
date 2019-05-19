@@ -637,7 +637,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 //        });
 //    }
 
-     $scope.getReplaceReasonsList = function(businessId){
+    /* $scope.getReplaceReasonsList = function(businessId){
          var  url = 'cloud/getReplaceReasonList.do';
          $http({
              method:'post',
@@ -646,7 +646,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
          }).success(function(result){
          	$scope.replaceReasons = result.result_data;
          });
-	 };
+	 };*/
 
 	//固定小组成员选人指令提供参数
 	$scope.queryParams = {code:"4"};
@@ -1563,8 +1563,8 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			}
 			hide_Mask();
 		});
-        // 查询文件变更记录
-        $scope.getReplaceReasonsList($scope.businessId);
+        /*// 查询文件变更记录
+        $scope.getReplaceReasonsList($scope.businessId);*/
 	}
 	$scope.changDate=function(values){
 		var date = new Date();
