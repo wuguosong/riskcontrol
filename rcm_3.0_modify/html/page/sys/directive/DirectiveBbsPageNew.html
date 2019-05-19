@@ -7,7 +7,7 @@
         }
     </style>
     <a ng-if="_messages_array_.length  > 0" href="javascript:void(0);" id="_first_floor_{{_screen_type_}}"></a>
-    <div ng-if="_page_title_ != ''" style="text-align: center;font-size: larger;font-weight: bolder;">{{_page_title_}}</div>
+    <div ng-if="_page_title_ != ''" style="text-align: center;font-size: larger;font-weight: bolder;">{{_page_title_}}</div><!--留言主题-->
     <div ng-if="_is_show_publish_btn_">
         <!--头部留言表单部分-->
         <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
@@ -31,7 +31,7 @@
                     </span>
                 </label>
             </div>
-            <div>
+            <div><!--留言内容-->
                 <div style="font-weight: bolder;">内容：</div>
                 <div contenteditable="true" class="form-control" style="background: #fff;min-height: 80px;" id="_message_first_0{{_screen_type_}}"></div>
                 <input type="text" ng-model="_message_first.parentId" ng-hide="true">
@@ -41,7 +41,7 @@
                 <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
             </div>
         </form>
-        <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
+        <div class="select2-success" style="border: 0px;margin-bottom: 5px;"><!--@的用户-->
             <div id="_via_Model{{_screen_type_}}"
                  class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
                 <ul class="select2-choices" data-toggle="modal" data-target="#_via_users_mul_dialog{{_screen_type_}}">
@@ -74,7 +74,7 @@
     <div ng-if="_messages_array_.length  > 0" style="text-align: right;font-size: small;color: blue;">
         <a href="javascript:void(0);" ng-click="_jump_page_to_('_last_floor_' + _screen_type_)">跳到底部</a>
     </div>
-    <!--迭代部分-->
+    <!--留言分组迭代-->
     <div ng-repeat="_messages_ in _messages_array_"
          id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 5px;">
         <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
@@ -93,8 +93,10 @@
             </span>
             </a>
         </div>
+        <!--分组迭代-->
         <div id="_message_panel_body_{{$index}}" class="panel-collapse collapse in">
             <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
+                <!--左边分组迭代-->
                 <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
                      id="_message_left_{{$index}}_{{_message_.messageId}}">
                     <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
@@ -117,6 +119,7 @@
                              style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
                     </div>
                 </div>
+                <!--右边分组迭代-->
                 <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
                      id="_message_right_{{$index}}_{{_message_.messageId}}">
                     <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
@@ -136,9 +139,10 @@
                     </div>
                 </div>
             </div>
-            <form ng-if="_is_show_reply_btn_" id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
+            <!--每个主题的回复表单-->
+            <form ng-if="_is_show_reply_btn_" id="_message_form_bottom_{{$index}}{{_screen_type_}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
                 <div style="font-weight: bolder;">回复：</div>
-                <div class="form-control" id="_message_textarea_bottom_{{$index}}" contenteditable="true"
+                <div class="form-control" id="_message_textarea_bottom_{{$index}}{{_screen_type_}}" contenteditable="true"
                                style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
                <!-- <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
                     <div id="s2id_projectModel"
@@ -363,7 +367,7 @@
         </div>
     </div>
     <!--附件选择弹窗-->
-    <div id="_message_attach_dialog{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div id="_message_attach_dialog{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
         <div class="modal-dialog">
             <div class="modal-content panel">
                 <div class="modal-header panel-heading" style="text-align: center;">
@@ -379,7 +383,7 @@
                             <span class="lbl">
                                 <a ng-if="_form_file_.fileid == null && _is_show_reply_btn_"
                                    style="color: blue;"
-                                   ngf-max-size="1000MB" ngf-select="_message_upload_file_($file, _is_first_mess)"
+                                   ngf-max-size="1000MB" ngf-select="_message_upload_file_($file, _is_first_mess,_idx_mess)"
                                    href="javascript:void(0);">选择附件
                                 </a>
                             </span>
@@ -387,6 +391,7 @@
                     </div>
                     <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_ && _is_first_mess == 'N'" ng-include="'page/sys/common/file_info_form.html'">
                     </div>
+                    <span id="_popup_file_span{{_screen_type_}}"></span>
                     <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_ && _is_first_mess == 'Y'" ng-include="'page/sys/common/file_info_first.html'">
                     </div>
                 </div>

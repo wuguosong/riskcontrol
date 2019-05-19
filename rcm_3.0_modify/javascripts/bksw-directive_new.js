@@ -1671,7 +1671,7 @@ ctmApp.directive('bbsChatNew', function() {
         },
         link:function(scope, element, attr){
         },
-        controller:function($scope, $http, Upload, $window){
+        controller:function($scope, $http, Upload, $window,$compile){
             // 初始化页面标题
             if(isEmpty($scope.pageTitle)){
                 $scope._page_title_ = '';
@@ -1868,8 +1868,11 @@ ctmApp.directive('bbsChatNew', function() {
             $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var _flag = true;
                 var formData = null;
-                if(_is_first_ == 'Y'){
+                if(_is_first_ == 'Y'){// 如果是主题留言提交
                     formData = $scope._message_first;
+                    if(!isEmptyJson($scope._form_first_)){// 如果上传了附件信息，则进行保存
+                        formData.messageFile = $scope._form_first_.fileid;
+                    }
                     formData.originalId = 0;
                     formData.parentId = 0;
                     formData.repliedBy = '';
@@ -1877,13 +1880,16 @@ ctmApp.directive('bbsChatNew', function() {
                     formData.messageContent = $('#_message_first_0' + $scope._screen_type_).text();
                     formData.messageTitle = $('#_message_first_title_0' + $scope._screen_type_).text();
                     formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
-                }else{
+                }else{// 如果是主题留言回复
                     formData = $scope._message;
+                    if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){// 如果上传了附件信息，则进行保存
+                        formData.messageFile = $('#_form_file_ipt' + _idx_ + $scope._screen_type_).val();
+                    }
                     formData.originalId = _original_id_;
                     formData.parentId = _parent_id_;
                     formData.repliedBy = _replied_by_;
                     formData.repliedName = _replied_name_;
-                    formData.messageContent = $('#_message_textarea_bottom_' + _idx_).text();
+                    formData.messageContent = $('#_message_textarea_bottom_' + _idx_ + $scope._screen_type_).text();
                 }
                 if (isEmpty(formData.messageTitle)) {
                     if(_is_first_ == 'Y'){
@@ -1909,10 +1915,6 @@ ctmApp.directive('bbsChatNew', function() {
                     $.alert('内容不能超过2500个字符!');
                     return false;
                 }
-
-                if(!isEmptyJson($scope._form_file_)){
-                    formData.messageFile = $scope._form_file_.fileid;
-                }
                 formData.messageType = $scope.messageType;
                 formData.messageScreenType = $scope.screenType;
                 $http({
@@ -1921,13 +1923,13 @@ ctmApp.directive('bbsChatNew', function() {
                     data: $.param(formData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    if(_is_first_ == 'Y'){
+                    if(_is_first_ == 'Y'){// 主题留言保存成功，清空附件信息
                         if(!isEmptyJson($scope._form_first_)){
                             $scope._form_first_ = {};
                         }
-                    }else{
-                        if(!isEmptyJson($scope._form_file_)){
-                            $scope._form_file_ = {};
+                    }else{// 主题回复保存成功，清空附件信息
+                        if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){
+                            $scope._clearFormFile_info(_idx_);
                         }
                     }
                     if($scope._is_pagination_){
@@ -2005,7 +2007,7 @@ ctmApp.directive('bbsChatNew', function() {
             // 展示留言弹窗
             $scope._show_submit_message_form_ = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
                 $('#_submit_message_dialog').modal('show');
-                $('#_message_textarea_bottom_' + _idx_).text('');
+                $('#_message_textarea_bottom_' + _idx_ + $scope._screen_type_).text('');
                 $scope._message.originalId = _original_id_;
                 $scope._message.parentId = _parent_id_;
                 $scope._message.repliedBy = _replied_by_;
@@ -2192,12 +2194,13 @@ ctmApp.directive('bbsChatNew', function() {
                 }
             };
             // 留言中的过程附件
-            $scope._message_upload_file_ = function(_file_,_is_first_mess){
+            $scope._message_upload_file_ = function(_file_,_is_first_mess,_idx_mess){
                 var _pageLocationSequenceNumber = get_pageLocation_sequence_number($scope.messageType, $scope.businessId, $scope._init_uuid_global_);
                 if(_is_first_mess == 'Y'){
                     $scope._form_first_ = {};
                 }else{
-                    $scope._form_file_ = {};
+                    // 针对迭代的表单附件部分进行清空操作
+                    $scope._clearFormFile_info(_idx_mess);
                 }
                 Upload.upload({
                     url: srvUrl + 'cloud/upload.do',
@@ -2216,7 +2219,8 @@ ctmApp.directive('bbsChatNew', function() {
                                 if(_is_first_mess == 'Y'){
                                     $scope._form_first_ = _cloud_file_dto_;
                                 }else{
-                                    $scope._form_file_ = _cloud_file_dto_;
+                                    // 针对迭代的表单附件部分进行渲染操作
+                                    $scope._createFormFile_info(_idx_mess, _cloud_file_dto_);
                                 }
                             }
                         }
@@ -2226,12 +2230,12 @@ ctmApp.directive('bbsChatNew', function() {
                 });
             };
             // 删除留言
-            $scope._message_delete_file_ = function(_obj_, _from_type_){
-                if(_from_type_ == 'FIR'){// 表单附件删除
+            $scope._message_delete_file_ = function(_obj_, _from_type_, _idx_){
+                if(_from_type_ == 'FIR'){// 表单附件删除-主题部分
                     attach_delete(_obj_.fileid);
                     $scope._form_first_ = {};
                 }
-                if(_from_type_ == 'MES'){// 留言附件删除
+                if(_from_type_ == 'MES'){// 表单附件删除-迭代的留言详情部分
                     _obj_.messageFile = null;
                     _obj_.messageFileType = -1;
                     $scope._message_update_(_obj_);
@@ -2240,12 +2244,63 @@ ctmApp.directive('bbsChatNew', function() {
                     }else{
                         $scope._query_messages_list_(0);
                     }
-                    $scope._form_file_ = {};
+                    $scope._clearFormFile_info(_idx_);
                 }
-                if(_from_type_ == 'FOR'){// 留言附件删除
-                    attach_delete(_obj_.fileid);
-                    $scope._form_file_ = {};
+                if(_from_type_ == 'FOR'){// 表单附件删除-迭代的表单部分
+                    attach_delete(_obj_);
+                    // 针对迭代的表单附件部分进行清空操作
+                    $scope._clearFormFile_info(_idx_);
                 }
+            };
+            // 渲染迭代的表单附件
+            $scope._createFormFile_info = function(_idx_mess, _file_dto_){
+                $('#_form_file_ipt' + _idx_mess + $scope._screen_type_).val(_file_dto_.fileid);
+                $('#_file_ipt' + _idx_mess + $scope._screen_type_).val(JSON.stringify(_file_dto_));
+                var fileSize =  _file_dto_.filesize;
+                var isKb = fileSize < 1048576;
+                var kbSize = (fileSize / 1024).toFixed(2);
+                var mbSize = (fileSize / 1024 / 1024).toFixed(2);
+                var span = $('#_form_file_span' + _idx_mess + $scope._screen_type_);
+                span.empty();
+                var append = '';
+                append += '<a';
+                append += ' style="font-size: small;color: blue;"';
+                append += ' href="javascript:void(0);"';
+                append += ' ng-click="_message_preview_file_(\'' +_file_dto_.preview3d + '\')"';
+                append += '>';
+                append += _file_dto_.filename;
+                append += '&nbsp;';
+                if(isKb){
+                    append += kbSize + 'KB';
+                }else{
+                    append + mbSize + 'MB';
+                }
+                append += ' </a>';
+                if($scope._is_show_reply_btn_){
+                    append += '<a';
+                    append += ' style="font-size: small;color: blue;"';
+                    append += ' ng-click="_message_delete_file_('+_file_dto_.fileid+', \'FOR\', '+_idx_mess+');"';
+                    append += ' href="javascript:void(0);"';
+                    append += '>';
+                    append += '移除';
+                    append += '</a>';
+                }
+                span.append(append);
+                $compile(span)($scope);
+                // 渲染附件弹窗上的附件信息部分
+                var popup = $('#_popup_file_span' + $scope._screen_type_);
+                popup.empty();
+                popup.append(append);
+                $compile(popup)($scope);
+            };
+            // 清空迭代的表单附件
+            $scope._clearFormFile_info = function(_idx_mess){
+                var span = $('#_form_file_span' + _idx_mess + $scope._screen_type_);
+                span.empty();// 清空主题留言回复表单旁边的附件显示信息
+                $('#_form_file_ipt' + _idx_mess + $scope._screen_type_).val('');// 清空隐藏的附件id
+                $('#_file_ipt' + _idx_mess + $scope._screen_type_).val('');// 清空隐藏的附件信息
+                var popup = $('#_popup_file_span' + $scope._screen_type_);
+                popup.empty();// 清空附件弹窗上的附件信息部分
             };
             // 更新留言
             $scope._message_update_ = function(_message_){
@@ -2275,10 +2330,19 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 展示上传附件弹窗
             $scope._show_message_attach_popup = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
-                debugger;
                 $scope._setMessFileParam(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_);
-                $scope._is_show_upload_part_ = false;
+                $scope._is_show_upload_part_ = false;// 是否展示弹窗上的“上传附件”链接
                 $('#_message_attach_dialog' + $scope._screen_type_).modal('show');
+                if(_is_first_ == 'N'){
+                    if(isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){// 如果隐藏域附件id为空，再次执行清空
+                        $scope._clearFormFile_info(_idx_);
+                    }else{
+                        var fileJsonString = $('#_file_ipt' + _idx_ + $scope._screen_type_).val();
+                        if(!isEmpty(fileJsonString)){
+                            $scope._createFormFile_info(_idx_, JSON.parse(fileJsonString));
+                        }
+                    }
+                }
             };
             // 展示相关资源弹窗
             $scope._show_link_resources_popup = function(){
@@ -2296,6 +2360,9 @@ ctmApp.directive('bbsChatNew', function() {
                 if(ret){
                     $('#_message_attach_dialog' + $scope._screen_type_).modal('hide');
                     $scope._message_attach_dialog_close_();
+                    if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){// 如果隐藏域附件id不为空，且通过了保存留言校验，再次执行清空
+                        $scope._clearFormFile_info(_idx_);
+                    }
                 }
             };
             // 弹窗保存必需值设置

@@ -1,3 +1,4 @@
+<!--
 <a  style="font-size: small;color: blue;"
     href="javascript:void(0);"
     ng-click="_message_preview_file_(_form_file_.preview3d)">
@@ -20,6 +21,12 @@
 </a>
 <a  style="font-size: small;color: blue;"
     ng-if="_form_file_.fileid != null && _is_show_reply_btn_"
-    ng-click="_message_delete_file_(_form_file_, 'FOR');"
+    ng-click="_message_delete_file_(_form_file_, 'FOR', $index);"
     href="javascript:void(0);">移除
 </a>
+-->
+<input type="hidden" id="_form_file_ipt{{$index}}{{_screen_type_}}">
+<input type="hidden" id="_file_ipt{{$index}}{{_screen_type_}}">
+<span id="_form_file_span{{$index}}{{_screen_type_}}">
+
+</span>

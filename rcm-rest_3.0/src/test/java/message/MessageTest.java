@@ -121,7 +121,7 @@ public class MessageTest {
 
     @Test
     public void testDecode(){
-        System.out.println(JaXmlBeanUtil.encodeScriptUrl("10450"));
+        System.out.println(JaXmlBeanUtil.encodeScriptUrl("10558"));
         System.out.println(JaXmlBeanUtil.decodeScriptUrl("MTA0NTA="));
     }
 
