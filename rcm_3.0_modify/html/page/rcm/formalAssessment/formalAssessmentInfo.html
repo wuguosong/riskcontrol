@@ -94,7 +94,7 @@
                         <div class="col-sm-4 has-feedback">
                             <div id="headergrassrootsLegalStaffName">
                                 <div ng-click="setDirectiveParam('grassrootsLegalStaff',0)"
-                                     data-toggle="modal" data-target="#userRaido-modal"
+                                     data-toggle="modal" data-target="#roleUserRaido-modal-grassrootsLegalStaff"
                                      class="select2-success">
                                     <div class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
                                         <ul class="select2-choices">
@@ -172,7 +172,7 @@
                             <!--style="width: calc(50% - 2.5px);margin-right: 5px"-->
                             <div id="headerinvestmentPersonName" class="col-sm-12 noleft-pad noright-pad">
                                 <div ng-click="setDirectiveParam('investmentPerson',0)" data-toggle="modal"
-                                     data-target="#userRaido-modal" class="select2-success">
+                                     data-target="#roleUserRaido-modal-investmentPerson" class="select2-success">
                                     <div class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
                                         <ul class="select2-choices">
                                             <li class="select2-search-field">
@@ -284,8 +284,10 @@
 </div>
 
 <directive-user-list></directive-user-list>
-<directive-user-radio-list></directive-user-radio-list>
+<!--<directive-user-radio-list></directive-user-radio-list>-->
 <directive-company-list></directive-company-list>
+<directive-role-user-radio-list directive-role-user-radio-list-id="grassrootsLegalStaff" role-codes="13"></directive-role-user-radio-list>
+<directive-role-user-radio-list directive-role-user-radio-list-id="investmentPerson" role-codes="ROLE_INVESTMENT"></directive-role-user-radio-list>
 
 <script type="text/javascript">
     $().ready(function () {

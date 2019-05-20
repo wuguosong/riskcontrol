@@ -56,7 +56,6 @@ public class UserController {
 		Result result = new Result();
 		PageAssistant page = new PageAssistant(request.getParameter("page"));
 		this.userService.getDirectiveUserAll(page);
-		page.setParamMap(null);
 		result.setResult_data(page);
 		return result;
 	}
@@ -127,6 +126,22 @@ public class UserController {
 		String userId = request.getParameter("userId");
 		String roleArr = request.getParameter("roleArr");
 		this.userService.saveUserRole(userId,roleArr);
+		return result;
+	}
+	
+	/**
+	 * 按角色获取人员列表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getDirectiveRoleUserList")
+	@ResponseBody
+	public Result getDirectiveRoleUserList(HttpServletRequest request){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		this.userService.getDirectiveRoleUserList(page);
+		System.out.println(page.getTotalItems());
+		result.setResult_data(page);
 		return result;
 	}
 }

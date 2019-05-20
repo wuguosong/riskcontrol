@@ -181,4 +181,32 @@ public class UserService implements IUserService {
 			}
 		}
 	}
+	@Override
+	public void getDirectiveRoleUserList(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("orgCodeRoot", Constants.SYS_ORG_CODE_ROOT);
+		params.put("page", page);
+		if(page.getParamMap() != null){
+			params.putAll(page.getParamMap());
+		}
+		String orderBy = page.getOrderBy();
+		if(orderBy == null){
+			orderBy = " account ";
+		}
+		params.put("orderBy", orderBy);
+		List<Map<String, Object>> list = this.userMapper.directiveRoleUser(params);
+		page.setList(list);
+		page.setTotalItems(this.getDirectiveRoleUserCount(page));
+	}
+	
+	public Integer getDirectiveRoleUserCount(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		// 整理参数
+		params.put("roleCodeList", page.getParamMap().get("roleCodeList"));
+		params.put("ORGID", page.getParamMap().get("ORGID"));
+		params.put("categoryCode", page.getParamMap().get("categoryCode"));
+		params.put("ORGIDRADIO", page.getParamMap().get("ORGIDRADIO"));
+		params.put("name", page.getParamMap().get("name"));
+		return this.userMapper.directiveRoleUserCount(params);
+	}
 }

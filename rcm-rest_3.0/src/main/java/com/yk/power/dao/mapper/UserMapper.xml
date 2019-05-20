@@ -137,4 +137,62 @@
 			#{user_role_id},#{user_id},#{role_id},TO_DATE(#{create_date},'yyyy-MM-dd HH24:mi:ss'),#{state},#{code}
 		)
 	</insert>
+	
+	
+	<!-- 查询，resultType是结果类型，返回的list元素的转成该对象类型 -->
+	<select id="directiveRoleUser" resultType="map">
+	select distinct(u.UUID), u.NAME, u.ACCOUNT, u.code,
+		   (CASE
+               when (#{orgCodeRoot} = (select o.CODE
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)) then
+               (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.DEPTPKVALUE)
+                else
+               (select o.name
+                             from sys_org o
+                            where o.ORGPKVALUE = u.ORGPKVALUE)
+             end) ORGNAME
+		from sys_user u, sys_user_position up 
+		     <if test="roleCodeList!=null">
+		        , SYS_USER_ROLE SUR, SYS_ROLE SR 
+		     </if>
+        where u.PSNPKVALUE = up.PSNPKVALUE(+) 
+		    and u.ACCOUNT is not null and u.state='2'
+		    <if test="roleCodeList!=null">
+		         AND U.UUID = SUR.USER_ID
+		         AND SUR.ROLE_ID = SR.ROLE_ID
+		         AND SR.STATE = '1'
+		         AND SR.CODE IN
+		         <foreach item="roleCode" collection="roleCodeList" open="(" separator="," close=")">
+                    #{roleCode,jdbcType=VARCHAR}
+                 </foreach>
+		    </if>
+		    <if test="name!=null and name!='' "> and u.name like '%${name}%' </if>
+			 order by u.code asc
+	</select>
+	
+	
+	<!-- 由于封装的方法foreach循环取数据有问题, 查不出总条数, 因此单独写一个获取总条数的方法 -->
+	<select id="directiveRoleUserCount" resultType="int">
+		 select count(distinct(u.UUID))
+    	   from sys_user u, sys_user_position up 
+		     <if test="roleCodeList!=null">
+		        , SYS_USER_ROLE SUR, SYS_ROLE SR 
+		     </if>
+        where u.PSNPKVALUE = up.PSNPKVALUE(+) 
+		    and u.ACCOUNT is not null and u.state='2'
+		    <if test="roleCodeList!=null">
+		         AND U.UUID = SUR.USER_ID
+		         AND SUR.ROLE_ID = SR.ROLE_ID
+		         AND SR.STATE = '1'
+		         AND SR.CODE IN
+		         <foreach item="roleCode" collection="roleCodeList" open="(" separator="," close=")">
+                    #{roleCode,jdbcType=VARCHAR}
+                 </foreach>
+		    </if>
+		    <if test="name!=null and name!='' "> and u.name like '%${name}%' </if>
+			 order by u.code asc
+	</select>
 </mapper>

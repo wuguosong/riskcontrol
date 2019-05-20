@@ -6805,6 +6805,143 @@ ctmApp.directive('directiveProcessPageNew', function() {
     };
 });
 
+// 人员单选（按角色查找）
+ctmApp.directive('directiveRoleUserRadioList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directiveRoleUserRadioList.html',
+        replace: true,
+        scope:{
+            // 必填,该指令所在modal的id，在当前页面唯一
+            directiveRoleUserRadioListId: "@",
+            // 角色参数, 默认为空，多个角色用，隔开
+            roleCodes: "@"
+        },
+        controller:function($scope,$http,$element){
+            //获取父作用域
+            var carouselUserScope = $element.parent().scope();
+            $scope.selectUserCode =null;
+            $scope.selectUserName = null;
+            $scope.setSelection = function(code,name){
+                $scope.selectUserCode=code;
+                $scope.selectUserName=name;
+            }
+            $scope.paginationConfes = {
+                currentPage: 1,
+                queryObj:{},
+                itemsPerPage: 10,
+                perPageOptions: [10]
+            };
+            $scope.queryRoleUserRadioList = function(){
+                var cp = $scope.paginationConfes.currentPage;
+                if(cp == 1){
+                    $scope.queryRoleUserRadio();
+                }else{
+                    $scope.paginationConfes.currentPage = 1;
+                }
+            }
+            $scope.queryRoleUserRadio=function(){
+                $scope.paginationConfes.queryObj = $scope.queryObj;
+                if (!isEmpty($scope.roleCodes)){
+                    var roles = $scope.roleCodes.split(",");
+                    if (isEmpty($scope.paginationConfes.queryObj)){
+                        $scope.paginationConfes.queryObj = {};
+                    }
+                    $scope.paginationConfes.queryObj.roleCodeList = roles;
+                }
+
+                $http({
+                    method:'post',
+                    url: srvUrl + "user/getDirectiveRoleUserList.do",
+                    data:$.param({"page":JSON.stringify($scope.paginationConfes)})
+                }).success(function(data){
+                    // 变更分页的总数
+                    if(data.success) {
+                        $scope.sysRoleUserRadio = data.result_data.list;
+                        $scope.paginationConfes.totalItems = data.result_data.totalItems;
+                    }else{
+                        $.alert(data.result_name);
+                    }
+                });
+            };
+
+            $scope.$watch('paginationConfes.currentPage + paginationConfes.itemsPerPage + queryObj.ORGIDRADIO', $scope.queryRoleUserRadio);
+            //获取组织结构角色
+            /* var ztree4, setting4 = {
+                 callback:{
+                     onClick:function(event, treeId, treeNode){
+                         accessScope("#ORGIDRADIO1",function(scope){
+                             scope.queryObj = {};
+                             scope.queryObj.ORGIDRADIO = treeNode.id;
+                             scope.queryObj.categoryCode = treeNode.cat;
+                         });
+                     },
+                     beforeExpand:function(treeId, treeNode){
+                         if(typeof(treeNode.children)=='undefined'){
+                             $scope.addTreeNode4(treeNode);
+                         }
+                     }
+                 }
+             };
+             $scope.addTreeNode4 = function (parentNode){
+                 var pid = '';
+                 if(parentNode && parentNode.id) pid = parentNode.id;
+                 $scope.$parent.httpData('fnd/Group/getOrg', {parentId:pid}).success(function(data){
+                     if (!data || data.result_code != 'S') return null;
+                     var nodeArray = data.result_data;
+                     if(nodeArray<1) return null;
+                     for(var i=0;i<nodeArray.length;i++){
+                         curNode = nodeArray[i];
+                         var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
+                         if(curNode.cat && curNode.cat=='Org'){
+                             iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
+                         }
+                         curNode.icon = iconUrl;
+                     }
+                     if(pid == ''){//当前加载的是根节点
+                         ztree4.addNodes(null, nodeArray);
+                         var rootNode = ztree4.getNodes()[0];
+                         $scope.addTreeNode4(rootNode);
+                         rootNode.open = true;
+                         ztree4.refresh();
+                     }else{
+                         ztree4.addNodes(parentNode, nodeArray, true);
+                     }
+                 });
+             }*/
+
+            $scope.resetRadioRoleUserList=function(){
+                $scope.selectUserCode =null;
+                $scope.selectUserName = null
+                $("input[name='RaidoNAME']").removeAttr("checked");
+
+                $scope.queryObj = {};
+                $scope.queryObj.ORGIDRADIO = null;
+                $scope.queryObj.categoryCode = null;
+
+            }
+            $scope.saveRoleUserRadioListforDiretive=function(){
+                carouselUserScope.setDirectiveRadioUserList($scope.selectUserCode,$scope.selectUserName);
+                $scope.selectUserCode =null;
+                $scope.selectUserName = null;
+                $("input[name='RaidoNAME']").removeAttr("checked");
+                $scope.queryObj = {};
+                $scope.queryObj.ORGIDRADIO = null;
+                $scope.queryObj.categoryCode = null;
+            }
+            /* angular.element(document).ready(function() {
+                 ztree4 = $.fn.zTree.init($("#treeIDRoleUser5_" + $scope.directiveRoleUserRadioListId), setting4);
+                 $scope.addTreeNode4('');
+                 $scope.selectUserCode =null;
+                 $scope.selectUserName = null;
+                 $scope.queryObj = {};
+                 $scope.queryObj.ORGIDRADIO = null;
+                 $scope.queryObj.categoryCode = null;
+             })*/;
+        }
+    };
+});
+
 /*
 // 投票结果详情弹出框
 ctmApp.directive('directMeetingVoteResultInfo', function(){

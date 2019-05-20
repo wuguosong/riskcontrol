@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.yk.common.BaseMapper;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -58,5 +60,20 @@ public interface IUserMapper extends BaseMapper {
 	public void deleteUserRoleByUserId(String userId);
 	
 	public void saveUserRole(HashMap<String, Object> map);
+	
+	
+	/**
+	 * 按角色分页查询用户信息
+	 * @param params
+	 * @return
+	 */
+	public List<Map<String, Object>> directiveRoleUser(Map<String, Object> params);
+	
+	/**
+	 * 按条件查询用户信息总数量
+	 * @param params
+	 * @return
+	 */
+	public int directiveRoleUserCount(Map<String, Object> params);
 	
 }

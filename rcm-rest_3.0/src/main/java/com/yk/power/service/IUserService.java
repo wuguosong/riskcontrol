@@ -46,4 +46,9 @@ public interface IUserService {
 	
 	public void saveUserRole(String userId, String roleArr);
 	
+	/**
+	 * 按角色获取人员列表
+	 * @param page
+	 */
+	public void getDirectiveRoleUserList(PageAssistant page);
 }
