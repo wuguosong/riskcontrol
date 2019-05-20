@@ -242,6 +242,26 @@
                                            ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
                                 </div>
                             </div>
+                            <div class="button-group">
+                                <div class="row">
+                                    <div class="option txl">
+                                        <a class="btn btn-info" href="#/PreInfoList/0"><i class="fa fa-reply"></i>返回</a>
+                                        <button ng-if="flag == 1" type="button" ng-click="save()" id="savebtn" class="btn btn-info"><i
+                                                class="fa fa-save"></i>保存
+                                        </button>
+                                        <button ng-if="flag == 2" type="button" ng-click="update()" id="updatebtn" class="btn btn-info">
+                                            <i class="fa fa-save"></i>保存
+                                        </button>
+                                        <button ng-show="preOracle.WF_STATE=='0'" ng-click="vaildProject()" id="submitbtn"
+                                                class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交
+                                        </button>
+                                        <div id="submitModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                            <pre-review-bpmn-pop-win approve="approve"
+                                                                     before-submit="beforeSubmit()"></pre-review-bpmn-pop-win>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!--<div class="tab-pane" id="flow_chart">
@@ -258,26 +278,6 @@
                                                       init-update="initUpdate(id)" service-type="serviceType"
                                                       project-model="projectModel"></directive-accachment-new>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="button-group">
-            <div class="row">
-                <div class="option txl">
-                    <a class="btn btn-info" href="#/PreInfoList/0"><i class="fa fa-reply"></i>返回</a>
-                    <button ng-if="flag == 1" type="button" ng-click="save()" id="savebtn" class="btn btn-info"><i
-                            class="fa fa-save"></i>保存
-                    </button>
-                    <button ng-if="flag == 2" type="button" ng-click="update()" id="updatebtn" class="btn btn-info">
-                        <i class="fa fa-save"></i>保存
-                    </button>
-                    <button ng-show="preOracle.WF_STATE=='0'" ng-click="vaildProject()" id="submitbtn"
-                            class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交
-                    </button>
-                    <div id="submitModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
-                        <pre-review-bpmn-pop-win approve="approve"
-                                                 before-submit="beforeSubmit()"></pre-review-bpmn-pop-win>
                     </div>
                 </div>
             </div>

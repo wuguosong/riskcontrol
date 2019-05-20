@@ -440,6 +440,39 @@
                             </div>-->
 						</div>
 					</div>
+					<div class="button-group">
+						<div class="row">
+							<div class="btn-group-gap txl">
+								<a class="btn btn-primary" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='2'" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='4'" href="#/ProjectFormalReviewList"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='5'" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='8'" href="#/FormalAssessmentAuditList/0"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='9'" href="#/FormalAssessmentAuditList/1"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='10'" href="#/FormalAssessmentInfoList/1"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='11'" href="#/formalReportBoardList"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='12'" href="#/ConferenceInformation/1"><i class="fa fa-reply"></i>返回</a>
+								<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
+								<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
+								<!-- 8.22新增 专家评审显示保存按钮 -->
+								<button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+								<!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
+								<button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+								<!-- 新提交模态框 -->
+								<!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                    <formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
+                                </div>-->
+								<!-- 旧提交模态框 -->
+								<div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+									<approve-pop-win approvearr="approve"></approve-pop-win>
+								</div>
+								<a ng-if="!isOldFlow && hasWaiting"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+								   ng-click="submitNext()">提交</a>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="tab-pane" id="flow_chart">
 					<!--<directive-process-page></directive-process-page>-->
@@ -499,39 +532,6 @@
 			</div>
 		</div>
 	</form>
-	<div class="button-group">
-		<div class="row">
-			<div class="btn-group-gap txl">
-				<a class="btn btn-primary" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='2'" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='4'" href="#/ProjectFormalReviewList"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='5'" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='8'" href="#/FormalAssessmentAuditList/0"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='9'" href="#/FormalAssessmentAuditList/1"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='10'" href="#/FormalAssessmentInfoList/1"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='11'" href="#/formalReportBoardList"><i class="fa fa-reply"></i>返回</a>
-				<a class="btn btn-primary" ng-if="flag=='12'" href="#/ConferenceInformation/1"><i class="fa fa-reply"></i>返回</a>
-				<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
-				<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
-				<!-- 8.22新增 专家评审显示保存按钮 -->
-				<button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
-				<!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
-				<button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
-				<!-- 新提交模态框 -->
-				<!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
-                    <formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
-                </div>-->
-				<!-- 旧提交模态框 -->
-				<div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
-					<approve-pop-win approvearr="approve"></approve-pop-win>
-				</div>
-				<a ng-if="!isOldFlow && hasWaiting"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
-				   ng-click="submitNext()">提交</a>
-			</div>
-		</div>
-	</div>
 </div>
 
 <script>
