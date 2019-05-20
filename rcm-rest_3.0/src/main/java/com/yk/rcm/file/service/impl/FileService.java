@@ -1,19 +1,6 @@
 package com.yk.rcm.file.service.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
 import com.goukuai.constant.YunkuConf;
-import com.yk.rcm.file.dao.ILogMapper;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.goukuai.dto.FileDto;
 import com.goukuai.dto.LinkDto;
 import com.goukuai.dto.LogDto;
@@ -22,19 +9,26 @@ import com.yk.exception.BusinessException;
 import com.yk.log.constant.LogConstant;
 import com.yk.log.entity.SysLogDto;
 import com.yk.log.service.ISysLogService;
-import com.yk.message.entity.Message;
 import com.yk.power.dao.IUserMapper;
 import com.yk.rcm.file.constant.FileOpt;
 import com.yk.rcm.file.dao.IFileMapper;
+import com.yk.rcm.file.dao.ILogMapper;
 import com.yk.rcm.file.service.IFileService;
-
 import fnd.UserDto;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.DateUtil;
 import util.UserUtil;
 import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author LiPan[wjsxhclj@sina.com]
@@ -235,7 +229,7 @@ public class FileService implements IFileService {
 
     @Override
     public FileDto getFile(String fileId) {
-        if(StringUtils.isBlank(fileId)){
+        if (StringUtils.isBlank(fileId)) {
             throw new BusinessException("fileId can't be null!");
         }
         return fileMapper.getFile(fileId);
@@ -271,38 +265,40 @@ public class FileService implements IFileService {
         logDto.setHash(fileDto.getHash());
         return logDto;
     }
-    
+
     public void saveSysLog(String businessId, String reason, String success, String ip, String oldFileId) {
-    	SysLogDto sysLogDto = new SysLogDto();
-		sysLogDto.setUser(UserUtil.getCurrentUserUuid());
-		sysLogDto.setUserName(UserUtil.getCurrentUser().getName());
-		sysLogDto.setModule(LogConstant.MODULE_ATTACHMENT);
-		sysLogDto.setOperation(LogConstant.REPLACE);
-		sysLogDto.setCode(businessId);
-		sysLogDto.setDescription(reason);
-		sysLogDto.setParams(oldFileId);
-		sysLogDto.setCreateDate(DateUtil.getCurrentDate());
-		sysLogDto.setMethod("com.yk.rcm.file.controller.YunkuController.replace()");
-		if(success.equals("S")){
-			sysLogDto.setSuccess("Y");
-		} else {
-			sysLogDto.setSuccess("N");
-		}
-		
-		sysLogDto.setIp(ip);
-		//保存系统日志
+        SysLogDto sysLogDto = new SysLogDto();
+        sysLogDto.setUser(UserUtil.getCurrentUserUuid());
+        sysLogDto.setUserName(UserUtil.getCurrentUser().getName());
+        sysLogDto.setModule(LogConstant.MODULE_ATTACHMENT);
+        sysLogDto.setOperation(LogConstant.REPLACE);
+        sysLogDto.setCode(businessId);
+        sysLogDto.setDescription(reason);
+        sysLogDto.setParams(oldFileId);
+        sysLogDto.setCreateDate(DateUtil.getCurrentDate());
+        sysLogDto.setMethod("com.yk.rcm.file.controller.YunkuController.replace()");
+        if (success.equals("S")) {
+            sysLogDto.setSuccess("Y");
+        } else {
+            sysLogDto.setSuccess("N");
+        }
+
+        sysLogDto.setIp(ip);
+        //保存系统日志
         sysLogService.save(sysLogDto);
     }
+
     /**
      * 替换文件时发钉钉消息给指定用户
      *
-     * @param messageId
+     * @param message
      * @param shareUsers
+     * @param type
      * @return String url
      */
     @Override
     public MessageBack remindPerson(String message, String shareUsers, String type) {
-        if(StringUtils.isBlank(type)){
+        if (StringUtils.isBlank(type)) {
             type = MessageClient._DT;
         }
         if (message == null) {
@@ -316,48 +312,48 @@ public class FileService implements IFileService {
         params.put("UUID", shareUsers);
         Map<String, Object> user = userMapper.selectAUser(params);
         if (user != null) {
-           accounts = String.valueOf(user.get("ACCOUNT"));
+            accounts = String.valueOf(user.get("ACCOUNT"));
         }
         MessageClient client = new MessageClient();
         MessageBack messageBack = null;
         UserDto userDto = UserUtil.getCurrentUser();
         // 钉钉
-        if(MessageClient._DT.equalsIgnoreCase(type)){
+        if (MessageClient._DT.equalsIgnoreCase(type)) {
             messageBack = client.sendDtText(null, accounts, message);
         }
-  
+
         return messageBack;
     }
-	
-	@Override
-	public List<Map<String, Object>> getAttachHistoryList(String id, String businessType, String pageLocation) throws Exception {
-		Map<String,Object> params = new HashMap<String, Object>();
-		params.put("id", id);
-		params.put("module", LogConstant.MODULE_ATTACHMENT);
-		params.put("operation", LogConstant.REPLACE);
-		params.put("businessType", businessType);
-		params.put("pageLocation", pageLocation);
-		List<Map<String, Object>> list = sysLogService.getReplaceFile(params);
-		
-		for (Map<String, Object> fileInfo : list) {
-			String fullPath = fileInfo.get("FULLPATH").toString().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
+
+    @Override
+    public List<Map<String, Object>> getAttachHistoryList(String id, String businessType, String pageLocation) throws Exception {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id", id);
+        params.put("module", LogConstant.MODULE_ATTACHMENT);
+        params.put("operation", LogConstant.REPLACE);
+        params.put("businessType", businessType);
+        params.put("pageLocation", pageLocation);
+        List<Map<String, Object>> list = sysLogService.getReplaceFile(params);
+
+        for (Map<String, Object> fileInfo : list) {
+            String fullPath = fileInfo.get("FULLPATH").toString().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
             LinkDto download = this.fileDownloadLink(fullPath);
             if (download != null) {
-            	fileInfo.put("DOWNLOAD3D", download.getLink());
-            	fileInfo.put("DOWNLOADQR3D", download.getQr_url());
+                fileInfo.put("DOWNLOAD3D", download.getLink());
+                fileInfo.put("DOWNLOADQR3D", download.getQr_url());
             }
             LinkDto preview = this.filePreviewLink(fullPath);
             if (preview != null) {
-            	fileInfo.put("DOWNLOAD3D", download.getLink());
-            	fileInfo.put("DOWNLOADQR3D", download.getQr_url());
+                fileInfo.put("DOWNLOAD3D", download.getLink());
+                fileInfo.put("DOWNLOADQR3D", download.getQr_url());
             }
         }
-		
-		return list;
-	}
+
+        return list;
+    }
 
     @Override
-    public List<FileDto> createFileList(String docType, String docCode, String pageLocation)  throws Exception {
+    public List<FileDto> createFileList(String docType, String docCode, String pageLocation) throws Exception {
         List<FileDto> list = this.listFile(docType, docCode, pageLocation);
         for (FileDto fileDto : list) {
             String fullPath = fileDto.getFullpath().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
