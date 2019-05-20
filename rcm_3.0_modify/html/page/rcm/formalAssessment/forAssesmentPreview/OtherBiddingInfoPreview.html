@@ -1,0 +1,230 @@
+<link rel="stylesheet" href="../styles/style_preview.css">
+<div class="preview-contanier" ng-controller="OtherBiddingInfoPreview">
+    <div class="mheader row text-blue-name">
+        {{ formalPreview.apply.projectName }}
+        <a style="height: 40px"
+           ng-if="flag != 1 && flag != 2 && flag != 3 && flag != 4 && flag != 5 && flag != 6 && flag != 7"
+           class="btn-return" href="#/FormalBiddingInfo/{{formalPreview.id}}@2/{{formalPreview.url}}/1">
+            返回
+        </a>
+    </div>
+    <div class="row mtab2 text-gray">
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
+        <div id='content3_table' class="mytable">
+            <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
+                                      page-location="formalAssessmentInfo" business-id="pfr.id"
+                                      wf-state="wfState" file-list="newAttachment"
+                                      init-update="initUpdate(id)"
+                                      is-show-meeting-attachment="true"></directive-accachment-new>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //dom监听resize事件
+    (function ($, h, c) {
+        var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j
+            + "-special-event", b = "delay", f = "throttleWindow";
+        e[b] = 350;
+        e[f] = true;
+        $.event.special[j] = {
+            setup: function () {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.add(l);
+                $.data(this, d, {
+                    w: l.width(),
+                    h: l.height()
+                });
+                if (a.length === 1) {
+                    g()
+                }
+            },
+            teardown: function () {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.not(l);
+                l.removeData(d);
+                if (!a.length) {
+                    clearTimeout(i)
+                }
+            },
+            add: function (l) {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var n;
+
+                function m(s, o, p) {
+                    var q = $(this), r = $.data(this, d);
+                    r.w = o !== c ? o : q.width();
+                    r.h = p !== c ? p : q.height();
+                    n.apply(this, arguments)
+                }
+
+                if ($.isFunction(l)) {
+                    n = l;
+                    return m
+                } else {
+                    n = l.handler;
+                    l.handler = m
+                }
+            }
+        };
+
+        function g() {
+            i = h[k](function () {
+                a.each(function () {
+                    var n = $(this), m = n.width(), l = n.height(), o = $
+                        .data(this, d);
+                    if (m !== o.w || l !== o.h) {
+                        n.trigger(j, [o.w = m, o.h = l])
+                    }
+                });
+                g()
+            }, e[b])
+        }
+    })(jQuery, this);
+</script>
+<script>
+    $(function () {
+        setTimeout(function () {
+            var outsideSwiper = new Swiper('.outside-swiper', {
+                observer: true,
+                observeParents: true,
+                loop: false,
+                autoHeight: true,
+                roundLengrhs: true,
+                navigation: {
+                    nextEl: '.out-swiper-button-next',
+                    prevEl: '.out-swiper-button-prev'
+                },
+                on: {
+                    slideChange: function () {
+                        if (this.activeIndex == 1) {
+                            if (this.previousIndex == 0) {
+                                $('.out-swiper-button-next').hide();
+                                $('.son-swiper-button-prev').hide();
+                            } else {
+                                $('.out-swiper-button-prev').hide();
+                                $('.son-swiper-button-next').hide();
+                            }
+
+                        } else {
+                            $('.out-swiper-button-prev').show()
+                            $('.out-swiper-button-next').show()
+
+                        }
+                    },
+                    transitionStart: function () {
+                        var formalBiddingInfoPreview = document.querySelector('[ng-controller = FormalBiddingInfoPreview]');
+                        var $scope = angular.element(formalBiddingInfoPreview).scope();
+                        $scope.changeStyle(this.activeIndex)
+                    }
+                }
+            });
+            $('#processReview').click(function () {
+                outsideSwiper.slideTo(0, 1000, true);//切换到第一个slide，速度为1秒
+                $('#processReview').addClass('chose');
+                $('#template').removeClass('chose');
+                $('#formalReport').removeClass('chose');
+                $('#score').removeClass('chose');
+            });
+            $('#template').click(function () {
+                outsideSwiper.slideTo(1, 1000, true);//切换到第二个slide，速度为1秒
+                $('#template').addClass('chose');
+                $('#processReview').removeClass('chose');
+                $('#formalReport').removeClass('chose');
+                $('#score').removeClass('chose');
+            });
+            $('#formalReport').click(function () {
+                outsideSwiper.slideTo(2, 1000, true);//切换到第三个slide，速度为1秒
+                $('#formalReport').addClass('chose');
+                $('#template').removeClass('chose');
+                $('#processReview').removeClass('chose');
+                $('#score').removeClass('chose');
+            });
+            $('#score').click(function () {
+                outsideSwiper.slideTo(3, 1000, true);//切换到第四个slide，速度为1秒
+                $('#score').addClass('chose');
+                $('#template').removeClass('chose');
+                $('#formalReport').removeClass('chose');
+                $('#processReview').removeClass('chose');
+            });
+            $('.btn-fullscreen').click(function (e) {
+                e.stopPropagation()
+                if ($('.out-rowsection').hasClass('wrap')) {
+                    $(this).removeClass('btn-outscreen')
+                    $('.out-rowsection').removeClass('wrap')
+                    $('.outside-swiper').removeClass('current-swiper-scale')
+                    $('.swiper-wrapper').removeClass('heightAll').addClass('heightAll2')
+                    $('.swiper-slide').removeClass('heightAll').addClass('heightAll2')
+                    $('.mcontent').removeClass('heightAll').addClass('heightAll2')
+                    $('.mcontent').css('width', '83.3%')
+                    //$('.content2')
+                    $('.current-swiper').removeClass('noPadding')
+                    $('.left-swiper').show()
+                    $('.right-swiper').show()
+                    $('.swiper-pagination').removeClass('widthAll')
+                    var maxHeight, wrapHeight;
+                    $('.swiper-slide').each(function () {
+                        $(this).width(toeven($(this).width()))
+                        $(this).height(toeven($(this).height()))
+                    })
+                    $('.mcontent').each(function () {
+                        if (!$(this).children('.contentwrap').hasClass('nocover')) {
+                            maxHeight = $(this).height() - 52
+                            wrapHeight = $(this).find('.contentwrap').height()
+                            if (wrapHeight == maxHeight) {
+                                $(this).find('.table-cover').show()
+                            }
+                        }
+                    })
+                } else {
+                    $(this).addClass('btn-outscreen')
+                    $('.out-rowsection').addClass('wrap')
+                    $('.outside-swiper').addClass('current-swiper-scale')
+                    $('.swiper-wrapper').removeClass('heightAll2').addClass('heightAll')
+                    $('.swiper-slide').removeClass('heightAll2').addClass('heightAll')
+                    $('.mcontent').removeClass('heightAll2').addClass('heightAll')
+                    $('.mcontent').css('width', '100%')
+                    $('.current-swiper').addClass('noPadding')
+                    $('.left-swiper').hide()
+                    $('.right-swiper').hide()
+                    $('.swiper-pagination').addClass('widthAll')
+
+                    /*if ($("#demo-settings-toggler")) {
+                        $("#demo-settings-toggler").hide();
+                    }*/
+
+                    $('.swiper-slide').each(function () {
+                        $(this).width(toeven($(this).width()))
+                        $(this).height(toeven($(this).height()))
+                    })
+                    $('.mcontent').each(function () {
+                        var maxHeight = parseFloat($(this).height() * 0.95) - 76;
+                        var wrapHeight = $(this).find('.contentwrap').height();
+                        if (wrapHeight < maxHeight) {
+
+                            $(this).find('.table-cover').hide()
+                        }
+                    })
+                }
+            })
+            $('.outside-swiper').resize(function () {
+                outsideSwiper.update()
+            })
+            $('.table-cover').click(function () {
+                $(this).parent('.contentwrap').addClass('nocover')
+            })
+        }, 1000);
+
+        function toeven(num) {
+            return num % 2 == 0 ? num : num + 1
+        }
+    })
+</script>

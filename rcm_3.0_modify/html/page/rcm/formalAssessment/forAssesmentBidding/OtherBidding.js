@@ -1,5 +1,5 @@
-ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout',
-    function ($http, $scope, $location, $routeParams, Upload, $timeout) {
+ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter',
+    function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter) {
         //初始化
         $scope.oldUrl = $routeParams.url;
         $scope.tabIndex = $routeParams.tabIndex;
@@ -277,6 +277,32 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
             }).error(function (data, status, headers, config) {
                 $.alert(status);
             });
+        }
+
+
+        // 预览时将数据存入浏览器缓存，以便退出预览时使用
+        $scope.saveDataToLocalStorage = function () {
+            if(!window.localStorage){
+                alert("浏览器不支持localstorage");
+                return false;
+            }else {
+                var storage = window.localStorage;
+                storage.newAttachment = JSON.stringify($scope.newAttachment);
+            }
+        }
+
+        // 整理预览界面需要的json数据
+        $scope.previewJson = function () {
+            var formalPreview = {};
+            formalPreview.projectName = $scope.formalReport.projectName;
+            formalPreview.newAttachment = $scope.newAttachment;
+            return formalPreview;
+        }
+
+        // 进入预览页面
+        $scope.toPreview = function () {
+            // $scope.saveDataToLocalStorage();
+            $location.path("/OtherBiddingInfoPreview/" + objId + "/" + $filter('encodeURI') + "/2");
         }
 
 

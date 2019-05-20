@@ -1978,6 +1978,40 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            // 正式评审决策委员会材料PPT预览
+            .when('/OtherBiddingInfoPreview', {
+                controller: 'OtherBiddingInfoPreview',
+                templateUrl: 'page/rcm/formalAssessment/forAssesmentPreview/OtherBiddingInfoPreview.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/forAssesmentPreview/OtherBiddingInfoPreview.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .when('/OtherBiddingInfoPreview/:id/:url/:flag', {
+                controller: 'OtherBiddingInfoPreview',
+                templateUrl: 'page/rcm/formalAssessment/forAssesmentPreview/OtherBiddingInfoPreview.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/forAssesmentPreview/OtherBiddingInfoPreview.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             /* // 正式评审决策委员会材料预览旧版新页面
              .when('/FormalBiddingInfoPreviewOld/:id/:url/:flag', {
                  controller: 'FormalBiddingInfoPreviewOld',
