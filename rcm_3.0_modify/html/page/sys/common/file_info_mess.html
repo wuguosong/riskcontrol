@@ -1,6 +1,6 @@
 <a  style="font-size: small;color: blue;"
     href="javascript:void(0);"
-    ng-click="_message_preview_file_(_message_.fileDto.preview3d)">{{_message_.fileDto.filename}}
+    ng-click="_message_preview_file_(_message_.fileDto.preview3d)">{{_message_.fileDto.rcmfilename}}
     <span ng-if="_message_.messageFile != null">
                             &nbsp;
                             </span>
@@ -17,8 +17,9 @@
                             MB
                             </span>
 </a>
+<!--
 <a  style="font-size: small;color: blue;"
     ng-if="_message_.messageFile != null && _is_show_reply_btn_ && _message_.createdBy == _init_uuid_global_"
     ng-click="_message_delete_file_(_message_, 'MES', $index);"
     href="javascript:void(0);">移除
-</a>
+</a>-->

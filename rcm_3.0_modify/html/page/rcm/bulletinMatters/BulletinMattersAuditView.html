@@ -276,7 +276,7 @@
 									<bbs-chat-new id="bulletinMattersAuditBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" is-show-attach-type="false" relation-sources-popup="BulletinMattersDetailRelationResourcesPopup"></bbs-chat-new>
 								</div>
 								<!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
-								<div id="BulletinMattersDetailRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;">
+								<div id="BulletinMattersDetailRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content panel">
 											<div class="modal-header panel-heading" style="text-align: center;">
@@ -286,6 +286,7 @@
 											<div class="modal-body panel-body">
 												<directive-accachment-new id="BulletinMattersDetail2" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
 																		  wf-state="0" file-list="newAttachment"
+																		  ignore-replace-reason="true"
 																		  init-update="initUpdate(id)"></directive-accachment-new>
 											</div>
 											<div class="modal-footer">

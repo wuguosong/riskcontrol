@@ -503,7 +503,7 @@
 									<bbs-chat-new id="formAssessmentAuditDetailBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
 								</div>
 								<!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
-								<div id="formalAssessmentInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;">
+								<div id="formalAssessmentInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content panel">
 											<div class="modal-header panel-heading" style="text-align: center;">
@@ -514,6 +514,7 @@
 												<directive-accachment-new id="formalAssessmentInfo2" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
 																		  wf-state="0" file-list="newAttachment"
 																		  init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
+																		  ignore-replace-reason="true"
 																		  service-type="serviceType" project-model="projectModel"></directive-accachment-new>
 											</div>
 											<div class="modal-footer">

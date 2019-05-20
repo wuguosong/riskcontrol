@@ -451,6 +451,7 @@ public class MessageService implements IMessageService {
                 FileDto fileDto = fileService.getFile(String.valueOf(fileId));
                 if (fileDto != null) {
                     try {
+                        System.out.println(fileDto.getDoctype() + "\t" +fileDto.getDoccode() + "\t" + fileDto.getPagelocation()  + "\t" + fileDto.getFilename());
                         List<FileDto> list = fileService.createFileList(fileDto.getDoctype(), fileDto.getDoccode(), fileDto.getPagelocation());
                         if (CollectionUtils.isNotEmpty(list)) {
                             message.put("fileDto", list.get(0));

@@ -544,7 +544,7 @@
                                             <bbs-chat-new id="prePreviewBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="preInfoRelationResourcesPopup" is-show-attach-type="false"></bbs-chat-new>
                                         </div>
                                         <!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
-                                        <div id="preInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;">
+                                        <div id="preInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content panel">
                                                     <div class="modal-header panel-heading" style="text-align: center;">
@@ -554,6 +554,7 @@
                                                     <div class="modal-body panel-body">
                                                         <directive-accachment-new id="preInfo2" business-type="preReview" page-location="preInfo" business-id="pre.id"
                                                                                   wf-state="0" file-list="newAttachment"
+                                                                                  ignore-replace-reason="true"
                                                                                   init-update="initUpdate(id)">
                                                         </directive-accachment-new>
                                                     </div>

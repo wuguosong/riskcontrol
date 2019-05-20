@@ -15,7 +15,7 @@ var srvUrl = "/rcm-rest";
 var meetDeciInteTime = 2500;
 //决策定时器 变量
 var meetDeciInte = null;
-ctmApp.controller('SysControl', ['$scope', '$cookies', '$http', '$location', '$interval', '$rootScope', '$filter', function ($scope, $cookies, $http, $location, $interval, $rootScope, $filter) {
+ctmApp.controller('SysControl', ['$scope', '$cookies', '$http', '$location', '$interval', '$rootScope', '$filter','DirPipeSrv', function ($scope, $cookies, $http, $location, $interval, $rootScope, $filter, DirPipeSrv) {
     ////到cookie中读取用户名及密码
     //服务端地址信息
     $scope.srvInfo = {
@@ -550,6 +550,63 @@ ctmApp.filter('textToHtml', function ($sce) {
         return $sce.trustAsHtml(text);
     }
 });
+ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
+    var service = {
+        /*设置相关信息，留言指令调用*/
+        _setCallInfo: function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, _scope) {
+            debugger;
+            var formData = null;
+            if (_is_first_ == 'Y') {// 如果是主题留言提交
+                formData = _scope._message_first;
+                if (!isEmptyJson(_scope._form_first_)) {// 如果上传了附件信息，则进行保存
+                    formData.messageFile = _scope._form_first_.fileid;
+                }
+                formData.originalId = 0;
+                formData.parentId = 0;
+                formData.repliedBy = '';
+                formData.repliedName = 0;
+                formData.messageContent = $('#_message_first_0' + _scope._screen_type_).text();
+                formData.messageTitle = $('#_message_first_title_0' + _scope._screen_type_).text();
+                formData.viaUsers = notify_mergeTempCheckedUsers(_scope._via_users_TempCheckedUsers);
+            } else {// 如果是主题留言回复
+                formData = _scope._message;
+                if (!isEmpty($('#_form_file_ipt' + _idx_ + _scope._screen_type_).val())) {// 如果上传了附件信息，则进行保存
+                    formData.messageFile = $('#_form_file_ipt' + _idx_ + _scope._screen_type_).val();
+                }
+                formData.originalId = _original_id_;
+                formData.parentId = _parent_id_;
+                formData.repliedBy = _replied_by_;
+                formData.repliedName = _replied_name_;
+                formData.messageContent = $('#_message_textarea_bottom_' + _idx_ + _scope._screen_type_).text();
+            }
+            formData.messageType = _scope.messageType;
+            formData.messageScreenType = _scope.screenType;
+            $rootScope._call_message = formData;
+            $rootScope._call_params = {};
+            $rootScope._call_params._is_first_ = _is_first_;
+            $rootScope._call_params._original_id_ = _original_id_;
+            $rootScope._call_params._parent_id_ = _parent_id_;
+            $rootScope._call_params._replied_by_ = _replied_by_;
+            $rootScope._call_params._replied_name_ = _replied_name_;
+            $rootScope._call_params._idx_ = _idx_;
+            $rootScope._call_scope = _scope;
+        },
+        /*获取相关信息，附件指令调用*/
+        _getCallInfo: function () {
+            debugger;
+            var _curInfo = {};
+            _curInfo.message = $rootScope._call_message;
+            _curInfo.params = $rootScope._call_params;
+            return _curInfo;
+        },
+        /*保存相关信息，附件指令调用*/
+        _saveMessage: function (_curInfo) {
+            return $rootScope._call_scope._submit_message_form_(_curInfo.params._is_first_, _curInfo.params._original_id_, _curInfo.params._parent_id_, _curInfo.params._replied_by_, _curInfo.params._replied_name_, _curInfo.params._idx_, 'N');
+        }
+    };
+    return service;
+}
+]);
 //调用该方法可访问scope对象
 function accessScope(node, func) {
     var scope = angular.element(document.querySelector(node)).scope();
