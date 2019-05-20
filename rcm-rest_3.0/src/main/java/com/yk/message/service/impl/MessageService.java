@@ -225,7 +225,6 @@ public class MessageService implements IMessageService {
                     DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
             // 将根节点装入聊天组中
             this.setViaUsers(jsonObject);
-            this.setMessageFileInfo(jsonObject);
             jsonObjectLeaves.add(jsonObject);
             // 把根节点下面的叶子节点全部都查出来
             List<Message> leaves = messageMapper.selectLeavesMessageList(procInstId, message.getMessageId());
@@ -241,11 +240,10 @@ public class MessageService implements IMessageService {
                 leaveObject.put("messageDate",
                         DateUtil.getOracleDateToString(leave.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
                 this.setViaUsers(leaveObject);
-                this.setMessageFileInfo(leaveObject);
                 jsonObjectLeaves.add(leaveObject);
             }
-
             jsonObjects.add(jsonObjectLeaves);
+            this.setMessageFileInfo(jsonObjects);
         }
         return jsonObjects;
     }
@@ -396,7 +394,6 @@ public class MessageService implements IMessageService {
                     DateUtil.getOracleDateToString(message.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
             // 将根节点装入聊天组中
             this.setViaUsers(jsonObject);
-            this.setMessageFileInfo(jsonObject);
             jsonObjectLeaves.add(jsonObject);
             // 把根节点下面的叶子节点全部都查出来
             List<Message> leaves = messageMapper.selectLeavesMessageList(String.valueOf(params.get("procInstId")), message.getMessageId());
@@ -411,10 +408,10 @@ public class MessageService implements IMessageService {
                 leaveObject.put("messageDate",
                         DateUtil.getOracleDateToString(leave.getMessageDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS));
                 this.setViaUsers(leaveObject);
-                this.setMessageFileInfo(leaveObject);
                 jsonObjectLeaves.add(leaveObject);
             }
             jsonObjects.add(jsonObjectLeaves);
+            this.setMessageFileInfo(jsonObjects);
         }
         pageAssistant.setList(jsonObjects);
     }
@@ -444,20 +441,28 @@ public class MessageService implements IMessageService {
     @Resource
     private IFileService fileService;
 
-    private void setMessageFileInfo(JSONObject message) {
-        if (message != null) {
-            if (message.getLong("messageFile") != null) {
-                Long fileId = message.getLong("messageFile");
-                FileDto fileDto = fileService.getFile(String.valueOf(fileId));
-                if (fileDto != null) {
-                    try {
-                        System.out.println(fileDto.getDoctype() + "\t" +fileDto.getDoccode() + "\t" + fileDto.getPagelocation()  + "\t" + fileDto.getFilename());
-                        List<FileDto> list = fileService.createFileList(fileDto.getDoctype(), fileDto.getDoccode(), fileDto.getPagelocation());
-                        if (CollectionUtils.isNotEmpty(list)) {
-                            message.put("fileDto", list.get(0));
-                        }
-                    } catch (Exception e) {
+    private void setMessageFileInfo(List<List<JSONObject>> jsonObjects) {
+        for(List<JSONObject> list : jsonObjects){
+            for(JSONObject message : list){
+                if (message != null) {
+                    if (message.getLong("messageFile") != null) {
+                        Long fileId = message.getLong("messageFile");
+                        FileDto fileDto = fileService.getFile(String.valueOf(fileId));
+                        if (fileDto != null) {
+                            try {
+                                System.out.println(fileDto.getDoctype() + "\t" +fileDto.getDoccode() + "\t" + fileDto.getPagelocation()  + "\t" + fileDto.getFilename());
+                                List<FileDto> fileDtos = fileService.createFileList(fileDto.getDoctype(), fileDto.getDoccode(), fileDto.getPagelocation());
+                                if (CollectionUtils.isNotEmpty(fileDtos)) {
+                                    for(FileDto fd : fileDtos){
+                                        if(fileId.compareTo(fd.getFileid()) == 0){
+                                            message.put("fileDto", fd);
+                                        }
+                                    }
+                                }
+                            } catch (Exception e) {
 
+                            }
+                        }
                     }
                 }
             }
