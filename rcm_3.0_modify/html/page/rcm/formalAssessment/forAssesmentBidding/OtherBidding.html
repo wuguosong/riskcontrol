@@ -60,11 +60,11 @@
             <div class="row" align="center">
                 <span ng-if="hasWaiting" type="span" class="btn-preview" ng-click="toPreview()" class="btn btn-info"/>
             </div>
-            <div class="stage" ng-if="isBtnShow">
+            <div class="stage" ng-if="isEdite">
                 <a href="" ng-click="submitSave()">提交</a><a href="" ng-click="saveOnly()">暂存</a>
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>
-            <div class="noStage"  ng-if="!isBtnShow">
+            <div class="noStage" ng-if="!isEdite">
                 <a href="" ng-click="submitSave()">提交</a>
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>

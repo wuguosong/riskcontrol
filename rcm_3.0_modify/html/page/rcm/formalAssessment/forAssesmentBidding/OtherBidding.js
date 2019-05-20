@@ -15,7 +15,7 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         }
         var objId = params[0];
         $scope.formalReport = {};
-        $scope.isBtnShow = true;
+        $scope.projectSummary = {};
 
         var action = $routeParams.action;
 
@@ -47,28 +47,46 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                 url: srvUrl + "formalReport/findFormalAndReport.do",
                 data: $.param({"projectFormalId": projectFormalId})
             }).success(function (data) {
+                $scope.formalReport = data.result_data.Report;
+                $scope.pfr = data.result_data.Formal;
+                // 处理附件需要的数据
+                $scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
+                $scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
                 // 处理附件
                 $scope.reduceAttachment(data.result_data.Formal.attachmentList, projectFormalId);
+                hide_Mask();
             })
+        }
+
+        // 验证附件
+        $scope.validateVoidFile = function () {
+            for (var i in $scope.newAttachment) {
+                if ($scope.newAttachment[i].fileName == null || $scope.newAttachment[i] == '') {
+                    return false;
+                }
+            }
+            return true;
         }
 
         $scope.initData = function () {
             $scope.initUpdate(objId);
             if (action == "Create") {
                 $scope.title = "正式评审决策会材料-新增";
-                $scope.getProjectFormalReviewByID(objId);
+                $scope.isEdite = true;
+                // $scope.getProjectFormalReviewByID(objId);
                 $scope.formalReport.create_by = $scope.credentials.UUID;
                 $scope.formalReport.create_name = $scope.credentials.userName;
                 $("#wordbtn").hide();
             } else if (action == "Update") {
+                $scope.isEdite = true;
                 $scope.title = "正式评审决策会材料-修改";
-                $scope.getSummaryPPTByID(objId);
+                // $scope.getSummaryPPTByID(objId);
             } else if (action == "View") {
                 $scope.title = "正式评审决策会材料-查看";
-                $scope.getSummaryPPTByID(objId);
-                $("#savebtn").hide();
-                $("#btnfile").attr("disabled", "disabled");
+                // $scope.getSummaryPPTByID(objId);
+                $scope.isEdite = false;
             }
+            console.log($scope.isEdite)
         };
 
         $scope.getSummaryPPTByID = function (id) {
@@ -121,8 +139,15 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         $scope.initData();
 
         $scope.saveOnly = function () {
+            //验证空附件
+            if (!$scope.validateVoidFile()) {
+                $.alert("附件不能为空！");
+                return;
+            }
+
             var data = $scope.dataForSave();
-            $scope.saveOrSubmit(data, "so");
+            console.log(data)
+            // $scope.saveOrSubmit(data, "so");
         };
 
         $scope.submitSave = function () {
@@ -131,8 +156,93 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         };
 
         $scope.dataForSave = function () {
-            $scope.projectSummary.projectFormalId = $scope.formalReport.projectFormalId; // 正式评审项目id
-            $scope.formalReport.projectSummary = $scope.projectSummary;
+
+            var newAttachment = $scope.reduceAttachmentForSubmit($scope.newAttachment);
+            console.log(newAttachment);
+            if (newAttachment == false) {
+                return false;
+            }
+
+            var chk_list = $("input[name='choose']");
+            var fid = "";
+            var uuidarr = [], itemarr = [], programmedarr = [], approvedarr = [], fileNamearr = [], filePatharr = [],
+                versionarr = [], upload_datearr = [], programmeIddarr = [], approvedIdarr = [];
+            for (var i = 0; i < chk_list.length; i++) {
+                if (chk_list[i].checked) {
+                    fid = chk_list[i].value;
+                    var arrfid = fid.split("||");
+                    if (arrfid[0] == null || arrfid[0] == "") {
+                        uuidarr.push($scope.newAttachment[i].newItem.UUID);
+                    } else {
+                        uuidarr.push(arrfid[0]);
+                    }
+                    if (arrfid[1] == null || arrfid[1] == "") {
+                        itemarr.push($scope.newAttachment[i].newItem.ITEM_NAME);
+                    } else {
+                        itemarr.push(arrfid[1]);
+                    }
+                    programmedarr.push(arrfid[2]);
+                    approvedarr.push(arrfid[3]);
+                    fileNamearr.push(arrfid[4]);
+                    filePatharr.push(arrfid[5]);
+                    versionarr.push(arrfid[6]);
+                    upload_datearr.push(arrfid[7]);
+                    programmeIddarr.push(arrfid[8]);
+                    approvedIdarr.push(arrfid[9]);
+                }
+            }
+
+            var newFiles = $("input[name='choosem']")
+            for (var i = 0; i < newFiles.length; i++) {
+                if (newFiles[i].checked) {
+                    fid = newFiles[i].value;
+                    var arrfid = fid.split("||");
+                    uuidarr.push(arrfid[0]);
+                    itemarr.push(arrfid[1]);
+                    programmedarr.push(arrfid[2]);
+                    approvedarr.push(arrfid[3]);
+                    fileNamearr.push(arrfid[4]);
+                    filePatharr.push(arrfid[5]);
+                    versionarr.push(arrfid[6]);
+                    upload_datearr.push(arrfid[7]);
+                    programmeIddarr.push(arrfid[8]);
+                    approvedIdarr.push(arrfid[9]);
+                }
+            }
+
+            var array = [];
+            if (undefined == $scope.formalReport.policyDecision) {
+                $scope.formalReport.policyDecision = {};
+            }
+            $scope.formalReport.policyDecision.submitName = $scope.credentials.userName;
+            $scope.formalReport.policyDecision.submitDate = $scope.FormatDate();
+            if (undefined == $scope.formalReport.policyDecision.decisionMakingCommitteeStaffFiles) {
+                $scope.formalReport.policyDecision.decisionMakingCommitteeStaffFiles = [];
+            }
+
+            for (var j = 0; j < fileNamearr.length; j++) {
+                $scope.vvvv = {};
+                $scope.vvvv.UUID = uuidarr[j];
+                $scope.vvvv.ITEM_NAME = itemarr[j];
+                $scope.vvvv.programmed = programmedarr[j];
+                $scope.vvvv.approved = approvedarr[j];
+                $scope.vvvv.fileName = fileNamearr[j];
+                $scope.vvvv.filePath = filePatharr[j];
+                $scope.vvvv.version = versionarr[j];
+                if (upload_datearr[j] == "") {
+                    upload_datearr[j] = $scope.getDate();
+                }
+                $scope.vvvv.upload_date = upload_datearr[j];
+                $scope.vvvv.programmedId = programmeIddarr[j];
+                $scope.vvvv.approvedID = approvedIdarr[j];
+                array.push($scope.vvvv);
+            }
+            $scope.formalReport.policyDecision.decisionMakingCommitteeStaffFiles = array;
+
+            $scope.formalReport.ac_attachment = $scope.pfr.attachment;
+
+            $scope.formalReport.projectFormalId = objId; // 正式评审项目id
+            // $scope.formalReport.projectSummary = $scope.projectSummary;
             return $scope.formalReport;
         };
 
@@ -152,6 +262,8 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                     } else if (method == "ss") {
                         if (data.result_data) {
                             alertData = "提交成功!";
+                            $("#savebtn").hide();
+                            $("#btnfile").attr("disabled", "disabled");
                             // $location.path("/FormalBiddingInfoPreview/" + $scope.businessId + "/" + $filter('encodeURI') + "/2");
                         } else {
                             $.alert("请确保参会信息已填写完毕!");
