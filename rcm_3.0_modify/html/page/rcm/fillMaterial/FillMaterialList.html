@@ -48,7 +48,7 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class=" table-list no-selectbox clearfix fixtable" style="overflow:hidden;">
-                                <div class="lltable">
+                                <div class="lltable" style="width: 77%">
                                     <table class="table table-hover maintable">
                                         <thead>
                                         <tr>
@@ -103,7 +103,7 @@
                                     </table>
 
                                 </div>
-                                <table class="table table-hover lefttable">
+                                <table class="table table-hover lefttable" style="width: 23%">
                                     <thead>
                                     <tr>
                                         <th class="fixedth">填写评审资料</th>
@@ -169,19 +169,19 @@
                                                href="#/NoticeDecisionDraftDetail/Create/{{ noSubmit.BUSINESSID }}"
                                                class="btn btn-sm btn-grey btn-right"
                                                title="">
-                                                决策通知书
+                                                决策通知书草拟
                                             </a>
                                             <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE == 0"
                                                href="#/NoticeDecisionDraftDetail/Update/{{noSubmit.BUSINESSID}}"
                                                class="btn btn-sm btn-grey btn-right"
                                                title="">
-                                                决策通知书
+                                                决策通知书草拟
                                             </a>
                                             <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE == 1"
                                                href="#/NoticeDecisionDraftDetailView/submitted/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
                                                class="btn btn-sm btn-success btn-right"
                                                title="">
-                                                决策通知书
+                                                决策通知书草拟
                                             </a>
                                             <button ng-if="noSubmit.PROJECT_TYPE == 'pre' && (noSubmit.RPI_IS_SUBMIT_REPORT != 0 && noSubmit.RPI_IS_SUBMIT_REPORT != 1)"
                                                     ng-click="openPREReport(noSubmit)"
@@ -271,7 +271,7 @@
                         <div class="panel-body">
 
                             <div class=" table-list no-selectbox clearfix fixtable" style="overflow:hidden;">
-                                <div class="lltable">
+                                <div class="lltable" style="width: 77%">
                                     <table class="table table-hover maintable">
                                         <thead>
                                         <tr>
@@ -330,7 +330,7 @@
                                     </table>
 
                                 </div>
-                                <table class="table table-hover lefttable">
+                                <table class="table table-hover lefttable" style="width: 23%">
                                     <thead>
                                     <tr>
                                         <th class="fixedth">填写评审资料</th>

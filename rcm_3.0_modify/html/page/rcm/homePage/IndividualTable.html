@@ -206,7 +206,7 @@
     <!-- <fill-material></fill-material> -->
 </div>
 <!-- 第二个版块 -->
-<div class="panel-body panel-index1" style="margin-top:10px;" >
+<div class="panel-body panel-index1" style="margin-top:10px;" ng-if="showFlag == 2">
     <div class="mb30 ml20 mr20">
         <div class="p-nav">
 
@@ -247,7 +247,7 @@
 </div>
 <!-- 首页快捷菜单 -->
 <div class="short-menu" ng-if="showFlag == 1">
-    <h1>快捷菜单</h1>
+    <h1>常用菜单</h1>
     <a href="#/PreInfoList/0" class="shortcut-index">
         <i class="icon-nav">&#xe61c;</i>
         <p>投标评审申请</p>
@@ -267,11 +267,7 @@
 </div>
 
 <div class="short-menu" ng-if="showFlag == 2">
-    <h1>快捷菜单</h1>
-    <a href="#/fillMaterialList/0" class="shortcut-index">
-        <i class="icon-nav">&#xe621;</i>
-        <p>资料填写看板</p>
-    </a>
+    <h1>常用菜单</h1>
     <a href="javascript:void(0);" class="shortcut-index">
         <i class="icon-nav">&#xe620;</i>
         <p>分析图表</p>
