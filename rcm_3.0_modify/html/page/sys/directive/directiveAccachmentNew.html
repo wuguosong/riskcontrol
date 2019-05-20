@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <div class="full-drop">
+        <div class="full-drop button-right">
             <button type="button" ng-if="isEdite || wfState =='0'" ng-click="_addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
             <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>-->
             <div  id="compareModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
@@ -27,16 +27,16 @@
         <table class="table table-bordered table-hover datatable table-text-mid table-light" ng-if="!isShowMeetingAttachment">
             <thead>
             <tr>
-                <th width="8%">序号</th>
-                <th width="20%" ng-if="businessType != 'bulletin'">资源类型</th>
-                <th width="20%">附件内容</th>
+                <th width="6%">序号</th>
+                <th width="16%" ng-if="businessType != 'bulletin'">资源类型</th>
+                <th width="19%">附件内容</th>
                 <!--<th ng-if="businessType != 'bulletin'"  width="8%">编制人</th>
                 <th ng-if="businessType != 'bulletin'"  width="8%">审核人</th>-->
-                <th  width="12%">最后提交人</th>
-                <th  width="15%">最后提交时间
+                <th  width="10%">最后提交人</th>
+                <th  width="18%">最后提交时间
                     <!--ng-if="isEdite || wfState =='0'"-->
-                <th >相关操作</th>
-                <th ng-if="isChoose">上会附件</th>
+                <th width="21%">相关操作</th>
+                <th ng-if="isChoose" width="10%">上会附件</th>
             </tr>
             </thead>
             <tbody ng-repeat="item in fileList | orderBy: 'newFile + type.ITEM_CODE' : asc" ng-init="outerIndex = $index">
@@ -104,9 +104,9 @@
                             </div>
                         </div>
                     </div>
-                    <button ng-if="item.preview3d != null" type="button" class="btn btn-info"  ng-click="showHistory(item.type.ITEM_CODE, item.uuid)">查看历史附件</button>
+                    <!--<button ng-if="item.preview3d != null" type="button" class="btn btn-info"  ng-click="showHistory(item.type.ITEM_CODE, item.uuid)">查看历史附件</button>-->
                 </td>
-                <td ng-if="isChoose">
+                <td ng-if="isChoose" align="center">
                     <label class="checkbox-inline choose">
                         <input type="checkbox" ng-disabled="isDisabled" name="fileChoose{{$index}}" ng-click="_changeChoose($index, item.fileid)" class="px" ng-checked="item.isMettingAttachment == '1'"/>
                         <span class="lbl">&nbsp;</span>

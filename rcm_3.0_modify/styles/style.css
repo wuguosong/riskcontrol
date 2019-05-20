@@ -2107,3 +2107,8 @@ td btn-scale:first-child {
 #_cloud_btn_pfrOtherBidding_pfrOtherBidding_1_1 {
     width: 100%;
 }
+
+.button-right {
+    margin-top: 19px;
+    float: right;
+}

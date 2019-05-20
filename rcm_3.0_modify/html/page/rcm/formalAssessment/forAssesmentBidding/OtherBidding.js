@@ -15,9 +15,45 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         }
         var objId = params[0];
         $scope.formalReport = {};
+        $scope.isBtnShow = true;
 
         var action = $routeParams.action;
+
+        //处理附件列表
+        $scope.reduceAttachment = function(attachment, id){
+            $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
+            for(var i in attachment){
+                var file = attachment[i];
+                for (var j in $scope.newAttachment){
+                    if (file.fileId == $scope.newAttachment[j].fileid){
+                        $scope.newAttachment[j].fileName = file.fileName;
+                        $scope.newAttachment[j].type = file.type;
+                        $scope.newAttachment[j].itemType = file.itemType;
+                        $scope.newAttachment[j].programmed = file.programmed;
+                        $scope.newAttachment[j].approved = file.approved;
+                        $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
+                        $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                        $scope.newAttachment[j].isMettingAttachment = file.isMettingAttachment;
+                        break;
+                    }
+                }
+            }
+        };
+
+        // 初始化提交决策会材料数据
+        $scope.initUpdate = function (projectFormalId) {
+            $http({
+                method: 'post',
+                url: srvUrl + "formalReport/findFormalAndReport.do",
+                data: $.param({"projectFormalId": projectFormalId})
+            }).success(function (data) {
+                // 处理附件
+                $scope.reduceAttachment(data.result_data.Formal.attachmentList, projectFormalId);
+            })
+        }
+
         $scope.initData = function () {
+            $scope.initUpdate(objId);
             if (action == "Create") {
                 $scope.title = "正式评审决策会材料-新增";
                 $scope.getProjectFormalReviewByID(objId);
