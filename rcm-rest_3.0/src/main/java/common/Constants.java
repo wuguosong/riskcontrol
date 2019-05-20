@@ -196,6 +196,10 @@ public class Constants {
 	 */
 	public static final String TEAM_CODE_REVIEWFZR = "1";
 	
+	/**
+	 * 文件类型代码：其他文件
+	 * */
+	public static final String FILE_CODE_OTHER = "0509";
 	
 	/**
 	 * 消息借口-短信类型

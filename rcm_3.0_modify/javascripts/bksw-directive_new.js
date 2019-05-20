@@ -3184,7 +3184,7 @@ ctmApp.directive('directiveAccachmentNew', function() {
                 }
                 function _addBlankRow(_array) {
                     var blankRow = {
-                        newFile: true,
+                        newFile: '1',
                         _file_content: ''
                     };
                     var size = 0;

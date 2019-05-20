@@ -380,16 +380,20 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		if(Util.isNotEmpty(attachmentTypeList)){
 			if(Util.isNotEmpty(attachmentList)){
 				for(int i = 0; i < attachmentTypeList.size(); i++){
-					int count = 0;
-					for(int j = 0; j < attachmentList.size(); j++){
-						Document type = (Document)attachmentList.get(j).get("type");
-						if(attachmentTypeList.get(i).get("ITEM_CODE").equals(type.get("ITEM_CODE"))){
-							count++;
-							break;
-						}
-					}
-					if(count == 0){
-						list.add(attachmentTypeList.get(i));
+					// 其他文件不是必填项，去掉
+					if (!Constants.FILE_CODE_OTHER.equals(attachmentTypeList.get(i).get("ITEM_CODE"))){
+					    int count = 0;
+					    for(int j = 0; j < attachmentList.size(); j++){
+						    Document type = (Document)attachmentList.get(j).get("type");
+							if(attachmentTypeList.get(i).get("ITEM_CODE").equals(type.get("ITEM_CODE"))){
+								count++;
+								break;
+							}
+						
+					     }
+					     if(count == 0){
+						     list.add(attachmentTypeList.get(i));
+					     }
 					}
 				}
 			} else {
