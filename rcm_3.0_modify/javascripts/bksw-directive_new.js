@@ -2195,7 +2195,7 @@ ctmApp.directive('bbsChatNew', function() {
             };
             // 留言中的过程附件
             $scope._message_upload_file_ = function(_file_,_is_first_mess,_idx_mess){
-                var _pageLocationSequenceNumber = get_pageLocation_sequence_number($scope.messageType, $scope.businessId, $scope._init_uuid_global_);
+                var _pageLocationSequenceNumber = get_pageLocation_sequence_number('sys_message_' + $scope.messageType, $scope.businessId, $scope._init_uuid_global_);
                 if(_is_first_mess == 'Y'){
                     $scope._form_first_ = {};
                 }else{
@@ -2206,7 +2206,7 @@ ctmApp.directive('bbsChatNew', function() {
                     url: srvUrl + 'cloud/upload.do',
                     data: {
                         file: _file_,
-                        'docType':$scope.messageType,
+                        'docType':'sys_message_' + $scope.messageType,
                         'docCode':$scope.businessId,
                         'pageLocation':$scope._init_uuid_global_ + '_' + _pageLocationSequenceNumber
                     }
