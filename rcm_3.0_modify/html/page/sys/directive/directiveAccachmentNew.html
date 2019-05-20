@@ -1,9 +1,11 @@
 <div>
     <div class="row">
         <div class="full-drop button-right">
-            <button type="button" ng-if="isEdite || wfState =='0'" ng-click="_addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>新增</button>
+            <button type="button" ng-if="isEdite || wfState =='0'" ng-click="_addOneNewFile()" class="btn btn-info"
+                    title=""><i class="fa fa-cloud-download"></i>新增
+            </button>
             <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>-->
-            <div  id="compareModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+            <div id="compareModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
@@ -24,7 +26,8 @@
         </div>
     </div>
     <div class="row table-responsive">
-        <table class="table table-bordered table-hover datatable table-text-mid table-light" ng-if="!isShowMeetingAttachment">
+        <table class="table table-bordered table-hover datatable table-text-mid table-light"
+               ng-if="!isShowMeetingAttachment">
             <thead>
             <tr>
                 <th width="6%">序号</th>
@@ -32,54 +35,50 @@
                 <th width="19%">附件内容</th>
                 <!--<th ng-if="businessType != 'bulletin'"  width="8%">编制人</th>
                 <th ng-if="businessType != 'bulletin'"  width="8%">审核人</th>-->
-                <th  width="10%">最后提交人</th>
-                <th  width="18%">最后提交时间
+                <th width="10%">最后提交人</th>
+                <th width="18%">最后提交时间
                     <!--ng-if="isEdite || wfState =='0'"-->
                 <th width="21%">相关操作</th>
                 <th ng-if="isChoose" width="10%">上会附件</th>
             </tr>
             </thead>
-            <tbody ng-repeat="item in fileList | orderBy: 'newFile + type.ITEM_CODE' : asc" ng-init="outerIndex = $index">
+            <tbody ng-repeat="item in fileList | orderBy: 'newFile + type.ITEM_CODE' : asc"
+                   ng-init="outerIndex = $index">
             <tr>
-                <td>{{outerIndex+1}}</td>
-                <td ng-if="businessType != 'bulletin'">
+                <td width="6%">{{outerIndex+1}}</td>
+                <td width="16%" ng-if="businessType != 'bulletin'">
                     <span ng-if="item.newFile != '1'">{{item.type.ITEM_NAME}}</span>
                     <div ng-if="item.newFile == '1'">
-                        <select ng-model="item.type"  ng-options="y.ITEM_NAME for y in attachmentType track by y.ITEM_CODE" ng-change="_changeItemType(item)">
+                        <select ng-model="item.type"
+                                ng-options="y.ITEM_NAME for y in attachmentType track by y.ITEM_CODE"
+                                ng-change="_changeItemType(item)"
+                                style="width: 150px">
                             <option value="">-- 请选择 --</option>
                         </select>
                     </div>
                 </td>
-                <td>
+                <td width="19%">
                     <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="!item.newFile">{{item.fileName}}</a>
                     <div ng-if="item.newFile == '1' != undefined || item.fileName != null">
                         <span ng-if="item.newFile == '1'">{{item.fileName}}</span>
                     </div>
                 </td>
-               <!-- <td>
-                    <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="!item.newFile">{{item.fileName}}</a>
-                    <div ng-if="item.fileName != undefined || item.fileName != null">
-                        <span ng-if="item.newFile">{{item.fileName}}</span>
-                        <span ng-if="item.lastUpdateData == null">_</span>
-                        <input ng-if="item.lastUpdateData == null" ng-model="item.fileNamSuffix" style="width: 50%"/>
-                    </div>
-                </td>-->
-               <!-- <td ng-if="businessType != 'bulletin'">
-                    <span ng-if="isEdite">{{item.programmed.NAME}}</span>
-                    <direct-user-single-select ng-if="!isEdite && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" id="{{'bzr_'+$index}}" checked-user="item.programmed" callback="selectPersonCallBack"></direct-user-single-select>
-                </td>
-                <td ng-if="businessType != 'bulletin'">
-                    <span ng-if="isEdite">{{item.approved.NAME}}</span>
-                    <direct-user-single-select ng-if="!isEdite && (showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined)" id="{{'shr_'+$index}}" checked-user="item.approved" callback="selectPersonCallBack"></direct-user-single-select>
-                </td>-->
-                <td>{{item.lastUpdateBy.NAME}}</td>
-                <td>{{item.lastUpdateData}}</td>
-                <td>
-                    <button type="button" class="btn btn-danger"  ng-click="_delete(item.fileid)" ng-if="item.preview3d != null && wfState =='0'">删除</button>
-                    <button ng-if="item.preview3d != null && (isEdite || wfState =='0')" type="button" class="btn btn-info"  ng-click="_review(item.preview3d)">预览</button>
-                    <button ng-if="item.newFile == '1' && (isEdite || wfState =='0')" type="button"  class="btn btn-info" ngf-max-size="100MB" ngf-select="_uploadThat($file, $index, item)">添加</button>
-                    <button type="button" data-toggle="modal" data-target="#addModal{{$index}}" id="compareBtn" class="btn btn-info" ng-click="showModel()"
-                            ng-if="item.preview3d != null && (isEdite || wfState =='0' && !_ignoreReplaceReason)">替换</button>
+                <td width="10%">{{item.lastUpdateBy.NAME}}</td>
+                <td width="18%">{{item.lastUpdateData}}</td>
+                <td width="21%">
+                    <button type="button" class="btn btn-danger" ng-click="_delete(item.fileid)"
+                            ng-if="item.preview3d != null && wfState =='0'">删除
+                    </button>
+                    <button ng-if="item.preview3d != null && (isEdite || wfState =='0')" type="button"
+                            class="btn btn-info" ng-click="_review(item.preview3d)">预览
+                    </button>
+                    <button ng-if="item.newFile == '1' && (isEdite || wfState =='0')" type="button" class="btn btn-info"
+                            ngf-max-size="100MB" ngf-select="_uploadThat($file, $index, item)">添加
+                    </button>
+                    <button type="button" data-toggle="modal" data-target="#addModal{{$index}}" id="compareBtn"
+                            class="btn btn-info" ng-click="showModel()"
+                            ng-if="item.preview3d != null && (isEdite || wfState =='0' && !_ignoreReplaceReason)">替换
+                    </button>
                     <a ng-if="item.preview3d != null && (isEdite || wfState =='0') && _ignoreReplaceReason"
                        ngf-max-size="1000MB" ngf-select="_uploadReplace($file,$invalidFiles,item)"
                        href="javascript:void(0);"
@@ -96,24 +95,30 @@
                                     <div class="row">
                                         <label class="col-sm-2 control-label select-mode">原因：</label>
                                         <div class="col-sm-8">
-                                            <textarea class="form-control" rows="4" cols="" ng-model="item.reason"></textarea>
+                                            <textarea class="form-control" rows="4" cols=""
+                                                      ng-model="item.reason"></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default btn-cancel"
-                                            ng-click="cancel()">取消</button>
-                                    <button type="button" ngf-max-size="100MB" ngf-select="_uploadReplace($file,$invalidFiles,item)"
-                                            class="btn btn-primary btn-confirm" id="forportid">确定</button>
+                                            ng-click="cancel()">取消
+                                    </button>
+                                    <button type="button" ngf-max-size="100MB"
+                                            ngf-select="_uploadReplace($file,$invalidFiles,item)"
+                                            class="btn btn-primary btn-confirm" id="forportid">确定
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--<button ng-if="item.preview3d != null" type="button" class="btn btn-info"  ng-click="showHistory(item.type.ITEM_CODE, item.uuid)">查看历史附件</button>-->
                 </td>
-                <td ng-if="isChoose" align="center">
+                <td width="10%" ng-if="isChoose" align="center">
                     <label class="checkbox-inline choose">
-                        <input type="checkbox" ng-disabled="isDisabled" name="fileChoose{{$index}}" ng-click="_changeChoose($index, item.fileid)" class="px" ng-checked="item.isMettingAttachment == '1'"/>
+                        <input type="checkbox" ng-disabled="isDisabled" name="fileChoose{{$index}}"
+                               ng-click="_changeChoose($index, item.fileid)" class="px"
+                               ng-checked="item.isMettingAttachment == '1'"/>
                         <span class="lbl">&nbsp;</span>
                     </label>
                 </td>
@@ -121,16 +126,18 @@
             </tbody>
         </table>
 
-        <table class="table table-bordered table-hover datatable table-text-mid table-light" ng-if="isShowMeetingAttachment">
+        <table class="table table-bordered table-hover datatable table-text-mid table-light"
+               ng-if="isShowMeetingAttachment">
             <thead>
             <tr>
                 <th width="20%" ng-if="businessType != 'bulletin'">资源类型</th>
                 <th width="20%">附件内容</th>
-                <th  width="12%">最后提交人</th>
-                <th  width="15%">最后提交时间</th>
+                <th width="12%">最后提交人</th>
+                <th width="15%">最后提交时间</th>
             </tr>
             </thead>
-            <tbody ng-repeat="item in fileList | orderBy: 'type.ITEM_CODE':asc" ng-if="item.isMettingAttachment == '1'" ng-init="outerIndex = $index">
+            <tbody ng-repeat="item in fileList | orderBy: 'type.ITEM_CODE':asc" ng-if="item.isMettingAttachment == '1'"
+                   ng-init="outerIndex = $index">
             <tr>
                 <td ng-if="businessType != 'bulletin'">
                     <span>{{item.type.ITEM_NAME}}</span>
@@ -144,7 +151,7 @@
             </tbody>
         </table>
     </div>
-    <div id="showHistoryList"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-        <directive-attach-history-list ></directive-attach-history-list>
+    <div id="showHistoryList" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <directive-attach-history-list></directive-attach-history-list>
     </div>
 </div>

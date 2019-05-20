@@ -467,6 +467,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		param.put("attach", attach);
 		param.put("applyDate", applyDate);
 		param.put("stage", oracle.get("STAGE"));
+		param.put("serviceType", oracle.get("SERVICETYPE_ID"));
+		
 		return param;
 	}
 
@@ -850,8 +852,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		}
 		
 		// 修改评审意见汇总-------------Start-------------------------
-		Document projectSummary = (Document) bjson.get("projectSummary");
-		saveOrUpdateFormalProjectSummary(projectSummary);
+//		Document projectSummary = (Document) bjson.get("projectSummary");
+//		saveOrUpdateFormalProjectSummary(projectSummary);
 		// 修改评审意见汇总-------------End-------------------------
 		
 		return result;
