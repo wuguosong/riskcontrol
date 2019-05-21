@@ -218,7 +218,7 @@ ctmApp.register.controller('PreBiddingInfoPreview', ['$http','$scope','$location
         };
 
         $scope.previewJson = function () {
-            $scope.prePreview = $scope.projectSummary; // 存入模板数据
+            $scope.prePreview = {};
             $scope.prePreview.applyDate = $scope.applyDate;
             $scope.prePreview.apply = $scope.pfr.apply;       // 存入项目信息
             $scope.prePreview.taskallocation = $scope.pfr.taskallocation;
@@ -227,7 +227,8 @@ ctmApp.register.controller('PreBiddingInfoPreview', ['$http','$scope','$location
             $scope.prePreview.approveAttachment = $scope.pfr.approveAttachment;  // 风控中心审批
             $scope.prePreview.approveLegalAttachment = $scope.pfr.approveLegalAttachment;  // 风控中心法律审批
             $scope.prePreview.submit_date = $scope.preBidding.submit_date;   // 评审报告出具时间
-            $scope.prePreview.projectRating = $scope.meetInfo.projectRating; // 评审等级
+            $scope.prePreview.projectRating = $scope.pfr.meetingInfo.projectRating; // 评审等级
+            $scope.prePreview.investmentType = $scope.pfr.meetingInfo.investmentType;
             $scope.prePreview.filePath = $scope.preBidding.filePath;
             $scope.prePreview.projectName = $scope.preBidding.projectName;
             $scope.prePreview.fileList = $scope.preBidding.policyDecision.fileList;

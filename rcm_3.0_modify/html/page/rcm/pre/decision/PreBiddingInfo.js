@@ -434,17 +434,33 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 }
             }
             return true;
-        }
+        };
+
+        $scope.submit = false;
+        $scope.interacted = function (field) {
+            if (field) {
+                return $scope.submit && !field.$valid;
+            }
+        };
+        $scope.$watch('submit', function () {
+            if ($scope.submit) {
+                $scope.interacted = function (field) {
+                    if (field) {
+                        return !field.$valid;
+                    }
+                }
+            }
+        });
 
         $scope.saveOnly = function(){
             if (!$scope.saveMarks()) {
                 return;
             }
-            //验证空附件
+            /*//验证空附件
             if(!$scope.validateVoidFile()){
                 $.alert("附件不能为空！");
                 return;
-            }
+            }*/
             var data = $scope.dataForSave();
             if(data == false){
                 return;
@@ -453,24 +469,27 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
         }
 
         $scope.submitSave = function() {
-            console.log(!$scope.saveMarks())
+            $scope.submit = true;
+            if ($scope.preReportForm.$invalid) {
+                return;
+            }
             if (!$scope.saveMarks()) {
                 $.alert("分数保存出错请检查！");
                 return;
             }
-            //验证空附件
+            /*//验证空附件
             if(!$scope.validateVoidFile()){
                 $.alert("附件不能为空！");
                 return;
-            }
+            }*/
             if($scope.validateFormalBiddingInfo()){
-                if($scope.isAttachmentBeChosen()){
+                /*if($scope.isAttachmentBeChosen()){*/
                     var data = $scope.dataForSubmit();
                     if(data == false){
                         return;
                     }
                     $scope.saveOrSubmit(data,"ss");
-                }
+                /*}*/
             }
         };
 
@@ -488,15 +507,16 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                         hide_Mask();
                         alertData = "保存成功!";
                     }else if(method == "ss"){
-                        if(data.result_data){
+                       /* debugger;
+                        if(data.result_data){*/
                             hide_Mask();
                             alertData = "提交成功!";
-                            $location.path("/PreBiddingInfoView/"+$scope.businessId+"@view/"+$filter('encodeURI')('#/PreBiddingInfoList/1'));
-                        }else{
+                            $location.path("/PreBiddingInfoPreview/"+$scope.businessId + "/" +$filter('encodeURI')('#/IndividualTable') + "/3");
+                       /* }else{
                             hide_Mask();
                             $.alert("请确保参会信息已填写完毕!");
                             return false;
-                        }
+                        }*/
                     }
                     $.alert(alertData);
                 }else{
@@ -604,7 +624,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 return false;
             }
 
-            var file=$scope.preBidding.policyDecision.fileList;
+            /*var file=$scope.preBidding.policyDecision.fileList;*/
 
             var chk_list = $("input[name='choose']")
             var fid = "";
@@ -658,7 +678,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
 
             var newFiles = $("input[name='choosem']")
 
-            for(var i = 0;i<newFiles.length;i++){
+            /*for(var i = 0;i<newFiles.length;i++){
                 var fid = newFiles[i].value;
                 var arrfid=fid.split("||");
 
@@ -666,7 +686,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                     $.alert("请上传附件！");
                     return false;
                 }
-            }
+            }*/
 
             for(var i=0;i<newFiles.length;i++) {
                 if(newFiles[i].checked)
@@ -804,17 +824,17 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             return true;
         }
 
-        $scope.isAttachmentBeChosen = function(){
+        /*$scope.isAttachmentBeChosen = function(){
             var boolean  = false;
-            if($("input[name='choose']:checked").length+$("input[name='choosem']:checked").length==0){
-                $.alert("您没有选择要提交的附件!");
+            if($("input[name='choose']:checked").length==0){
+                $.alert("您没有选择要是上会的附件!");
             }else{
                 boolean = true;
             }
 
             // return boolean;
             return true;
-        }
+        }*/
 
         //附件列表---->新增列表
         $scope.addFileList = function(){

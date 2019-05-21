@@ -137,8 +137,8 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 		this.fillMaterialsService.updateProjectStaus(statusMap);
 
 		if ("ss".equals(method)) {
-			flag = this.isHaveMeetingInfo(businessId);
-			if (flag) {
+			/*flag = this.isHaveMeetingInfo(businessId);
+			if (flag) {*/
 				Map<String, Object> map = new HashMap<String, Object>();
 //				map.put("stage", "4");
 				map.put("decision_commit_time", Util.now());
@@ -161,10 +161,10 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 				}
 				
 				preBiddingMapper.changeState(map);
-			} else {
+			}/* else {
 				return false;
-			}
-		}
+			}*/
+		/*}*/
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessId);

@@ -110,12 +110,6 @@
                     <span class="col-md-6 slim">{{pfr.taskallocation.reviewLeader.NAME}}</span>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6  col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">法律负责人</span>
-                    <span class="col-md-6 slim">{{pfr.taskallocation.legalReviewLeader.NAME}}</span>
-                </div>
-            </div>
         </div>
 
         <div class="row normalline selectline">
@@ -128,12 +122,12 @@
                                 class="form-control" id="preBidding.meetingInfo.projectRating.name"
                                 ng-model="preBidding.meetingInfo.projectRating" name="projectRatingName" required
                                 ng-options="nv.name for nv in dic2.nameValue track by  nv.value">
-                    <option value="">-- 请选择 --</option>
-                </select>
-                <div class="error-messages"
-                     ng-if="interacted(preReportForm.projectRatingName )">
-                    这里是必填项
-                </div>
+                               <option value="">-- 请选择 --</option>
+                        </select>
+                        <div class="error-messages"
+                             ng-if="interacted(preReportForm.projectRatingName )">
+                             这里是必填项
+                        </div>
                     </span>
                 </div>
             </div>
@@ -141,11 +135,11 @@
                 <div class="row">
                     <span class="col-md-6 noPadding">是否紧急上会</span>
                     <span class="col-md-6 slim">
-                        <label class="radio radio-inline local">
+                        <label class="radio radio-inline">
                             <input type="radio" name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="0" class="px"
                                    ng-checked="true"/><span class="lbl" style="display: inline">否</span>
                         </label>
-                        <label class="radio radio-inline local">
+                        <label class="radio radio-inline">
                             <input type="radio" name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="1"
                                    class="px"/><span class="lbl" style="display: inline">是</span>
                         </label>
@@ -165,15 +159,14 @@
                      ng-if="interacted(preReportForm.ratingReason)">
                     这里是必填项
                 </div>
-                <div class="radioline ">
-                    <input type="checkbox local" name='ifeasy' ng-model="preBidding.meetingInfo.projectType1" id='easy-1'/><label
+                <div class="radioline">
+                    <input type="checkbox" name='ifeasy' ng-model="preBidding.meetingInfo.projectType1" id='easy-1'/><label
                         for="easy-1">项目简单</label>
-                    <input type="checkbox local" name="ifeasy" ng-model="preBidding.meetingInfo.projectType2" id='easy-2'/><label
+                    <input type="checkbox" name="ifeasy" ng-model="preBidding.meetingInfo.projectType2" id='easy-2'/><label
                         for="easy-1">风险较低</label>
-                    <input type="checkbox local" name='ifeasy' ng-model="preBidding.meetingInfo.projectType3" id='easy-3'/><label
+                    <input type="checkbox" name='ifeasy' ng-model="preBidding.meetingInfo.projectType3" id='easy-3'/><label
                         for="easy-1">收益较好</label>
                 </div>
-
 
             </div>
         </div>
@@ -206,12 +199,6 @@
                     <span class="col-md-6 slim">{{pfr.taskallocation.reviewLeader.NAME}}</span>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6  col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">法律负责人</span>
-                    <span class="col-md-6 slim">{{pfr.taskallocation.legalReviewLeader.NAME}}</span>
-                </div>
-            </div>
         </div>
 
         <div class="row normalline selectline">
@@ -230,10 +217,10 @@
                 <div class="row">
                     <span class="col-md-6 noPadding">是否紧急上会</span>
                     <span class="col-md-6 slim">
-                        <label class="radio radio-inline local">
+                        <label class="radio radio-inline">
                             <input type="radio"  name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="0" class="px" ng-checked="true" disabled/><span class="lbl">否</span>
                         </label>
-                        <label class="radio radio-inline local">
+                        <label class="radio radio-inline">
                             <input type="radio"  name="isurgent" ng-model="preBidding.meetingInfo.isUrgent" value="1" class="px" disabled/><span class="lbl">是</span>
                         </label>
                     </span>
@@ -249,18 +236,12 @@
                           ng-model="preBidding.meetingInfo.ratingReason"
                           class="form-control ng-pristine ng-valid ng-touched" disabled></textarea>
                 <div class="radioline">
-                    <label class="checkbox-inline local">
-                        <input type="checkbox" class="px" ng-model="preBidding.meetingInfo.projectType1" name="projectType" disabled/>
-                        <span class="lbl">项目简单</span>
-                    </label>
-                    <label class="checkbox-inline local">
-                        <input type="checkbox" class="px" ng-model="preBidding.meetingInfo.projectType2" name="projectType" disabled/>
-                        <span class="lbl">风险较低</span>
-                    </label>
-                    <label class="checkbox-inline local">
-                        <input type="checkbox" class="px" ng-model="preBidding.meetingInfo.projectType3" name="projectType" disabled/>
-                        <span class="lbl">收益较好</span>
-                    </label>
+                    <input type="checkbox" disabled name='ifeasy' ng-model="preBidding.meetingInfo.projectType1" id='easy-1'/><label
+                        for="easy-1">项目简单</label>
+                    <input type="checkbox" disabled name="ifeasy" ng-model="preBidding.meetingInfo.projectType2" id='easy-2'/><label
+                        for="easy-1">风险较低</label>
+                    <input type="checkbox" disabled name='ifeasy' ng-model="preBidding.meetingInfo.projectType3" id='easy-3'/><label
+                        for="easy-1">收益较好</label>
                 </div>
 
 

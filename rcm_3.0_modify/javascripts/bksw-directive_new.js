@@ -3481,6 +3481,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 弹出查看历史附件弹框
             $scope.showHistory = function (fileType, uuid){
+                show_Mask();
                 var url = '';
                 if ($scope.businessType == 'preReview') {
                     url = "preInfoCreate/getHistoryList.do";
@@ -3501,6 +3502,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                         } else {
                             $scope.attachHistoryList = result.result_data;
                             $('#showHistoryList').modal('show');
+                            hide_Mask();
                         }
                     } else {
                         alert(result.result_name);

@@ -15,7 +15,7 @@
                         <th  width="15%">变更时间</th>
                     </tr>
                     </thead>
-                    <tbody ng-repeat="item in attachHistoryList" ng-init="outerIndex = $index">
+                    <tbody ng-repeat="item in attachHistoryList | orderBy: '-FILEID'" ng-init="outerIndex = $index">
                     <tr>
                         <td>{{outerIndex+1}}</td>
                         <td>

@@ -38,29 +38,60 @@
 	</insert>
 	
 	<select id="getReplaceFile" parameterType="map" resultType="hashmap">
-SELECT SL."user_name",
-	     SL."description",
-	     SL."create_date",
-	     DBMS_LOB.substr(SL."params") "params", 
-	     FD.FILENAME,
-		 FD.FULLPATH,
-		 FD.LAST_MEMBER_NAME,
-		 FD.FILEID,
-		 FD.DOCTYPE,
-		 FD.DOCCODE,
-		 FD.PAGELOCATION,
-		 FD.LOGICOPT
-  FROM SYS_LOG SL, FILE_DTO FD
- WHERE DBMS_LOB.substr(SL."params") = FD.FILEID
+SELECT
+	SL."user_name",
+	SL."description",
+	TO_CHAR(SL."create_date", 'YYYY-MM-DD HH:MI:SS') "create_date",
+	FD.FILEID,
+	FD.FILENAME,
+	FD.FULLPATH,
+	FD.LAST_MEMBER_NAME,
+	FD.FILEID,
+	FD.DOCTYPE,
+	FD.DOCCODE,
+	FD.PAGELOCATION,
+	FD.LOGICOPT 
+FROM
+	SYS_LOG SL,
+	FILE_DTO FD 
+WHERE
+	DBMS_LOB.substr(SL."params") = FD.FILEID
    AND SL."module" = #{module} 
    AND SL."operation" = #{operation} 
-   AND SL."code" = #{id} 
+   AND SL."code" = #{id}
+	<if test="businessType != null and businessType != ''">
+		AND FD.docType = #{businessType}
+	</if>
+	<if test="pageLocation != null and pageLocation != ''">
+		AND FD.pageLocation = #{pageLocation}
+	</if>
+	
+ UNION ALL
+
+SELECT
+	'' AS "user_name",
+	'' AS "description",
+	TO_CHAR ( FD.CREATE_DATELINE / ( 1000 * 60 * 60 * 24 ) + TO_DATE ( '1970-01-01 08:00:00', 'YYYY-MM-DD HH:MI:SS' ), 'YYYY-MM-DD HH:MI:SS' ) "create_date",
+	FD.FILEID,
+	FD.FILENAME,
+	FD.FULLPATH,
+	FD.LAST_MEMBER_NAME,
+	FD.FILEID,
+	FD.DOCTYPE,
+	FD.DOCCODE,
+	FD.PAGELOCATION,
+	FD.LOGICOPT 
+FROM
+	FILE_DTO FD 
+WHERE
+	FD.DOCCODE = #{id}  
+	AND nvl ( FD.LOGICOPT, 'UPLOAD' ) <![CDATA[ <> ]]> 'DELETE' 
+	AND nvl ( FD.LOGICOPT, 'UPLOAD' ) <![CDATA[ <> ]]> 'REPLACE' 
    <if test="businessType != null and businessType != ''">
 		AND FD.docType = #{businessType}
 	</if>
 	<if test="pageLocation != null and pageLocation != ''">
 		AND FD.pageLocation = #{pageLocation}
 	</if>
-ORDER BY SL."create_date" DESC
 	</select>
 </mapper>

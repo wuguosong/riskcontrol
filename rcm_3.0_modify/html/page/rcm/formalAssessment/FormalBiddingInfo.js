@@ -587,7 +587,6 @@ ctmApp.register.controller('FormalBiddingInfo', ['$http', '$scope', '$location',
         }
 
         $scope.submitSave = function () {
-            debugger
             // 验证必填项
             $scope.submit = true;
             if ($scope.formalReportForm.$invalid) {
