@@ -601,7 +601,9 @@ ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
         },
         /*保存相关信息，附件指令调用*/
         _saveMessage: function (_curInfo) {
-            return $rootScope._call_scope._submit_message_form_(_curInfo.params._is_first_, _curInfo.params._original_id_, _curInfo.params._parent_id_, _curInfo.params._replied_by_, _curInfo.params._replied_name_, _curInfo.params._idx_, 'N');
+            var ret = $rootScope._call_scope._submit_message_form_(_curInfo.params._is_first_, _curInfo.params._original_id_, _curInfo.params._parent_id_, _curInfo.params._replied_by_, _curInfo.params._replied_name_, _curInfo.params._idx_, 'N');
+            hide_Mask();
+            return ret;
         }
     };
     return service;
