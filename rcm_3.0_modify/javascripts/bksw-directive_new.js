@@ -6144,6 +6144,21 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
 
             $scope.initData();
 
+            $scope.cancel = function () {
+                $scope.mettingSummary = "";
+            }
+            $scope.queryRBIMeeting = function (submit) {
+                $http({
+                    method: 'post',
+                    url: srvUrl + "bulletinInfo/queryRBIMettingSummarys.do",
+                    data: $.param({
+                        "businessId": submit.BUSINESSID,
+                    })
+                }).success(function (result) {
+                    $scope.mettingSummarys = result.result_data.mettingSummary;
+                });
+            }
+
         }
     }
 }]);
@@ -6306,6 +6321,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
             $scope.cancel = function () {
                 $scope.mettingSummary = "";
             }
+
         }
     }
 }]);

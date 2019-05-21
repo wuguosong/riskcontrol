@@ -258,6 +258,22 @@ public class BulletinInfoController {
 		this.bulletinInfoService.saveMettingSummary(businessId,mettingSummaryInfo);
 		return result;
 	}
+	
+	/**
+	 * 查询会议纪要
+	 * @param Request
+	 * @return
+	 */
+	@RequestMapping("/queryRBIMettingSummarys")
+	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查询会议纪要")
+	public Result queryRBIMettingSummarys(HttpServletRequest request){
+		String businessId = request.getParameter("businessId");
+		Result result = this.bulletinInfoService.queryRBIMettingSummarys(businessId);
+		return result;
+	}
+	
+	
 	/**
 	 * 保存法律评审提交信息
 	 * @param request

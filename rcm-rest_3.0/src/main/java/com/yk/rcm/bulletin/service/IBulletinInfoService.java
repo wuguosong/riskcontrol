@@ -242,4 +242,5 @@ public interface IBulletinInfoService {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryAllByDaxt();
+	public Result queryRBIMettingSummarys(String businessId);
 }

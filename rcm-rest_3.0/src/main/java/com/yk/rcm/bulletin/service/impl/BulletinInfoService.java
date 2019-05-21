@@ -756,6 +756,14 @@ public class BulletinInfoService implements IBulletinInfoService {
 		return list;
 	}
 
+	@Override
+	public Result queryRBIMettingSummarys(String businessId) {
+		Result result = new Result();
+		Document mettingSummary = (Document) this.baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
+		result.setResult_data(mettingSummary);
+		return result;
+	}
+
 	/*@SuppressWarnings("unchecked")
 	@Override
 	public void updateAttachment(String json) {
