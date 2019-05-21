@@ -241,6 +241,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
              console.log(file);
              for (var j in $scope.newAttachment){
                  if (file.fileId == $scope.newAttachment[j].fileid){
+                     $scope.newAttachment[j].newFile = '0';
                      $scope.newAttachment[j].fileName = file.oldFileName;
                      $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
                      $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
@@ -692,6 +693,7 @@ ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$loca
              console.log(file);
              for (var j in $scope.newAttachment){
                  if (file.fileId == $scope.newAttachment[j].fileid){
+                     $scope.newAttachment[j].newFile = '0';
                      $scope.newAttachment[j].fileName = file.oldFileName;
                      $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
                      $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;

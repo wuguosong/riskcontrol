@@ -58,7 +58,7 @@
                     </div>
                 </td>
                 <td width="19%">
-                    <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="!item.newFile">{{item.fileName}}</a>
+                    <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="item.newFile != '1'">{{item.fileName}}</a>
                     <div ng-if="item.newFile == '1' != undefined || item.fileName != null">
                         <span ng-if="item.newFile == '1'">{{item.fileName}}</span>
                     </div>
