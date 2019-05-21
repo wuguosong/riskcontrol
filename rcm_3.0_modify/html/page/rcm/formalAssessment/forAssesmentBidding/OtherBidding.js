@@ -261,6 +261,7 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                         alertData = "保存成功!";
                     } else if (method == "ss") {
                         if (data.result_data) {
+                            $scope.isEdite = false;
                             alertData = "提交成功!";
                             $("#savebtn").hide();
                             $("#btnfile").attr("disabled", "disabled");
@@ -302,7 +303,14 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         // 进入预览页面
         $scope.toPreview = function () {
             // $scope.saveDataToLocalStorage();
-            $location.path("/OtherBiddingInfoPreview/" + objId + "/" + $filter('encodeURI') + "/2");
+            if($scope.isEdite) {
+                // falg返回时可编辑
+                $location.path("/OtherBiddingInfoPreview/" + objId + "/" + $filter('encodeURI') + "/1");
+            } else {
+                // falg返回时预览
+                $location.path("/OtherBiddingInfoPreview/" + objId + "/" + $filter('encodeURI') + "/2");
+            }
+
         }
 
 

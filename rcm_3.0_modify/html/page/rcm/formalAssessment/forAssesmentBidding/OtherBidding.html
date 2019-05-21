@@ -44,10 +44,13 @@
                     <div class="col-md-9" style="padding-left: 0px;">
                         <h5>投资部门提供</h5>
                     </div>
-                    <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"
+                    <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
+                                              page-location="formalAssessmentInfo" business-id="pfr.id"
                                               wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
-                                              init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
-                                              is-edite="true" service-type="serviceType" project-model="projectModel" is-choose="true"></directive-accachment-new>
+                                              init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader"
+                                              project-name="pfr.apply.projectName"
+                                              is-edite="true" service-type="serviceType" project-model="projectModel"
+                                              is-choose="true"></directive-accachment-new>
                 </div>
             </div>
             <!--业务单位上报评审文件 End-->
@@ -64,8 +67,7 @@
                 <a href="" ng-click="submitSave()">提交</a><a href="" ng-click="saveOnly()">暂存</a>
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>
-            <div class="noStage" ng-if="!isEdite">
-                <a href="" ng-click="submitSave()">提交</a>
+            <div class="row noStage" ng-if="!isEdite" align="center">
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>
             <div class="linkline mcontent">
@@ -89,27 +91,27 @@
 
 <script type="text/javascript">
     //dom监听resize事件
-    (function($, h, c) {
+    (function ($, h, c) {
         var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j
             + "-special-event", b = "delay", f = "throttleWindow";
         e[b] = 350;
         e[f] = true;
         $.event.special[j] = {
-            setup : function() {
+            setup: function () {
                 if (!e[f] && this[k]) {
                     return false
                 }
                 var l = $(this);
                 a = a.add(l);
                 $.data(this, d, {
-                    w : l.width(),
-                    h : l.height()
+                    w: l.width(),
+                    h: l.height()
                 });
                 if (a.length === 1) {
                     g()
                 }
             },
-            teardown : function() {
+            teardown: function () {
                 if (!e[f] && this[k]) {
                     return false
                 }
@@ -120,17 +122,19 @@
                     clearTimeout(i)
                 }
             },
-            add : function(l) {
+            add: function (l) {
                 if (!e[f] && this[k]) {
                     return false
                 }
                 var n;
+
                 function m(s, o, p) {
                     var q = $(this), r = $.data(this, d);
                     r.w = o !== c ? o : q.width();
                     r.h = p !== c ? p : q.height();
                     n.apply(this, arguments)
                 }
+
                 if ($.isFunction(l)) {
                     n = l;
                     return m
@@ -140,13 +144,14 @@
                 }
             }
         };
+
         function g() {
-            i = h[k](function() {
-                a.each(function() {
+            i = h[k](function () {
+                a.each(function () {
                     var n = $(this), m = n.width(), l = n.height(), o = $
                         .data(this, d);
                     if (m !== o.w || l !== o.h) {
-                        n.trigger(j, [ o.w = m, o.h = l ])
+                        n.trigger(j, [o.w = m, o.h = l])
                     }
                 });
                 g()
@@ -189,7 +194,8 @@
         //滚动响应
         if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
             var SideCatalog = {};
-        };
+        }
+        ;
 
         SideCatalog.catalogDetail = (function () {
             // scroll to tab content
@@ -272,13 +278,13 @@
             $('select').attr("disabled", "disabled");
         }
         // 监听主题区域宽度变化
-        $('.xh-content').resize(function(){
-            $('.left-content').width($(this).width()*.16);
-            $('.btn-scale').each(function(){
-                $(this).css('padding-bottom',$(this).innerWidth()*0.467);
+        $('.xh-content').resize(function () {
+            $('.left-content').width($(this).width() * .16);
+            $('.btn-scale').each(function () {
+                $(this).css('padding-bottom', $(this).innerWidth() * 0.467);
 
-                if($(this).css('padding-bottom').slice(0,-2)>'35'){
-                    $(this).css('padding-bottom','35px')
+                if ($(this).css('padding-bottom').slice(0, -2) > '35') {
+                    $(this).css('padding-bottom', '35px')
 
                 }
             })

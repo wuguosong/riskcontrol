@@ -3,8 +3,13 @@
     <div class="mheader row text-blue-name">
         {{ formalPreview.apply.projectName }}
         <a style="height: 40px"
-           ng-if="flag != 1 && flag != 2 && flag != 3 && flag != 4 && flag != 5 && flag != 6 && flag != 7"
-           class="btn-return" href="#/FormalBiddingInfo/{{formalPreview.id}}@2/{{formalPreview.url}}/1">
+           ng-if="flag == 1"
+           class="btn-return" href="#/OtherBidding/0/Update/{{waitId}}@2/{{'#/IndividualTable'|encodeURI}}">
+            返回
+        </a>
+        <a style="height: 40px"
+           ng-if="flag == 2"
+           class="btn-return" href="#/OtherBidding/0/View/{{waitId}}@2/{{'#/IndividualTable'|encodeURI}}">
             返回
         </a>
     </div>

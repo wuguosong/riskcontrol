@@ -6,6 +6,7 @@ ctmApp.register.controller('OtherBiddingInfoPreview', ['$http','$scope','$locati
 
         // 待决策项目审阅传来的参数
         $scope.waitId = $routeParams.id;
+        $scope.flag = $routeParams.flag;
 
         //处理附件列表
         $scope.reduceAttachment = function(attachment, id){
@@ -49,6 +50,7 @@ ctmApp.register.controller('OtherBiddingInfoPreview', ['$http','$scope','$locati
 
                 //新增附件类型
                 $scope.attach = data.result_data.attach;
+                console.log($scope.attach)
             })
         }
 
