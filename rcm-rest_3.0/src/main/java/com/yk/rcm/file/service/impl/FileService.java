@@ -25,6 +25,7 @@ import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -356,16 +357,34 @@ public class FileService implements IFileService {
     public List<FileDto> createFileList(String docType, String docCode, String pageLocation) throws Exception {
         List<FileDto> list = this.listFile(docType, docCode, pageLocation);
         for (FileDto fileDto : list) {
-            String fullPath = fileDto.getFullpath().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
-            LinkDto download = this.fileDownloadLink(fullPath);
-            if (download != null) {
-                fileDto.setDownload3d(download.getLink());
-                fileDto.setDownloadqr3d(download.getQr_url());
+            boolean query = false;
+            // 根据查询时间，判断是否超过了3天，如果超过三天，则必须再次查询一次。因为预览和下载链接，三天内有效。
+            Timestamp queryTime = fileDto.getQuerytime();
+            if(queryTime == null){// 首次查询
+                queryTime = DateUtil.getCurrentDate();
+                fileDto.setQuerytime(queryTime);
+                query = true;
+            }else{
+                Timestamp nowTime = DateUtil.getCurrentDate();
+                Long seconds = (nowTime.getTime() - queryTime.getTime()) / 1000;
+                if(new Long(259200).compareTo(seconds) == -1){
+                    fileDto.setQuerytime(nowTime);
+                    query = true;
+                }
             }
-            LinkDto preview = this.filePreviewLink(fullPath);
-            if (preview != null) {
-                fileDto.setPreview3d(preview.getLink());
-                fileDto.setPrevieqr3d(preview.getQr_url());
+            if(query){
+                String fullPath = fileDto.getFullpath().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
+                LinkDto download = this.fileDownloadLink(fullPath);
+                if (download != null) {
+                    fileDto.setDownload3d(download.getLink());
+                    fileDto.setDownloadqr3d(download.getQr_url());
+                }
+                LinkDto preview = this.filePreviewLink(fullPath);
+                if (preview != null) {
+                    fileDto.setPreview3d(preview.getLink());
+                    fileDto.setPrevieqr3d(preview.getQr_url());
+                }
+                this.updateFile(fileDto);
             }
         }
         return list;

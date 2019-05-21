@@ -2,6 +2,9 @@ package com.goukuai.dto;
 
 import com.alibaba.fastjson.JSON;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 /**
  * @author LiPan[wjsxhclj@sina.com]
  * @description 云端存储文件实体类
@@ -34,6 +37,15 @@ public class FileDto {
     private String downloadqr3d;// 下载二维码(3天有效期)
     private String pagelocation;// 文件在页面的位置
     private String logicopt;// 逻辑操作,如删除
+    private Timestamp querytime;// 查询时间
+
+    public Timestamp getQuerytime() {
+        return querytime;
+    }
+
+    public void setQuerytime(Timestamp querytime) {
+        this.querytime = querytime;
+    }
 
     public String getHash() {
         return hash;
