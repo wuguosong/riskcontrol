@@ -3219,6 +3219,10 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 新增文件
             $scope._addOneNewFile = function () {
+                if (!$scope._vaildNew()){
+                    alert("已有新增条目，请上传完再新增！");
+                    return;
+                }
                 if (isEmpty($scope.attachmentType)){
                     $scope.getAttachmentType();
                 }
@@ -3239,6 +3243,20 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                     $scope.fileList = [];
                 }
                 _addBlankRow($scope.fileList);
+            };
+
+            // 添加校验新增
+            $scope._vaildNew = function (){
+                var count = 0;
+                angular.forEach($scope.fileList, function (data, index) {
+                    if (data.newFile == '1'){
+                        count = 1;
+                    }
+                });
+                if (count == 1){
+                    return false;
+                }
+                return true;
             };
 
             // 删除文件
@@ -3296,58 +3314,64 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 上传
             $scope._uploadThat = function (_file, _idx, _item) {
-                show_Mask();
-                Upload.upload({
-                    url: srvUrl + 'cloud/upload.do',
-                    data: {
-                        file: _file,
-                        "docType": $scope.businessType,
-                        'docCode': $scope.businessId,
-                        'pageLocation': $scope.pageLocation
-                    }
-                }).then(function (resp) {
-                    if (resp.data.result_code == 'S'){
-                        var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
-
-                        var url = '';
-                        // 判断文件路径
-                        if ($scope.businessType == 'preReview') {
-                            url = "preInfoCreate/addAttachmengInfoToMongo.do";
-                        } else if ($scope.businessType == 'formalReview') {
-                            url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
-                        } else {
-                            url = "bulletinInfo/addAttachmengInfoToMongo.do";
-                            _item.uuid = _generateUUID();
-                        }
-                        /*_item.fileId = _fileList[_fileList.length-1].fileid + "";*/
-                        _item.fileId = _fileList[0].fileid + "";
-                        _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
-                        _item.lastUpdateData = $scope.getDate();
-                        _item.fileName = _file.name;
-
-                        $http({
-                            method:'post',
-                            url:srvUrl + url,
-                            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                        }).success(function(data){
-                            if(data.success){
-                                $scope.initUpdate({'id': $scope.businessId});
-                                $.alert(data.result_name);
-                            }else{
-                                $.alert(data.result_name);
+                debugger
+                if($scope.businessType != 'bulletin' && isEmpty(_item.type)){
+                    alert("资源类型不能为空，请先选择资源类型再上传！");
+                } else {
+                    if (!isEmpty(_file)){
+                        show_Mask();
+                        Upload.upload({
+                            url: srvUrl + 'cloud/upload.do',
+                            data: {
+                                file: _file,
+                                "docType": $scope.businessType,
+                                'docCode': $scope.businessId,
+                                'pageLocation': $scope.pageLocation
                             }
-                        });
-                    } else {
-                        hide_Mask();
-                        alert("上传失败，请联系管理员！");
-                    }
+                        }).then(function (resp) {
+                            if (resp.data.result_code == 'S'){
+                                var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
 
-                }, function (resp) {
-                    $.alert(resp.status);
-                }, function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
-                });
+                                var url = '';
+                                // 判断文件路径
+                                if ($scope.businessType == 'preReview') {
+                                    url = "preInfoCreate/addAttachmengInfoToMongo.do";
+                                } else if ($scope.businessType == 'formalReview') {
+                                    url = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
+                                } else {
+                                    url = "bulletinInfo/addAttachmengInfoToMongo.do";
+                                    _item.uuid = _generateUUID();
+                                }
+                                /*_item.fileId = _fileList[_fileList.length-1].fileid + "";*/
+                                _item.fileId = _fileList[0].fileid + "";
+                                _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
+                                _item.lastUpdateData = $scope.getDate();
+                                _item.fileName = _file.name;
+
+                                $http({
+                                    method:'post',
+                                    url:srvUrl + url,
+                                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
+                                }).success(function(data){
+                                    if(data.success){
+                                        $scope.initUpdate({'id': $scope.businessId});
+                                        $.alert(data.result_name);
+                                    }else{
+                                        $.alert(data.result_name);
+                                    }
+                                });
+                            } else {
+                                hide_Mask();
+                                alert("上传失败，请联系管理员！");
+                            }
+                        }, function (resp) {
+                            $.alert(resp.status);
+                        }, function (evt) {
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                        });
+                    }
+                }
             };
 
             // 替换

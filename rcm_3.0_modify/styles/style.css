@@ -2110,5 +2110,5 @@ td btn-scale:first-child {
 
 .button-right {
     margin-top: 19px;
-    float: right;
+    /*float: right;*/  /** 此处写全局变量影响其他页面样式，如需要局部添加 **/
 }
