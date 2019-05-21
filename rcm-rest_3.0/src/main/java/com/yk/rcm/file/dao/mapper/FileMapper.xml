@@ -30,6 +30,7 @@
 		<result column="downloadqr3d" property="downloadqr3d" javaType="java.lang.String" />
 		<result column="pagelocation" property="pagelocation" javaType="java.lang.String" />
 		<result column="logicopt" property="logicopt" javaType="java.lang.String" />
+		<result column="querytime" property="querytime" javaType="java.sql.Timestamp"></result>
 	</resultMap>
 	<!-- 基本数据列 -->
 	<!-- 新增 -->
@@ -61,7 +62,8 @@
 		       previeqr3d,
 		       downloadqr3d,
 		       pagelocation,
-		       logicopt
+		       logicopt,
+		       querytime
 		)
 		values
 		(
@@ -90,7 +92,8 @@
 		       #{fileDto.previeqr3d},
 		       #{fileDto.downloadqr3d},
 		       #{fileDto.pagelocation},
-		       #{fileDto.logicopt}
+		       #{fileDto.logicopt},
+		       #{fileDto.querytime}
 		)
 	</insert>
 	<update id="updateFile" parameterType="com.goukuai.dto.FileDto">
@@ -119,7 +122,8 @@
 		previeqr3d = #{fileDto.previeqr3d},
 		downloadqr3d = #{fileDto.downloadqr3d},
 		pagelocation = #{fileDto.pagelocation},
-		logicopt = #{fileDto.logicopt}
+		logicopt = #{fileDto.logicopt},
+		querytime = #{fileDto.querytime}
 		where fileid = #{fileDto.fileid}
 	</update>
 	<!-- 删除 -->
