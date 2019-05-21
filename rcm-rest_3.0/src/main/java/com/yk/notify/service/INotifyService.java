@@ -15,9 +15,10 @@ public interface INotifyService {
      *
      * @param business_module 业务模块
      * @param business_id 业务id
+     * @param notifyType 知会类型
      * @return List<Notify> 知会列表
      */
-    List<Notify> list(String business_module, String business_id);
+    List<Notify> list(String business_module, String business_id,  String notifyType);
 
     /**
      * 根据知会id查询知会信息
@@ -53,9 +54,10 @@ public interface INotifyService {
      *
      * @param business_module 业务模块
      * @param business_id 业务id
+     * @param isCheck 是否进行重复性过滤
      * @return List<Notify> 知会列表
      */
-    List<Notify> save(String business_module, String business_id, String notifies_user);
+    List<Notify> save(String business_module, String business_id, String notifies_user, boolean isCheck);
 
     /**
      * 同步到统一流程平台
@@ -64,18 +66,20 @@ public interface INotifyService {
      * @param business_id 业务id
      * @param isTodo 代办同步
      * @param isRead 待阅同步
+     * @param notifyType 知会类型
      * @return List<Notify> 知会列表
      */
-    List<Notify> sendToPortal(String business_module, String business_id, boolean isTodo, boolean isRead);
+    List<Notify> sendToPortal(String business_module, String business_id, boolean isTodo, boolean isRead,  String notifyType);
 
     /**
      * 同步到统一消息平台
      *
      * @param business_module 业务模块
      * @param business_id 业务id
+     * @param notifyType 知会类型
      * @return List<Notify>
      */
-    List<Notify> sendToMessage(String business_module, String business_id);
+    List<Notify> sendToMessage(String business_module, String business_id, String notifyType);
 
     /**
      * 查询只会人的待阅和已阅
@@ -96,7 +100,20 @@ public interface INotifyService {
      * @param business_module 业务模块
      * @param business_id 业务id
      * @param notify_user 知会人
+     * @param notifyType 知会人类型
      * @return List<Notify> 知会列表
      */
-    List<Notify> delete(String business_module, String business_id, String notify_user);
+    List<Notify> delete(String business_module, String business_id, String notify_user, String notifyType);
+
+    /**
+     * 保存
+     * @param business_module 模块
+     * @param business_id 业务id
+     * @param notifies_user 知会人
+     * @param notifyType 知会类型
+     * @param associateId 关联主键id
+     * @param notifyComments 知会意见
+     * @return List<Notify>
+     */
+    List<Notify> save(String business_module, String business_id, String notifies_user, String notifyType, String associateId, String notifyComments, boolean isCheck);
 }

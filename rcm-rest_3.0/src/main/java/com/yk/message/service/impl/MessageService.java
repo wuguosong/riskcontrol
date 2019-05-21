@@ -442,19 +442,19 @@ public class MessageService implements IMessageService {
     private IFileService fileService;
 
     private void setMessageFileInfo(List<List<JSONObject>> jsonObjects) {
-        for(List<JSONObject> list : jsonObjects){
-            for(JSONObject message : list){
+        for (List<JSONObject> list : jsonObjects) {
+            for (JSONObject message : list) {
                 if (message != null) {
                     if (message.getLong("messageFile") != null) {
                         Long fileId = message.getLong("messageFile");
                         FileDto fileDto = fileService.getFile(String.valueOf(fileId));
                         if (fileDto != null) {
                             try {
-                                System.out.println(fileDto.getDoctype() + "\t" +fileDto.getDoccode() + "\t" + fileDto.getPagelocation()  + "\t" + fileDto.getFilename());
+                                System.out.println(fileDto.getDoctype() + "\t" + fileDto.getDoccode() + "\t" + fileDto.getPagelocation() + "\t" + fileDto.getFilename());
                                 List<FileDto> fileDtos = fileService.createFileList(fileDto.getDoctype(), fileDto.getDoccode(), fileDto.getPagelocation());
                                 if (CollectionUtils.isNotEmpty(fileDtos)) {
-                                    for(FileDto fd : fileDtos){
-                                        if(fileId.compareTo(fd.getFileid()) == 0){
+                                    for (FileDto fd : fileDtos) {
+                                        if (fileId.compareTo(fd.getFileid()) == 0) {
                                             message.put("fileDto", fd);
                                         }
                                     }
@@ -528,6 +528,32 @@ public class MessageService implements IMessageService {
 
     @Override
     public void shareMessageToSameSubject(Message message) {
+        String users = getNotifyUsers(message);
+        if (StringUtils.isNotBlank(users)) {
+            System.out.println(users);
+            this.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), users, MessageClient._DT);
+        }
+    }
+
+    @Override
+    public int getPageLocationSequenceNumber(String docType, String docCode, String tempUuid) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("docType", docType);
+        params.put("docCode", docCode);
+        params.put("tempUuid", tempUuid);
+        List<FileDto> list = messageMapper.selectPageLocationSequenceNumber(params);
+        if (CollectionUtils.isEmpty(list)) {
+            return 0;
+        } else {
+            FileDto maxFileDto = list.get(0);
+            String pageLocation = maxFileDto.getPagelocation();
+            String sequence = pageLocation.split("_")[1];
+            return new Integer(sequence) + 1;
+        }
+    }
+
+    @Override
+    public String getNotifyUsers(Message message) {
         boolean open = prop.getBoolean("message.share.subject.open", false);
         boolean othersOpen = prop.getBoolean("message.share.subject.others.open", false);
         StringBuffer sb = new StringBuffer();
@@ -574,27 +600,9 @@ public class MessageService implements IMessageService {
                     users = sb.substring(0, sb.lastIndexOf(","));
                 }
             }
-            if (StringUtils.isNotBlank(users)) {
-                System.out.println(users);
-                // this.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), users, MessageClient._DT);
-            }
-        }
-    }
-
-    @Override
-    public int getPageLocationSequenceNumber(String docType, String docCode, String tempUuid) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("docType", docType);
-        params.put("docCode", docCode);
-        params.put("tempUuid", tempUuid);
-        List<FileDto> list = messageMapper.selectPageLocationSequenceNumber(params);
-        if(CollectionUtils.isEmpty(list)){
-            return 0;
-        }else{
-            FileDto maxFileDto = list.get(0);
-            String pageLocation = maxFileDto.getPagelocation();
-            String sequence = pageLocation.split("_")[1];
-            return new Integer(sequence) + 1;
+            return users;
+        } else {
+            return null;
         }
     }
 }

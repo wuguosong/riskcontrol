@@ -60,10 +60,10 @@ public class DaoTest {
 
     @Test
     public void testList(){
-        List<Notify> notifies = notifyMapper.selectNotifies(null, null);
+        /*List<Notify> notifies = notifyMapper.selectNotifies(null, null);
         for(Notify notify : notifies){
             System.out.println(notify);
-        }
+        }*/
     }
 
     @Test

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
 import common.Constants;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -56,7 +57,7 @@ public class PreAuditLogListener implements ExecutionListener,TaskListener {
 		log.put("executionId", execution.getId());
 		this.preAuditLogService.save(log);
 		// 同步待阅
-		notifyService.sendToPortal(Constants.PROCESS_KEY_PREREVIEW, businessId, false, true);
+		notifyService.sendToPortal(Constants.PROCESS_KEY_PREREVIEW, businessId, false, true, Notify.TYPE_NOTIFY);
 	}
 
 	@Override

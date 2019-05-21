@@ -45,7 +45,7 @@ public class NotifyController {
     public List<Notify> list(String business_module, String business_id) {
         List<Notify> notifies = new ArrayList<Notify>();
         try {
-            notifies = notifyService.list(business_module, business_id);
+            notifies = notifyService.list(business_module, business_id, Notify.TYPE_NOTIFY);// 查询所有
             logger.info("获取知会列表成功!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class NotifyController {
     public List<Notify> save(String business_module, String business_id, String notifies_user) {
         List<Notify> notifies = new ArrayList<Notify>();
         try {
-            notifies = notifyService.save(business_module, business_id, notifies_user);
+            notifies = notifyService.save(business_module, business_id, notifies_user, true);
             logger.info("保存知会列表成功!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,7 +165,8 @@ public class NotifyController {
     public List<Notify> delete(String business_module, String business_id, String notify_user) {
         List<Notify> notifies = new ArrayList<Notify>();
         try {
-            notifies = notifyService.delete(business_module, business_id, notify_user);
+            // 删除知会类型为：notify的知会记录
+            notifies = notifyService.delete(business_module, business_id, notify_user, Notify.TYPE_NOTIFY);
             logger.info("删除知会列表成功!");
         } catch (Exception e) {
             e.printStackTrace();

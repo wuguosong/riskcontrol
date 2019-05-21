@@ -14,8 +14,11 @@ public class Notify {
     public static final String STATUS_0 = "0";// 初始
     public static final String STATUS_1 = "1";// 待阅/代办已发送/消息已发送
     public static final String STATUS_2 = "2";// 已阅
+    public static final String TYPE_MESSAGE = "MESSAGE";// 留言
+    public static final String TYPE_NOTIFY = "NOTIFY";// 知会人
 
     private Long notifyId;// 只会Id
+    private String notifyType;// 知会类型
     private String businessModule;// 业务模块
     private String businessId;// 业务ID
     private String associateId;// 关联ID
@@ -32,6 +35,14 @@ public class Notify {
 
     public Long getNotifyId() {
         return notifyId;
+    }
+
+    public String getNotifyType() {
+        return notifyType;
+    }
+
+    public void setNotifyType(String notifyType) {
+        this.notifyType = notifyType;
     }
 
     public void setNotifyId(Long notifyId) {

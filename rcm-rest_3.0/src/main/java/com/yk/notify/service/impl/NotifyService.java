@@ -50,8 +50,8 @@ public class NotifyService implements INotifyService {
     // 配置文件
     private Prop prop = PropKit.use("wsdl_conf.properties");
     @Override
-    public List<Notify> list(String business_module, String business_id) {
-        return notifyMapper.selectNotifies(business_module, business_id);
+    public List<Notify> list(String business_module, String business_id, String notifyType) {
+        return notifyMapper.selectNotifies(business_module, business_id, notifyType);
     }
 
     @Override
@@ -100,21 +100,22 @@ public class NotifyService implements INotifyService {
     }
 
     @Override
-    public List<Notify> save(String business_module, String business_id, String notifies_user) {
-        // notifyMapper.removeNotifyMultipleParameters(business_module, business_id);
+    public List<Notify> save(String business_module, String business_id, String notifies_user, String notifyType, String associateId, String notifyComments, boolean isCheck) {
         if(StringUtils.isNotEmpty(notifies_user)){
-            // 检测保存的用户是否已经存在
-            List<Notify> list = notifyMapper.selectNotifies(business_module, business_id);
-            JSONObject js = new JSONObject();
-            for(Notify notify : list){
-                js.put(notify.getNotifyUser(), notify);
-            }
             String[] notifiesUser = notifies_user.split(",");
-            int i = 0;
-            for(String notifyUser : notifiesUser){
-                if(js.get(notifyUser) != null){
-                    notifiesUser[i] = "";
-                    i++;
+            if(isCheck){
+                // 检测保存的用户是否已经存在
+                List<Notify> list = notifyMapper.selectNotifies(business_module, business_id, notifyType);
+                JSONObject js = new JSONObject();
+                for(Notify notify : list){
+                    js.put(notify.getNotifyUser(), notify);
+                }
+                int i = 0;
+                for(String notifyUser : notifiesUser){
+                    if(js.get(notifyUser) != null){
+                        notifiesUser[i] = "";
+                        i++;
+                    }
                 }
             }
             Map<String, Object> params = new HashMap<String, Object>();
@@ -138,21 +139,27 @@ public class NotifyService implements INotifyService {
                         notify.setMessageStatus(Notify.STATUS_0);
                         notify.setNotifyStatus(Notify.STATUS_0);
                         notify.setNotifyUrl(url);
-                        notify.setNotifyComments(null);
-                        notify.setAssociateId(null);
+                        notify.setNotifyComments(notifyComments);
+                        notify.setAssociateId(associateId);
+                        notify.setNotifyType(notifyType);
                         notifyMapper.insertNotify(notify);
                     }
                 }
             }
-            return notifyMapper.selectNotifies(business_module, business_id);
+            return notifyMapper.selectNotifies(business_module, business_id, notifyType);
         }
         return new ArrayList<Notify>();
     }
 
+    // notify 功能调用
+    @Override
+    public List<Notify> save(String business_module, String business_id, String notifies_user, boolean isCheck) {
+        return this.save(business_module, business_id, notifies_user, Notify.TYPE_NOTIFY, null, null, true);
+    }
 
     @Override
-    public List<Notify> sendToPortal(String business_module, String business_id, boolean isTodo, boolean isRead) {
-        List<Notify> notifies = notifyMapper.selectNotifies(business_module, business_id);
+    public List<Notify> sendToPortal(String business_module, String business_id, boolean isTodo, boolean isRead, String notifyType) {
+        List<Notify> notifies = notifyMapper.selectNotifies(business_module, business_id, notifyType);
         if(CollectionUtils.isNotEmpty(notifies)){
             boolean portalOpen = prop.getBoolean("notify.send.portal.open", false);
             boolean todoOpen = prop.getBoolean("notify.send.portal.todo.open", false);
@@ -204,8 +211,8 @@ public class NotifyService implements INotifyService {
     }
 
     @Override
-    public List<Notify> sendToMessage(String business_module, String business_id) {
-        List<Notify> notifies = notifyMapper.selectNotifies(business_module, business_id);
+    public List<Notify> sendToMessage(String business_module, String business_id, String notifyType) {
+        List<Notify> notifies = notifyMapper.selectNotifies(business_module, business_id,  notifyType);
         if(CollectionUtils.isNotEmpty(notifies)){
             boolean messageOpen = prop.getBoolean("notify.send.message.open", false);
             boolean dtOpen = prop.getBoolean("notify.send.message.dt.open", false);
@@ -284,11 +291,11 @@ public class NotifyService implements INotifyService {
     }
 
     @Override
-    public List<Notify> delete(String business_module, String business_id, String notify_user) {
+    public List<Notify> delete(String business_module, String business_id, String notify_user,  String notifyType) {
         JSONObject jsonObject = JSON.parseObject(notify_user, JSONObject.class);
         String curId = UserUtil.getCurrentUserUuid();
-        notifyMapper.removeNotifyByJson(business_module, business_id, jsonObject.getString("VALUE"), curId);
-        List<Notify> list = notifyMapper.selectNotifies(business_module, business_id);
+        notifyMapper.removeNotifyByJson(business_module, business_id, jsonObject.getString("VALUE"), curId, notifyType);
+        List<Notify> list = notifyMapper.selectNotifies(business_module, business_id, notifyType);
         return list;
     }
 }

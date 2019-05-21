@@ -19,9 +19,10 @@ public interface INotifyMapper extends BaseMapper {
      *
      * @param business_module 业务模块
      * @param business_id 业务id
+     * @param notify_type 知会类型
      * @return List<Notify> 知会列表
      */
-    List<Notify> selectNotifies(@Param("business_module") String business_module, @Param("business_id") String business_id);
+    List<Notify> selectNotifies(@Param("business_module") String business_module, @Param("business_id") String business_id, @Param("notify_type")String notify_type);
 
     /**
      * 根据知会id查询知会信息
@@ -57,8 +58,9 @@ public interface INotifyMapper extends BaseMapper {
      *
      * @param business_module 业务模块
      * @param business_id 业务id
+     * @param notify_type 知会类型
      */
-    void removeNotifyMultipleParameters(@Param("business_module") String business_module, @Param("business_id") String business_id);
+    void removeNotifyMultipleParameters(@Param("business_module") String business_module, @Param("business_id") String business_id,@Param("notify_type")String notify_type);
 
     /**
      * 查询知会人的待阅/已阅信息
@@ -82,6 +84,7 @@ public interface INotifyMapper extends BaseMapper {
      * @param business_module 业务模块
      * @param business_id 业务id
      * @param notify_user 知会人
+     * @param notify_type 知会类型
      */
-    void removeNotifyByJson(@Param("business_module") String business_module, @Param("business_id") String business_id, @Param("notify_user") String notify_user, @Param("notify_created") String notify_created);
+    void removeNotifyByJson(@Param("business_module") String business_module, @Param("business_id") String business_id, @Param("notify_user") String notify_user, @Param("notify_created") String notify_created,@Param("notify_type")String notify_type);
 }

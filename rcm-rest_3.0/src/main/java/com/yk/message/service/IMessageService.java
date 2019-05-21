@@ -170,4 +170,12 @@ public interface IMessageService {
      * @return 序列号
      */
     int getPageLocationSequenceNumber(String docType, String docCode, String tempUuid);
+
+    /**
+     * 从留言中获取知会人
+     * @param message 留言
+     * @param isOnlyViaUsers 是否仅仅是@的用户
+     * @return 知会人，格式用户id，多个以“,”分隔
+     */
+    String getNotifyUsers(Message message);
 }

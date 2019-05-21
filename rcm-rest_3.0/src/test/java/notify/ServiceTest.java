@@ -60,9 +60,9 @@ public class ServiceTest {
 
     @Test
     public void testList(){
-        List<Notify> notifies = notifyService.list(null, null);
+        /*List<Notify> notifies = notifyService.list(null, null);
         for(Notify notify : notifies){
             System.out.println(notify);
-        }
+        }*/
     }
 }

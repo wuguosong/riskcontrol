@@ -4,6 +4,7 @@
 <mapper namespace="com.yk.notify.dao.INotifyMapper">
     <resultMap id="notifyMap" type="com.yk.notify.entity.Notify">
         <id column="notify_id" property="notifyId" javaType="java.lang.Long"/>
+        <id column="notify_type" property="notifyType" javaType="java.lang.String"/>
         <result column="business_module" property="businessModule" javaType="java.lang.String"/>
         <result column="business_id" property="businessId" javaType="java.lang.String"/>
         <result column="associate_id" property="associateId" javaType="java.lang.String"/>
@@ -19,6 +20,7 @@
     </resultMap>
     <sql id="baseColumn">
 	   notify_id,
+	   notify_type,
        business_module,
        business_id,
        associate_id,
@@ -43,6 +45,9 @@
         <if test="business_id != null and business_id != ''">
             and business_id = #{business_id}
         </if>
+        <if test="notify_type != null and notify_type != ''">
+            and notify_type = #{notify_type}
+        </if>
         order by notify_id, notify_date desc
     </select>
     <select id="selectNotifyById" resultMap="notifyMap">
@@ -58,6 +63,7 @@
     <select id="modifyNotify" parameterType="com.yk.notify.entity.Notify">
         update sys_notify set
 		business_module = #{notify.businessModule},
+		notify_type = #{notify.notifyType},
 		business_id = #{notify.businessId},
 		associate_id = #{notify.associateId},
 		notify_user = #{notify.notifyUser},
@@ -76,6 +82,7 @@
 		insert into sys_notify
 		values(
         sys_notify_seq.nextval,
+        #{notify.notifyType},
 		#{notify.businessModule},
 		#{notify.businessId},
 		#{notify.associateId},
@@ -107,13 +114,14 @@
         (
           select
           tmp.*,
-          row_number()over(partition by tmp.business_key_,tmp.notify_user order by tmp.order_by desc, tmp.task_time desc ) as idx
+          row_number()over(partition by tmp.business_key_,tmp.notify_user,tmp.notify_id order by tmp.order_by desc, tmp.task_time desc ) as idx
           from
           (
             select
             n.notify_id as "NOTIFY_ID",
             n.notify_user as "NOTIFY_USER",
             n.notify_status as "NOTIFY_STATUS",
+            n.notify_type as "NOTIFY_TYPE",
             i.projectname as "SUBJECT",
             n.business_module as "FORM_KEY_",
             n.business_id as "BUSINESS_KEY_",
@@ -137,6 +145,7 @@
             n.notify_id as "NOTIFY_ID",
             n.notify_user as "NOTIFY_USER",
             n.notify_status as "NOTIFY_STATUS",
+            n.notify_type as "NOTIFY_TYPE",
             i.projectname as "SUBJECT",
             n.business_module as "FORM_KEY_",
             n.business_id as "BUSINESS_KEY_",
@@ -160,6 +169,7 @@
             n.notify_id as "NOTIFY_ID",
             n.notify_user as "NOTIFY_USER",
             n.notify_status as "NOTIFY_STATUS",
+            n.notify_type as "NOTIFY_TYPE",
             i.bulletinname as "SUBJECT",
             n.business_module as "FORM_KEY_",
             n.business_id as "BUSINESS_KEY_",
@@ -190,13 +200,14 @@
         (
         select
         tmp.*,
-        row_number()over(partition by tmp.business_key_,tmp.notify_user order by tmp.order_by desc, tmp.task_time desc ) as idx
+        row_number()over(partition by tmp.business_key_,tmp.notify_user,tmp.notify_id order by tmp.order_by desc, tmp.task_time desc ) as idx
         from
         (
         select
         n.notify_id as "NOTIFY_ID",
         n.notify_user as "NOTIFY_USER",
         n.notify_status as "NOTIFY_STATUS",
+        n.notify_type as "NOTIFY_TYPE",
         i.projectname as "SUBJECT",
         n.business_module as "FORM_KEY_",
         n.business_id as "BUSINESS_KEY_",
@@ -220,6 +231,7 @@
         n.notify_id as "NOTIFY_ID",
         n.notify_user as "NOTIFY_USER",
         n.notify_status as "NOTIFY_STATUS",
+        n.notify_type as "NOTIFY_TYPE",
         i.projectname as "SUBJECT",
         n.business_module as "FORM_KEY_",
         n.business_id as "BUSINESS_KEY_",
@@ -243,6 +255,7 @@
         n.notify_id as "NOTIFY_ID",
         n.notify_user as "NOTIFY_USER",
         n.notify_status as "NOTIFY_STATUS",
+        n.notify_type as "NOTIFY_TYPE",
         i.bulletinname as "SUBJECT",
         n.business_module as "FORM_KEY_",
         n.business_id as "BUSINESS_KEY_",
@@ -285,5 +298,8 @@
         and business_id = #{business_id}
         and notify_user = #{notify_user}
         and notify_created = #{notify_created}
+        <if test="notify_type != null and notify_type != ''">
+            and notify_type = #{notify_type}
+        </if>
     </delete>
 </mapper>

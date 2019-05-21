@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
 import common.Constants;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -62,7 +63,7 @@ public class BulletinAuditLogListener implements ExecutionListener {
 		this.bulletinAuditLogService.save(log);
 
 		// 同步待阅
-		notifyService.sendToPortal(Constants.PROCESS_KEY_BULLETIN, businessId, false, true);
+		notifyService.sendToPortal(Constants.PROCESS_KEY_BULLETIN, businessId, false, true, Notify.TYPE_NOTIFY);
 	}
 
 }
