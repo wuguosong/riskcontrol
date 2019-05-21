@@ -1778,6 +1778,8 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
     $scope._init_uuid_ = $scope.credentials.UUID;
     $scope._init_messages_array_ = _init_query_messages_list_($routeParams.id);
     ////////////审批阶段对留言编辑权限的控制
-    var curTask = wf_getCurrentTask('preReview', $routeParams.id);
-    $scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask8';
+    //var curTask = wf_getCurrentTask('preReview', $routeParams.id);
+    //$scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask8';
+    var curTask = wf_getCurrentProject('preReview', $routeParams.id);
+    $scope._message_publish_reply_ = !isEmpty(curTask) && (curTask.WF_STATE == 0 || curTask.WF_STATE == 1);
 }]);

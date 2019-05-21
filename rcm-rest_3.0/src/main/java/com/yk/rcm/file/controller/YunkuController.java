@@ -84,7 +84,7 @@ public class YunkuController {
                         File fileNow = new File(path + nowFileName);
                         multipartFile.transferTo(fileNow);
                         FileDto fileDto = fileService.fileUpload(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + originalFilename, fileNow.getAbsolutePath(), docType, docCode, pageLocation, optName, optId);
-                        List<FileDto> newFiles = this.createFileList(docType, docCode, pageLocation);
+                        List<FileDto> newFiles = fileService.createFileList(docType, docCode, pageLocation);
                         result.setSuccess(true);
                         result.setResult_code(Constants.S);
                         if(CollectionUtils.isEmpty(newFiles)){

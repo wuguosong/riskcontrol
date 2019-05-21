@@ -1066,6 +1066,21 @@ function wf_getCurrentTask(processKey, businessKey){
     });
     return task;
 }
+function wf_getCurrentProject(processKey, businessKey){
+    var url = srvUrl + "message/getProject.do";
+    var task = null;
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"type": processKey, 'id': businessKey},
+        async: false,
+        success: function (data) {
+            task = data;
+        }
+    });
+    return task;
+}
 
 /**流程相关的一些公共方法结束**/
 /**附件相关的一些公共方法开始**/

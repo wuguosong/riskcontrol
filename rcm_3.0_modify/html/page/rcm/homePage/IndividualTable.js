@@ -87,8 +87,16 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
             method:'post',
             url:srvUrl+"notify/queryNotifyInfo.do"
         }).success(function(_jsonObj){
-            $scope.myReadingList = _jsonObj.myReadingList;
-            $scope.myReadList = _jsonObj.myReadList;
+        	if(_jsonObj.myReadingList.length <= 5){
+                $scope.myReadingList = _jsonObj.myReadingList;
+			}else{
+                $scope.myReadingList = _jsonObj.myReadingList.slice(0,4);
+			}
+            if(_jsonObj.myReadList.length <= 5){
+                $scope.myReadList = _jsonObj.myReadList;
+            }else{
+                $scope.myReadList = _jsonObj.myReadList.slice(0,4);
+            }
             $scope.myReadingCount = _jsonObj.myReadingCount;
             $scope.myReadCount = _jsonObj.myReadCount;
         });

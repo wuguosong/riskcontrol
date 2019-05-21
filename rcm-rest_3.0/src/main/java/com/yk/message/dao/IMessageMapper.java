@@ -81,7 +81,7 @@ public interface IMessageMapper extends BaseMapper {
 
     List<HashMap<String, Object>> selectUserAbout(@Param("uuid") String uuid);
 
-    List<Map<String, Object>> selectProjectByTypeAndId(@Param("type") String type, @Param("id") String id);
+    List<HashMap<String, Object>> selectProjectByTypeAndId(@Param("type") String type, @Param("id") String id);
 
     /**
      * 查询留言过程附件的位置序列号

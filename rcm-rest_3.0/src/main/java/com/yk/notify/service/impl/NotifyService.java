@@ -67,7 +67,7 @@ public class NotifyService implements INotifyService {
         // 如果待阅已经被点击，待阅->已阅，需要同步到统一代办平台
         if(Notify.STATUS_2.equals(notify.getNotifyStatus())){
             TodoClient todoClient = TodoClient.getInstance();
-            List<Map<String, Object>> projects = messageMapper.selectProjectByTypeAndId(notify.getBusinessModule(), notify.getBusinessId());
+            List<HashMap<String, Object>> projects = messageMapper.selectProjectByTypeAndId(notify.getBusinessModule(), notify.getBusinessId());
             if(CollectionUtils.isEmpty(projects)){
                 throw new BusinessException("只会人同步统一代办失败：相关业务数据为空！");
             }
@@ -166,7 +166,7 @@ public class NotifyService implements INotifyService {
             boolean readOpen = prop.getBoolean("notify.send.portal.read.open", false);
             if(portalOpen){
                 TodoClient todoClient = TodoClient.getInstance();
-                List<Map<String, Object>> projects = messageMapper.selectProjectByTypeAndId(business_module, business_id);
+                List<HashMap<String, Object>> projects = messageMapper.selectProjectByTypeAndId(business_module, business_id);
                 if(CollectionUtils.isEmpty(projects)){
                     throw new BusinessException("只会人同步统一代办失败：相关业务数据为空！");
                 }
@@ -217,7 +217,7 @@ public class NotifyService implements INotifyService {
             boolean messageOpen = prop.getBoolean("notify.send.message.open", false);
             boolean dtOpen = prop.getBoolean("notify.send.message.dt.open", false);
             if(messageOpen){
-                List<Map<String, Object>> projects = messageMapper.selectProjectByTypeAndId(business_module, business_id);
+                List<HashMap<String, Object>> projects = messageMapper.selectProjectByTypeAndId(business_module, business_id);
                 if(CollectionUtils.isEmpty(projects)){
                     throw new BusinessException("只会人同步统一代办失败：相关业务数据为空！");
                 }

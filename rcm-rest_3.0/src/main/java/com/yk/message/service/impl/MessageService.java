@@ -605,4 +605,13 @@ public class MessageService implements IMessageService {
             return null;
         }
     }
+
+    @Override
+    public HashMap<String, Object> getProject(String type, String id) {
+        List<HashMap<String, Object>> list = messageMapper.selectProjectByTypeAndId(type, id);
+        if(CollectionUtils.isNotEmpty(list)){
+            return list.get(0);
+        }
+        return null;
+    }
 }

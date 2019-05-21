@@ -433,4 +433,22 @@ public class MessageController {
         int pageLocationSequenceNumber = messageService.getPageLocationSequenceNumber(docType, docCode, pageLocation);
         return pageLocationSequenceNumber;
     }
+
+    /**
+     * 获取项目
+     * @param type 项目类型
+     * @param id 项目id
+     * @return 项目信息
+     */
+    @RequestMapping("/getProject")
+    @ResponseBody
+    public HashMap<String, Object> getProject(String type, String id){
+        HashMap<String, Object> map = null;
+        try{
+            map = messageService.getProject(type, id);
+        }catch(Exception e){
+            LoggerFactory.getLogger(MessageController.class).error(e.getMessage());
+        }
+        return map;
+    }
 }
