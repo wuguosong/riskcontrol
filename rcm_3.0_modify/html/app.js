@@ -554,7 +554,6 @@ ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
     var service = {
         /*设置相关信息，留言指令调用*/
         _setCallInfo: function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, _scope) {
-            debugger;
             var formData = null;
             if (_is_first_ == 'Y') {// 如果是主题留言提交
                 formData = _scope._message_first;
@@ -1354,4 +1353,33 @@ function isEmptyJson(_json) {
         return _i == 0;
     }
     return true;
+}
+
+function _crateLoadingHtml(_loadingMsg){
+    var _body = $('body');
+    var _div = $('#_loadingHtml');
+    var _html = '';
+    if(!_div){
+        $('#_loadingHtml').empty();
+    }else{
+        _html += '<div style="position:relative; border:0px solid #ccc; text-align:center;" id="_loadingHtml">';
+    }
+    _html += '<img src="page/sys/common/img/loading.gif" alt="LOADING"/>';
+    _html += '<span style="position:absolute; top:50%; left:50%; margin-left:-24px; margin-top:20px;">';
+    _html += _loadingMsg;
+    _html += '</span>';
+    if($('#_loadingHtml')){
+        _html += '</div>';
+    }
+    _body.append(_html);
+}
+
+function _showLoading(_loadingMsg){
+    $("#mask_").html(_loadingMsg);
+    show_Mask();
+}
+
+function _hideLoading(){
+    $('#mask_').hide();
+    $("#mask_").html('处理中，请稍后......');
 }
