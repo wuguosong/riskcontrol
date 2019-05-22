@@ -511,7 +511,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                         if(data.result_data){*/
                             hide_Mask();
                             alertData = "提交成功!";
-                            $location.path("/PreBiddingInfoPreview/"+$scope.businessId + "/" +$filter('encodeURI')('#/IndividualTable') + "/3");
+                            $location.path("/PreBiddingInfoPreview/"+$scope.businessId + "/" +$filter('encodeURI')('#/IndividualTable') + "/2");
                        /* }else{
                             hide_Mask();
                             $.alert("请确保参会信息已填写完毕!");

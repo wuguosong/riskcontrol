@@ -146,7 +146,7 @@
 	    		}
 			}
     	}
-    	/*if(-1 == projectIndexCount)
+    	if(-1 == projectIndexCount)
     	{
     		$.confirm("序号有重复,确认要继续提交吗？", function(){
     			$scope.submitMeetingIssue();
@@ -155,7 +155,7 @@
     	else
     	{
     		$scope.submitMeetingIssue();
-    	}*/
+    	}
     }
     //------------------------------------------------------
 	//验证表单  end

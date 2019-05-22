@@ -1,14 +1,5 @@
-<!-- 第一个版块 -->
+<!-- 第一个版块（代办已办） -->
 <div class="panel-body panel-index1">
-    <!-- <ul class="panel-head font-blue2">
-        <li class="mr10">欢迎</li>
-        <li class="mr10">
-            <font class="font-black">{{credentials.userName}}</font>
-        </li>
-        <li class="mr20">来到风险管控系统</li>
-        <li class="mr10">系统时间 : {{now | date : 'yyyy-MM-dd'}}</li>
-        <li>{{week}}</li>
-    </ul> -->
     <div class="mb30 ml20 mr20">
         <div class="panel p-panel">
             <!-- Nav tabs -->
@@ -205,7 +196,7 @@
     </div>
     <!-- <fill-material></fill-material> -->
 </div>
-<!-- 第二个版块 -->
+<!-- 第二个版块（资料填写） -->
 <div class="panel-body panel-index1" style="margin-top:10px;" ng-if="showFlag == 2">
     <div class="mb30 ml20 mr20">
         <div class="p-nav">
@@ -245,6 +236,81 @@
         </div>
     </div>
 </div>
+
+
+<!-- 第三个版块（今日评审项目） -->
+<div class="panel-body panel-index1" style="margin-top:10px;">
+    <div class="mb30 ml20 mr20">
+        <div class="panel p-panel">
+            <!-- Nav tabs -->
+            <div class="p-nav">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="/#meeting" data-toggle="tab" class="tab">
+                            今日评审项目
+                            <span class="uibadge ">{{projectNum}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Tab panes -->
+            <div class="tab-content p-panes">
+                <div role="tabpanel" class="tab-pane active" id="meeting">
+                    <div class="table-responsive table-list no-selectbox">
+                        <div class="form-group row nobottom-mar table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>项目名称</th>
+                                    <th width="10%">项目类型</th>
+                                    <th width="10%">表决状态</th>
+                                    <th width="10%">表决时间</th>
+                                    <th width="10%">表决结果</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in projects">
+                                    <td>
+                                        <a ng-if="'pre' == p.PROJECT_TYPE" href="#/PreBiddingInfoPreview/{{p.BUSINESS_ID}}/{{'#/'|encodeURI}}/2">{{p.PROJECT_NAME}}</a>
+                                        <a ng-if="'pfr' == p.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/2">{{p.PROJECT_NAME}}</a>
+                                        <a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{p.BUSINESS_ID}}_0/{{('#/') |encodeURI}}/2">{{p.PROJECT_NAME}}</a>
+                                    </td>
+                                    <td>
+                                        <font ng-if="'pfr' == p.PROJECT_TYPE">正式评审</font>
+                                        <font ng-if="'bulletin' == p.PROJECT_TYPE">其他评审</font>
+                                        <font ng-if="'pre' == p.PROJECT_TYPE">投标评审</font>
+                                    </td>
+                                    <td><font ng-if="0 == p.VOTE_STATUS" style="color:blue;">待表决</font>
+                                        <a ng-if="1 == p.VOTE_STATUS" href="#/MeetingVoteWait/{{p.DECISION_ID}}/{{'#/'|encodeURI}}/1" style="color:red;">表决中</a>
+                                        <font ng-if="2 == p.VOTE_STATUS" style="color:green;">已表决</font>
+                                    </td>
+                                    <td>{{p.DECISION_DATE}}</td>
+                                    <td>
+                                        <font ng-if="0 == p.DECISION_RESULT">未处理</font>
+                                        <a ng-if="2 == p.VOTE_STATUS" href="#/MeetingVoteResult/{{p.DECISION_ID}}/{{'#/'|encodeURI}}">
+                                            <font ng-if="1 == p.DECISION_RESULT">同意</font>
+                                            <font ng-if="2 == p.DECISION_RESULT">不同意</font>
+                                            <font ng-if="3 == p.DECISION_RESULT">有条件同意</font>
+                                            <font ng-if="4 == p.DECISION_RESULT">择期决议</font>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="more">
+                        <a href="#/todayMeetingManageList/{{'#/'|encodeURI}}" title="">更多 &gt;&gt;</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <!-- 首页快捷菜单 -->
 <div class="short-menu" ng-if="showFlag == 1">
     <h1>常用菜单</h1>

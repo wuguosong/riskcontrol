@@ -170,6 +170,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+
+            //今日决策会项目
+            .when('/todayMeetingManageList/:url', {
+                controller: 'todayMeetingManageList',
+                templateUrl: 'page/rcm/homePageMore/todayMeetingManageList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/homePageMore/moreData.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
             /*********************************公共页面结束******************************/
 
 

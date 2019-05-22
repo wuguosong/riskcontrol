@@ -5,6 +5,7 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
 		$scope.initNotificationFlatformInfo();
 		$scope.queryMeetingNoticeTop();
         $scope.queryMyToReadInformation();
+        $scope.getTodayProject();
 		$scope.showFlag = 0;
 
 		// 判断首页快捷菜单栏显示
@@ -105,5 +106,22 @@ ctmApp.register.controller('IndividualTable', ['$http','$scope','$location', fun
 	$scope.notify_UpdateStatus = function(id){
         notify_UpdateStatus(id, 2);// 待阅->已阅
 	};
+
+	// 获取今日需要评审的项目列表
+    $scope.getTodayProject = function () {
+        $http({
+            method:'post',
+            url:srvUrl+"decision/queryList.do"
+        }).success(function(data){
+            if(data.success){
+                $scope.projects = data.result_data;
+                $scope.projectNum = $scope.projects.length;
+            }else{
+                $.alert(data.result_name);
+            }
+        });
+    };
+
+
     $scope.initData();
 }]);
