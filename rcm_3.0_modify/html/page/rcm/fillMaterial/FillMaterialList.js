@@ -156,8 +156,8 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             }).success(function (result) {
                 $('#submitModal').modal('hide');
                 $.alert(result.result_name);
-                $scope.$parent.initDefaultData();
                 $scope.mettingSummary = "";
+                $scope.initData();
             });
         };
         $scope.cancel = function () {

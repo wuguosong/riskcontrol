@@ -6370,8 +6370,8 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                 }).success(function (result) {
                     $('#addModal3').modal('hide');
                     $.alert(result.result_name);
-                    $scope.$parent.initDefaultData();
                     $scope.mettingSummary = "";
+                    $scope.initData();
                 });
             };
             $scope.cancel = function () {
