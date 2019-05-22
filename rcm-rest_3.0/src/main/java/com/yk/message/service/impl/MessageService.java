@@ -600,6 +600,24 @@ public class MessageService implements IMessageService {
                     users = sb.substring(0, sb.lastIndexOf(","));
                 }
             }
+            // 再次去掉本人
+            if(StringUtils.isNotBlank(users)){
+                if(users.contains(",")){
+                    String[] array = users.split(",");
+                    String newUsers = "";
+                    for(String id : array){
+                        if(!id.equals(curUserUuid)){
+                            newUsers += id;
+                            newUsers += ",";
+                        }
+                    }
+                    users = newUsers.substring(0, newUsers.lastIndexOf(","));
+                }else{
+                    if(users.equals(curUserUuid)){
+                        return null;
+                    }
+                }
+            }
             return users;
         } else {
             return null;

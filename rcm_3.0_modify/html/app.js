@@ -550,6 +550,19 @@ ctmApp.filter('textToHtml', function ($sce) {
         return $sce.trustAsHtml(text);
     }
 });
+ctmApp.filter('contentEllipsisFilter', function () {
+    return function (_content) {
+        var _newContent = '';
+        if(!isEmpty(_content)){
+            if(_content.length >= 10){
+                _newContent += _content.substr(0, 11) + '......';
+            }else{
+                _newContent += _content;
+            }
+        }
+        return _newContent;
+    };
+});
 ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
     var service = {
         /*设置相关信息，留言指令调用*/
@@ -592,7 +605,6 @@ ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
         },
         /*获取相关信息，附件指令调用*/
         _getCallInfo: function () {
-            debugger;
             var _curInfo = {};
             _curInfo.message = $rootScope._call_message;
             _curInfo.params = $rootScope._call_params;
@@ -603,6 +615,14 @@ ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
             var ret = $rootScope._call_scope._submit_message_form_(_curInfo.params._is_first_, _curInfo.params._original_id_, _curInfo.params._parent_id_, _curInfo.params._replied_by_, _curInfo.params._replied_name_, _curInfo.params._idx_, 'N');
             hide_Mask();
             return ret;
+        },
+        /*设置知会信息，待阅已阅调用*/
+        _setNotifyInfo : function(_notifyInfo){
+            $rootScope._notifyInfo = _notifyInfo;
+        },
+        /*获取知会信息，需要的业务模块调用*/
+        _getNotifyIno:function(){
+            return $rootScope._notifyInfo;
         }
     };
     return service;
@@ -1382,4 +1402,46 @@ function _showLoading(_loadingMsg){
 function _hideLoading(){
     $('#mask_').hide();
     $("#mask_").html('处理中，请稍后......');
+}
+/**
+ * 初始化页面锚点信息
+ * @public
+ */
+function _initAnchorPoint(_notifyInfo){
+    if(!isEmpty(_notifyInfo) && !isEmptyJson(_notifyInfo)){
+        _activeTab('_myTopTab', 2);
+        var _anchorPointMessageTab = _notifyInfo['AnchorPointMessageTab'];
+        var _idx = -1;
+        if(!isEmpty(_anchorPointMessageTab)){
+            var _idx = _anchorPointMessageTab == 'legal'? 1 : 0;
+            // 指定子tab
+            _activeTab('_myMsgTab', _idx);
+        }
+    }
+}
+
+/**
+ * 激活tab
+ * @param _eleId
+ * @param _idx
+ * @private
+ */
+function _activeTab(_eleId, _idx){
+    if(_idx != -1){
+        var _tabPanel = '';
+        $('#' + _eleId + ' a').each(function(i, e){
+            var _id = $(this).attr('href').split("#")[1]
+            if (i == _idx) {
+                $('#'+ _id).addClass('active');
+            }else{
+                $('#'+ _id).removeClass('active');
+            }
+        });
+        $('#' + _eleId + ' li').each(function(i, e){
+            $(this).removeClass('active');
+            if (i == _idx) {
+                $(this).addClass('active');
+            }
+        });
+    }
 }

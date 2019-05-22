@@ -2,7 +2,7 @@
  * Created by Administrator on 2019/5/14 0014.
  */
 // 待阅
-ctmApp.register.controller('MyReadingCtrl', ['$http','$scope','$location','$routeParams', function ($http,$scope,$location,$routeParams) {
+ctmApp.register.controller('MyReadingCtrl', ['$http','$scope','$location','$routeParams','DirPipeSrv', function ($http,$scope,$location,$routeParams, DirPipeSrv) {
     $scope.oldUrl = $routeParams.url;
     $scope.queryMyTaskByPage = function(){
         $http({
@@ -25,14 +25,15 @@ ctmApp.register.controller('MyReadingCtrl', ['$http','$scope','$location','$rout
         $scope.paginationConf.currentPage = 1;
         $scope.queryMyTaskByPage();
     };
-    $scope.notify_UpdateStatus = function(id){
+    $scope.notify_UpdateStatus = function(id,t){
         notify_UpdateStatus(id, 2);
+        DirPipeSrv._setNotifyInfo(t);
     };
     $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage',  $scope.queryMyTaskByPage);
 }]);
 
 // 已阅
-ctmApp.register.controller('MyReadCtrl', ['$http','$scope','$location','$routeParams', function ($http,$scope,$location,$routeParams) {
+ctmApp.register.controller('MyReadCtrl', ['$http','$scope','$location','$routeParams', 'DirPipeSrv', function ($http,$scope,$location,$routeParams,DirPipeSrv) {
     $scope.oldUrl = $routeParams.url;
     $scope.queryOverTaskByPage = function(){
         $http({

@@ -78,7 +78,7 @@
     <div ng-repeat="_messages_ in _messages_array_"
          id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 5px;">
         <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
-            <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
+            <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{_messages_array_[$index][0].messageId}}" data-toggle="collapse">
                 <!--<span class="text" ng-if="_is_pagination_">{{(_message_pagination_configuration_.currentPage - 1) * _message_pagination_configuration_.itemsPerPage + $index + 1}}楼
                     <i class="i-triangle"></i>
                 </span>
@@ -89,12 +89,15 @@
                     <i class="i-triangle" style=""></i>
                 </span>
                 <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
+                    {{_messages_array_[$index][0].createdName}}&nbsp;
+                    {{_messages_array_[$index][0].messageDate}}&nbsp;
+                    {{_messages_array_[$index][0].messageContent | contentEllipsisFilter}}
                 </span>
             </span>
             </a>
         </div>
         <!--分组迭代-->
-        <div id="_message_panel_body_{{$index}}" class="panel-collapse collapse in">
+        <div id="_message_panel_body_{{_messages_array_[$index][0].messageId}}" class="panel-collapse collapse">
             <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
                 <!--左边分组迭代-->
                 <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
@@ -118,7 +121,8 @@
                             <br><!--展示附件信息-->
                             <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                         </div>
-                    </div>
+                    </div><!--待阅已阅提示信息-->
+                    <span id="{{_message_.messageId}}" style="position: relative;top:0px;"></span>
                 </div>
                 <!--右边分组迭代-->
                 <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
@@ -138,7 +142,8 @@
                         <br><!--展示附件信息-->
                             <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                         </div>
-                    </div>
+                    </div><!--待阅已阅提示信息-->
+                    <span id="{{_message_.messageId}}" style="position: relative;"></span>
                 </div>
             </div>
             <!--每个主题的回复表单-->

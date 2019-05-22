@@ -119,6 +119,7 @@
           (
             select
             n.notify_id as "NOTIFY_ID",
+            n.associate_id as "ASSOCIATE_ID",
             n.notify_user as "NOTIFY_USER",
             n.notify_status as "NOTIFY_STATUS",
             n.notify_type as "NOTIFY_TYPE",
@@ -143,6 +144,7 @@
             union
             select
             n.notify_id as "NOTIFY_ID",
+            n.associate_id as "ASSOCIATE_ID",
             n.notify_user as "NOTIFY_USER",
             n.notify_status as "NOTIFY_STATUS",
             n.notify_type as "NOTIFY_TYPE",
@@ -167,6 +169,7 @@
             union
             select
             n.notify_id as "NOTIFY_ID",
+            n.associate_id as "ASSOCIATE_ID",
             n.notify_user as "NOTIFY_USER",
             n.notify_status as "NOTIFY_STATUS",
             n.notify_type as "NOTIFY_TYPE",
@@ -205,6 +208,7 @@
         (
         select
         n.notify_id as "NOTIFY_ID",
+        n.associate_id as "ASSOCIATE_ID",
         n.notify_user as "NOTIFY_USER",
         n.notify_status as "NOTIFY_STATUS",
         n.notify_type as "NOTIFY_TYPE",
@@ -229,6 +233,7 @@
         union
         select
         n.notify_id as "NOTIFY_ID",
+        n.associate_id as "ASSOCIATE_ID",
         n.notify_user as "NOTIFY_USER",
         n.notify_status as "NOTIFY_STATUS",
         n.notify_type as "NOTIFY_TYPE",
@@ -253,6 +258,7 @@
         union
         select
         n.notify_id as "NOTIFY_ID",
+        n.associate_id as "ASSOCIATE_ID",
         n.notify_user as "NOTIFY_USER",
         n.notify_status as "NOTIFY_STATUS",
         n.notify_type as "NOTIFY_TYPE",

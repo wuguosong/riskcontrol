@@ -1748,7 +1748,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             if(isEmpty($scope.isPagination)){
                 $scope._is_pagination_ = false;
             }else{
-                $scope._is_pagination_ = $scope.isPagination == 'true';
+                $scope._is_pagination_ = false;//$scope.isPagination == 'true';
             }
             if(isEmpty($scope.isAlertUser)){
                 $scope._is_alert_user_ = false;
@@ -1840,9 +1840,12 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                         'parentId': _parent_id_,
                         'queryParams':JSON.stringify($scope._query_params_)
                     }),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded',
+                    async:false}
                 }).success(function (data) {
                     $scope._messages_array_ = data;
+                    $scope._init_collapse($scope._messages_array_);
+                    $scope._notifySetting();
                 });
             };
             // 清空留言表单
@@ -1949,34 +1952,53 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     data: $.param(formData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    if(_is_first_ == 'Y'){// 主题留言保存成功，清空附件信息
-                        if(!isEmptyJson($scope._form_first_)){
-                            $scope._form_first_ = {};
+                    if(!isEmpty(data)){
+                        if(data.success){
+                            _flag = true;
+                            _hideLoading();
+                            if(_is_first_ == 'Y'){// 主题留言保存成功，清空附件信息
+                                if(!isEmptyJson($scope._form_first_)){
+                                    $scope._form_first_ = {};
+                                }
+                            }else{// 主题回复保存成功，清空附件信息
+                                if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){
+                                    $scope._clearFormFile_info(_idx_);
+                                }
+                            }
+                            if($scope._is_pagination_){
+                                $scope._query_messages_list_page_();
+                            }else{
+                                $scope._query_messages_list_(0);
+                            }
+                            $scope._clear_message_from();
+                            if(_is_first_ == 'Y'){
+                                $('#_message_first_0' + $scope._screen_type_).text('');
+                                $('#_message_first_title_0' + $scope._screen_type_).text('');
+                                if(_is_show_alert == 'Y'){
+                                    $.alert('发表留言成功!');
+                                }
+                            }else{
+                                if(_is_show_alert == 'Y'){
+                                    $.alert('回复留言成功!');
+                                }
+                            }
+                            window.setTimeout(function(){
+                                // 打开留言主题
+                                var ms = data['result_data'];
+                                var subject = ms.messageId;
+                                if(ms.parent != 0){
+                                    subject = ms.parentId;
+                                }
+                                $('#_message_panel_body_' + subject).addClass('in');
+                            },2000);
+                        }else{
+                            _flag = false;
+                            _hideLoading();
                         }
-                    }else{// 主题回复保存成功，清空附件信息
-                        if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){
-                            $scope._clearFormFile_info(_idx_);
-                        }
-                    }
-                    if($scope._is_pagination_){
-                        $scope._query_messages_list_page_();
                     }else{
-                        $scope._query_messages_list_(0);
+                        _flag = false;
+                        _hideLoading();
                     }
-                    $scope._clear_message_from();
-                    if(_is_first_ == 'Y'){
-                        $('#_message_first_0' + $scope._screen_type_).text('');
-                        $('#_message_first_title_0' + $scope._screen_type_).text('');
-                        if(_is_show_alert == 'Y'){
-                            $.alert('发表留言成功!');
-                        }
-                    }else{
-                        if(_is_show_alert == 'Y'){
-                            $.alert('回复留言成功!');
-                        }
-                    }
-                    _hideLoading();
-                    _flag = true;
                 });
                 return _flag;
             };
@@ -2053,9 +2075,17 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._submit_message_form_('N', $scope._message.originalId, $scope._message.parentId, $scope._message.repliedBy, $scope._message.repliedName, 0, 'Y');
                 $('#_submit_message_dialog').modal('hide');
             };
+            // 初始化
+            $scope._init_collapse = function(_subjectArray){
+                if(!isEmpty(_subjectArray) && _subjectArray.length > 0){
+                    for(var _idx = 0; _idx < _subjectArray.length; _idx ++){
+                        $scope._check_collapse_event_(_subjectArray[_idx], _idx);
+                    }
+                }
+            };
             // 内容太多时，只展示前10个字。
             $scope._check_collapse_event_ = function(_obj_, _idx_){
-                var _class = $('#_message_panel_body_' + _idx_).attr("class");
+                var _class = $('#_message_panel_body_' + _obj_.messageId).attr("class");
                 var _span = '';
                 if("panel-collapse collapse in" == _class){
                     _span += _obj_['createdName'] + '&nbsp;';
@@ -2181,10 +2211,11 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     method: 'post',
                     url: srvUrl + "message/queryMessagesListPage.do",
                     data: $.param({"page": JSON.stringify($scope._message_pagination_configuration_),'queryParams':JSON.stringify($scope._query_params_)})
-                }).success(function(data){
+                ,async:false}).success(function(data){
                     $scope._message_pagination_configuration_.totalItems = data['result_data'].totalItems;
                     $scope._messages_array_ = data['result_data'].list;
-                    console.log($scope._messages_array_);
+                    $scope._init_collapse($scope._messages_array_);
+                    $scope._notifySetting();
                 });
             };
             // 分页参数初始化
@@ -2429,6 +2460,24 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._is_show_upload_part_ = false;
                 $scope._clearMessFileParam();
             };
+            // 自动锚点定位
+            // 需求：从待阅或者已阅点击进入查看
+            $scope._notifySetting = function(){
+                var _notify = DirPipeSrv._getNotifyIno();
+                _initAnchorPoint(_notify);// 初始化页面
+                if(!isEmpty(_notify) && !isEmptyJson(_notify)){
+                    var targetId = _notify['AnchorPointMessageId'];
+                    if(!isEmpty(targetId)){
+                        var subjectId = _notify['AnchorPointMessageSubject'];
+                        var _span = $('#' + targetId);
+                        _span.removeClass('uibadge');
+                        _span.html('');
+                        _span.addClass('uibadge');
+                        _span.html('新回复');
+                        $('#_message_panel_body_' + subjectId).addClass('in');
+                    }
+                }
+            }
         }
     };
 }]);

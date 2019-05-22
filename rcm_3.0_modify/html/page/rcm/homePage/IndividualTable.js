@@ -1,4 +1,4 @@
-ctmApp.register.controller('IndividualTable', ['$http', '$scope', '$location', function ($http, $scope, $location) {
+ctmApp.register.controller('IndividualTable', ['$http', '$scope', '$location', 'DirPipeSrv', function ($http, $scope, $location, DirPipeSrv) {
 
     $scope.initData = function () {
         $scope.initializeCurrUserTaskInfo();
@@ -124,8 +124,9 @@ ctmApp.register.controller('IndividualTable', ['$http', '$scope', '$location', f
         });
     };
     // 更新只会信息状态
-    $scope.notify_UpdateStatus = function (id) {
+    $scope.notify_UpdateStatus = function(id,t){
         notify_UpdateStatus(id, 2);// 待阅->已阅
+        DirPipeSrv._setNotifyInfo(t);
     };
     $scope.initData();
 }]);
