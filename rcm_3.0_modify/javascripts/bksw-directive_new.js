@@ -1942,7 +1942,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 if(!$scope._checkFormData(formData, _is_first_, 'Y')){
                     return;
                 };
-                show_Mask();
+                _showLoading("留言保存中，请稍等......")
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/add.do',
@@ -1975,7 +1975,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                             $.alert('回复留言成功!');
                         }
                     }
-                    hide_Mask();
+                    _hideLoading();
                     _flag = true;
                 });
                 return _flag;
@@ -2226,7 +2226,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             };
             // 留言中的过程附件
             $scope._message_upload_file_ = function(_file_,_is_first_mess,_idx_mess){
-                show_Mask();
+                _showLoading("附件正在保存中...");
                 var _pageLocationSequenceNumber = get_pageLocation_sequence_number('sys_message_' + $scope.messageType, $scope.businessId, $scope._init_uuid_global_);
                 if(_is_first_mess == 'Y'){
                     $scope._form_first_ = {};
@@ -2255,12 +2255,12 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                                     $scope._createFormFile_info(_idx_mess, _cloud_file_dto_);
                                 }
                             }
-                            hide_Mask();
+                            _hideLoading();
                         }else{
-                            hide_Mask();
+                            _hideLoading();
                         }
                     }else{
-                        hide_Mask();
+                        _hideLoading();
                     }
                 }, function (_resp_) {
                 }, function (_evt_) {

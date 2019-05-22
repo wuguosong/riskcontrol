@@ -67,10 +67,10 @@ public class YunkuController {
                     MultipartFile multipartFile = multiRequest.getFile(iter.next().toString());
                     if (multipartFile != null) {
                         String originalFilename = multipartFile.getOriginalFilename();
-                        if(!originalFilename.contains(".")){
-                            originalFilename += originalFilename + ".";
+                        String extName = "";
+                        if(originalFilename.contains(".")){
+                            extName  = originalFilename.substring(originalFilename.lastIndexOf("."));
                         }
-                        String extName = originalFilename.substring(originalFilename.lastIndexOf("."));
                         String rootDisk = PathKit.getWebRootDisk();
                         System.out.println(rootDisk);
                         String fullPath = YunkuConf.UPLOAD_ROOT + "/" + docType + "/" + docCode + "/";
@@ -225,10 +225,10 @@ public class YunkuController {
                         MultipartFile multipartFile = multiRequest.getFile(iter.next().toString());
                         if (multipartFile != null) {
                             String originalFilename = multipartFile.getOriginalFilename();
-                            if(!originalFilename.contains(".")){
-                                originalFilename += originalFilename + ".";
+                            String extName = "";
+                            if(originalFilename.contains(".")){
+                                extName  = originalFilename.substring(originalFilename.lastIndexOf("."));
                             }
-                            String extName = originalFilename.substring(originalFilename.lastIndexOf("."));
                             String rootDisk = PathKit.getWebRootDisk();
                             System.out.println(rootDisk);
                             String fullPath = YunkuConf.UPLOAD_ROOT + "/" + docType + "/" + docCode + "/";
