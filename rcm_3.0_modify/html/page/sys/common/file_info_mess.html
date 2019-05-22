@@ -1,19 +1,19 @@
 <a  style="font-size: small;color: blue;"
     href="javascript:void(0);"
     ng-click="_message_preview_file_(_message_.fileDto.preview3d)">{{_message_.fileDto.rcmfilename}}
-    <span ng-if="_message_.messageFile != null">
+    <span ng-if="_message_.messageFile != null" style="font-size: small;color: blue;">
                             &nbsp;
                             </span>
-    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576">
+    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576" style="font-size: small;color: blue;">
                             {{_message_.fileDto.filesize/1024 | number:2}}
                             </span>
-    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576">
+    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize < 1048576" style="font-size: small;color: blue;">
                             KB
                             </span>
-    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576">
+    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576" style="font-size: small;color: blue;">
                             {{_message_.fileDto.filesize/1024/1024 | number:2}}
                             </span>
-    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576">
+    <span ng-if="_message_.messageFile != null && _message_.fileDto.filesize >= 1048576" style="font-size: small;color: blue;">
                             MB
                             </span>
 </a>
