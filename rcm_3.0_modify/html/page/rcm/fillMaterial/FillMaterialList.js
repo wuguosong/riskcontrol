@@ -98,7 +98,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                     // $location.path("/FormalBiddingInfoPreviewOld/" + id + "/" + path);
                     $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/3");
                 } else if ($scope.stage == 7) {
-                    $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/3");
+                    $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/4");
                 } else {
                     $location.path("/FormalBiddingInfo/" + id + "/" + path + "/3");
                 }
