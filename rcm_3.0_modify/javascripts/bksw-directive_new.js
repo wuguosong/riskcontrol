@@ -1844,7 +1844,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     async:false}
                 }).success(function (data) {
                     $scope._messages_array_ = data;
-                    $scope._init_collapse($scope._messages_array_);
+                    // $scope._init_collapse($scope._messages_array_);
                     $scope._notifySetting();
                 });
             };
@@ -1990,7 +1990,8 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                                     subject = ms.parentId;
                                 }
                                 $('#_message_panel_body_' + subject).addClass('in');
-                            },2000);
+                                $scope._jump_page_to_(ms.messageId);
+                            },3000);
                         }else{
                             _flag = false;
                             _hideLoading();
@@ -2475,6 +2476,10 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                         _span.addClass('uibadge');
                         _span.html('新回复');
                         $('#_message_panel_body_' + subjectId).addClass('in');
+                        // 3秒后锚点定位
+                        window.setTimeout(function(){
+                            $scope._jump_page_to_(targetId);
+                        }, 3000);
                     }
                 }
             }
