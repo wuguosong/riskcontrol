@@ -527,6 +527,74 @@ public class MessageService implements IMessageService {
     }
 
     @Override
+    public JSONObject getBusinessMongoDbData(String business_id, String business_module){
+        Map<String, Object> mongo = null;
+        JSONObject applyJs = null;
+        String collectionName = null;
+        if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
+            collectionName = Constants.RCM_FORMALASSESSMENT_INFO;
+        } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
+            collectionName = Constants.RCM_PRE_INFO;
+        } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
+            collectionName = Constants.RCM_BULLETIN_INFO;
+        }else {
+            return null;
+        }
+        if(StringUtils.isNotBlank(collectionName)){
+            mongo = baseMongo.queryById(business_id, collectionName);
+            if(mongo != null){
+                JSONObject mongoJs = JSON.parseObject(JSON.toJSONString(mongo), JSONObject.class);
+                if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
+                    applyJs = mongoJs;
+                }else{
+                    applyJs = mongoJs.getJSONObject("apply");
+                }
+            }
+        }
+        return applyJs;
+    }
+
+
+    @Override
+    public JSONObject getInvestmentAndLaw(String business_id, String business_module){
+        JSONObject js = new JSONObject();
+        js.put("investmentManager", "");
+        js.put("grassrootsLegalStaff", "");
+        JSONObject jsonObject = this.getBusinessMongoDbData(business_id, business_module);
+        if(jsonObject != null){
+            if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
+                JSONObject investmentManager = jsonObject.getJSONObject(prop.get("message.share.to.business.formal.investmentManagerField", "investmentManager"));
+                if(investmentManager != null){
+                    js.put("investmentManager", investmentManager.get("VALUE"));
+                }
+                JSONObject grassrootsLegalStaff = jsonObject.getJSONObject(prop.get("message.share.to.business.formal.grassrootsLegalStaffFiled", "grassrootsLegalStaff"));
+                if(grassrootsLegalStaff != null){
+                    js.put("grassrootsLegalStaff", grassrootsLegalStaff.get("VALUE"));
+                }
+            } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
+                JSONObject investmentManager = jsonObject.getJSONObject(prop.get("message.share.to.business.pre.investmentManagerField", "investmentManager"));
+                if(investmentManager != null){
+                    js.put("investmentManager", investmentManager.get("VALUE"));
+                }
+                JSONObject grassrootsLegalStaff = jsonObject.getJSONObject(prop.get("message.share.to.business.pre.grassrootsLegalStaffFiled", "grassrootsLegalStaff"));
+                if(grassrootsLegalStaff != null){
+                    js.put("grassrootsLegalStaff", grassrootsLegalStaff.get("VALUE"));
+                }
+            } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
+                JSONObject investmentManager = jsonObject.getJSONObject(prop.get("message.share.to.business.bulletin.investmentManagerField", "applyUser"));
+                if(investmentManager != null){
+                    js.put("investmentManager", investmentManager.get("VALUE"));
+                }
+                JSONObject grassrootsLegalStaff = jsonObject.getJSONObject(prop.get("message.share.to.business.bulletin.grassrootsLegalStaffFiled", "applyUser"));
+                if(grassrootsLegalStaff != null){
+                    js.put("grassrootsLegalStaff", grassrootsLegalStaff.get("VALUE"));
+                }
+            }
+        }
+        return js;
+    }
+
+    @Override
     public void shareMessageToSameSubject(Message message) {
         String users = getNotifyUsers(message);
         if (StringUtils.isNotBlank(users)) {
@@ -631,5 +699,10 @@ public class MessageService implements IMessageService {
             return list.get(0);
         }
         return null;
+    }
+
+    @Override
+    public boolean getOpenBusinessExecute() {
+        return prop.getBoolean("message.share.to.business.open", false);
     }
 }

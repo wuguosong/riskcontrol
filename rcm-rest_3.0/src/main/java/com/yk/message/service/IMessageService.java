@@ -185,4 +185,22 @@ public interface IMessageService {
      * @return
      */
     HashMap<String, Object> getProject(String type, String id);
+
+    boolean getOpenBusinessExecute();
+
+    /**
+     * 获取业务数据MongoDB
+     * @param business_id 业务id
+     * @param business_module 业务模块
+     * @return JSONObject
+     */
+    JSONObject getBusinessMongoDbData(String business_id, String business_module);
+
+    /**
+     * 获取投资经理和基层法务
+     * @param business_id
+     * @param business_module
+     * @return
+     */
+    JSONObject getInvestmentAndLaw(String business_id, String business_module);
 }

@@ -1,14 +1,17 @@
 package message;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
+import com.yk.message.service.impl.MessageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ws.client.message.MessageStatus;
 import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
@@ -129,5 +132,14 @@ public class MessageTest {
     public void testVia(){
         Message message = messageService.get(new Long(10461));
         messageService.shareMessageToSameSubject(message);
+    }
+
+    @Test
+    public void testVia2(){
+        String m1 = "formalReview", b1 = "5cdf743eddd03432b87e9774";
+        String m2 = "bulletin", b2 = "5cd394f4ddd034106b5cc84e";
+        String m3 = "preReview", b3 = "5cbd21b9ddd03403775404aa";
+        JSONObject js = messageService.getInvestmentAndLaw(b3, m3);
+        System.out.println(JSON.toJSONString(js));
     }
 }

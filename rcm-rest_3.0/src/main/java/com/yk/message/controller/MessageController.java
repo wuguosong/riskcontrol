@@ -115,11 +115,13 @@ public class MessageController {
             messageService.shareMessageToSameSubject(message);
             // 推送待阅消息
             String users = messageService.getNotifyUsers(message);
-            if (StringUtils.isNotBlank(users)) {
+            /*if (StringUtils.isNotBlank(users)) {
                 notifyService.save(message.getMessageType(), message.getProcInstId(), users, Notify.TYPE_MESSAGE, String.valueOf(message.getMessageId()), message.getMessageContent(),
                         false);
                 notifyService.sendToPortal(message.getMessageType(), message.getProcInstId(), false, true, Notify.TYPE_MESSAGE);
-            }
+            }*/
+            this.executeSend(message, users);
+            this.executeBusinessModuleFromMessage(message, users);
             result.setSuccess(true);
             result.setResult_code(Constants.S);
             result.setResult_data(message);
@@ -134,6 +136,7 @@ public class MessageController {
         }
         return result;
     }
+
 
     /**
      * 更新
@@ -436,19 +439,65 @@ public class MessageController {
 
     /**
      * 获取项目
+     *
      * @param type 项目类型
-     * @param id 项目id
+     * @param id   项目id
      * @return 项目信息
      */
     @RequestMapping("/getProject")
     @ResponseBody
-    public HashMap<String, Object> getProject(String type, String id){
+    public HashMap<String, Object> getProject(String type, String id) {
         HashMap<String, Object> map = null;
-        try{
+        try {
             map = messageService.getProject(type, id);
-        }catch(Exception e){
+        } catch (Exception e) {
             LoggerFactory.getLogger(MessageController.class).error(e.getMessage());
         }
         return map;
+    }
+
+    /**
+     * 执行业务模块需求
+     * @param message
+     * @param checkUsers
+     */
+    private void executeBusinessModuleFromMessage(Message message, String checkUsers) {
+        if (StringUtils.isBlank(checkUsers)) {
+            checkUsers = "";
+        }
+        boolean open = messageService.getOpenBusinessExecute();
+        if (open) {
+            JSONObject mongo = messageService.getInvestmentAndLaw(message.getProcInstId(), message.getMessageType());
+            if ("review".equals(message.getMessageScreenType())) {// 评审留言，查询业务单据的投资经理，推送待阅和钉钉。
+                String investmentManager = mongo.getString("investmentManager");
+                if (StringUtils.isNotBlank(investmentManager)) {
+                    if (!checkUsers.contains(investmentManager)) {
+                        this.executeSend(message, investmentManager);
+                    }
+                }
+            }
+            if ("legal".equals(message.getMessageScreenType())) {// 法律留言，查询业务单据的基层法务人员，推送待阅和钉钉。
+                String grassrootsLegalStaff = mongo.getString("grassrootsLegalStaff");
+                if (StringUtils.isNotBlank(grassrootsLegalStaff)) {
+                    if (!checkUsers.contains(grassrootsLegalStaff)) {
+                        this.executeSend(message, grassrootsLegalStaff);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 执行发送
+     * @param message
+     * @param user
+     */
+    private void executeSend(Message message, String user) {
+        if (StringUtils.isNotBlank(user)) {
+            messageService.shareMessage(message.getMessageId(), user, MessageClient._DT);
+            notifyService.save(message.getMessageType(), message.getProcInstId(), user, Notify.TYPE_MESSAGE, String.valueOf(message.getMessageId()), message.getMessageContent(),
+                    false);
+            notifyService.sendToPortal(message.getMessageType(), message.getProcInstId(), false, true, Notify.TYPE_MESSAGE);
+        }
     }
 }
