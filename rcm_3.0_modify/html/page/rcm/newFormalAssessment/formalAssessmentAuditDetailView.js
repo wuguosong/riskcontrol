@@ -1474,6 +1474,11 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
 
+			// 默认上会
+			if (isEmpty($scope.pfr.needMeeting)) {
+                $scope.pfr.needMeeting = '1';
+			};
+
 			// 处理附件需要的数据
 			$scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
 			$scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
@@ -2558,10 +2563,10 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
      };
 
      /*************************    新增保存是否参会字段   ******************************/
-     $scope.checkReport = function () {
+    /* $scope.checkReport = function () {
          $scope.pfr.needReport = "1";
          $scope.pfr.decisionOpinion = null;
-     };
+     };*/
      /*************************    新增保存是否参会字段   ******************************/
 
 

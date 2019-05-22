@@ -121,6 +121,21 @@
 								<!--知会人-->
 								<div class="row" ng-include="'page/sys/common/notify-user.html'">
 								</div>
+								<div class="row" ng-show="approve.showController.isReviewLeaderConfirm">
+									<label class="col-sm-3 control-label">是否上会：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline">
+											<input type="radio" class="px" value="0" name="needMeeting"
+												   ng-model="pfr.needMeeting"/>
+											<span class="lbl">不需要上会</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="px" value="1" name="needMeeting"
+												   ng-click="checkReport()" ng-model="pfr.needMeeting"/>
+											<span class="lbl">需要上会</span>
+										</label>
+									</div>
+								</div>
 								<!--快捷意见-->
 								<div class="row">
 									<label class="col-sm-3 control-label">快捷意见：</label>
@@ -146,21 +161,6 @@
 									<label class="col-sm-3 control-label"><span class="required-m">*</span>投资协议意见：</label>
 									<div class="col-sm-8">
 										<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.tzProtocolOpinion"></textarea>
-									</div>
-								</div>
-								<div class="row" ng-show="approve.showController.isReviewLeaderConfirm">
-									<label class="col-sm-3 control-label">是否上会：</label>
-									<div class="col-sm-8">
-										<label class="radio radio-inline">
-											<input type="radio" class="px" value="0" name="needMeeting"
-												   ng-model="pfr.needMeeting"/>
-											<span class="lbl">不需要上会</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" class="px" value="1" name="needMeeting"
-												   ng-click="checkReport()" ng-model="pfr.needMeeting"/>
-											<span class="lbl">需要上会</span>
-										</label>
 									</div>
 								</div>
 								<div class="row">

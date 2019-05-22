@@ -65,7 +65,36 @@
 		) ta
 		left join
 		(
-			select
+		    select
+			(select name from sys_user where uuid = cp_.audituserid) user_name,
+			cp_.audituserid as cpu_,
+			count(cp_.businessid) as cpn_
+			from
+			(
+				select
+				 DISTINCT plg.audituserid, plg.businessid
+				from rcm_pre_log plg
+				where plg.iswaiting = '1'
+				and plg.taskdesc in ('评审负责人审批', '风控评审负责人确认')
+				and plg.audituserid is not null
+				union
+				select
+				distinct flg.audituserid, flg.businessid
+				from rcm_formalassessment_log flg
+				where flg.iswaiting = '1'
+				and flg.taskdesc in ('评审负责人审批', '评审负责人确认', '法律负责人审批')
+				and flg.audituserid is not null
+				union
+				select
+				  distinct blg.audituserid, blg.businessid
+				from rcm_bulletin_log blg
+				where blg.iswaiting = '1'
+				and blg.taskdesc in ('评审负责人审批', '法律负责人审批')
+				and blg.audituserid is not null
+			) cp_
+			where cp_.audituserid is not null
+			group by cp_.audituserid
+			<!-- select
 			cp_.audituserid as cpu_,
 			count(cp_.businessid) as cpn_
 			from
@@ -90,7 +119,7 @@
 				and blg.audituserid is not null
 			) cp_
 			where cp_.audituserid is not null
-			group by cp_.audituserid
+			group by cp_.audituserid -->
 		) cp_info
 		on cp_info.cpu_ = ta.value
 		where 1 = 1

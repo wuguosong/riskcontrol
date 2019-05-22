@@ -15,7 +15,12 @@ import com.yk.common.BaseMapper;
 public interface IProjectBoardMapper extends BaseMapper {
 
 	/**
-	 * 获取项目
+	 * 获取所有项目
 	 */
-	public List<Map<String, Object>> getProjectList(Map<String, Object> params);
+	public List<Map<String, Object>> getALLProjectList(Map<String, Object> params);
+	
+	/**
+	 * 获取角色绑定的项目以及本人参与审批的项目
+	 */
+	public List<Map<String, Object>> getRoleProjectList(Map<String, Object> params);
 }

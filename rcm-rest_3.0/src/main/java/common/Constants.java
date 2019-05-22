@@ -187,6 +187,11 @@ public class Constants {
 	public static final String ROLE_CODE_INVESTMENT_MANAGER = "6";
 	
 	/**
+	 * 角色代码：风控数据权限
+	 */
+	public static final String ROLE_CODE_RISK_DATA = "RISK_DATA";
+	
+	/**
 	 * TEAM代码：法律评审负责人
 	 */
 	public static final String TEAM_TYPE_LEGALFZR = "2";
@@ -195,6 +200,7 @@ public class Constants {
 	 * TEAM代码：业务评审负责人
 	 */
 	public static final String TEAM_CODE_REVIEWFZR = "1";
+	
 	
 	/**
 	 * 文件类型代码：其他文件
