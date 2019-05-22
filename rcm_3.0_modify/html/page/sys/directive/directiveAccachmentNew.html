@@ -1,7 +1,7 @@
 <div>
-    <div class="row">
+    <div class="row"  ng-if="isEdite || wfState =='0'">
         <div class="full-drop button-right">
-            <button type="button" ng-if="isEdite || wfState =='0'" ng-click="_addOneNewFile()" class="btn btn-info"
+            <button type="button" ng-click="_addOneNewFile()" class="btn btn-info"
                     title=""><i class="fa fa-cloud-download"></i>新增
             </button>
             <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>-->
@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="row table-responsive">
-        <table class="table table-bordered table-hover datatable table-text-mid table-light"
+        <table class="table table-bordered table-hover datatable table-text-mid table-light padding0"
                ng-if="!isShowMeetingAttachment">
             <thead>
             <tr>
