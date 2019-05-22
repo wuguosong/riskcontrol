@@ -139,8 +139,7 @@
 	
 	<!-- 修改投资经理是否提交参会信息标识 -->
 	<update id="updateNeedMeeting" parameterType="hashmap">
-	    update rcm_formalAssessment_info set need_meeting=#{need_meeting}, stage=#{stage},
-		where businessid in (#{businessId,jdbcType=VARCHAR})
+	UPDATE RCM_FORMALASSESSMENT_INFO SET NEED_MEETING = #{need_meeting} , STAGE = #{stage}  WHERE BUSINESSID = #{businessId,jdbcType=VARCHAR}
 	</update>
 </mapper>
 

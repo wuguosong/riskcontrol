@@ -457,7 +457,7 @@
 								<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
 								<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
 								<!-- 8.22新增 专家评审显示保存按钮 -->
-								<button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+								<!--<button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>-->
 								<!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
 								<button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
 								<!-- 新提交模态框 -->

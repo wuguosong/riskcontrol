@@ -2393,7 +2393,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 
          //验证确认节点是否选择上会
          if ($scope.approve.showController.isReviewLeaderConfirm) {
-         	debugger
              if ($scope.pfr == null || $scope.pfr.needMeeting == null) {
                  $.alert("请选择是否需要上会！");
                  return;
