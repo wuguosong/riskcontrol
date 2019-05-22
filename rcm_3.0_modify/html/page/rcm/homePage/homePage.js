@@ -116,7 +116,8 @@ ctmApp.register.controller('homePage', ['$http','$scope','$location', function (
     // 配置分页基本参数
     $scope.paginationConf = {
         currentPage: 1,
-        itemsPerPage: 5,
+		// 修改已办代办默认每页展示数
+        itemsPerPage: 10,
         perPageOptions: [5, 10]
     };
     //初始化

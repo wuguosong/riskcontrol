@@ -2740,7 +2740,7 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
             })
 
             // 资料填写面板（新）
-            .when('/fillMaterialList/:tabIndex', {
+            .when('/fillMaterialList/:tabIndex/:url', {
                 controller: 'fillMaterialList',
                 templateUrl: 'page/rcm/fillMaterial/FillMaterialList.html',
                 controllerAs: 'model',

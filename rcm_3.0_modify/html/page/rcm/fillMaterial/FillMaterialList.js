@@ -1,6 +1,7 @@
 ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', '$routeParams', '$filter',
     function ($http, $scope, $location, $routeParams, $filter) {
         $scope.tabIndex = $routeParams.tabIndex;
+        $scope.oldUrl = $routeParams.url;
         $scope.initData = function () {
             $scope.queryNoSubmitList();
             $scope.querySubmitList();
