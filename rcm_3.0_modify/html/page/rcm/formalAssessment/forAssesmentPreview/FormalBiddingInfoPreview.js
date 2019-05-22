@@ -243,7 +243,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             $scope.formalPreview.projectRating = $scope.meetInfo.projectRating  // 评审等级
             $scope.formalPreview.filePath = $scope.formalReport.filePath
             $scope.formalPreview.projectName = $scope.formalReport.projectName
-            $scope.formalPreview.fileList = $scope.formalReport.policyDecision.fileList
+            /*$scope.formalPreview.fileList = $scope.formalReport.policyDecision.fileList*/
             $scope.formalPreview.mark = $scope.mark // 分数
         }
 
