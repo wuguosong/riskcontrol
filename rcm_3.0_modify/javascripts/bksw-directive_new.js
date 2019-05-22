@@ -6378,6 +6378,18 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                 $scope.mettingSummary = "";
             }
 
+            $scope.queryRBIMeeting = function (submit) {
+                $http({
+                    method: 'post',
+                    url: srvUrl + "bulletinInfo/queryRBIMettingSummarys.do",
+                    data: $.param({
+                        "businessId": submit.BUSINESSID,
+                    })
+                }).success(function (result) {
+                    $scope.mettingSummarys = result.result_data.mettingSummary;
+                });
+            }
+
         }
     }
 }]);
