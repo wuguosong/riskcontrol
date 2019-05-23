@@ -1986,12 +1986,12 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                                 // 打开留言主题
                                 var ms = data['result_data'];
                                 var subject = ms.messageId;
-                                if(ms.parent != 0){
+                                if(ms.parentId != 0){
                                     subject = ms.parentId;
                                 }
-                                $('#_message_panel_body_' + subject).addClass('in');
-                                $scope._jump_page_to_(ms.messageId);
-                            },3000);
+                                $('#_message_panel_body_' + subject).addClass('in');// 先展开
+                                $scope._jump_page_to_(ms.messageId);// 再锚点
+                            },2500);// 2.5s
                         }else{
                             _flag = false;
                             _hideLoading();
@@ -2470,19 +2470,23 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     var targetId = _notify['AnchorPointMessageId'];
                     if(!isEmpty(targetId)){
                         var subjectId = _notify['AnchorPointMessageSubject'];
-                        var _span = $('#' + targetId);
-                        _span.removeClass('uibadge');
-                        _span.html('');
-                        _span.addClass('uibadge');
-                        _span.html('新回复');
-                        $('#_message_panel_body_' + subjectId).addClass('in');
                         // 3秒后锚点定位
                         window.setTimeout(function(){
                             $scope._jump_page_to_(targetId);
-                        }, 3000);
+                            $scope._pri_setTips(targetId, subjectId);
+                        }, 2500);
                     }
                 }
-            }
+            };
+            // 打开隐藏的内容和设置提示信息
+            $scope._pri_setTips = function(targetId, subjectId){
+                $('#_message_panel_body_' + subjectId).addClass('in');
+                var _span = $('#' + targetId);
+                _span.removeClass('uibadge');
+                _span.html('');
+                _span.addClass('uibadge');
+                _span.html('新回复');
+            };
         }
     };
 }]);
