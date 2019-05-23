@@ -2,6 +2,8 @@ package com.yk.restful.controller;
 
 import com.yk.log.annotation.SysLog;
 import com.yk.log.constant.LogConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("articles")
 public class ArticleController {
+    private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
     /**
      * 新增-POST
      *
@@ -58,6 +61,7 @@ public class ArticleController {
     public String get(String method, @PathVariable String id) {
         System.out.println(method);
         System.out.println(id);
+        logger.info("获取文章：" + id + "\t" + method);
         return "get[GET]";
     }
 

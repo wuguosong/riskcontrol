@@ -5,6 +5,7 @@
 	<!--Add By LiPan On 2019-01-18 Start-->
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL" />
+		<setting name="logImpl" value="LOG4J"/>
 	</settings>
 	<!--Add By LiPan On 2019-01-18 End-->
 	<plugins>
