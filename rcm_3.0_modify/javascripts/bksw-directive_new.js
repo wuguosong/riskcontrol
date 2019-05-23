@@ -1991,7 +1991,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                                 }
                                 $('#_message_panel_body_' + subject).addClass('in');// 先展开
                                 $scope._jump_page_to_(ms.messageId);// 再锚点
-                            },2500);// 2.5s
+                            },3000);// 3s
                         }else{
                             _flag = false;
                             _hideLoading();
@@ -2470,11 +2470,11 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     var targetId = _notify['AnchorPointMessageId'];
                     if(!isEmpty(targetId)){
                         var subjectId = _notify['AnchorPointMessageSubject'];
-                        // 3秒后锚点定位
+                        // 3s后锚点定位
                         window.setTimeout(function(){
-                            $scope._jump_page_to_(targetId);
                             $scope._pri_setTips(targetId, subjectId);
-                        }, 2500);
+                            $scope._jump_page_to_(targetId);
+                        }, 3000);
                     }
                 }
             };
