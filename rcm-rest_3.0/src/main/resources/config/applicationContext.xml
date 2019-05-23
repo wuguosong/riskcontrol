@@ -35,11 +35,11 @@
 	<bean class="com.yk.common.SpringUtil" lazy-init="false"></bean>
 	
 	<bean id="mongoClient" class="com.mongodb.MongoClient">
-		<!--<constructor-arg name="host" value="${mongodb.host}"/>
-		<constructor-arg name="port" value="${mongodb.port}"/>-->
+		<constructor-arg name="host" value="${mongodb.host}"/>
+		<constructor-arg name="port" value="${mongodb.port}"/>
 		<!--
 		-->
-		<constructor-arg name="uri" value="mongodb://${mongodb.username}:${mongodb.password}@${mongodb.host}:${mongodb.port}/${mongodb.database}"/>
+		<!-- <constructor-arg name="uri" value="mongodb://${mongodb.username}:${mongodb.password}@${mongodb.host}:${mongodb.port}/${mongodb.database}"/> -->
 	</bean>
 	
 	<context:component-scan base-package="com.yk,com.daxt,newInterface.appointment" use-default-filters="true">
