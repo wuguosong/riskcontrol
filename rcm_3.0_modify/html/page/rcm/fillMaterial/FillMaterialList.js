@@ -12,6 +12,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                 $scope.paginationConf.queryObj = {};
             }
             $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
+            $scope.paginationConf.itemsPerPage = 10;
             $http({
                 method: 'post',
                 url: srvUrl + "fillMaterials/queryNoSubmitList.do",
