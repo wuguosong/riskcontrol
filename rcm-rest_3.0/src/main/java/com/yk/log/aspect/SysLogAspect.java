@@ -73,13 +73,13 @@ public class SysLogAspect {
         try {
             // String params = new Gson().toJson(args);// 遇到request时,堆栈溢出,对象中有对象的互相引用
             params = JSON.toJSONString(args);
-        }catch(Exception e){
+        } catch (Exception e) {
             Logger.getLogger(SysLogAspect.class).error(e.getMessage());
         }
         sysLogDto.setParams(params);
         //获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        if(StringUtils.isBlank(params)){
+        if (StringUtils.isBlank(params)) {
             Map<String, Object> map = request.getParameterMap();
             sysLogDto.setParams(JSON.toJSONString(map));
         }
@@ -92,6 +92,8 @@ public class SysLogAspect {
         sysLogDto.setSuccess(success);
         sysLogDto.setCreateDate(DateUtil.getCurrentDate());
         //保存系统日志
+        Logger.getLogger(SysLogAspect.class).info("用户:" + UserUtil.getCurrentUser().getName() +
+                ",IP:" + IPUtils.getIpAddr(request) + ",模块:" + syslog.module() + ",编码:" + syslog.code() + ",操作:" + syslog.operation() + ",行为:" + syslog.description() + ",参数:" + params + "");
         sysLogService.save(sysLogDto);
     }
 }
