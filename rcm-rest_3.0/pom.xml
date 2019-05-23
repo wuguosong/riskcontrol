@@ -446,11 +446,11 @@
 			<version>1.8.9</version> <!--可以查查最新版-->
 		</dependency>
 		<!--SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".-->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-nop</artifactId>
 			<version>1.7.2</version>
-		</dependency>
+		</dependency>-->
 		<!--Add by LiPan[2019-01-11] end-->
 		<!-- Add by QiRui[2019-04-12] start-->
 		<dependency>
