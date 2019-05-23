@@ -627,8 +627,8 @@ public class MessageService implements IMessageService {
         StringBuffer sb = new StringBuffer();
         String curUserUuid = message.getCreatedBy();
         List<Message> list = null;
-        String viaUsers = null;
-        String users = null;
+        String viaUsers = "";
+        String users = "";
         // 排除掉当前登录用户
         if (open) {
             if (message.getParentId() == 0) {// 主题留言
