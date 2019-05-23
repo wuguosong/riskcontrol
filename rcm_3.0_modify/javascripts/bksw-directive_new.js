@@ -3892,7 +3892,7 @@ ctmApp.directive('directivePreJcwyh', function() {
 ctmApp.directive('directivePreJcwyhNew', function() {
     return {
         restrict: 'E',
-        templateUrl: 'page/sys/directive/projectPre/DirectivePreJcwyhNew.html',
+        templateUrl: 'page/sys/directive/ProjectPre/DirectivePreJcwyhNew.html',
         replace: true,
         link:function(scope,element,attr){
         }
