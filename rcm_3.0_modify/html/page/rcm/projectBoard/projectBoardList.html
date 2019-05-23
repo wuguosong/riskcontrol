@@ -66,10 +66,10 @@
                                         <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
                                         <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
                                         <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
-                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
-                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+                                        <a ng-if="'pre'==p.PROJECT_TYPE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <!--<a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
                                         <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
                                         <!--<a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
                                     </td>
