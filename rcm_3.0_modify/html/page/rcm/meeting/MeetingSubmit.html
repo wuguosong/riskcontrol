@@ -1,608 +1,660 @@
 <div class="visa-menu">
-	<div class="col-md-12">
-		<ol class="breadcrumb breadcrumb-menu">
-			<li>
-				<a class="breadcrumb-text breadcrumb-text-menu">
-					决策会
-				</a>
-			</li>
-			<li>
-				<a href="" class="breadcrumb-text breadcrumb-text-menu">
-					会议安排
-				</a>
-			</li>
-			<li>
-				<a href="" class="breadcrumb-text breadcrumb-text-menu">
-					上会信息填写
-				</a>
-			</li>
-		</ol>
-	</div>
+    <div class="col-md-12">
+        <ol class="breadcrumb breadcrumb-menu">
+            <li>
+                <a class="breadcrumb-text breadcrumb-text-menu">
+                    决策会
+                </a>
+            </li>
+            <li>
+                <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                    会议安排
+                </a>
+            </li>
+            <li>
+                <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                    上会信息填写
+                </a>
+            </li>
+        </ol>
+    </div>
 </div>
 <div class="panel-body">
-	<!--form表单开始-->
-	<form class="form-horizontal" name="Meeting_Apply" id="Meeting_Apply">
-		<div class="header detail-page">
-			<!--<img src="assets/images/icons/detail.png" width="" height="" alt=""
-				title="" /><span class="hd-title">上会通知信息补充</span>-->
-		</div>
-		<div class="panel ">
-			<div class="panel-heading">
-				<div class="panel-hd-cont">
-					<span class="panel-title">参会信息<i class="i-triangle"></i></span>
-				</div>
-			</div>
-			<div class="panel-body panel-group">
-				<div class="row" ng-show="meetingInfoList != null && (meetingIssue.MEETING_TIME == null || meetingInfo != null)">
-					<label class="col-sm-2 control-label"><font color="red">*</font>选择会议</label>
-					<div class="col-sm-4 has-feedback noright-pad">
-						<select id="selectMeetingInfo"
-								name="selectMeetingInfo"
-								class="form-control ng-pristine ng-untouched ng-valid"
-								ng-model="meetingInfo"
-								ng-options="m.meeting_theme for m in meetingInfoList track by  m.id"
-								ng-change="changeMeetingInfo()">
-							<option value="">请选择...</option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<label class="col-sm-2 control-label"><font color="red">*</font>上会日期</label>
-					<div class="col-sm-4 has-feedback noright-pad">
-						<input type="text" id="meetingTime" name="meetingTime" class="form-control" value="{{meetingIssue.MEETING_TIME | limitTo:10}}" ng-model="meetingIssue.MEETING_TIME" ng-change="changeMeetingTime()"/> <i
-							class="fa fa-calendar form-control-feedback"></i>
-						<!--<wui-date
-								format="yyyy-mm-dd"
-								id="meetingTime"
-								btns="{'now':'今天'}"
-								ng-model="meetingIssue.MEETING_TIME"
-								ng-click="changeMeetingTime()"
-						></wui-date>
-						<i class="fa fa-calendar form-control-feedback"></i>-->
-					</div>
-				</div>
-				<div class="row" ng-show="meetingInfoList != null && meetingIssue.START_TIME != null">
-					<label class="col-sm-2 control-label">上会时间</label>
-					<div class="col-sm-6 has-feedback noright-pad" style="right: 10px;">
-						<div class="row nobottom-mar">
-							<div class="col-sm-5">
-								<input type="text" id="startTime" name="startTime" class="form-control"  placeholder="开始时间"  ng-model="meetingIssue.START_TIME"/> <i
-									class="fa fa-clock-o form-control-feedback"></i>
-							</div>
-							<div class="col-sm-1 td-text">
-								<span class="text">至</span>
-							</div>
-							<div class="col-sm-5">
-								<input type="text" id="endTime" name="endTime" class="form-control" placeholder="结束时间"  ng-model="meetingIssue.END_TIME"/><i
-									class="fa fa-clock-o form-control-feedback"></i>
-							</div>
-							<!--<div class="col-sm-1 td-text">
-								<span class="text">{{meetingIssue.MINUTE}}分钟</span>
-							</div>-->
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<label class="col-sm-2 control-label"><font color="red">*</font>会议类型</label>
-					<div class="col-sm-10 noright-pad">
-						<label class="radio-inline"> <input
-							type="radio" class="px" name="meetingType" ng-model="meetingIssue.MEETING_TYPE" value="4" />
-							<span class="lbl">简单会议</span>
-						</label> <label class="radio-inline"> <input
-							type="radio" class="px" name="meetingType" ng-model="meetingIssue.MEETING_TYPE" value="7" />
-							<span class="lbl">专题会议</span>
-						</label>
-					</div>
-				</div>
-				<div class="row">
-					<label class="col-sm-2 control-label"><font color="red">*</font>决策委员会委员</label>
-					<div class="col-sm-10 noright-pad">
-						<div id="fixed-member-box">
-							<div class="select2-success">
-								<direct-fzr-single-select id="{{'MEETING_LEADERS'}}" is-multi-select="{{'true'}}" checked-user="meetingIssue.MEETING_LEADERS"
-										url="role/queryRoleuserByCode.do?code=DECISION_LEADERS">
-								</direct-fzr-single-select>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<label class="col-sm-2 control-label"><font color="red">*</font>会议期次</label>
-					<div class="col-sm-4 has-feedback noright-pad">
-						<input readonly="readonly" type="text" maxlength="5" ng-model="meetingIssue.MEETING_ISSUE_NUMBER" class="form-control"/>
-					</div>
-					<label class="col-sm-6 control-label" style="text-align: left;">{{meetingIssue.MEETING_ISSUE}}</label>
-				</div>
-				<div class="panel" id="formalProjectList"
-					ng-repeat="formal in meetingIssue.formalProjectList track by $index"
-					on-repeat-render-metting ng-init="outIndex = $index">
-					<div class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse"
-							data-parent="#formalProjectList" href="/#reviewProject{{$index}}"><span
-							class="text">正式评审<i class="i-triangle"></i></span></a>
-					</div>
-					<!-- / .panel-heading -->
-					<div id="reviewProject{{$index}}"
-						class="panel-collapse collapse in">
-						<div class="panel-body">
-							<div class="row nobottom-mar">
-								<div class="row-tit">项目参会信息</div>
-							</div>
-							<div class="row">
-								<div class="table-responsive">
-									<table border="0" cellspacing="0" cellpadding="0"
-										class="table table-bordered table-text-mid table-light">
-										<tbody class="tr-max">
-											<tr>
-												<td class="title-column">序号</td>
-												<td><input class="form-control" maxlength="2" ng-model="formal.projectIndex" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-									   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
-											</tr>
-											<tr>
-												<td class="title-column">项目名称</td>
-												<td>{{formal.projectName}}</td>
-											</tr>
-											<tr>
-												<td class="title-column">业务类型</td>
-												<td>{{formal.serviceType[0].VALUE}}</td>
-											</tr>
-											<tr>
-												<td class="title-column">是否紧急上会</td>
-												<td colspan="3">
-													<div class="col-sm-4">
-														<label class="radio radio-inline xlocal">
-															<input type="radio" name="isurgentPfr{{$index}}" ng-model="formal.isUrgent" value="0" class="px"/><span class="lbl">否</span>
-														</label>
-														<label class="radio radio-inline xlocal">
-															<input type="radio" name="isurgentPfr{{$index}}"  ng-model="formal.isUrgent" value="1" class="px"/><span class="lbl">是</span>
-														</label>
+    <!--form表单开始-->
+    <form class="form-horizontal" name="Meeting_Apply" id="Meeting_Apply">
+        <div class="header detail-page">
+            <!--<img src="assets/images/icons/detail.png" width="" height="" alt=""
+                title="" /><span class="hd-title">上会通知信息补充</span>-->
+        </div>
+        <div class="panel ">
+            <div class="panel-heading">
+                <div class="panel-hd-cont">
+                    <span class="panel-title">参会信息<i class="i-triangle"></i></span>
+                </div>
+            </div>
+            <div class="panel-body panel-group">
 
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">项目评级</td>
-												<td colspan="3">
-													<div class="row nobottom-mar">
-														<div class="col-sm-5 noleft-pad meeting-time-input">
-															<select name="projectRating"
-																class="form-control ng-pristine ng-untouched ng-valid"
-																ng-model="formal.projectRating"
-																ng-options="nv.name for nv in nameValue track by  nv.value">
-																<option value="">请选择...</option>
-															</select>
-														</div>
-														<div class="col-sm-1"></div>
-														<div class="col-sm-6 td-checkbox txl noLeftPadMin">
-															<label class="checkbox-inline xlocal"> <input
-																type="checkbox" class="px" name="projectType1"
-																id="projectType1" ng-model="formal.projectType1" value="1" />
-																<span class="lbl">项目简单</span>
-															</label> <label class="checkbox-inline xlocal"> <input
-																type="checkbox" class="px" name="projectType2"
-																id="projectType2" ng-model="formal.projectType2" value="2" />
-																<span class="lbl">风险较低</span>
-															</label> <label class="checkbox-inline xlocal"> <input
-																type="checkbox" class="px" name="projectType3"
-																id="projectType3" ng-model="formal.projectType3" value="3" />
-																<span class="lbl">收益较好</span>
-															</label>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">评级理由</td>
-												<td colspan="3"><textarea name="pingjiliyou" rows=""
-														cols="" class="form-control" ng-model="formal.ratingReason" auto-height></textarea></td>
-											</tr>
-											<tr>
-												<td class="title-column">大区人员参会方式</td>
-												<td colspan="3">
-													<div class="col-sm-4">
-														<label class="radio radio-inline xlocal">
-															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="1"/>
-															<span class="lbl">现场</span>
-														</label>
-														<label class="radio radio-inline xlocal">
-															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="2"/>
-															<span class="lbl">视频</span>
-														</label>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">大区参会人员</td>
-												<td colspan="3">
-													<direct-user-multi-select id="{{outIndex+'_FormalDivision'}}" checked-users="formal.division"
-													mapped-key-value="formalDivisionMapped">
-													</direct-user-multi-select>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">投资中心/水环境参会人员</td>
-												<td colspan="3">
-													<direct-user-multi-select id="{{outIndex+'_FormalInvestment'}}" checked-users="formal.investment"
-															mapped-key-value="formalInvestmentMapped">
-													</direct-user-multi-select>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">汇报人</td>
-												<td>
-													<div class="row nobottom-mar">
-														<direct-user-single-select id="{{outIndex + '_FormalAgenda'}}" checked-user="formal.agenda"
-													        	mapped-key-value="formalAgenda">
-														</direct-user-single-select>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">联系人</td>
-												<td colspan="3">
-													<div class="row nobottom-mar">
-															<direct-user-single-select id="{{outIndex+'_FormalContacts'}}" checked-user="formal.contacts"
-																mapped-key-value="formalContactsMapped">
-															</direct-user-single-select>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">电话</td>
-												<td>
-													<div class="row nobottom-mar">
-														<input type="text" name="telephone" class="form-control" ng-model="formal.telephone" />
-													</div>
-												</td>
-											</tr>
-									</table>
-								</div>
-							</div>
-							<!--<div class="row nobottom-mar">
-								<div class="row-tit">会议通知信息</div>
-							</div>
-							<div class="row">
-								<div class="table-responsive">
-									<table border="0" cellspacing="0" cellpadding="0"
-										class="table table-bordered  table-text-mid table-light txc">
-										<tbody class="tr-max">
-											<tr>
-												<td class="title-column">上会时间</td>
-												<td>
-													<div class="row nobottom-mar">
-														<div class="col-sm-5 has-feedback meeting-time-input">
-															<input type="text" readonly style="background: #ffffff;"
-																ng-model="formal.startTime"
-																ng-change="changDate(formal,0)"
-																class="form-control endTime" placeholder="开始时间" /> <i
-																class="fa fa-clock-o form-control-feedback"></i>
-														</div>
-														<div class="col-sm-1 td-text">
-															<span class="text">至</span>
-														</div>
-														<div class="col-sm-5 has-feedback meeting-time-input">
-															<input type="text" readonly style="background: #ffffff;"
-																ng-model="formal.endTime"
-																ng-change="changDate(formal,1)"
-																class="form-control endTime" placeholder="结束时间" /> <i
-																class="fa fa-clock-o form-control-feedback"></i>
-														</div>
-														<div class="col-sm-1 td-text">
-															<span class="text">{{formal.minute}}分钟</span>
-														</div>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>-->
-						</div>
-						<div class="row"></div>
-					</div>
-				</div>
-				<!-- 投标评审 -->
-				<div class="panel" id="preProjectList"
-					ng-repeat="pre in meetingIssue.preProjectList track by $index"
-					on-repeat-render-metting ng-init="outIndex = $index">
-					<div class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse"
-							data-parent="#preProjectList" href="/#reviewProject{{$index}}"><span
-							class="text">投标评审<i class="i-triangle"></i></span></a>
-					</div>
-					<!-- / .panel-heading -->
-					<div id="reviewProject{{$index}}"
-						class="panel-collapse collapse in">
-						<div class="panel-body">
-							<div class="row nobottom-mar">
-								<div class="row-tit">项目参会信息</div>
-							</div>
-							<div class="row">
-								<div class="table-responsive">
-									<table border="0" cellspacing="0" cellpadding="0"
-										class="table table-bordered table-text-mid table-light">
-										<tbody class="tr-max">
-											<tr>
-												<td class="title-column">序号</td>
-												<td><input class="form-control" maxlength="2" ng-model="pre.projectIndex" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-									   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
-											</tr>
-											<tr>
-												<td class="title-column">项目名称</td>
-												<td>{{pre.projectName}}</td>
-											</tr>
-											<tr>
-												<td class="title-column">业务类型</td>
-												<td>{{pre.serviceType[0].VALUE}}</td>
-											</tr>
-											<tr>
-												<td class="title-column">是否紧急上会</td>
-												<td colspan="3">
-													<div class="col-sm-4">
-														<label class="radio radio-inline xlocal">
-															<input type="radio" name="isurgentPre{{$index}}" ng-model="pre.isUrgent" value="0" class="px"/><span class="lbl">否</span>
-														</label>
-														<label class="radio radio-inline xlocal">
-															<input type="radio" name="isurgentPre{{$index}}" ng-model="pre.isUrgent" value="1" class="px"/><span class="lbl">是</span>
-														</label>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">项目评级</td>
-												<td colspan="3">
-													<div class="row nobottom-mar">
-														<div class="col-sm-5 noleft-pad meeting-time-input">
-															<select name="projectRating"
-																class="form-control ng-pristine ng-untouched ng-valid"
-																ng-model="pre.projectRating"
-																ng-options="nv.name for nv in nameValue track by  nv.value">
-																<option value="">请选择...</option>
-															</select>
-														</div>
-														<div class="col-sm-1"></div>
-														<div class="col-sm-6 td-checkbox txl noLeftPadMin">
-															<label class="checkbox-inline xlocal"> <input
-																type="checkbox" class="px" name="projectType1"
-																id="projectType1" ng-model="pre.projectType1" value="1" />
-																<span class="lbl">项目简单</span>
-															</label> <label class="checkbox-inline xlocal"> <input
-																type="checkbox" class="px" name="projectType2"
-																id="projectType2" ng-model="pre.projectType2" value="2" />
-																<span class="lbl">风险较低</span>
-															</label> <label class="checkbox-inline xlocal"> <input
-																type="checkbox" class="px" name="projectType3"
-																id="projectType3" ng-model="pre.projectType3" value="3" />
-																<span class="lbl">收益较好</span>
-															</label>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">评级理由</td>
-												<td colspan="3"><textarea name="pingjiliyou" rows=""
-														cols="" class="form-control" ng-model="pre.ratingReason" auto-height></textarea></td>
-											</tr>
-											<tr>
-												<td class="title-column">大区人员参会方式</td>
-												<td colspan="3">
-													<div class="col-sm-4">
-														<label class="radio radio-inline xlocal">
-															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="1"/>
-															<span class="lbl">现场</span>
-														</label>
-														<label class="radio radio-inline xlocal">
-															<input type="radio" class="px" name="participantModePre{{$index}}" ng-model="pre.participantMode" value="2"/>
-															<span class="lbl">视频</span>
-														</label>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">大区参会人员</td>
-												<td colspan="3">
-													<direct-user-multi-select id="{{outIndex+'_formalDivision'}}" checked-users="pre.division"
-													mapped-key-value="preDivisionMapped">
-													</direct-user-multi-select>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">投资中心/水环境参会人员</td>
-												<td colspan="3">
-													<direct-user-multi-select id="{{outIndex+'_PreInvestment'}}" checked-users="pre.investment"
-															mapped-key-value="preInvestmentMapped">
-													</direct-user-multi-select>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">汇报人</td>
-												<td>
-													<div class="row nobottom-mar">
-														<direct-user-single-select id="{{outIndex + '_PreAgenda'}}" checked-user="pre.agenda"
-													        	mapped-key-value="preAgenda">
-														</direct-user-single-select>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">联系人</td>
-												<td colspan="3">
-													<div class="row nobottom-mar">
-															<direct-user-single-select id="{{outIndex+'_PreContacts'}}" checked-user="pre.contacts"
-																mapped-key-value="preContactsMapped">
-															</direct-user-single-select>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">电话</td>
-												<td>
-													<div class="row nobottom-mar">
-														<input type="text" name="telephone" class="form-control" ng-model="pre.telephone" />
-													</div>
-												</td>
-											</tr>
-									</table>
-								</div>
-							</div>
-							<!--<div class="row nobottom-mar">
-								<div class="row-tit">会议通知信息</div>
-							</div>
-							<div class="row">
-								<div class="table-responsive">
-									<table border="0" cellspacing="0" cellpadding="0"
-										class="table table-bordered  table-text-mid table-light txc">
-										<tbody class="tr-max">
-											<tr>
-												<td class="title-column">上会时间</td>
-												<td>
-													<div class="row nobottom-mar">
-														<div class="col-sm-5 has-feedback meeting-time-input">
-															<input type="text" readonly style="background: #ffffff;"
-																ng-model="pre.startTime"
-																ng-change="changDate(pre,0)"
-																class="form-control endTime" placeholder="开始时间" /> <i
-																class="fa fa-clock-o form-control-feedback"></i>
-														</div>
-														<div class="col-sm-1 td-text">
-															<span class="text">至</span>
-														</div>
-														<div class="col-sm-5 has-feedback meeting-time-input">
-															<input type="text" readonly style="background: #ffffff;"
-																ng-model="pre.endTime"
-																ng-change="changDate(pre,1)"
-																class="form-control endTime" placeholder="结束时间" /> <i
-																class="fa fa-clock-o form-control-feedback"></i>
-														</div>
-														<div class="col-sm-1 td-text">
-															<span class="text">{{pre.minute}}分钟</span>
-														</div>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>-->
-						</div>
-						<div class="row"></div>
-					</div>
-				</div>
-				<!-- 其它需决策事项 -->
-				<div class="panel" id="meetingBulletinApply"
-					ng-repeat="bulletin in meetingIssue.bulletinProjectList track by $index" on-repeat-render-metting
-					ng-init="outIndex = $index">
-					<div class="panel-heading">
-						<a class="accordion-toggle collapsed" data-toggle="collapse"
-							data-parent="#meetingBulletinApply" href="/#reviewTbsx{{$index}}"><span
-							class="text">其它需决策事项<i class="i-triangle"></i></span></a>
-					</div>
-					<div id="reviewTbsx{{$index}}" class="panel-collapse collapse in">
-						<div class="panel-body">
-							<div class="row nobottom-mar">
-								<div class="row-tit">其它需决策事项参会信息</div>
-							</div>
-							<div class="row">
-								<div class="table-responsive">
-									<table border="0" cellspacing="0" cellpadding="0"
-										class="table table-bordered table-text-mid table-light">
-										<tbody class="tr-max">
-											<tr>
-												<td class="title-column">序号</td>
-												<td><input maxlength="2" class="form-control" ng-model="bulletin.projectIndex" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-									   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
-											</tr>
-											<tr>
-												<td class="title-column">其它需决策事项名称</td>
-												<td>{{bulletin.bulletinName}}
-												</td>
-											</tr>
-											<tr>
-												<td class="title-column">其它需决策事项类型</td>
-												<td>{{bulletin.bulletinType.NAME}}</td>
-											</tr>
-											<tr>
-												<td class="title-column">其他参会人员</td>
-												<td colspan="3">
-													<direct-user-multi-select id="{{outIndex+'_meetingOtherPerson'}}" checked-users="bulletin.meeting.otherPerson"
-													mapped-key-value="meetingOtherPerson">
-													</direct-user-multi-select>
-												</td>
-											</tr>
-									</table>
-								</div>
-							</div>
-							<!--<div class="row nobottom-mar">
-								<div class="row-tit">会议通知信息</div>
-							</div>
-							<div class="row">
-								<div class="table-responsive">
-									<table border="0" cellspacing="0" cellpadding="0"
-										class="table table-bordered  table-text-mid table-light txc">
-										<tbody class="tr-max">
-											<tr>
-												<td class="title-column">上会时间</td>
-												<td>
-													<div class="row nobottom-mar">
-														<div class="col-sm-5 has-feedback meeting-time-input">
-															<input type="text" readonly style="background: #ffffff;"
-																ng-model="bulletin.meeting.startTime" ng-change="changDate(bulletin,0)"
-																class="form-control startTime" placeholder="开始时间" /> <i
-																class="fa fa-clock-o form-control-feedback"></i>
-														</div>
-														<div class="col-sm-1 td-text">
-															<span class="text">至</span>
-														</div>
-														<div class="col-sm-5 has-feedback meeting-time-input">
-															<input type="text" readonly style="background: #ffffff;"
-																ng-model="bulletin.meeting.endTime" ng-change="changDate(bulletin,1)"
-																class="form-control endTime" placeholder="结束时间" /> <i
-																class="fa fa-clock-o form-control-feedback"></i>
-														</div>
-														<div class="col-sm-1 td-text">
-															<span class="text">{{bulletin.meeting.minute}}分钟</span>
-														</div>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>-->
-						</div>
-						<div class="row"></div>
-					</div>
-				</div>
-			</div>
-			<div class="button-group">
-				<div class="row">
-					<div class="option txl">
-						<a href="#/meeting/MeetingArrangement/0" type="button" class="btn btn-info"><i
-							class="fa fa-reply"></i>返回</a>
-						<button type="button" ng-click="saveNotSubmitMeetingIssue()" class="btn btn-info">
-							<i class="fa fa-cloud-upload"></i>保存
-						</button>
-						<button type="button" ng-click="toSubmitMeeting()" class="btn btn-info">
-							<i class="fa fa-cloud-upload"></i>提交
-						</button>
-						<!--<a href="#/MeetingInfoList" class="btn btn-info"><i class="fa fa-trash-o"></i>放弃会议申请</a>-->
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
+                <div class="row">
+                    <label class="col-sm-2 control-label"><font color="red">*</font>是否关联约会</label>
+                    <div class="col-sm-4 has-feedback noright-pad">
+                        <select class="form-control ng-pristine ng-untouched ng-valid"
+                                ng-model="isChoose"
+                                ng-options="x for (x, y) in chooose"
+                                ng-change="changeIsDate()">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row"
+                     ng-show="isChoose == 'yes'">
+                    <label class="col-sm-2 control-label"><font color="red">*</font>选择会议</label>
+                    <div class="col-sm-4 has-feedback noright-pad">
+                        <select id="selectMeetingInfo"
+                                name="selectMeetingInfo"
+                                class="form-control ng-pristine ng-untouched ng-valid"
+                                ng-model="meetingInfo"
+                                ng-options="m.meeting_theme for m in meetingInfoList track by  m.id"
+                                ng-change="changeMeetingInfo()">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 control-label"><font color="red">*</font>上会日期</label>
+                    <div class="col-sm-4 has-feedback noright-pad">
+                        <input type="text" id="meetingTime" name="meetingTime" class="form-control"
+                               value="{{meetingIssue.MEETING_TIME | limitTo:10}}" ng-model="meetingIssue.MEETING_TIME"
+                               ng-change="changeMeetingTime()"/> <i
+                            class="fa fa-calendar form-control-feedback"></i>
+                    </div>
+                </div>
+                <div class="row" ng-show="isChoose == 'yes'">
+                    <label class="col-sm-2 control-label">上会时间</label>
+                    <div class="col-sm-6 has-feedback noright-pad" style="right: 10px;">
+                        <div class="row nobottom-mar">
+                            <div class="col-sm-4" style="width: 227px">
+                                <input type="text" id="startTime" name="startTime" class="form-control"
+                                       placeholder="开始时间" ng-model="meetingIssue.START_TIME"/> <i
+                                    class="fa fa-clock-o form-control-feedback"></i>
+                            </div>
+                            <div class="col-sm-1 td-text" style="width: 36px">
+                                <span class="text">至</span>
+                            </div>
+                            <div class="col-sm-4" style="width: 227px">
+                                <input type="text" id="endTime" name="endTime" class="form-control" placeholder="结束时间"
+                                       ng-model="meetingIssue.END_TIME"/><i
+                                    class="fa fa-clock-o form-control-feedback"></i>
+                            </div>
+                            <!--<div class="col-sm-1 td-text">
+                                <span class="text">{{meetingIssue.MINUTE}}分钟</span>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 control-label"><font color="red">*</font>会议类型</label>
+                    <div class="col-sm-10 noright-pad">
+                        <label class="radio-inline"> <input
+                                type="radio" class="px" name="meetingType" ng-model="meetingIssue.MEETING_TYPE"
+                                value="4"/>
+                            <span class="lbl">简单会议</span>
+                        </label> <label class="radio-inline"> <input
+                            type="radio" class="px" name="meetingType" ng-model="meetingIssue.MEETING_TYPE" value="7"/>
+                        <span class="lbl">专题会议</span>
+                    </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 control-label"><font color="red">*</font>决策委员会委员</label>
+                    <div class="col-sm-10 noright-pad">
+                        <div id="fixed-member-box">
+                            <div class="select2-success">
+                                <direct-fzr-single-select id="{{'MEETING_LEADERS'}}" is-multi-select="{{'true'}}"
+                                                          checked-user="meetingIssue.MEETING_LEADERS"
+                                                          url="role/queryRoleuserByCode.do?code=DECISION_LEADERS">
+                                </direct-fzr-single-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 control-label"><font color="red">*</font>会议期次</label>
+                    <div class="col-sm-4 has-feedback noright-pad">
+                        <input readonly="readonly" type="text" maxlength="5"
+                               ng-model="meetingIssue.MEETING_ISSUE_NUMBER" class="form-control"/>
+                    </div>
+                    <label class="col-sm-6 control-label"
+                           style="text-align: left;">{{meetingIssue.MEETING_ISSUE}}</label>
+                </div>
+                <div class="panel" id="formalProjectList"
+                     ng-repeat="formal in meetingIssue.formalProjectList track by $index"
+                     on-repeat-render-metting ng-init="outIndex = $index">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse"
+                           data-parent="#formalProjectList" href="/#reviewProject{{$index}}"><span
+                                class="text">正式评审<i class="i-triangle"></i></span></a>
+                    </div>
+                    <!-- / .panel-heading -->
+                    <div id="reviewProject{{$index}}"
+                         class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row nobottom-mar">
+                                <div class="row-tit">项目参会信息</div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0"
+                                           class="table table-bordered table-text-mid table-light">
+                                        <tbody class="tr-max">
+                                        <tr>
+                                            <td class="title-column">序号</td>
+                                            <td><input class="form-control" maxlength="2" ng-model="formal.projectIndex"
+                                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">项目名称</td>
+                                            <td>{{formal.projectName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">业务类型</td>
+                                            <td>{{formal.serviceType[0].VALUE}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">是否紧急上会</td>
+                                            <td colspan="3">
+                                                <div class="col-sm-4">
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" name="isurgentPfr{{$index}}"
+                                                               ng-model="formal.isUrgent" value="0" class="px"/><span
+                                                            class="lbl">否</span>
+                                                    </label>
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" name="isurgentPfr{{$index}}"
+                                                               ng-model="formal.isUrgent" value="1" class="px"/><span
+                                                            class="lbl">是</span>
+                                                    </label>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">项目评级</td>
+                                            <td colspan="3">
+                                                <div class="row nobottom-mar">
+                                                    <div class="col-sm-5 noleft-pad meeting-time-input">
+                                                        <select name="projectRating"
+                                                                class="form-control ng-pristine ng-untouched ng-valid"
+                                                                ng-model="formal.projectRating"
+                                                                ng-options="nv.name for nv in nameValue track by  nv.value">
+                                                            <option value="">请选择...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-6 td-checkbox txl noLeftPadMin">
+                                                        <label class="checkbox-inline xlocal"> <input
+                                                                type="checkbox" class="px" name="projectType1"
+                                                                id="projectType1" ng-model="formal.projectType1"
+                                                                value="1"/>
+                                                            <span class="lbl">项目简单</span>
+                                                        </label> <label class="checkbox-inline xlocal"> <input
+                                                            type="checkbox" class="px" name="projectType2"
+                                                            id="projectType2" ng-model="formal.projectType2" value="2"/>
+                                                        <span class="lbl">风险较低</span>
+                                                    </label> <label class="checkbox-inline xlocal"> <input
+                                                            type="checkbox" class="px" name="projectType3"
+                                                            id="projectType3" ng-model="formal.projectType3" value="3"/>
+                                                        <span class="lbl">收益较好</span>
+                                                    </label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">评级理由</td>
+                                            <td colspan="3"><textarea name="pingjiliyou" rows=""
+                                                                      cols="" class="form-control"
+                                                                      ng-model="formal.ratingReason"
+                                                                      auto-height></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">大区人员参会方式</td>
+                                            <td colspan="3">
+                                                <div class="col-sm-4">
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" class="px"
+                                                               name="participantModePre{{$index}}"
+                                                               ng-model="pre.participantMode" value="1"/>
+                                                        <span class="lbl">现场</span>
+                                                    </label>
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" class="px"
+                                                               name="participantModePre{{$index}}"
+                                                               ng-model="pre.participantMode" value="2"/>
+                                                        <span class="lbl">视频</span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">大区参会人员</td>
+                                            <td colspan="3">
+                                                <direct-user-multi-select id="{{outIndex+'_FormalDivision'}}"
+                                                                          checked-users="formal.division"
+                                                                          mapped-key-value="formalDivisionMapped">
+                                                </direct-user-multi-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">投资中心/水环境参会人员</td>
+                                            <td colspan="3">
+                                                <direct-user-multi-select id="{{outIndex+'_FormalInvestment'}}"
+                                                                          checked-users="formal.investment"
+                                                                          mapped-key-value="formalInvestmentMapped">
+                                                </direct-user-multi-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">汇报人</td>
+                                            <td>
+                                                <div class="row nobottom-mar">
+                                                    <direct-user-single-select id="{{outIndex + '_FormalAgenda'}}"
+                                                                               checked-user="formal.agenda"
+                                                                               mapped-key-value="formalAgenda">
+                                                    </direct-user-single-select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">联系人</td>
+                                            <td colspan="3">
+                                                <div class="row nobottom-mar">
+                                                    <direct-user-single-select id="{{outIndex+'_FormalContacts'}}"
+                                                                               checked-user="formal.contacts"
+                                                                               mapped-key-value="formalContactsMapped">
+                                                    </direct-user-single-select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">电话</td>
+                                            <td>
+                                                <div class="row nobottom-mar">
+                                                    <input type="text" name="telephone" class="form-control"
+                                                           ng-model="formal.telephone"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--<div class="row nobottom-mar">
+                                <div class="row-tit">会议通知信息</div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0"
+                                        class="table table-bordered  table-text-mid table-light txc">
+                                        <tbody class="tr-max">
+                                            <tr>
+                                                <td class="title-column">上会时间</td>
+                                                <td>
+                                                    <div class="row nobottom-mar">
+                                                        <div class="col-sm-5 has-feedback meeting-time-input">
+                                                            <input type="text" readonly style="background: #ffffff;"
+                                                                ng-model="formal.startTime"
+                                                                ng-change="changDate(formal,0)"
+                                                                class="form-control endTime" placeholder="开始时间" /> <i
+                                                                class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text">
+                                                            <span class="text">至</span>
+                                                        </div>
+                                                        <div class="col-sm-5 has-feedback meeting-time-input">
+                                                            <input type="text" readonly style="background: #ffffff;"
+                                                                ng-model="formal.endTime"
+                                                                ng-change="changDate(formal,1)"
+                                                                class="form-control endTime" placeholder="结束时间" /> <i
+                                                                class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text">
+                                                            <span class="text">{{formal.minute}}分钟</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>-->
+                        </div>
+                        <div class="row"></div>
+                    </div>
+                </div>
+                <!-- 投标评审 -->
+                <div class="panel" id="preProjectList"
+                     ng-repeat="pre in meetingIssue.preProjectList track by $index"
+                     on-repeat-render-metting ng-init="outIndex = $index">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse"
+                           data-parent="#preProjectList" href="/#reviewProject{{$index}}"><span
+                                class="text">投标评审<i class="i-triangle"></i></span></a>
+                    </div>
+                    <!-- / .panel-heading -->
+                    <div id="reviewProject{{$index}}"
+                         class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row nobottom-mar">
+                                <div class="row-tit">项目参会信息</div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0"
+                                           class="table table-bordered table-text-mid table-light">
+                                        <tbody class="tr-max">
+                                        <tr>
+                                            <td class="title-column">序号</td>
+                                            <td><input class="form-control" maxlength="2" ng-model="pre.projectIndex"
+                                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">项目名称</td>
+                                            <td>{{pre.projectName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">业务类型</td>
+                                            <td>{{pre.serviceType[0].VALUE}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">是否紧急上会</td>
+                                            <td colspan="3">
+                                                <div class="col-sm-4">
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" name="isurgentPre{{$index}}"
+                                                               ng-model="pre.isUrgent" value="0" class="px"/><span
+                                                            class="lbl">否</span>
+                                                    </label>
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" name="isurgentPre{{$index}}"
+                                                               ng-model="pre.isUrgent" value="1" class="px"/><span
+                                                            class="lbl">是</span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">项目评级</td>
+                                            <td colspan="3">
+                                                <div class="row nobottom-mar">
+                                                    <div class="col-sm-5 noleft-pad meeting-time-input">
+                                                        <select name="projectRating"
+                                                                class="form-control ng-pristine ng-untouched ng-valid"
+                                                                ng-model="pre.projectRating"
+                                                                ng-options="nv.name for nv in nameValue track by  nv.value">
+                                                            <option value="">请选择...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-6 td-checkbox txl noLeftPadMin">
+                                                        <label class="checkbox-inline xlocal"> <input
+                                                                type="checkbox" class="px" name="projectType1"
+                                                                id="projectType1" ng-model="pre.projectType1"
+                                                                value="1"/>
+                                                            <span class="lbl">项目简单</span>
+                                                        </label> <label class="checkbox-inline xlocal"> <input
+                                                            type="checkbox" class="px" name="projectType2"
+                                                            id="projectType2" ng-model="pre.projectType2" value="2"/>
+                                                        <span class="lbl">风险较低</span>
+                                                    </label> <label class="checkbox-inline xlocal"> <input
+                                                            type="checkbox" class="px" name="projectType3"
+                                                            id="projectType3" ng-model="pre.projectType3" value="3"/>
+                                                        <span class="lbl">收益较好</span>
+                                                    </label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">评级理由</td>
+                                            <td colspan="3"><textarea name="pingjiliyou" rows=""
+                                                                      cols="" class="form-control"
+                                                                      ng-model="pre.ratingReason"
+                                                                      auto-height></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">大区人员参会方式</td>
+                                            <td colspan="3">
+                                                <div class="col-sm-4">
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" class="px"
+                                                               name="participantModePre{{$index}}"
+                                                               ng-model="pre.participantMode" value="1"/>
+                                                        <span class="lbl">现场</span>
+                                                    </label>
+                                                    <label class="radio radio-inline xlocal">
+                                                        <input type="radio" class="px"
+                                                               name="participantModePre{{$index}}"
+                                                               ng-model="pre.participantMode" value="2"/>
+                                                        <span class="lbl">视频</span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">大区参会人员</td>
+                                            <td colspan="3">
+                                                <direct-user-multi-select id="{{outIndex+'_formalDivision'}}"
+                                                                          checked-users="pre.division"
+                                                                          mapped-key-value="preDivisionMapped">
+                                                </direct-user-multi-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">投资中心/水环境参会人员</td>
+                                            <td colspan="3">
+                                                <direct-user-multi-select id="{{outIndex+'_PreInvestment'}}"
+                                                                          checked-users="pre.investment"
+                                                                          mapped-key-value="preInvestmentMapped">
+                                                </direct-user-multi-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">汇报人</td>
+                                            <td>
+                                                <div class="row nobottom-mar">
+                                                    <direct-user-single-select id="{{outIndex + '_PreAgenda'}}"
+                                                                               checked-user="pre.agenda"
+                                                                               mapped-key-value="preAgenda">
+                                                    </direct-user-single-select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">联系人</td>
+                                            <td colspan="3">
+                                                <div class="row nobottom-mar">
+                                                    <direct-user-single-select id="{{outIndex+'_PreContacts'}}"
+                                                                               checked-user="pre.contacts"
+                                                                               mapped-key-value="preContactsMapped">
+                                                    </direct-user-single-select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">电话</td>
+                                            <td>
+                                                <div class="row nobottom-mar">
+                                                    <input type="text" name="telephone" class="form-control"
+                                                           ng-model="pre.telephone"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--<div class="row nobottom-mar">
+                                <div class="row-tit">会议通知信息</div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0"
+                                        class="table table-bordered  table-text-mid table-light txc">
+                                        <tbody class="tr-max">
+                                            <tr>
+                                                <td class="title-column">上会时间</td>
+                                                <td>
+                                                    <div class="row nobottom-mar">
+                                                        <div class="col-sm-5 has-feedback meeting-time-input">
+                                                            <input type="text" readonly style="background: #ffffff;"
+                                                                ng-model="pre.startTime"
+                                                                ng-change="changDate(pre,0)"
+                                                                class="form-control endTime" placeholder="开始时间" /> <i
+                                                                class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text">
+                                                            <span class="text">至</span>
+                                                        </div>
+                                                        <div class="col-sm-5 has-feedback meeting-time-input">
+                                                            <input type="text" readonly style="background: #ffffff;"
+                                                                ng-model="pre.endTime"
+                                                                ng-change="changDate(pre,1)"
+                                                                class="form-control endTime" placeholder="结束时间" /> <i
+                                                                class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text">
+                                                            <span class="text">{{pre.minute}}分钟</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>-->
+                        </div>
+                        <div class="row"></div>
+                    </div>
+                </div>
+                <!-- 其它需决策事项 -->
+                <div class="panel" id="meetingBulletinApply"
+                     ng-repeat="bulletin in meetingIssue.bulletinProjectList track by $index" on-repeat-render-metting
+                     ng-init="outIndex = $index">
+                    <div class="panel-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse"
+                           data-parent="#meetingBulletinApply" href="/#reviewTbsx{{$index}}"><span
+                                class="text">其它需决策事项<i class="i-triangle"></i></span></a>
+                    </div>
+                    <div id="reviewTbsx{{$index}}" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row nobottom-mar">
+                                <div class="row-tit">其它需决策事项参会信息</div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0"
+                                           class="table table-bordered table-text-mid table-light">
+                                        <tbody class="tr-max">
+                                        <tr>
+                                            <td class="title-column">序号</td>
+                                            <td><input maxlength="2" class="form-control"
+                                                       ng-model="bulletin.projectIndex"
+                                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">其它需决策事项名称</td>
+                                            <td>{{bulletin.bulletinName}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">其它需决策事项类型</td>
+                                            <td>{{bulletin.bulletinType.NAME}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-column">其他参会人员</td>
+                                            <td colspan="3">
+                                                <direct-user-multi-select id="{{outIndex+'_meetingOtherPerson'}}"
+                                                                          checked-users="bulletin.meeting.otherPerson"
+                                                                          mapped-key-value="meetingOtherPerson">
+                                                </direct-user-multi-select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--<div class="row nobottom-mar">
+                                <div class="row-tit">会议通知信息</div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="0" cellpadding="0"
+                                        class="table table-bordered  table-text-mid table-light txc">
+                                        <tbody class="tr-max">
+                                            <tr>
+                                                <td class="title-column">上会时间</td>
+                                                <td>
+                                                    <div class="row nobottom-mar">
+                                                        <div class="col-sm-5 has-feedback meeting-time-input">
+                                                            <input type="text" readonly style="background: #ffffff;"
+                                                                ng-model="bulletin.meeting.startTime" ng-change="changDate(bulletin,0)"
+                                                                class="form-control startTime" placeholder="开始时间" /> <i
+                                                                class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text">
+                                                            <span class="text">至</span>
+                                                        </div>
+                                                        <div class="col-sm-5 has-feedback meeting-time-input">
+                                                            <input type="text" readonly style="background: #ffffff;"
+                                                                ng-model="bulletin.meeting.endTime" ng-change="changDate(bulletin,1)"
+                                                                class="form-control endTime" placeholder="结束时间" /> <i
+                                                                class="fa fa-clock-o form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="col-sm-1 td-text">
+                                                            <span class="text">{{bulletin.meeting.minute}}分钟</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>-->
+                        </div>
+                        <div class="row"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <div class="row">
+                    <div class="option txl">
+                        <a href="#/meeting/MeetingArrangement/0" type="button" class="btn btn-info"><i
+                                class="fa fa-reply"></i>返回</a>
+                        <button type="button" ng-click="saveNotSubmitMeetingIssue()" class="btn btn-info">
+                            <i class="fa fa-cloud-upload"></i>保存
+                        </button>
+                        <button type="button" ng-click="toSubmitMeeting()" class="btn btn-info">
+                            <i class="fa fa-cloud-upload"></i>提交
+                        </button>
+                        <!--<a href="#/MeetingInfoList" class="btn btn-info"><i class="fa fa-trash-o"></i>放弃会议申请</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <script type="text/javascript">
-    angular.element(document).ready(function() {
+    angular.element(document).ready(function () {
         var width = document.getElementById('selectMeetingInfo').offsetWidth;
         $('#meetingTime').attr("width", width);
     });
-    angular.element(document).ready(function() {
+    angular.element(document).ready(function () {
         var optionsDate = {
-            todayBtn : "linked",
-            orientation : $('body').hasClass('right-to-left') ? "auto right"
-                    : 'auto auto'
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right"
+                : 'auto auto'
         }
         $('#meetingTime').datepicker(optionsDate);
     });
