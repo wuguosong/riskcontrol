@@ -1445,3 +1445,19 @@ function _activeTab(_eleId, _idx){
         });
     }
 }
+
+/**
+ * 锚点定位
+ * @param _target_ele_id_
+ * @returns {boolean}
+ */
+function _executeAnchorPoint(_target_ele_id_){
+    try{
+        $("html, body").animate({
+            scrollTop: $("#" + _target_ele_id_).offset().top }, {duration: 500,easing: "swing"});
+        return false;
+    }catch(e){
+        console.log(e);
+        return false;
+    }
+}

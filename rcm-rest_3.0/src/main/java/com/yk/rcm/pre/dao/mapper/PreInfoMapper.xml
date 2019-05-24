@@ -116,6 +116,10 @@
 			<if test="serviceTypePersonId != null and serviceTypePersonId != ''">SERVICETYPEPERSONID = #{serviceTypePersonId} ,</if>
 			<if test="taskPersonId != null and taskPersonId != ''">TASKPERSONID = #{taskPersonId} ,</if>
 			<if test="createBy != null and createBy != ''">createBy = #{createBy} ,</if>
+
+			<if test="firstLevelLawyerPersonId != null and firstLevelLawyerPersonId != ''">firstLevelLawyerPersonId = #{firstLevelLawyerPersonId} ,</if>
+		 	<if test="grassRootsLegalPersonId != null and grassRootsLegalPersonId != ''">grassRootsLegalPersonId = #{grassRootsLegalPersonId} ,</if>
+		 	<if test="legalReviewPersonId != null and legalReviewPersonId != ''">legalReviewPersonId = #{legalReviewPersonId} ,</if>
 		 </trim>
 		where businessid=#{businessId}
 	</update>
@@ -261,7 +265,12 @@
 			TASKPERSONID, 
 			REVIEWPERSONID, 
 			majorMemberIds,
-			fixedgrouppersonids
+			fixedgrouppersonids,
+			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+			LEGALREVIEWPERSONID,
+			GRASSROOTSLEGALPERSONID,
+			FIRSTLEVELLAWYERPERSONID
+			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
 		)
 		values (
 			#{businessId,jdbcType=VARCHAR}, 
@@ -291,7 +300,12 @@
 			#{taskPersonId,jdbcType=VARCHAR}, 
 			#{reviewPersonId,jdbcType=VARCHAR}, 
 			#{majorMemberIds,jdbcType=VARCHAR},
-			#{fixedGroupPersonIds,jdbcType=VARCHAR}
+			#{fixedGroupPersonIds,jdbcType=VARCHAR},
+			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+			#{legalReviewPersonId,jdbcType=VARCHAR},
+			#{grassRootsLegalPersonId,jdbcType=VARCHAR},
+			#{firstLevelLawyerPersonId,jdbcType=VARCHAR}
+			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
 		)
 	</insert>
 	
@@ -415,7 +429,12 @@
 			TASKPERSONID, 
 			REVIEWPERSONID, 
 			majorMemberIds,
-			fixedgrouppersonids
+			fixedgrouppersonids,
+			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+			LEGALREVIEWPERSONID,
+			GRASSROOTSLEGALPERSONID,
+			FIRSTLEVELLAWYERPERSONID
+			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
 		)
 		values (
 			#{businessId,jdbcType=VARCHAR}, 
@@ -442,7 +461,12 @@
 			#{taskPersonId,jdbcType=VARCHAR}, 
 			#{reviewPersonId,jdbcType=VARCHAR}, 
 			#{majorMemberIds,jdbcType=VARCHAR},
-			#{fixedGroupPersonIds,jdbcType=VARCHAR}
+			#{fixedGroupPersonIds,jdbcType=VARCHAR},
+			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+			#{legalReviewPersonId,jdbcType=VARCHAR},
+			#{grassRootsLegalPersonId,jdbcType=VARCHAR},
+			#{firstLevelLawyerPersonId,jdbcType=VARCHAR}
+			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
 		)
 	</insert>
 	

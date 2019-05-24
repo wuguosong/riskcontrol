@@ -5,11 +5,15 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 	
 	//任务人员选择
 	$scope.isTaskEdit = 'false';
-	
-	$scope.myTaskallocation = {"reviewLeader":null,"majorMember":[]};
+	// 法律评审负责人选择
+    $scope.isTaskLegalEdit = 'false';
+
+    $scope.myTaskallocation = {"reviewLeader":null,"legalReviewLeader":null,"fixedGroup":[]};
 	
 	//专业评审控制器
 	$scope.approveShow = true;
+    //法律评审控制器
+    $scope.approveLegalShow = true;
 	$scope.pre={};
 	$scope.pre.apply = {};
 	$scope.pre.taskallocation={};
@@ -118,7 +122,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 			//大区反馈
 			$scope.showController.isServiewTypeBack = true;
 		}
-		
 	}
 	
 	/*
@@ -173,7 +176,7 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 					else if (document.isReviewLeader != null && document.isReviewLeader != ""){
 						$scope.showController.isReviewLeader = true;
 						$scope.showSaveBtn = true;
-						$("#reviewComments").show();
+                        $("#taskAssignment1").show();
 					}
 					//评审负责人确认
 					else if (document.isReviewLeaderConfirm != null && document.isReviewLeaderConfirm != ""){
@@ -191,6 +194,88 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 						$scope.showSaveBtn = true;
 						$("#majorMemberComments").show();
 					}
+                    //法律评审负责人
+                    else if (!isEmpty(document.isLegalReviewLeader)){
+                        $scope.showController.isLegalReviewLeader = true;
+                        $scope.showSaveBtn = true;
+                        $("#taskAssignment1").show();
+                    }
+                    else if(document.isSelectLegalLeader != null && document.isSelectLegalLeader  != ''){
+                        $scope.showController.isSelectLegalLeader = true;
+                        $scope.isTaskLegalEdit = 'true';
+                        $("#taskAssignment1").show();
+                    }
+                    if($scope.taskMark != null && $scope.taskMark != ''){
+                        $scope.showController = {};
+                        if($scope.taskMark == 'managerTask'){
+                            //投资经理起草
+                            $scope.showController.isInvestmentManager = true;
+                        }else if($scope.taskMark == 'businessAreaTask'){
+                            //业务区审批
+                        }else if($scope.taskMark == 'businessLeaderTask'){
+                            //分管领导审批
+                        }else if($scope.taskMark == 'largeAreaTask'){
+                            //大区审批
+                            $scope.showController.isLargeArea = true;
+                        }else if($scope.taskMark == 'serviceTypeTask'){
+                            //双投审批
+                            $scope.showController.isServiewType = true;
+                            $("#reviewComments").show();
+                        }else if($scope.taskMark == 'missionTask'){
+                            //任务分配节点
+                            $scope.showController.isTask = true;
+                            //判断是否是单独分配评审负责人
+                            if(document.isSignLegal != null){
+                                $scope.showController.isSignLegal = true;
+                            }else{
+                                $scope.isTaskLegalEdit = 'true';
+                            }
+                            $scope.isTaskEdit = 'true'
+                            $("#taskAssignment1").show();
+                        }else if($scope.taskMark == 'selectLegalLeaderTask'){
+                            //法律分配节点
+                            $scope.showController.isSelectLegalLeader = true;
+                            $scope.isTaskLegalEdit = 'true';
+                        }else if($scope.taskMark == 'legalLeaderTask'){
+                            //法律负责人节点
+                            $scope.showController.isLegalReviewLeader = true;
+                            $scope.showSaveBtn = true;
+                            $("#legalReviewComments").show();
+                        }else if($scope.taskMark == 'grassRootsLegalTask'){
+                            //基层法务节点
+                            $scope.showController.isGrassRootsLegal = true;
+                            $scope.showSaveBtn = true;
+                            $("#legalReviewComments").show();
+                        }else if($scope.taskMark == 'firstLawyerTask'){
+                            //一级法务节点
+                            $scope.showController.isFirstLevelLawyer = true;
+                            $("#legalReviewComments").show();
+                        }else if($scope.taskMark == 'reviewLeaderTask'){
+                            //评审负责人节点
+                            $scope.showController.isReviewLeader = true;
+                            $scope.showSaveBtn = true;
+                            $("#reviewComments").show();
+                            //专家评审选择 div
+                            $("#taskAssignment5").show();
+
+                        }else if($scope.taskMark == 'managerBackTask'){
+                            //投资经理反馈节点
+                            $scope.showController.isInvestmentManagerBack = true;
+                            $scope.showSaveBtn = true;
+                            $("#reviewComments").show();
+                        }else if($scope.taskMark == 'businessAreaBackTask'){
+                            //业务区反馈节点
+                        }else if($scope.taskMark == 'businessLeaderBackTask'){
+                            //分管领导反馈节点
+                        }else if($scope.taskMark == 'reviewAreaTask'){
+                            //大区反馈节点
+                            $scope.showController.isLargeAreaBack = true;
+                            $("#reviewComments").show();
+                        }else if($scope.taskMark == 'reviewConfirmTask'){
+                            //评审负责人确认节点
+                            $scope.showController.isReviewLeaderConfirm = true;
+                        }
+                    }
 				}
 			}
 		});
@@ -246,7 +331,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 		    data: $.param({"businessId":businessId})
 		}).success(function(data){
 			$scope.pre  = data.result_data.mongo;
-			
 			$scope.attach = data.result_data.attach;
 
             //处理附件
@@ -286,6 +370,9 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 				if($scope.pre.taskallocation.reviewLeader!=null){
 					$scope.myTaskallocation.reviewLeader = $scope.pre.taskallocation.reviewLeader;
 				}
+                if($scope.pre.taskallocation.legalReviewLeader!=null){
+                    $scope.myTaskallocation.legalReviewLeader = $scope.pre.taskallocation.legalReviewLeader;
+                }
 			}
 			
 			var ptNameArr=[],pmNameArr=[],pthNameArr=[],pt1NameArr=[];
@@ -605,6 +692,7 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 	$scope.taskNodeAudit = function(){
     	var currentUserName = $scope.credentials.userName;
         var approveUser = $scope.myTaskallocation.reviewLeader;
+        var legalReviewLeader = $scope.myTaskallocation.legalReviewLeader;
         var investmentManager = $scope.pre.apply.investmentManager;
         if(!approveUser.VALUE){
         	approveUser = {"NAME":"","VALUE":""};
@@ -1139,6 +1227,15 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
         }
         return result;
     };
+
+    var validCheckedFLFzr = function(){
+        var result = {success: true, result_name: ""};
+        if ($scope.myTaskallocation.legalReviewLeader.NAME == null || $scope.myTaskallocation.legalReviewLeader.NAME == "") {
+            result.success = false;
+            result.result_name = "请选择法律评审负责人！";
+        }
+        return result;
+	};
     /**加签参数初始化add by LiPan 2019-03-08**/
     $scope.showSelectPerson = function () {
         $("#submitModal").modal('hide');
@@ -1349,8 +1446,7 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
                 }
             }
         }
-    }
-
+    };
 
     $scope.submitInfo = {};
     $scope.submitInfo.currentTaskVar = {};
@@ -1564,7 +1660,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
         }
         var url = srvUrl + "preAudit/auditSingle.do";
         var documentation = $("input[name='bpmnProcessOption']:checked").attr("aaa");
-
         if (documentation != null && documentation != "") {
             var docObj = JSON.parse(documentation);
             if (docObj.preAction) {
@@ -1577,7 +1672,7 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
                             $.alert(result.result_name);
                             return;
                         }
-                    } else if (preActionArr[i].callback == 'validCheckedFzr') {
+                    } else if (preActionArr[i].callback == 'validCheckedFzr' || preActionArr[i].callback == 'validCheckedFLFzr') {
                         var result = $scope.callfunction(preActionArr[i].callback);
                         if (!result.success) {
                             $.alert(result.result_name);
@@ -1631,7 +1726,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
                 }
             }
         }
-
         show_Mask();
         $http({
             method: 'post',

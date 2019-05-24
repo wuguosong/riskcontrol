@@ -2200,9 +2200,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             };
             // 页面锚点定位
             $scope._jump_page_to_ = function(_target_ele_id_){
-                $("html, body").animate({
-                    scrollTop: $("#" + _target_ele_id_).offset().top }, {duration: 500,easing: "swing"});
-                return false;
+                return _executeAnchorPoint(_target_ele_id_);
             };
             // 分页查询
             $scope._query_messages_list_page_ = function(){

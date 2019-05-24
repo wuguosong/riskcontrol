@@ -863,7 +863,7 @@ public class SignService implements ISignService {
         map = this.judgeTaskMap(map, tasks);
         if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(processKey)) {
             // 投标评审
-            _ApprovalNode._ReviewApproval _reviewApproval = new _ApprovalNode._ReviewApproval();
+            /*_ApprovalNode._ReviewApproval _reviewApproval = new _ApprovalNode._ReviewApproval();
             _reviewApproval.set_drafting(this.put(map, _reviewApproval.get_drafting()));
             _reviewApproval.set_investmentManagerDrafting(this.put(map, _reviewApproval.get_investmentManagerDrafting()));
             _reviewApproval.set_businessAreaApproval(this.put(map, _reviewApproval.get_businessAreaApproval()));
@@ -879,6 +879,34 @@ public class SignService implements ISignService {
                 _reviewApproval.set_businessAreaApproval(this.judgeTask(_reviewApproval.get_businessAreaApproval(), name));
                 _reviewApproval.set_waterInvestmentCenter(this.judgeTask(_reviewApproval.get_waterInvestmentCenter(), name));
                 _reviewApproval.set_assignmentTask(this.judgeTask(_reviewApproval.get_assignmentTask(), name));
+                _reviewApproval.set_reviewChargeApproval(this.judgeTask(_reviewApproval.get_reviewChargeApproval(), name));
+                _reviewApproval.set_reviewChargeConfirm(this.judgeTask(_reviewApproval.get_reviewChargeConfirm(), name));
+                _reviewApproval.set_completed(this.judgeTask(_reviewApproval.get_completed(), name));
+            }
+            _reviewApproval.execute();
+            _approvalNode.set_reviewApproval(_reviewApproval);
+            _approvalNode.set_processId(processId);
+            _approvalNode.set_processKey(processKey);*/
+            _ApprovalNode._ReviewApproval _reviewApproval = new _ApprovalNode._ReviewApproval();
+            _reviewApproval.set_drafting(this.put(map, _reviewApproval.get_drafting()));
+            _reviewApproval.set_investmentManagerDrafting(this.put(map, _reviewApproval.get_investmentManagerDrafting()));
+            _reviewApproval.set_businessAreaApproval(this.put(map, _reviewApproval.get_businessAreaApproval()));
+            _reviewApproval.set_waterInvestmentCenter(this.put(map, _reviewApproval.get_waterInvestmentCenter()));
+            _reviewApproval.set_assignmentTask(this.put(map, _reviewApproval.get_assignmentTask()));
+            _reviewApproval.set_legalDistribution(this.put(map, _reviewApproval.get_legalDistribution()));
+            _reviewApproval.set_lawChargeApproval(this.put(map, _reviewApproval.get_lawChargeApproval()));
+            _reviewApproval.set_reviewChargeApproval(this.put(map, _reviewApproval.get_reviewChargeApproval()));
+            _reviewApproval.set_reviewChargeConfirm(this.put(map, _reviewApproval.get_reviewChargeConfirm()));
+            _reviewApproval.set_completed(this.put(map, _reviewApproval.get_completed()));
+            for (Task task : tasks) {
+                String name = task.getName();
+                _reviewApproval.set_drafting(this.judgeTask(_reviewApproval.get_drafting(), name));
+                _reviewApproval.set_investmentManagerDrafting(this.judgeTask(_reviewApproval.get_investmentManagerDrafting(), name));
+                _reviewApproval.set_businessAreaApproval(this.judgeTask(_reviewApproval.get_businessAreaApproval(), name));
+                _reviewApproval.set_waterInvestmentCenter(this.judgeTask(_reviewApproval.get_waterInvestmentCenter(), name));
+                _reviewApproval.set_assignmentTask(this.judgeTask(_reviewApproval.get_assignmentTask(), name));
+                _reviewApproval.set_legalDistribution(this.judgeTask(_reviewApproval.get_legalDistribution(), name));
+                _reviewApproval.set_lawChargeApproval(this.judgeTask(_reviewApproval.get_lawChargeApproval(), name));
                 _reviewApproval.set_reviewChargeApproval(this.judgeTask(_reviewApproval.get_reviewChargeApproval(), name));
                 _reviewApproval.set_reviewChargeConfirm(this.judgeTask(_reviewApproval.get_reviewChargeConfirm(), name));
                 _reviewApproval.set_completed(this.judgeTask(_reviewApproval.get_completed(), name));

@@ -104,6 +104,10 @@ public class PreInsertWaitingLogListener implements TaskListener {
 		else if(taskDefinitionKey.equals("usertask4")){
 			stage = "2";
 		}
+		//法律评审负责人
+		else if(taskDefinitionKey.equals("usertask10")){
+			stage = "2.7";
+		}
 		//大区
 		else if(taskDefinitionKey.equals("usertask10")){
 			stage = "2.3";

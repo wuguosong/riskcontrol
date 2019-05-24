@@ -79,6 +79,18 @@
                                                 </direct-fzr-single-select>
                                                 <input class="form-control" type="text" ng-if="isTaskEdit == 'false'" ng-model="pre.taskallocation.reviewLeader.NAME" readonly/>
                                             </div>
+                                            <!--start 选择法律评审负责人 Add By LiPan 2019-05-24-->
+                                            <label ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask)|| pre.taskallocation.legalReviewLeader.NAME != null" class="col-sm-2 control-label">法律评审负责人</label>
+                                            <div   ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask) || pre.taskallocation.legalReviewLeader.NAME != null" class="col-sm-4">
+                                                <direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
+                                                                          checked-user="myTaskallocation.legalReviewLeader"
+                                                                          is-editable="isTaskLegalEdit == 'true'"
+                                                                          url="{{'role/queryLegalUsers.do'}}"
+                                                                          ng-if="isTaskLegalEdit == 'true'"
+                                                ></direct-fzr-single-select>
+                                                <input class="form-control" type="text" ng-if="isTaskLegalEdit == 'false'" ng-model="pre.taskallocation.legalReviewLeader.NAME" readonly/>
+                                            </div>
+                                            <!--end 选择法律评审负责人 Add By LiPan 2019-05-24-->
                                         </div>
                                     </div>
                                 </div>
@@ -517,6 +529,7 @@
                         <div class="tab-pane" id="flow_chart">
                             <!-- 新流程图 -->
                             <!--<directive-process-page ng-if="!isOldFlow"></directive-process-page>-->
+                            <!---->
                             <directive-process-page-new ng-if="!isOldFlow" process-key="preReview"></directive-process-page-new>
                             <!-- 旧流程图 -->
                             <directive-process-list ng-if="isOldFlow"></directive-process-list>
