@@ -1,10 +1,13 @@
 package ws.todo.client;
 
+import com.alibaba.fastjson.JSON;
 import com.goukuai.kit.Prop;
 import com.goukuai.kit.PropKit;
 import com.yk.exception.BusinessException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ws.todo.entity.*;
 import ws.todo.utils.JaXmlBeanUtil;
 
@@ -15,6 +18,7 @@ import java.util.List;
  * Created by Administrator on 2019/4/25 0025.
  */
 public class TodoClient {
+    private static final Logger logger = LoggerFactory.getLogger(TodoClient.class);
     // 客户端
     private TodoClient(){}
     private volatile static TodoClient todoClient;
@@ -27,19 +31,27 @@ public class TodoClient {
     // 配置
     private static final Prop prop = PropKit.use("wsdl_conf.properties");
     private final String SYS_CODE = prop.get("agency.ws.sys.code");
-    private final String environment = prop.get("agency.wsdl.environment");
+    private static final String environment = prop.get("agency.wsdl.environment");
     // url
     public static final String SUFFIX_URL = prop.get("agency.wsdl.suffix.url");
     public static final String PREFIX_FORMAL_URL = prop.get("agency.wsdl.prefix.url.formalReview");
     public static final String PREFIX_OTHERS_URL = prop.get("agency.wsdl.prefix.url.bulletin");
     public static final String PREFIX_BIDDING_URL = prop.get("agency.wsdl.prefix.url.preReview");
     // 服务
-    private final IUpToDoService upToDoService = new UpToDoServiceImplService().getTodoPort();
+    private static IUpToDoService upToDoService = null;
     public static TodoClient getInstance(){
+        if("prd".equalsIgnoreCase(environment)){// 生产环境
+            upToDoService = new UpToDoServiceImplServicePrd().getTodoPort();
+            logger.info("代办服务，生产环境接口开启....");
+        }else{// 测试环境
+            upToDoService = new UpToDoServiceImplService().getTodoPort();
+            logger.info("代办服务，测试环境接口开启....");
+        }
         if(todoClient == null){
             synchronized (TodoClient.class){
                 if(todoClient == null){
                     todoClient = new TodoClient();
+                    logger.info("代办服务，构造代办服务户端....");
                 }
             }
         }
@@ -111,6 +123,7 @@ public class TodoClient {
         }
         To_Do_Result toDoResult = this.sendTodoList(to_do_infoList);
         if (toDoResult == null) {
+            logger.error("代办服务，代办返回结果异常...." + toDoResult);
             throw new BusinessException("代办返回结果异常！");
         }
         TodoBack todoBack = new TodoBack();
@@ -142,6 +155,7 @@ public class TodoClient {
     public TodoBack sendTodo_ToDo(TodoInfo todoInfo) {
         todoInfo.setType(TO_DO);
         todoInfo.setStatus(TO_DO);
+        logger.info("代办服务，推送代办...." + JSON.toJSONString(todoInfo));
         return this.sendTodo(todoInfo);
     }
 
@@ -154,6 +168,7 @@ public class TodoClient {
     public TodoBack sendTodo_ToRead(TodoInfo todoInfo) {
         todoInfo.setType(TO_READ);
         todoInfo.setStatus(TO_READ);
+        logger.info("代办服务，推送待阅...." + JSON.toJSONString(todoInfo));
         return this.sendTodo(todoInfo);
     }
 
@@ -166,6 +181,7 @@ public class TodoClient {
     public TodoBack sendTodo_ToDoDel(TodoInfo todoInfo) {
         todoInfo.setType(TO_DO);
         todoInfo.setStatus(DELETE);
+        logger.info("代办服务，删除代办...." + JSON.toJSONString(todoInfo));
         return this.sendTodo(todoInfo);
     }
 
@@ -178,6 +194,7 @@ public class TodoClient {
     public TodoBack sendTodo_ToReadDel(TodoInfo todoInfo) {
         todoInfo.setType(TO_READ);
         todoInfo.setStatus(DELETE);
+        logger.info("代办服务，删除待阅...." + JSON.toJSONString(todoInfo));
         return this.sendTodo(todoInfo);
     }
 
@@ -190,6 +207,7 @@ public class TodoClient {
     public TodoBack sendTodo_ToDo2Done(TodoInfo todoInfo) {
         todoInfo.setType(TO_DO);
         todoInfo.setStatus(DONE);
+        logger.info("代办服务，代办转已办...." + JSON.toJSONString(todoInfo));
         return this.sendTodo(todoInfo);
     }
 
@@ -203,6 +221,7 @@ public class TodoClient {
     public TodoBack sendTodo_ToRead2Done(TodoInfo todoInfo) {
         todoInfo.setType(TO_READ);
         todoInfo.setStatus(READ);
+        logger.info("代办服务，待阅转已阅...." + JSON.toJSONString(todoInfo));
         return sendTodo(todoInfo);
     }
 }
