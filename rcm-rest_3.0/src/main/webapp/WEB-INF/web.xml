@@ -44,7 +44,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!--SSO 过滤器 配置开始 -->
-	<!-- <filter>
+	<filter>
 		<filter-name>checkLoginFilter</filter-name>
 		<filter-class>com.sso.client.servlet.CheckLoginFilter</filter-class>
 		<init-param>
@@ -59,7 +59,7 @@
 	<filter-mapping>
 		<filter-name>checkLoginFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping> -->
+	</filter-mapping>
 	<!--SSO 过滤器 配置结束 -->
 	<!--提供PUT表单传参支持-->
 	<filter>
@@ -96,7 +96,7 @@
 	</filter-mapping>
 	
 	<!--SSO 监听器 配置开始 -->
-	<!-- <servlet>
+	<servlet>
 		<servlet-name>verifyImageServlet</servlet-name>
 		<servlet-class>com.sso.client.servlet.SsoLocalModelCodeAndPwdServlet</servlet-class>
 	</servlet>
@@ -156,7 +156,7 @@
 	<servlet-mapping>
 		<servlet-name>ssoForbiddenSystemServlet</servlet-name>
 		<url-pattern>/updateIsForbidden.axd</url-pattern>
-	</servlet-mapping> -->
+	</servlet-mapping>
 	<!--SSO 监听器 配置结束 -->
 	<servlet>
 		<servlet-name>WebServiceForTZ</servlet-name>
