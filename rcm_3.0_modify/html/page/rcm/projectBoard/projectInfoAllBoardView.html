@@ -58,7 +58,7 @@
                 <directive-process-list ng-if="isOldFlow"></directive-process-list>
             </div>
             <div class="tab-pane" id="bs-tabdrop-tab2">
-                <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="oracleData.BUSINESSID"
+                <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"
                                           wf-state="oracleData.WF_STATE" file-list="newAttachment"
                                           init-update="initUpdate(id)"></directive-accachment-new>
                 <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
@@ -540,7 +540,7 @@
                                 <h5>投资部门提供</h5>
                             </div>
 
-                            <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"
+                            <directive-accachment-new id="formalAssessmentInfo1" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"
                                                       wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
                                                       init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
                                                       service-type="serviceType" project-model="projectModel" is-choose="true" is-disabled="true"></directive-accachment-new>

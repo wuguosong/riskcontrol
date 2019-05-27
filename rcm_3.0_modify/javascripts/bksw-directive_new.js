@@ -3557,11 +3557,12 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                             alert("此类型文档暂无历史附件");
                         } else {
                             $scope.attachHistoryList = result.result_data;
-                            $('#showHistoryList').modal('show');
+                            $('#showHistoryList_'+ $scope.id).modal('show');
                             hide_Mask();
                         }
                     } else {
                         alert(result.result_name);
+                        hide_Mask();
                     }
 
                 });

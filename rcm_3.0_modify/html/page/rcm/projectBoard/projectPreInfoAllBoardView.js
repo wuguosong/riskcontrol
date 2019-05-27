@@ -3,6 +3,7 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
         function ($http,$scope,$location,$routeParams,Upload,$timeout,$filter) {
             //初始化
             var objId = $routeParams.id;
+            $scope.businessId = $routeParams.id;
             $scope.oldUrl = $routeParams.url;
 
             //判断新旧流程
@@ -259,6 +260,7 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
 
             //处理附件列表
             $scope.reduceAttachment = function(attachment, id){
+                debugger
                 $scope.newAttachment = attach_list("preReview", id, "preInfo").result_data;
                 for(var i in attachment){
                     var file = attachment[i];
@@ -299,22 +301,20 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                         $scope.reduceAttachment(data.result_data.projectInfo.attachmentList, objId);
                         //2、一级业务单位意见
                         $scope.firstLevelOpinion = data.result_data.firstLevelOpinion;
-                        //3、风控意见
+                       /* //3、风控意见
                         $scope.fengkongOpinion = data.result_data.fengkongOpinion;
                         $scope.fileName=[];
                         var filenames=$scope.pre.attachment;
                         for(var i=0;i<filenames.length;i++){
                             var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
                             $scope.fileName.push(arr);
-                        }
+                        }*/
                         //4、投资评审报告
                         $scope.report = data.result_data.report;
                         //5、投资决策通知书
                         $scope.nod = data.result_data.noticeOfDecisionInfo;
                         //7、项目经验总结
                         $scope.arf = data.result_data.projectExperience;
-                        //处理附件
-                        $scope.reduceAttachment(data.result_data.projectInfo.attachment);
 
                         $scope.oracleData = data.result_data.oracleData;
                         // 提交决策会材料
@@ -333,7 +333,7 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                     }
                 });
             };
-            //处理附件列表
+            /*//处理附件列表
             $scope.reduceAttachment = function(attachment){
                 $scope.newAttachment = [];
                 for(var i in attachment){
@@ -349,7 +349,7 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                     }
 
                 }
-            }
+            }*/
             //在后台调用公共方法，把他们两个都放入一个map中  在前台取一下。
             $scope.getSelectTypeByCode=function(typeCode){
                 var  url = 'common/commonMethod/selectDataDictionByCode';
