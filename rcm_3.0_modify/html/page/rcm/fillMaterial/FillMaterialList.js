@@ -114,6 +114,12 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             $scope.x.pmodel = "normal";
         };
 
+        $scope.y = {};
+        $scope.openRFIBiddingInfo = function (noSubmit) {
+            $scope.toCreateBiddingInfo = noSubmit;
+            $scope.y.pmodel="normal";
+        };
+
         //新建投资评审报告
         $scope.forPreReport = function (model, uuid, comId) {
             if (model == null || model == "") {
@@ -136,6 +142,21 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             }
         }
 
+        //编辑正是评审提交决策会材料
+        $scope.createRFIBiddingInfo = function(model,uuid){
+            console.log(model);
+            console.log(uuid);
+            var ind = model.lastIndexOf("/");
+            var modelAction = model.substring(ind + 1,model.length);
+            var routePath = model.substring(0,ind);
+            $('#addModal4').modal('hide');
+            if (model == 'normal') {
+                $location.path("/FormalBiddingInfo/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable') + '/0');
+            } else {
+                $location.path("/"+model+""+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+            }
+        }
+
         $scope.openRBIMeeting = function (noSubmit) {
             $scope.businessId = noSubmit.BUSINESSID;
         }
@@ -155,7 +176,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                     "mettingSummaryInfo": $scope.mettingSummary
                 })
             }).success(function (result) {
-                $('#submitModal').modal('hide');
+                $('#addModal3').modal('hide');
                 $.alert(result.result_name);
                 $scope.mettingSummary = "";
                 $scope.initData();

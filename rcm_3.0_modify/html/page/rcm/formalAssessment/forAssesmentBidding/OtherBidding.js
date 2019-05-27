@@ -18,6 +18,28 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         $scope.projectSummary = {};
 
         var action = $routeParams.action;
+        $scope.returnStatus = false;
+
+        $scope.$watch('returnStatus', function() {
+            if ($scope.returnStatus) {
+                $scope.dic2=[];
+                $scope.dic2.nameValue=[{name:'A级（困难评审)',value:1},{name:'B级（中级评审)',value:2},{name:'C级（简单评审)',value:3}]
+            }
+        });
+
+        // 定义投资类型
+        $scope.INVESTMENT_TYPE = [];
+        $scope.getSelectINVESTMENT_TYPE = function (typeCode) {
+            var url = 'common/commonMethod/selectDataDictionByCode';
+            $scope.httpData(url, typeCode).success(function (data) {
+                if (data.result_code == 'S') {
+                    $scope.INVESTMENT_TYPE = data.result_data;
+                } else {
+                    alert(data.result_name);
+                }
+            });
+            /*$scope.INVESTMENT_TYPE = selectDocItem(typeCode);*/
+        }
 
         //处理附件列表
         $scope.reduceAttachment = function(attachment, id){
@@ -49,12 +71,20 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
             }).success(function (data) {
                 $scope.formalReport = data.result_data.Report;
                 $scope.pfr = data.result_data.Formal;
+                if (isEmpty(data.result_data.MeetInfo)){
+                    $scope.meetInfo = {};
+                } else {
+                    $scope.meetInfo = data.result_data.MeetInfo;
+                }
+
                 // 处理附件需要的数据
                 $scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
                 $scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
                 // 处理附件
                 $scope.reduceAttachment(data.result_data.Formal.attachmentList, projectFormalId);
                 hide_Mask();
+                $scope.returnStatus = true;
+                $scope.getSelectINVESTMENT_TYPE('INVESTMENT_TYPE');
             })
         }
 
@@ -144,6 +174,9 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                 $.alert("附件不能为空！");
                 return;
             }
+            if (!$scope.saveMeetingInfo()) {
+                return;
+            }
 
             var data = $scope.dataForSave();
             console.log(data)
@@ -151,96 +184,14 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         };
 
         $scope.submitSave = function () {
+            if (!$scope.saveMeetingInfo()) {
+                return;
+            }
             var data = $scope.dataForSave();
             $scope.saveOrSubmit(data, "ss");
         };
 
         $scope.dataForSave = function () {
-
-            var newAttachment = $scope.reduceAttachmentForSubmit($scope.newAttachment);
-            console.log(newAttachment);
-            if (newAttachment == false) {
-                return false;
-            }
-
-            var chk_list = $("input[name='choose']");
-            var fid = "";
-            var uuidarr = [], itemarr = [], programmedarr = [], approvedarr = [], fileNamearr = [], filePatharr = [],
-                versionarr = [], upload_datearr = [], programmeIddarr = [], approvedIdarr = [];
-            for (var i = 0; i < chk_list.length; i++) {
-                if (chk_list[i].checked) {
-                    fid = chk_list[i].value;
-                    var arrfid = fid.split("||");
-                    if (arrfid[0] == null || arrfid[0] == "") {
-                        uuidarr.push($scope.newAttachment[i].newItem.UUID);
-                    } else {
-                        uuidarr.push(arrfid[0]);
-                    }
-                    if (arrfid[1] == null || arrfid[1] == "") {
-                        itemarr.push($scope.newAttachment[i].newItem.ITEM_NAME);
-                    } else {
-                        itemarr.push(arrfid[1]);
-                    }
-                    programmedarr.push(arrfid[2]);
-                    approvedarr.push(arrfid[3]);
-                    fileNamearr.push(arrfid[4]);
-                    filePatharr.push(arrfid[5]);
-                    versionarr.push(arrfid[6]);
-                    upload_datearr.push(arrfid[7]);
-                    programmeIddarr.push(arrfid[8]);
-                    approvedIdarr.push(arrfid[9]);
-                }
-            }
-
-            var newFiles = $("input[name='choosem']")
-            for (var i = 0; i < newFiles.length; i++) {
-                if (newFiles[i].checked) {
-                    fid = newFiles[i].value;
-                    var arrfid = fid.split("||");
-                    uuidarr.push(arrfid[0]);
-                    itemarr.push(arrfid[1]);
-                    programmedarr.push(arrfid[2]);
-                    approvedarr.push(arrfid[3]);
-                    fileNamearr.push(arrfid[4]);
-                    filePatharr.push(arrfid[5]);
-                    versionarr.push(arrfid[6]);
-                    upload_datearr.push(arrfid[7]);
-                    programmeIddarr.push(arrfid[8]);
-                    approvedIdarr.push(arrfid[9]);
-                }
-            }
-
-            var array = [];
-            if (undefined == $scope.formalReport.policyDecision) {
-                $scope.formalReport.policyDecision = {};
-            }
-            $scope.formalReport.policyDecision.submitName = $scope.credentials.userName;
-            $scope.formalReport.policyDecision.submitDate = $scope.FormatDate();
-            if (undefined == $scope.formalReport.policyDecision.decisionMakingCommitteeStaffFiles) {
-                $scope.formalReport.policyDecision.decisionMakingCommitteeStaffFiles = [];
-            }
-
-            for (var j = 0; j < fileNamearr.length; j++) {
-                $scope.vvvv = {};
-                $scope.vvvv.UUID = uuidarr[j];
-                $scope.vvvv.ITEM_NAME = itemarr[j];
-                $scope.vvvv.programmed = programmedarr[j];
-                $scope.vvvv.approved = approvedarr[j];
-                $scope.vvvv.fileName = fileNamearr[j];
-                $scope.vvvv.filePath = filePatharr[j];
-                $scope.vvvv.version = versionarr[j];
-                if (upload_datearr[j] == "") {
-                    upload_datearr[j] = $scope.getDate();
-                }
-                $scope.vvvv.upload_date = upload_datearr[j];
-                $scope.vvvv.programmedId = programmeIddarr[j];
-                $scope.vvvv.approvedID = approvedIdarr[j];
-                array.push($scope.vvvv);
-            }
-            $scope.formalReport.policyDecision.decisionMakingCommitteeStaffFiles = array;
-
-            $scope.formalReport.ac_attachment = $scope.pfr.attachment;
-
             $scope.formalReport.projectFormalId = objId; // 正式评审项目id
             // $scope.formalReport.projectSummary = $scope.projectSummary;
             return $scope.formalReport;
@@ -311,6 +262,37 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                 $location.path("/OtherBiddingInfoPreview/" + objId + "/" + $filter('encodeURI') + "/2");
             }
 
+        }
+
+        // 保存项目评级相关内容
+        $scope.saveMeetingInfo = function (){
+            console.log($scope.meetInfo);
+            if ($scope.meetInfo != null && $scope.meetInfo != "") {
+                $scope.meetInfo.formalId = objId;
+                var myMeetingInfo = angular.copy($scope.meetInfo);
+                myMeetingInfo.apply = $scope.pfr.apply;
+                // 保存项目评级
+                $.ajax({
+                    type: 'post',
+                    url: srvUrl + "information/addConferenceInformation.do",
+                    data: $.param({
+                        "information": JSON.stringify(myMeetingInfo),
+                        "businessId": objId
+                    }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (!result.success) {
+                            alert(result.result_name);
+                            return false;
+                        }
+                    }
+                });
+                return true;
+            } else {
+                //没有项目评级
+                return true;
+            }
         }
 
 
