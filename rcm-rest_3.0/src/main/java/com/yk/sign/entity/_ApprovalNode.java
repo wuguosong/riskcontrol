@@ -411,7 +411,7 @@ public class _ApprovalNode {
             if(_reviewChargeConfirm == null){
                 _reviewChargeConfirm = new JSONObject();
             }
-            _reviewChargeConfirm.put(_ApprovalNode._approvalKey, "评审负责人确认");
+            _reviewChargeConfirm.put(_ApprovalNode._approvalKey, "评审负责人确认,风控评审负责人确认");
             return _reviewChargeConfirm;
         }
 

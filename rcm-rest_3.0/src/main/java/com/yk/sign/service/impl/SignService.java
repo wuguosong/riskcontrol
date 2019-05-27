@@ -911,6 +911,13 @@ public class SignService implements ISignService {
                 _reviewApproval.set_reviewChargeConfirm(this.judgeTask(_reviewApproval.get_reviewChargeConfirm(), name));
                 _reviewApproval.set_completed(this.judgeTask(_reviewApproval.get_completed(), name));
             }
+            // 设置流程图分配评审任务和法律分配节点的兼容性
+            String _backgroundTask = "";
+            if(_reviewApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    || _reviewApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == -1){
+                _backgroundTask = "background: #2d8cf0!important;";
+            }
+            _reviewApproval.get_legalDistribution().put("_backgroundTask", _backgroundTask);
             _reviewApproval.execute();
             _approvalNode.set_reviewApproval(_reviewApproval);
             _approvalNode.set_processId(processId);
