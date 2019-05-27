@@ -468,6 +468,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		param.put("applyDate", applyDate);
 		param.put("stage", oracle.get("STAGE"));
 		param.put("serviceType", oracle.get("SERVICETYPE_ID"));
+		param.put("biddingType", oracle.get("BIDDING_TYPE"));
 		
 		return param;
 	}

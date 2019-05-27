@@ -420,7 +420,58 @@
                 </div>
             </div>
             <div class="tab-pane" id="bs-tabdrop-tab7">
-                <div class="xh-content container-fluid">
+                <div ng-if="biddingType == 'PPT'" class="xh-content container-fluid">
+                    <div class="mcontent content1" id="flag1-c" style="height: 140px">
+                        <h3 class="text-blue">上传电子版正式评审决策会材料</h3>
+                        <div class="col-md-2 col-sm-2 col-xs-2">
+                            <div class="row">
+                                <span class="noPadding">附件上传</span>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10">
+                            <cloud-file
+                                    file-id="pfrOtherBidding"
+                                    file-type="FormalBiddingInfo"
+                                    file-code="{{paramId}}"
+                                    file-location="pfrOtherBidding"
+                                    show-upload="false"
+                                    show-preview="false"
+                                    show-replace="false"
+                                    show-download="false"
+                                    show-upload-or-replace="false"
+                                    show-delete="false"
+                                    area-code="1"
+                                    text-before="false"
+                                    btn-class="btn btn-primary"
+                                    text-class="col-md-8 slim"
+                                    btn-area-class="col-md-1 slim"
+                                    upload-text="浏览"
+                            >
+                            </cloud-file>
+                        </div>
+                    </div>
+                    <!--业务单位上报评审文件 Start-->
+                    <div class="mcontent content1" id="flag2-c">
+                        <h3 class="text-blue">业务单位上报评审文件</h3>
+                        <div class="innertable">
+                            <div class="col-md-9" style="padding-left: 0px;">
+                                <h5>投资部门提供</h5>
+                            </div>
+                            <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
+                                                      page-location="formalAssessmentInfo" business-id="pfr.id"
+                                                      wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
+                                                      init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader"
+                                                      project-name="pfr.apply.projectName"
+                                                      is-edite="false" service-type="serviceType" project-model="projectModel"
+                                                      is-choose="false"
+                                                      is-add-disable="true"
+                            ></directive-accachment-new>
+                        </div>
+                    </div>
+                    <!--业务单位上报评审文件 End-->
+                </div>
+
+                <div ng-if="biddingType != 'PPT'" class="xh-content container-fluid">
 
                     <!--项目过程回顾和项目评级-->
                     <directive-formal-jcwyh-new></directive-formal-jcwyh-new>

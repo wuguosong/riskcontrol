@@ -1,7 +1,7 @@
 <div>
     <div class="row"  ng-if="isEdite || wfState =='0'">
         <div class="full-drop button-right">
-            <button type="button" ng-click="_addOneNewFile()" class="btn btn-info"
+            <button ng-if="!isAddDisable" type="button" ng-click="_addOneNewFile()" class="btn btn-info"
                     title=""><i class="fa fa-cloud-download"></i>新增
             </button>
             <!--<button type="button" ng-if="showController.isInvestmentManager && hasWaiting  || wfState =='0' || wfState == undefined" ng-click="addOneNewFile()" class="btn btn-info" title=""><i class="fa fa-cloud-download"></i>打包下载</button>-->
@@ -77,7 +77,7 @@
                     </button>
                     <button type="button" data-toggle="modal" data-target="#addModal{{$index}}" id="compareBtn"
                             class="btn btn-info" ng-click="showModel()"
-                            ng-if="item.preview3d != null && (isEdite || wfState =='0' && !_ignoreReplaceReason)">替换
+                            ng-if="!isAddDisable && (item.preview3d != null && (isEdite || wfState =='0' && !_ignoreReplaceReason))">替换
                     </button>
                     <a ng-if="item.preview3d != null && (isEdite || wfState =='0') && _ignoreReplaceReason"
                        ngf-max-size="1000MB" ngf-select="_uploadReplace($file,$invalidFiles,item)"

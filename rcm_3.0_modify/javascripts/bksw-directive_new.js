@@ -3183,6 +3183,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             fileList: "=",
             // 设置属性
             isEdite: "@",
+            isAddDisable: "@",
             isChoose: "@",
             isShowMeetingAttachment: "@",
             isDisabled: "@",

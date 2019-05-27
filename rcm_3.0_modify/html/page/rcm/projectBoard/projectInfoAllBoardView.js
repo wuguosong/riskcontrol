@@ -241,6 +241,8 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                     $scope.applyDate = data.result_data.applyDate;
                     $scope.stage = data.result_data.stage;
                     $scope.isReadOnly = 'true';
+                    $scope.biddingType = data.result_data.biddingType;
+                    console.log($scope.biddingType);
 
                     // 定义模板数据变量
                     $scope.projectSummary = null;
