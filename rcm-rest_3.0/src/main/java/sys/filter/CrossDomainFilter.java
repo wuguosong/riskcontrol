@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sso.client.servlet.SsoUserUtil;
+
 import common.Constants;
 import util.PropertiesUtil;
 
@@ -31,6 +33,9 @@ public class CrossDomainFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) resp;
 		HttpServletRequest request = (HttpServletRequest) req;
+		String loginid = SsoUserUtil.getCurrentUser(request);
+		System.out.println("CrossDomainFilter***************************************:" + loginid);
+		request.setAttribute("loginid", loginid);
 		//请求方法，针对跨域请求OPTIONS
 		String method = request.getMethod();
 		crossDomain(request, response);

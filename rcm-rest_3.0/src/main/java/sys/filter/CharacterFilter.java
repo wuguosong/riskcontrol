@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sso.client.servlet.SsoUserUtil;
+
 /**
  * 字符集编码设置为UTF-8
  * 
@@ -29,6 +31,9 @@ public class CharacterFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
+		String loginid = SsoUserUtil.getCurrentUser(request);
+		System.out.println("CharacterFilter***************************************:" + loginid);
+		request.setAttribute("loginid", loginid);
 		request.setCharacterEncoding(encoding);
 		response.setCharacterEncoding(encoding);
 		response.setContentType("text/html;charset=" + encoding);
