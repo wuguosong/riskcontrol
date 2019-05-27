@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>同步报表数据</title>
+    <link rel="stylesheet" href="/html/assets/javascripts/wui-date/css/wui.min.css" type="text/css">
+    <script type="text/javascript" src="/html/assets/javascripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/html/assets/angularjs/angular-1.4.0/angular.js"></script>
+    <script type="text/javascript" src="/html/assets/javascripts/wui-date/js/wui-date.js"></script>
+
+</head>
+<body>
+<div data-ng-app="myApp" ng-controller="myCtrl">
+    <form method="post" enctype="multipart/form-data">
+        业务类型
+        <select name="projectType" id="projectType" ng-model="projectType">
+            <option ng-repeat="d in ds" value="{{d.code}}">{{d.name}}</option>
+        </select>
+        创建日期
+        <wui-date format="yyyy-mm-dd"
+                  placeholder="创建日期"
+                  id="createDate"
+                  btns="{'now':'今天'}"
+                  ng-model="createDate">
+        </wui-date>
+        <button class="btn btn-info" ng-click="queryPost()">确定</button>
+    </form>
+    <br>
+</div>
+<script type="text/javascript">
+    /************************************/
+    var myApp = angular.module("myApp", ['wui.date']);
+    myApp.controller("myCtrl", function ($scope, $http) {
+        $scope.ds = [{code: 'pfr', name: '正式评审'}, {code: 'pre', name: '投标评审'}, {code: 'bulletin', name: '其他评审'}];
+
+        $scope.queryPost = function (params, func) {
+            var params = {"json":JSON.stringify({"projectType":$scope.projectType, "createDate": $scope.createDate})};
+            $http({
+                method: 'post',
+                url: 'http://localhost:8080/rcm-rest/reportData/saveOrUpdate.do',
+                params: params
+            }).success(function (data) {
+                func(data);
+            });
+        }
+    });
+</script>
+</body>
+</html>
