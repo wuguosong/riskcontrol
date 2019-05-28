@@ -1250,6 +1250,78 @@ ctmApp.directive('directiveCompanyList', function() {
     };
 });
 
+// 项目列表弹出框
+ctmApp.directive('directiveEnvirProjectList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/DirectiveCompanyList.html',
+        replace: true,
+        scope:{},
+        controller:function($scope,$http,$element){
+            //获取父作用域
+            var carouselScope = $element.parent().scope();
+            $scope.selectProjejct =null;
+            $scope.getSelection = function(selectProjejct){
+                $scope.selectProjejct = angular.copy(selectProjejct);
+            }
+            $scope.paginationConf = {
+                currentPage: 1,
+                itemsPerPage: 10,
+                queryObj:{},
+                perPageOptions: [10]
+            };
+            $scope.queryCompanyList = function(){
+                var cp = $scope.paginationConf.currentPage;
+                if(cp == 1){
+                    $scope.queryCompany();
+                }else{
+                    $scope.paginationConf.currentPage = 1;
+                }
+            }
+            $scope.queryCompany=function(){
+                if (!isEmpty($scope.queryObj)){
+                    $scope.paginationConf.queryObj = $scope.queryObj;
+                }
+                $scope.paginationConf.queryObj.USERID = $scope.$parent.credentials.UUID;
+                var  url = 'common/commonMethod/getEnvirProjectList';
+                $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
+                    // 变更分页的总数
+                    if(data.result_code == "S") {
+                        $scope.sysCompany = data.result_data.list;
+                        $scope.paginationConf.totalItems = data.result_data.totalItems;
+                    }
+                });
+            };
+
+            $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryCompany);
+            $scope.resetCompanyList=function(){
+                $scope.selectProjejct =null;
+            }
+            $scope.saveCompanyListforDiretive=function(){
+                var ORGCODE = $scope.selectProjejct.ORGCODE;
+                var  url = 'common/commonMethod/gePertainArea';
+                $scope.$parent.httpData(url, ORGCODE).success(function(data){
+                    // 变更分页的总数
+                    if(data.result_code == "S") {
+                        if(!isEmpty(data.result_data)){
+                            var org = data.result_data[0];
+                            $scope.selectProjejct.ORGCODE = org.ORGPKVALUE;
+                            $scope.selectProjejct.ORGNAME = org.NAME;
+                            $scope.selectProjejct.ORGHEADERNAME = org.ORGHEADERNAME;
+                            $scope.selectProjejct.ORGHEADERID = org.ORGHEADERID;
+                        }
+                    }
+                    carouselScope.setDirectiveCompanyList($scope.selectProjejct);
+                    $scope.selectProjejct =null;
+                });
+            }
+            angular.element(document).ready(function() {
+                $scope.selectProjejct =null;
+            });
+        }
+    };
+});
+
 // 会议纪要新增弹出框
 ctmApp.directive('mettingSummaryBpmnPopWin', function(){
     return {

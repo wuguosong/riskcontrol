@@ -2,13 +2,13 @@ package common;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.poi.util.SystemOutLogger;
 import org.bson.Document;
 
 import util.CrudUtil;
@@ -214,6 +214,22 @@ public class commonMethod extends BaseService{
 		public PageAssistant getDirectiveCompanyList(String json){
 			PageAssistant assistant = new PageAssistant(json);
 			this.selectByPage(assistant, "common.selectCompanyList");
+			return assistant;
+		}
+		/*获取主数据中的项目名称及编码*/
+		public PageAssistant getEnvirProjectList(String json){
+			PageAssistant assistant = new PageAssistant(json);
+			this.selectByPage(assistant, "common.selectCompanyList");
+			List<Object> list = new ArrayList<Object>();;
+			for (Object object: assistant.getList()) {
+				//JSON.toJSONString(object), HashMap.class
+				HashMap map = JSON.parseObject(JSON.toJSONString(object), HashMap.class);
+				if (map.get("SERVICETYPE").equals("1404") || map.get("SERVICETYPE").equals("1406")) {
+					list.add(object);
+				}
+			};
+			assistant.setList(list);
+			assistant.setTotalItems(list.size());
 			return assistant;
 		}
 		//获取菜单列表

@@ -1707,6 +1707,43 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+
+            // 正式评审申请列表-环卫和危废
+            .when('/FormalEnvirProjectList/:tabIndex', {
+                controller: 'FormalEnvirProjectList',
+                templateUrl: 'page/rcm/formalAssessment/formalEnvirProjectList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/formalEnvirProjectList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 正式评审申请详情-环卫和危废
+            .when('/formalEnvirProjectInfo/:id/:flag', {
+                controller: 'formalEnvirProjectInfo',
+                templateUrl: 'page/rcm/formalAssessment/formalEnvirProjectInfo.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/formalEnvirProjectInfo.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 正式评审审批列表
             .when('/FormalAssessmentAuditList/:tabIndex', {
                 controller: 'FormalAssessmentAuditList',
