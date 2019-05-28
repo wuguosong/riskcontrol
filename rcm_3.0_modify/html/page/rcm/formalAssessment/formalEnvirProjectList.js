@@ -20,7 +20,7 @@ ctmApp.register.controller('FormalEnvirProjectList', ['$routeParams','$http','$s
 		$scope.paginationConf.queryObj.needCreateBy = '1';
 		$http({
 			method:'post',  
-		    url: srvUrl + "formalAssessmentInfo/queryFormalAssessmentList.do",
+		    url: srvUrl + "formalAssessmentInfo/queryFormalEnvirProjectList.do",
 		    data: $.param({"page":JSON.stringify($scope.paginationConf)})
 		}).success(function(result){
 			$scope.formalAssessmentList = result.result_data.list;
@@ -32,7 +32,7 @@ ctmApp.register.controller('FormalEnvirProjectList', ['$routeParams','$http','$s
 		show_Mask();
 		$http({
 			method:'post',  
-			url: srvUrl + "formalAssessmentInfo/queryFormalAssessmentSubmitedList.do",
+			url: srvUrl + "formalAssessmentInfo/queryFormalEnvirProjecSubmitedList.do",
 			data: $.param({"page":JSON.stringify($scope.paginationConfes)})
 		}).success(function(result){
 			$scope.formalAssessmentSubmitedList = result.result_data.list;

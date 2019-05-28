@@ -110,6 +110,36 @@ public class FormalAssessmentInfoController {
 		result.setResult_data(page);
 		return result;
 	}
+	
+	/**
+	 * 查询正式评审-环卫、危废列表
+	 */
+	@RequestMapping("/queryFormalEnvirProjectList")
+	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询正式评审列表")
+	public Result queryFormalEnvirProjectList(HttpServletRequest request){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		this.formalAssessmentInfoService.queryEnvirByPage(page);
+		page.setParamMap(null);
+		result.setResult_data(page);
+		return result;
+	}
+	
+	/**
+	 * 查询正式评审列表--环卫、危废列表
+	 */
+	@RequestMapping("/queryFormalEnvirProjecSubmitedList")
+	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_FORMAL_ASSESSMENT, operation = LogConstant.QUERY, description = "查询已提交正式评审列表")
+	public Result queryFormalEnvirProjecSubmitedList(HttpServletRequest request){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		this.formalAssessmentInfoService.queryEnvirSubmitedByPage(page);
+		result.setResult_data(page);
+		return result;
+	}
+	
 	/**
 	 * 查询正式评审台账列表
 	 */

@@ -122,6 +122,36 @@
     	)</if>
     	order by ta.create_date desc
 	</select>
+	<select id="queryEnvirByPage" resultType="map"  parameterType="map">
+		select * from (
+			select 
+			(
+	              '/'||i.businessid||'@'||
+	              (select a.proc_def_id_ from act_hi_procinst a where a.proc_inst_id_ = hp.procinstid)||'@'||hp.procinstid||'@@'
+			) oldUrl,
+			i.*,
+	      	(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName ,
+	      	(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName ,
+	       	(select u.NAME from sys_user u where u.uuid=i.legalreviewpersonid) legalreviewpersonName 
+	    	from rcm_formalassessment_info i ,(select p.business_key_,MAX(p.proc_inst_id_) procinstid from act_hi_procinst p where p.proc_def_id_ in (
+				       select id_ from act_re_procdef pf where pf.key_ in ('formalAssessment','formalReview')
+				) group by p.business_key_ ) hp where i.businessid = hp.business_key_ (+)
+	    ) ta
+    	where  1 = 1 
+    	<if test="createBy != null and createBy != ''"> and	ta.createby = #{createBy}</if>
+    	<if test="projectUnitName != null and projectUnitName != ''"> and	ta.pertainareaName like '%${projectUnitName}%'</if>
+    	<if test="projectName != null and projectName != ''"> and	ta.projectName like '%${projectName}%' </if>
+    	<if test="wf_state != null and wf_state != ''"> and	ta.wf_state in (${wf_state})</if>
+    	<if test="wf_state == null or wf_state == ''"> and ta.wf_state = '0'</if>
+    	<if test="areaId != null and areaId != ''">  and ta.pertainAreaId = #{areaId}</if>
+    	<if test="serviceTypeId != null and serviceTypeId != ''"> and ta.servicetype_id in (${serviceTypeId})</if>
+    	<if test="stages != null and stages != ''"> and	ta.stage in (${stages})</if>
+    	<if test="result != null and result != ''"> and	ta.businessid in (
+    		select d.formal_id from rcm_decision_resolution d where d.formal_type = 0 and d.decision_result in (${result))
+    	)</if>
+    	order by ta.create_date desc
+	</select>
 	<select id="queryPageForExport" resultType="map"  parameterType="map">
 		select * from (
 	      select 
@@ -181,6 +211,34 @@
 		<if test="projectUnitName != null and projectUnitName != ''"> and	ta.pertainareaName like '%${projectUnitName}%'</if>
     	<if test="projectName != null and projectName != ''"> and	ta.projectName like '%${projectName}%' </if>
     	<if test="wf_state != null and wf_state != ''"> and	ta.wf_state = #{wf_state}</if>
+    	order by ta.apply_date desc
+	</select>
+	<select id="queryEnvirSubmitedByPage" resultType="map"  parameterType="map">
+		select * from (
+			select t.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=t.pertainareaid) pertainareaName ,
+			(select u.NAME from sys_user u where u.uuid=t.createby) investmentName,
+			(select u.NAME from sys_user u where u.uuid=t.reviewpersonid) reviewpersonName ,
+			(select u.NAME from sys_user u where u.uuid=t.legalreviewpersonid) legalreviewpersonName,
+			(
+			        'ProjectFormalReviewDetailView/view/'||t.businessid||'@'||
+			        (select a.proc_def_id_ from act_hi_procinst a where a.proc_inst_id_ = hp.procinstid)||'@'||hp.procinstid||'@@'
+			) oldUrl from 
+			(select f.*
+			from rcm_formalassessment_info f 
+		
+			where f.wf_state !='0'
+			<if test="createBy != null and createBy != ''">and	f.createby = #{createBy}</if>
+			) t, (select p.business_key_,MAX(p.proc_inst_id_) procinstid from act_hi_procinst p where p.proc_def_id_ in (
+			       select id_ from act_re_procdef pf where pf.key_ in ('formalAssessment','formalReview')
+			) group by p.business_key_ ) hp 
+			where t.businessid = hp.business_key_ 
+		) ta where 1 = 1 
+		<if test="serviceTypeId != null and serviceTypeId != ''"> and ta.servicetype_id in (${serviceTypeId})</if>
+		<if test="projectUnitName != null and projectUnitName != ''"> and	ta.pertainareaName like '%${projectUnitName}%'</if>
+    	<if test="projectName != null and projectName != ''"> and	ta.projectName like '%${projectName}%' </if>
+    	<if test="wf_state != null and wf_state != ''"> and	ta.wf_state = #{wf_state}</if>
+    	
     	order by ta.apply_date desc
 	</select>
 	

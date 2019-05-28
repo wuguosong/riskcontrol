@@ -336,5 +336,7 @@ public interface IFormalAssessmentInfoService {
 	public void signRead(String json);
 	
 	public List<Map<String, Object>> queryAllByDaxt();
+	public PageAssistant queryEnvirByPage(PageAssistant page);
+	public PageAssistant queryEnvirSubmitedByPage(PageAssistant page);
 	
 }

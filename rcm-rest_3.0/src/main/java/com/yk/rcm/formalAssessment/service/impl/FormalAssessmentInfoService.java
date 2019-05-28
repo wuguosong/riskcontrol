@@ -2177,4 +2177,67 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 	public List<Map<String, Object>> queryAllByDaxt() {
 		return formalAssessmentInfoMapper.queryAllByDaxt();
 	}
+
+
+	@Override
+	public PageAssistant queryEnvirByPage(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page);
+		
+		if(Util.isNotEmpty(page.getParamMap())){
+			String needCreateBy = (String) page.getParamMap().get("needCreateBy");
+			if(!ThreadLocalUtil.getIsAdmin()){
+				//管理员能看所有的
+				if(!"0".equals(needCreateBy)){
+					params.put("createBy", ThreadLocalUtil.getUserId());
+				}
+			}
+		}
+		
+		if(page.getParamMap() != null){
+			params.putAll(page.getParamMap());
+		}
+		String sql = "'1404' , '1406'";
+		params.put("serviceTypeId", sql);
+		List<Map<String,Object>> list = this.formalAssessmentInfoMapper.queryEnvirByPage(params);
+		//循环分页的list，取map的每一个对象，用id从mongo中查询数据，放到分页的list中
+		for (Map<String, Object> map : list) {
+			String id = (String)map.get("BUSINESSID");
+			Map<String, Object> mongoDate = baseMongo.queryById(id, "rcm_formalAssessment_info");
+			map.put("mongoDate", mongoDate);
+		}
+		page.setList(list);
+		return page;
+		
+	}
+
+
+	@Override
+	public PageAssistant queryEnvirSubmitedByPage(PageAssistant page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page);
+		if(!ThreadLocalUtil.getIsAdmin()){
+			//管理员能看所有的
+			params.put("createBy", ThreadLocalUtil.getUserId());
+		}
+		if(page.getParamMap() != null){
+			params.putAll(page.getParamMap());
+		}
+		String sql = "'1404' , '1406'";
+		params.put("serviceTypeId", sql);
+		String orderBy = page.getOrderBy();
+//		if(orderBy == null){
+//			orderBy = " ta.create_date desc ";
+//		}
+//		params.put("orderBy", orderBy);
+		List<Map<String,Object>> list = this.formalAssessmentInfoMapper.queryEnvirSubmitedByPage(params);
+		//循环分页的list，取map的每一个对象，用id从mongo中查询数据，放到分页的list中
+		for (Map<String, Object> map : list) {
+			String id = (String)map.get("BUSINESSID");
+			Map<String, Object> mongoDate = baseMongo.queryById(id, "rcm_formalAssessment_info");
+			map.put("mongoDate", mongoDate);
+		}
+		page.setList(list);
+		return page;
+	}
 }

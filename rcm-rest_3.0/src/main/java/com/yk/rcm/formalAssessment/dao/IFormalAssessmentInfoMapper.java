@@ -16,6 +16,8 @@ public interface IFormalAssessmentInfoMapper extends BaseMapper {
 	void update(Map<String, String> param);
 
 	List<Map<String, Object>> queryByPage(Map<String, Object> params);
+	List<Map<String, Object>> queryEnvirByPage(Map<String, Object> params);
+	
 	List<Map<String, Object>> queryPageForExport(Map<String, Object> params);
 
 	void insert(Map<String, Object> dataForOracle);
@@ -160,4 +162,6 @@ public interface IFormalAssessmentInfoMapper extends BaseMapper {
 	 * @param status 0:未归档,1:归档中,2:已归档,3:已归档,有文件缺失
 	 */
 	void updatePigeStatByBusiId(Map<String, Object> params);
+
+	List<Map<String, Object>> queryEnvirSubmitedByPage(Map<String, Object> params);
 }
