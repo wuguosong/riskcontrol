@@ -260,7 +260,6 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
 
             //处理附件列表
             $scope.reduceAttachment = function(attachment, id){
-                debugger
                 $scope.newAttachment = attach_list("preReview", id, "preInfo").result_data;
                 for(var i in attachment){
                     var file = attachment[i];
@@ -310,7 +309,7 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                             $scope.fileName.push(arr);
                         }*/
                         //4、投资评审报告
-                        var file = attach_list('preReportInfo', $scope.businessId, 'preReport');
+                        var file = attach_list('preReportInfo', $scope.businessId, 'preReport').result_data;
                         if (!isEmpty(file) && !isEmpty(data.result_data.report)){
                             $scope.report = data.result_data.report;
                         } else {

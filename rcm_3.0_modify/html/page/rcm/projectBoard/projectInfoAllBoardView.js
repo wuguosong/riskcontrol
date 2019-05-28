@@ -3,6 +3,7 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
         function ($http,$scope,$location,$routeParams,Upload,$timeout,$filter) {
             //初始化
             var objId = $routeParams.id;
+            $scope.businessId = $routeParams.id;
             $scope.oldUrl = $routeParams.url;
 
             //判断新旧流程
@@ -318,7 +319,8 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                             $scope.fileName.push(arr);
                         }*/
                         //4、投资评审报告
-                        var file = attach_list('FormalReportInfo', $scope.businessId, 'pfrReport');
+                        debugger
+                        var file = attach_list('FormalReportInfo', $scope.businessId, 'pfrReport').result_data;
                         if (!isEmpty(file) && !isEmpty(data.result_data.report)){
                             $scope.report = data.result_data.report;
                         } else {

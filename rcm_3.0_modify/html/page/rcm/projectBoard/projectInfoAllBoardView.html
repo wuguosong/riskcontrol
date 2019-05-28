@@ -451,7 +451,7 @@
                             <cloud-file
                                     file-id="pfrOtherBidding"
                                     file-type="FormalBiddingInfo"
-                                    file-code="{{paramId}}"
+                                    file-code="{{businessId}}"
                                     file-location="pfrOtherBidding"
                                     show-upload="false"
                                     show-preview="false"
@@ -477,7 +477,7 @@
                                 <h5>投资部门提供</h5>
                             </div>
                             <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
-                                                      page-location="formalAssessmentInfo" business-id="pfr.id"
+                                                      page-location="formalAssessmentInfo" business-id="businessId"
                                                       wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
                                                       init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader"
                                                       project-name="pfr.apply.projectName"
@@ -610,7 +610,7 @@
                                 <h5>投资部门提供</h5>
                             </div>
 
-                            <directive-accachment-new id="formalAssessmentInfo1" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfr.id"
+                            <directive-accachment-new id="formalAssessmentInfo1" business-type="formalReview" page-location="formalAssessmentInfo" business-id="businessId"
                                                       wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
                                                       init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
                                                       service-type="serviceType" project-model="projectModel" is-choose="true" is-disabled="true"></directive-accachment-new>

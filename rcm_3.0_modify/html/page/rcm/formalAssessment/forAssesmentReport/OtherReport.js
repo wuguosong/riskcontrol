@@ -4,8 +4,9 @@ ctmApp.register.controller('OtherReport', ['$http', '$scope', '$location', '$rou
     $scope.tabIndex = $routeParams.tabIndex;
     $scope.controller_val = $location.$$url.split("/")[1];
     var complexId = $routeParams.id;
-    $scope.paramId = complexId;
+
     var params = complexId.split("@");
+    $scope.paramId = params[0];
     if (null != params[1] && "" != params[1]) {
         $scope.flag = params[1];
     }
