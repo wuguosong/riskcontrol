@@ -2,9 +2,12 @@ package com.yk.sign.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.goukuai.kit.Prop;
+import com.goukuai.kit.PropKit;
 import com.yk.bpmn.service.IBpmnService;
 import com.yk.common.BaseMongo;
 import com.yk.exception.BusinessException;
+import com.yk.message.dao.IMessageMapper;
 import com.yk.power.service.IRoleService;
 import com.yk.process.service.IProcessService;
 import com.yk.rcm.bulletin.dao.IBulletinAuditMapper;
@@ -16,12 +19,14 @@ import com.yk.rcm.pre.dao.IPreAuditLogMapper;
 import com.yk.sign.dao.ISignMapper;
 import com.yk.sign.entity._ApprovalNode;
 import com.yk.sign.service.ISignService;
+import com.yk.sign.service.JumpTaskCmd;
 import common.Constants;
 import common.PageAssistant;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.RepositoryServiceImpl;
+import org.activiti.engine.impl.TaskServiceImpl;
 import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.activiti.engine.impl.javax.el.ExpressionFactory;
 import org.activiti.engine.impl.javax.el.ValueExpression;
@@ -38,9 +43,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
+import util.DateUtil;
 import util.ThreadLocalUtil;
 import util.UserUtil;
 import util.Util;
+import ws.todo.client.TodoClient;
+import ws.todo.entity.TodoInfo;
+import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -76,6 +85,10 @@ public class SignService implements ISignService {
     private ISignMapper signMapper;
     @Resource
     private IProcessService processService;
+    @Resource
+    private IMessageMapper messageMapper;
+    // 配置文件
+    private Prop prop = PropKit.use("wsdl_conf.properties");
 
 
     @Override
@@ -131,19 +144,12 @@ public class SignService implements ISignService {
         if (StringUtils.isBlank(business_id)) {
             throw new BusinessException("BUSINESS_ID不能为空!");
         }
-        if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
-            return this.dealDate(this.preLogs(business_id));
-        } else if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
-            return this.dealDate(this.formalLogs(business_id));
-        } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
-            return this.dealDate(this.bulletLogs(business_id));
-        } else {
-            throw new BusinessException("BUSINESS_MODULE不在系统业务中!");
-        }
+        return this.dealDate(signMapper.listLogs(business_module, business_id));
     }
 
-    private List<Map<String, Object>> dealDate(List<Map<String, Object>> logs){
-        if(CollectionUtils.isNotEmpty(logs)){
+
+    private List<Map<String, Object>> dealDate(List<Map<String, Object>> logs) {
+        if (CollectionUtils.isNotEmpty(logs)) {
             logs.get(logs.size() - 1).put("AUDITTIME", "");
         }
         return logs;
@@ -852,6 +858,7 @@ public class SignService implements ISignService {
 
     @Resource
     private IRoleService roleService;
+
     @Override
     public _ApprovalNode getNewProcessImageStep(String processKey, String processId) {
         List<Map<String, Object>> list = signMapper.selectUniqueTasksForImageStep(processKey, processId);
@@ -913,8 +920,8 @@ public class SignService implements ISignService {
             }
             // 设置流程图分配评审任务和法律分配节点的兼容性
             String _backgroundTask = "";
-            if(_reviewApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
-                    || _reviewApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == -1){
+            if (_reviewApproval.get_assignmentTask().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    || _reviewApproval.get_assignmentTask().getInteger(_ApprovalNode._approvalStateCode) == -1) {
                 _backgroundTask = "background: #2d8cf0!important;";
             }
             _reviewApproval.get_legalDistribution().put("_backgroundTask", _backgroundTask);
@@ -978,19 +985,19 @@ public class SignService implements ISignService {
             int isSkipUnitAudit = 0;
             // 设置选择哪一个流程图
             Map<String, Object> bulletinInfo = bulletinInfoMapper.queryByBusinessId(processId);
-            if(bulletinInfo != null){
-                String unitPersonId = (String)bulletinInfo.get("UNITPERSONID");
+            if (bulletinInfo != null) {
+                String unitPersonId = (String) bulletinInfo.get("UNITPERSONID");
                 String bulletinTypeCode = (String) bulletinInfo.get("BULLETINTYPECODE");
-                if("TBSX_BUSINESS_SUBCOMPANYTZ".equals(bulletinTypeCode)){
+                if ("TBSX_BUSINESS_SUBCOMPANYTZ".equals(bulletinTypeCode)) {
                     isCityService = 1;
-                }else{
+                } else {
                     String businessPersonRole = bulletinAuditMapper.queryBusinessRole(processId);
-                    if(StringUtils.isNotBlank(businessPersonRole)){
+                    if (StringUtils.isNotBlank(businessPersonRole)) {
                         List<Map<String, Object>> users = roleService.queryUserById(businessPersonRole);
-                        if(CollectionUtils.isNotEmpty(users)){
-                            for(Map<String, Object> user : users){
+                        if (CollectionUtils.isNotEmpty(users)) {
+                            for (Map<String, Object> user : users) {
                                 String uid = (String) user.get("UUID");
-                                if(uid.equals(unitPersonId)){
+                                if (uid.equals(unitPersonId)) {
                                     //如果单位负责人和业务负责人是同一人，那么跳过单位负责人审批
                                     isSkipUnitAudit = 1;
                                     break;
@@ -1000,40 +1007,40 @@ public class SignService implements ISignService {
                     }
                 }
             }
-            if(isCityService == 1){
+            if (isCityService == 1) {
                 choice = 2;
-            }else {
-                if(isSkipUnitAudit == 0){
+            } else {
+                if (isSkipUnitAudit == 0) {
                     choice = 1;
-                }else{
+                } else {
                     choice = 2;
                 }
             }
             _bulletinApproval.set_choice(choice);
             String _backgroundFirstLine = "";
             // choice 2 情况下，修正线条颜色
-            if(choice == 2){
+            if (choice == 2) {
                 String _background = "";
-                if(_bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                if (_bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == 0) {
                     _background = "background: #999!important;";
-                }else{
+                } else {
                     _background = "";
                 }
                 _bulletinApproval.get_businessLeaderApproval().put("_background", _background);
-                if(_bulletinApproval.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                if (_bulletinApproval.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 0) {
                     _background = "background: #999!important;";
-                }else{
+                } else {
                     _background = "";
                 }
-                if(_bulletinApproval.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 0
-                        && (_bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == 1 || _bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == -1)){
+                if (_bulletinApproval.get_unitChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 0
+                        && (_bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == 1 || _bulletinApproval.get_businessLeaderApproval().getInteger(_ApprovalNode._approvalStateCode) == -1)) {
                     _backgroundFirstLine = "background: #2d8cf0!important;";
                 }
                 _bulletinApproval.get_unitChargeApproval().put("_background", _background);
             }
             // 从[分配任务->法律负责人和评审负责人]过程中，位于法律负责人审批中的线条颜色设置
             String _backgroundLawLine = "";
-            if(_bulletinApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1 || _bulletinApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == -1){
+            if (_bulletinApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1 || _bulletinApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == -1) {
                 // 审批中或已审批
                 _backgroundLawLine = "background: #2d8cf0!important;";
             }
@@ -1118,5 +1125,210 @@ public class SignService implements ISignService {
             list.add(iterator.next().getValue());
         }
         return list;
+    }
+
+    @Override
+    public List<String> jumpTask(String taskId, String activityId) {
+        // 执行跳转
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String executionId = task.getExecutionId();
+        TaskServiceImpl taskServiceImpl = (TaskServiceImpl) taskService;
+        JumpTaskCmd jumpTaskCmd = new JumpTaskCmd(executionId, activityId);
+        taskServiceImpl.getCommandExecutor().execute(jumpTaskCmd);
+        return jumpTaskCmd.getTasks();
+    }
+
+    @Override
+    public void executeBreak(String processKey, String businessKey, String taskId, String activityId, String comments) {
+        if (StringUtils.isBlank(processKey)) {
+            throw new BusinessException("流程Key不能为空！");
+        }
+        if (StringUtils.isBlank(businessKey)) {
+            throw new BusinessException("业务Key不能为空！");
+        }
+        if (StringUtils.isBlank(taskId)) {
+            throw new BusinessException("当前任务Id不能为空！");
+        }
+        if (StringUtils.isBlank(activityId)) {
+            throw new BusinessException("驳回的节点Key不能为空！");
+        }
+        // 获取未驳回前的审批记录
+        List<Map<String, Object>> breakBeforeLogs = this.listLogs(processKey, businessKey);
+        // 获取未驳回前的任务记录
+        List<String> hisTasks = this.getHisTasks(breakBeforeLogs);
+        // 进行跳转操作
+        List<String> tasks = this.jumpTask(taskId, activityId);
+        // 进行审批记录的变更：代办变为已办
+        Map<String, Object> updateParams = new HashMap<String, Object>();
+        updateParams.put("processKey", processKey);
+        updateParams.put("businessKey", businessKey);
+        updateParams.put("comments", comments);
+        this.updateApprovalLogs(updateParams, breakBeforeLogs, taskId);
+        // 未驳回前的审批记录处理人
+        List<String> owners = this.getApprovalLogAuditUsers(breakBeforeLogs);
+        // 同步：代办转已办操作
+        this.todoTurnDone(processKey, businessKey, owners);
+        // 更新当前的日志排序:当前日志序列+1，然后再重新赋值。
+        this.updateApprovalLogsOrderBy(processKey, businessKey, tasks, taskId);
+        // 如果是并行任务，那么除了当前任务，其它任务节点的任务必须完成，否则流程无法结束。
+        this.completedOtherTask(hisTasks, taskId);
+    }
+
+    /**
+     * 更新审批记录状态
+     *
+     * @param updateParams    更新参数
+     * @param breakBeforeLogs 审批记录日志
+     */
+    private void updateApprovalLogs(Map<String, Object> updateParams, List<Map<String, Object>> breakBeforeLogs, String taskId) {
+        for (Map<String, Object> breakBefore : breakBeforeLogs) {
+            if("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))){
+                updateParams.put("logId", String.valueOf(breakBefore.get("ID")));
+                updateParams.put("taskId", String.valueOf(breakBefore.get("TASKID")));
+                updateParams.put("auditTime", DateUtil.getCurrentDate());
+                if(!taskId.equals(String.valueOf(breakBefore.get("TASKID")))){
+                    updateParams.put("comments", "系统驳回");
+                }
+                signMapper.updateLogsStatus(updateParams);
+            }
+        }
+    }
+
+    /**
+     * 代办转已办
+     * @param processKey 流程Key
+     * @param businessKey 业务Key
+     * @param owners 目标处理人
+     */
+    private void todoTurnDone(String processKey, String businessKey, List<String> owners) {
+        TodoClient todoClient = TodoClient.getInstance();
+        List<HashMap<String, Object>> projects = messageMapper.selectProjectByTypeAndId(processKey, businessKey);
+        String title = "";
+        String sender = "";
+        if (CollectionUtils.isNotEmpty(projects)) {
+            Map<String, Object> project = projects.get(0);
+            title = String.valueOf(project.get("title"));
+            sender = String.valueOf(project.get("sender"));
+        }
+        String createdTime = DateUtil.getDateToString(DateUtil.getCurrentDate(), DateUtil.DATEFORMAT_YYYY_MM_DD_HH_MM_SS);
+        String prefix = prop.get("agency.wsdl.prefix.url." + processKey);
+        String suffix = JaXmlBeanUtil.encodeScriptUrl(prop.get("agency.wsdl.suffix.url"));
+        String url = prefix + businessKey + "/" + suffix;
+        for (String owner : owners) {
+            TodoInfo todoInfo = new TodoInfo(businessKey, title, createdTime, url, owner, sender);
+            todoClient.sendTodo_ToDo2Done(todoInfo);
+        }
+    }
+
+    /**
+     * 获取未驳回前的审批日志处理人
+     * @param breakBeforeLogs 未驳回前的审批日志列表
+     * @return 处理人列表
+     */
+    private List<String> getApprovalLogAuditUsers(List<Map<String, Object>> breakBeforeLogs){
+        List<String> list = new ArrayList<String>();
+        for (Map<String, Object> breakBefore : breakBeforeLogs) {
+            if("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))){
+                String user = String.valueOf(breakBefore.get("AUDITUSERID"));
+                if(!list.contains(user)){
+                    list.add(user);
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 更新审批日志序列号
+     * @param processKey 流程Key
+     * @param businessKey 业务Key
+     * @param tasks 任务实例Id
+     * @param taskId 当前任务Id
+     */
+    private void updateApprovalLogsOrderBy(String processKey, String businessKey, List<String> tasks, String taskId){
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("processKey", processKey);
+        params.put("businessKey", businessKey);
+        for(String task : tasks){
+            if(!taskId.equals(task)){
+                params.put("taskId", task);
+                signMapper.updateLogsOrder(params);
+            }
+        }
+    }
+
+    /**
+     * 结束并行任务中的其它任务
+     * @param hisTasks 并行任务为跳转之前的任务Id列表
+     * @param task 当前任务
+     */
+    private void completedOtherTask(List<String> hisTasks, String task){
+        for(String his : hisTasks){
+            if(!his.equals(task)){
+                taskService.complete(his);
+            }
+        }
+    }
+
+    /**
+     * 获取未跳转之前的并行任务列表
+     * @param breakBeforeLogs 审批记录
+     * @return List<String>
+     */
+    private List<String> getHisTasks(List<Map<String, Object>> breakBeforeLogs){
+        List<String> hisTasks = new ArrayList<String>();
+        for (Map<String, Object> breakBefore : breakBeforeLogs) {
+            if("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))){
+                String task = String.valueOf(breakBefore.get("TASKID"));
+                hisTasks.add(task);
+            }
+        }
+        return hisTasks;
+    }
+
+    /**
+     * 删除不在运行中任务的审批记录
+     * @param processKey 流程Key
+     * @param businessKey 业务Key
+     */
+    private void deleteLogsNotInRunTask(String processKey, String businessKey, List<Map<String, Object>> logs){
+        Map<String, Object> deleteParams = new HashMap<String, Object>();
+        deleteParams.put("processKey", processKey);
+        deleteParams.put("businessKey", businessKey);
+        for(Map<String, Object> log : logs){
+            if("1".equalsIgnoreCase(String.valueOf(log.get("ISWAITING")))){
+                String taskId = String.valueOf(log.get("TASKID"));
+                List<Task> tasks = taskService.createTaskQuery().taskId(taskId).list();
+                if(CollectionUtils.isEmpty(tasks)){
+                    deleteParams.put("taskId", taskId);
+                    signMapper.deleteLogsNotInRunTask(deleteParams);
+                }
+            }
+        }
+    }
+
+    /**
+     * 处理流程任务节点的中动态处理人情况
+     * @param logs
+     */
+    private void dealRunTaskAssignee(List<Map<String, Object>> logs){
+        for(Map<String, Object> log : logs){
+            if("1".equalsIgnoreCase(String.valueOf(log.get("ISWAITING")))){
+                String taskId = String.valueOf(log.get("TASKID"));
+                Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+                if(task != null){
+                    if(StringUtils.isBlank(task.getAssignee())){
+                        taskService.setAssignee(taskId, String.valueOf(log.get("AUDITUSERID")));
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void deleteLogsNotInRunTask(String processKey, String businessKey) {
+        List<Map<String, Object>> logs = this.listLogs(processKey, businessKey);
+        this.deleteLogsNotInRunTask(processKey, businessKey, logs);
+        this.dealRunTaskAssignee(logs);
     }
 }

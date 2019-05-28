@@ -367,10 +367,10 @@ public class ProjectWaitListener implements TaskListener {
 		model.setStatus("1");
 		String senderId = ThreadLocalUtil.getUserId();
 		Map<String, Object> sender = this.userService.queryById(senderId);
-		model.setSender((String)sender.get("NAME"));
-		
-		model.setDepart((String)sender.get("ORGNAME"));
-		
+		if(sender != null){
+			model.setSender((String)sender.get("NAME"));
+			model.setDepart((String)sender.get("ORGNAME"));
+		}
 		Portal2Client ptClientProxy = (Portal2Client) SpringUtil.getBean("ptClient");
 		ptClientProxy.setModel(model);
 		Thread t = new Thread(ptClientProxy);

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSON;
 import com.yk.rcm.pre.dao.IPreAuditLogMapper;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -122,7 +123,7 @@ public class PreAuditService implements IPreAuditService{
 		ProcessResult<List<SingleProcessOption>> pr = this.bpmnAuditService.querySingleSequenceFlow(Constants.PROCESS_KEY_PREREVIEW, businessId, userId);
 		String flowId = "flow18";
 		List<SingleProcessOption> data = pr.getData();
-		
+		System.out.println(JSON.toJSONString(data));
 		for(int i = 0 ;i<data.size();i++){
 			if(data.get(i).getFlowId().equals(flowId)){
 				//查询固定小组成员

@@ -1,5 +1,5 @@
 'use strict';
-var ctmApp = angular.module('ctmApp', ['ngRoute', 'ngCookies', 'treeGrid', 'pagination', 'paginationes', 'paginationhome', 'ngFileUpload','wui.date']);
+var ctmApp = angular.module('ctmApp', ['ngRoute', 'ngCookies', 'treeGrid', 'pagination', 'paginationes', 'paginationhome', 'ngFileUpload', 'wui.date']);
 ctmApp.config(function ($httpProvider) {
     var user = $.parseJSON($.cookie('credentials'));
     if (user != null && user.UUID != null) {
@@ -15,7 +15,7 @@ var srvUrl = "/rcm-rest";
 var meetDeciInteTime = 2500;
 //决策定时器 变量
 var meetDeciInte = null;
-ctmApp.controller('SysControl', ['$scope', '$cookies', '$http', '$location', '$interval', '$rootScope', '$filter','DirPipeSrv', function ($scope, $cookies, $http, $location, $interval, $rootScope, $filter, DirPipeSrv) {
+ctmApp.controller('SysControl', ['$scope', '$cookies', '$http', '$location', '$interval', '$rootScope', '$filter', 'DirPipeSrv', function ($scope, $cookies, $http, $location, $interval, $rootScope, $filter, DirPipeSrv) {
     ////到cookie中读取用户名及密码
     //服务端地址信息
     $scope.srvInfo = {
@@ -553,17 +553,17 @@ ctmApp.filter('textToHtml', function ($sce) {
 ctmApp.filter('contentEllipsisFilter', function () {
     return function (_content) {
         var _newContent = '';
-        if(!isEmpty(_content)){
-            if(_content.length >= 10){
+        if (!isEmpty(_content)) {
+            if (_content.length >= 10) {
                 _newContent += _content.substr(0, 11) + '......';
-            }else{
+            } else {
                 _newContent += _content;
             }
         }
         return _newContent;
     };
 });
-ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
+ctmApp.service('DirPipeSrv', ['$rootScope', function ($rootScope) {
     var service = {
         /*设置相关信息，留言指令调用*/
         _setCallInfo: function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, _scope) {
@@ -617,11 +617,11 @@ ctmApp.service('DirPipeSrv', ['$rootScope',function($rootScope) {
             return ret;
         },
         /*设置知会信息，待阅已阅调用*/
-        _setNotifyInfo : function(_notifyInfo){
+        _setNotifyInfo: function (_notifyInfo) {
             $rootScope._notifyInfo = _notifyInfo;
         },
         /*获取知会信息，需要的业务模块调用*/
-        _getNotifyIno:function(){
+        _getNotifyIno: function () {
             return $rootScope._notifyInfo;
         }
     };
@@ -1070,7 +1070,7 @@ function wf_validateSign(business_module, business_id) {
  * @param businessKey
  * @param taskKey
  */
-function wf_getCurrentTask(processKey, businessKey){
+function wf_getCurrentTask(processKey, businessKey) {
     var url = srvUrl + "sign/getCurrentTask.do";
     var task = null;
     $.ajax({
@@ -1083,9 +1083,10 @@ function wf_getCurrentTask(processKey, businessKey){
             task = data;
         }
     });
+    console.log(task);
     return task;
 }
-function wf_getCurrentProject(processKey, businessKey){
+function wf_getCurrentProject(processKey, businessKey) {
     var url = srvUrl + "message/getProject.do";
     var task = null;
     $.ajax({
@@ -1222,13 +1223,17 @@ function notify_notifiesTranslate(notifies) {
  * @param _tempDisabled
  * @returns {*}
  */
-function _notifyUsersDelete(business_module, business_id, notify_user){
+function _notifyUsersDelete(business_module, business_id, notify_user) {
     var url = srvUrl + 'notify/delete.do';
     $.ajax({
         url: url,
         type: "POST",
         dataType: "json",
-        data: {"business_module":business_module, "business_id":business_id,"notify_user": JSON.stringify(notify_user)},
+        data: {
+            "business_module": business_module,
+            "business_id": business_id,
+            "notify_user": JSON.stringify(notify_user)
+        },
         async: true,
         success: function (data) {
         }
@@ -1267,7 +1272,7 @@ function notify_mergeTempCheckedUsers(tempCheckedUsers) {
  * @param notify_id
  * @param notify_status
  */
-function notify_UpdateStatus(notify_id, notify_status){
+function notify_UpdateStatus(notify_id, notify_status) {
     var url = srvUrl + 'notify/updateStatus.do';
     $.ajax({
         url: url,
@@ -1315,7 +1320,7 @@ function _common_get_string_byte_length(str) {
  * @param ttl 生存时间（分钟）
  * @returns 当前日期与初始日期相差秒数
  */
-function _common_get_ttl(_initDate, _ttl){
+function _common_get_ttl(_initDate, _ttl) {
     var _times = new Date().getTime() - _initDate.getTime();
     var _seconds = parseInt(_times / (1000));
     return _ttl * 60 - _seconds;
@@ -1330,7 +1335,8 @@ function _generateUUID() {
         d += performance.now();
     }
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0; d = Math.floor(d / 16);
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
@@ -1366,40 +1372,40 @@ function get_pageLocation_sequence_number(docType, docCode, pageLocation) {
 function isEmptyJson(_json) {
     if (typeof _json == "object") {
         var _i = 0;
-        for(var _attr in _json){
+        for (var _attr in _json) {
             console.log(_attr);
-            _i ++;
+            _i++;
         }
         return _i == 0;
     }
     return true;
 }
 
-function _crateLoadingHtml(_loadingMsg){
+function _crateLoadingHtml(_loadingMsg) {
     var _body = $('body');
     var _div = $('#_loadingHtml');
     var _html = '';
-    if(!_div){
+    if (!_div) {
         $('#_loadingHtml').empty();
-    }else{
+    } else {
         _html += '<div style="position:relative; border:0px solid #ccc; text-align:center;" id="_loadingHtml">';
     }
     _html += '<img src="page/sys/common/img/loading.gif" alt="LOADING"/>';
     _html += '<span style="position:absolute; top:50%; left:50%; margin-left:-24px; margin-top:20px;">';
     _html += _loadingMsg;
     _html += '</span>';
-    if($('#_loadingHtml')){
+    if ($('#_loadingHtml')) {
         _html += '</div>';
     }
     _body.append(_html);
 }
 
-function _showLoading(_loadingMsg){
+function _showLoading(_loadingMsg) {
     $("#mask_").html(_loadingMsg);
     show_Mask();
 }
 
-function _hideLoading(){
+function _hideLoading() {
     $('#mask_').hide();
     $("#mask_").html('处理中，请稍后......');
 }
@@ -1407,13 +1413,13 @@ function _hideLoading(){
  * 初始化页面锚点信息
  * @public
  */
-function _initAnchorPoint(_notifyInfo){
-    if(!isEmpty(_notifyInfo) && !isEmptyJson(_notifyInfo)){
+function _initAnchorPoint(_notifyInfo) {
+    if (!isEmpty(_notifyInfo) && !isEmptyJson(_notifyInfo)) {
         _activeTab('_myTopTab', 2);
         var _anchorPointMessageTab = _notifyInfo['AnchorPointMessageTab'];
         var _idx = -1;
-        if(!isEmpty(_anchorPointMessageTab)){
-            var _idx = _anchorPointMessageTab == 'legal'? 1 : 0;
+        if (!isEmpty(_anchorPointMessageTab)) {
+            var _idx = _anchorPointMessageTab == 'legal' ? 1 : 0;
             // 指定子tab
             _activeTab('_myMsgTab', _idx);
         }
@@ -1426,18 +1432,18 @@ function _initAnchorPoint(_notifyInfo){
  * @param _idx
  * @private
  */
-function _activeTab(_eleId, _idx){
-    if(_idx != -1){
+function _activeTab(_eleId, _idx) {
+    if (_idx != -1) {
         var _tabPanel = '';
-        $('#' + _eleId + ' a').each(function(i, e){
+        $('#' + _eleId + ' a').each(function (i, e) {
             var _id = $(this).attr('href').split("#")[1]
             if (i == _idx) {
-                $('#'+ _id).addClass('active');
-            }else{
-                $('#'+ _id).removeClass('active');
+                $('#' + _id).addClass('active');
+            } else {
+                $('#' + _id).removeClass('active');
             }
         });
-        $('#' + _eleId + ' li').each(function(i, e){
+        $('#' + _eleId + ' li').each(function (i, e) {
             $(this).removeClass('active');
             if (i == _idx) {
                 $(this).addClass('active');
@@ -1451,13 +1457,151 @@ function _activeTab(_eleId, _idx){
  * @param _target_ele_id_
  * @returns {boolean}
  */
-function _executeAnchorPoint(_target_ele_id_){
-    try{
+function _executeAnchorPoint(_target_ele_id_) {
+    try {
         $("html, body").animate({
-            scrollTop: $("#" + _target_ele_id_).offset().top }, {duration: 500,easing: "swing"});
+            scrollTop: $("#" + _target_ele_id_).offset().top
+        }, {duration: 500, easing: "swing"});
         return false;
-    }catch(e){
+    } catch (e) {
         console.log(e);
         return false;
     }
+}
+
+/**
+ * 获取流程配置
+ * @param processKey
+ * @param businessKey
+ * @returns {*}
+ */
+function _getProcessConfig(processKey, businessKey) {
+    var conf = null;
+    $.ajax({
+        url: srvUrl + 'process/allConfig.do',
+        timeout: 5000,
+        type: 'post',
+        data: {
+            'processKey': processKey,
+            'businessKey': businessKey
+        },
+        success: function (data) {
+            conf = data;
+        },
+        error: function () {
+            alert("超时或服务器其他错误");
+        },
+        async: false
+    });
+    return conf;
+}
+
+/**
+ * 获取流程节点
+ * @param processKey 流程Key
+ * @param businessKey 业务Key
+ * @returns {Array|*|nodes|selection_nodes|at.nodes|Array.<module:echarts/data/Graph.Node>}
+ */
+function _getProcessStates(processKey, businessKey) {
+    var conf = _getProcessConfig(processKey, businessKey);
+    if (!isEmpty(conf)) {
+        return conf['states'];
+    }
+    return null;
+}
+
+/**
+ * 获取流程用户任务节点
+ * @param processKey 流程Key
+ * @param businessKey 业务Key
+ * @param userTask 当前任务Key
+ * @returns {*}
+ */
+function _getProcessUserTaskStates(processKey, businessKey, userTask) {
+    var task = wf_getCurrentTask(processKey, businessKey);
+    var states = _getProcessStates(processKey, businessKey);
+    var userTasks = [];
+    if (!isEmpty(states)) {
+        for (var i = 0; i < states.length; i++) {
+            if (states[i].type == 'UserTask' && states[i].type != userTask) {
+                states[i].taskId = task['TASKID'];
+                userTasks.push(states[i]);
+            }
+        }
+        return userTasks;
+    }
+    return null;
+}
+
+/**
+ * 流程节点驳回
+ * @param processKey 流程Key
+ * @param businessKey 业务Key
+ * @param taskId 当前任务id
+ * @param activityId 要驳回的节点
+ * @param comments 审批意见
+ * @param callback 回调函数
+ */
+function _executeBreak(processKey, businessKey, taskId, activityId, comments, callback) {
+    _showLoading("流程提交中，请稍等...")
+    $.ajax({
+        url: srvUrl + 'sign/executeBreak.do',
+        timeout: 5000,
+        type: 'post',
+        data: {
+            'processKey': processKey,
+            'businessKey': businessKey,
+            'taskId': taskId,
+            'activityId': activityId,
+            'comments':comments
+        },
+        success: function (_js) {
+            if(!isEmpty(callback)){
+                if(typeof callback === 'function'){
+                    callback(_js);
+                }
+                if(!isEmpty(_js)){
+                   if(_js.success){
+                       _checkDeleteNotInRunTask(processKey, businessKey);
+                   }
+                }
+            }else{
+                if(isEmpty(_js)){
+                    $.alert('服务器错误，请稍后再试！');
+                    _hideLoading();
+                }else{
+                    $.alert(_js.message);
+                    _hideLoading();
+                }
+            }
+        },
+        error: function () {
+            $.alert("超时或服务器其他错误，请稍后再试！");
+            _hideLoading();
+        },
+        async: false
+    });
+}
+
+/**
+ * 检测并删除不在运行中任务中的审批代办
+ * @param processKey
+ * @param businessKey
+ * @private
+ */
+function _checkDeleteNotInRunTask(processKey, businessKey){
+    $.ajax({
+        url: srvUrl + 'sign/checkDeleteNotInRunTask.do',
+        timeout: 5000,
+        type: 'post',
+        data: {
+            'processKey': processKey,
+            'businessKey': businessKey
+        },
+        success: function (_js) {
+        },
+        error: function () {
+        },
+        async: false
+    });
 }

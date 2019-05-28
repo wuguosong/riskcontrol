@@ -1,6 +1,7 @@
 package com.yk.sign.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yk.sign.entity._ApprovalNode;
 import com.yk.sign.service.ISignService;
 import common.Constants;
@@ -182,5 +183,53 @@ public class SignController {
         _ApprovalNode _approvalNode = signService.getNewProcessImageStep(processKey, processId);
         System.out.println(JSON.toJSONString(_approvalNode));
         return _approvalNode;
+    }
+
+    /**
+     * 执行驳回操作
+     * @param processKey 流程Key
+     * @param businessKey 业务Key
+     * @param taskId 当前任务Id
+     * @param activityId 驳回的节点Key
+     * @return JSONObject
+     */
+    @RequestMapping(value = "executeBreak", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject executeBreak(String processKey, String businessKey, String taskId, String activityId, String comments){
+        JSONObject jsonObject = new JSONObject();
+        try{
+            signService.executeBreak(processKey, businessKey, taskId, activityId, comments);
+            jsonObject.put("success", true);
+            jsonObject.put("message", "流程驳回操作成功!");
+            logger.info("流程驳回操作成功！");
+        }catch(Exception e){
+            jsonObject.put("message", e.getMessage());
+            jsonObject.put("success", false);
+            logger.error("流程驳回操作失败！" + e.getMessage());
+        }
+        return jsonObject;
+    }
+
+    /**
+     * 检测并且删除不再运行时的审批任务记录
+     * @param processKey
+     * @param businessKey
+     * @return
+     */
+    @RequestMapping(value = "checkDeleteNotInRunTask", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject checkDeleteNotInRunTask(String processKey, String businessKey){
+        JSONObject jsonObject = new JSONObject();
+        try{
+            signService.deleteLogsNotInRunTask(processKey,businessKey);
+            jsonObject.put("success", true);
+            jsonObject.put("message", "检测成功!");
+            logger.info("检测成功！");
+        }catch(Exception e){
+            jsonObject.put("message", e.getMessage());
+            jsonObject.put("success", false);
+            logger.error("检测失败！" + e.getMessage());
+        }
+        return jsonObject;
     }
 }

@@ -148,4 +148,119 @@
             where tmp.idx = 1
         </if>
     </select>
+    <update id="updateLogsStatus" parameterType="map">
+        /*正式评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'formalReview'">
+            update rcm_formalassessment_log lg
+            set lg.iswaiting = '0',
+            lg.auditstatus = 'BREAK',
+            lg.taskid = null,
+            lg.opinion = #{comments},
+            lg.audittime = #{auditTime}
+            where lg.businessid = #{businessKey}
+            and lg.id = #{logId}
+            and lg.iswaiting = '1'
+            and lg.taskid = #{taskId}
+        </if>
+        /*投标评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'preReview'">
+            update rcm_pre_log lg
+            set lg.iswaiting = '0',
+            lg.auditstatus = 'BREAK',
+            lg.taskid = null,
+            lg.opinion = #{comments},
+            lg.audittime = #{auditTime}
+            where lg.businessid = #{businessKey}
+            and lg.id = #{logId}
+            and lg.iswaiting = '1'
+            and lg.taskid = #{taskId}
+        </if>
+        /*其它评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'bulletin'">
+            update
+            rcm_bulletin_log lg
+            set lg.iswaiting = '0',
+            lg.auditstatus = 'BREAK',
+            lg.taskid = null,
+            lg.opinion = #{comments},
+            lg.audittime = #{auditTime}
+            where lg.businessid = #{businessKey}
+            and lg.id = #{logId}
+            and lg.iswaiting = '1'
+            and lg.taskid = #{taskId}
+        </if>
+    </update>
+    <update id="updateLogsOrder" parameterType="map">
+        /*正式评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'formalReview'">
+            update rcm_formalassessment_log lg
+            set lg.orderby = to_number(lg.orderby) + 1
+            where lg.businessid = #{businessKey}
+            and lg.iswaiting = '1'
+            and lg.taskid = #{taskId}
+        </if>
+        /*投标评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'preReview'">
+            update rcm_pre_log lg
+            set lg.orderby = to_number(lg.orderby) + 1
+            where lg.businessid = #{businessKey}
+            and lg.iswaiting = '1'
+            and lg.taskid = #{taskId}
+        </if>
+        /*其它评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'bulletin'">
+            update rcm_bulletin_log lg
+            set lg.orderby = to_number(lg.orderby) + 1
+            where lg.businessid = #{businessKey}
+            and lg.iswaiting = '1'
+            and lg.taskid = #{taskId}
+        </if>
+    </update>
+    <select id="listLogs" parameterType="string" resultType="map">
+        /*正式评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'formalReview'">
+            select t.*,
+            (select  i.project_name from rcm_project_info i where  i.business_id=t.businessid) bulletinName,
+            (select name from sys_user where uuid=t.audituserid) auditUserName
+            from rcm_formalassessment_log t where t.businessid=#{businessId} order by iswaiting asc,orderby asc,audittime
+        </if>
+        /*投标评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'preReview'">
+            select t.*,(select name from sys_user where uuid=t.audituserid) auditUserName
+            from rcm_pre_log t where t.businessid=#{businessId} order by iswaiting asc,orderby asc,audittime
+        </if>
+        /*其它评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'bulletin'">
+            select t.*,
+            (select bulletinname from rcm_bulletin_info where businessid=t.businessid) bulletinName,
+            (select name from sys_user where uuid=t.audituserid) auditUserName
+            from rcm_bulletin_log t where businessid=#{businessId} order by iswaiting,orderby,audittime
+        </if>
+    </select>
+    <delete id="deleteLogsNotInRunTask" parameterType="map">
+        /*正式评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'formalReview'">
+            delete from
+            rcm_formalassessment_log lg
+            where lg.iswaiting = '1'
+            and lg.businessid = #{businessKey}
+            and lg.taskid = #{taskId}
+        </if>
+        /*投标评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'preReview'">
+            delete from
+            rcm_pre_log lg
+            where lg.iswaiting = '1'
+            and lg.businessid = #{businessKey}
+            and lg.taskid = #{taskId}
+        </if>
+        /*其它评审审批*/
+        <if test="processKey != null and processKey != '' and processKey == 'bulletin'">
+            delete from
+            rcm_bulletin_log lg
+            where lg.iswaiting = '1'
+            and lg.businessid = #{businessKey}
+            and lg.taskid = #{taskId}
+        </if>
+    </delete>
 </mapper>

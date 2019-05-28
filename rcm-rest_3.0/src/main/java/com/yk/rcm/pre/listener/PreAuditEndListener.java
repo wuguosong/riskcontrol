@@ -3,27 +3,23 @@
  */
 package com.yk.rcm.pre.listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.daxt.service.IDaxtService;
+import com.yk.exception.BusinessException;
+import com.yk.rcm.pre.service.IPreAuditLogService;
+import com.yk.rcm.pre.service.IPreAuditService;
+import com.yk.rcm.pre.service.IPreInfoService;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.ExecutionListener;
 import org.springframework.stereotype.Component;
-
 import util.PropertiesUtil;
 import util.ThreadLocalUtil;
 import util.Util;
 import ws.client.TzAfterPreReviewClient;
 import ws.client.TzClient;
 
-import com.daxt.service.IDaxtService;
-import com.yk.exception.BusinessException;
-import com.yk.rcm.pre.service.IPreAuditLogService;
-import com.yk.rcm.pre.service.IPreAuditService;
-import com.yk.rcm.pre.service.IPreInfoService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 流程结束监听

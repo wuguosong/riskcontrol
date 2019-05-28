@@ -1,23 +1,19 @@
 package com.yk.rcm.pre.listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.yk.exception.BusinessException;
+import com.yk.rcm.pre.service.IPreAuditLogService;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.TaskListener;
 import org.springframework.stereotype.Component;
-
 import util.ThreadLocalUtil;
 import util.Util;
 
-import com.yk.exception.BusinessException;
-import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
-import com.yk.rcm.pre.service.IPreAuditLogService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * 
  * @author yaphet

@@ -5,9 +5,28 @@
     <title>InitFile</title>
 </head>
 <body>
-<div   height="100%">
-    <iframe style="width: 100%;height: 850px" src="http://114.116.71.153:8081/FineBI/decision/login/cross/domain?fine_username=admin&fine_password=admin&validity=-1&callback=callback">
-    </iframe>
+<button class="btn btn-primary btn-confirm" ng-click="userTasks()">流程节点获取</button>
+<div ng-repeat="task in processOptions">
+    <label class="radio radio-inline">
+        <input class="px" type="radio"
+               name="break" ng-checked="$index==0"
+               value="{{task.id}}"/>
+        <span class="lbl">
+            <div class="text">{{task.name}}</div>
+        </span>
+    </label>
+</div>
+<div>
+    <label class="radio radio-inline">
+        <input class="px" type="radio" name="bpmnProcessOption" id="break"  value="BREAK" ng-click="selectBreaks()"/>
+        <span class="lbl">
+            <div class="text">驳回
+                <select ng-model="_break">
+                    <option ng-repeat="_break in _breaks" value="{{_break.id}}" ng-selected="$index == 0">{{_break.name}}</option>
+                </select>
+            </div>
+        </span>
+    </label>
 </div>
 </body>
 </html>

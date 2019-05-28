@@ -1,5 +1,6 @@
 package com.yk.rcm.pre.listener;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -40,7 +41,25 @@ public class PreDeleteWaitingLogListener implements TaskListener{
 		//获取当前人id
 		String userId = ThreadLocalUtil.getUserId();
 		preAuditLogService.deleteWaitlog(businessId,userId,executionId);
-		
+		/*=====法律负责人审批完成后，代办没有转为已办，而是直接删除了代办，造成了审批记录中缺少了一个节点====*/
+		String taskDefKey = delegateTask.getTaskDefinitionKey();
+		if("usertask10".equals(taskDefKey)){
+			Map<String, Object> log = new HashMap<String, Object>();
+			String opinion = (String) execution.getVariable("opinion");
+			log.put("currentUserId", userId);
+			log.put("businessId", businessId);
+			log.put("auditUserId", userId);
+			log.put("auditTime", Util.now());
+			log.put("opinion", opinion);
+			int orderBy = this.preAuditLogService.queryMaxOrderNum(businessId);
+			log.put("orderBy", orderBy+1);
+			log.put("isWaiting", "0");
+			log.put("taskdesc", delegateTask.getName());
+			log.put("auditStatus", "B");
+			log.put("executionId", execution.getId());
+			this.preAuditLogService.save(log);
+		}
+		/*=====法律负责人审批完成后，代办没有转为已办，而是直接删除了代办，造成了审批记录中缺少了一个节点====*/
 		String description = delegateTask.getDescription();
 		if(Util.isNotEmpty(description)){
 			Map<String, Object> fromJson = JsonUtil.fromJson(description, Map.class);
