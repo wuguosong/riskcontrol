@@ -170,10 +170,29 @@
                 <div class="row">
                     <label class="col-sm-2 control-label">评审报告</label>
                     <div class="col-sm-10">
-                        <div class="col-sm-10">
+                        <cloud-file
+                                file-id="preReport"
+                                file-type="preReportInfo"
+                                file-code="{{businessId}}"
+                                file-location="preReport"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="false"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                                text-before="true"
+                                text-class="col-md-9"
+                                text-style="padding-left: 0"
+                                btn-area-class="col-md-3"
+                                btn-class="btn-replace-out"
+                                btn-style="float: right; top: 3px"
+                        >
+                        </cloud-file>
+                        <!--<div class="col-sm-10">
                             <span ng-bind="progress$index"></span>
                             <a href="javascript:void(0);" ng-click="downLoadFileReport(report.filePath,pre.apply.projectName+'评审报告')" style="line-height: 27px;">{{pre.apply.projectName+'评审报告'}}</a>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>

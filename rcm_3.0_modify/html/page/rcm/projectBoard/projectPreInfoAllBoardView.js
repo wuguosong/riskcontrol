@@ -310,7 +310,12 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                             $scope.fileName.push(arr);
                         }*/
                         //4、投资评审报告
-                        $scope.report = data.result_data.report;
+                        var file = attach_list('preReportInfo', $scope.businessId, 'preReport');
+                        if (!isEmpty(file) && !isEmpty(data.result_data.report)){
+                            $scope.report = data.result_data.report;
+                        } else {
+                            $scope.report = null;
+                        }
                         //5、投资决策通知书
                         $scope.nod = data.result_data.noticeOfDecisionInfo;
                         //7、项目经验总结

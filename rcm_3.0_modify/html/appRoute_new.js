@@ -3300,6 +3300,41 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+
+            // 正式评审流程打回基础法务编辑页面
+            .when('/FormalAssessmentAuditDetailLegalView/:id/:url',{
+                controller:'FormalAssessmentAuditDetailLegalView',
+                templateUrl:'page/rcm/newFormalAssessment/formalAssessmentAuditDetailView_legal.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/newFormalAssessment/formalAssessmentAuditDetailView_legal.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 投标评审流程打回基础法务编辑页面
+            .when('/PreAuditDetailLegalView/:id/:url',{
+                controller:'PreAuditDetailLegalView',
+                templateUrl:'page/rcm/pre/PreAuditDetailView_legal.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/pre/PreAuditDetailView_legal.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }
 ]);
 

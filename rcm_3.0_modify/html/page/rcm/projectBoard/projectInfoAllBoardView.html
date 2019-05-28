@@ -412,10 +412,29 @@
                 <div class="row">
                     <label class="col-sm-2 control-label">评审报告</label>
                     <div class="col-sm-10">
-                        <div class="col-sm-10">
-                            <span ng-bind="progress$index"></span>
-                            <a href="javascript:void(0);" ng-click="downLoadFileReport(report.filePath,report.projectName+'评审报告')" style="line-height: 27px;">{{report.projectName+'评审报告'}}</a>
-                        </div>
+                        <cloud-file
+                                file-id="pfrReport"
+                                file-type="FormalReportInfo"
+                                file-code="{{businessId}}"
+                                file-location="pfrReport"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="false"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                                text-before="true"
+                                text-class="col-md-10"
+                                text-style="padding-left: 0"
+                                btn-area-class="col-md-3"
+                                btn-class="btn-replace-out"
+                                btn-style="float: right; top: 3px"
+                        >
+                        </cloud-file>
+                        <!--<div class="col-sm-10">-->
+                            <!--<span ng-bind="progress$index"></span>-->
+                            <!--<a href="javascript:void(0);" ng-click="downLoadFileReport(report.filePath,report.projectName+'评审报告')" style="line-height: 27px;">{{report.projectName+'评审报告'}}</a>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>

@@ -97,7 +97,9 @@ public class DeptworkService implements IDeptworkService {
 		}
 		//4、投资评审报告
 		Map<String, Object> report = this.formalAssesmentService.queryReportById(businessId);
-		if(report!=null && !"".equals(report)){
+		// 修改报告判断
+		map.put("report", report);
+		/*if(report!=null && !"".equals(report)){
 			if(report.get("filePath")!=null && !"".equals(report.get("filePath"))){
 				map.put("report", report);
 			}else{
@@ -105,7 +107,7 @@ public class DeptworkService implements IDeptworkService {
 			}
 		}else{
 			map.put("report", null);
-		}
+		}*/
 		//5、投资决策通知书
 		Map<String, Object> noticeMongoData = this.noticeOfDecisionService.queryMongoByFormalId(businessId);
 		map.put("noticeOfDecisionInfo", noticeMongoData);
@@ -156,6 +158,12 @@ public class DeptworkService implements IDeptworkService {
 		//4、投资评审报告
 		Map<String, Object> report = this.preAuditReportService.getById(businessId);
 		if(Util.isNotEmpty(report.get("reviewReport"))){
+		    Map<String, Object> reviewReport = (Map<String, Object>) report.get("reviewReport");
+		    map.put("report", reviewReport);
+		} else {
+			map.put("report", null);
+		}
+		/*if(Util.isNotEmpty(report.get("reviewReport"))){
 			Map<String, Object> reviewReport = (Map<String, Object>) report.get("reviewReport");
 			if(reviewReport!=null && !"".equals(reviewReport)){
 				if(reviewReport.get("filePath")!=null && !"".equals(reviewReport.get("filePath"))){
@@ -168,7 +176,7 @@ public class DeptworkService implements IDeptworkService {
 			}
 		}else{
 			map.put("report", null);
-		}
+		}*/
 		return map;
 	}
 	

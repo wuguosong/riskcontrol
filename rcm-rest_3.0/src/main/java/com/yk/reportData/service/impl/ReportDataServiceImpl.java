@@ -130,12 +130,16 @@ public class ReportDataServiceImpl implements IReportDataService {
 				String votingResults = "";
 				for (int i = 0; i < decisionOpinionList.size(); i++) {
 					Document decisionOption = decisionOpinionList.get(i);
+					Object result = decisionOption.get("aagreeOrDisagree");
+					if (Util.isEmpty(result)){
+						result = "0";
+					}
 					if (i < decisionOpinionList.size()-1){
 						meetingLeaders = meetingLeaders + decisionOption.get("userId") + ",";
-						votingResults = votingResults + decisionOption.get("aagreeOrDisagree") + ",";
+						votingResults = votingResults + result + ",";
 					} else {
 						meetingLeaders = meetingLeaders + decisionOption.get("userId");
-						votingResults = votingResults + decisionOption.get("aagreeOrDisagree");
+						votingResults = votingResults + result;
 					}
 				}
 				data.put("MEETING_LEADERS", meetingLeaders);
@@ -230,12 +234,16 @@ public class ReportDataServiceImpl implements IReportDataService {
 				String votingResults = "";
 				for (int i = 0; i < decisionOpinionList.size(); i++) {
 					Document decisionOption = decisionOpinionList.get(i);
+					Object result = decisionOption.get("aagreeOrDisagree");
+					if (Util.isEmpty(result)){
+						result = "0";
+					}
 					if (i < decisionOpinionList.size()-1){
 						meetingLeaders = meetingLeaders + decisionOption.get("userId") + ",";
-						votingResults = votingResults + decisionOption.get("aagreeOrDisagree") + ",";
+						votingResults = votingResults + result + ",";
 					} else {
 						meetingLeaders = meetingLeaders + decisionOption.get("userId");
-						votingResults = votingResults + decisionOption.get("aagreeOrDisagree");
+						votingResults = votingResults + result;
 					}
 				}
 				data.put("MEETING_LEADERS", meetingLeaders);
@@ -311,12 +319,16 @@ public class ReportDataServiceImpl implements IReportDataService {
 					String votingResults = "";
 					for (int i = 0; i < decisionOpinionList.size(); i++) {
 						Document decisionOption = decisionOpinionList.get(i);
+						Object result = decisionOption.get("aagreeOrDisagree");
+						if (Util.isEmpty(result)){
+							result = "0";
+						}
 						if (i < decisionOpinionList.size()-1){
 							meetingLeaders = meetingLeaders + decisionOption.get("userId") + ",";
-							votingResults = votingResults + decisionOption.get("aagreeOrDisagree") + ",";
+							votingResults = votingResults + result + ",";
 						} else {
 							meetingLeaders = meetingLeaders + decisionOption.get("userId");
-							votingResults = votingResults + decisionOption.get("aagreeOrDisagree");
+							votingResults = votingResults + result;
 						}
 					}
 					data.put("MEETING_LEADERS", meetingLeaders);

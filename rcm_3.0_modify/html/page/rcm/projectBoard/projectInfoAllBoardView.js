@@ -299,6 +299,11 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                         $scope.pfr.apply.projectType = $filter("keyValueNames")($scope.pfr.apply.projectType, "VALUE");
                         $scope.pfr.apply.projectModel = $filter("keyValueNames")($scope.pfr.apply.projectModel, "VALUE");
 
+                        // 回显数据-补充评审相关
+                        if($scope.pfr.is_supplement_review == 1){
+                            $scope.getNoticeOfDecstionByProjectFormalID($scope.pfr.apply.projectNo);
+                        };
+
                         //处理附件
                         $scope.reduceAttachment(data.result_data.projectInfo.attachmentList, objId);
 
@@ -313,7 +318,13 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                             $scope.fileName.push(arr);
                         }*/
                         //4、投资评审报告
-                        $scope.report = data.result_data.report;
+                        var file = attach_list('FormalReportInfo', $scope.businessId, 'pfrReport');
+                        if (!isEmpty(file) && !isEmpty(data.result_data.report)){
+                            $scope.report = data.result_data.report;
+                        } else {
+                            $scope.report = null;
+                        }
+
                         //5、投资决策通知书
                         $scope.nod = data.result_data.noticeOfDecisionInfo;
 
@@ -359,7 +370,7 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                         alert(data.result_name);
                     }
                 });
-            }
+            };
             $scope.getSelectTypeByCodeL=function(typeCode){
                 var  url = 'common/commonMethod/selectDataDictionByCode';
                 $scope.httpData(url,typeCode).success(function(data){
@@ -370,43 +381,43 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                         alert(data.result_name);
                     }
                 });
-            }
+            };
+
+            // 根据id查询决策通知书决策意见
+            $scope.getNoticeOfDecstionByProjectFormalID = function(pid){
+                var url="formalAssessment/NoticeOfDecision/getNoticeOfDecstionByProjectFormalID";
+                $scope.httpData(url,pid).success(function(data){
+                    if(data.result_code === 'S'){
+                        if(undefined!=data.result_data) {
+                            $scope.noticofDec=data.result_data;
+                            var c = $scope.noticofDec.consentToInvestment;
+                            if (c == "1") {
+                                $scope.consentToInvestment = "同意投资";
+                            } else if (c == "2") {
+                                $scope.consentToInvestment = "不同意投资";
+                            } else if (c == '3') {
+                                $scope.consentToInvestment = "同意有条件投资";
+                            } else {
+                                $scope.consentToInvestment = "择期决议";
+                            }
+                            $scope.executiveRequirements = $scope.noticofDec.implementationRequirements;
+                            $scope.implementationMatters = $scope.noticofDec.implementationMatters;
+                            $scope.dateOfMeeting = $scope.noticofDec.dateOfMeeting;
+                        }else{
+                            $scope.consentToInvestment = null;
+                            $scope.implementationMatters = null;
+                            $scope.executiveRequirements = null;
+                        }
+                    }else{
+                        alert(data.result_name);
+                    }
+                });
+            };
+
             angular.element(document).ready(function() {
                 $scope.getSelectTypeByCodeL("09");
                 $scope.getSelectTypeByCode("06");
             });
 
-// $scope.downLoadFile = function(filePath,filename){
-// 	var isExists = validFileExists(filePath);
-// 	if(!isExists){
-// 		$.alert("要下载的文件已经不存在了！");
-// 		return false;
-// 	}
-// 	if(filename!=null && filename.length>12){
-// 		filename = filename.substring(0, 12)+"...";
-// 	}else{
-// 		filename = filename.substring(0,filename.lastIndexOf("."));
-// 	}
-//
-//     if(undefined!=filePath && null!=filePath){
-//         var index = filePath.lastIndexOf(".");
-//         var str = filePath.substring(index + 1, filePath.length);
-//         window.location.href = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(encodeURI(filePath))+"&filenames="+encodeURI(encodeURI("正式评审-"+filename+"报告-其他模式.")) + str;
-//
-//         var a = document.createElement('a');
-// 	    a.id = 'tagOpenWin';
-// 	    a.target = '_blank';
-// 	    a.href = url;
-// 	    document.body.appendChild(a);
-//
-// 	    var e = document.createEvent('MouseEvent');
-// 	    e.initEvent('click', false, false);
-// 	    document.getElementById("tagOpenWin").dispatchEvent(e);
-// 		$(a).remove();
-//     }else{
-//         $.alert("附件未找到！");
-//         return false;
-//     }
-// }
             $scope.initUpdate(objId);
         }]);

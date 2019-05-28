@@ -183,6 +183,10 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 			if (null != $scope.pfr.apply.expectedContractDate) {
 				$scope.changDate($scope.pfr.apply.expectedContractDate);
 			}
+            // 回显数据-补充评审相关
+            if($scope.pfr.is_supplement_review == 1){
+                $scope.getNoticeOfDecstionByProjectFormalID($scope.pfr.apply.projectNo);
+            };
 			hide_Mask();
 		});
 	}
@@ -261,33 +265,7 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 		var reg = new RegExp("<br/>", "g");
 		str = str.replace(reg, "\n");
 		return str;
-	}
-	//根据id查询决策通知书决策意见
-//	$scope.getNoticeOfDecstionByProjectFormalID=function(pid){
-//		var url="formalAssessment/NoticeOfDecision/getNoticeOfDecstionByProjectFormalID";
-//		$scope.httpData(url,pid).success(function(data){
-//			if(data.result_code === 'S'){
-//				if(undefined!=data.result_data) {
-//					$scope.noticofDec=data.result_data;
-//					var c = $scope.noticofDec.consentToInvestment;
-//					if (c == "1") {
-//						$scope.consentToInvestment = "同意投资";
-//					} else if (c == "2") {
-//						$scope.consentToInvestment = "不同意投资";
-//					} else if (c == 3) {
-//						$scope.consentToInvestment = "同意有条件投资";
-//					}
-//					$scope.implementationMatters = $scope.noticofDec.implementationMatters;
-//					$scope.dateOfMeeting = $scope.noticofDec.dateOfMeeting;
-//				}else{
-//					$scope.consentToInvestment=null;
-//					$scope.implementationMatters=null;
-//				}
-//			}else{
-//				alert(data.result_name);
-//			}
-//		});
-//	}
+	};
 
      // 验证项目是否在流程或者评审中
      $scope.vaildProject = function(){
@@ -370,6 +348,37 @@ ctmApp.register.controller('FormalAssessmentDetailView',['$http','$scope','$loca
 		};
 		$('#submitModal').modal('show');
 	};
+
+     // 根据id查询决策通知书决策意见
+     $scope.getNoticeOfDecstionByProjectFormalID = function(pid){
+         var url="formalAssessment/NoticeOfDecision/getNoticeOfDecstionByProjectFormalID";
+         $scope.httpData(url,pid).success(function(data){
+             if(data.result_code === 'S'){
+                 if(undefined!=data.result_data) {
+                     $scope.noticofDec=data.result_data;
+                     var c = $scope.noticofDec.consentToInvestment;
+                     if (c == "1") {
+                         $scope.consentToInvestment = "同意投资";
+                     } else if (c == "2") {
+                         $scope.consentToInvestment = "不同意投资";
+                     } else if (c == '3') {
+                         $scope.consentToInvestment = "同意有条件投资";
+                     } else {
+                         $scope.consentToInvestment = "择期决议";
+                     }
+                     $scope.executiveRequirements = $scope.noticofDec.implementationRequirements;
+                     $scope.implementationMatters = $scope.noticofDec.implementationMatters;
+                     $scope.dateOfMeeting = $scope.noticofDec.dateOfMeeting;
+                 }else{
+                     $scope.consentToInvestment = null;
+                     $scope.implementationMatters = null;
+                     $scope.executiveRequirements = null;
+                 }
+             }else{
+                 alert(data.result_name);
+             }
+         });
+     };
 
 	$scope.initData();
 

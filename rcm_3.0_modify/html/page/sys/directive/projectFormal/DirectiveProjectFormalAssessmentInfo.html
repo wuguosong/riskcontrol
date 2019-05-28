@@ -110,36 +110,33 @@
                  <span class="lbl">是补充评审</span>
              </label>
          </div>
-         <label class="col-sm-2 control-label">原评审决策时间</label>
-         <div class="col-sm-4">
-             <input class="form-control" type="text" ng-model="pfr.apply.supplement.preDecisionDate" readonly>
+         <label class="col-sm-2 control-label" ng-if="'1'==pfr.is_supplement_review">原评审决策时间</label>
+         <div class="col-sm-4" ng-if="'1'==pfr.is_supplement_review">
+             <input class="form-control" type="text" ng-model="dateOfMeeting" readonly>
          </div>
      </div>
      <div class="row" ng-if="'1'==pfr.is_supplement_review">
          <label  class="col-sm-2 control-label">原决策结论</label>
-         <div class="col-sm-4">
-            <input ng-if="pfr.apply.supplement.preDecisionResult=='1'" class="form-control" type="text" value="'同意投资'" readonly>
-            <input ng-if="pfr.apply.supplement.preDecisionResult=='2'" class="form-control" type="text" value="'不同意投资'" readonly>
-            <input ng-if="pfr.apply.supplement.preDecisionResult=='3'" class="form-control" type="text" value="'同意有条件投资'" readonly>
-            <input ng-if="pfr.apply.supplement.preDecisionResult=='4'" class="form-control" type="text" value="'择期决议'" readonly>
+         <div class="col-sm-10">
+             <textarea class="form-control"  ng-model="consentToInvestment" readonly></textarea>
          </div>
      </div>
      <div class="row" ng-if="'1'==pfr.is_supplement_review">
-         <label  class="col-sm-2 control-label">执行要求</label>
+         <label class="col-sm-2 control-label">执行要求</label>
          <div class="col-sm-10">
-             <textarea class="form-control"  ng-model="pfr.apply.supplement.executiveRequirements" readonly></textarea>
+             <textarea class="form-control"  ng-model="executiveRequirements" readonly></textarea>
          </div>
      </div>
      <div class="row" ng-if="'1'==pfr.is_supplement_review">
-         <label  class="col-sm-2 control-label">须落实事项</label>
+         <label class="col-sm-2 control-label">须落实事项</label>
          <div class="col-sm-10">
-             <textarea class="form-control"  ng-model="pfr.apply.supplement.implementationItems" readonly></textarea>
+             <textarea class="form-control"  ng-model="implementationMatters" readonly></textarea>
          </div>
      </div>
      <div class="row" ng-if="'1'==pfr.is_supplement_review">
          <label class="col-sm-2 control-label">补充评审调整事项</label>
          <div class="col-sm-10">
-             <textarea class="form-control"  ng-model="pfr.apply.supplement.changeOption" readonly></textarea>
+             <textarea class="form-control"  ng-model="pfr.apply.supplementaryItem" readonly></textarea>
          </div>
      </div>
 </div>

@@ -60,8 +60,12 @@
                                 <tr ng-repeat="t in tasks">
                                     <td>{{$index+1}}</td>
                                     <td>
-                                        <a ng-if="t.FORM_KEY_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && t.NAME_ != '基层法务'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && t.NAME_ == '基层法务'"
+                                           ng-href="#/FormalAssessmentAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview' && t.NAME_ != '基层法务'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview' && t.NAME_ == '基层法务'"
+                                           ng-href="#/PreAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
                                         <a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'" ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2">{{t.SUBJECT}}</a>

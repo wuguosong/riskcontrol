@@ -917,12 +917,16 @@
                                 <tbody>
                                 <tr ng-repeat="t in myTaskList">
                                     <td>
-                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '')"
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '') && t.NAME_ != '基层法务'"
                                            ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''"
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''  && t.NAME_ != '基层法务'"
                                            ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ == 'preReview'"
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview' && t.NAME_ == '基层法务'"
+                                           ng-href="#/FormalAssessmentAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview' && t.NAME_ != '基层法务'"
                                            ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview' && t.NAME_ == '基层法务'"
+                                           ng-href="#/PreAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
                                            ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}">{{t.SUBJECT}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'"
