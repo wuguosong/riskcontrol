@@ -6291,10 +6291,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
         replace: 'true',
         controller: function ($scope, $location, $http) {
 
-            // $scope.paginationConf
-
-            $scope.initData = function () {
-                console.log("sssssssssss");
+            $scope.initDataFill = function () {
                 if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
                     $scope.paginationConf.queryObj = {};
                 }
@@ -6311,7 +6308,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                     $scope.noSubmitList = result.result_data.list;
                 });
             };
-            $scope.initData();
+            $scope.initDataFill();
             $scope.r={};
             //新建评审报告
             $scope.openRFIReport = function (noSubmit) {
@@ -6454,7 +6451,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                     $('#addModal3').modal('hide');
                     $.alert(result.result_name);
                     $scope.mettingSummary = "";
-                    $scope.initData();
+                    $scope.initDataFill();
                 });
             };
             $scope.cancel = function () {
