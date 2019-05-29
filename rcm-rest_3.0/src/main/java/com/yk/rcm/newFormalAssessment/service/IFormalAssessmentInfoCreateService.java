@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import common.PageAssistant;
+import common.Result;
 
 
 /**
@@ -80,4 +81,8 @@ public interface IFormalAssessmentInfoCreateService {
 	 * @param Json
 	 */
 	List<Map<String, Object>> getHistoryList(String Json) throws Exception;
+
+	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo);
+
+	public Result queryEnvirMettingSummarys(String businessId);
 }
