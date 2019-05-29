@@ -366,6 +366,7 @@
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
+        <activiti:taskListener event="complete" delegateExpression="${bulletinDeleteWaitingLogListener}"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow23" sourceRef="inclusivegateway1" targetRef="usertask8">
