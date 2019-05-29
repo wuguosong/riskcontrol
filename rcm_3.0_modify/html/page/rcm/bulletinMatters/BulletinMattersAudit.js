@@ -104,6 +104,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 	 */
 	$scope.getTaskInfoByBusinessId = function(businessId,processKey){
 		$scope.isTaskEdit = 'false';
+        $scope.isLegalEdit = 'false';
 		$scope.showController = {};
 
 		$http({
@@ -142,6 +143,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 				//法律评审负责人
 				else if (document.isLegalLeader != undefined && document.isLegalLeader!=null && document.isLegalLeader != ""){
 					$scope.showController.isLegalLeader = true;
+                    $scope.isLegalEdit = 'true';
 				}
 				//评审负责人
 				else if (document.isReviewLeader != undefined && document.isReviewLeader != null && document.isReviewLeader != ""){
@@ -297,9 +299,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			}
 		}
 	};
-	$scope.progressType = 'another';
 	$scope.initDefaultData = function(){
-		debugger;
         /*if ($scope.oldUrl == $filter('encodeURI')('#/BulletinMattersAudit/0')){
             $scope.WF_STATE = '0';
         } else {
@@ -658,6 +658,14 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
             }
             return result;
         };
+        var validCheckedFLFzr = function(){
+            var result = {success: true, result_name: ""};
+            if ($scope.myTaskallocation.legalLeader.NAME == null || $scope.myTaskallocation.legalLeader.NAME == "") {
+                result.success = false;
+                result.result_name = "请选择法律评审负责人！";
+            }
+            return result;
+        };
 
         var validCheckedRiskFzr = function () {
 
@@ -838,7 +846,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
                 if (docObj.preAction) {
                     var preActionArr = docObj.preAction;
                     for (var i in preActionArr) {
-                        if (preActionArr[i].callback == 'validCheckedFzr') {
+                        if (preActionArr[i].callback == 'validCheckedFzr' || preActionArr[i].callback == 'validCheckedFLFzr') {
                             var result = $scope.callfunction(preActionArr[i].callback);
                             if (!result.success) {
                                 $.alert(result.result_name);

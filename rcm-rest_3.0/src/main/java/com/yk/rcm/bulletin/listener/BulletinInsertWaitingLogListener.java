@@ -1,22 +1,21 @@
 package com.yk.rcm.bulletin.listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.yk.exception.BusinessException;
+import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.TaskListener;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-
 import util.ThreadLocalUtil;
 import util.Util;
 
-import com.yk.exception.BusinessException;
-import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * 
  * @author yaphet
@@ -31,8 +30,9 @@ public class BulletinInsertWaitingLogListener implements TaskListener {
 	private IBulletinAuditLogService bulletinAuditLogService;
 	public Expression assignType;
 	public Expression assignId;
-	
-	
+	@Resource
+	private TaskService taskService;
+
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		String assignTypeStr = assignType.getExpressionText();
@@ -84,5 +84,12 @@ public class BulletinInsertWaitingLogListener implements TaskListener {
 		String userId = ThreadLocalUtil.getUserId();
 		data.put("lastUserId", userId);
 		this.bulletinAuditLogService.save(data);
+		/*========解决法律分配节点获取不到操作问题========*/
+		if("usertask8".equals(delegateTask.getTaskDefinitionKey())){
+			if(StringUtils.isBlank(delegateTask.getAssignee())){
+				taskService.setAssignee(delegateTask.getId(), nextUserId);
+			}
+		}
+		/*========解决法律分配节点获取不到操作问题========*/
 	}
 }

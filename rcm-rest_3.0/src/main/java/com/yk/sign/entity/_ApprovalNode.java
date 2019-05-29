@@ -122,7 +122,7 @@ public class _ApprovalNode {
             if(_assignmentTask == null){
                 _assignmentTask = new JSONObject();
             }
-            _assignmentTask.put(_ApprovalNode._approvalKey, "分配评审任务");
+            _assignmentTask.put(_ApprovalNode._approvalKey, "分配评审任务,风控负责人分配任务");
             return _assignmentTask;
         }
 

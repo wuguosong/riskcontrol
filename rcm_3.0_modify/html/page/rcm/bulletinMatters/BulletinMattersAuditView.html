@@ -128,11 +128,11 @@
 									<div class="col-sm-4">
 										<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
 																  checked-user="myTaskallocation.legalLeader"
-																  is-editable="isTaskEdit"
+																  is-editable="isLegalEdit"
 																  url="{{'role/queryLegalUsers.do'}}"
-																  ng-if="isTaskEdit == 'true'"
+																  ng-if="isLegalEdit == 'true'"
 										></direct-fzr-single-select>
-										<input ng-if="isTaskEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.legalLeader.NAME" readonly/>
+										<input ng-if="isLegalEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.legalLeader.NAME" readonly/>
 									</div>
 								</div>
 								<div ng-show="bulletin.taskallocation.riskLeader.NAME != null || showController.isRiskTask" class="row">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/bulletin">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/bulletin">
   <process id="bulletin" name="bulletin" isExecutable="true" activiti:candidateStarterGroups="60ff0c13758949a59b1959a397ba94ad">
     <extensionElements>
       <activiti:executionListener event="start" delegateExpression="${bulletinAuditStartListener}"></activiti:executionListener>
@@ -20,7 +20,7 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${unitPerson}]]></activiti:expression>
+            <activiti:expression>${unitPerson}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
@@ -28,7 +28,7 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${unitPerson}]]></activiti:expression>
+            <activiti:expression>${unitPerson}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
@@ -43,7 +43,7 @@
             <activiti:string><![CDATA[roleId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${businessPersonRole}]]></activiti:expression>
+            <activiti:expression>${businessPersonRole}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
@@ -51,7 +51,7 @@
             <activiti:string><![CDATA[roleId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${businessPersonRole}]]></activiti:expression>
+            <activiti:expression>${businessPersonRole}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
@@ -156,7 +156,7 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${unitPerson}]]></activiti:expression>
+            <activiti:expression>${unitPerson}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
@@ -164,7 +164,7 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${unitPerson}]]></activiti:expression>
+            <activiti:expression>${unitPerson}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
@@ -229,14 +229,13 @@
       </extensionElements>
     </userTask>
     <userTask id="usertask6" name="法律负责人审批" activiti:assignee="${legalLeader}">
-      <documentation>{"isLegalLeader":"1","change":"0"}</documentation>
       <extensionElements>
         <activiti:taskListener event="create" delegateExpression="${bulletinInsertWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${legalLeader}]]></activiti:expression>
+            <activiti:expression>${legalLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
@@ -259,7 +258,7 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${reviewLeader}]]></activiti:expression>
+            <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
@@ -267,7 +266,7 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
           <activiti:field name="assignId">
-            <activiti:expression><![CDATA[${reviewLeader}]]></activiti:expression>
+            <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
@@ -288,9 +287,6 @@
         <activiti:executionListener event="take" delegateExpression="${bulletinQueryTaskPersonListener}"></activiti:executionListener>
       </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow16'}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="flow17" sourceRef="inclusivegateway1" targetRef="usertask6">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${legalLeader != null}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow18" sourceRef="inclusivegateway1" targetRef="usertask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${reviewLeader != null}]]></conditionExpression>
@@ -350,6 +346,46 @@
     </sequenceFlow>
     <inclusiveGateway id="inclusivegateway1" name="Inclusive Gateway"></inclusiveGateway>
     <inclusiveGateway id="inclusivegateway2" name="Inclusive Gateway"></inclusiveGateway>
+    <userTask id="usertask8" name="法律分配">
+      <documentation>{"isLegalLeader":"1","change":"0"}</documentation>
+      <extensionElements>
+        <activiti:taskListener event="create" delegateExpression="${bulletinInsertWaitingLogListener}">
+          <activiti:field name="assignId">
+            <activiti:string><![CDATA[5B2340FFAC0F6B1DE05327140A0AD5E9]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="assignType">
+            <activiti:string><![CDATA[roleConstant]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
+          <activiti:field name="assignId">
+            <activiti:string><![CDATA[5B2340FFAC0F6B1DE05327140A0AD5E9]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="assignType">
+            <activiti:string><![CDATA[roleConstant]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow23" sourceRef="inclusivegateway1" targetRef="usertask8">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${1==1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow24" name="法律分配" sourceRef="usertask8" targetRef="usertask6">
+      <documentation>{"preAction":[{"callback":"validCheckedFLFzr"}]}</documentation>
+      <extensionElements>
+        <activiti:executionListener event="take" delegateExpression="${bulletinAuditLogListener}">
+          <activiti:field name="status">
+            <activiti:string><![CDATA[B]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="taskdesc">
+            <activiti:string><![CDATA[法律分配]]></activiti:string>
+          </activiti:field>
+        </activiti:executionListener>
+        <activiti:executionListener event="take" delegateExpression="${bulletinQueryTaskPersonListener}"></activiti:executionListener>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow24'}]]></conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_bulletin">
     <bpmndi:BPMNPlane bpmnElement="bulletin" id="BPMNPlane_bulletin">
@@ -378,7 +414,7 @@
         <omgdc:Bounds height="55.0" width="105.0" x="410.0" y="334.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
-        <omgdc:Bounds height="55.0" width="120.0" x="639.0" y="285.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="733.0" y="234.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask7" id="BPMNShape_usertask7">
         <omgdc:Bounds height="55.0" width="125.0" x="636.0" y="381.0"></omgdc:Bounds>
@@ -389,18 +425,21 @@
       <bpmndi:BPMNShape bpmnElement="inclusivegateway2" id="BPMNShape_inclusivegateway2">
         <omgdc:Bounds height="40.0" width="40.0" x="853.0" y="341.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask8" id="BPMNShape_usertask8">
+        <omgdc:Bounds height="55.0" width="105.0" x="636.0" y="301.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="46.0" y="217.0"></omgdi:waypoint>
         <omgdi:waypoint x="111.0" y="217.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="32.0" x="59.0" y="223.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="24.0" x="59.0" y="223.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
         <omgdi:waypoint x="260.0" y="127.0"></omgdi:waypoint>
         <omgdi:waypoint x="260.0" y="190.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="190.0" y="138.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="190.0" y="138.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
@@ -408,14 +447,14 @@
         <omgdi:waypoint x="445.0" y="217.0"></omgdi:waypoint>
         <omgdi:waypoint x="462.0" y="334.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="359.0" y="223.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="359.0" y="223.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="260.0" y="190.0"></omgdi:waypoint>
         <omgdi:waypoint x="554.0" y="163.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="80.0" x="274.0" y="151.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="60.0" x="274.0" y="151.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
@@ -423,7 +462,7 @@
         <omgdi:waypoint x="967.0" y="99.0"></omgdi:waypoint>
         <omgdi:waypoint x="967.0" y="200.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="80.0" x="690.0" y="108.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="60.0" x="690.0" y="108.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
@@ -452,7 +491,7 @@
         <omgdi:waypoint x="321.0" y="361.0"></omgdi:waypoint>
         <omgdi:waypoint x="410.0" y="361.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="334.0" y="367.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="334.0" y="367.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
@@ -461,20 +500,15 @@
         <omgdi:waypoint x="967.0" y="469.0"></omgdi:waypoint>
         <omgdi:waypoint x="967.0" y="235.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="80.0" x="564.0" y="473.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="60.0" x="564.0" y="473.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
         <omgdi:waypoint x="515.0" y="361.0"></omgdi:waypoint>
         <omgdi:waypoint x="573.0" y="361.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="516.0" y="367.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="516.0" y="367.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
-        <omgdi:waypoint x="593.0" y="341.0"></omgdi:waypoint>
-        <omgdi:waypoint x="593.0" y="311.0"></omgdi:waypoint>
-        <omgdi:waypoint x="639.0" y="312.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
         <omgdi:waypoint x="593.0" y="381.0"></omgdi:waypoint>
@@ -482,11 +516,12 @@
         <omgdi:waypoint x="636.0" y="408.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
-        <omgdi:waypoint x="759.0" y="312.0"></omgdi:waypoint>
+        <omgdi:waypoint x="838.0" y="261.0"></omgdi:waypoint>
+        <omgdi:waypoint x="873.0" y="262.0"></omgdi:waypoint>
         <omgdi:waypoint x="873.0" y="312.0"></omgdi:waypoint>
         <omgdi:waypoint x="873.0" y="341.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="789.0" y="317.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="849.0" y="287.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
@@ -494,7 +529,7 @@
         <omgdi:waypoint x="873.0" y="408.0"></omgdi:waypoint>
         <omgdi:waypoint x="873.0" y="381.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="789.0" y="410.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="789.0" y="410.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
@@ -506,7 +541,20 @@
         <omgdi:waypoint x="519.0" y="217.0"></omgdi:waypoint>
         <omgdi:waypoint x="950.0" y="217.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="80.0" x="553.0" y="232.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="60.0" x="590.0" y="201.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
+        <omgdi:waypoint x="593.0" y="341.0"></omgdi:waypoint>
+        <omgdi:waypoint x="592.0" y="326.0"></omgdi:waypoint>
+        <omgdi:waypoint x="636.0" y="328.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
+        <omgdi:waypoint x="741.0" y="328.0"></omgdi:waypoint>
+        <omgdi:waypoint x="789.0" y="328.0"></omgdi:waypoint>
+        <omgdi:waypoint x="785.0" y="289.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="48.0" x="751.0" y="328.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

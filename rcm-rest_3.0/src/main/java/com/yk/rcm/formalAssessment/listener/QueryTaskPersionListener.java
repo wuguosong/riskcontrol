@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.ExecutionListener;
 import org.bson.Document;
@@ -45,7 +47,6 @@ public class QueryTaskPersionListener implements ExecutionListener{
 		List<Document> fixedGroup = (List<Document>) taskallocation.get("fixedGroup");
 		Document legalReviewLeader = (Document) taskallocation.get("legalReviewLeader");
 		Document reviewLeader = (Document) taskallocation.get("reviewLeader");
-		
 		Map<String, Object> variables = new HashMap<String,Object>();
 		
 		if(Util.isNotEmpty(legalReviewLeader)){
@@ -57,7 +58,19 @@ public class QueryTaskPersionListener implements ExecutionListener{
 			String reviewLeaderId = reviewLeader.getString("VALUE");
 			variables.put("reviewLeader", reviewLeaderId);
 		}
-		
+		/*=====基层法务人员=====*/
+		JSONObject formMongoJs = JSON.parseObject(JSON.toJSONString(fromalAssessmentMongo), JSONObject.class);
+		if(formMongoJs != null){
+			JSONObject applyJs = formMongoJs.getJSONObject("apply");
+			if(applyJs != null){
+				JSONObject grassrootsLegalStaff = applyJs.getJSONObject("grassrootsLegalStaff");
+				if(grassrootsLegalStaff != null){
+					String grassrootsLegalStaffId = grassrootsLegalStaff.getString("VALUE");
+					variables.put("grassrootsLegalStaff", grassrootsLegalStaffId);
+				}
+			}
+		}
+		/*=====基层法务人员=====*/
 		if(Util.isNotEmpty(fixedGroup)){
 			List<String> groupMembersList = new ArrayList<String>();
 			for (Document ll : fixedGroup) {

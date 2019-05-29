@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.ExecutionListener;
 import org.bson.Document;
@@ -75,6 +77,19 @@ public class PreQueryTaskPersonListener implements ExecutionListener {
             String reviewLeaderId = reviewLeader.getString("VALUE");
             variables.put("reviewLeader", reviewLeaderId);
         }
+        /*=====基层法务人员=====*/
+        JSONObject preMongoJs = JSON.parseObject(JSON.toJSONString(preMongo), JSONObject.class);
+        if(preMongoJs != null){
+            JSONObject preApplyJs = preMongoJs.getJSONObject("apply");
+            if(preApplyJs != null){
+                JSONObject grassrootsLegalStaff = preApplyJs.getJSONObject("grassrootsLegalStaff");
+                if(grassrootsLegalStaff != null){
+                    String grassrootsLegalStaffId = grassrootsLegalStaff.getString("VALUE");
+                    variables.put("grassrootsLegalStaff", grassrootsLegalStaffId);
+                }
+            }
+        }
+		/*=====基层法务人员=====*/
         if (Util.isNotEmpty(fixedGroup)) {
             List<String> groupMembersList = new ArrayList<String>();
             for (Document ll : fixedGroup) {
