@@ -180,7 +180,7 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
 
             var data = $scope.dataForSave();
             console.log(data)
-            // $scope.saveOrSubmit(data, "so");
+            $scope.saveOrSubmit(data, "so");
         };
 
         $scope.submitSave = function () {

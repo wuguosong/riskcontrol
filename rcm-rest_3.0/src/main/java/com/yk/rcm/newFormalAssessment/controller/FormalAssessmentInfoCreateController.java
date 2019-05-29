@@ -200,4 +200,36 @@ public class FormalAssessmentInfoCreateController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 保存附件信息(并修改stage状态为"5")
+	 * 
+	 * @param Request
+	 * @return
+	 */
+	@RequestMapping("/saveEnvirMettingSummary")
+	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.CREATE, description = "保存附件信息")
+	public Result saveEnvirMettingSummary(HttpServletRequest request) {
+		Result result = new Result();
+		String businessId = request.getParameter("businessId");
+		String mettingSummaryInfo = request.getParameter("mettingSummaryInfo");
+		this.formalAssessmentInfoCreateService.saveEnvirMettingSummary(businessId, mettingSummaryInfo);
+		return result;
+	}
+	
+	/**
+	 * 查询会议纪要
+	 * 
+	 * @param Request
+	 * @return
+	 */
+	@RequestMapping("/queryEnvirMettingSummarys")
+	@ResponseBody
+	@SysLog(module = LogConstant.MODULE_BULLETIN, operation = LogConstant.QUERY, description = "查询会议纪要")
+	public Result queryEnvirMettingSummarys(HttpServletRequest request) {
+		String businessId = request.getParameter("businessId");
+		Result result = this.formalAssessmentInfoCreateService.queryEnvirMettingSummarys(businessId);
+		return result;
+	}
 }

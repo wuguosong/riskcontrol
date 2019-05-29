@@ -6280,17 +6280,6 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
             $scope.cancel = function () {
                 $scope.mettingSummary = "";
             }
-            $scope.queryRBIMeeting = function (submit) {
-                $http({
-                    method: 'post',
-                    url: srvUrl + "bulletinInfo/queryRBIMettingSummarys.do",
-                    data: $.param({
-                        "businessId": submit.BUSINESSID,
-                    })
-                }).success(function (result) {
-                    $scope.mettingSummarys = result.result_data.mettingSummary;
-                });
-            }
 
         }
     }
@@ -6305,6 +6294,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
             // $scope.paginationConf
 
             $scope.initData = function () {
+                console.log("sssssssssss");
                 if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
                     $scope.paginationConf.queryObj = {};
                 }
@@ -6428,6 +6418,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
 
             $scope.openRBIMeeting = function (noSubmit) {
                 $scope.businessId = noSubmit.BUSINESSID;
+                $scope.projectType = noSubmit.PROJECT_TYPE;
             }
             $scope.mettingSummary = "";
             $scope.mettingSubmit = function () {
@@ -6437,9 +6428,15 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                 }
                 //show_Mask();
                 //保存附件到mongo
+                var saveMeeting = null;
+                if($scope.projectType == 'pfr') {
+                    saveMeeting = "formalAssessmentInfoCreate/saveEnvirMettingSummary.do";
+                } else {
+                    saveMeeting = "bulletinInfo/saveMettingSummary.do";
+                }
                 $http({
                     method: 'post',
-                    url: srvUrl + "bulletinInfo/saveMettingSummary.do",
+                    url: srvUrl + saveMeeting,
                     data: $.param({
                         "businessId": $scope.businessId,
                         "mettingSummaryInfo": $scope.mettingSummary
@@ -6456,11 +6453,18 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
             }
 
             $scope.queryRBIMeeting = function (submit) {
+                console.log(submit);
+                var queryMeeting = null;
+                if (submit.PROJECT_TYPE == 'pfr') {
+                    queryMeeting = "formalAssessmentInfoCreate/queryEnvirMettingSummarys.do";
+                } else {
+                    queryMeeting = "bulletinInfo/queryRBIMettingSummarys.do";
+                }
                 $http({
                     method: 'post',
-                    url: srvUrl + "bulletinInfo/queryRBIMettingSummarys.do",
+                    url: srvUrl + queryMeeting,
                     data: $.param({
-                        "businessId": submit.BUSINESSID,
+                        "businessId": submit.BUSINESSID
                     })
                 }).success(function (result) {
                     $scope.mettingSummarys = result.result_data.mettingSummary;
