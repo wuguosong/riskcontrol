@@ -45,10 +45,13 @@
                     <input name="serviceTypeboxName" readonly id="serviceTypeboxName" class="form-control" ng-model="pre.apply.serviceType">
                 </div>
             </div>
-            <label class="col-sm-2 control-label">项目投资总额</label>
-			<div class="col-sm-4">
-				<input type="text"  class="form-control" readonly name="investMoney" ng-model="pre.apply.investMoney">
-			</div>
+            <label class="col-sm-2 control-label">基层法务</label>
+            <div class="col-sm-4">
+                <div class="full-drop">
+                    <input type="text" readonly  class="form-control" id="grassrootsLegalStaffName" name="grassrootsLegalStaffName" ng-model="pre.apply.grassrootsLegalStaff.NAME"/>
+                    <input type="hidden"  id="grassrootsLegalStaffValue" name="grassrootsLegalStaffValue"  ng-model="pre.apply.grassrootsLegalStaff.VALUE"/>
+                </div>
+            </div>
         </div>
         <div class="row">
             <label class="col-sm-2 control-label">投资模式</label>
@@ -57,20 +60,21 @@
                     <input class="form-control" readonly id="projectmodeboxName" name="projectmodeboxName" ng-model="pre.apply.projectModel" />
                 </div>
             </div>
-            <label class="col-sm-2 control-label">单体项目数</label>
-            <div class="col-sm-4 has-feedback">
-                <input type="text"  readonly class="form-control" name="projectNum" ng-model="pre.apply.projectNum" placeholder="">
-                <span class="unit-n">个</span>
+            <label class="col-sm-2 control-label">项目投资总额</label>
+            <div class="col-sm-4">
+                <input type="text"  class="form-control" readonly name="investMoney" ng-model="pre.apply.investMoney">
             </div>
+
         </div>
         <div class="row">
             <label class="col-sm-2 control-label">项目规模</label>
             <div class="col-sm-4">
                 <input readonly  class="form-control" name="projectSize" ng-model="pre.apply.projectSize" placeholder=""/>
             </div>
-            <label class="col-sm-2 control-label">竞争对手</label>
-            <div class="col-sm-4">
-                <input type="text"  readonly class="form-control" id="competitor" name="competitor" ng-model="pre.apply.competitor" />
+            <label class="col-sm-2 control-label">单体项目数</label>
+            <div class="col-sm-4 has-feedback">
+                <input type="text"  readonly class="form-control" name="projectNum" ng-model="pre.apply.projectNum" placeholder="">
+                <span class="unit-n">个</span>
             </div>
         </div>
         <div class="row">
@@ -85,14 +89,9 @@
                 <i class="fa fa-calendar form-control-feedback"></i>
                 <span id="showdate1" ></span>
             </div>
-            <label class="col-sm-2 control-label">保证金支付时间</label>
-            <div class="col-sm-4 has-feedback" ng-if="pre.apply.paymentTime.length > 10">
-                <input type="text" readonly  id="paymentTime" value="{{pre.apply.paymentTime | limitTo:10}}" class="form-control" />
-                <i class="fa fa-calendar form-control-feedback"></i>
-            </div>
-            <div class="col-sm-4 has-feedback" ng-if="pre.apply.paymentTime.length <= 10">
-                <input type="text" readonly  id="paymentTime1" ng-model="pre.apply.paymentTime " class="form-control" />
-                <i class="fa fa-calendar form-control-feedback"></i>
+            <label class="col-sm-2 control-label">竞争对手</label>
+            <div class="col-sm-4">
+                <input type="text"  readonly class="form-control" id="competitor" name="competitor" ng-model="pre.apply.competitor" />
             </div>
         </div>
         <div class="row">
@@ -111,6 +110,17 @@
                     <input type="hidden" name="directPersonValue" ng-model="pre.apply.directPerson.VALUE" >
                 </div>
             </div>-->
+            <label class="col-sm-2 control-label">保证金支付时间</label>
+            <div class="col-sm-4 has-feedback" ng-if="pre.apply.paymentTime.length > 10">
+                <input type="text" readonly  id="paymentTime" value="{{pre.apply.paymentTime | limitTo:10}}" class="form-control" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+            <div class="col-sm-4 has-feedback" ng-if="pre.apply.paymentTime.length <= 10">
+                <input type="text" readonly  id="paymentTime1" ng-model="pre.apply.paymentTime " class="form-control" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="row">
             <label class="col-sm-2 control-label">申请填写日期</label>
             <div class="col-sm-4 has-feedback">
                 <input type="text" readonly class="form-control"  id="showCreateDate" name="showCreateDate" ng-model="pre.showCreateDate" />

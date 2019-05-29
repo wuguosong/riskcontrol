@@ -78,24 +78,6 @@
                                     <input type="hidden" class="form-control" id="companyHeaderValue"
                                            name="companyHeaderValue" ng-model="pre.apply.companyHeader.VALUE"/>
                                 </div>
-                                <!--<label class="col-sm-2 control-label"><span class="required-r">*</span>项目归属单位负责人</label>
-                                <div  id="companyHeader-type-box" class="col-sm-4">
-                                    <div id="headercompanyHeaderName">
-                                        <div ng-click="setDirectiveParam('companyHeader',0)"  data-toggle="modal" data-target="#userRaido-modal"   class="select2-success">
-                                            <div id="s2id_projectModel" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
-                                                <ul class="select2-choices">
-                                                    <li class="select2-search-field">
-                                                        <div class="full-drop">
-                                                            <input id="s2id_autogen2" class="select2-input" type="text" name="companyHeaderName" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;"/>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="companyHeaderName" name="companyHeaderName" ng-model="pre.apply.companyHeader.NAME" value="{{pre.apply.companyHeader.NAME}}" />
-                                    <input type="hidden" id="companyHeaderValue" name="companyHeaderValue" ng-model="pre.apply.companyHeader.VALUE"  />
-                                </div>-->
                             </div>
                             <div class="row">
                                 <label class="col-sm-2 control-label"><span
@@ -109,6 +91,45 @@
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" name="projectAddress"
                                            ng-model="pre.apply.projectAddress" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="projectName" name="projectName"
+                                           ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
+                                </div>
+                                <label class="col-sm-2 control-label"><span
+                                        class="required-r">*</span>基层法务人员</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <div id="headergrassrootsLegalStaffName">
+                                        <div ng-click="setDirectiveParam('grassrootsLegalStaff',0)"
+                                             data-toggle="modal" data-target="#roleUserRaido-modal-grassrootsLegalStaff"
+                                             class="select2-success">
+                                            <div class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                                                <ul class="select2-choices">
+                                                    <li class="select2-search-field">
+                                                        <div class="full-drop">
+                                                            <input class="select2-input" type="text"
+                                                                   name="grassrootsLegalStaffName"
+                                                                   spellcheck="false" autocapitalize="off"
+                                                                   autocorrect="off" autocomplete="off"
+                                                                   style="width: 16px;" placeholder="基层法务人员">
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="full-drop">
+                                        <input type="hidden" class="form-control" id="grassrootsLegalStaffName"
+                                               name="grassrootsLegalStaffName"
+                                               ng-model="pre.apply.grassrootsLegalStaff.NAME"
+                                               value="{{pre.apply.grassrootsLegalStaff.NAME}}"/>
+                                        <input type="hidden" id="grassrootsLegalStaffValue"
+                                               name="grassrootsLegalStaffValue"
+                                               ng-model="pre.apply.grassrootsLegalStaff.VALUE"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -210,21 +231,7 @@
                                     <input type="hidden" id="investmentPersonValue" name="investmentPersonValue"
                                            ng-model="pre.apply.investmentPerson.VALUE"/>
 
-                                    <!--<div id="headerdirectPersonName" class="col-sm-6 noleft-pad noright-pad" style="width: calc(50% - 2.5px)">
-                                        <div ng-click="setDirectiveParam('directPerson',0)"  data-toggle="modal" data-target="#userRaido-modal"  class="select2-success">
-                                            <div  class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
-                                                <ul class="select2-choices">
-                                                    <li class="select2-search-field">
-                                                        <div class="full-drop">
-                                                            <input class="select2-input" type="text" spellcheck="false" name="directPersonName" autocapitalize="off" autocorrect="off" autocomplete="off" style="width: 16px;" placeholder="直接负责人">
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="directPersonName" name="directPersonName" ng-model="pre.apply.directPerson.NAME" value="{{pre.apply.directPerson.NAME}}" />
-                                    <input type="hidden" id="directPersonValue" name="directPersonValue" ng-model="pre.apply.directPerson.VALUE"  />-->
+
                                 </div>
                                 <label class="col-sm-2 control-label">申请填写日期</label>
                                 <div class="col-sm-4 has-feedback">
@@ -233,13 +240,6 @@
                                     <input type="hidden" readonly class="form-control" id="create_date"
                                            name="create_date" ng-model="pre.create_date"/>
                                     <i class="fa fa-calendar form-control-feedback"></i>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2 control-label"><span class="required-r">*</span>项目名称</label>
-                                <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="projectName" name="projectName"
-                                           ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
                                 </div>
                             </div>
                             <div class="button-group">
@@ -287,6 +287,7 @@
 <directive-user-list></directive-user-list>
 <!--<directive-user-radio-list></directive-user-radio-list>-->
 <directive-company-list></directive-company-list>
+<directive-role-user-radio-list directive-role-user-radio-list-id="grassrootsLegalStaff" role-codes="13"></directive-role-user-radio-list>
 <directive-role-user-radio-list directive-role-user-radio-list-id="investmentPerson" role-codes="ROLE_INVESTMENT"></directive-role-user-radio-list>
 
 <script type="text/javascript">

@@ -35,9 +35,7 @@
 			fixedgrouppersonids,
 			REPORTINGUNIT_ID,
 			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
-			LEGALREVIEWPERSONID,
-			GRASSROOTSLEGALPERSONID,
-			FIRSTLEVELLAWYERPERSONID
+			GRASSROOTSLEGALPERSONID
 			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
 		)
 		values (
@@ -70,9 +68,7 @@
 			#{fixedGroupPersonIds,jdbcType=VARCHAR},
 			#{reportingUnitId,jdbcType=VARCHAR},
 			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
-			#{legalReviewPersonId,jdbcType=VARCHAR},
-			#{grassRootsLegalPersonId,jdbcType=VARCHAR},
-			#{firstLevelLawyerPersonId,jdbcType=VARCHAR}
+			#{grassrootslegalpersonId,jdbcType=VARCHAR}
 			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
 		)
 	</insert>
@@ -100,7 +96,8 @@
 		       f.stage = #{stage,jdbcType=VARCHAR},
 		       f.oldData = #{oldData,jdbcType=VARCHAR},
 		       f.createby = #{createBy},
-		       f.last_update_date = to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')  
+		       f.last_update_date = to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.GRASSROOTSLEGALPERSONID = #{grassrootslegalpersonId,jdbcType=VARCHAR}  
 		 where f.BUSINESSID = #{businessId}
 	</update>
 	

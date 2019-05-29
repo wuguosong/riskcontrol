@@ -184,9 +184,15 @@ public class preInfoCreateServiceImpl implements IPreInfoCreateService {
 		params.put("investmentModel", apply.getString("investmentModel"));
 		
 		//大区ID
-		Document grassrootsLegalStaff = (Document) apply.get("companyHeader");
-		if(Util.isNotEmpty(grassrootsLegalStaff)){
-			params.put("largeAreaPersonId", grassrootsLegalStaff.getString("VALUE"));
+		Document companyHeader = (Document) apply.get("companyHeader");
+		if(Util.isNotEmpty(companyHeader)){
+			params.put("largeAreaPersonId", companyHeader.getString("VALUE"));
+		}
+		
+		//基层法务评审人ID
+		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
+		if(grassrootsLegalStaff != null){
+			params.put("grassrootslegalpersonId", grassrootsLegalStaff.getString("VALUE"));
 		}
 		
 		//投资中心
