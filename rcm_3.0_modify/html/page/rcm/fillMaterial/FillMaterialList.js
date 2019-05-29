@@ -86,8 +86,9 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             }).success(function (data) {
                 $scope.projectSummary = data.result_data.summary;
                 $scope.stage = data.result_data.stage;
+                $scope.type = data.result_data.biddingType;
 
-                console.log($scope.stage)
+                console.log($scope.type)
                 var path = $filter('encodeURI')('#/IndividualTable');
                 /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
                     $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
@@ -95,13 +96,20 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                     $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
                 }*/
                 // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
-                if ($scope.projectSummary == null || $scope.projectSummary == undefined) {
-                    // $location.path("/FormalBiddingInfoPreviewOld/" + id + "/" + path);
-                    $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/3");
+                if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
+                    $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
                 } else if ($scope.stage == 7) {
-                    $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/4");
+                    if($scope.type == 'PPT') {
+                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                    } else {
+                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                    }
                 } else {
-                    $location.path("/FormalBiddingInfo/" + id + "/" + path + "/3");
+                    if($scope.type == 'PPT') {
+                        $location.path("/OtherBidding/0/View/"+ id + "/" + path);
+                    } else {
+                        $location.path("/FormalBiddingInfo/"+ id + "/" + path + "/3");
+                    }
                 }
             }).error(function (data, status, header, config) {
                 $.alert(status);

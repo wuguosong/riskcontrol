@@ -64,6 +64,8 @@
         <tbody>
         <tr ng-repeat="noSubmit in noSubmitList">
             <td>
+
+                <!--正式评审-评审报告 Start-->
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pfr' && (noSubmit.RFI_IS_SUBMIT_REPORT != 0 && noSubmit.RFI_IS_SUBMIT_REPORT != 1)"
                         ng-click="openRFIReport(noSubmit)"
                         class="btn btn-sm btn-grey btn-left"
@@ -84,38 +86,42 @@
                    title="">
                     评审报告
                 </a>
+                <!--正式评审-评审报告 End-->
+
+                <!--正式评审-决策会材料 Start-->
+                <!--正式评审-决策会材料-选择模式-->
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pfr' && (noSubmit.RFI_IS_SUBMIT_BIDDING != 0 && noSubmit.RFI_IS_SUBMIT_BIDDING != 1)"
                         ng-click="openRFIBiddingInfo(noSubmit)"
-                        class="btn btn-sm btn-grey btn-left"
+                        class="btn btn-sm btn-grey btn-center"
                         data-toggle="modal"
                         data-target="#addModal4"
                         title="">
                     决策会材料
                 </button>
+                <!--正式评审-决策会材料-进入上传材料模式-->
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 0 && noSubmit.BIDDING_TYPE == 'PPT'"
                    href="#/OtherBidding/0/Update/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-grey btn-center"
                    title="">
                     决策会材料
                 </a>
+                <!--正式评审-决策会材料-进入填写模式-->
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 0 && noSubmit.BIDDING_TYPE == 'NORMAL'"
                    href="#/FormalBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}/0"
                    class="btn btn-sm btn-grey btn-center"
                    title="">
                     决策会材料
                 </a>
+                <!--正式评审-决策会材料-进入预览模式-->
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 1 && noSubmit.BIDDING_TYPE == 'NORMAL'"
                    ng-click="getInfo(noSubmit.BUSINESSID)"
                    class="btn btn-sm btn-success btn-center"
                    title="">
                     决策会材料
                 </a>
-                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 1 && noSubmit.BIDDING_TYPE == 'PPT'"
-                   href="#/OtherBidding/0/View/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
-                   class="btn btn-sm btn-success btn-center"
-                   title="">
-                    决策会材料
-                </a>
+                <!--正式评审-决策会材料 End-->
+
+                <!--正式评审-决策通知书草拟 Start-->
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 0 && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 1 && noSubmit.SERVICETYPE != 1404 && noSubmit.SERVICETYPE != 1406"
                    href="#/NoticeDecisionDraftDetail/Create/{{ noSubmit.BUSINESSID }}"
                    class="btn btn-sm btn-grey btn-right"
@@ -134,7 +140,9 @@
                    title="">
                     决策通知书草拟
                 </a>
+                <!--正式评审-决策通知书草拟 Ends-->
 
+                <!--正式评审-环卫、危废-会议纪要 Start-->
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 1 && (noSubmit.SERVICETYPE == 1404 || noSubmit.SERVICETYPE == 1406)"
                         ng-click="openRBIMeeting(noSubmit)"
                         class="btn btn-sm btn-grey btn-right"
@@ -151,8 +159,9 @@
                         title="">
                     会议纪要
                 </button>
+                <!--正式评审-环卫、危废-会议纪要 End-->
 
-
+                <!--投标评审-评审报告 Start-->
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pre' && (noSubmit.RPI_IS_SUBMIT_REPORT != 0 && noSubmit.RPI_IS_SUBMIT_REPORT != 1)"
                         ng-click="openPREReport(noSubmit)"
                         class="btn btn-sm btn-grey btn-left"
@@ -173,7 +182,9 @@
                    title="">
                     评审报告
                 </a>
+                <!--投标评审-评审报告 End-->
 
+                <!--投标评审-提交决策会材料 Start-->
                 <a ng-if="noSubmit.PROJECT_TYPE == 'pre' && noSubmit.RPI_IS_SUBMIT_BIDDING != 1"
                    href="#/PreBiddingInfo/{{noSubmit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}/0"
                    class="btn btn-sm btn-grey btn-center"
@@ -186,15 +197,26 @@
                    title="">
                     决策会材料
                 </a>
+                <!--投标评审-提交决策会材料 End-->
 
+                <!--投标评审-其他评审-会议纪要 Start-->
                 <button ng-if="noSubmit.PROJECT_TYPE == 'bulletin' && (noSubmit.RBI_IS_SUBMIT_SUMMARY != 1)"
                         ng-click="openRBIMeeting(noSubmit)"
-                        class="btn btn-sm btn-grey btn-left"
+                        class="btn btn-sm btn-grey btn-center"
                         data-toggle="modal"
                         data-target="#addModal3"
                         title="">
                     会议纪要
                 </button>
+                <button ng-if="noSubmit.PROJECT_TYPE == 'bulletin' && noSubmit.RBI_IS_SUBMIT_SUMMARY == 1"
+                        ng-click="queryRBIMeeting(noSubmit)"
+                        class="btn btn-sm btn-success btn-center"
+                        data-toggle="modal"
+                        data-target="#addModal6"
+                        title="">
+                    会议纪要
+                </button>
+                <!--投标评审-其他评审-会议纪要 End-->
             </td>
         </tr>
         </tbody>

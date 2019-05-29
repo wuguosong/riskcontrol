@@ -428,7 +428,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 		this.baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
 		this.bulletinInfoMapper.updateStage(map);
 		//归档
-		this.daxtService.bulletinStart(businessId);
+//		this.daxtService.bulletinStart(businessId);
 	}
 	
 	@Override
