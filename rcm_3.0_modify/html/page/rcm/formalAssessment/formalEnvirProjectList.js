@@ -88,7 +88,7 @@ ctmApp.register.controller('FormalEnvirProjectList', ['$routeParams','$http','$s
             idsStr = idsStr + chkObjs[i].value + ",";
         }
         idsStr = idsStr.substring(0, idsStr.length - 1);
-        $location.path("/formalAssessmentInfo/" + idsStr + "/2");
+        $location.path("/formalEnvirProjectInfo/" + idsStr + "/2");
     };
 
     $scope.deleteProject = function () {

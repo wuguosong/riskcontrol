@@ -358,7 +358,7 @@ ctmApp.register.controller('formalEnvirProjectInfo', ['$http','$scope','$locatio
         }).success(function(result){
             if (result.success){
                 $.alert(result.result_name);
-                $location.path("/formalAssessmentInfo/" + result.result_data + "/2");
+                $location.path("/formalEnvirProjectInfo/" + result.result_data + "/2");
             } else {
                 $.alert(result.result_name);
             }

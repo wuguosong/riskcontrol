@@ -1283,7 +1283,8 @@ ctmApp.directive('directiveEnvirProjectList', function() {
                     $scope.paginationConf.queryObj = $scope.queryObj;
                 }
                 $scope.paginationConf.queryObj.USERID = $scope.$parent.credentials.UUID;
-                var  url = 'common/commonMethod/getEnvirProjectList';
+                $scope.paginationConf.queryObj.serviceTypeId = "'1404', '1406'";
+                var  url = 'common/commonMethod/getDirectiveCompanyList';
                 $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
                     // 变更分页的总数
                     if(data.result_code == "S") {

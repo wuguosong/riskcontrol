@@ -1744,6 +1744,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            // 正式评审申请查看-环卫和危废
+            .when('/FormalEnvirProjectDetailView/:id/:url', {
+                controller: 'FormalEnvirProjectDetailView',
+                templateUrl: 'page/rcm/formalAssessment/formalEnvirProjectDetailView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/formalEnvirProjectDetailView.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 正式评审审批列表
             .when('/FormalAssessmentAuditList/:tabIndex', {
                 controller: 'FormalAssessmentAuditList',

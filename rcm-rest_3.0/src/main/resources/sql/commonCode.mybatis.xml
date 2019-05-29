@@ -109,6 +109,7 @@ SELECT MA.PROJECTID,
  ) T 
  WHERE 1 = 1
  <if test="projectname!=null and projectname!='' "> and T.PROJECTNAME like '%${projectname}%' </if>
+ <if test="serviceTypeId !=null and serviceTypeId !='' "> and T.SERVICETYPE in (${serviceTypeId}) </if>
  AND T.idx = 1
  ORDER BY T.PROJECTCODE, T.CREATEDATETIME DESC
 	</select>
