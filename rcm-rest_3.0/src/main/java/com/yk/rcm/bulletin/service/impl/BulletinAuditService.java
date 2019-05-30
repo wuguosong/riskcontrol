@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yk.sign.service.SelfApproval;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.delegate.TaskListener;
@@ -140,7 +141,8 @@ public class BulletinAuditService implements IBulletinAuditService {
 
 			variables.put("isSkipUnitAudit", isSkipUnitAudit);
 		}
-		ProcessResult<ProcessInstance> pr = this.bpmnAuditService.startFlow(Constants.PROCESS_KEY_BULLETIN, businessId, variables);
+		ProcessResult<ProcessInstance> pr = new SelfApproval().startFlow(Constants.PROCESS_KEY_BULLETIN, businessId, variables);
+		//this.bpmnAuditService.startFlow(Constants.PROCESS_KEY_BULLETIN, businessId, variables);
 		if(pr.isSuccess()){
 			//启动流程成功，修改bulletin状态
 			this.bulletinInfoService.updateAfterStartflow(businessId);

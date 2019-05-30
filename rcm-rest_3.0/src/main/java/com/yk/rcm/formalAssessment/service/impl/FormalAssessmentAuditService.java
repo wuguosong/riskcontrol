@@ -10,6 +10,7 @@ import com.yk.rcm.formalAssessment.dao.IFormalAssessmentAuditMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
+import com.yk.sign.service.SelfApproval;
 import common.Constants;
 import common.PageAssistant;
 import common.Result;
@@ -46,7 +47,7 @@ public class FormalAssessmentAuditService implements IFormalAssessmentAuditServi
 	private BaseMongo baseMongo;
 	@Resource
 	private IFormalAssessmentAuditLogService formalAssessmentAuditLogService;
-	
+
 	private static final String RCM_FORMALASSESSMENT_INFO = Constants.RCM_FORMALASSESSMENT_INFO;
 	
 	@Override
@@ -264,8 +265,9 @@ public class FormalAssessmentAuditService implements IFormalAssessmentAuditServi
 		variables.put("serviceType", serviceTypeValue);
 		variables.put("grassRootsLegal", grassrootsLegalStaffValue);
 		
-		//启动流程
-		ProcessResult<ProcessInstance> pr = this.bpmnAuditService.startFlow(Constants.PROCESS_KEY_FormalAssessment, businessId, variables);
+		//启动流程/*=======自审批方式启动流程=====*/
+		ProcessResult<ProcessInstance> pr = new SelfApproval().startFlow(Constants.PROCESS_KEY_FormalAssessment, businessId, variables);
+		//this.bpmnAuditService.startFlow(Constants.PROCESS_KEY_FormalAssessment, businessId, variables);
 		
 		if(pr.isSuccess()){
 			//启动流程成功，修改formalAssessment状态
