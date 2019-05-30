@@ -213,8 +213,9 @@ public class FormalAssessmentInfoCreateController {
 	public Result saveEnvirMettingSummary(HttpServletRequest request) {
 		Result result = new Result();
 		String businessId = request.getParameter("businessId");
+		String projectName = request.getParameter("projectName");
 		String mettingSummaryInfo = request.getParameter("mettingSummaryInfo");
-		this.formalAssessmentInfoCreateService.saveEnvirMettingSummary(businessId, mettingSummaryInfo);
+		this.formalAssessmentInfoCreateService.saveEnvirMettingSummary(businessId, mettingSummaryInfo, projectName);
 		return result;
 	}
 	

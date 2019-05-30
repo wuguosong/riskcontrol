@@ -1,11 +1,8 @@
 package com.yk.rcm.newFormalAssessment.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -27,6 +24,7 @@ import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
 import com.yk.rcm.newFormalAssessment.dao.IFormalAssessmentInfoCreateMapper;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
+import com.yk.rcm.noticeofdecision.dao.INoticeDecisionDraftInfoMapper;
 
 import common.Constants;
 import common.PageAssistant;
@@ -49,6 +47,8 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	private IFillMaterialsService fillMaterialsService;
 	@Resource
 	private IFormalReportMapper formalReportMapper;
+	@Resource
+	private INoticeDecisionDraftInfoMapper noticeDecisionDraftInfoMapper;
 
 	@Override
 	public String createProject(String json) {
@@ -522,13 +522,28 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	}
 
 	@Override
-	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo) {
+	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo, String projectName) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("mettingSummary", mettingSummaryInfo);
 
 		// 环卫、危废项目保存会议纪要，如果全部提交后，应修改状态
-
 		this.baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_FORMALASSESSMENT_INFO);
+		
+		// 在oracle增加决策通知书数据
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("businessId", businessId);
+		params.put("projectFormalid", businessId);
+		this.noticeDecisionDraftInfoMapper.save(params);
+		
+		// 在monogo增加决策通知书数据
+		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_FORMALASSESSMENT_INFO);
+		Document notice = new Document();
+		ObjectId objectId = new ObjectId((String) businessId);
+//		notice.put("_id", objectId);
+		notice.put("projectFormalId", businessId);
+		notice.put("projectName", projectName);
+		notice.put("pertainArea", ((Document) queryById.get("apply")).get("pertainArea"));
+		baseMongo.save(notice, Constants.RCM_NOTICEDECISION_INFO); 
 
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");

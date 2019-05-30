@@ -1,27 +1,6 @@
 <div class="xh-content container-fluid">
     <form id="noticeName" name="noticeName" novalidate class="row">
         <div class="main-content col-md-12 col-sm-12 col-xs-12">
-            <div class="visa-menu">
-                <div class="col-md-12">
-                    <ol class="breadcrumb breadcrumb-menu">
-                        <li>
-                            <a class="breadcrumb-text breadcrumb-text-menu">
-                                决策会
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="breadcrumb-text breadcrumb-text-menu">
-                                决策通知书确认
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="breadcrumb-text breadcrumb-text-menu">
-                                编辑
-                            </a>
-                        </li>
-                    </ol>
-                </div>
-            </div>
             <div class="">
                 <h3 class='text-blue item-name' ng-if="action=='Complete'">
                     决策通知书完成
@@ -100,7 +79,7 @@
                                         <span class="unit-my-td">万元</span>
                                     </div>
                                 </span>
-                                <span class="col-md-2 slim">
+                                <span class="col-md-2 slim noPadding">
                                         <select class="form-control" ng-model='nod.reviOfTotaInveType'><option
                                                 ng-repeat="pszt in pingShenZongTouZiList" value="{{pszt.ITEM_NAME}}">{{pszt.ITEM_NAME}}</option></select>
                                 </span>

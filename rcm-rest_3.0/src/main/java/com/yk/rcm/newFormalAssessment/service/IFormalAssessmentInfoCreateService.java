@@ -82,7 +82,7 @@ public interface IFormalAssessmentInfoCreateService {
 	 */
 	List<Map<String, Object>> getHistoryList(String Json) throws Exception;
 
-	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo);
+	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo, String projectName);
 
 	public Result queryEnvirMettingSummarys(String businessId);
 }

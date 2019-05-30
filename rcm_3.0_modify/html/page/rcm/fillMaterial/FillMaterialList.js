@@ -349,6 +349,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
         $scope.openRBIMeeting = function (noSubmit) {
             $scope.businessId = noSubmit.BUSINESSID;
             $scope.projectType = noSubmit.PROJECT_TYPE;
+            $scope.projectName = noSubmit.PROJECTNAME;
         }
 
         $scope.mettingSummary = "";
@@ -370,6 +371,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                 url: srvUrl + saveMeeting,
                 data: $.param({
                     "businessId": $scope.businessId,
+                    "projectName": $scope.projectName,
                     "mettingSummaryInfo": $scope.mettingSummary
                 })
             }).success(function (result) {
