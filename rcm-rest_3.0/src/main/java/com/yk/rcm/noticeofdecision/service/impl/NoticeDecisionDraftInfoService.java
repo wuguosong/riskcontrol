@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -116,7 +117,13 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 		this.noticeDecisionDraftInfoMapper.update(paramsForOracle);
 		//修改mongoDB
 		String id = doc.getString("_id");
-		doc.put("_id",new ObjectId(id));
+		if(Util.isEmpty(id)) {
+			ObjectId objectId = new ObjectId((String) paramsForOracle.get("businessId"));
+			doc.put("_id", objectId);
+		} else {
+			doc.put("_id", new ObjectId(id));
+		}
+		
 		
 		//拼接三个要求
 		StringBuffer implRequ = new StringBuffer();
@@ -247,7 +254,13 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 		}
 		//创建人id
 		Document createBy = doc.get("createBy", Document.class);
-		String createById=createBy.getString("value");
+		String createById = new String();
+		if(Util.isEmpty(createBy)) {
+			createById = ThreadLocalUtil.getUserId();
+		} else {
+			createById=createBy.getString("value");
+		}
+		
 		paramsForOracle.put("createBy", createById);
 		
 		//通知书状态
@@ -267,8 +280,12 @@ public class NoticeDecisionDraftInfoService  implements INoticeDecisionDraftInfo
 		paramsForOracle.put("projectFormalid", projectFormalid);
 		//申报项目ID
 		Document reportingUnit = doc.get("reportingUnit", Document.class);
-		String reportingUnitId=reportingUnit.getString("value");
-		paramsForOracle.put("reportingUnitId", reportingUnitId);
+		if(Util.isEmpty(reportingUnit)) {
+//			createById = ThreadLocalUtil.getUserId();
+		} else {
+			String reportingUnitId=reportingUnit.getString("value");
+			paramsForOracle.put("reportingUnitId", reportingUnitId);
+		}
 		//会议时间
 		String dateOfMeeting =  doc.getString("dateOfMeeting");
 		paramsForOracle.put("dateOfMeeting", dateOfMeeting);

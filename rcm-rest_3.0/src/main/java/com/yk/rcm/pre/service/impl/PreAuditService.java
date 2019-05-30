@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import com.alibaba.fastjson.JSON;
 import com.yk.rcm.pre.dao.IPreAuditLogMapper;
+import com.yk.sign.service.SelfApproval;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
@@ -145,7 +146,8 @@ public class PreAuditService implements IPreAuditService{
 	public Result startSingleFlow(String businessId) {
 		Result result = new Result();
 		//启动流程
-		ProcessResult<ProcessInstance> pr = this.bpmnAuditService.startFlow(Constants.PROCESS_KEY_PREREVIEW, businessId, null);
+		ProcessResult<ProcessInstance> pr = new SelfApproval().startFlow(Constants.PROCESS_KEY_PREREVIEW, businessId, null);
+		//this.bpmnAuditService.startFlow(Constants.PROCESS_KEY_PREREVIEW, businessId, null);
 		if(!pr.isSuccess()){
 			result.setResult_name(pr.getMessage());
 		}

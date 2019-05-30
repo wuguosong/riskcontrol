@@ -161,7 +161,7 @@
                                                 决策会材料
                                             </a>
                                             <!--正式评审-决策会材料-进入预览模式-->
-                                            <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 1 && noSubmit.BIDDING_TYPE == 'NORMAL'"
+                                            <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_BIDDING == 1"
                                                ng-click="getInfo(noSubmit.BUSINESSID)"
                                                class="btn btn-sm btn-success btn-center"
                                                title="">
@@ -386,12 +386,20 @@
                                                title="">
                                                 决策会材料
                                             </a>
-                                            <a ng-if="submit.PROJECT_TYPE == 'pfr'"
-                                               href="#/NoticeDecisionDraftDetailView/submitted/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}"
+                                            <a ng-if="submit.PROJECT_TYPE == 'pfr' && submit.SERVICETYPE != 1404 && submit.SERVICETYPE != 1406"
+                                               href="#/NoticeDecisionDraftDetailView/submitted/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
                                                class="btn btn-sm btn-success btn-right"
                                                title="">
                                                 决策通知书草拟
                                             </a>
+                                            <button ng-if="submit.PROJECT_TYPE == 'pfr' && (submit.SERVICETYPE == 1404 || submit.SERVICETYPE == 1406)"
+                                                    ng-click="queryRBIMeeting(submit)"
+                                                    class="btn btn-sm btn-success btn-right"
+                                                    data-toggle="modal"
+                                                    data-target="#addModal5"
+                                                    title="">
+                                                会议纪要
+                                            </button>
                                             <a ng-if="submit.PROJECT_TYPE == 'pre'"
                                                href="#/{{submit.RPE_CONTROLLER_VAL}}/0/View/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}"
                                                class="btn btn-sm btn-success btn-right"
