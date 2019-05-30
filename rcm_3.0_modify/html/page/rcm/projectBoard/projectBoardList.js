@@ -1,13 +1,20 @@
 
-ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope','$location', function ($routeParams,$http,$scope,$location) {
+ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope','$location', '$filter', function ($routeParams,$http,$scope,$location,$filter) {
+
+    $scope.projectName = $routeParams.projectName;
+    $scope.oldUrl = $routeParams.url;
 
     $scope.initData = function(){
         $scope.getProjectList();
-    }
+    };
     //查询正式评审基本信息列表--起草中
     $scope.getProjectList = function(){
         if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
             $scope.paginationConf.queryObj = {};
+        }
+        var projectName = $filter('decodeURI')($scope.projectName,"VALUE");
+        if(projectName != null && projectName != ''){
+            $scope.paginationConf.queryObj.projectName = projectName;
         }
         $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
         $http({

@@ -299,7 +299,7 @@ button.btn.btn-danger.erji:active {
 }
 
 button.btn.btn-danger.erji:disabled {
-  background-color: #fff !important !important;
+  background-color: #fff !important;
   border: 1px solid #ebebeb !important;
   color: #b2b2b2 !important;
 }
@@ -842,14 +842,28 @@ a.btn-sm.btn-grey:active {
   margin-left: 10px;
 }
 
-.navbar form.navbar-center.navbar-form {
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 30%;
+@media only screen and (max-width: 1200px){
+  .navbar form.navbar-center.navbar-form {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left: 37%;
+    top: 33%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+  }
+}
+
+@media only screen and (min-width: 1200px){
+  .navbar form.navbar-center.navbar-form {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+  }
 }
 
 .navbar form.navbar-center.navbar-form input {

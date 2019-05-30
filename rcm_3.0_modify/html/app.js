@@ -504,7 +504,8 @@ ctmApp.controller('SysControl', ['$scope', '$cookies', '$http', '$location', '$i
             publicProjectName = "undefined";
         }
         publicProjectName = $filter("encodeURI")(publicProjectName);
-        $location.path("/projectReviewList/" + publicProjectName + "/" + returnUrl);
+        /*$location.path("/projectReviewList/" + publicProjectName + "/" + returnUrl);*/
+        $location.path("/projectBoardList/" + publicProjectName + "/" + returnUrl);
     }
 }]);
 ctmApp.filter('dictItemFilter', function () {
