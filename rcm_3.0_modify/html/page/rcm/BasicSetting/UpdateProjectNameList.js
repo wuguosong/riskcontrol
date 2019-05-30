@@ -29,6 +29,8 @@ ctmApp.register.controller('UpdateProjectNameList', ['$http','$routeParams','$sc
 			$.alert("请选择其中一条数据！");
 	        return false;
 		}
+        var vals = chked.val().split("_");
+        $("#newProjectName").val(vals[2]);
 		$('#submitModal').modal('show');
 		
 	}

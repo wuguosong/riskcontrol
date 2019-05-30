@@ -90,7 +90,6 @@ public class ReportDataServiceImpl implements IReportDataService {
 		if (Util.isNotEmpty(pfrDecisions)){
 			Map<String, Object> pfrDecision = pfrDecisions.get(0);
 			
-			// 过往数据有——这种情况，需要做修改，Oracle中存储的是int类型的
 			data.put("CONTRACT_SCALE", pfrDecision.get("contractScale"));
 			data.put("EVALUATION_SCALE", pfrDecision.get("evaluationScale"));
 			data.put("REVIEW_OF_TOTAL_INVESTMENT", pfrDecision.get("reviewOfTotalInvestment"));

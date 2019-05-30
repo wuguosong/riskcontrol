@@ -208,6 +208,9 @@
 	       AND RFI.CREATE_DATE BETWEEN to_date('${createDate} 00:00:00','YYYY/MM/dd hh24:mi:ss') 
 		   AND to_date('${createDate} 23:59:59','YYYY/MM/dd hh24:mi:ss')
 	     </if>
+	     <if test="projectName != null and projectName != ''">
+	       AND RFI.PROJECTNAME LIKE '%${projectName}%'
+	     </if>
 	</select>
 	
 	<select id="getPreProjectList" parameterType="map" resultType="map">
@@ -218,6 +221,9 @@
 	       AND RPI.CREATE_DATE BETWEEN to_date('${createDate} 00:00:00','YYYY/MM/dd hh24:mi:ss') 
 		   AND to_date('${createDate} 23:59:59','YYYY/MM/dd hh24:mi:ss')
 	     </if>
+	     <if test="projectName != null and projectName != ''">
+	       AND RPI.PROJECTNAME LIKE '%${projectName}%'
+	     </if>
 	</select>
 	
 	<select id="getBulletinProjectList" parameterType="map" resultType="map">
@@ -227,6 +233,9 @@
 	     <if test="createDate != null and createDate != ''">
 	       AND RBI.CREATETIME BETWEEN to_date('${createDate} 00:00:00','YYYY/MM/dd hh24:mi:ss') 
 		   AND to_date('${createDate} 23:59:59','YYYY/MM/dd hh24:mi:ss')
+	     </if>
+	     <if test="projectName != null and projectName != ''">
+	       AND RBI.PROJECTNAME LIKE '%${projectName}%'
 	     </if>
 	</select>
 </mapper>

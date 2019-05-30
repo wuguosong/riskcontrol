@@ -3,8 +3,11 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yk.rcm.project.dao.IUpdateProjectNameMapper">
 	<select id="queryAllProject" resultType="map" parameterType="hashmap">
-		select t.* from rcm_v_project t where 1=1 
+		select t.* from rcm_v_project t 
+		 where 1=1
+		   and t.WF_STATE  <![CDATA[ <> ]]> '0'
     	<if test="name != null and name != ''"> and	t.name like '%${name}%' </if>
+    	order by t.CREATETIME desc
 	</select>
 	<update id="updateBulletin"  parameterType="hashmap">
 		update rcm_bulletin_info set bulletinName=#{bulletinName} 
