@@ -1,4 +1,12 @@
 <link rel="stylesheet" href="../styles/style_preview.css">
+<style type="text/css">
+    .mtab2 a {
+        text-align: left!important;
+        color: #2b679d;
+        font-size: 14px;
+        text-decoration:underline
+    }
+</style>
 <div class="preview-contanier" ng-controller="OtherBiddingInfoPreview">
     <div class="mheader row text-blue-name">
         {{ formalPreview.apply.projectName }}
@@ -12,8 +20,36 @@
            class="btn-return" href="#/OtherBidding/0/View/{{waitId}}@2/{{'#/IndividualTable'|encodeURI}}">
             返回
         </a>
+        <a style="height: 40px"
+           ng-if="flag == 3"
+           class="btn-return" href="#/">
+            返回
+        </a>
     </div>
     <div class="row mtab2 text-gray">
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">上传电子版正式评审决策会材料</h3>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="">
+            <cloud-file
+                    file-id="pfrOtherBidding"
+                    file-type="FormalBiddingInfo"
+                    file-code="{{paramId}}"
+                    file-location="pfrOtherBidding"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-upload-or-replace="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+                    btn-class="btn btn-primary"
+                    text-class="col-md-8 slim"
+                    btn-area-class="col-md-1 slim"
+                    upload-text="浏览"
+            >
+            </cloud-file>
+        </div>
+
         <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
         <div id='content3_table' class="mytable">
             <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
