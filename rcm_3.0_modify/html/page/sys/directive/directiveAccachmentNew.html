@@ -30,23 +30,23 @@
                ng-if="!isShowMeetingAttachment">
             <thead>
             <tr>
-                <th width="6%">序号</th>
-                <th width="16%" ng-if="businessType != 'bulletin'">资源类型</th>
-                <th width="19%">附件内容</th>
+                <th width="5%">序号</th>
+                <th width="15%" ng-if="businessType != 'bulletin'">资源类型</th>
+                <th width="20%">附件内容</th>
                 <!--<th ng-if="businessType != 'bulletin'"  width="8%">编制人</th>
                 <th ng-if="businessType != 'bulletin'"  width="8%">审核人</th>-->
                 <th width="10%">最后提交人</th>
-                <th width="18%">最后提交时间
+                <th width="15%">最后提交时间
                     <!--ng-if="isEdite || wfState =='0'"-->
-                <th width="21%">相关操作</th>
-                <th ng-if="isChoose" width="10%">上会附件</th>
+                <th width="30%">相关操作</th>
+                <th ng-if="isChoose" width="5%">上会附件</th>
             </tr>
             </thead>
             <tbody ng-repeat="item in fileList | orderBy: 'newFile + type.ITEM_CODE' : asc"
                    ng-init="outerIndex = $index">
             <tr>
-                <td width="6%">{{outerIndex+1}}</td>
-                <td width="16%" ng-if="businessType != 'bulletin'">
+                <td>{{outerIndex+1}}</td>
+                <td ng-if="businessType != 'bulletin'">
                     <span ng-if="item.newFile != '1'">{{item.type.ITEM_NAME}}</span>
                     <div ng-if="item.newFile == '1'">
                         <select ng-model="item.type"
@@ -57,15 +57,15 @@
                         </select>
                     </div>
                 </td>
-                <td width="19%">
+                <td>
                     <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="item.newFile != '1'">{{item.fileName}}</a>
                     <div ng-if="item.newFile == '1' != undefined || item.fileName != null">
                         <span ng-if="item.newFile == '1'">{{item.fileName}}</span>
                     </div>
                 </td>
-                <td width="10%">{{item.lastUpdateBy.NAME}}</td>
-                <td width="18%">{{item.lastUpdateData}}</td>
-                <td width="21%">
+                <td>{{item.lastUpdateBy.NAME}}</td>
+                <td>{{item.lastUpdateData}}</td>
+                <td>
                     <button type="button" class="btn btn-danger" ng-click="_delete(item.fileid)"
                             ng-if="item.preview3d != null && wfState =='0'">删除
                     </button>
@@ -114,7 +114,7 @@
                     </div>
                     <button ng-if="item.preview3d != null" type="button" class="btn btn-info"  ng-click="showHistory(item.type.ITEM_CODE, item.uuid)">查看历史</button>
                 </td>
-                <td width="10%" ng-if="isChoose" align="center">
+                <td ng-if="isChoose" align="center">
                     <label class="checkbox-inline choose">
                         <input type="checkbox" ng-disabled="isDisabled" name="fileChoose{{$index}}"
                                ng-click="_changeChoose($index, item.fileid)" class="px"
