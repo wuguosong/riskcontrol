@@ -284,6 +284,12 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                 $scope.stage = data.result_data.stage;
                 $scope.type = data.result_data.biddingType;
 
+                var flag = '';
+                if ($scope.tabIndex == '0') {
+                    flag = '4'
+                } else {
+                    flag = '5'
+                }
                 console.log($scope.type)
                 var path = $filter('encodeURI')('#/IndividualTable');
                 /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
@@ -293,12 +299,12 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                 }*/
                 // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
                 if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
-                    $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+                    $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/" + flag);
                 } else if ($scope.stage == 7) {
                     if($scope.type == 'PPT') {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/"  + flag);
                     } else {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/"  + flag);
                     }
                 } else {
                     if($scope.type == 'PPT') {

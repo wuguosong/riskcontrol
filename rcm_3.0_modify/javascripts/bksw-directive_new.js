@@ -6247,7 +6247,7 @@ ctmApp.directive('bpmnPopWin', function () {
 });
 /*******************************************************流程指令结束***************************************************/
 
-// 其他评审流程弹出框
+// 首页资料填写已列表
 ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
     return {
         restrict: 'AE',
@@ -6275,6 +6275,48 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                 });
             };
 
+            /**
+             * 查询项目部分信息，查看是新项目还是老项目，决定跳转路径
+             * */
+            $scope.getInfo = function (id) {
+                $http({
+                    method: 'post',
+                    url: srvUrl + "formalReport/findFormalAndReport.do",
+                    data: $.param({"projectFormalId": id})
+                }).success(function (data) {
+                    debugger
+                    $scope.projectSummary = data.result_data.summary;
+                    $scope.stage = data.result_data.stage;
+                    $scope.type = data.result_data.biddingType;
+
+                    console.log($scope.type)
+                    var path = $filter('encodeURI')('#/IndividualTable');
+                    /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
+                        $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+                    } else {
+                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                    }*/
+                    // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
+                    if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
+                        $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/2");
+                    } else if ($scope.stage == 7) {
+                        if($scope.type == 'PPT') {
+                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
+                        } else {
+                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
+                        }
+                    } else {
+                        if($scope.type == 'PPT') {
+                            $location.path("/OtherBidding/0/View/"+ id + "/" + path);
+                        } else {
+                            $location.path("/FormalBiddingInfo/"+ id + "/" + path + "/3");
+                        }
+                    }
+                }).error(function (data, status, header, config) {
+                    $.alert(status);
+                });
+            }
+
             $scope.initData();
 
             $scope.cancel = function () {
@@ -6284,6 +6326,8 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
         }
     }
 }]);
+
+// 首页资料填写未列表
 ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
     return {
         restrict: 'AE',
@@ -6375,12 +6419,12 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                     }*/
                     // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
                     if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
-                        $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+                        $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/2");
                     } else if ($scope.stage == 7) {
                         if($scope.type == 'PPT') {
-                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
                         } else {
-                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
                         }
                     } else {
                         if($scope.type == 'PPT') {
