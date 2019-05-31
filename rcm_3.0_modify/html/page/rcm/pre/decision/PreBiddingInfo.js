@@ -287,6 +287,14 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 $scope.stage = data.result_data.stage;
                 $scope.reportOracle = data.result_data.reportOracle;
 
+                // 处理会议数据
+                if ($scope.preBidding.meetingInfo == null) {
+                    $scope.preBidding.meetingInfo = [];
+                }
+
+                $scope.preBidding.meetingInfo.projectName = $scope.pfr.apply.projectName;
+                $scope.preBidding.meetingInfo.serviceType = $scope.pfr.apply.serviceType[0].VALUE;
+
                 // 处理附件需要的数据
                 $scope.serviceType = angular.copy($scope.pfr.apply.serviceType);
                 $scope.projectModel = angular.copy($scope.pfr.apply.projectModel);
@@ -295,9 +303,6 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
 
                 if(flag == 1){
                     var storage = window.localStorage;
-                    if ($scope.preBidding.meetingInfo == null) {
-                        $scope.preBidding.meetingInfo = [];
-                    }
                     if (storage.fileList != "undefined"  && storage.fileList != "" && storage.fileList != null) {
                         $scope.preBidding.policyDecision.fileList  = angular.copy(JSON.parse(storage.fileList));
                     }

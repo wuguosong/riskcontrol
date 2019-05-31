@@ -9,11 +9,10 @@ import javax.annotation.Resource;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import util.ThreadLocalUtil;
-import util.Util;
 
 import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
@@ -25,11 +24,14 @@ import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
 import com.yk.rcm.newFormalAssessment.dao.IFormalAssessmentInfoCreateMapper;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
 import com.yk.rcm.noticeofdecision.dao.INoticeDecisionDraftInfoMapper;
+import com.yk.reportData.service.IReportDataService;
 
 import common.Constants;
 import common.PageAssistant;
 import common.Result;
 import common.commonMethod;
+import util.ThreadLocalUtil;
+import util.Util;
 
 @Service
 @Transactional
@@ -49,6 +51,10 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	private IFormalReportMapper formalReportMapper;
 	@Resource
 	private INoticeDecisionDraftInfoMapper noticeDecisionDraftInfoMapper;
+	@Resource
+	private IReportDataService reportDataService;
+
+	private Logger logger = LoggerFactory.getLogger(FormalAssessmentInfoCreateServiceImpl.class);
 
 	@Override
 	public String createProject(String json) {
@@ -407,10 +413,10 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	 * @SuppressWarnings("unchecked")
 	 * 
 	 * @Override public void updateAttachment(String json) { Document doc =
-	 * Document.parse(json); String uuid = (String) doc.get("UUID"); String version
-	 * = doc.get("version").toString(); String businessId = (String)
-	 * doc.get("businessId"); String fileName = (String) doc.get("fileName"); String
-	 * filePath = (String) doc.get("filePath");
+	 * Document.parse(json); String uuid = (String) doc.get("UUID"); String
+	 * version = doc.get("version").toString(); String businessId = (String)
+	 * doc.get("businessId"); String fileName = (String) doc.get("fileName");
+	 * String filePath = (String) doc.get("filePath");
 	 * 
 	 * Document programmed = (Document) doc.get("programmed");
 	 * 
@@ -423,12 +429,13 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	 * queryById.get("attachment");
 	 * 
 	 * for (Map<String, Object> attachment : attachmentList) {
-	 * if(attachment.get("UUID").toString().equals(uuid)){ List<Map<String, Object>>
-	 * filesList = (List<Map<String, Object>>) attachment.get("files");
-	 * if(Util.isNotEmpty(filesList)){ for (Map<String, Object> files : filesList) {
-	 * if(files.get("version").toString().equals(version)){ files.put("fileName",
-	 * fileName); files.put("filePath", filePath); files.put("approved", approved);
-	 * files.put("programmed", programmed); } } } } }
+	 * if(attachment.get("UUID").toString().equals(uuid)){ List<Map<String,
+	 * Object>> filesList = (List<Map<String, Object>>) attachment.get("files");
+	 * if(Util.isNotEmpty(filesList)){ for (Map<String, Object> files :
+	 * filesList) { if(files.get("version").toString().equals(version)){
+	 * files.put("fileName", fileName); files.put("filePath", filePath);
+	 * files.put("approved", approved); files.put("programmed", programmed); } }
+	 * } } }
 	 * 
 	 * Map<String, Object> data = new HashMap<String,Object>();
 	 * data.put("attachment", attachmentList);
@@ -528,22 +535,22 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 
 		// 环卫、危废项目保存会议纪要，如果全部提交后，应修改状态
 		this.baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_FORMALASSESSMENT_INFO);
-		
+
 		// 在oracle增加决策通知书数据
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessId);
 		params.put("projectFormalid", businessId);
 		this.noticeDecisionDraftInfoMapper.save(params);
-		
+
 		// 在monogo增加决策通知书数据
 		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_FORMALASSESSMENT_INFO);
 		Document notice = new Document();
 		ObjectId objectId = new ObjectId((String) businessId);
-//		notice.put("_id", objectId);
+		// notice.put("_id", objectId);
 		notice.put("projectFormalId", businessId);
 		notice.put("projectName", projectName);
 		notice.put("pertainArea", ((Document) queryById.get("apply")).get("pertainArea"));
-		baseMongo.save(notice, Constants.RCM_NOTICEDECISION_INFO); 
+		baseMongo.save(notice, Constants.RCM_NOTICEDECISION_INFO);
 
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
@@ -560,6 +567,19 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 					map.put("stage", "4");
 					map.put("businessid", businessId);
 					this.formalReportMapper.changeState(map);
+
+					// 调用报表同步报表数据方法
+					Map<String, Object> params1 = new HashMap<String, Object>();
+					params1.put("projectType", "pfr");
+					params1.put("businessId", businessId);
+					String Json = JSON.toJSONString(params1);
+					try {
+						reportDataService.saveOrUpdateReportData(Json);
+						logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
+					} catch (Exception e) {
+						logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情："
+								+ e.getMessage());
+					}
 				}
 			}
 		}

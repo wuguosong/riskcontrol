@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
@@ -27,6 +28,7 @@ import com.yk.rcm.formalAssessment.dao.IFormalReportMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 import com.yk.rcm.formalAssessment.service.IFormalReportService;
 import com.yk.rcm.report.service.IReportInfoService;
+import com.yk.reportData.service.IReportDataService;
 
 import common.Constants;
 import common.ExportExcel;
@@ -54,16 +56,19 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 	@Resource
 	private IFormalAssessmentInfoService formalAssessmentInfoService;
-	
+
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
-	
+
 	@Resource
 	private IFillMaterialsMapper fillMaterialsMapper;
-	
+
 	@Resource
 	private IFormalAssessmentInfoMapper formalAssessmentInfoMapper;
-	
+
+	@Resource
+	private IReportDataService reportDataService;
+
 	private Logger logger = Logger.getLogger("FormalReportServiceImpl");
 
 	@SuppressWarnings("unchecked")
@@ -180,7 +185,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		params.put("businessId", doc.getString("projectFormalId"));
 		params.put("controller_val", doc.getString("controllerVal"));
 		this.reportInfoService.saveReport(params);
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
 		statusMap.put("filed", "IS_SUBMIT_REPORT");
@@ -221,30 +226,45 @@ public class FormalReportServiceImpl implements IFormalReportService {
 	@Override
 	public void submitAndupdate(String id, String projectFormalId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
 		statusMap.put("filed", "IS_SUBMIT_REPORT");
 		statusMap.put("status", "1");
 		statusMap.put("BUSINESSID", projectFormalId);
 		this.fillMaterialsMapper.updateProjectStaus(statusMap);
-		
+
 		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(projectFormalId);
-		if(Util.isNotEmpty(Object)) {
-			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-				if (Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+		if (Util.isNotEmpty(Object)) {
+			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))
+					&& Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
+				if (Object.get("IS_SUBMIT_BIDDING").equals("1")
+						&& Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
 					map.put("stage", "4");
+
+					// 调用报表同步报表数据方法
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("projectType", "pfr");
+					params.put("businessId", projectFormalId);
+					String Json = JSON.toJSONString(params);
+					try {
+						reportDataService.saveOrUpdateReportData(Json);
+						logger.info("同步报表数据成功：[" + params.get("projectType") + "," + projectFormalId + "]");
+					} catch (Exception e) {
+						logger.info("同步报表数据出错：[" + params.get("projectType") + "," + projectFormalId + "],错误详情："
+								+ e.getMessage());
+					}
 				}
 			}
 		}
-		
-//		map.put("stage", "3.7");
+
+		// map.put("stage", "3.7");
 		map.put("decision_commit_time", null);
 		map.put("businessid", projectFormalId);
 		// 合并 正式评审参会信息 时，将正式品汇参会信息中的修改项合并到正式评审报告中
 		map.put("need_meeting", "1");
 		map.put("metting_commit_time", Util.getTime());
-		
+
 		this.formalReportMapper.changeState(map);
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -446,7 +466,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 		Map<String, Object> param = new HashMap<String, Object>();
 
-		// ------------------------Sam Gao 2018-12-06 Start------------------------------
+		// ------------------------Sam Gao 2018-12-06
+		// Start------------------------------
 		// 获得风控评审意见汇总
 		BasicDBObject summaryDBObject = new BasicDBObject();
 		summaryDBObject.put("projectFormalId", projectFormalId);
@@ -459,7 +480,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			}
 			param.put("summary", doc_summmaryInfo);
 		}
-		// ------------------------Sam Gao 2018-12-06 End------------------------------
+		// ------------------------Sam Gao 2018-12-06
+		// End------------------------------
 
 		param.put("Report", doc_Report);
 		param.put("MeetInfo", doc_meetingInfo);
@@ -469,14 +491,14 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		param.put("stage", oracle.get("STAGE"));
 		param.put("serviceType", oracle.get("SERVICETYPE_ID"));
 		param.put("biddingType", oracle.get("BIDDING_TYPE"));
-		
+
 		return param;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Result addPolicyDecision(String json, String method) {
-		System.out.println("查看是提交还是暂存  method="+method);
+		System.out.println("查看是提交还是暂存  method=" + method);
 		Result result = new Result();
 		result.setResult_data(true);
 		Document bjson = Document.parse(json);
@@ -484,9 +506,9 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		String businessId = bjson.getString("projectFormalId");
 		System.out.println(bjson.get("projectFormalId"));
 		System.out.println(bjson.get("projectFormalId"));
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
-		
+
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
 		statusMap.put("filed", "IS_SUBMIT_BIDDING");
 		statusMap.put("status", "0");
@@ -538,17 +560,32 @@ public class FormalReportServiceImpl implements IFormalReportService {
 				statusMap1.put("status", "1");
 				statusMap1.put("BUSINESSID", businessId);
 				this.fillMaterialsService.updateProjectStaus(statusMap1);
-				
+
 				Map<String, Object> map = new HashMap<String, Object>();
 				Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
-				if(Util.isNotEmpty(Object)) {
-					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+				if (Util.isNotEmpty(Object)) {
+					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT"))
+							&& Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
+						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")
+								&& Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
 							map.put("stage", "4");
+
+							// 调用报表同步报表数据方法
+							Map<String, Object> params1 = new HashMap<String, Object>();
+							params1.put("projectType", "pfr");
+							params1.put("businessId", businessId);
+							String Json = JSON.toJSONString(params1);
+							try {
+								reportDataService.saveOrUpdateReportData(Json);
+								logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
+							} catch (Exception e) {
+								logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情："
+										+ e.getMessage());
+							}
 						}
 					}
 				}
-//				map.put("stage", "4");
+				// map.put("stage", "4");
 				map.put("decision_commit_time", Util.format(Util.now()));
 				map.put("businessid", businessId);
 				this.formalReportMapper.changeState(map);
@@ -558,8 +595,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		}
 		System.out.println(bjson.getString("_id"));
 		// 3、修改mongo数据
-		
-		if(Util.isNotEmpty(bjson.getString("_id"))){
+
+		if (Util.isNotEmpty(bjson.getString("_id"))) {
 			Document doc = (Document) this.baseMongo.queryById(bjson.getString("_id"), Constants.RCM_FORMALREPORT_INFO);
 			doc.put("_id", new ObjectId(bjson.getString("_id")));
 			doc.put("fkPsResult", bjson.getString("fkPsResult"));// 风控中心评审结论
@@ -591,7 +628,6 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			doc.put("filePath", bjson.getString("filePath"));
 			this.baseMongo.updateSetByObjectId(bjson.getString("_id"), doc, Constants.RCM_FORMALREPORT_INFO);
 		}
-		
 
 		// 处理附件
 		if (null != attachments) {
@@ -611,15 +647,15 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			doc_rpi.put("attachment", attachments);
 			this.baseMongo.updateSetByObjectId(businessId, doc_rpi, Constants.RCM_FORMALASSESSMENT_INFO);
 		}
-		
+
 		// 修改评审意见汇总-------------Start-------------------------
-	
+
 		Document projectSummary = (Document) bjson.get("projectSummary");
-		
+
 		saveOrUpdateFormalProjectSummary(projectSummary);
 
 		// 修改评审意见汇总-------------End-------------------------
-		
+
 		return result;
 	}
 
@@ -637,6 +673,18 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			if (flag) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("stage", "4");
+				// 调用报表同步报表数据方法
+				Map<String, Object> params1 = new HashMap<String, Object>();
+				params1.put("projectType", "pfr");
+				params1.put("businessId", businessId);
+				String Json = JSON.toJSONString(params1);
+				try {
+					reportDataService.saveOrUpdateReportData(Json);
+					logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
+				} catch (Exception e) {
+					logger.info(
+							"同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情：" + e.getMessage());
+				}
 				map.put("decision_commit_time", Util.now());
 				map.put("businessid", businessId);
 				this.formalReportMapper.changeState(map);
@@ -771,7 +819,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 	@Override
 	public boolean saveOrUpdateFormalProjectSummary(Document summaryDoc) {
-//		Document summaryDoc = Document.parse(json);
+		// Document summaryDoc = Document.parse(json);
 		summaryDoc.put("_id", new ObjectId(summaryDoc.getString("projectFormalId")));
 		summaryDoc.put("create_by", ThreadLocalUtil.getUserId());
 		summaryDoc.put("create_name", ThreadLocalUtil.getUser().get("NAME"));
@@ -814,12 +862,12 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 	@Override
 	public Result addPptecision(String json, String method) {
-		System.out.println("查看是提交还是暂存  method="+method);
+		System.out.println("查看是提交还是暂存  method=" + method);
 		Result result = new Result();
 		result.setResult_data(true);
 		Document bjson = Document.parse(json);
 		String businessId = bjson.getString("projectFormalId");
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_FORMALASSESSMENT_INFO");
 		statusMap.put("filed", "IS_SUBMIT_BIDDING");
@@ -836,34 +884,49 @@ public class FormalReportServiceImpl implements IFormalReportService {
 			statusMap1.put("status", "1");
 			statusMap1.put("BUSINESSID", businessId);
 			this.fillMaterialsService.updateProjectStaus(statusMap1);
-			
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
-			if(Util.isNotEmpty(Object)) {
-				if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-					if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+			if (Util.isNotEmpty(Object)) {
+				if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT"))
+						&& Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
+					if (Object.get("IS_SUBMIT_REPORT").equals("1")
+							&& Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
 						map.put("stage", "4");
+
+						// 调用报表同步报表数据方法
+						Map<String, Object> params1 = new HashMap<String, Object>();
+						params1.put("projectType", "pfr");
+						params1.put("businessId", businessId);
+						String Json = JSON.toJSONString(params1);
+						try {
+							reportDataService.saveOrUpdateReportData(Json);
+							logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
+						} catch (Exception e) {
+							logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情："
+									+ e.getMessage());
+						}
 					}
 				}
 			}
-//			map.put("stage", "4");
+			// map.put("stage", "4");
 			map.put("decision_commit_time", Util.format(Util.now()));
 			map.put("businessid", businessId);
 			this.formalReportMapper.changeState(map);
 		}
-		
+
 		// 修改评审意见汇总-------------Start-------------------------
-//		Document projectSummary = (Document) bjson.get("projectSummary");
-//		saveOrUpdateFormalProjectSummary(projectSummary);
+		// Document projectSummary = (Document) bjson.get("projectSummary");
+		// saveOrUpdateFormalProjectSummary(projectSummary);
 		// 修改评审意见汇总-------------End-------------------------
-		
+
 		return result;
 	}
 
 	@Override
 	public Map<String, Object> findFormalPptSummary(String businessId, String type) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(type.equals("pfr")) {
+		if (type.equals("pfr")) {
 			Map<String, Object> project = this.formalAssessmentInfoMapper.getFormalAssessmentById(businessId);
 			map.put("project", project);
 		}

@@ -211,6 +211,9 @@
 	     <if test="projectName != null and projectName != ''">
 	       AND RFI.PROJECTNAME LIKE '%${projectName}%'
 	     </if>
+	     <if test="businessId != null and businessId != ''">
+	       AND RFI.BUSINESSID LIKE '%${businessId}%'
+	     </if>
 	</select>
 	
 	<select id="getPreProjectList" parameterType="map" resultType="map">
@@ -224,6 +227,9 @@
 	     <if test="projectName != null and projectName != ''">
 	       AND RPI.PROJECTNAME LIKE '%${projectName}%'
 	     </if>
+	     <if test="businessId != null and businessId != ''">
+	       AND RPI.BUSINESSID LIKE '%${businessId}%'
+	     </if>
 	</select>
 	
 	<select id="getBulletinProjectList" parameterType="map" resultType="map">
@@ -236,6 +242,9 @@
 	     </if>
 	     <if test="projectName != null and projectName != ''">
 	       AND RBI.PROJECTNAME LIKE '%${projectName}%'
+	     </if>
+	     <if test="businessId != null and businessId != ''">
+	       AND RBI.BUSINESSID LIKE '%${businessId}%'
 	     </if>
 	</select>
 </mapper>

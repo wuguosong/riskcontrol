@@ -470,7 +470,7 @@ ctmApp.controller('SysControl', ['$scope', '$cookies', '$http', '$location', '$i
         }).success(function (data) {
             if (data.result_data.isTodayDecision) {
                 if (data.result_data.isUserDecision) {
-                    path = $filter('encodeURI')("#/FormalReviewListToday/JTI1MjMlMkZEZWNpc2lvbk92ZXJ2aWV3", "VALUE");
+                    path = $filter('encodeURI')("#/", "VALUE");
                     $location.path("/MeetingVote/" + path);
                 }
             } else {

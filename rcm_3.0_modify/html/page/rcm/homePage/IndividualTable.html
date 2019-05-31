@@ -121,7 +121,8 @@
                                     <tr ng-repeat="p in projects">
                                         <td>
                                             <a ng-if="'pre' == p.PROJECT_TYPE" href="#/PreBiddingInfoPreview/{{p.BUSINESS_ID}}/{{'#/'|encodeURI}}/2">{{p.PROJECT_NAME}}</a>
-                                            <a ng-if="'pfr' == p.PROJECT_TYPE" href="#/FormalBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/2">{{p.PROJECT_NAME}}</a>
+                                            <a ng-if="'pfr' == p.PROJECT_TYPE && p.BIDDING_TYPE != 'PPT'" href="#/FormalBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/2">{{p.PROJECT_NAME}}</a>
+                                            <a ng-if="'pfr' == p.PROJECT_TYPE && p.BIDDING_TYPE == 'PPT'" href="#/OtherBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/3">{{p.PROJECT_NAME}}</a>
                                             <a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{p.BUSINESS_ID}}_0/{{('#/') |encodeURI}}/2">{{p.PROJECT_NAME}}</a>
                                         </td>
                                         <td>

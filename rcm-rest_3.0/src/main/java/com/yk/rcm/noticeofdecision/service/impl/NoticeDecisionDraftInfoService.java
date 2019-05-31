@@ -15,17 +15,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import report.Path;
-import util.ThreadLocalUtil;
-import util.Util;
-
+import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
 import com.yk.common.DocxReportUtil;
 import com.yk.common.IBaseMongo;
@@ -38,9 +36,13 @@ import com.yk.rcm.formalAssessment.service.IFormalReportService;
 import com.yk.rcm.noticeofdecision.dao.INoticeDecisionDraftInfoMapper;
 import com.yk.rcm.noticeofdecision.dao.INoticeDecisionRoleMapper;
 import com.yk.rcm.noticeofdecision.service.INoticeDecisionDraftInfoService;
+import com.yk.reportData.service.IReportDataService;
 
 import common.Constants;
 import common.PageAssistant;
+import report.Path;
+import util.ThreadLocalUtil;
+import util.Util;
 
 /**
  * @author 80845530
@@ -65,6 +67,10 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 	private IOrgService orgService;
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
+	@Resource
+	private IReportDataService reportDataService;
+
+	private Logger logger = LoggerFactory.getLogger(NoticeDecisionDraftInfoService.class);
 
 	@Override
 	public PageAssistant queryStartByPage(PageAssistant page) {
@@ -171,7 +177,7 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 		ObjectId objectId = new ObjectId((String) paramsForOracle.get("businessId"));
 		doc.put("_id", objectId);
 		// 梳理时间戳
-//			Date object = (Date) paramsForOracle.get("create_date");
+		// Date object = (Date) paramsForOracle.get("create_date");
 		Format format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		doc.append("currentTimeStamp", format.format(new Date()));
 		// 处理创建时间
@@ -187,8 +193,8 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 		this.fillMaterialsService.updateProjectStaus(statusMap);
 
 		/*
-		 * //修改oracle的stage状态 Map<String, Object> map = new HashMap<String, Object>();
-		 * map.put("stage", "3.9"); map.put("businessId",
+		 * //修改oracle的stage状态 Map<String, Object> map = new HashMap<String,
+		 * Object>(); map.put("stage", "3.9"); map.put("businessId",
 		 * doc.getString("projectFormalId").toString());
 		 * this.noticeDecisionDraftInfoMapper.updateFormalAssessmentStage(map);
 		 */
@@ -282,7 +288,7 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 		// 申报项目ID
 		Document reportingUnit = doc.get("reportingUnit", Document.class);
 		if (Util.isEmpty(reportingUnit)) {
-//			createById = ThreadLocalUtil.getUserId();
+			// createById = ThreadLocalUtil.getUserId();
 		} else {
 			String reportingUnitId = reportingUnit.getString("value");
 			paramsForOracle.put("reportingUnitId", reportingUnitId);
@@ -300,9 +306,9 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 	@Override
 	public Map<String, Object> queryNoticeDecstionByFormalId(String formalId) {
 		/*
-		 * BasicDBObject queryAndWhere =new BasicDBObject(); queryAndWhere.put("_id",
-		 * new ObjectId(id)); Map<String, Object> doc = baseMongo.queryById(id,
-		 * DocumentName); Map<String,Object> oracle =
+		 * BasicDBObject queryAndWhere =new BasicDBObject();
+		 * queryAndWhere.put("_id", new ObjectId(id)); Map<String, Object> doc =
+		 * baseMongo.queryById(id, DocumentName); Map<String,Object> oracle =
 		 * noticeDecisionDraftInfoMapper.queryById(id); doc.put("_id",
 		 * doc.get("_id").toString()); doc.put("oracle", oracle);
 		 */
@@ -572,7 +578,7 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 	@Override
 	public void updateStageByBusinessId(String businessId, String stage) {
 		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("stage", "3.9");
+		// map.put("stage", "3.9");
 		map.put("stage", "3");
 		map.put("notice_draft_time", Util.getTime());
 		map.put("businessId", businessId);
@@ -590,6 +596,19 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")
 						&& Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
 					map.put("stage", "4");
+
+					// 调用报表同步报表数据方法
+					Map<String, Object> params1 = new HashMap<String, Object>();
+					params1.put("projectType", "pfr");
+					params1.put("businessId", businessId);
+					String Json = JSON.toJSONString(params1);
+					try {
+						reportDataService.saveOrUpdateReportData(Json);
+						logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
+					} catch (Exception e) {
+						logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情："
+								+ e.getMessage());
+					}
 				}
 			}
 		}

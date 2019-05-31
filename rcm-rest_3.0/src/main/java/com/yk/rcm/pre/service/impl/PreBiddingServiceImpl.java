@@ -8,12 +8,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import util.ThreadLocalUtil;
-import util.Util;
-
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yk.common.IBaseMongo;
@@ -22,9 +22,12 @@ import com.yk.rcm.pre.dao.IPreBiddingMapper;
 import com.yk.rcm.pre.service.IPreAuditReportService;
 import com.yk.rcm.pre.service.IPreBiddingService;
 import com.yk.rcm.pre.service.IPreInfoService;
+import com.yk.reportData.service.IReportDataService;
 
 import common.Constants;
 import common.PageAssistant;
+import util.ThreadLocalUtil;
+import util.Util;
 
 @Service
 @Transactional
@@ -38,12 +41,17 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 
 	@Resource
 	private IPreInfoService preInfoService;
-	
+
 	@Resource
 	private IPreAuditReportService preAuditReportService;
-	
+
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
+
+	@Resource
+	private IReportDataService reportDataService;
+
+	private Logger logger = LoggerFactory.getLogger(PreBiddingServiceImpl.class);
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -89,14 +97,14 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 		List<Map<String, Object>> list = preBiddingMapper.querySubmittedByPage(params);
 		page.setList(list);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> getByBusinessId(String businessId) {
 		String applyDate = preBiddingMapper.queryApplDate(businessId);
 
 		Map<String, Object> preOracle = preInfoService.getOracleByBusinessId(businessId);
-		Map<String, Object> preMongo = baseMongo.queryById(businessId,Constants.RCM_PRE_INFO);
+		Map<String, Object> preMongo = baseMongo.queryById(businessId, Constants.RCM_PRE_INFO);
 		Map<String, Object> reportOracle = preAuditReportService.getOracleByBusinessId(businessId);
 		List<Document> attachment = (List<Document>) preMongo.get("attachment");// 获取附件类型
 		List<Document> attach = new ArrayList<Document>();
@@ -110,15 +118,14 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 				attach.add(doc4);
 			}
 		}
-		
-		
+
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("preMongo", preMongo);
 		param.put("attach", attach);
 		param.put("applyDate", applyDate);
 		param.put("stage", preOracle.get("STAGE"));
 		param.put("reportOracle", reportOracle);
-		
+
 		return param;
 	}
 
@@ -127,8 +134,7 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 	public boolean addPolicyDecision(Document bjson, String method) {
 		boolean flag = true;
 		String businessId = bjson.getString("id");
-		
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_PRE_INFO");
 		statusMap.put("filed", "IS_SUBMIT_BIDDING");
@@ -137,34 +143,48 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 		this.fillMaterialsService.updateProjectStaus(statusMap);
 
 		if ("ss".equals(method)) {
-			/*flag = this.isHaveMeetingInfo(businessId);
-			if (flag) {*/
-				Map<String, Object> map = new HashMap<String, Object>();
-//				map.put("stage", "4");
-				map.put("decision_commit_time", Util.now());
-				map.put("businessid", businessId);
-				
-				Map<String, Object> statusMap1 = new HashMap<String, Object>();
-				statusMap1.put("table", "RCM_PRE_INFO");
-				statusMap1.put("filed", "IS_SUBMIT_BIDDING");
-				statusMap1.put("status", "1");
-				statusMap1.put("BUSINESSID", businessId);
-				this.fillMaterialsService.updateProjectStaus(statusMap);
-				
-				Map<String, Object> Object = this.fillMaterialsService.getRPIStatus(businessId);
-				if(Util.isNotEmpty(Object)) {
-					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT"))) {
-						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")) {
-							map.put("stage", "4");
+			/*
+			 * flag = this.isHaveMeetingInfo(businessId); if (flag) {
+			 */
+			Map<String, Object> map = new HashMap<String, Object>();
+			// map.put("stage", "4");
+			map.put("decision_commit_time", Util.now());
+			map.put("businessid", businessId);
+
+			Map<String, Object> statusMap1 = new HashMap<String, Object>();
+			statusMap1.put("table", "RCM_PRE_INFO");
+			statusMap1.put("filed", "IS_SUBMIT_BIDDING");
+			statusMap1.put("status", "1");
+			statusMap1.put("BUSINESSID", businessId);
+			this.fillMaterialsService.updateProjectStaus(statusMap1);
+
+			Map<String, Object> Object = this.fillMaterialsService.getRPIStatus(businessId);
+			if (Util.isNotEmpty(Object)) {
+				if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT"))) {
+					if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")) {
+						map.put("stage", "4");
+
+						// 调用报表同步报表数据方法
+						Map<String, Object> params1 = new HashMap<String, Object>();
+						params1.put("projectType", "pre");
+						params1.put("businessId", businessId);
+						String Json = JSON.toJSONString(params1);
+						try {
+							reportDataService.saveOrUpdateReportData(Json);
+							logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
+						} catch (Exception e) {
+							logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情："
+									+ e.getMessage());
 						}
 					}
 				}
-				
-				preBiddingMapper.changeState(map);
-			}/* else {
-				return false;
-			}*/
-		/*}*/
+			}
+
+			preBiddingMapper.changeState(map);
+		} /*
+			 * else { return false; }
+			 */
+		/* } */
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessId);
@@ -235,12 +255,12 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 			doc_rpi.put("attachment", attachments);
 			this.baseMongo.updateSetByObjectId(businessId, doc_rpi, Constants.RCM_PRE_INFO);
 		}
-			Map<String,Object> map = new HashMap<String,Object>();
-			Map<String,Object> reviewReport = (Map<String, Object>) bjson.get("reviewReport");
-			map.put("reviewReport", reviewReport);
-			// 更新参会部分信息
-			map.put("meetingInfo", (Map<String, Object>) bjson.get("meetingInfo"));
-			this.baseMongo.updateSetByObjectId(businessId, map, Constants.RCM_PRE_INFO);
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> reviewReport = (Map<String, Object>) bjson.get("reviewReport");
+		map.put("reviewReport", reviewReport);
+		// 更新参会部分信息
+		map.put("meetingInfo", (Map<String, Object>) bjson.get("meetingInfo"));
+		this.baseMongo.updateSetByObjectId(businessId, map, Constants.RCM_PRE_INFO);
 		return flag;
 	}
 
@@ -249,7 +269,7 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 		boolean flag = false;
 		Map<String, Object> queryById = this.baseMongo.queryById(businessId, Constants.RCM_PRE_INFO);
 		Map<String, Object> meetingInfo = (Map<String, Object>) queryById.get("meetingInfo");
-		if(Util.isNotEmpty(meetingInfo)){
+		if (Util.isNotEmpty(meetingInfo)) {
 			flag = true;
 		}
 		return flag;

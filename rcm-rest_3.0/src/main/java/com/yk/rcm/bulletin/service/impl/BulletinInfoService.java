@@ -13,6 +13,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,7 @@ import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
 import com.yk.rcm.bulletin.service.IBulletinInfoService;
 import com.yk.rcm.file.service.IFileService;
 import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
+import com.yk.reportData.service.IReportDataService;
 
 import common.Constants;
 import common.PageAssistant;
@@ -68,16 +71,22 @@ public class BulletinInfoService implements IBulletinInfoService {
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
 	@Resource
-    private IFileService fileService;
-	
-	/* (non-Javadoc)
+	private IFileService fileService;
+	@Resource
+	private IReportDataService reportDataService;
+
+	private Logger logger = LoggerFactory.getLogger(BulletinInfoService.class);
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.yk.bulletin.service.IBulletinInfoService#save(java.lang.String)
 	 */
 	@Override
 	public String save(Map<String, Object> doc) {
 		String businessId = Util.getUUID();
 		doc.put("_id", businessId);
-		this.baseMongo.save((Document)doc, Constants.RCM_BULLETIN_INFO);
+		this.baseMongo.save((Document) doc, Constants.RCM_BULLETIN_INFO);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("bulletinName", doc.get("bulletinName"));
 		Document bulletinType = (Document) doc.get("bulletinType");
@@ -85,7 +94,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 		data.put("businessId", businessId);
 		Document applyUnit = (Document) doc.get("applyUnit");
 		data.put("applyUnitId", applyUnit.get("VALUE"));
-		//根据申报单位初始化大区ID
+		// 根据申报单位初始化大区ID
 		Map<String, Object> pertainAreaDocument = orgService.queryPertainArea(applyUnit.get("VALUE").toString());
 		data.put("pertainareaId", pertainAreaDocument.get("ORGPKVALUE"));
 		Document unitPerson = (Document) doc.get("unitPerson");
@@ -99,37 +108,39 @@ public class BulletinInfoService implements IBulletinInfoService {
 		data.put("projectNum", doc.get("projectNo"));
 		this.bulletinInfoMapper.save(data);
 		this.saveDefaultProRole(data);
-		System.out.println((String)data.get("businessId"));
-		return (String)data.get("businessId");
+		System.out.println((String) data.get("businessId"));
+		return (String) data.get("businessId");
 	}
-	
+
 	/**
-	 * 新建项目时创建默认项目角色
-	 * author Sunny Qi
-	 * 2019-03-14
-	 * */
-	private void saveDefaultProRole(Map<String, Object> doc){
-		HashMap<String, Object> params = new HashMap<String,Object>();
-		
-		HashMap<String, Object> params1 = new HashMap<String,Object>();
-		String pertainAreaId = (String)doc.get("pertainareaId");
+	 * 新建项目时创建默认项目角色 author Sunny Qi 2019-03-14
+	 */
+	private void saveDefaultProRole(Map<String, Object> doc) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+
+		HashMap<String, Object> params1 = new HashMap<String, Object>();
+		String pertainAreaId = (String) doc.get("pertainareaId");
 		params1.put("orgId", pertainAreaId);
 		List<Map<String, Object>> roleIds = roleMapper.queryRoleIdByOrgId(params1);
-		
-		for(int i=0; i < roleIds.size(); i++){
+
+		for (int i = 0; i < roleIds.size(); i++) {
 			params.put("id", Util.getUUID());
 			params.put("businessId", doc.get("businessId").toString());
 			params.put("roleId", roleIds.get(i).get("ROLE_ID"));
 			params.put("createBy", doc.get("createBy"));
 			params.put("create_date", doc.get("createDate"));
 			params.put("projectType", "bulletin");
-			
+
 			this.roleMapper.insertProRole(params);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.yk.bulletin.service.IBulletinInfoService#deleteByBusinessId(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yk.bulletin.service.IBulletinInfoService#deleteByBusinessId(java.lang
+	 * .String)
 	 */
 	@Override
 	public void deleteByBusinessId(String businessId) {
@@ -137,8 +148,12 @@ public class BulletinInfoService implements IBulletinInfoService {
 		this.baseMongo.deleteById(businessId, Constants.RCM_BULLETIN_INFO);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.yk.bulletin.service.IBulletinInfoService#updateByBusinessId(java.util.Map)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yk.bulletin.service.IBulletinInfoService#updateByBusinessId(java.util
+	 * .Map)
 	 */
 	@Override
 	public void updateByBusinessId(Map<String, Object> doc) {
@@ -151,7 +166,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 		data.put("businessId", businessId);
 		Document applyUnit = (Document) doc.get("applyUnit");
 		data.put("applyUnitId", applyUnit.get("VALUE"));
-		//根据申报单位初始化大区ID
+		// 根据申报单位初始化大区ID
 		Map<String, Object> pertainAreaDocument = orgService.queryPertainArea(applyUnit.get("VALUE").toString());
 		data.put("pertainareaId", pertainAreaDocument.get("ORGPKVALUE"));
 		Document unitPerson = (Document) doc.get("unitPerson");
@@ -164,39 +179,44 @@ public class BulletinInfoService implements IBulletinInfoService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);
 		String needCreateBy = (String) page.getParamMap().get("needCreateBy");
-		if(!ThreadLocalUtil.getIsAdmin()){
-			//管理员能看所有的
-			if(!"0".equals(needCreateBy)){
+		if (!ThreadLocalUtil.getIsAdmin()) {
+			// 管理员能看所有的
+			if (!"0".equals(needCreateBy)) {
 				params.put("createBy", ThreadLocalUtil.getUserId());
 			}
 		}
-		if(page.getParamMap() != null){
+		if (page.getParamMap() != null) {
 			params.putAll(page.getParamMap());
 		}
 		String orderBy = page.getOrderBy();
-		if(orderBy == null){
+		if (orderBy == null) {
 			orderBy = " createtime desc ";
 		}
 		params.put("orderBy", orderBy);
 		List<Map<String, Object>> list = this.bulletinInfoMapper.queryListByPage(params);
 		page.setList(list);
 	}
-	/* (non-Javadoc)
-	 * @see com.yk.bulletin.service.IBulletinInfoService#queryApplyByPage(common.PageAssistant)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yk.bulletin.service.IBulletinInfoService#queryApplyByPage(common.
+	 * PageAssistant)
 	 */
 	@Override
 	public void queryApplyByPage(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);
-		if(!ThreadLocalUtil.getIsAdmin()){
-			//管理员能看所有的
+		if (!ThreadLocalUtil.getIsAdmin()) {
+			// 管理员能看所有的
 			params.put("createBy", ThreadLocalUtil.getUserId());
 		}
-		if(page.getParamMap() != null){
+		if (page.getParamMap() != null) {
 			params.putAll(page.getParamMap());
 		}
 		String orderBy = page.getOrderBy();
-		if(orderBy == null){
+		if (orderBy == null) {
 			orderBy = " createtime desc ";
 		}
 		params.put("orderBy", orderBy);
@@ -204,47 +224,51 @@ public class BulletinInfoService implements IBulletinInfoService {
 		page.setList(list);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.yk.bulletin.service.IBulletinInfoService#queryApplyedByPage(common.PageAssistant)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yk.bulletin.service.IBulletinInfoService#queryApplyedByPage(common.
+	 * PageAssistant)
 	 */
 	@Override
 	public void queryApplyedByPage(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);
-		if(!ThreadLocalUtil.getIsAdmin()){
-			//管理员能看所有的
+		if (!ThreadLocalUtil.getIsAdmin()) {
+			// 管理员能看所有的
 			params.put("createBy", ThreadLocalUtil.getUserId());
 		}
-		if(page.getParamMap() != null){
+		if (page.getParamMap() != null) {
 			params.putAll(page.getParamMap());
 		}
 		String orderBy = page.getOrderBy();
-		if(orderBy == null){
+		if (orderBy == null) {
 			orderBy = " createtime desc ";
 		}
 		params.put("orderBy", orderBy);
 		List<Map<String, Object>> list = this.bulletinInfoMapper.queryApplyedByPage(params);
 		page.setList(list);
 	}
+
 	@Override
-	public Result queryCreateDefaultInfo(String userId){
+	public Result queryCreateDefaultInfo(String userId) {
 		Result result = new Result();
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> user =  this.userService.queryById(userId);
+		Map<String, Object> user = this.userService.queryById(userId);
 		Map<String, Object> data = this.orgService.queryGroupUserInfo(userId);
-		if(data == null){
+		if (data == null) {
 			return result.setSuccess(false).setResult_name("请完善人员组织信息！");
 		}
 		map.putAll(data);
 		map.put("APPLYUSER_ID", userId);
 		map.put("APPLYUSER_NAME", user.get("NAME"));
-		
+
 		DataOption dictService = (DataOption) SpringUtil.getBean("rcm.DataOption");
 		List<Map<String, Object>> tbsxType = dictService.queryItemsByPcode(Constants.TBSX_TYPE);
-		//通报事项类型
+		// 通报事项类型
 		map.put("tbsxType", tbsxType);
-		//业务负责人列表
+		// 业务负责人列表
 		List<Map<String, Object>> businessUsers = this.bulletinInfoMapper.queryTbsxUserRelations();
 		map.put("businessUsers", businessUsers);
 		result.setResult_data(map);
@@ -258,14 +282,14 @@ public class BulletinInfoService implements IBulletinInfoService {
 		map.put("bulletinMongo", bulletinMongo);
 		DataOption dictService = (DataOption) SpringUtil.getBean("rcm.DataOption");
 		List<Map<String, Object>> tbsxType = dictService.queryItemsByPcode(Constants.TBSX_TYPE);
-		//通报事项类型
+		// 通报事项类型
 		map.put("tbsxType", tbsxType);
-		//业务负责人列表
+		// 业务负责人列表
 		List<Map<String, Object>> businessUsers = this.bulletinInfoMapper.queryTbsxUserRelations();
-		//查出创建人的id，再查出所在的单位，返回给也页面回显
+		// 查出创建人的id，再查出所在的单位，返回给也页面回显
 		Document string2 = (Document) bulletinMongo.get("applyUser");
 		String userId = (String) string2.get("VALUE");
-		Map<String, Object> user =  this.userService.queryById(userId);
+		Map<String, Object> user = this.userService.queryById(userId);
 		Map<String, Object> data = this.orgService.queryGroupUserInfo(userId);
 		map.putAll(data);
 		map.put("APPLYUSER_ID", userId);
@@ -277,35 +301,35 @@ public class BulletinInfoService implements IBulletinInfoService {
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void deleteByIds(String[] businessIds) {
-		//1、删除(真实删除)oracle
+		// 1、删除(真实删除)oracle
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ids", businessIds);
 		this.bulletinInfoMapper.deleteByIds(params);
-		//2、删除文件系统中的附件
+		// 2、删除文件系统中的附件
 		MongoCollection<Document> collection = this.baseMongo.getCollection(Constants.RCM_BULLETIN_INFO);
 		BasicDBList ids = new BasicDBList();
-		for(int i = 0; i < businessIds.length; i++){
+		for (int i = 0; i < businessIds.length; i++) {
 			ids.add(businessIds[i]);
 		}
 		BasicDBObject queryFilter = new BasicDBObject();
 		queryFilter.put("_id", new BasicDBObject("$in", ids));
 		FindIterable<Document> fit = collection.find(queryFilter);
 		MongoCursor<Document> cursor = fit.iterator();
-		while(cursor.hasNext()){
+		while (cursor.hasNext()) {
 			Document doc = cursor.next();
 			List<Document> fileList = (List<Document>) doc.get("fileList");
-			if(fileList == null || fileList.size() == 0){
+			if (fileList == null || fileList.size() == 0) {
 				continue;
 			}
-			for(int i = 0; i < fileList.size(); i++){
+			for (int i = 0; i < fileList.size(); i++) {
 				Document fileDoc = fileList.get(i);
-				if(fileDoc.get("files")!=null && ((Document)fileDoc.get("files")).get("filePath")!=null){
-					String filepath = (String) ((Document)fileDoc.get("files")).get("filePath");
+				if (fileDoc.get("files") != null && ((Document) fileDoc.get("files")).get("filePath") != null) {
+					String filepath = (String) ((Document) fileDoc.get("files")).get("filePath");
 					FileUtil.removeFile(filepath);
 				}
 			}
 		}
-		//3、删除mongo数据，真实删除
+		// 3、删除mongo数据，真实删除
 		collection.deleteMany(queryFilter);
 	}
 
@@ -314,7 +338,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		DataOption dictService = (DataOption) SpringUtil.getBean("rcm.DataOption");
 		List<Map<String, Object>> tbsxType = dictService.queryItemsByPcode(Constants.TBSX_TYPE);
-		//通报事项类型
+		// 通报事项类型
 		map.put("tbsxType", tbsxType);
 		return map;
 	}
@@ -327,13 +351,13 @@ public class BulletinInfoService implements IBulletinInfoService {
 	@Override
 	public Map<String, Object> queryViewDefaultInfo(String businessId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//oracle数据
+		// oracle数据
 		Map<String, Object> bulletinOracle = this.queryByBusinessId(businessId);
-		//mongo数据
+		// mongo数据
 		Map<String, Object> bulletinMongo = this.baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
-		//审核日志
+		// 审核日志
 		List<Map<String, Object>> logs = this.bulletinAuditLogService.queryAuditLogs(businessId);
-		
+
 		map.put("bulletinMongo", bulletinMongo);
 		map.put("bulletinOracle", bulletinOracle);
 		map.put("logs", logs);
@@ -341,8 +365,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 	}
 
 	@Override
-	public void updateAuditStatusByBusinessId(String businessId,
-			String auditStatus) {
+	public void updateAuditStatusByBusinessId(String businessId, String auditStatus) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("businessId", businessId);
 		map.put("auditStatus", auditStatus);
@@ -359,78 +382,90 @@ public class BulletinInfoService implements IBulletinInfoService {
 	}
 
 	@Override
-	public void updateAuditStageByBusinessId(String businessId,
-			String stage) {
+	public void updateAuditStageByBusinessId(String businessId, String stage) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("businessId", businessId);
 		map.put("stage", stage);
 		bulletinInfoMapper.updateAuditStageByBusinessId(map);
 	}
-	
+
 	@Override
 	public void quaryMettingSummary(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);
-		if(!ThreadLocalUtil.getIsAdmin()){
-			//管理员能看所有的
+		if (!ThreadLocalUtil.getIsAdmin()) {
+			// 管理员能看所有的
 			params.put("createBy", ThreadLocalUtil.getUserId());
 		}
-		if(page.getParamMap() != null){
+		if (page.getParamMap() != null) {
 			params.putAll(page.getParamMap());
 		}
 		String orderBy = page.getOrderBy();
-		if(orderBy == null){
+		if (orderBy == null) {
 			orderBy = " createtime desc ";
 		}
 		params.put("orderBy", orderBy);
 		List<Map<String, Object>> list = this.bulletinInfoMapper.quaryMettingSummary(params);
 		page.setList(list);
 	}
-	
+
 	@Override
 	public void queryMettingSummaryed(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);
-		if(!ThreadLocalUtil.getIsAdmin()){
-			//管理员能看到所有的
+		if (!ThreadLocalUtil.getIsAdmin()) {
+			// 管理员能看到所有的
 			params.put("createBy", ThreadLocalUtil.getUserId());
 		}
-		if(page.getParamMap() !=null){
+		if (page.getParamMap() != null) {
 			params.putAll(page.getParamMap());
 		}
 		String orderBy = page.getOrderBy();
-		if(orderBy == null){
+		if (orderBy == null) {
 			orderBy = "createtime desc";
 		}
 		params.put("orderBy", orderBy);
 		List<Map<String, Object>> list = this.bulletinInfoMapper.queryMettingSummaryed(params);
 		page.setList(list);
 	}
-	
+
 	@Override
 	public void saveMettingSummary(String businessId, String mettingSummaryInfo) {
-		//1.保存会议纪要
+		// 1.保存会议纪要
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("mettingSummary", mettingSummaryInfo);
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_BULLETIN_INFO");
 		statusMap.put("filed", "IS_SUBMIT_SUMMARY");
 		statusMap.put("status", "1");
 		statusMap.put("BUSINESSID", businessId);
 		this.fillMaterialsService.updateProjectStaus(statusMap);
-		
-		//2.修改stage状态='5'
+
+		// 2.修改stage状态='5'
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("businessId", businessId);
 		map.put("mettingSummaryTime", Util.now());
 		map.put("stage", "5");
 		this.baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
 		this.bulletinInfoMapper.updateStage(map);
-		//归档
+
+		// 同步报表数据
+		Map<String, Object> params1 = new HashMap<String, Object>();
+		params1.put("projectType", "bulletin");
+		params1.put("businessId", businessId);
+		String Json = JSON.toJSONString(params1);
+		try {
+			reportDataService.saveOrUpdateReportData(Json);
+			logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
+		} catch (Exception e) {
+			logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情：" + e.getMessage());
+		}
+
+		// 归档
 		this.daxtService.bulletinStart(businessId);
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> queryBulletin() {
 		return this.bulletinInfoMapper.queryBulletin();
@@ -439,15 +474,15 @@ public class BulletinInfoService implements IBulletinInfoService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void saveLegalLeaderAttachment(String businessId, String legalLeaderAttachment, String opinion) {
-		Map<String, Object> map = new HashMap<String,Object>();
-		if(Util.isNotEmpty(legalLeaderAttachment)){
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (Util.isNotEmpty(legalLeaderAttachment)) {
 			List<Document> fromJson = JsonUtil.fromJson(legalLeaderAttachment, ArrayList.class);
 			map.put("legalLeaderAttachment", fromJson);
 		}
-		if(Util.isNotEmpty(opinion)){
+		if (Util.isNotEmpty(opinion)) {
 			map.put("legalLeaderOpinion", opinion);
 		}
-		if(Util.isNotEmpty(map)){
+		if (Util.isNotEmpty(map)) {
 			this.baseMongo.updateSetById(businessId, map, Constants.RCM_BULLETIN_INFO);
 		}
 	}
@@ -455,28 +490,29 @@ public class BulletinInfoService implements IBulletinInfoService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void saveReviewLeaderAttachment(String businessId, String reviewLeaderAttachment, String opinion) {
-		Map<String, Object> map = new HashMap<String,Object>();
-		
-		if(Util.isNotEmpty(reviewLeaderAttachment)){
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (Util.isNotEmpty(reviewLeaderAttachment)) {
 			List<Document> fromJson = JsonUtil.fromJson(reviewLeaderAttachment, ArrayList.class);
 			map.put("reviewLeaderAttachment", fromJson);
 		}
-		if(Util.isNotEmpty(opinion)){
+		if (Util.isNotEmpty(opinion)) {
 			map.put("reviewLeaderOpinion", opinion);
 		}
-		if(Util.isNotEmpty(map)){
+		if (Util.isNotEmpty(map)) {
 			this.baseMongo.updateSetById(businessId, map, Constants.RCM_BULLETIN_INFO);
 		}
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void updateBaseFile(String businessId, String attachment) {
-		Map<String, Object> map = new HashMap<String,Object>();
-		if(Util.isNotEmpty(attachment)){
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (Util.isNotEmpty(attachment)) {
 			List<Document> fromJson = JsonUtil.fromJson(attachment, ArrayList.class);
 			map.put("fileList", fromJson);
 		}
-		if(Util.isNotEmpty(map)){
+		if (Util.isNotEmpty(map)) {
 			this.baseMongo.updateSetById(businessId, map, Constants.RCM_BULLETIN_INFO);
 		}
 	}
@@ -484,7 +520,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 	@Override
 	public void saveTaskPerson(String businessId, String json) {
 		Document doc = Document.parse(json);
-		Map<String, Object> map = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("taskallocation", doc);
 		this.baseMongo.updateSetById(businessId, map, Constants.RCM_BULLETIN_INFO);
 	}
@@ -492,16 +528,16 @@ public class BulletinInfoService implements IBulletinInfoService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void saveRiskLeaderAttachment(String businessId, String riskLeaderAttachment, String opinion) {
-		Map<String, Object> map = new HashMap<String,Object>();
-		
-		if(Util.isNotEmpty(riskLeaderAttachment)){
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (Util.isNotEmpty(riskLeaderAttachment)) {
 			List<Document> fromJson = JsonUtil.fromJson(riskLeaderAttachment, ArrayList.class);
 			map.put("riskLeaderAttachment", fromJson);
 		}
-		if(Util.isNotEmpty(opinion)){
+		if (Util.isNotEmpty(opinion)) {
 			map.put("riskLeaderOpinion", opinion);
 		}
-		if(Util.isNotEmpty(map)){
+		if (Util.isNotEmpty(map)) {
 			this.baseMongo.updateSetById(businessId, map, Constants.RCM_BULLETIN_INFO);
 		}
 	}
@@ -517,8 +553,8 @@ public class BulletinInfoService implements IBulletinInfoService {
 	/**
 	 * 统计所有评审项目
 	 */
-	public int countAll(){
-		
+	public int countAll() {
+
 		return bulletinInfoMapper.countAll();
 	}
 
@@ -528,36 +564,36 @@ public class BulletinInfoService implements IBulletinInfoService {
 	}
 
 	@Override
-	public List<Map<String, Object>> queryByStageAndstate(String stage,String state) {
-		Map<String,Object> map = new HashMap<String,Object>();
+	public List<Map<String, Object>> queryByStageAndstate(String stage, String state) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("stage", stage);
 		map.put("state", state);
 		return this.bulletinInfoMapper.queryByStageAndstate(map);
 	}
-	
+
 	@Override
-	public void startPigeonholeByBusinessId(String businessId,Date pigeonholeTime) {
+	public void startPigeonholeByBusinessId(String businessId, Date pigeonholeTime) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessId);
 		params.put("pigeonholeStatus", "1");
 		params.put("pigeonholeTime", pigeonholeTime);
 		bulletinInfoMapper.startPigeonholeByBusinessId(params);
 	}
-	
+
 	@Override
-	public void updatePigeStatByBusiId(String businessId, String status){
+	public void updatePigeStatByBusiId(String businessId, String status) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessId);
-		params.put("pigeonholeStatus",status);
+		params.put("pigeonholeStatus", status);
 		bulletinInfoMapper.updatePigeStatByBusiId(params);
 	}
-	
+
 	@Override
 	public void cancelPigeonholeByBusinessId(String businessId) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessId);
 		params.put("pigeonholeStatus", "");
-		params.put("pigeonholeTime",null);
+		params.put("pigeonholeTime", null);
 		bulletinInfoMapper.cancelPigeonholeByBusinessId(params);
 	}
 
@@ -568,40 +604,40 @@ public class BulletinInfoService implements IBulletinInfoService {
 		params.put("pertainAreaId", pertainAreaId);
 		bulletinInfoMapper.updatePertainAreaId(params);
 	}
-	
+
 	@Override
-	public List<Map<String, Object>> queryBulletinCount(String wf_state,
-			String stage, String pertainAreaId, String serviceTypeId,String year) {
-		Map<String, Object> map = new HashMap<String,Object>();
+	public List<Map<String, Object>> queryBulletinCount(String wf_state, String stage, String pertainAreaId,
+			String serviceTypeId, String year) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("wf_state", wf_state);
 		map.put("stage", stage);
-		if(Util.isEmpty(year)){
+		if (Util.isEmpty(year)) {
 			int y = Calendar.getInstance().get(Calendar.YEAR);
 			map.put("year", y);
-		}else{
+		} else {
 			map.put("year", year);
 		}
-		
-		if(Util.isNotEmpty(pertainAreaId)){
-			//处理大区id
+
+		if (Util.isNotEmpty(pertainAreaId)) {
+			// 处理大区id
 			String[] ids = pertainAreaId.split(",");
 			pertainAreaId = "";
 			for (String string : ids) {
-				pertainAreaId +=",'"+string + "'";
+				pertainAreaId += ",'" + string + "'";
 			}
 			pertainAreaId = pertainAreaId.substring(1);
 		}
 		map.put("pertainAreaId", pertainAreaId);
-		//处理serviceTypeId
-		if(Util.isNotEmpty(serviceTypeId)){
+		// 处理serviceTypeId
+		if (Util.isNotEmpty(serviceTypeId)) {
 			String[] sids = serviceTypeId.split(",");
 			serviceTypeId = "";
 			for (String string : sids) {
-				serviceTypeId +=",'"+string + "'";
+				serviceTypeId += ",'" + string + "'";
 			}
 			serviceTypeId = serviceTypeId.substring(1);
 		}
-		
+
 		map.put("serviceTypeId", serviceTypeId);
 		return bulletinInfoMapper.queryBulletinCount(map);
 	}
@@ -612,25 +648,25 @@ public class BulletinInfoService implements IBulletinInfoService {
 		List<String> areaList = new ArrayList<String>();
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		for (Map<String, Object> map : list) {
-			
+
 			String pertainAreaId = (String) map.get("PERTAINAREAID");
-			
-			if(!areaList.contains(pertainAreaId)){
-				
+
+			if (!areaList.contains(pertainAreaId)) {
+
 				areaList.add(pertainAreaId);
-				
+
 			}
-			
+
 		}
-		
+
 		for (String pertainAreaId : areaList) {
-			
+
 			Map<String, Object> org = this.orgService.queryByPkvalue(pertainAreaId);
-			
+
 			result.add(org);
-		
+
 		}
-			
+
 		return result;
 	}
 
@@ -638,41 +674,41 @@ public class BulletinInfoService implements IBulletinInfoService {
 	public void queryAllInfoByPage(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);
-		if(page.getParamMap() != null){
+		if (page.getParamMap() != null) {
 			params.putAll(page.getParamMap());
 		}
-		List<Map<String,Object>> list = bulletinInfoMapper.queryAllInfoByPage(params);
-		page.setList(list);		
+		List<Map<String, Object>> list = bulletinInfoMapper.queryAllInfoByPage(params);
+		page.setList(list);
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> queryAllByDaxt() {
 		return bulletinInfoMapper.queryAllByDaxt();
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "null" })
 	@Override
 	public void addNewAttachment(String json) {
-		
+
 		Document doc = Document.parse(json);
-		
+
 		String businessId = (String) doc.get("businessId");
 		String oldFileName = (String) doc.get("oldFileName");
 		Document item = (Document) doc.get("item");
 		String fileId = (String) item.get("fileId");
 		String uuid = (String) item.get("uuid");
 		Document type = (Document) item.get("type");
-		//最後提交人信息
+		// 最後提交人信息
 		Document lastUpdateBy = (Document) item.get("lastUpdateBy");
-		String lastUpdateData = (String) item.get("lastUpdateData"); 
-		
+		String lastUpdateData = (String) item.get("lastUpdateData");
+
 		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
-		
+
 		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
-		
+
 		if (attachmentList == null) {
 			attachmentList = new ArrayList<Map<String, Object>>();
-			Map<String, Object> file = new HashMap<String,Object>();
+			Map<String, Object> file = new HashMap<String, Object>();
 			file.put("fileId", fileId);
 			file.put("oldFileName", oldFileName);
 			file.put("uuid", uuid);
@@ -681,7 +717,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 			file.put("isMettingAttachment", "0");
 			attachmentList.add(file);
 		} else {
-			Map<String, Object> file = new HashMap<String,Object>();
+			Map<String, Object> file = new HashMap<String, Object>();
 			file.put("fileId", fileId);
 			file.put("oldFileName", oldFileName);
 			file.put("uuid", uuid);
@@ -691,12 +727,11 @@ public class BulletinInfoService implements IBulletinInfoService {
 			attachmentList.add(file);
 		}
 
-		
-		Map<String, Object> data = new HashMap<String,Object>();
+		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("attachmentList", attachmentList);
 		baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deleteAttachment(String json) {
@@ -704,24 +739,24 @@ public class BulletinInfoService implements IBulletinInfoService {
 		String businessId = (String) doc.get("businessId");
 		String fileId = doc.get("fileId") + "";
 		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
-		
+
 		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
 		System.out.println("fileId ====" + fileId);
 		for (int i = 0; i < attachmentList.size(); i++) {
 			Document attachment = (Document) attachmentList.get(i);
 			System.out.println("attachment=           " + attachment);
 			System.out.println(attachment.get("fileId"));
-			System.out.println(attachment.get("fileId") .equals(fileId));
-			if (attachment.get("fileId") .equals(fileId)) {
+			System.out.println(attachment.get("fileId").equals(fileId));
+			if (attachment.get("fileId").equals(fileId)) {
 				attachmentList.remove(i);
 				break;
 			}
 		}
-		Map<String, Object> data = new HashMap<String,Object>();
+		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("attachmentList", attachmentList);
 		baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> getHistoryList(String Json) throws Exception {
 		HashMap<String, Object> jsonMap = JSON.parseObject(Json, HashMap.class);
@@ -730,21 +765,22 @@ public class BulletinInfoService implements IBulletinInfoService {
 		String pageLocation = jsonMap.get("pageLocation").toString();
 		String fileType = jsonMap.get("fileType").toString();
 		// 获取mongo存储的附件信息
-        Map<String, Object> queryById = baseMongo.queryById(id, Constants.RCM_BULLETIN_INFO);
+		Map<String, Object> queryById = baseMongo.queryById(id, Constants.RCM_BULLETIN_INFO);
 		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
-		
+
 		// 获取云库存储的附件
 		List<Map<String, Object>> couldAttchmentList = fileService.getAttachHistoryList(id, businessType, pageLocation);
-		
+
 		// 初始化返回List
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-		
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
 		// 筛选符合条件的返回数据
-		for (int i = 0; i < couldAttchmentList.size(); i++){
-			for (int j = 0; j < attachmentList.size(); j++){
+		for (int i = 0; i < couldAttchmentList.size(); i++) {
+			for (int j = 0; j < attachmentList.size(); j++) {
 				Map<String, Object> attach = new HashMap<String, Object>();
-				Map<String, Object> type = (Map<String, Object>)attachmentList.get(j).get("type");
-				if (fileType.equals(attachmentList.get(j).get("uuid").toString()) && couldAttchmentList.get(i).get("FILEID").toString().equals(attachmentList.get(j).get("fileId").toString())){
+				Map<String, Object> type = (Map<String, Object>) attachmentList.get(j).get("type");
+				if (fileType.equals(attachmentList.get(j).get("uuid").toString()) && couldAttchmentList.get(i)
+						.get("FILEID").toString().equals(attachmentList.get(j).get("fileId").toString())) {
 					attach = couldAttchmentList.get(i);
 					attach.put("fileName", attachmentList.get(j).get("oldFileName"));
 					list.add(attach);
@@ -752,7 +788,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 				}
 			}
 		}
-		
+
 		return list;
 	}
 
@@ -764,42 +800,36 @@ public class BulletinInfoService implements IBulletinInfoService {
 		return result;
 	}
 
-	/*@SuppressWarnings("unchecked")
-	@Override
-	public void updateAttachment(String json) {
-		Document doc = Document.parse(json);
-		String uuid = (String) doc.get("UUID");
-		String version = doc.get("version").toString();
-		String businessId = (String) doc.get("businessId");
-		String fileName = (String) doc.get("fileName");
-		String filePath = (String) doc.get("filePath");
-		
-		Document programmed = (Document) doc.get("programmed");
-		
-		Document approved = (Document) doc.get("approved");
-		
-		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_BULLETIN_INFO);
-		
-		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachment");
-		
-		for (Map<String, Object> attachment : attachmentList) {
-			if(attachment.get("UUID").toString().equals(uuid)){
-				List<Map<String, Object>> filesList = (List<Map<String, Object>>) attachment.get("files");
-				if(Util.isNotEmpty(filesList)){
-					for (Map<String, Object> files : filesList) {
-						if(files.get("version").toString().equals(version)){
-							files.put("fileName", fileName);
-							files.put("filePath", filePath);
-							files.put("approved", approved);
-							files.put("programmed", programmed);
-						}
-					}
-				}
-			}
-		}
-		
-		Map<String, Object> data = new HashMap<String,Object>();
-		data.put("attachment", attachmentList);
-		baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
-	}*/
+	/*
+	 * @SuppressWarnings("unchecked")
+	 * 
+	 * @Override public void updateAttachment(String json) { Document doc =
+	 * Document.parse(json); String uuid = (String) doc.get("UUID"); String
+	 * version = doc.get("version").toString(); String businessId = (String)
+	 * doc.get("businessId"); String fileName = (String) doc.get("fileName");
+	 * String filePath = (String) doc.get("filePath");
+	 * 
+	 * Document programmed = (Document) doc.get("programmed");
+	 * 
+	 * Document approved = (Document) doc.get("approved");
+	 * 
+	 * Map<String, Object> queryById = baseMongo.queryById(businessId,
+	 * Constants.RCM_BULLETIN_INFO);
+	 * 
+	 * List<Map<String, Object>> attachmentList = (List<Map<String, Object>>)
+	 * queryById.get("attachment");
+	 * 
+	 * for (Map<String, Object> attachment : attachmentList) {
+	 * if(attachment.get("UUID").toString().equals(uuid)){ List<Map<String,
+	 * Object>> filesList = (List<Map<String, Object>>) attachment.get("files");
+	 * if(Util.isNotEmpty(filesList)){ for (Map<String, Object> files :
+	 * filesList) { if(files.get("version").toString().equals(version)){
+	 * files.put("fileName", fileName); files.put("filePath", filePath);
+	 * files.put("approved", approved); files.put("programmed", programmed); } }
+	 * } } }
+	 * 
+	 * Map<String, Object> data = new HashMap<String,Object>();
+	 * data.put("attachment", attachmentList);
+	 * baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO); }
+	 */
 }

@@ -19,7 +19,7 @@ ctmApp.register.controller('MeetingSubmit', ['$http', '$scope', '$location', '$r
                 $scope.meetingIssue = result.result_data;
                 console.log($scope.meetingIssue);
                 $scope.meetingIssue.MEETING_TYPE = $scope.meetingIssue.MEETING_TYPE == null || $scope.meetingIssue.MEETING_TYPE == '' ? '4' : '7';
-                if (!isEmpty($scope.meetingIssue.SELECTMEETINGINFOID)) {
+                if (!isEmpty($scope.meetingIssue.SELECTMEETINGINFOID) && $scope.meetingIssue.SELECTMEETINGINFOID != 'null') {
                     angular.forEach($scope.meetingInfoList, function (data, index) {
                         if (data.id == $scope.meetingIssue.SELECTMEETINGINFOID) {
                             $scope.meetingInfo = data;
@@ -27,6 +27,8 @@ ctmApp.register.controller('MeetingSubmit', ['$http', '$scope', '$location', '$r
                             $scope.meetingIssue.END_TIME = $scope.meetingInfo.meeting_end_time.substring(11, 16);
                         }
                     })
+                } else {
+                    $scope.isChoose = "no";
                 }
             } else {
                 $.alert(result.result_name);
