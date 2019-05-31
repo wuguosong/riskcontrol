@@ -333,7 +333,7 @@ ctmApp.register.controller('PreBiddingInfoPreview', ['$http','$scope','$location
 
         // 滑动切换时，上面的过程跟着切换
         $scope.changeStyle = function (num) {
-            var tabId = ['processReview', 'template', 'preBidding', 'score'];
+            var tabId = ['processReview',  'preBidding', 'score'];
             angular.forEach(tabId, function (data, index, array) {
                 if (index != num) {
                     angular.element("#"+data).removeClass('chose');

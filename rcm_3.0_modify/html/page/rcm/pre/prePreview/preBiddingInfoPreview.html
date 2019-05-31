@@ -2,28 +2,31 @@
 <div class="preview-contanier" ng-controller="PreBiddingInfoPreview">
     <div class="mheader row text-blue-name">
         {{ prePreview.apply.projectName }}
-        <a ng-if="flag != 1 && flag != 2 && flag != 3 && flag != 4 && flag != 5 && flag != 6 && flag != 7" class="btn-return" href="#/PreBiddingInfo/{{prePreview.id}}/{{prePreview.url}}/1">
+        <a ng-if="flag != 1 && flag != 2 && flag != 3 && flag != 4 && flag != 5 && flag != 6 && flag != 7 && flag != 8" class="btn-return" href="#/PreBiddingInfo/{{prePreview.id}}/{{prePreview.url}}/1">
             返回
         </a>
         <a ng-if="flag == 1" class="btn-return" href="#/waitDecisionReviewList">
             返回
         </a>
-        <a ng-if="flag == 2" class="btn-return" href="#/">
+        <a style="height: 40px" ng-if="flag == 2" class="btn-return" href="#/">
             返回
         </a>
-        <a ng-if="flag == 3" class="btn-return" href="#/todayMeetingManageList/{{'#/'|encodeURI}}">
+        <a style="height: 40px" ng-if="flag == 3" class="btn-return" href="#/todayMeetingManageList/{{'#/'|encodeURI}}">
             返回
         </a>
-        <a ng-if="flag == 4" class="btn-return" href="#/meeting/MeetingArrangement/0">
+        <a style="height: 40px" ng-if="flag == 4" class="btn-return" href="#/fillMaterialList/0/JTI1MjMlMkY=">
             返回
         </a>
-        <a ng-if="flag == 5" class="btn-return" href="#/MeetingManageList">
+        <a style="height: 40px" ng-if="flag == 5" class="btn-return" href="#/fillMaterialList/1/JTI1MjMlMkY=">
             返回
         </a>
-        <a ng-if="flag == 6" class="btn-return" href="#/FormalReviewListToday/{{'#/PreBiddingInfoPreview'|encodeURI}}">
+        <a style="height: 40px" ng-if="flag == 6" class="btn-return" href="#/meeting/MeetingArrangement/0">
             返回
         </a>
-        <a ng-if="flag == 7" class="btn-return" href="#/historyDecisionReviewList/{{'#/PreBiddingInfoPreview'|encodeURI}}">
+        <a style="height: 40px" ng-if="flag == 7" class="btn-return" href="#/historyDecisionReviewList/{{'#/FormalBiddingInfoPreview'|encodeURI}}">
+            返回
+        </a>
+        <a style="height: 40px" ng-if="flag == 8" class="btn-return" href="#/MeetingManageList">
             返回
         </a>
     <!--<h5 class="text-gray">评审报告出具时间：{{prePreview.submit_date}}</h5>-->
@@ -42,7 +45,7 @@
 						</span>
             </div>
         </a>
-        <a id="formalReport" class="col-md-4 col-sm-6 col-xs-12">
+        <a id="preBidding" class="col-md-4 col-sm-6 col-xs-12">
             正式评审报告
             <div class="line">
 						<span class="fcir">
@@ -208,14 +211,7 @@
                 $('#formalReport').removeClass('chose');
                 $('#score').removeClass('chose');
             });
-            $('#template').click(function(){
-                outsideSwiper.slideTo(1, 1000, true);//切换到第二个slide，速度为1秒
-                $('#template').addClass('chose');
-                $('#processReview').removeClass('chose');
-                $('#formalReport').removeClass('chose');
-                $('#score').removeClass('chose');
-            });
-            $('#formalReport').click(function(){
+            $('#preBidding').click(function(){
                 outsideSwiper.slideTo(2, 1000, true);//切换到第三个slide，速度为1秒
                 $('#formalReport').addClass('chose');
                 $('#template').removeClass('chose');
