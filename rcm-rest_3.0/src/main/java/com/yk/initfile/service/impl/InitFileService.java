@@ -15,8 +15,11 @@ import com.yk.initfile.entity.JsonField;
 import com.yk.initfile.entity.MyJson;
 import com.yk.initfile.service.IInitFileService;
 import com.yk.initfile.service.MyFilter;
+import com.yk.rcm.bulletin.service.IBulletinInfoService;
 import com.yk.rcm.file.dao.IFileMapper;
 import com.yk.rcm.file.service.IFileService;
+import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
+import com.yk.rcm.newPre.service.IPreInfoCreateService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
@@ -24,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import util.DbUtil;
 import util.UserUtil;
 
 import javax.annotation.Resource;
@@ -45,6 +49,12 @@ public class InitFileService implements IInitFileService {
     private IFileMapper fileMapper;
     @Resource
     private IFileService fileService;
+    @Resource
+    private IPreInfoCreateService preInfoCreateService;
+    @Resource
+    private IFormalAssessmentInfoCreateService formalAssessmentInfoCreateService;
+    @Resource
+    private IBulletinInfoService bulletinInfoService;
 
     @Override
     public List<InitFile> queryMongo(List<JSONObject> jsonObjectList, final JSONObject jsonCondition) {
@@ -52,7 +62,7 @@ public class InitFileService implements IInitFileService {
         if (CollectionUtils.isNotEmpty(jsonObjectList)) {
             for (JSONObject jsonObject : jsonObjectList) {
                 final String name = jsonObject.getString(JsonField.name);
-                String table = jsonObject.getString(JsonField.table);
+                final String table = jsonObject.getString(JsonField.table);
                 MongoCollection<Document> mongoCollection = baseMongo.getCollection(table);
                 final String filePathField = jsonObject.getString(JsonField.filePathField);
                 final String fileNameField = jsonObject.getString(JsonField.fileNameField);
@@ -80,6 +90,8 @@ public class InitFileService implements IInitFileService {
                                     for (JSONObject file : fileArray) {
                                         // System.out.println("id===" + id + "\n文件====" + JSON.toJSONString(file));
                                         InitFile initFile = new InitFile();
+                                        initFile.setName(name);
+                                        initFile.setTable(table);
                                         initFile.setNameServer(file.getString(fileNameField));
                                         initFile.setPathServer(file.getString(filePathField));
                                         initFile.setNameCloud(file.getString(fileNameField));
@@ -125,9 +137,10 @@ public class InitFileService implements IInitFileService {
                     String pathCloud = initFile.getPathCloud();
                     String fileLocal = file.getAbsolutePath();
                     try {
-                        fileService.fileUpload(pathCloud.replaceFirst(YunkuConf.UPLOAD_ROOT, ""), fileLocal, initFile.getType(), initFile.getCode(), initFile.getLocation(), optName, new Integer(optId));
+                        FileDto fileDto = fileService.fileUpload(pathCloud.replaceFirst(YunkuConf.UPLOAD_ROOT, ""), fileLocal, initFile.getType(), initFile.getCode(), initFile.getLocation(), optName, new Integer(optId));
                         initFile.setCloud(true);
                         initFile.setSynchronize(true);
+                        this.insertToMongo(initFile, fileDto);
                     } catch (Exception e) {
                         initFile.setCloud(false);
                         initFile.setSynchronize(false);
@@ -145,6 +158,90 @@ public class InitFileService implements IInitFileService {
             }
         }
         return initFile;
+    }
+
+    private void insertToMongo(InitFile initFile, FileDto fileDto) {
+        if (initFile.getName().contains("相关资源")) {
+            logger.info("开始插入Mongo附件数据...");
+            Map<String, Object> preInfo = baseMongo.queryById(initFile.getCode(), initFile.getTable());
+            Map<String, Object> paramMap = new HashMap<String, Object>();
+            paramMap.put("functionType", this.getFunctionType(initFile.getTable()));
+            List<Document> services = (List<Document>) preInfo.get("serviceType");
+            if (CollectionUtils.isNotEmpty(services)) {
+                Document service = services.get(0);
+                paramMap.put("serviceCode", service.get("KEY"));
+            }
+            List<Document> projectModels = (List<Document>) preInfo.get("projectModel");
+            if (CollectionUtils.isNotEmpty(projectModels)) {
+                Document projectModel = projectModels.get(0);
+                paramMap.put("projectModelName", projectModel.get("VALUE"));
+            }
+            List<Map> attachmentTypeList = DbUtil.openSession().selectList("common.getAttachmentList", paramMap);
+            DbUtil.close();
+            List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) (preInfo.get("attachment") == null ? preInfo.get("fileList") : preInfo.get("attachment"));
+            if (CollectionUtils.isNotEmpty(attachmentList)) {
+                for (int i = 0; i < attachmentList.size(); i++) {
+                    Map<String, Object> attachment = attachmentList.get(i);
+                    List<Map<String, Object>> files = (List<Map<String, Object>>) attachment.get("files");
+                    for (int j = 0; j < files.size(); j++) {
+                        Map<String, Object> file = files.get(j);
+                        Integer version = (Integer) file.get("version");
+                        if (version == files.size() - 1) {
+                            // 上传附件准备数据
+                            String fileName = (String) file.get("fileName");
+                            // 同步Mongo数据
+                            Map<String, Object> data = new HashMap<String, Object>();
+                            data.put("businessId", initFile.getCode());
+                            data.put("oldFileName", fileName);
+                            data.put("fileName", fileName);
+                            data.put("lastUpdateBy", file.get("approved") == null ? preInfo.get("applyUser") : file.get("approved"));
+                            data.put("lastUpdateData", file.get("upload_date") == null ? preInfo.get("createTime") : file.get("upload_date"));
+                            data.put("fileId", fileDto.getFileid());
+                            if (CollectionUtils.isNotEmpty(attachmentTypeList)) {
+                                int count = 0;
+                                for (int q = 0; q < attachmentTypeList.size(); q++) {
+                                    if (attachmentTypeList.get(q).get("ITEM_NAME").equals((String) file.get("ITEM_NAME"))) {
+                                        count = 1;
+                                        data.put("type", attachmentTypeList.get(q));
+                                        break;
+                                    }
+                                }
+                                if (count == 0) {
+                                    Map<String, Object> type = new HashMap<String, Object>();
+                                    type.put("ITEM_NAME", file.get("ITEM_NAME"));
+                                    data.put("type", type);
+                                }
+                            }
+                            String json = JSON.toJSONString(data);
+                            String table = initFile.getTable();
+                            if ("rcm_pre_info".equalsIgnoreCase(table)) {
+                                preInfoCreateService.addNewAttachment(json);
+                            } else if ("rcm_formalAssessment_info".equalsIgnoreCase(table)) {
+                                formalAssessmentInfoCreateService.addNewAttachment(json);
+                            } else {
+                                bulletinInfoService.addNewAttachment(json);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取functionType
+     *
+     * @param table
+     * @return
+     */
+    private String getFunctionType(String table) {
+        if ("rcm_bulletin_info".equalsIgnoreCase(table)) {
+            return "其它评审";
+        } else if ("rcm_pre_info".equalsIgnoreCase(table)) {
+            return "预评审";
+        } else {
+            return "正式评审";
+        }
     }
 
     @Override
@@ -237,7 +334,7 @@ public class InitFileService implements IInitFileService {
                                         if (name.contains("相关资源")) {
                                             List<JSONObject> sort = sort(jsonArray1);
                                             jsonArray1 = sort.subList(0, 1);
-                                            logger.info("相关资源，长度：" + jsonArray1.size()+ "，最新版本：" + jsonArray1.get(0).getString(JsonField.version));
+                                            logger.info("相关资源，长度：" + jsonArray1.size() + "，最新版本：" + jsonArray1.get(0).getString(JsonField.version));
                                         }
                                         for (JSONObject jsIt : jsonArray1) {
                                             jsIt.put(JsonField._location, local);

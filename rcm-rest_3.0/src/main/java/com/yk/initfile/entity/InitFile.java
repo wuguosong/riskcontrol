@@ -18,6 +18,8 @@ public class InitFile {
     private String code;// 主键
     private String version;// 版本
     private Integer sequence;// 排序
+    private String name;// 模块描述
+    private String table;// 查询的表
 
     public boolean isServer() {
         return server;
@@ -113,6 +115,22 @@ public class InitFile {
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 
     @Override
