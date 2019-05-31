@@ -12,8 +12,9 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
         if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
             $scope.paginationConf.queryObj = {};
         }
-        var projectName = $filter('decodeURI')($scope.projectName,"VALUE");
-        if(projectName != null && projectName != ''){
+
+        if ($scope.projectName != null && $scope.projectName != ''){
+            var projectName = $filter('decodeURI')($scope.projectName,"VALUE");
             $scope.paginationConf.queryObj.projectName = projectName;
         }
         $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;

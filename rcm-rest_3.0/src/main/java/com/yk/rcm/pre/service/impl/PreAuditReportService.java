@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 
@@ -12,6 +13,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
@@ -23,6 +25,7 @@ import com.yk.rcm.fillMaterials.service.IFillMaterialsService;
 import com.yk.rcm.pre.dao.IPreAuditReportMapper;
 import com.yk.rcm.pre.service.IPreAuditReportService;
 import com.yk.rcm.pre.service.IPreInfoService;
+import com.yk.reportData.service.IReportDataService;
 
 import common.Constants;
 import common.PageAssistant;
@@ -41,12 +44,17 @@ public class PreAuditReportService implements IPreAuditReportService {
 	private IPreAuditReportMapper preAuditReportMapper;
 	@Resource
 	private IPreInfoService preInfoService;
-	
+
 	@Resource
 	private IBaseMongo baseMongo;
-	
+
 	@Resource
 	private IFillMaterialsService fillMaterialsService;
+
+	@Resource
+	private IReportDataService reportDataService;
+
+	private Logger logger = Logger.getLogger("PreAuditReportService");
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -166,15 +174,13 @@ public class PreAuditReportService implements IPreAuditReportService {
 		params.put("create_date", Util.now());
 		params.put("controller_val", bson.getString("controllerVal"));
 		this.preAuditReportMapper.savePreReport(params);
-		
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_PRE_INFO");
 		statusMap.put("filed", "IS_SUBMIT_REPORT");
 		statusMap.put("status", "0");
 		statusMap.put("BUSINESSID", objectId);
 		this.fillMaterialsService.updateProjectStaus(statusMap);
-		
 
 		Document data = new Document();
 		Document reviewReport = (Document) bson.get("reviewReport");
@@ -212,17 +218,17 @@ public class PreAuditReportService implements IPreAuditReportService {
 
 	@Override
 	public void submitAndupdate(String businessid) {
-		
+
 		Map<String, Object> preOracle = this.preInfoService.getOracleByBusinessId(businessid);
 		String needMeeting = (String) preOracle.get("NEED_MEETING");
-		
+
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_PRE_INFO");
 		statusMap.put("filed", "IS_SUBMIT_REPORT");
 		statusMap.put("status", "1");
 		statusMap.put("BUSINESSID", businessid);
 		this.fillMaterialsService.updateProjectStaus(statusMap);
-		
+
 		Map<String, Object> mapReport = new HashMap<String, Object>();
 		mapReport.put("businessId", businessid);
 		mapReport.put("submit_date", Util.now());
@@ -231,26 +237,37 @@ public class PreAuditReportService implements IPreAuditReportService {
 		Map<String, Object> mapInfo = new HashMap<String, Object>();
 		mapInfo.put("businessid", businessid);
 		Map<String, Object> Object = this.fillMaterialsService.getRPIStatus(businessid);
-		if(Util.isNotEmpty(Object)) {
+		if (Util.isNotEmpty(Object)) {
 			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))) {
 				if (Object.get("IS_SUBMIT_BIDDING").equals("1")) {
 					mapInfo.put("stage", "4");
+
+					// 调用报表同步报表数据方法
+					Map<String, Object> params1 = new HashMap<String, Object>();
+					params1.put("projectType", "pfr");
+					params1.put("businessId", businessid);
+					String Json = JSON.toJSONString(params1);
+					try {
+						reportDataService.saveOrUpdateReportData(Json);
+						logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessid + "]");
+					} catch (Exception e) {
+						logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessid + "],错误详情："
+								+ e.getMessage());
+					}
 				}
 			}
 		}
-//		mapInfo.put("stage", "3.7");
-		/*this.preAuditReportMapper.changeState(mapInfo);*/
+		// mapInfo.put("stage", "3.7");
+		/* this.preAuditReportMapper.changeState(mapInfo); */
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("_id", new ObjectId(businessid));
 		params.put("submit_date", Util.format(Util.now(), "yyyy-MM-dd"));
 		this.baseMongo.updateSetByObjectId(businessid, params, Constants.RCM_PRE_INFO);
-		if(Util.isNotEmpty(needMeeting) && "0".equals(needMeeting)){
+		if (Util.isNotEmpty(needMeeting) && "0".equals(needMeeting)) {
 			this.preInfoService.updateAuditStageByBusinessId(businessid, "9");
 		}
-		
-		
-		
+
 		Document doc = (Document) this.baseMongo.queryById(businessid, Constants.RCM_PRE_INFO);
 		String filepath = "", ext = "";
 		if (doc != null) {
@@ -262,7 +279,7 @@ public class PreAuditReportService implements IPreAuditReportService {
 		String serverPath = PropertiesUtil.getProperty("domain.allow") + PropertiesUtil.getProperty("contextPath");
 		serverPath = serverPath + "/common/RcmFile/downLoad?filePath=" + filepath + "&fileName=preReport" + ext;
 
-		//推送报告数据
+		// 推送报告数据
 		TzClient client = new TzClient();
 		client.setBusinessId(businessid);
 		client.setStatus("2");
@@ -291,28 +308,28 @@ public class PreAuditReportService implements IPreAuditReportService {
 	@Override
 	public Map<String, String> getPreWordReport(String id) {
 		PreAssessmentReport prReport = new PreAssessmentReport();
-		String path=prReport.generateReport(id);
-		
-		Map<String,Object> doc = this.baseMongo.queryById(id, Constants.RCM_PRE_INFO);
-		//判断之前的报告是不是存在，如果存在，删除
+		String path = prReport.generateReport(id);
+
+		Map<String, Object> doc = this.baseMongo.queryById(id, Constants.RCM_PRE_INFO);
+		// 判断之前的报告是不是存在，如果存在，删除
 		String oldPath = null;
-		if(doc.containsKey("filePath")&&doc.get("filePath")!=null){
-			oldPath = doc.get("filePath").toString();	
+		if (doc.containsKey("filePath") && doc.get("filePath") != null) {
+			oldPath = doc.get("filePath").toString();
 		}
 		try {
-			if(oldPath != null && oldPath.length() > 0){
+			if (oldPath != null && oldPath.length() > 0) {
 				FileUtil.removeFile(oldPath);
 			}
 		} catch (Exception e) {
 		}
 		this.baseMongo.updateSetById(id, doc, Constants.RCM_PRE_INFO);
-		Map<String,String> map =new HashMap<String, String>();
-		Document docs=(Document) doc.get("apply");
+		Map<String, String> map = new HashMap<String, String>();
+		Document docs = (Document) doc.get("apply");
 		map.put("filePath", path);
 		map.put("fileName", docs.get("projectName").toString());
 		return map;
 	}
-	
+
 	@Override
 	public boolean isPossible2Submit(String businessid) {
 		boolean flag = false;
@@ -327,7 +344,7 @@ public class PreAuditReportService implements IPreAuditReportService {
 	public void updateReportByBusinessId(Map<String, Object> params) {
 		preAuditReportMapper.updateReportByBusinessId(params);
 	}
-	
+
 	@Override
 	public Map<String, Object> getOracleByBusinessId(String businessid) {
 		return preAuditReportMapper.getByBusinessId(businessid);

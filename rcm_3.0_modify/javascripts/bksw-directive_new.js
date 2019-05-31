@@ -3452,7 +3452,6 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 上传
             $scope._uploadThat = function (_file, _idx, _item) {
-                debugger
                 if($scope.businessType != 'bulletin' && isEmpty(_item.type)){
                     alert("资源类型不能为空，请先选择资源类型再上传！");
                 } else {

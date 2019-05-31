@@ -161,6 +161,13 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 					//任务分配
 					else if (document.isTask != null && document.isTask != ""){
 						$scope.showController.isTask = true;
+
+                        if(document.isSignLegal != null){
+                            $scope.showController.isSignLegal = true;
+                        }else{
+                            $scope.isTaskLegalEdit = 'true';
+                        }
+
 						$scope.isTaskEdit = 'true'
 						$("#taskAssignment1").show();
 					} 
@@ -1220,6 +1227,12 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
         if ($scope.myTaskallocation == null || $scope.myTaskallocation == "") {
             result.success = false;
             result.result_name = "请分配负责人！";
+        }
+        if ($scope.approve.showController.isSignLegal == null || $scope.approve.showController.isSignLegal == '') {
+            if ($scope.myTaskallocation.legalReviewLeader.NAME == null || $scope.myTaskallocation.legalReviewLeader.NAME == "") {
+                result.success = false;
+                result.result_name = "请选择法律评审负责人！";
+            }
         }
         if ($scope.myTaskallocation.reviewLeader.NAME == null || $scope.myTaskallocation.reviewLeader.NAME == "") {
             result.success = false;
