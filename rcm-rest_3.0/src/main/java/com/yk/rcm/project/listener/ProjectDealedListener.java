@@ -332,7 +332,7 @@ public class ProjectDealedListener implements TaskListener {
             try {
                 String Json = JSON.toJSONString(reportDataParams);
                 reportDataService.saveOrUpdateReportData(Json);
-                logger.error("同步报表数据成功：[" + reportDataParams.get("projectType") + "," + businessId + "," + taskDefinitionKey + "," + delegateTask.getName() + "]");
+                logger.info("同步报表数据成功：[" + reportDataParams.get("projectType") + "," + businessId + "," + taskDefinitionKey + "," + delegateTask.getName() + "]");
             } catch (Exception ex) {
                 logger.error("同步报表数据出错：[" + reportDataParams.get("projectType") + "," + businessId + "," + taskDefinitionKey + "," + delegateTask.getName() + "],错误详情：" + ex.getMessage());
             }
