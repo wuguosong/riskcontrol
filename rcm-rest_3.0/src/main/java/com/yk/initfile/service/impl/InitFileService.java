@@ -160,6 +160,11 @@ public class InitFileService implements IInitFileService {
         return initFile;
     }
 
+    /**
+     * 插入Mongo数据
+     * @param initFile
+     * @param fileDto
+     */
     private void insertToMongo(InitFile initFile, FileDto fileDto) {
         if (initFile.getName().contains("相关资源")) {
             logger.info("开始插入Mongo附件数据...");

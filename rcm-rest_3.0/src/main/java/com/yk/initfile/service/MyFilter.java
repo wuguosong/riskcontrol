@@ -1,5 +1,8 @@
 package com.yk.initfile.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import java.util.List;
  * Mongo分页过滤
  */
 public class MyFilter {
+    private static final Logger logger = LoggerFactory.getLogger(MyFilter.class);
     private int limit;
     private int skip;
 
@@ -33,7 +37,7 @@ public class MyFilter {
             for (T t : list) {
                 int index = list.indexOf(t);
                 if (index >= skip && index < limit) {
-                    System.out.println(index);
+                    logger.debug("当前索引：" + index);
                     register.add(t);
                 }
             }
