@@ -1,32 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>InitFile</title>
-</head>
-<body>
-<button class="btn btn-primary btn-confirm" ng-click="userTasks()">流程节点获取</button>
-<div ng-repeat="task in processOptions">
-    <label class="radio radio-inline">
-        <input class="px" type="radio"
-               name="break" ng-checked="$index==0"
-               value="{{task.id}}"/>
-        <span class="lbl">
-            <div class="text">{{task.name}}</div>
-        </span>
-    </label>
-</div>
-<div>
-    <label class="radio radio-inline">
-        <input class="px" type="radio" name="bpmnProcessOption" id="break"  value="BREAK" ng-click="selectBreaks()"/>
-        <span class="lbl">
-            <div class="text">驳回
-                <select ng-model="_break">
-                    <option ng-repeat="_break in _breaks" value="{{_break.id}}" ng-selected="$index == 0">{{_break.name}}</option>
-                </select>
+<div class="panel">
+    <style type="text/css">
+        .options {
+            font-size: large;
+            font-weight: bold;
+        }
+
+        th, td {
+            word-wrap: break-word;
+        }
+
+        a {
+            cursor: pointer;
+            color: #0c5b8e;
+        }
+    </style>
+    <div class="header">
+        <span class="hd-title">系统-在途数据</span>
+    </div>
+    <div class="panel-body">
+        <div class="panel">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="options">来源</span>
+                    <select ng-model="fileTypesIndex" class="form-control">
+                        <option ng-repeat="fileType in fileTypes" value="{{$index}}" ng-selected="$index == 0">
+                            {{fileType.name}}
+                        </option>
+                    </select>
+                </div>
             </div>
-        </span>
-    </label>
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="options">操作</span>
+                    <div>
+                        Skip
+                        <input ng-model="fileSkip" type="number">
+                        Limit
+                        <input ng-model="fileLimit" type="number">
+                        <a ng-click="queryMongo()">查询数据</a>
+                        <a ng-click="querySynchronize()">查询同步</a>
+                        <a ng-click="executeSynchronizeModule()">后台同步</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row table-responsive">
+                <div class="col-md-12">
+                    <span class="options">结果</span>
+                    <div id="resultDiv">
+                        <table class="table table-bordered table-hover datatable table-text-mid table-light padding0">
+                            <thead>
+                            <tr>
+                                <th width="5%">序号</th>
+                                <th width="10%">服务文件</th>
+                                <th width="10%">服务路径</th>
+                                <th width="10%">云库文件</th>
+                                <th width="10%">云库路径</th>
+                                <th width="10%">页面位置</th>
+                                <th width="5%">服务</th>
+                                <th width="5%">云库</th>
+                                <th width="5%">同步</th>
+                                <th colspan="3" width="30%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="file in initFiles">
+                                <td width="5%">{{file.sequence+1}}</td>
+                                <td width="10%">{{file.nameServer}}</td>
+                                <td width="10%">{{file.pathServer}}</td>
+                                <td width="10%">{{file.nameCloud}}</td>
+                                <td width="10%">{{file.pathCloud}}</td>
+                                <td width="10%">{{file.location}}</td>
+                                <td width="5%">{{file.server?'是':'否'}}</td>
+                                <td width="5%">{{file.cloud?'是':'否'}}</td>
+                                <td width="5%">{{file.synchronize?'是':'否'}}</td>
+                                <td colspan="3" width="30%">
+                                    <a ng-click="executeSynchronize(file)">同步</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</body>
-</html>

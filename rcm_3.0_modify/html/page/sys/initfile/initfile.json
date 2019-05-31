@@ -1,0 +1,125 @@
+[
+  {
+    "name": "正式评审相关资源",
+    "table": "rcm_formalAssessment_info",
+    "jsonLevel": [
+      "attachment",
+      "files"
+    ],
+    "filePathField": "filePath",
+    "fileNameField": "fileName",
+    "cloudParams": {
+      "type": "formalReview",
+      "code": "$businessId",
+      "locations": [
+        "formalAssessmentInfo"
+      ]
+    },
+    "mongoId": ["_id","$oid"]
+  },
+  {
+    "name": "正式评审报告",
+    "table": "rcm_formalReport_info",
+    "jsonLevel": [],
+    "filePathField": "filePath",
+    "fileNameField": "fileName",
+    "cloudParams": {
+      "type": "FormalReportInfo",
+      "code": "$businessId",
+      "locations": [
+        "pfrReport"
+      ]
+    },
+    "mongoId": ["projectFormalId"]
+  },
+  {
+    "name": "正式评审决策通知书附件",
+    "table": "rcm_noticeDecision_info",
+    "jsonLevel": [
+      "attachment"
+    ],
+    "filePathField": "filePath",
+    "fileNameField": "fileName",
+    "cloudParams": {
+      "type": "FormalDecisionDraftInfo",
+      "code": "$businessId",
+      "locations": [
+        "pfrDecisionDraft"
+      ]
+    },
+    "mongoId": ["projectFormalId"]
+  },
+  {
+    "name": "正式评审模板",
+    "table": "rcm_formal_summary",
+    "jsonLevel": [
+      "projectOverviews"
+    ],
+    "filePathField": "attachmentFile",
+    "fileNameField": "attachmentValue",
+    "cloudParams": {
+      "type": "FormalBiddingInfo",
+      "code": "$businessId",
+      "locations": [
+        "$projectOverviews.code",
+        "$projectOverviews.orderno",
+        "_",
+        "$summaryType"
+      ]
+    },
+    "mongoId": ["projectFormalId"]
+  },
+  {
+    "name": "投标评审相关资源",
+    "table": "rcm_pre_info",
+    "jsonLevel": [
+      "attachment",
+      "files"
+    ],
+    "filePathField": "filePath",
+    "fileNameField": "fileName",
+    "cloudParams": {
+      "type": "preReview",
+      "code": "$businessId",
+      "locations": [
+        "preInfo"
+      ]
+    },
+    "mongoId": ["_id","$oid"]
+  },
+  {
+    "name": "投标评审报告",
+    "table": "rcm_pre_info",
+    "jsonLevel": [
+      "reviewReport"
+    ],
+    "filePathField": "filePath",
+    "fileNameField": "fileName",
+    "cloudParams": {
+      "type": "preReportInfo",
+      "code": "$businessId",
+      "locations": [
+        "preReport"
+      ]
+    },
+    "mongoId": ["_id","$oid"]
+  },
+  {
+    "name": "其他评审相关资源",
+    "table": "rcm_bulletin_info",
+    "jsonLevel": [
+      "fileList",
+      "files"
+    ],
+    "filePathField": "filePath",
+    "fileNameField": "fileName",
+    "cloudParams": {
+      "type": "bulletin",
+      "code": "$businessId",
+      "locations": [
+        "BulletinMattersDetail"
+      ]
+    },
+    "mongoId": ["_id"]
+  }
+]
