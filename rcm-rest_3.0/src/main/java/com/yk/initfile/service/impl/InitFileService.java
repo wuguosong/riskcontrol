@@ -161,7 +161,7 @@ public class InitFileService implements IInitFileService {
             } else {
                 initFile.setCloud(false);
                 initFile.setSynchronize(false);
-                throw new BusinessException("服务器文件路径：" + pathServer + "为空！");
+                throw new BusinessException("序号为：" + (initFile.getSequence() + 1) + "的文件，服务器文件路径为空！");
             }
         }
         return initFile;
