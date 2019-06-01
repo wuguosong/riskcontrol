@@ -274,7 +274,7 @@ public class InitFileService implements IInitFileService {
 
     @Override
     public List<InitFile> executeSynchronizeModule(List<JSONObject> jsonObjectList) {
-        List<InitFile> list = this.queryMongo(jsonObjectList, new JSONObject());
+        List<InitFile> list = this.querySynchronize(jsonObjectList, new JSONObject());
         if (CollectionUtils.isNotEmpty(list)) {
             for (InitFile file : list) {
                 this.executeSynchronize(file);
