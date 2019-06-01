@@ -20,6 +20,8 @@ public class InitFile {
     private Integer sequence;// 排序
     private String name;// 模块描述
     private String table;// 查询的表
+    private Integer total;// 总数量
+    private Integer limitTotal;// 分页总数量
 
     public boolean isServer() {
         return server;
@@ -131,6 +133,22 @@ public class InitFile {
 
     public void setTable(String table) {
         this.table = table;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public Integer getLimitTotal() {
+        return limitTotal;
+    }
+
+    public void setLimitTotal(Integer limitTotal) {
+        this.limitTotal = limitTotal;
     }
 
     @Override

@@ -37,7 +37,7 @@ public class MyFilter {
             for (T t : list) {
                 int index = list.indexOf(t);
                 if (index >= skip && index < limit) {
-                    logger.debug("当前索引：" + index);
+                    logger.info("过滤当前索引：" + index);
                     register.add(t);
                 }
             }

@@ -1,5 +1,6 @@
 ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter', '$window',
     function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter, $window) {
+        $scope.isLimit = false;
         $scope.fileLimit = null;
         $scope.fileSkip = null;
         $scope.fileTypes = [];
@@ -30,38 +31,31 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                 async: async
             });
         };
-        /*=====查询Mongo=====*/
-        $scope.queryAllMongo = function (url, type, data, async, callback) {
-            if (isEmpty(data)) {
-                $.alert('请选择在途数据来源！');
+        /*======模块同步查询======*/
+        $scope.querySynchronize = function () {
+            if (!$scope.validateFileTypesIndex()) {
+                return;
             }
-            var condition = {
+            ;
+            if (!$scope.validateCondition()) {
+                return;
+            }
+            ;
+            var data = {};
+            data.list = JSON.stringify([$scope.fileTypes[$scope.fileTypesIndex]]);
+            data.condition = JSON.stringify({
                 'limit': $scope.fileLimit,
                 'skip': $scope.fileSkip
-            };
-            console.log('limit:' + $scope.fileLimit + ",skip:" + $scope.fileSkip);
-            $scope.commonAjax(url, type, {
-                'list': JSON.stringify(data),
-                'condition': JSON.stringify(condition)
-            }, async, callback);
-        };
-        $scope.queryMongo = function () {
-            _showLoading("正在查询中，请稍等...");
-            $scope.queryAllMongo(srvUrl + 'initfile/queryMongo.do', 'post', [$scope.fileTypes[$scope.fileTypesIndex]], false, function (res) {
-                if (res.success) {
-                    $scope.initFiles = res.data;
-                } else {
-                    $.alert(res.data);
-                }
-                _hideLoading();
             });
-        };
-        /*======查询同步======*/
-        $scope.querySynchronize = function () {
             _showLoading("正在查询中，请稍等...");
-            $scope.queryAllMongo(srvUrl + 'initfile/querySynchronize.do', 'post', [$scope.fileTypes[$scope.fileTypesIndex]], false, function (res) {
+            $scope.commonAjax(srvUrl + 'initfile/querySynchronize.do', 'post', data, false, function (res) {
                 if (res.success) {
                     $scope.initFiles = res.data;
+                    if (!isEmpty($scope.initFiles) && $scope.initFiles.length > 0) {
+                        $scope.info = '当前数量 ' + $scope.initFiles.length + ' 实际数量 ' + $scope.initFiles[0].total;
+                    } else {
+                        $scope.info = '当前数量 0 实际数量 0';
+                    }
                 } else {
                     $.alert(res.data);
                 }
@@ -70,10 +64,10 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
         };
         /*======单个同步======*/
         $scope.executeSynchronize = function (file) {
-            _showLoading("数据同步中，请稍等...")
+            _showLoading("数据同步中，请稍等...");
             $scope.commonAjax(srvUrl + 'initfile/executeSynchronize.do', 'post', file, false, function (res) {
                 if (res.success) {
-                    $.alert('同步成功！');
+                    $.alert('同步完成！');
                     $scope.querySynchronize();
                 } else {
                     $.alert(res.data);
@@ -83,16 +77,50 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
         };
         /*======模块同步======*/
         $scope.executeSynchronizeModule = function () {
+            if (!$scope.validateFileTypesIndex()) {
+                return;
+            }
+            if ($scope.isLimit) {
+                if (!$scope.validateCondition()) {
+                    return;
+                }
+            }
+            var data = {};
+            data.list = JSON.stringify([$scope.fileTypes[$scope.fileTypesIndex]]);
+            if ($scope.isLimit) {
+                data.condition = JSON.stringify({
+                    'limit': $scope.fileLimit,
+                    'skip': $scope.fileSkip
+                });
+            }
             _showLoading("数据同步中，请稍等...")
-            $scope.commonAjax(srvUrl + 'initfile/executeSynchronizeModule.do', 'post', {
-                'list': JSON.stringify([$scope.fileTypes[$scope.fileTypesIndex]])
-            }, false, function (res) {
+            $scope.commonAjax(srvUrl + 'initfile/executeSynchronizeModule.do', 'post', data, false, function (res) {
                 if (res.success) {
-                    console.log(res.data);
+                    $.alert('同步完成！');
+                    $scope.querySynchronize();
                 } else {
                     $.alert(res.data);
                 }
                 _hideLoading();
             });
+        };
+        /*====条件校验====*/
+        $scope.validateFileTypesIndex = function () {
+            if ($scope.fileTypesIndex == -1) {
+                $('#fileTypesIndex').focus();
+                return false;
+            }
+            return true;
+        };
+        $scope.validateCondition = function () {
+            if (isEmpty($('#Skip').val())) {
+                $('#Skip').focus();
+                return false;
+            }
+            if (isEmpty($('#Limit').val())) {
+                $('#Limit').focus();
+                return false;
+            }
+            return true;
         };
     }]);

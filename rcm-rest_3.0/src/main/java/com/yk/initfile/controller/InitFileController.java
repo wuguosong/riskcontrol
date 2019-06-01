@@ -72,7 +72,10 @@ public class InitFileController {
         try {
             if (StringUtils.isNotBlank(list)) {
                 List<JSONObject> jsonObjects = JSON.parseArray(list, JSONObject.class);
-                JSONObject jsonCondition = JSON.parseObject(condition, JSONObject.class);
+                JSONObject jsonCondition = new JSONObject();
+                if (StringUtils.isNotBlank(condition)) {
+                    jsonCondition = JSON.parseObject(condition, JSONObject.class);
+                }
                 List<InitFile> initFiles = initFileService.querySynchronize(jsonObjects, jsonCondition);
                 js.put(data, initFiles);
                 js.put(success, true);
@@ -119,12 +122,16 @@ public class InitFileController {
      */
     @RequestMapping("executeSynchronizeModule")
     @ResponseBody
-    public JSONObject executeSynchronizeModule(String list) {
+    public JSONObject executeSynchronizeModule(String list, String condition) {
         JSONObject js = new JSONObject();
         try {
             if (StringUtils.isNotBlank(list)) {
                 List<JSONObject> jsonObjects = JSON.parseArray(list, JSONObject.class);
-                List<InitFile> initFiles = initFileService.executeSynchronizeModule(jsonObjects);
+                JSONObject jsonCondition = new JSONObject();
+                if (StringUtils.isNotBlank(condition)) {
+                    jsonCondition = JSON.parseObject(condition, JSONObject.class);
+                }
+                List<InitFile> initFiles = initFileService.executeSynchronizeModule(jsonObjects, jsonCondition);
                 js.put(data, initFiles);
                 js.put(success, true);
             }
