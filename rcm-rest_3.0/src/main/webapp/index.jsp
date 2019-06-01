@@ -12,15 +12,20 @@
 	String userId = (String)request.getAttribute("loginid");
 	String requestUrl = (String)request.getParameter("requestUrl");
 	String allowDomain = PropertiesUtil.getProperty("domain.allow");
+	out.print("userId ============ " + userId);
+	out.print("requestUrl ============ " + requestUrl);
+	out.print("allowDomain ============ " + allowDomain);
 	if(userId == null || "".equals(userId)){
 // 		out.print("登录失效，请先登录");
 		response.sendRedirect(allowDomain+"/html/index.html");
+		out.print("response.sendRedirect ============ " + allowDomain+"/html/index.html");
 	}else{
 		IUserService user = (IUserService) SpringUtil.getBean("userService");
 // 		SysUser user = new SysUser();
 		Map userMap = user.getAUser("{userID:'"+userId+"'}");
 		Gson gson = new Gson();
 		String credentials = gson.toJson(userMap);
+		out.print("credentials ============ " + credentials);
 		credentials = URLEncoder.encode(credentials, "UTF-8");
 		Cookie c1 = new Cookie("credentials", credentials);
 		c1.setPath("/");
@@ -30,8 +35,10 @@
 		response.addCookie(c2);
 		if(requestUrl!=null && requestUrl!=""){
 			response.sendRedirect(allowDomain+"/html/index.html#/"+requestUrl);
+			out.print("response.sendRedirect ============ " + allowDomain+"/html/index.html#/"+requestUrl);
 		}else{
 			response.sendRedirect(allowDomain+"/html/index.html");
+			out.print("response.sendRedirect ============ " + allowDomain+"/html/index.html");
 		}
 	}
 %>
