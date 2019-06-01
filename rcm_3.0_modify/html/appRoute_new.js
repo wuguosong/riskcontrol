@@ -3408,6 +3408,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+
+            //决策通知书
+            .when('/NoticeOfDecision/:action/:id',{
+                controller:'NoticeDecisionAuditView',
+                templateUrl:'page/rcm/noticeofdecision/noticeDecisionAuditView.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/noticeofdecision/noticeDecisionAuditView.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
     }
 ]);
 

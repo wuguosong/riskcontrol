@@ -1,33 +1,33 @@
-<div class="xh-content container-fluid">
-	<form name="noticeName" novalidate class="row">
-		<div class="main-content col-md-12 col-sm-12 col-xs-12">
-            <h3 class='text-blue item-name'>
-                {{titleName}}
-            </h3>
-			<div class="visa-menu">
-				<div class="col-md-12">
-					<ol class="breadcrumb breadcrumb-menu">
-						<li>
-							<a class="breadcrumb-text breadcrumb-text-menu">
-								决策会
-							</a>
-						</li>
-						<li>
-							<a href="" class="breadcrumb-text breadcrumb-text-menu">
-								决策通知书确认
-							</a>
-						</li>
-						<li>
-							<a href="" class="breadcrumb-text breadcrumb-text-menu">
-								查看
-							</a>
-						</li>
-					</ol>
-				</div>
-			</div>
-			<div class="">
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!--<i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					首页
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					决策通知书
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="panel-body">
+	<ul class="nav nav-tabs bs-tabdrop-example">
+		<li class="active">
+			<a href="/#contracts_file_info" data-toggle="tab">决策通知书</a>
+		</li>
+		<li>
+			<a href="/#flow_chart" data-toggle="tab">流程图</a>
+		</li>
+	</ul>
+	<div class="panel">
+		<div class="tab-content">
+			<div class="tab-pane in active special-form" id="contracts_file_info">
 				<div class="mcontent content1">
-					<h3 class='text-blue'>决策通知书</h3>
 					<div class="row normalline">
 						<div class="col-md-12 col-sm-12  col-xs-12">
 							<div class="row">
@@ -45,12 +45,9 @@
 							<div class="row">
 								<span class="col-md-2 noPadding">合同规模</span>
 								<span class="col-md-9 slim">
-									<div class="has-feedback"  ng-if="!serviceController">
-										<input disabled="disabled" type="text" name="contractScale" id="contractScale" class="form-control" ng-model="nod.contractScale"/>
+									<div class="has-feedback">
+										<input type="text" name="contractScale" id="contractScale" class="form-control" ng-model="nod.contractScale" disabled="disabled" />
 										<span class="unit-s-td">万吨/日</span>
-									</div>
-						             <div class="has-feedback"  ng-if="serviceController">
-										 <input type="text" name="contractScale" id="contractScale1" class="form-control" ng-model="nod.contractScale" disabled="disabled"/>
 									 </div>
                                 </span>
 							</div>
@@ -62,13 +59,9 @@
 							<div class="row">
 								<span class="col-md-4 noPadding">评审规模</span>
 								<span class="col-md-6 slim">
-									<div class="has-feedback" ng-if="!serviceController">
-										<input disabled="disabled" type="text" name="evaluationScale" id="evaluationScale" class="form-control" ng-model="nod.evaluationScale" />
+									<div class="has-feedback">
+										<input type="text" name="evaluationScale" id="evaluationScale" class="form-control" ng-model="nod.evaluationScale" disabled="disabled" />
 										<span class="unit-s-td">万吨/日</span>
-									</div>
-									<div class="has-feedback" ng-if="serviceController">
-										<input type="text" name="evaluationScale" id="evaluationScale1"
-											   class="form-control" ng-model="nod.evaluationScale" disabled="disabled"/>
 									</div>
 					             </span>
 							</div>
@@ -77,15 +70,12 @@
 							<div class="row">
 								<span class="col-md-4 noPadding">评审总投资</span>
 								<span class="col-md-6 slim">
-									<div class="has-feedback" style="float: left;">
-										<input disabled="disabled" type="text" name="reviewOfTotalInvestment" id="reviewOfTotalInvestment" class="form-control" ng-model="nod.reviewOfTotalInvestment"
+									<div class="has-feedback">
+										<input type="text" name="reviewOfTotalInvestment" id="reviewOfTotalInvestment" class="form-control" ng-model="nod.reviewOfTotalInvestment" disabled="disabled"
 											   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
 											   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
 											   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
 										<span class="unit-my-td">万元</span>
-									</div>
-									<div style="float: left;">
-										<select class="form-control" disabled="disabled" ng-model='nod.reviOfTotaInveType'><option ng-repeat="pszt in pingShenZongTouZiList" value="{{pszt.ITEM_NAME}}">{{pszt.ITEM_NAME}}</option></select>
 									</div>
 					              </span>
 							</div>
@@ -97,7 +87,7 @@
 							<div class="row">
 								<span class="col-md-4 noPadding">所属大区</span>
 								<span class="col-md-6 slim">
-						             <input type="text"  disabled="disabled"  class="form-control" id="pertainArea" name="pertainArea" ng-model="nod.pertainArea.VALUE" placeholder="" >
+						             <input type="text" name="" class="form-control" readonly ng-model="nod.reportingUnit.name" />
 					             </span>
 							</div>
 						</div>
@@ -105,25 +95,33 @@
 							<div class="row">
 								<span class="col-md-4 noPadding">原有项目再投资或已投资项目补充评审</span>
 								<span class="col-md-6 slim">
-									<select name="additionalReview"  disabled="disabled"  id="additionalReview" class="form-control" ng-model="nod.additionalReview">
-					            		<option value="">请选择...</option>
-					            		<option value="1">是</option>
-					            		<option value="2">否</option>
-					            	</select>
+									<select name="additionalReview" id="additionalReview" class="form-control" ng-model="nod.additionalReview" disabled="disabled" >
+										<option value="">请选择...</option>
+										<option value="1">是</option>
+										<option value="2">否</option>
+									</select>
 					            </span>
 							</div>
 						</div>
 					</div>
 
 					<div class="row normalline titline">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class="row">
+								<span class="col-md-4 noPadding">投资决策会议期次</span>
+								<span class="col-md-6 slim">
+						             <input type="text" name="decisionStage" id="decisionStage" class="form-control" ng-model="nod.decisionStage" disabled="disabled" />
+					             </span>
+							</div>
+						</div>
 						<div class="col-md-6 col-sm-6  col-xs-12">
 							<div class="row">
 								<span class="col-md-4 noPadding">会议日期</span>
 								<span class="col-md-6 slim">
                                     <div class="has-feedback">
-					            		<input type="text" disabled="disabled"  name="dateOfMeeting" id="dateOfMeeting" class="form-control" ng-model="nod.dateOfMeeting" />
-					            		<i class="fa fa-calendar form-control-feedback date-form"></i>
-					            	</div>
+										<input type="text" name="dateOfMeeting" id="dateOfMeeting" class="form-control" ng-model="nod.dateOfMeeting" disabled="disabled" />
+										<i class="fa fa-calendar form-control-feedback date-form"></i>
+									</div>
                                 </span>
 							</div>
 						</div>
@@ -149,8 +147,7 @@
 									<label class="radio radio-inline local">
 										<input disabled="disabled" type="radio" class="px" name="consentToInvestment" ng-model="nod.consentToInvestment" value="4" />
 										<span class="lbl">择期决议</span>
-									</label><!--<span class="radio-verify error">此项必填</span>-->
-									<label for="consentToInvestment" class="radio-verify error">此项必填</label>
+									</label>
                                 </span>
 							</div>
 						</div>
@@ -247,45 +244,12 @@
 							<div class="row">
 								<span class="col-md-2 noPadding">执行要求</span>
 								<span class="col-md-9 slim">
-									<label class="radio checkbox-inline local">
-										<input type="checkbox" class="px" ng-model="requireTask1" ng-click="nod.require1=null" disabled="disabled"/>
-										<span class="lbl">纳入收益考核要求</span>
-									</label>
-									<label class="radio checkbox-inline local">
-										<input type="checkbox" class="px" ng-model="requireTask2" ng-click="nod.require2=null" disabled="disabled"/>
-										<span class="lbl">单独考核要求</span>
-									</label>
-									<label class="radio checkbox-inline local">
-										<input type="checkbox" class="px" ng-model="requireTask3" ng-click="nod.require3=null" disabled="disabled"/>
-										<span class="lbl">建议及挖潜</span>
-									</label>
-									<div ng-if="requireTask1">
-										纳入收益考核要求<textarea ng-model="nod.require1" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
-									</div>
-									<div ng-if="requireTask2">
-										单独考核要求<textarea ng-model="nod.require2" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
-									</div>
-									<div ng-if="requireTask3">
-										建议及挖潜<textarea ng-model="nod.require3" rows="" cols="" class="form-control" auto-height disabled="disabled"></textarea>
-									</div>
+									<textarea name="" ng-model="nod.implementationRequirements" rows="" cols="" class="form-control" auto-height></textarea>
 								</span>
 							</div>
 						</div>
 					</div>
-
-					<div class="row normalline titline" ng-if="null!=noticeLeader && ''!=noticeLeader">
-						<div class="col-md-12 col-sm-12  col-xs-12">
-							<div class="row">
-								<span class="col-md-2 noPadding">主管领导签发</span>
-								<span class="col-md-9 slim">
-						           {{noticeLeader[0].OPINION}}
-                                </span>
-							</div>
-
-						</div>
-					</div>
 				</div>
-
 
 				<div class="mcontent content1" id="noticeAttechment" ng-show="isShow">
 					<h3 class='text-blue'>决策通知书附件</h3>
@@ -311,11 +275,6 @@
 										is-show-relace-name="true"
 								>
 								</cloud-file>
-								<!--<span class="col-md-9 slim">
-						             <span ng-bind="progress$index"></span>
-									&lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
-						                 <a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
-                                     </span>-->
 							</div>
 
 						</div>
@@ -324,37 +283,171 @@
 				<div class="button-group">
 					<div class="row">
 						<div class="option txl">
-					<span ng-if="'nothing'!=oldUrl">
- 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
- 					</span>
-							<button ng-if="tabIndex=='0'" ng-click="showSubmitModal()" type="button"  id="submibtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>确认</button>
+							<a ng-if="flag=='1'" class="btn btn-info" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
+							<a ng-if="flag=='2'" class="btn btn-info" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
+							<a ng-if="flag=='3'" class="btn btn-info" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
+							<a ng-if="flag=='4'" class="btn btn-info" href="#/NoticeOfDecisionList"><i class="fa fa-reply"></i>返回</a>
+							<a ng-if="flag=='5'" class="btn btn-info" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
+							<a ng-if="flag=='6' && action != 'toSubmit' && action !='submitted'" class="btn btn-info" href="#/NoticeDecisionAuditList/0"><i class="fa fa-reply"></i>返回</a>
+							<a ng-if="flag=='7' && action != 'toSubmit' && action !='submitted'" class="btn btn-info" href="#/NoticeDecisionList"><i class="fa fa-reply"></i>返回</a>
+							<directive-return-btn ng-show="action == 'toSubmit' || action =='submitted'" url="{{oldUrl}}"></directive-return-btn>
+							<!-- 					<button type="button" id="savebtn" ng-click="save()" class="btn btn-info"><i class="fa fa-save"></i>保存</button>
+                            <!-- 					<button ng-click="showSubmitModal()" type="button"  id="submibtnn" class="btn btn-info" title=""> -->
+							<!-- 					<i class="fa fa-cloud-upload"></i>提交</button> -->
+							<!-- <button
+                                ng-show="action=='toSubmit'" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title="">
+                            <i class="fa fa-cloud-upload"></i>提交</button> -->
+							<button ng-show="action == 'toSubmit' && !isShowOldSubmitBtn" ng-click="showSubmitModalNew()" type="button"  id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+							<button ng-show="(action != 'toSubmit' && action !='submitted') && isShowOldSubmitBtn" ng-click="showSubmitModalOld()" type="button"  id="submibtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
 							<button type="button" id="wordbtn" ng-click="createWord()" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button>
+							<div ng-if="old" id="submitModalOld"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+								<approve-pop-win approve="approve"></approve-pop-win>
+							</div>
+							<div ng-if="!old" id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+								<decision-bpmn-pop-win  approve="approve"></decision-bpmn-pop-win>
+							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 
+			<div class="tab-pane" id="flow_chart" >
+				<div ng-show="!old">
+					<directive-process-page></directive-process-page>
+				</div>
+				<div ng-show="old">
+					<directive-process-list></directive-process-list>
+				</div>
 			</div>
 		</div>
-	</form>
+	</div>
 </div>
-<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-	<direct-common-upload title="{{'决策通知书附件'}}" attachment="attachment" callback="confirm" businessid="businessid"></direct-common-upload>
-</div>
+
+
+
 
 <directive-user-list></directive-user-list>
-
 <directive-org-list></directive-org-list>
-<script  type="text/javascript">
-	angular.element(document).ready(function() {
-		var options = {
-			todayBtn: "linked",
-			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-		}
-		$('#bs-datepicker-edit').datepicker();
-		$('#dateOfMeeting').datepicker(options);
-   });
-</script>
+<script type="text/javascript">
+    <!--
+    $(function(){
+        $('#porjectPreReview').collapse('show');
+        $('#taskAssignment').collapse({toggle: 'show'});
+        //二级菜单关闭&展示
+        $(".dropdown-list").children("li").click(function(){
+            var dropDown = $(this).find(".sub-list");
+            var togClass=$(this).find(".ico");
+            $(".dropdown-list li .sub-list").not(dropDown).slideUp(300);
+            $(".dropdown-list li .ico").not(togClass).removeClass("fa-minus");
+            dropDown.slideToggle(300);
+            togClass.toggleClass("fa-minus");
+        });
+        /*//tabs切换
+        $(".nav-tabs").children("li:not('.navbar-right')").click(function(){
+            var liIndex=$(this).index();
+            var tabCont=$(this).parents(".myTab").siblings(".tab-content").find(".tab-pane");
+            $(this).addClass("active").siblings("li").removeClass("active");
+            tabCont.eq(liIndex).fadeIn(300).siblings(".tab-pane").fadeOut(0);
+        });*/
+        //单选
+        $(".one-choice .sub-list li").click(function(){
+            $(this).children("a").addClass("cur");
+            $(this).parents(".dropdown-list").find(".sub-list li a").not($(this).children()).removeClass("cur");
+            return false;
+        });
+        //多选
+        $(".more-choice .sub-list li").click(function(){
+            $(this).children("a").addClass("cur");
+            return false;
+        });
+    });
 
+    $("#compareBtn").click(function(){
+        var chooseCount=0;
+        $("input[name='choose']").each(function(){
+            if($(this).attr("checked")){
+                chooseCount++;
+            }
+        });
+        if(chooseCount==0){
+            alert("请选择要对比的数据！");
+            return;
+        }else if(chooseCount>1){
+            alert("只能选择一条数据！");
+            return;
+        }
+    });
+
+    /*$("#submibtnn").click(function(){
+        var num=0;
+        $("input[name='consentToInvestment']").each(function(){
+            if($(this).attr("checked")=="checked"){
+                num++;
+            }
+        });
+        if(num>0){
+            //alert("不为空，不显示此项必填");
+            $(".radio-verify.error").css("display","none");
+        }else{
+            //alert("为空，显示此项必填");
+            $(".radio-verify.error").css("display","inline-block");
+            return false;
+        }
+    });
+
+    $("input[name='consentToInvestment']").click(function(){
+        $(".radio-verify.error").css("display","none");
+    });*/
+    //-->
+</script>
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#bs-datepicker-edit').datepicker();
+        $('#dateOfMeeting').datepicker(options);
+    });
+    $().ready(function() {
+        // validate signup form on keyup and submit
+        $("#noticeName").validate({
+            rules: {
+                personLiableName:"required",
+                responsibilityUnitName:"required",
+                registeredCapital:"required",
+                register:"required",
+                equityRatio:"required",
+                subjectOfImplementationName:"required",
+                dateOfMeeting:"required",
+                decisionStage:"required",
+                additionalReview:"required",
+                reviewOfTotalInvestment:"required",
+                evaluationScale:"required",
+                directPersonName:"required",
+                contractScale:"required",
+                consentToInvestment:"required"
+            },
+            messages: {
+                personLiableName:"此项必填",
+                responsibilityUnitName:"此项必填",
+                registeredCapital:"请填入数字",
+                register:"此项必填",
+                equityRatio:"请填入数字",
+                subjectOfImplementationName:"此项必填",
+                dateOfMeeting:"此项必填",
+                decisionStage:"此项必填",
+                additionalReview:"此项必填",
+                reviewOfTotalInvestment:"请填入数字",
+                evaluationScale:"此项必填",
+                directPersonName:"此项必填",
+                contractScale:"此项必填",
+                consentToInvestment:"此项必填"
+            }
+        });
+    });
+
+</script>
 
 <style>
 	.mcontent {
