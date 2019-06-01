@@ -41,5 +41,5 @@ public interface IInitFileService {
      * @param jsonObjectList
      * @return
      */
-    List<InitFile> executeSynchronizeModule(List<JSONObject> jsonObjectList);
+    List<InitFile> executeSynchronizeModule(List<JSONObject> jsonObjectList, JSONObject jsonCondition);
 }

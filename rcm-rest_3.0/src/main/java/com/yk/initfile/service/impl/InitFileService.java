@@ -112,6 +112,7 @@ public class InitFileService implements IInitFileService {
         }
         for (InitFile initFile : list) {
             initFile.setSequence(new Integer(list.indexOf(initFile)));
+            initFile.setTotal(list.size());
         }
         int limit = 0;
         int skip = 0;
@@ -121,7 +122,13 @@ public class InitFileService implements IInitFileService {
         if (jsonCondition.getInteger("skip") != null) {
             skip = jsonCondition.getInteger("skip");
         }
-        return new MyFilter(limit, skip).doFilter(list);
+        List<InitFile> filter = new MyFilter(limit, skip).doFilter(list);
+        if (CollectionUtils.isNotEmpty(filter)) {
+            for (InitFile initFile : filter) {
+                initFile.setLimitTotal(filter.size());
+            }
+        }
+        return filter;
     }
 
 
@@ -154,7 +161,7 @@ public class InitFileService implements IInitFileService {
             } else {
                 initFile.setCloud(false);
                 initFile.setSynchronize(false);
-                throw new BusinessException("服务器文件路径：" + pathServer + "为空！");
+                throw new BusinessException("序号为：" + (initFile.getSequence() + 1) + "的文件，服务器文件路径为空！");
             }
         }
         return initFile;
@@ -162,6 +169,7 @@ public class InitFileService implements IInitFileService {
 
     /**
      * 插入Mongo数据
+     *
      * @param initFile
      * @param fileDto
      */
@@ -273,8 +281,8 @@ public class InitFileService implements IInitFileService {
     }
 
     @Override
-    public List<InitFile> executeSynchronizeModule(List<JSONObject> jsonObjectList) {
-        List<InitFile> list = this.queryMongo(jsonObjectList, new JSONObject());
+    public List<InitFile> executeSynchronizeModule(List<JSONObject> jsonObjectList, JSONObject jsonCondition) {
+        List<InitFile> list = this.querySynchronize(jsonObjectList, jsonCondition);
         if (CollectionUtils.isNotEmpty(list)) {
             for (InitFile file : list) {
                 this.executeSynchronize(file);
