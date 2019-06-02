@@ -1,7 +1,6 @@
 package com.yk.initfile.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.goukuai.constant.YunkuConf;
 import com.goukuai.dto.FileDto;
@@ -266,8 +265,8 @@ public class InitFileService implements IInitFileService {
                 String code = file.getCode();
                 String location = file.getLocation();
                 List<FileDto> files = fileMapper.listFile(type, code, location);
-                file.setCloud(CollectionUtils.isEmpty(files));
-                file.setSynchronize(CollectionUtils.isEmpty(files));
+                file.setCloud(!CollectionUtils.isEmpty(files));
+                file.setSynchronize(!CollectionUtils.isEmpty(files));
                 String pathServer = file.getPathServer();
                 if (StringUtils.isNotBlank(pathServer)) {
                     File tmp = new File(pathServer);
