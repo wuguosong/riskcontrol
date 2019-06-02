@@ -7,7 +7,7 @@ ctmApp.config(function ($httpProvider) {
         $httpProvider.defaults.headers.post = {"Content-Type": "application/x-www-form-urlencoded"};
     }
 });
-var srvUrl = "/rcm-rest/";
+var srvUrl = "/rcm-rest";
 //var srvUrl = "http://10.10.20.38/rcm-rest/";
 // var srvUrl = "http://riskcontrol.bewg.net.cn/rcm-rest/";
 
