@@ -1,4 +1,7 @@
 ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope','$location','Upload', '$filter', function ($routeParams,$http,$scope,$location,Upload, $filter) {
+
+	$scope.isShowOld = false;
+
     $scope.businessId = $routeParams.id;
 	var businessId = $routeParams.id;
     $scope.url = $routeParams.url;
@@ -339,6 +342,13 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams','$http','$scope
 		}).success(function(data){
 			$scope.pre  = data.result_data.mongo;
 			$scope.attach = data.result_data.attach;
+
+            // 附件显示
+            var time = $scope.pre.create_date.substring(0,10);
+            var thisTime = '2019-6-3';
+            if (time < thisTime){
+                $scope.isShowOld = true;
+            }
 
             //处理附件
 			$scope.reduceAttachment(data.result_data.mongo.attachmentList, businessId);

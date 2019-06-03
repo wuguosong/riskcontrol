@@ -1,6 +1,8 @@
 ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','$location','$routeParams','Upload','$timeout', '$filter',
  function ($http,$scope,$location,$routeParams,Upload,$timeout,$filter) {
-	// debugger;
+
+	$scope.isShowOld = false;
+
      $scope.url = $routeParams.url;
 	 /*加签功能初始化必需数据*/
      $scope.changeUserMapper = {"nameField": "NAME", "valueField": "VALUE"};
@@ -1473,6 +1475,13 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}).success(function(data){
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
+
+            // 附件显示
+            var time = $scope.pfr.create_date.substring(0,10);
+            var thisTime = '2019-6-3';
+            if (time < thisTime){
+                $scope.isShowOld = true;
+            }
 
 			// 默认上会
 			if (isEmpty($scope.pfr.needMeeting)) {
