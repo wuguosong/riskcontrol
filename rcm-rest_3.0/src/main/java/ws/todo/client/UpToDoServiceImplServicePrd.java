@@ -15,7 +15,7 @@ import java.net.URL;
  *
  */
 @WebServiceClient(name = "UpToDoServiceImplService",
-                  wsdlLocation = "http://10.10.4.38:8081/ws/upToDo?wsdl",
+                  wsdlLocation = "http://10.10.2.38:8081/ws/upToDo?wsdl",
                   targetNamespace = "http://impl.service.ws.com/")
 public class UpToDoServiceImplServicePrd extends Service {
 
@@ -26,11 +26,11 @@ public class UpToDoServiceImplServicePrd extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("http://10.10.4.38:8081/ws/upToDo?wsdl");
+            url = new URL("http://10.10.2.38:8081/ws/upToDo?wsdl");
         } catch (MalformedURLException e) {
             java.util.logging.Logger.getLogger(UpToDoServiceImplServicePrd.class.getName())
                 .log(java.util.logging.Level.INFO,
-                     "Can not initialize the default wsdl from {0}", "http://10.10.4.38:8081/ws/upToDo?wsdl");
+                     "Can not initialize the default wsdl from {0}", "http://10.10.2.38:8081/ws/upToDo?wsdl");
         }
         WSDL_LOCATION = url;
     }
