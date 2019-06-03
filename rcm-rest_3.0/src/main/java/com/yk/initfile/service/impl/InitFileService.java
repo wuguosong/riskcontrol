@@ -140,7 +140,7 @@ public class InitFileService implements IInitFileService {
 
     @Override
     public InitFile executeSynchronize(InitFile initFile) {
-        if (!initFile.isCloud()) {
+        if (!initFile.isCloud() && initFile.isServer()) {
             String pathServer = initFile.getPathServer();
             String optName = UserUtil.getCurrentUserName();
             String optId = UserUtil.getCurrentUserId();
