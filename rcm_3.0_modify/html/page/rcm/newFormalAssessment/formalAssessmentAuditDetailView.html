@@ -843,7 +843,9 @@
         $('#approveLegalFeedbackTime').datepicker(options);
     });
     angular.element(document).ready(function() {
-        $('#legalReviewComments').removeAttrs('style');
+        setTimeout(function () {
+             $('#legalReviewComments').removeAttrs('style');
+        }, 1000);
     });
 </script>
 <!--加签弹窗(页面)-->
