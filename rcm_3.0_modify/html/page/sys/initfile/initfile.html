@@ -1,11 +1,13 @@
 <div class="panel">
     <style type="text/css">
-        .options {
-            font-weight: bold;
+        th {
+            text-align: center;
         }
 
         th, td {
-            word-wrap: break-word;
+            white-space: normal;
+            /*word-wrap: break-word;*/
+            word-break: break-all;
         }
 
         a {
@@ -14,37 +16,44 @@
         }
     </style>
     <div class="header">
-        <span class="hd-title">系统-在途数据</span>
+        <span class="hd-title">系统-历史附件同步</span>
     </div>
     <div class="panel-body">
         <div class="panel">
             <div class="row">
                 <div class="col-md-12">
-                    <span class="options">来源</span>
-                    <select ng-model="fileTypesIndex" id="fileTypesIndex"
+                    源
+                    <select ng-model="fileTypesIndex" id="fileTypesIndex" ng-change="setCountInfo()"
                             style="height: 30px;line-height: 30px;padding: 0 10px;border-radius: 4px;border: 1px solid #dddee1;width: 210px;">
                         <option ng-repeat="fileType in fileTypes" value="{{$index}}" ng-selected="$index == 0">
                             {{fileType.name}}
                         </option>
                     </select>
                     &nbsp;
-                    <span ng-bind="info"></span>
+                    &nbsp;
+                    <span ng-bind="info" style="color: #0c5b8e;"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <span class="options">操作</span>
+                    从
                     <input ng-model="fileSkip" type="number"
                            style="height: 30px;line-height: 30px;padding: 0 10px;border-radius: 4px;border: 1px solid #dddee1;width: 210px;"
                            title="Skip" id="Skip">
-                    -
+                    至
                     <input ng-model="fileLimit" type="number"
                            style="height: 30px;line-height: 30px;padding: 0 10px;border-radius: 4px;border: 1px solid #dddee1;width: 210px;"
                            title="Limit" id="Limit">
-                    <a ng-click="querySynchronize()">同步查询</a>
-                    <a ng-click="executeSynchronizeModule()">同步所选来源</a>
+                    <a ng-click="querySynchronize()" style="color: blue;">同步查询</a>
+                    <a ng-click="executeSynchronizeModule()" style="color:blue;">同步来源</a>
+                    <input type="checkbox" class="checkbox-inline" style="margin: 1px 0px 0px;"
+                           ng-model="unSynchronize"/>
+                    仅查询未同步附件
                     <input type="checkbox" class="checkbox-inline" style="margin: 1px 0px 0px;" ng-model="isLimit"/>
-                    仅同步当前查询页
+                    仅同步当前页附件
+                </div>
+                <div class="col-md-12">
+                    <span style="color: red;font-size: small;">提示：请在查询或者同步历史附件时，尽量减少查询或同步数量，加快页面加载，提高同步成功率！</span>
                 </div>
             </div>
             <div class="row table-responsive">
@@ -53,30 +62,30 @@
                         <table class="table table-bordered table-hover datatable table-text-mid table-light padding0">
                             <thead>
                             <tr>
-                                <th width="10%">序号</th>
-                                <th width="10%">服务文件</th>
-                                <th width="10%">服务路径</th>
-                                <th width="10%">云库文件</th>
-                                <th width="10%">云库路径</th>
-                                <th width="10%">页面位置</th>
-                                <th width="10%">服务</th>
-                                <th width="10%">云库</th>
-                                <th width="10%">同步</th>
-                                <th width="10%">操作</th>
+                                <th width="5%">序号</th>
+                                <th width="15%">服务器文件名</th>
+                                <th width="20%">服务器文件路径</th>
+                                <th width="10%">存储的云库文件名</th>
+                                <th width="20%">存储的的云库路径</th>
+                                <th width="10%">附件页面位置</th>
+                                <th width="5%">服务</th>
+                                <th width="5%">云库</th>
+                                <th width="5%">同步</th>
+                                <th width="5%">操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="file in initFiles">
-                                <td width="10%">{{file.sequence+1}}</td>
-                                <td width="10%">{{file.nameServer}}</td>
-                                <td width="10%">{{file.pathServer}}</td>
+                                <td width="5%">{{file.sequence+1}}</td>
+                                <td width="15%">{{file.nameServer}}</td>
+                                <td width="20%">{{file.pathServer}}</td>
                                 <td width="10%">{{file.nameCloud}}</td>
-                                <td width="10%">{{file.pathCloud}}</td>
+                                <td width="20%">{{file.pathCloud}}</td>
                                 <td width="10%">{{file.location}}</td>
-                                <td width="10%">{{file.server?'是':'否'}}</td>
-                                <td width="10%">{{file.cloud?'是':'否'}}</td>
-                                <td width="10%">{{file.synchronize?'是':'否'}}</td>
-                                <td width="10%">
+                                <td width="5%">{{file.server?'是':'否'}}</td>
+                                <td width="5%">{{file.cloud?'是':'否'}}</td>
+                                <td width="5%">{{file.synchronize?'是':'否'}}</td>
+                                <td width="5%">
                                     <a ng-click="executeSynchronize(file)">同步</a>
                                 </td>
                             </tr>

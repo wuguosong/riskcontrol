@@ -1,11 +1,12 @@
 ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter', '$window',
     function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter, $window) {
-        $scope.isLimit = false;
-        $scope.fileLimit = null;
-        $scope.fileSkip = null;
-        $scope.fileTypes = [];
-        $scope.fileTypesIndex = -1;
-        $scope.initFiles = [];
+        $scope.unSynchronize = false;// 仅查询同步的
+        $scope.isLimit = false;// 仅查询当前页面的
+        $scope.fileSkip = null;// 从
+        $scope.fileLimit = null;// 至
+        $scope.fileTypes = [];// 附件来源
+        $scope.fileTypesIndex = -1;// 附件来源下标
+        $scope.initFiles = [];// 查询结果列表
         $scope.initFileType = function () {
             $.getJSON("page/sys/initfile/initfile.json", function (data) {
                 $scope.fileTypes = data;
@@ -36,44 +37,41 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
             if (!$scope.validateFileTypesIndex()) {
                 return;
             }
-            ;
             if (!$scope.validateCondition()) {
                 return;
             }
-            ;
             var data = {};
             data.list = JSON.stringify([$scope.fileTypes[$scope.fileTypesIndex]]);
             data.condition = JSON.stringify({
                 'limit': $scope.fileLimit,
-                'skip': $scope.fileSkip
+                'skip': $scope.fileSkip,
+                'unSynchronize': $scope.unSynchronize
             });
             _showLoading("正在查询中，请稍等...");
             $scope.commonAjax(srvUrl + 'initfile/querySynchronize.do', 'post', data, false, function (res) {
                 if (res.success) {
+                    _hideLoading();
                     $scope.initFiles = res.data;
-                    if (!isEmpty($scope.initFiles) && $scope.initFiles.length > 0) {
-                        $scope.info = '当前数量 ' + $scope.initFiles.length + ' 实际数量 ' + $scope.initFiles[0].total;
-                    } else {
-                        $scope.info = '当前数量 0 实际数量 0';
-                    }
+                    $scope.setCountInfo();
                 } else {
+                    _hideLoading();
                     $.alert(res.data);
                 }
-                _hideLoading();
             });
         };
         /*======单个同步======*/
         $scope.executeSynchronize = function (file) {
-            $.confirm('确认同步该文件吗？', function(){
+            $.confirm('确认同步该文件吗？', function () {
                 _showLoading("数据同步中，请稍等...");
                 $scope.commonAjax(srvUrl + 'initfile/executeSynchronize.do', 'post', file, false, function (res) {
                     if (res.success) {
+                        _hideLoading();
                         $.alert('同步完成！');
                         $scope.querySynchronize();
                     } else {
+                        _hideLoading();
                         $.alert(res.data);
                     }
-                    _hideLoading();
                 });
             });
         };
@@ -95,20 +93,21 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                     'skip': $scope.fileSkip
                 });
             }
-            $.confirm('确认同步模块文件吗？', function(){
+            $.confirm('确认同步模块文件吗？', function () {
                 _showLoading("数据同步中，请稍等...")
                 $scope.commonAjax(srvUrl + 'initfile/executeSynchronizeModule.do', 'post', data, false, function (res) {
                     if (res.success) {
                         $.alert('同步完成！');
                         $scope.querySynchronize();
+                        _hideLoading();
                     } else {
+                        _hideLoading();
                         $.alert(res.data);
                     }
-                    _hideLoading();
                 });
             });
         };
-        /*====条件校验====*/
+        /*====条件校验:来源====*/
         $scope.validateFileTypesIndex = function () {
             if ($scope.fileTypesIndex == -1) {
                 $('#fileTypesIndex').focus();
@@ -116,6 +115,7 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
             }
             return true;
         };
+        /*====条件校验:Skip和Limit====*/
         $scope.validateCondition = function () {
             if (isEmpty($('#Skip').val())) {
                 $('#Skip').focus();
@@ -126,5 +126,17 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                 return false;
             }
             return true;
+        };
+        /*====设置数量信息====*/
+        $scope.setCountInfo = function () {
+            if ($scope.fileTypesIndex != -1) {
+                var data = {};
+                data.list = JSON.stringify([$scope.fileTypes[$scope.fileTypesIndex]]);
+                $scope.commonAjax(srvUrl + 'initfile/queryMongo.do', 'post', data, false, function (res) {
+                    if (res.success) {
+                        $scope.info = '当前数量: ' + $scope.initFiles.length + ', 实际数量: ' + res.data.length;
+                    }
+                });
+            }
         };
     }]);

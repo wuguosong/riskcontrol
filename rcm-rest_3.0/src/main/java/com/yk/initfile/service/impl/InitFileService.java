@@ -258,15 +258,20 @@ public class InitFileService implements IInitFileService {
 
     @Override
     public List<InitFile> querySynchronize(List<JSONObject> jsonObjectList, JSONObject jsonCondition) {
+        boolean unSynchronize = false;
+        if (jsonCondition.get("unSynchronize") != null) {
+            unSynchronize = jsonCondition.getBoolean("unSynchronize");
+        }
         List<InitFile> list = this.queryMongo(jsonObjectList, jsonCondition);
+        List<InitFile> unSynchronizeList = new ArrayList<>();// 未同步的文件列表
         if (CollectionUtils.isNotEmpty(list)) {
             for (InitFile file : list) {
                 String type = file.getType();
                 String code = file.getCode();
                 String location = file.getLocation();
                 List<FileDto> files = fileMapper.listFile(type, code, location);
-                file.setCloud(!CollectionUtils.isEmpty(files));
-                file.setSynchronize(!CollectionUtils.isEmpty(files));
+                file.setCloud(CollectionUtils.isNotEmpty(files));
+                file.setSynchronize(CollectionUtils.isNotEmpty(files));
                 String pathServer = file.getPathServer();
                 if (StringUtils.isNotBlank(pathServer)) {
                     File tmp = new File(pathServer);
@@ -274,7 +279,18 @@ public class InitFileService implements IInitFileService {
                 } else {
                     file.setServer(StringUtils.isNotBlank(pathServer));
                 }
+                logger.info(file.getNameServer() + ",同步查询:是否存在于服务器上:" + file.isServer() + ",是否存在于云库:" + file.isCloud() + ",是否同步到云库:" + file.isSynchronize());
+                // 过滤未同的附件
+                if (unSynchronize) {
+                    boolean isSynchronize = file.isSynchronize();
+                    if (!isSynchronize) {
+                        unSynchronizeList.add(file);
+                    }
+                }
             }
+        }
+        if (unSynchronize) {
+            list = unSynchronizeList;
         }
         return list;
     }
@@ -344,9 +360,9 @@ public class InitFileService implements IInitFileService {
                                     if (CollectionUtils.isNotEmpty(jsonArray1)) {
                                         // 取最大的版本号
                                         if (name.contains("相关资源")) {
-                                            List<JSONObject> sort = sort(jsonArray1);
+                                            List<JSONObject> sort = sortVersion(jsonArray1);
                                             jsonArray1 = sort.subList(0, 1);
-                                            logger.info("相关资源，长度：" + jsonArray1.size() + "，最新版本：" + jsonArray1.get(0).getString(JsonField.version));
+                                            logger.debug("相关资源，长度：" + jsonArray1.size() + "，最新版本：" + jsonArray1.get(0).getString(JsonField.version));
                                         }
                                         for (JSONObject jsIt : jsonArray1) {
                                             jsIt.put(JsonField._location, local);
@@ -382,7 +398,7 @@ public class InitFileService implements IInitFileService {
      * @param jsonArray
      * @return
      */
-    private List<JSONObject> sort(List<JSONObject> jsonArray) {
+    private List<JSONObject> sortVersion(List<JSONObject> jsonArray) {
         List<MyJson> list = JSON.parseArray(JSON.toJSONString(jsonArray), MyJson.class);
         Collections.sort(list);
         List<JSONObject> sort = JSON.parseArray(JSON.toJSONString(list), JSONObject.class);

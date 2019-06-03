@@ -26,18 +26,18 @@ public class MyFilter {
      * @return
      */
     public <T> List<T> doFilter(List<T> list) {
-        if (limit == 0) {
+        if (limit <= 0) {
             return list;
         }
         int size = list.size();
-        if (size <= limit) {
+        if (size <= limit && skip <= 0) {
             return list;
         } else {
             List<T> register = new ArrayList<T>();
             for (T t : list) {
                 int index = list.indexOf(t);
                 if (index >= skip && index < limit) {
-                    logger.info("过滤当前索引：" + index);
+                    logger.debug("过滤当前索引：" + index);
                     register.add(t);
                 }
             }
