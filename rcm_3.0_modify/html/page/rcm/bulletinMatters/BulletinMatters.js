@@ -181,6 +181,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 		}else{
 			$scope.initUpdate($scope.queryParamId);
 		}
+
 	};
 	
 	//保存当前人申报单位

@@ -85,6 +85,9 @@ function ($http,$scope,$location,$routeParams) {
 
 ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$location', '$routeParams', '$filter','Upload',
 	function ($http,$scope,$location, $routeParams, $filter,Upload) {
+
+	$scope.isShowOld = false;
+
 	$scope.businessId = $routeParams.id;
 	$scope.queryParamId = $routeParams.id;
 	$scope.oldUrl = $routeParams.url;
@@ -345,6 +348,14 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 			}else{
                 $scope.isNotCityService = false;
 			}
+
+            // 附件显示
+            var time = $scope.bulletin.createTime.substring(0,10);
+            var thisTime = '2019-6-3';
+            if (time < thisTime){
+                $scope.isShowOld = true;
+            }
+
             // 处理附件
             $scope.reduceAttachment(data.bulletinMongo.attachmentList, id);
 

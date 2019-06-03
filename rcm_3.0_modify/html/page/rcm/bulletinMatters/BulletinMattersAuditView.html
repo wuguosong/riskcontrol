@@ -106,6 +106,169 @@
 						</div>
 					</div>
 
+					<!-- 风控负责人审批 -->
+					<div  class="panel" ng-show="(( null != bulletin.riskLeaderAttachment  && '' != bulletin.riskLeaderAttachment) || ( null != bulletin.riskLeaderOpinion  && '' != bulletin.riskLeaderOpinion) ||showController.isRiskLeader) && isShowOld ">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#riskLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">风控负责人意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="riskLeaderOption" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div class="row">
+									<label class="col-sm-2 control-label"><span class="required">*</span>风控负责人意见：</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" ng-readonly="!showController.isRiskLeader"  rows="" cols="" ng-model="bulletin.riskLeaderOpinion" auto-height></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="row-tit">附件列表</div>
+									<button type="button" ng-show="showController.isRiskLeader" class="btn btn-info" ng-click="addRiskLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button type="button" ng-show="showController.isRiskLeader" class="btn btn-info" ng-click="deleteRiskLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+											<thead>
+											<tr>
+												<th width="5%">选择</th>
+												<th>上传附件</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="item in bulletin.riskLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="!showController.isRiskLeader" ng-model="item.selected">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<span class="required">*</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+													<div class="col-sm-3 noright-pad txr">
+														<button type="button" ng-disabled="!showController.isRiskLeader" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadRiskLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 评审负责人意见 -->
+					<div  class="panel" ng-show="(( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader ) && isShowOld">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#reviewLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">评审负责人意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="reviewLeaderOption" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div class="row">
+									<label class="col-sm-2 control-label"><span class="required">*</span>评审负责人意见：</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" ng-readonly="!showController.isReviewLeader"  rows="" cols="" ng-model="bulletin.reviewLeaderOpinion" auto-height></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="row-tit">附件列表</div>
+									<button ng-show="showController.isReviewLeader" type="button" class="btn btn-info" ng-click="addReviewLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button ng-show="showController.isReviewLeader" type="button" class="btn btn-info" ng-click="deleteReviewLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+											<thead>
+											<tr>
+												<th width="5%">选择</th>
+												<th>上传附件</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="item in bulletin.reviewLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="!showController.isReviewLeader" ng-model="item.selected">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<span class="required">*</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+													<div class="col-sm-3 noright-pad txr">
+														<button type="button" ng-disabled="!showController.isReviewLeader" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadReviewLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 法律评审负责人意见 -->
+					<div  class="panel" ng-show="(( null != bulletin.legalLeaderAttachment  && '' != bulletin.legalLeaderAttachment) || ( null != bulletin.legalLeaderOpinion  && '' != bulletin.legalLeaderOpinion) ||showController.isLegalLeader ) && isShowOld">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#legalLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">法律负责人意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="legalLeaderOption" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div class="row">
+									<label class="col-sm-2 control-label"><span class="required">*</span>法律评审负责人意见：</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" ng-readonly="!showSubmit || !showController.isLegalLeader" rows="" cols="" ng-model="bulletin.legalLeaderOpinion" auto-height></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="row-tit">附件列表</div>
+									<button ng-show="showSubmit && showController.isLegalLeader" type="button" class="btn btn-info" ng-click="addLegalLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button ng-show="showSubmit && showController.isLegalLeader" type="button" class="btn btn-info" ng-click="deleteLegalLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+											<thead>
+											<tr>
+												<th width="5%">选择</th>
+												<th>上传附件</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="item in bulletin.legalLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="!showController.isLegalLeader" ng-model="item.selected">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<span class="required">*</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+													<div class="col-sm-3 noright-pad txr">
+														<button type="button" ng-disabled="!showController.isLegalLeader" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadLegalLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="panel" ng-show="showController.isTask || showController.isRiskTask || bulletin.taskallocation != null && bulletin.taskallocation !='' ">
 						<div class="panel-heading">
 							<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
