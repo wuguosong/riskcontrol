@@ -593,3 +593,19 @@ form .left-content {
 .meeting-time-input {
   margin-top: 7px;
 }
+
+/** 工作量统计样式 **/
+.panel-work-link {
+  width: 28%;
+}
+
+.panel-work-list {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background-color: #fff;
+  width: 68%;
+  box-sizing: border-box;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

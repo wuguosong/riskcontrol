@@ -250,6 +250,16 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                     // 模板选择框给默认值 初始化模板数据
                     if (data.result_data.summary != null && data.result_data.summary != undefined) {
                         $scope.projectSummary = data.result_data.summary;
+                        if ($scope.projectSummary.projectOverviews != null && $scope.projectSummary.projectOverviews != '') {
+                            angular.forEach($scope.projectSummary.projectOverviews , function (data, index) {
+                                data.fileCode = data.code + index + '_' + $scope.projectSummary.summaryType;
+                            });
+                        }
+                        if ($scope.projectSummary.projectOverviews1 != null && $scope.projectSummary.projectOverviews1 != '') {
+                            angular.forEach($scope.projectSummary.projectOverviews1 , function (data, index) {
+                                data.fileCode = data.code + index + '_' + $scope.projectSummary.summaryType;
+                            });
+                        }
                     }
                     console.log($scope.projectSummary)
                 }).error(function (data, status, header, config) {
@@ -280,11 +290,22 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                 }
             };
 
+            // 初始化附件
+            $scope.initAttchment = function (objId){
+                $scope.attachment = attach_list("FormalDecisionDraftInfo", objId, "pfrDecisionDraft").result_data;
+                if (isEmpty($scope.attachment)) {
+                    $scope.isShow = false;
+                } else {
+                    $scope.isShow = true;
+                }
+            };
+
             $scope.initUpdate = function(objId){
                 $scope.getMarkById(objId);
                 $scope.queryAuditLogsByBusinessId(objId);
                 // 决策会材料模板
                 $scope.initBadding(objId);
+                $scope.initAttchment(objId);
 
                 $scope.initPage();
                 $http({
@@ -319,7 +340,6 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                             $scope.fileName.push(arr);
                         }*/
                         //4、投资评审报告
-                        debugger
                         var file = attach_list('FormalReportInfo', $scope.businessId, 'pfrReport').result_data;
                         if (!isEmpty(file) && !isEmpty(data.result_data.report)){
                             $scope.report = data.result_data.report;

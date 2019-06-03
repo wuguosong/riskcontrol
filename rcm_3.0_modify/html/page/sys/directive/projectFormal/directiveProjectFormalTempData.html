@@ -27,11 +27,24 @@
                               class="form-control ng-pristine ng-valid ng-touched"readOnly></textarea>
                     </td>
                     <td>
-                        <div class="text-hidden" style="float: left; width: 100%;">
+                        <cloud-file
+                                file-id="{{projectOverview.fileCode}}"
+                                file-type="FormalBiddingInfo"
+                                file-code="{{businessId}}"
+                                file-location="{{projectOverview.fileCode}}"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="false"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                        >
+                        </cloud-file>
+                        <!--<div class="text-hidden" style="float: left; width: 100%;">
                             <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
                                 {{ projectOverview.attachmentValue }}
                             </a>
-                        </div>
+                        </div>-->
                     </td>
                 </tr>
                 </tbody>
@@ -66,11 +79,24 @@
                           class="form-control ng-pristine ng-valid ng-touched" readonly></textarea>
                     </td>
                     <td>
-                        <div class="text-hidden" style="float: left; width: 100%;">
+                        <cloud-file
+                                file-id="{{projectOverview.fileCode}}"
+                                file-type="FormalBiddingInfo"
+                                file-code="{{businessId}}"
+                                file-location="{{projectOverview.fileCode}}"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="false"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                        >
+                        </cloud-file>
+                        <!--<div class="text-hidden" style="float: left; width: 100%;">
                             <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
                                 {{ projectOverview.attachmentValue }}
                             </a>
-                        </div>
+                        </div>-->
                     </td>
                 </tr>
                 </tbody>

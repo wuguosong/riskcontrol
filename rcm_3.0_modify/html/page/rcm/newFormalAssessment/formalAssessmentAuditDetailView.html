@@ -842,6 +842,9 @@
         $('#approveFeedbackTime').datepicker(options);
         $('#approveLegalFeedbackTime').datepicker(options);
     });
+    angular.element(document).ready(function() {
+        $('#legalReviewComments').removeAttrs('style');
+    });
 </script>
 <!--加签弹窗(页面)-->
 <div id="_signModalDialog" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog"
