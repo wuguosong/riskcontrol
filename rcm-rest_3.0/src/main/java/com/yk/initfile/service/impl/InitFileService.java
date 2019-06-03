@@ -154,7 +154,11 @@ public class InitFileService implements IInitFileService {
                         FileDto fileDto = judgeFileDtoByPath(initFile);
                         initFile.setCloud(true);
                         initFile.setSynchronize(true);
-                        this.insertToMongo(initFile, fileDto);
+                        try {
+                            this.insertToMongo(initFile, fileDto);
+                        } catch (Exception e) {
+                            logger.error("##########Mongo数据插入失败：" + initFile);
+                        }
                     } catch (Exception e) {
                         // 该异常导致事务回滚，FileDto不会保存
                         initFile.setCloud(false);
