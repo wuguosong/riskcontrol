@@ -100,7 +100,7 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
 
             //员工工作情况
             //tabIndex类型分别有0、1、2、3
-            .when('/PersonnelWork/:type/:id/:lx/:tabIndex', {
+            .when('/PersonnelWork/:type/:id/:lx/:tabIndex/:flag', {
                 controller: 'PersonnelWork',
                 templateUrl: 'page/rcm/homePage/PersonnelWork.html',
                 controllerAs: 'model',
@@ -3426,6 +3426,94 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+
+            // 工作量统计
+            .when('/workloadStatisticsList',{
+                controller:'workloadStatisticsList',
+                templateUrl:'page/rcm/homePage/workloadStatisticsList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/homePage/workloadStatisticsList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            /************************ 统计页面开始 ****************************/
+            .when('/ProjectPreReviewReadOnly', {
+                controller: 'ProjectPreReviewReadOnly',
+                templateUrl: 'page/rcm/preAssessment/ProjectPreReviewReadOnly.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/preAssessment/ProjectPreReview.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            .when('/ProjectFormalReviewListReadOnly',{
+                controller:'ProjectFormalReviewListReadOnly',
+                templateUrl:'page/rcm/formalAssessment/ProjectFormalReviewListReadOnly.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/ProjectFormalReviewListReadOnly.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            .when('/bulletinStatistics', {
+                controller: 'BulletinStatistics',
+                templateUrl: 'page/rcm/preAssessment/BulletinStatistics.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/preAssessment/BulletinStatistics.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            .when('/NoticeReviewListReadOnly',{
+                controller:'NoticeReviewListReadOnly',
+                templateUrl:'page/rcm/meeting/NoticeReviewListReadOnly.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/meeting/NoticeReviewListReadOnly.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            /************************ 统计页面结束 ****************************/
     }
 ]);
 

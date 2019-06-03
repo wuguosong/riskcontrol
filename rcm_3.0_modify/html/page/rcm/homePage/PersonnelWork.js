@@ -4,6 +4,7 @@ ctmApp.register.controller('PersonnelWork', ['$http','$scope','$location','$rout
 	$scope.id = $routeParams.id;
 	$scope.tabIndex = $routeParams.tabIndex;
 	$scope.lx = $routeParams.lx;
+	$scope.flag = $routeParams.flag;
 	$scope.paginationConf.queryObj={};
 	$scope.paginationConf1 = {
         lastCurrentTimeStamp:'',

@@ -6,6 +6,7 @@ ctmApp.register.controller('IndividualTable', ['$http', '$scope', '$location', '
         $scope.queryMeetingNoticeTop();
         $scope.queryMyToReadInformation();
         $scope.getTodayProject();
+        $scope.getProjectReport();
         $scope.showFlag = 'NATURAL';
 
         // 判断首页快捷菜单栏显示
@@ -144,6 +145,88 @@ ctmApp.register.controller('IndividualTable', ['$http', '$scope', '$location', '
                 $.alert(data.result_name);
             }
         });
+    };
+
+    // 工作量统计数据
+    $scope.getProjectReport=function(){
+        $http({
+            method:'post',
+            url: srvUrl + "deptwork/getProjectReport.do"
+        }).success(function(result){
+            $scope.projectReport0922ByYw = result.result_data.getProjectReport0922ByYw;
+            $scope.projectReport0922ByFL = result.result_data.getProjectReport0922ByFL;
+            $scope.queryPsfzrUsers = result.result_data.queryPsfzrUsers;
+            $scope.queryFlfzrUsers = result.result_data.queryFlfzrUsers;
+
+        });
+    };
+
+    $scope.queryFZR = function($event,uuid) {
+        $http({
+            method: 'post',
+            url: srvUrl + "deptwork/showFzr.do",
+            data: $.param({"uuid":uuid})
+        }).success(function(result){
+            var data = result.result_data.data;
+            var html  ;
+            var inderHtml ;
+            //张三</a></td><td colspan="2" align="left"><span >113</span></td><td colspan="2" align="left"><span>313</span></td><td colspan="2" align="left"><span>333</span></td></tr><tr id="'+uuid+'ls"><td  align="left"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;栗色</a></td><td colspan="2" align="left"><span >113</span></td><td colspan="2" align="left"><span >22</span></td><td colspan="2" align="left"><span>313</span></td></tr>';
+            for (var i = 0; i < data.length; i++) {
+                var name = data[i].TEAM_MEMBER_NAME;
+                var wgh = data[i].FORMAL_GOING + data[i].PRE_GOING + data[i].BULLETIN_GOING;
+                var ywc = data[i].FORMAL_DEALED + data[i].PRE_DEALED+ data[i].BULLETIN_DEALED;
+                var total = data[i].TOTAL_NUM;
+                inderHtml = '<tr name="'+uuid+'zs">' + '<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#/PersonnelWork/user/'+data[i].USERID+'/YW/0/0">' + name + '</a></td>'
+                    + '<td colspan="2" align="left"><span >'+ wgh +'</span></td>'
+                    + '<td colspan="2" align="left"><span>' + ywc + '</span></td>'
+                    + '<td colspan="2" align="left"><span>' + total + '</span></td></tr>' ;
+                html = html + inderHtml;
+            }
+            $('#'+uuid).after(html);
+            $($event.target).hide();
+            $('#'+uuid+'sq').show();
+        });
+
+
+
+    };
+
+    $scope.queryFlFZR = function($event,uuid) {
+        $http({
+            method: 'post',
+            url: srvUrl + "deptwork/showFlFzr.do",
+            data: $.param({"uuid":uuid})
+        }).success(function(result){
+            var data = result.result_data.data;
+            var html  ;
+            var inderHtml ;
+            //张三</a></td><td colspan="2" align="left"><span >113</span></td><td colspan="2" align="left"><span>313</span></td><td colspan="2" align="left"><span>333</span></td></tr><tr id="'+uuid+'ls"><td  align="left"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;栗色</a></td><td colspan="2" align="left"><span >113</span></td><td colspan="2" align="left"><span >22</span></td><td colspan="2" align="left"><span>313</span></td></tr>';
+            for (var i = 0; i < data.length; i++) {
+                var name = data[i].TEAM_MEMBER_NAME;
+                var wgh = data[i].FORMAL_GOING + data[i].BULLETIN_GOING;
+                var ywc = data[i].FORMAL_DEALED + data[i].BULLETIN_DEALED;
+                var total = data[i].TOTAL_NUM;
+                inderHtml = '<tr name="'+uuid+'zs">' + '<td align="left"><a href="#/PersonnelWork/user/'+data[i].USERID+'/FL/0/0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + name + '</a></td>'
+                    + '<td colspan="2" align="left"><span >'+ wgh +'</span></td>'
+                    + '<td colspan="2" align="left"><span>' + ywc + '</span></td>'
+                    + '<td colspan="2" align="left"><span>' + total + '</span></td></tr>' ;
+                html = html + inderHtml;
+            }
+            $('#'+uuid).after(html);
+            $($event.target).hide();
+            $('#'+uuid+'sq').show();
+        });
+
+
+
+    };
+
+    $scope.sqFZR = function($event,uuid) {
+        //$('#'+uuid+'zs').remove();
+        $("tr[name='"+uuid+"zs']").remove();
+        //$('#'+uuid+'ls').remove();
+        $($event.target).hide();
+        $('#'+uuid+'zk').show();
     };
 
     $scope.initData();
