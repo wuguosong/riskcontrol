@@ -64,15 +64,17 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
         };
         /*======单个同步======*/
         $scope.executeSynchronize = function (file) {
-            _showLoading("数据同步中，请稍等...");
-            $scope.commonAjax(srvUrl + 'initfile/executeSynchronize.do', 'post', file, false, function (res) {
-                if (res.success) {
-                    $.alert('同步完成！');
-                    $scope.querySynchronize();
-                } else {
-                    $.alert(res.data);
-                }
-                _hideLoading();
+            $.confirm('确认同步该文件吗？', function(){
+                _showLoading("数据同步中，请稍等...");
+                $scope.commonAjax(srvUrl + 'initfile/executeSynchronize.do', 'post', file, false, function (res) {
+                    if (res.success) {
+                        $.alert('同步完成！');
+                        $scope.querySynchronize();
+                    } else {
+                        $.alert(res.data);
+                    }
+                    _hideLoading();
+                });
             });
         };
         /*======模块同步======*/
@@ -93,15 +95,17 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                     'skip': $scope.fileSkip
                 });
             }
-            _showLoading("数据同步中，请稍等...")
-            $scope.commonAjax(srvUrl + 'initfile/executeSynchronizeModule.do', 'post', data, false, function (res) {
-                if (res.success) {
-                    $.alert('同步完成！');
-                    $scope.querySynchronize();
-                } else {
-                    $.alert(res.data);
-                }
-                _hideLoading();
+            $.confirm('确认同步模块文件吗？', function(){
+                _showLoading("数据同步中，请稍等...")
+                $scope.commonAjax(srvUrl + 'initfile/executeSynchronizeModule.do', 'post', data, false, function (res) {
+                    if (res.success) {
+                        $.alert('同步完成！');
+                        $scope.querySynchronize();
+                    } else {
+                        $.alert(res.data);
+                    }
+                    _hideLoading();
+                });
             });
         };
         /*====条件校验====*/
