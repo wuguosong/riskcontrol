@@ -31,6 +31,16 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
         });
     };
 
+    $scope.paginationConf = {
+        lastCurrentTimeStamp: '',
+        currentPage: 1,
+        totalItems: 0,
+        itemsPerPage: 10,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        queryObj: {}
+    };
+
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
     $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.getProjectList);
 }]);

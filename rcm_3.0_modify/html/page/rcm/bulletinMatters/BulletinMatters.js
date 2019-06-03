@@ -446,7 +446,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 
      // 标准项目名称构建
      $scope.bulletinNameBuild = function () {
-     	if (!isEmpty($scope.tbsxTypeModel)){
+     	if (!isEmpty($scope.tbsxTypeModel) && !isEmpty($scope.bulletin.projectName)){
             $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
             if ($scope.qtType != ''){
                 $scope.couldStr = $scope.bulletin.projectName.indexOf("项目");
@@ -662,6 +662,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
      // 项目名称提示
 	 $scope.setTitle = function () {
          if (!isEmpty($scope.tbsxTypeModel)){
+             $scope.qtType = angular.copy(JSON.parse($scope.tbsxTypeModel));
              if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_BORROWMONEY'){
                  $scope.title = 'xxx项目公司针对xxx项目的借款事项';
              } else if ($scope.qtType.ITEM_CODE == 'TBSX_BUSINESS_NEWCOMPANY'){
