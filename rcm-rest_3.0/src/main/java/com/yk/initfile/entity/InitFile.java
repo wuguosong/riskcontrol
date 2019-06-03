@@ -22,6 +22,8 @@ public class InitFile {
     private String table;// 查询的表
     private Integer total;// 总数量
     private Integer limitTotal;// 分页总数量
+    private String filePathField;
+    private String fileNameField;
 
     public boolean isServer() {
         return server;
@@ -149,6 +151,22 @@ public class InitFile {
 
     public void setLimitTotal(Integer limitTotal) {
         this.limitTotal = limitTotal;
+    }
+
+    public String getFilePathField() {
+        return filePathField;
+    }
+
+    public void setFilePathField(String filePathField) {
+        this.filePathField = filePathField;
+    }
+
+    public String getFileNameField() {
+        return fileNameField;
+    }
+
+    public void setFileNameField(String fileNameField) {
+        this.fileNameField = fileNameField;
     }
 
     @Override

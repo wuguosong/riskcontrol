@@ -89,6 +89,13 @@ public class InitFileService implements IInitFileService {
                                     for (JSONObject file : fileArray) {
                                         // System.out.println("id===" + id + "\n文件====" + JSON.toJSONString(file));
                                         InitFile initFile = new InitFile();
+                                        initFile.setFilePathField(filePathField);
+                                        initFile.setFileNameField(fileNameField);
+                                        if (StringUtils.isNotBlank(file.getString(JsonField.version))) {
+                                            initFile.setVersion(file.getString(JsonField.version));
+                                        } else {
+                                            initFile.setVersion("1");
+                                        }
                                         initFile.setName(name);
                                         initFile.setTable(table);
                                         initFile.setNameServer(file.getString(fileNameField));
@@ -143,13 +150,22 @@ public class InitFileService implements IInitFileService {
                     String pathCloud = initFile.getPathCloud();
                     String fileLocal = file.getAbsolutePath();
                     try {
-                        FileDto fileDto = fileService.fileUpload(pathCloud.replaceFirst(YunkuConf.UPLOAD_ROOT, ""), fileLocal, initFile.getType(), initFile.getCode(), initFile.getLocation(), optName, new Integer(optId));
+                        fileService.fileUpload(pathCloud.replaceFirst(YunkuConf.UPLOAD_ROOT, ""), fileLocal, initFile.getType(), initFile.getCode(), initFile.getLocation(), optName, new Integer(optId));
+                        FileDto fileDto = judgeFileDtoByPath(initFile);
                         initFile.setCloud(true);
                         initFile.setSynchronize(true);
                         this.insertToMongo(initFile, fileDto);
                     } catch (Exception e) {
+                        // 该异常导致事务回滚，FileDto不会保存
                         initFile.setCloud(false);
                         initFile.setSynchronize(false);
+                        try {
+                            // 删除已经上传到云库的附件
+                            fileService.fileDelete(pathCloud.replaceFirst(YunkuConf.UPLOAD_ROOT, ""), optName);
+                        } catch (Exception e1) {
+                            logger.error("删除云库附件出错：" + e1.getMessage());
+                            // 如果文件不存在，可能抛出异常，不做处理
+                        }
                         throw new BusinessException(e);
                     }
                 } else {
@@ -174,7 +190,7 @@ public class InitFileService implements IInitFileService {
      */
     private void insertToMongo(InitFile initFile, FileDto fileDto) {
         if (initFile.getName().contains("相关资源")) {
-            logger.info("开始插入Mongo附件数据...");
+            String table = initFile.getTable();
             Map<String, Object> preInfo = baseMongo.queryById(initFile.getCode(), initFile.getTable());
             Map<String, Object> paramMap = new HashMap<String, Object>();
             paramMap.put("functionType", this.getFunctionType(initFile.getTable()));
@@ -192,46 +208,64 @@ public class InitFileService implements IInitFileService {
             DbUtil.close();
             List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) (preInfo.get("attachment") == null ? preInfo.get("fileList") : preInfo.get("attachment"));
             if (CollectionUtils.isNotEmpty(attachmentList)) {
-                for (int i = 0; i < attachmentList.size(); i++) {
-                    Map<String, Object> attachment = attachmentList.get(i);
-                    List<Map<String, Object>> files = (List<Map<String, Object>>) attachment.get("files");
-                    for (int j = 0; j < files.size(); j++) {
-                        Map<String, Object> file = files.get(j);
-                        Integer version = (Integer) file.get("version");
-                        if (version == files.size() - 1) {
-                            // 上传附件准备数据
-                            String fileName = (String) file.get("fileName");
-                            // 同步Mongo数据
-                            Map<String, Object> data = new HashMap<String, Object>();
-                            data.put("businessId", initFile.getCode());
-                            data.put("oldFileName", fileName);
-                            data.put("fileName", fileName);
-                            data.put("lastUpdateBy", file.get("approved") == null ? preInfo.get("applyUser") : file.get("approved"));
-                            data.put("lastUpdateData", file.get("upload_date") == null ? preInfo.get("createTime") : file.get("upload_date"));
-                            data.put("fileId", fileDto.getFileid());
-                            if (CollectionUtils.isNotEmpty(attachmentTypeList)) {
-                                int count = 0;
-                                for (int q = 0; q < attachmentTypeList.size(); q++) {
-                                    if (attachmentTypeList.get(q).get("ITEM_NAME").equals((String) file.get("ITEM_NAME"))) {
-                                        count = 1;
-                                        data.put("type", attachmentTypeList.get(q));
-                                        break;
+                for (Map<String, Object> attachment : attachmentList) {
+                    List<Map<String, Object>> files = null;
+                    try {
+                        files = (List<Map<String, Object>>) attachment.get("files");
+                    } catch (Exception e) {
+                        Map<String, Object> map = (Map<String, Object>) attachment.get("files");
+                        files = new ArrayList<Map<String, Object>>();
+                        files.add(map);
+                    }
+                    if (CollectionUtils.isNotEmpty(files)) {
+                        // 获取最高版本的附件
+                        List<JSONObject> jsonObjects = JSON.parseArray(JSON.toJSONString(files), JSONObject.class);
+                        List<JSONObject> sortVersion = this.sortVersion(jsonObjects);
+                        if (CollectionUtils.isNotEmpty(sortVersion)) {
+                            JSONObject sortFile = sortVersion.get(0);
+                            // 针对其它评审相关资源单独处理
+                            if ("rcm_bulletin_info".equalsIgnoreCase(table)) {
+                                sortFile.put(JsonField.version, "1");
+                            }
+                            if (sortFile.getString(JsonField.version).equals(initFile.getVersion())
+                                    && sortFile.getString(initFile.getFilePathField()).equals(initFile.getPathServer())) {
+                                Map<String, Object> file = JSON.parseObject(JSON.toJSONString(sortFile), HashMap.class);
+                                // 上传附件准备数据
+                                String fileName = (String) file.get("fileName");
+                                // 同步Mongo数据
+                                Map<String, Object> jsonMap = new HashMap<String, Object>();
+                                Map<String, Object> data = new HashMap<String, Object>();
+                                jsonMap.put("businessId", initFile.getCode());
+                                jsonMap.put("oldFileName", fileName);
+                                data.put("fileName", fileName);
+                                data.put("lastUpdateBy", file.get("approved") == null ? preInfo.get("applyUser") : file.get("approved"));
+                                data.put("lastUpdateData", file.get("upload_date") == null ? preInfo.get("createTime") : file.get("upload_date"));
+                                data.put("fileId", String.valueOf(fileDto.getFileid()));
+                                if (attachmentTypeList != null) {
+                                    int count = 0;
+                                    for (int q = 0; q < attachmentTypeList.size(); q++) {
+                                        if (attachmentTypeList.get(q).get("ITEM_NAME").equals((String) file.get("ITEM_NAME"))) {
+                                            count = 1;
+                                            data.put("type", attachmentTypeList.get(q));
+                                            break;
+                                        }
+                                    }
+                                    if (count == 0) {
+                                        Map<String, Object> type = new HashMap<String, Object>();
+                                        type.put("ITEM_NAME", attachment.get("ITEM_NAME"));
+                                        data.put("type", type);
                                     }
                                 }
-                                if (count == 0) {
-                                    Map<String, Object> type = new HashMap<String, Object>();
-                                    type.put("ITEM_NAME", file.get("ITEM_NAME"));
-                                    data.put("type", type);
+                                jsonMap.put("item", data);
+                                String json = JSON.toJSONString(jsonMap);
+                                if ("rcm_pre_info".equalsIgnoreCase(table)) {
+                                    preInfoCreateService.addNewAttachment(json);
+                                } else if ("rcm_formalAssessment_info".equalsIgnoreCase(table)) {
+                                    formalAssessmentInfoCreateService.addNewAttachment(json);
+                                } else {
+                                    bulletinInfoService.addNewAttachment(json);
                                 }
-                            }
-                            String json = JSON.toJSONString(data);
-                            String table = initFile.getTable();
-                            if ("rcm_pre_info".equalsIgnoreCase(table)) {
-                                preInfoCreateService.addNewAttachment(json);
-                            } else if ("rcm_formalAssessment_info".equalsIgnoreCase(table)) {
-                                formalAssessmentInfoCreateService.addNewAttachment(json);
-                            } else {
-                                bulletinInfoService.addNewAttachment(json);
+                                logger.info(initFile.getName() + "Mongo数据被保存：" + json);
                             }
                         }
                     }
@@ -246,6 +280,7 @@ public class InitFileService implements IInitFileService {
      * @param table
      * @return
      */
+
     private String getFunctionType(String table) {
         if ("rcm_bulletin_info".equalsIgnoreCase(table)) {
             return "其它评审";
@@ -263,36 +298,61 @@ public class InitFileService implements IInitFileService {
             unSynchronize = jsonCondition.getBoolean("unSynchronize");
         }
         List<InitFile> list = this.queryMongo(jsonObjectList, jsonCondition);
-        List<InitFile> unSynchronizeList = new ArrayList<>();// 未同步的文件列表
+        List<InitFile> filter = new ArrayList<>();// 未同步的文件列表
         if (CollectionUtils.isNotEmpty(list)) {
             for (InitFile file : list) {
+                String pathCloud = file.getPathCloud();
                 String type = file.getType();
                 String code = file.getCode();
                 String location = file.getLocation();
-                List<FileDto> files = fileMapper.listFile(type, code, location);
-                file.setCloud(CollectionUtils.isNotEmpty(files));
-                file.setSynchronize(CollectionUtils.isNotEmpty(files));
+                FileDto fileDto = judgeFileDtoByPath(file);
+                file.setCloud(fileDto != null);
+                file.setSynchronize(fileDto != null);
                 String pathServer = file.getPathServer();
                 if (StringUtils.isNotBlank(pathServer)) {
                     File tmp = new File(pathServer);
                     file.setServer(tmp.exists());
                 } else {
-                    file.setServer(StringUtils.isNotBlank(pathServer));
+                    file.setServer(false);
                 }
                 logger.info(file.getNameServer() + ",同步查询:是否存在于服务器上:" + file.isServer() + ",是否存在于云库:" + file.isCloud() + ",是否同步到云库:" + file.isSynchronize());
                 // 过滤未同的附件
                 if (unSynchronize) {
                     boolean isSynchronize = file.isSynchronize();
                     if (!isSynchronize) {
-                        unSynchronizeList.add(file);
+                        filter.add(file);
                     }
                 }
             }
         }
         if (unSynchronize) {
-            list = unSynchronizeList;
+            list = filter;
         }
         return list;
+    }
+
+    /**
+     * 获取文件，存在则返回文件实体， 否则返回null
+     *
+     * @param initFile
+     * @return
+     */
+    private FileDto judgeFileDtoByPath(InitFile initFile) {
+        String type = initFile.getType();
+        String code = initFile.getCode();
+        String location = initFile.getLocation();
+        String pathServer = initFile.getPathServer();
+        List<FileDto> files = fileMapper.listFile(type, code, location);
+        if (CollectionUtils.isEmpty(files)) {
+            return null;
+        } else {
+            for (FileDto fileDto : files) {
+                if (fileDto.getUploadserver().replace("\\", "/").contains(pathServer)) {
+                    return fileDto;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

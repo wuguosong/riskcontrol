@@ -66,8 +66,8 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                 $scope.commonAjax(srvUrl + 'initfile/executeSynchronize.do', 'post', file, false, function (res) {
                     if (res.success) {
                         _hideLoading();
-                        $.alert('同步完成！');
                         $scope.querySynchronize();
+                        $.alert('同步完成！');
                     } else {
                         _hideLoading();
                         $.alert(res.data);

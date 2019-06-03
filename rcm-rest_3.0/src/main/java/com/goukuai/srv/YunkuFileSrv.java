@@ -1,31 +1,30 @@
 package com.goukuai.srv;
 
-import java.io.File;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.goukuai.constant.YunkuConf;
-import com.goukuai.dto.BaseData;
-import com.goukuai.dto.FileDto;
-import com.goukuai.dto.LinkDto;
-import com.goukuai.helper.EntFileManagerHelper;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gokuai.base.DebugConfig;
 import com.gokuai.base.ReturnResult;
+import com.goukuai.constant.YunkuConf;
+import com.goukuai.dto.BaseData;
+import com.goukuai.dto.FileDto;
+import com.goukuai.dto.LinkDto;
+import com.goukuai.helper.EntFileManagerHelper;
 import com.yunkuent.sdk.ConfigHelper;
 import com.yunkuent.sdk.EntFileManager;
-import com.yunkuent.sdk.ScopeType;
 import com.yunkuent.sdk.EntFileManager.AuthType;
+import com.yunkuent.sdk.ScopeType;
 import com.yunkuent.sdk.data.FileInfo;
 import com.yunkuent.sdk.data.YunkuException;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author LiPan[wjsxhclj@sina.com]
@@ -111,7 +110,7 @@ public class YunkuFileSrv {
             try{
                 File local = new File(localFile);
                 if(local.exists()){
-                    local.delete();
+                    // local.delete();
                 }
             }catch (Exception e){
                 LoggerFactory.getLogger(YunkuFileSrv.class).error(e.getMessage());
