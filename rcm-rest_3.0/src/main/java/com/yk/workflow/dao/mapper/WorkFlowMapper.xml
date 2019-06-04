@@ -601,6 +601,7 @@ SELECT ta.*
 			<choose> 
 				<when test="'formalReview' == processKey">and (ta.type_ = '${processKey}' or ta.type_ = 'formalAssessment')</when>
 				<when test="'noticeDecision' == processKey">and (ta.type_ = '${processKey}' or ta.type_ = 'noticeOfDecision')</when>
+				<when test="'preAssessment' == processKey">and (ta.type_ = '${processKey}' or ta.type_ = 'preReview')</when>
 				<otherwise>and type_ = '${processKey}'</otherwise>
 			</choose>
 		</if>
