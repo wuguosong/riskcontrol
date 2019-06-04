@@ -170,7 +170,7 @@ public class InitFileService implements IInitFileService {
                             logger.error("删除云库附件出错：" + e1.getMessage());
                             // 如果文件不存在，可能抛出异常，不做处理
                         }
-                        throw new BusinessException(e);
+                        // throw new BusinessException(e);
                     }
                 } else {
                     initFile.setCloud(false);
@@ -262,12 +262,16 @@ public class InitFileService implements IInitFileService {
                                 }
                                 jsonMap.put("item", data);
                                 String json = JSON.toJSONString(jsonMap);
-                                if ("rcm_pre_info".equalsIgnoreCase(table)) {
-                                    preInfoCreateService.addNewAttachment(json);
-                                } else if ("rcm_formalAssessment_info".equalsIgnoreCase(table)) {
-                                    formalAssessmentInfoCreateService.addNewAttachment(json);
-                                } else {
-                                    bulletinInfoService.addNewAttachment(json);
+                                try{
+                                    if ("rcm_pre_info".equalsIgnoreCase(table)) {
+                                        preInfoCreateService.addNewAttachment(json);
+                                    } else if ("rcm_formalAssessment_info".equalsIgnoreCase(table)) {
+                                        formalAssessmentInfoCreateService.addNewAttachment(json);
+                                    } else {
+                                        bulletinInfoService.addNewAttachment(json);
+                                    }
+                                }catch(Exception e){
+                                    logger.error(e.getMessage());
                                 }
                                 logger.info(initFile.getName() + "Mongo数据被保存：" + json);
                             }
@@ -346,11 +350,15 @@ public class InitFileService implements IInitFileService {
         String code = initFile.getCode();
         String location = initFile.getLocation();
         String pathServer = initFile.getPathServer();
+        if(StringUtils.isEmpty(pathServer)){
+            pathServer = "";
+        }
         List<FileDto> files = fileMapper.listFile(type, code, location);
         if (CollectionUtils.isEmpty(files)) {
             return null;
         } else {
             for (FileDto fileDto : files) {
+                System.out.println("%FileDto%" + fileDto);
                 if (fileDto.getUploadserver().replace("\\", "/").contains(pathServer)) {
                     return fileDto;
                 }
