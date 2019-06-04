@@ -3610,9 +3610,11 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 弹出查看历史附件弹框
             $scope.showHistory = function (item){
-                debugger
                 show_Mask();
-                var fileType = item.type.ITEM_CODE
+                var fileType = '';
+                if (item.type != null && item.type != undefined) {
+                    fileType = item.type.ITEM_CODE;
+                };
                 var url = '';
                 if ($scope.businessType == 'preReview') {
                     url = "preInfoCreate/getHistoryList.do";
@@ -3625,7 +3627,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                 $http({
                     method:'post',
                     url:srvUrl+url,
-                    data: $.param({"json":JSON.stringify({"id":$scope.businessId, "fileType": item.type.fileType, "businessType": $scope.businessType, "pageLocation": $scope.pageLocation, "fileName": item.filename})})
+                    data: $.param({"json":JSON.stringify({"id":$scope.businessId, "fileType": fileType, "businessType": $scope.businessType, "pageLocation": $scope.pageLocation, "fileName": item.filename})})
                 }).success(function(result){
                     if (result.result_code == 'S'){
                         if (isEmpty(result.result_data)){

@@ -23,7 +23,7 @@
                        ng-href="#/projectInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/'|encodeURI}}">{{ submit.PROJECTNAME }}</a>
                     <a ng-if="'pre' == submit.PROJECT_TYPE"
                        ng-href="#/projectPreInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/'|encodeURI}}">{{ submit.PROJECTNAME }}</a>
-                    <a ng-if="'pre' == submit.PROJECT_TYPE"
+                    <a ng-if="'bulletin' == submit.PROJECT_TYPE"
                        ng-href="#/projectBulletinInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/'|encodeURI}}">{{ submit.PROJECTNAME }}</a>
                 </td>
                 <td ng-if="'pfr' == submit.PROJECT_TYPE">
