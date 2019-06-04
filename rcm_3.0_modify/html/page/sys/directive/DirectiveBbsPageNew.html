@@ -116,7 +116,9 @@
                     </div>
                     <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
-                             readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
+                             readonly><span style="color: black;word-break:break-all;">
+                            <div ng-bind-html='_message_.messageContent|textToHtml'></div>
+                        </span>&nbsp;<span
                              style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
                             <br><!--展示附件信息-->
                             <span ng-include="'page/sys/common/file_info_mess.html'"></span>
@@ -137,9 +139,12 @@
                            ng-if="_message_.createdBy == _init_uuid_global_ && _is_show_reply_btn_">撤回</a>-->
                     </div>
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
-                        <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;word-break:break-all;">{{_message_.messageContent}}</span>&nbsp;<span
+                        <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly>
+                            <span style="color: black;word-break:break-all;">
+                                <span ng-bind-html='_message_.messageContent|textToHtml'></span>
+                            </span>&nbsp;<span
                              style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
-                        <br><!--展示附件信息-->
+                            <!--展示附件信息-->
                             <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                         </div>
                     </div><!--待阅已阅提示信息-->
