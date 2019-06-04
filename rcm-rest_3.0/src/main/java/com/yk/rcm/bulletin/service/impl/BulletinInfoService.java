@@ -763,7 +763,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 		String id = jsonMap.get("id").toString();
 		String businessType = jsonMap.get("businessType").toString();
 		String pageLocation = jsonMap.get("pageLocation").toString();
-		String fileType = jsonMap.get("fileType").toString();
+
 		// 获取mongo存储的附件信息
 		Map<String, Object> queryById = baseMongo.queryById(id, Constants.RCM_BULLETIN_INFO);
 		List<Map<String, Object>> attachmentList = (List<Map<String, Object>>) queryById.get("attachmentList");
@@ -774,13 +774,22 @@ public class BulletinInfoService implements IBulletinInfoService {
 		// 初始化返回List
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
+		String param = "";
+		if (Util.isNotEmpty(jsonMap.get("fileType"))) {
+			param = jsonMap.get("fileType").toString();
+		} else {
+			param = jsonMap.get("fileName").toString();
+		}
+
 		// 筛选符合条件的返回数据
 		for (int i = 0; i < couldAttchmentList.size(); i++) {
 			for (int j = 0; j < attachmentList.size(); j++) {
 				Map<String, Object> attach = new HashMap<String, Object>();
 				Map<String, Object> type = (Map<String, Object>) attachmentList.get(j).get("type");
-				if (fileType.equals(attachmentList.get(j).get("uuid").toString()) && couldAttchmentList.get(i)
-						.get("FILEID").toString().equals(attachmentList.get(j).get("fileId").toString())) {
+				if ((param.equals(attachmentList.get(j).get("uuid").toString())
+						|| param.equals(attachmentList.get(j).get("fileName")))
+						&& couldAttchmentList.get(i).get("FILEID").toString()
+								.equals(attachmentList.get(j).get("fileId").toString())) {
 					attach = couldAttchmentList.get(i);
 					attach.put("fileName", attachmentList.get(j).get("oldFileName"));
 					list.add(attach);

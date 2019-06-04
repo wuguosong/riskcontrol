@@ -288,8 +288,8 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
                 $scope.reportOracle = data.result_data.reportOracle;
 
                 // 处理会议数据
-                if ($scope.preBidding.meetingInfo == null) {
-                    $scope.preBidding.meetingInfo = [];
+                if (isEmpty($scope.preBidding.meetingInfo)) {
+                    $scope.preBidding.meetingInfo = {};
                 }
 
                 $scope.preBidding.meetingInfo.projectName = $scope.pfr.apply.projectName;
@@ -499,12 +499,13 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
         };
 
         $scope.saveOrSubmit = function(pData,method){
-            console.log(pData)
+            var json = JSON.stringify(pData);
+            console.log(json);
             show_Mask();
             $http({
                 method:'post',
                 url:srvUrl+"preBidding/addPolicyDecision.do",
-                data:  $.param({"json":JSON.stringify(pData),"method":method})
+                data:  $.param({"json": json,"method":method})
             }).success(function(data){
                 if(data.success){
                     var alertData = "";
@@ -619,7 +620,7 @@ ctmApp.register.controller('PreBiddingInfo', ['$http','$scope','$location','$rou
             $scope.preBidding.ac_attachment = $scope.pfr.attachment;
             $scope.preBidding.reviewReport = $scope.pfr.reviewReport;
             return  $scope.preBidding;
-        }
+        };
 
         $scope.dataForSubmit = function(){
 

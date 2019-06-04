@@ -259,7 +259,7 @@ public class PreBiddingServiceImpl implements IPreBiddingService {
 		Map<String, Object> reviewReport = (Map<String, Object>) bjson.get("reviewReport");
 		map.put("reviewReport", reviewReport);
 		// 更新参会部分信息
-		map.put("meetingInfo", (Map<String, Object>) bjson.get("meetingInfo"));
+		map.put("meetingInfo", (bjson.get("meetingInfo")));
 		this.baseMongo.updateSetByObjectId(businessId, map, Constants.RCM_PRE_INFO);
 		return flag;
 	}

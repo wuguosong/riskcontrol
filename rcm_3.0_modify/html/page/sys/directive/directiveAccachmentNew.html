@@ -67,7 +67,7 @@
                 <td>{{item.lastUpdateData}}</td>
                 <td>
                     <button type="button" class="btn btn-danger" ng-click="_delete(item.fileid)"
-                            ng-if="item.preview3d != null && wfState =='0'">删除
+                            ng-if="item.preview3d != null && (isEdite || wfState =='0')">删除
                     </button>
                     <button ng-if="item.preview3d != null && (isEdite || wfState =='0')" type="button"
                             class="btn btn-info" ng-click="_review(item.preview3d)">预览
@@ -112,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-                    <button ng-if="item.preview3d != null" type="button" class="btn btn-info"  ng-click="showHistory(item.type.ITEM_CODE, item.uuid)">查看历史</button>
+                    <button ng-if="item.preview3d != null" type="button" class="btn btn-info"  ng-click="showHistory(item)">查看历史</button>
                 </td>
                 <td ng-if="isChoose" align="center">
                     <label class="checkbox-inline choose">

@@ -180,7 +180,7 @@ public class NoticeDecisionConfirmInfoService implements INoticeDecisionConfirmI
 		Thread t = new Thread(tzAfterNoticeClient);
 		t.start();
 
-		this.daxtService.prfStart(formalId);
+		/*this.daxtService.prfStart(formalId);*/
 
 	}
 

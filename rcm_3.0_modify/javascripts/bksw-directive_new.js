@@ -3609,8 +3609,12 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             };
 
             // 弹出查看历史附件弹框
-            $scope.showHistory = function (fileType, uuid){
+            $scope.showHistory = function (item){
                 show_Mask();
+                var fileType = '';
+                if (item.type != null && item.type != undefined) {
+                    fileType = item.type.ITEM_CODE;
+                };
                 var url = '';
                 if ($scope.businessType == 'preReview') {
                     url = "preInfoCreate/getHistoryList.do";
@@ -3618,16 +3622,17 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                     url = "formalAssessmentInfoCreate/getHistoryList.do";
                 } else {
                     url = "bulletinInfo/getHistoryList.do";
-                    fileType = uuid;
+                    fileType = item.uuid;
                 }
                 $http({
                     method:'post',
                     url:srvUrl+url,
-                    data: $.param({"json":JSON.stringify({"id":$scope.businessId, "fileType": fileType, "businessType": $scope.businessType, "pageLocation": $scope.pageLocation})})
+                    data: $.param({"json":JSON.stringify({"id":$scope.businessId, "fileType": fileType, "businessType": $scope.businessType, "pageLocation": $scope.pageLocation, "fileName": item.filename})})
                 }).success(function(result){
                     if (result.result_code == 'S'){
                         if (isEmpty(result.result_data)){
                             alert("此类型文档暂无历史附件");
+                            hide_Mask();
                         } else {
                             $scope.attachHistoryList = result.result_data;
                             $('#showHistoryList_'+ $scope.id).modal('show');
