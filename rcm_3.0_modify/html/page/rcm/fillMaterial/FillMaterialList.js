@@ -1,6 +1,17 @@
 ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', '$routeParams', '$filter',
     function ($http, $scope, $location, $routeParams, $filter) {
-        $scope.tabIndex = $routeParams.tabIndex;
+        $scope.paginationConf1 = {
+            currentPage: 1,
+            totalItems: 0,
+            itemsPerPage: 10,
+            pagesLength: 10,
+            perPageOptions: [10, 20, 30, 40, 50],
+            queryObj: {},
+            onChange: function () {
+            }
+        };
+
+    $scope.tabIndex = $routeParams.tabIndex;
         $scope.oldUrl = $routeParams.url;
         $scope.initData = function () {
             $scope.queryNoSubmitList();
@@ -8,21 +19,20 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
         }
         //查询待填写资料
         $scope.queryNoSubmitList = function () {
-            if ($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == '') {
-                $scope.paginationConf.queryObj = {};
+            if ($scope.paginationConf1.queryObj == null || $scope.paginationConf1.queryObj == '') {
+                $scope.paginationConf1.queryObj = {};
             }
-            $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
-            $scope.paginationConf.itemsPerPage = 10;
+            $scope.paginationConf1.queryObj.userId = $scope.credentials.UUID;
             $http({
                 method: 'post',
                 url: srvUrl + "fillMaterials/queryNoSubmitList.do",
                 data: $.param({
-                    "page": JSON.stringify($scope.paginationConf),
-                    "json": JSON.stringify($scope.paginationConf.queryObj)
+                    "page": JSON.stringify($scope.paginationConf1),
+                    "json": JSON.stringify($scope.paginationConf1.queryObj)
                 })
             }).success(function (result) {
                 $scope.noSubmitList = result.result_data.list;
-                $scope.paginationConf.totalItems = result.result_data.totalItems;
+                $scope.paginationConf1.totalItems = result.result_data.totalItems;
             });
         };
 
@@ -47,7 +57,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
 
 
         // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
-        $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryNoSubmitList);
+        $scope.$watch('paginationConf1.currentPage + paginationConf1.itemsPerPage', $scope.queryNoSubmitList);
 
         $scope.$watch('paginationConfes.currentPage + paginationConfes.itemsPerPage', $scope.querySubmitList);
 
@@ -210,25 +220,6 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             });
         }
 
-
-        $scope.initDataFill = function () {
-            if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
-                $scope.paginationConf.queryObj = {};
-            }
-            $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
-            $scope.paginationConf.itemsPerPage = 5;
-            $http({
-                method:'post',
-                url: srvUrl + "fillMaterials/queryNoSubmitList.do",
-                data: $.param({
-                    "page":JSON.stringify($scope.paginationConf),
-                    "json":JSON.stringify($scope.paginationConf.queryObj)
-                })
-            }).success(function(result){
-                $scope.noSubmitList = result.result_data.list;
-            });
-        };
-        $scope.initDataFill();
         $scope.r={};
         //新建评审报告
         $scope.openRFIReport = function (noSubmit) {
