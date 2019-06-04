@@ -9,8 +9,6 @@ import com.yk.notify.service.INotifyService;
 import common.Constants;
 import common.PageAssistant;
 import common.Result;
-import common.commonMethod;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -458,6 +456,7 @@ public class MessageController {
 
     /**
      * 执行业务模块需求
+     *
      * @param message
      * @param checkUsers
      */
@@ -489,12 +488,13 @@ public class MessageController {
 
     /**
      * 执行发送
+     *
      * @param message
      * @param user
      */
     private void executeSend(Message message, String user) {
         if (StringUtils.isNotBlank(user)) {
-            messageService.shareMessage(message.getMessageId(), user, MessageClient._DT);
+            messageService.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), user, MessageClient._DT);
             notifyService.save(message.getMessageType(), message.getProcInstId(), user, Notify.TYPE_MESSAGE, String.valueOf(message.getMessageId()), message.getMessageContent(),
                     false);
             notifyService.sendToPortal(message.getMessageType(), message.getProcInstId(), false, true, Notify.TYPE_MESSAGE);
