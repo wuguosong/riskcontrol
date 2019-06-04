@@ -1952,8 +1952,8 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     formData.parentId = 0;
                     formData.repliedBy = '';
                     formData.repliedName = 0;
-                    formData.messageContent = $('#_message_first_0' + $scope._screen_type_).text();
-                    formData.messageTitle = $('#_message_first_title_0' + $scope._screen_type_).text();
+                    formData.messageContent = $('#_message_first_0' + $scope._screen_type_).html();
+                    formData.messageTitle = $('#_message_first_title_0' + $scope._screen_type_).html();
                     formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
                 }else{// 如果是主题留言回复
                     formData = $scope._message;
@@ -1964,7 +1964,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     formData.parentId = _parent_id_;
                     formData.repliedBy = _replied_by_;
                     formData.repliedName = _replied_name_;
-                    formData.messageContent = $('#_message_textarea_bottom_' + _idx_ + $scope._screen_type_).text();
+                    formData.messageContent = $('#_message_textarea_bottom_' + _idx_ + $scope._screen_type_).html();
                 }
                 formData.messageType = $scope.messageType;
                 formData.messageScreenType = $scope.screenType;
@@ -2006,8 +2006,8 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     }
                 }
                 if(_common_get_string_byte_length(formData.messageContent) > 2500){
-                    $.alert('内容不能超过2500个字符!');
-                    return false;
+                    //$.alert('内容不能超过2500个字符!');
+                    //return false;
                 }
                 return true;
             };
