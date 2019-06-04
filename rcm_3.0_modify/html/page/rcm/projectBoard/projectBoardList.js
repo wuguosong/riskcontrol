@@ -70,7 +70,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf2.queryObj.projectName = projectName;
         }
         $scope.paginationConf2.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf2.queryObj.stageList = ['3','4','5','6'];
+        $scope.paginationConf2.queryObj.stageList = ['3','4','5'];
         $http({
             method:'post',
             url: srvUrl + "projectBoard/getProjectList.do",
@@ -94,7 +94,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf3.queryObj.projectName = projectName;
         }
         $scope.paginationConf3.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf3.queryObj.stageList = ['7','9'];
+        $scope.paginationConf3.queryObj.stageList = ['6','7','9'];
         $http({
             method:'post',
             url: srvUrl + "projectBoard/getProjectList.do",
