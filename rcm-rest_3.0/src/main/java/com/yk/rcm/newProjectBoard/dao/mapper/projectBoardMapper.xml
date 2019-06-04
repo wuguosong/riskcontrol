@@ -14,6 +14,7 @@
                      WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
                      (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
                      (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
+                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
                      FI.CREATE_DATE,
                      FI.WF_STATE,
                      FI.OLDDATA,
@@ -46,6 +47,7 @@
                (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
                (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
                (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
                PI.CREATE_DATE,
                PI.WF_STATE,
                PI.OLDDATA,
@@ -78,11 +80,12 @@
                (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
                (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
                (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
                BI.CREATETIME CREATE_DATE,
                BI.AUDITSTATUS WF_STATE,
                '0' OLDDATA,
                BI.APPLYTIME APPLY_DATE,
-               BI.STAGE
+               DECODE(BI.STAGE, '1.5', '3' ,'5' ,'7') STAGE
           FROM RCM_BULLETIN_INFO BI
          WHERE BI.BUSINESSID IN
               (SELECT DISTINCT (BUSINESS_ID)
@@ -104,10 +107,14 @@
         AND T.WF_STATE <![CDATA[ <> ]]> '0'
     	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
     	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+    	and	T.STAGE IN 
+    	<foreach collection="stageList" item="stage" open="(" close=")" separator=",">
+			  #{stage}
+		</foreach>
       ORDER BY T.CREATE_DATE DESC
 	</select>
 	
-	<!-- 查询项目列表, 查询所有项目 -->
+	<!-- 查询项目列表, 查询所有项目数量 -->
 	<select id="getALLProjectList" resultType="map"  parameterType="map">
 	  SELECT *
         FROM (SELECT FI.ID,
@@ -155,12 +162,190 @@
                BI.AUDITSTATUS WF_STATE,
                '0' OLDDATA,
                BI.APPLYTIME APPLY_DATE,
-               BI.STAGE
+               DECODE(BI.STAGE, '1.5', '3' ,'5' ,'7') STAGE
           FROM RCM_BULLETIN_INFO BI) T
       WHERE 1 = 1
         AND T.WF_STATE <![CDATA[ <> ]]> '0'
     	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
     	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+    	and	T.STAGE IN 
+    	<foreach collection="stageList" item="stage" open="(" close=")" separator=",">
+			  #{stage}
+		</foreach>
+      ORDER BY T.CREATE_DATE DESC
+	</select>
+	
+	
+	<!-- 查询项目列表, 查询角色绑定的项目以及本人参与审批的项目数量 -->
+	<select id="getRoleProjectListCount" resultType="int"  parameterType="map">
+	  SELECT COUNT(*)
+        FROM (SELECT FI.ID,
+                     FI.BUSINESSID,
+                     FI.PROJECTNAME,
+                     'pfr' PROJECT_TYPE,
+                     (SELECT O.NAME
+                     FROM SYS_ORG O
+                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
+                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
+                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
+                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
+                     FI.CREATE_DATE,
+                     FI.WF_STATE,
+                     FI.OLDDATA,
+                     FI.APPLY_DATE,
+                     FI.STAGE
+                FROM RCM_FORMALASSESSMENT_INFO FI
+               WHERE FI.BUSINESSID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pfr'
+
+                              UNION ALL
+
+                              SELECT FL.BUSINESSID BUSINESS_ID
+                                FROM RCM_FORMALASSESSMENT_LOG FL
+                               WHERE FL.AUDITUSERID = #{userId}))
+
+        UNION ALL
+
+        SELECT PI.ID,
+               PI.BUSINESSID,
+               PI.PROJECTNAME,
+               'pre' PROJECT_TYPE,
+               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
+               PI.CREATE_DATE,
+               PI.WF_STATE,
+               PI.OLDDATA,
+               PI.APPLY_DATE,
+               PI.STAGE
+          FROM RCM_PRE_INFO PI
+         WHERE PI.BUSINESSID IN
+                  (SELECT DISTINCT (BUSINESS_ID)
+                     FROM (SELECT PR.BUSINESS_ID
+                             FROM SYS_PROJECT_ROLE PR
+                            WHERE 1 = 1
+                              AND PR.ROLE_ID IN
+                                 (SELECT UR.ROLE_ID
+                                    FROM SYS_USER_ROLE UR
+                                   WHERE UR.USER_ID = #{userId})
+                                     AND PR.PROJECT_TYPE = 'pre'
+
+                                  UNION ALL
+                          
+                                  SELECT PL.BUSINESSID BUSINESS_ID
+                                    FROM RCM_PRE_LOG PL
+                                   WHERE PL.AUDITUSERID = #{userId}))
+
+        UNION ALL
+
+        SELECT BI.ID,
+               BI.BUSINESSID,
+               BI.BULLETINNAME PROJECTNAME,
+               'bulletin' PROJECT_TYPE,
+               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
+               BI.CREATETIME CREATE_DATE,
+               BI.AUDITSTATUS WF_STATE,
+               '0' OLDDATA,
+               BI.APPLYTIME APPLY_DATE,
+               DECODE(BI.STAGE, '1.5', '3' ,'5' ,'7') STAGE
+          FROM RCM_BULLETIN_INFO BI
+         WHERE BI.BUSINESSID IN
+              (SELECT DISTINCT (BUSINESS_ID)
+                 FROM (SELECT PR.BUSINESS_ID
+                         FROM SYS_PROJECT_ROLE PR
+                        WHERE 1 = 1
+                          AND PR.ROLE_ID IN
+                             (SELECT UR.ROLE_ID
+                                FROM SYS_USER_ROLE UR
+                               WHERE UR.USER_ID = #{userId})
+                                 AND PR.PROJECT_TYPE = 'bulletin'
+                             
+                              UNION ALL
+                             
+                              SELECT BL.BUSINESSID BUSINESS_ID
+                                FROM RCM_BULLETIN_LOG BL
+                               WHERE BL.AUDITUSERID = #{userId}))) T
+      WHERE 1 = 1
+        AND T.WF_STATE <![CDATA[ <> ]]> '0'
+    	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
+    	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+    	and	T.STAGE IN 
+    	<foreach collection="stageList" item="stage" open="(" close=")" separator=",">
+			  #{stage}
+		</foreach>
+      ORDER BY T.CREATE_DATE DESC
+	</select>
+	
+	<!-- 查询项目列表, 查询所有项目 -->
+	<select id="getALLProjectListCount" resultType="int"  parameterType="map">
+	  SELECT COUNT(*)
+        FROM (SELECT FI.ID,
+                     FI.BUSINESSID,
+                     FI.PROJECTNAME,
+                     'pfr' PROJECT_TYPE,
+                     (SELECT O.NAME
+                     FROM SYS_ORG O
+                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
+                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
+                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
+                     FI.CREATE_DATE,
+                     FI.WF_STATE,
+                     FI.OLDDATA,
+                     FI.APPLY_DATE,
+                     FI.STAGE
+                FROM RCM_FORMALASSESSMENT_INFO FI
+
+        UNION ALL
+
+        SELECT PI.ID,
+               PI.BUSINESSID,
+               PI.PROJECTNAME,
+               'pre' PROJECT_TYPE,
+               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
+               PI.CREATE_DATE,
+               PI.WF_STATE,
+               PI.OLDDATA,
+               PI.APPLY_DATE,
+               PI.STAGE
+          FROM RCM_PRE_INFO PI
+
+        UNION ALL
+
+        SELECT BI.ID,
+               BI.BUSINESSID,
+               BI.BULLETINNAME PROJECTNAME,
+               'bulletin' PROJECT_TYPE,
+               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
+               BI.CREATETIME CREATE_DATE,
+               BI.AUDITSTATUS WF_STATE,
+               '0' OLDDATA,
+               BI.APPLYTIME APPLY_DATE,
+               DECODE(BI.STAGE, '1.5', '3' ,'5' ,'7') STAGE
+          FROM RCM_BULLETIN_INFO BI) T
+      WHERE 1 = 1
+        AND T.WF_STATE <![CDATA[ <> ]]> '0'
+    	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
+    	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+    	and	T.STAGE IN 
+    	<foreach collection="stageList" item="stage" open="(" close=")" separator=",">
+			  #{stage}
+		</foreach>
       ORDER BY T.CREATE_DATE DESC
 	</select>
 </mapper>
