@@ -68,7 +68,12 @@
                                                 {{ $index + 1 }}
                                             </td>
                                             <td>
-                                                {{ noSubmit.PROJECTNAME }}
+                                                <a ng-if="'pfr' == noSubmit.PROJECT_TYPE"
+                                                   ng-href="#/FormalAssessmentAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
+                                                <a ng-if="'pre' == noSubmit.PROJECT_TYPE"
+                                                   ng-href="#/PreAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
+                                                <a ng-if="'pre' == noSubmit.PROJECT_TYPE"
+                                                   ng-href="#/BulletinMattersAuditView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
                                             </td>
                                             <td ng-if="'pfr' == noSubmit.PROJECT_TYPE">
                                                 正式评审
@@ -325,7 +330,12 @@
                                                 {{ $index + 1 }}
                                             </td>
                                             <td>
-                                                {{ submit.PROJECTNAME }}
+                                                <a ng-if="'pfr' == submit.PROJECT_TYPE"
+                                                   ng-href="#/projectInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}">{{ submit.PROJECTNAME }}</a>
+                                                <a ng-if="'pre' == submit.PROJECT_TYPE"
+                                                   ng-href="#/projectPreInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}">{{ submit.PROJECTNAME }}</a>
+                                                <a ng-if="'pre' == submit.PROJECT_TYPE"
+                                                   ng-href="#/projectBulletinInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}">{{ submit.PROJECTNAME }}</a>
                                             </td>
                                             <td ng-if="'pfr' == submit.PROJECT_TYPE">
                                                 正式评审
@@ -345,12 +355,19 @@
                                             <td>
                                                 {{ submit.APPLY_DATE }}
                                             </td>
-                                            <td>
+                                            <td ng-if="'bulletin' != submit.PROJECT_TYPE">
                                                 <a ng-if="'1'== submit.STAGE">申请阶段</a>
                                                 <a ng-if="'2'== submit.STAGE">任务分配</a>
                                                 <a ng-if="'3'== submit.STAGE">风控处理</a>
                                                 <a ng-if="'4'== submit.STAGE">准备上会</a>
-                                                <a ng-if="'5'== submit.STAGE">已决策</a>
+                                                <a ng-if="'5'== submit.STAGE">已安排上会</a>
+                                                <a ng-if="'6'== submit.STAGE">已决策</a>
+                                                <a ng-if="'7'== submit.STAGE">已确认通知书</a>
+                                                <a ng-if="'9'== submit.STAGE">已终止</a>
+                                            </td>
+                                            <td ng-if="'bulletin' == submit.PROJECT_TYPE">
+                                                <a ng-if="'4'== submit.STAGE">已决策</a>
+                                                <a ng-if="'5'== submit.STAGE">已填写纪要</a>
                                                 <a ng-if="'9'== submit.STAGE">已终止</a>
                                             </td>
                                             <td>

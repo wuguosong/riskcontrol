@@ -19,7 +19,12 @@
                     {{ $index + 1 }}
                 </td>
                 <td>
-                    {{ noSubmit.PROJECTNAME }}
+                    <a ng-if="'pfr' == noSubmit.PROJECT_TYPE"
+                       ng-href="#/FormalAssessmentAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/'|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
+                    <a ng-if="'pre' == noSubmit.PROJECT_TYPE"
+                       ng-href="#/PreAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/'|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
+                    <a ng-if="'pre' == noSubmit.PROJECT_TYPE"
+                       ng-href="#/BulletinMattersAuditView/{{noSubmit.BUSINESSID}}/{{'#/'|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
                 </td>
                 <td ng-if="'pfr' == noSubmit.PROJECT_TYPE">
                     正式评审
