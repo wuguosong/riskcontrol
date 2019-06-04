@@ -2078,6 +2078,12 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             };
             // 删除留言信息
             $scope._delete_message_ = function (_message_id_, _message_) {
+                // 有无附件
+                var messageFile = _message_.messageFile;
+                if(!isEmpty(messageFile)){
+                    $.alert('该留言存在附件，不能撤回！');
+                    return;
+                }
                 var _message_date_ = _message_['messageDate'];
                 if(_common_get_ttl(new Date(_message_date_), 3) < 0){
                     $.alert('只能撤回3分钟以内的留言！');

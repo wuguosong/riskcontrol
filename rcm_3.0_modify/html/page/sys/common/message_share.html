@@ -1,17 +1,16 @@
-<div class="panel-body" >
-    <form class="form-horizontal ng-pristine ng-valid" >
-        <div class="">
-            <div class="header detail-page">
-                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">留言信息</span>
-            </div>
-            <div id="messageComments" class="panel-group">
-                <div class="_message">
-                    <!--去掉同一主题才能看见的限制-->
-                    <!--<div ng-repeat="_messages_ in _messages_array_" ng-if="message.messageId == _messages_array_[$index][0].messageId"-->
-                    <div ng-repeat="_messages_ in _messages_array_"
+<div class="panel-body _message" >
+    <div>
+        <div class="header detail-page">
+            <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">留言信息</span>
+        </div>
+        <div id="messageComments" class="panel-group">
+            <div class="_message">
+                <!--去掉同一主题才能看见的限制-->
+                <!--<div ng-repeat="_messages_ in _messages_array_" ng-if="message.messageId == _messages_array_[$index][0].messageId"-->
+                <div ng-repeat="_messages_ in _messages_array_"
                      id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 10px;">
                     <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
-                        <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{$index}}" data-toggle="collapse">
+                        <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{_messages_array_[$index][0].messageId}}" data-toggle="collapse">
                             <!--<span class="text">{{$index + 1}}楼
                                 <i class="i-triangle"></i>
                             </span>-->
@@ -19,11 +18,13 @@
                                 <i class="i-triangle" style=""></i>
                             </span>
                             <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
-                            </span>
+                                {{_messages_array_[$index][0].createdName}}&nbsp;
+                                {{_messages_array_[$index][0].messageDate}}&nbsp;
+                                {{_messages_array_[$index][0].messageContent|contentEllipsisFilter}}
                             </span>
                         </a>
                     </div>
-                    <div id="_message_panel_body_{{$index}}" class="panel-collapse collapse in">
+                    <div id="_message_panel_body_{{_messages_array_[$index][0].messageId}}" class="panel-collapse collapse">
                         <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
                             <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
                                  id="_message_left_{{$index}}_{{_message_.messageId}}">
@@ -32,13 +33,19 @@
                                     <span>{{_message_.createdDept}}</span>
                                     <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
-                                    <!--展示附件信息-->
-                                    <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                                 </div>
                                 <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
                                     <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
-                                         readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
-                                            style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
+                                         readonly>
+                                        <span style="color: black;word-break:break-all;">
+                                            <div ng-bind-html='_message_.messageContent|textToHtml'></div>
+                                        </span>
+                                        &nbsp;<span
+                                            style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
+                                        <br>
+                                        <!--展示附件信息-->
+                                        <span ng-include="'page/sys/common/file_info_mess.html'"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
@@ -48,16 +55,23 @@
                                     <span>{{_message_.createdDept}}</span>
                                     <span>{{_message_.createdPosition}}</span>
                                     <span style="font-size: small;">{{_message_.messageDate}}</span>
-                                    <!--展示附件信息-->
-                                    <span ng-include="'page/sys/common/file_info_mess.html'"></span>
                                 </div>
                                 <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
-                                    <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly><span style="color: black;">{{_message_.messageContent}}</span>&nbsp;<span
-                                            style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span></div>
+                                    <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly>
+                                        <span style="color: black;word-break:break-all;">
+                                            <div ng-bind-html='_message_.messageContent|textToHtml'></div>
+                                        </span>&nbsp;
+                                        <span style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
+                                        <br>
+                                        <!--展示附件信息-->
+                                        <span ng-include="'page/sys/common/file_info_mess.html'"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <form ng-if="message.messageId == _messages_array_[$index][0].messageId" id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
+                        <!--去掉同一主题才能看见的限制-->
+                        <!--<form ng-if="message.messageId == _messages_array_[$index][0].messageId" id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">-->
+                        <form id="_message_form_bottom_{{$index}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
                             回复内容：
                             <div class="form-control" id="_message_textarea_bottom_{{$index}}" contenteditable="true"
                                  style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
@@ -74,8 +88,7 @@
                         </form>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>

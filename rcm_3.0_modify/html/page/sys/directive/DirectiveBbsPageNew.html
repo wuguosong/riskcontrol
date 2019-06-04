@@ -91,7 +91,7 @@
                 <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
                     {{_messages_array_[$index][0].createdName}}&nbsp;
                     {{_messages_array_[$index][0].messageDate}}&nbsp;
-                    {{_messages_array_[$index][0].messageContent | contentEllipsisFilter}}
+                    {{_messages_array_[$index][0].messageContent|contentEllipsisFilter}}
                 </span>
             </span>
             </a>
@@ -118,7 +118,7 @@
                         <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
                              readonly><span style="color: black;word-break:break-all;">
                             <div ng-bind-html='_message_.messageContent|textToHtml'></div>
-                        </span>&nbsp;<span
+                            </span>&nbsp;<span
                              style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
                             <br><!--展示附件信息-->
                             <span ng-include="'page/sys/common/file_info_mess.html'"></span>
@@ -141,7 +141,7 @@
                     <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
                         <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly>
                             <span style="color: black;word-break:break-all;">
-                                <span ng-bind-html='_message_.messageContent|textToHtml'></span>
+                                <div ng-bind-html='_message_.messageContent|textToHtml'></div>
                             </span>&nbsp;<span
                              style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
                             <!--展示附件信息-->
@@ -411,8 +411,8 @@
                     <div class="button-group">
                         <div class="row">
                             <div class="option">
-                                <a href="javascript:void(0);" ng-click="_save_mess_file_dialog(_is_first_mess,_original_id_mess, _parent_id_mess, _replied_by_mess, _replied_name_mess, _idx_mess);">
-                                    <span class="addlabel blue">确定</span></a>
+                                <!--<a href="javascript:void(0);" ng-click="_save_mess_file_dialog(_is_first_mess,_original_id_mess, _parent_id_mess, _replied_by_mess, _replied_name_mess, _idx_mess);">
+                                    <span class="addlabel blue">确定</span></a>-->
                             </div>
                         </div>
                     </div>

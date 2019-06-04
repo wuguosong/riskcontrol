@@ -31,7 +31,7 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
         };
         // 检测滑动
         $scope._check_collapse_event_ = function(_obj_, _idx_){
-            var _class = $('#_message_panel_body_' + _idx_).attr("class");
+            var _class = $('#_message_panel_body_' + _obj_.messageId).attr("class");
             var _span = '';
             if("panel-collapse collapse in" == _class){
                 _span += _obj_['createdName'] + '&nbsp;';
@@ -73,6 +73,7 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
                 if(!isEmpty($scope.message)){
                     $scope._message.procInstId = $scope.message.procInstId;
                     $scope._query_messages_list_($scope.message.procInstId, 0);
+                    $scope._private_setTips($scope.message_id_decode);
                 }
             });
         };
@@ -84,21 +85,21 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             $scope._message.messageContent = '';
         };
         $scope._submit_message_form_ = function (_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
-            var formData = null;
+            var formData = {};
             formData = $scope._message;
             formData.originalId = _original_id_;
             formData.parentId = _parent_id_;
             formData.repliedBy = _replied_by_;
             formData.repliedName = _replied_name_;
-            formData.messageContent = $('#_message_textarea_bottom_' + _idx_).text();
+            formData.messageContent = $('#_message_textarea_bottom_' + _idx_).html();
             if (isEmpty(formData.messageContent)) {
                 $.alert('回复内容不能为空!');
                 return;
             }
             if(_common_get_string_byte_length(formData.messageContent) > 2500){
-                $.alert('内容不能超过2500个字符!');
+                //$.alert('内容不能超过2500个字符!');
+                //return;
             }
-            debugger;
             var pm = $scope.getParentMessageInfo();
             if(!isEmpty(pm)){
                 formData.messageType = pm.messageType;
@@ -164,5 +165,10 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             if(!isEmpty(_url_)){
                 $window.open(_url_);
             }
+        };
+        $scope._private_setTips = function(subjectId){
+            window.setTimeout(function(){
+                $('#_message_panel_body_' + subjectId).addClass('in');
+            }, 2000);
         };
     }]);
