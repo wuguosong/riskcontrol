@@ -442,7 +442,7 @@ SELECT count(1)
 	</select>
 	
 	<select id="queryOverOrCompletedTaskByPage" resultType="map" >
-SELECT ta.*, tmp.projectname as subject_
+SELECT ta.*, nvl(tmp.projectname, ta.subject) as subject_
   FROM (SELECT to_char(p.business_key_) business_key_,
                to_char(p.start_time_, 'yyyy-mm-dd hh24:mi:ss') AS start_time_,
                to_char(p.end_time_, 'yyyy-mm-dd hh24:mi:ss') AS end_time_,
@@ -613,7 +613,7 @@ SELECT ta.*, tmp.projectname as subject_
 <!-- 			<when test="isCompleted == 1"> ta.end_time_ is not null</when> -->
 <!-- 			<otherwise> ta.end_time_ is null </otherwise> -->
 <!-- 		</choose> -->
-		<if test="subject != null and subject != ''">and tmp.projectname like '%${subject}%'</if>
+		<if test="subject != null and subject != ''">and nvl(tmp.projectname, ta.subject) like '%${subject}%'</if>
 		<if test="processKey != null and processKey != ''">
 			<choose> 
 				<when test="'formalReview' == processKey">and (ta.type_ = '${processKey}' or ta.type_ = 'formalAssessment')</when>
