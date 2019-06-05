@@ -3395,6 +3395,10 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                 _addBlankRow($scope.fileList);
             };
 
+            $scope._deleteBlank = function (index) {
+                $scope.fileList.splice(index,1);
+            };
+
             // 添加校验新增
             $scope._vaildNew = function (){
                 var count = 0;
