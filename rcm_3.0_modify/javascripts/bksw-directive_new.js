@@ -3395,6 +3395,10 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                 _addBlankRow($scope.fileList);
             };
 
+            $scope._deleteBlank = function (index) {
+                $scope.fileList.splice(index,1);
+            };
+
             // 添加校验新增
             $scope._vaildNew = function (){
                 var count = 0;
@@ -6378,7 +6382,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
             $scope.y = {};
             $scope.openRFIBiddingInfo = function (noSubmit) {
                 $scope.toCreateBiddingInfo = noSubmit;
-                $scope.y.pmodel="normal";
+                $scope.y.pmodel="OtherBidding/0/Create/";
             };
 
             //编辑评审报告

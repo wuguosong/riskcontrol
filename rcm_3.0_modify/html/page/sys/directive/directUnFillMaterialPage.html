@@ -375,6 +375,16 @@
                 </div>
                 <div class="modal-body special-form">
                     <div class="row">
+                        <label class="col-sm-2 control-label select-mode">上传模式</label>
+                        <div class="col-sm-10 single-mode">
+                            <label class="radio radio-inline">
+                                <input type="radio" name="mode1" ng-model="y.pmodel" class="px"
+                                       value="OtherBidding/0/Create/"/>
+                                <span class="lbl">上传提交决策会材料</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
                         <label class="col-sm-2 control-label select-mode">填写模式</label>
                         <div class="col-sm-10 single-mode">
                             <label class="radio radio-inline">
@@ -382,16 +392,6 @@
                                        ng-model="y.pmodel" class="px"
                                        value="normal"/>
                                 <span class="lbl">填写决策会材料</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-2 control-label select-mode">上传模式</label>
-                        <div class="col-sm-10 single-mode">
-                            <label class="radio radio-inline">
-                                <input type="radio" name="mode1" ng-model="y.pmodel" class="px"
-                                       value="OtherBidding/0/Create/"/>
-                                <span class="lbl">上传提交决策会材料</span>
                             </label>
                         </div>
                     </div>
