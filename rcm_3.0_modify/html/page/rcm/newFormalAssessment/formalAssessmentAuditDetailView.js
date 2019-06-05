@@ -2034,10 +2034,10 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
              $.alert("审批意见不能为空！");
              return;
          }
-         if ($scope.flowVariables.opinion.length < 20) {
+         /*if ($scope.flowVariables.opinion.length < 20) {
              $.alert("审批意见不能少于20字！");
              return;
-         }
+         }*/
          if ($scope.flowVariables.opinion.length > 650) {
              $.alert("审批意见不能超过650字！");
              return;
@@ -2079,10 +2079,10 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
              $.alert("审批意见不能为空！");
              return;
          }
-         if ($scope.flowVariables.opinion.length < 20) {
+         /*if ($scope.flowVariables.opinion.length < 20) {
              $.alert("审批意见不能少于20字！");
              return;
-         }
+         }*/
          if ($scope.flowVariables.opinion.length > 650) {
              $.alert("审批意见不能超过650字！");
              return;
@@ -2473,10 +2473,10 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
              $.alert("审批意见不能为空！");
              return;
          }
-         if ($scope.flowVariables.opinion.length < 20) {
+         /*if ($scope.flowVariables.opinion.length < 20) {
              $.alert("审批意见不能少于20字！");
              return;
-         }
+         }*/
          if ($scope.flowVariables.opinion.length > 650) {
              $.alert("审批意见不能超过650字！");
              return;
@@ -2747,4 +2747,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	 //$scope._message_publish_reply_ = !isEmpty(curTask);//&& curTask.TASK_DEF_KEY_ != 'usertask17';
      var curTask = wf_getCurrentProject('formalReview', $routeParams.id);
      $scope._message_publish_reply_ = !isEmpty(curTask) && (curTask.WF_STATE == 0 || curTask.WF_STATE == 1);
+
+
+     /******************************* 审批标签权限管理 *********************************/
+     var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
+     var cur
 }]);

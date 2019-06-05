@@ -4899,10 +4899,10 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+                /*if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -4944,10 +4944,10 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+                /*if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5219,10 +5219,10 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+               /* if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5407,10 +5407,10 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+                /*if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5452,10 +5452,10 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+               /* if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5829,10 +5829,10 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+                /*if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -6045,10 +6045,10 @@ ctmApp.directive('bpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+                /*if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -6095,10 +6095,10 @@ ctmApp.directive('bpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+                /*if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -6162,10 +6162,10 @@ ctmApp.directive('bpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-                if ($scope.flowVariables.opinion.length < 20) {
+                /*if ($scope.flowVariables.opinion.length < 20) {
                     $.alert("审批意见不能少于20字！");
                     return;
-                }
+                }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
