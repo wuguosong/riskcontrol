@@ -442,7 +442,7 @@ SELECT count(1)
 	</select>
 	
 	<select id="queryOverOrCompletedTaskByPage" resultType="map" >
-SELECT ta.*
+SELECT ta.*, tmp.projectname as subject_
   FROM (SELECT to_char(p.business_key_) business_key_,
                to_char(p.start_time_, 'yyyy-mm-dd hh24:mi:ss') AS start_time_,
                to_char(p.end_time_, 'yyyy-mm-dd hh24:mi:ss') AS end_time_,
@@ -590,13 +590,30 @@ SELECT ta.*
            AND RPI.WF_STATE = '2'
            AND RPI.NEED_MEETING = '1'
            AND RPI.CREATEBY = '${userId}') ta
- WHERE 1 = 1
+            <!--同一个项目，名称不一致问题 Add By LiPan 2019-06-05-->
+            left join
+            (
+            select distinct rpi.businessid,
+            rpi.projectname
+            from rcm_pre_info rpi
+            union
+            select distinct rfi.businessid,
+            rfi.projectname
+            from rcm_formalassessment_info rfi
+            union
+            select rbi.bulletintypeid,
+            rbi.bulletinname as projectname
+            from rcm_bulletin_info rbi
+            ) tmp
+            on tmp.businessid = ta.business_key_
+            <!--同一个项目，名称不一致问题 Add By LiPan 2019-06-05-->
+      WHERE 1 = 1
 
 <!-- 	    <choose>  -->
 <!-- 			<when test="isCompleted == 1"> ta.end_time_ is not null</when> -->
 <!-- 			<otherwise> ta.end_time_ is null </otherwise> -->
 <!-- 		</choose> -->
-		<if test="subject != null and subject != ''">and ta.subject like '%${subject}%'</if>
+		<if test="subject != null and subject != ''">and tmp.projectname like '%${subject}%'</if>
 		<if test="processKey != null and processKey != ''">
 			<choose> 
 				<when test="'formalReview' == processKey">and (ta.type_ = '${processKey}' or ta.type_ = 'formalAssessment')</when>
