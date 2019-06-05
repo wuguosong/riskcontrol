@@ -6378,7 +6378,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
             $scope.y = {};
             $scope.openRFIBiddingInfo = function (noSubmit) {
                 $scope.toCreateBiddingInfo = noSubmit;
-                $scope.y.pmodel="normal";
+                $scope.y.pmodel="OtherBidding/0/Create/";
             };
 
             //编辑评审报告
