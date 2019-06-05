@@ -20,7 +20,7 @@
                             <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
                                 {{_messages_array_[$index][0].createdName}}&nbsp;
                                 {{_messages_array_[$index][0].messageDate}}&nbsp;
-                                {{_messages_array_[$index][0].messageContent|contentEllipsisFilter}}
+                                {{_messages_array_[$index][0].messageContent|htmlToText|contentEllipsisFilter}}
                             </span>
                         </a>
                     </div>

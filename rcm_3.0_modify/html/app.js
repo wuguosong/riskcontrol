@@ -551,12 +551,17 @@ ctmApp.filter('textToHtml', function ($sce) {
         return $sce.trustAsHtml(text);
     }
 });
+ctmApp.filter('htmlToText', function ($sce) {
+    return function (text) {
+        return htmlToText(text);
+    }
+});
 ctmApp.filter('contentEllipsisFilter', function () {
     return function (_content) {
         var _newContent = '';
         if (!isEmpty(_content)) {
-            if (_content.length >= 10) {
-                _newContent += _content.substr(0, 11) + '......';
+            if (_content.length >= 18) {
+                _newContent += _content.substr(0, 19) + '......';
             } else {
                 _newContent += _content;
             }
@@ -1554,23 +1559,23 @@ function _executeBreak(processKey, businessKey, taskId, activityId, comments, ca
             'businessKey': businessKey,
             'taskId': taskId,
             'activityId': activityId,
-            'comments':comments
+            'comments': comments
         },
         success: function (_js) {
-            if(!isEmpty(callback)){
-                if(typeof callback === 'function'){
+            if (!isEmpty(callback)) {
+                if (typeof callback === 'function') {
                     callback(_js);
                 }
-                if(!isEmpty(_js)){
-                   if(_js.success){
-                       _checkDeleteNotInRunTask(processKey, businessKey);
-                   }
+                if (!isEmpty(_js)) {
+                    if (_js.success) {
+                        _checkDeleteNotInRunTask(processKey, businessKey);
+                    }
                 }
-            }else{
-                if(isEmpty(_js)){
+            } else {
+                if (isEmpty(_js)) {
                     $.alert('服务器错误，请稍后再试！');
                     _hideLoading();
-                }else{
+                } else {
                     $.alert(_js.message);
                     _hideLoading();
                 }
@@ -1590,7 +1595,7 @@ function _executeBreak(processKey, businessKey, taskId, activityId, comments, ca
  * @param businessKey
  * @private
  */
-function _checkDeleteNotInRunTask(processKey, businessKey){
+function _checkDeleteNotInRunTask(processKey, businessKey) {
     $.ajax({
         url: srvUrl + 'sign/checkDeleteNotInRunTask.do',
         timeout: 5000,
@@ -1605,4 +1610,16 @@ function _checkDeleteNotInRunTask(processKey, businessKey){
         },
         async: false
     });
+}
+
+function htmlToText(str) {
+    var result = str;
+    if (!isEmpty(result)) {
+        result = result.replace(/<div>/g, "");
+        result = result.replace(/<\/div>/g, "");
+        result = result.replace(/<br>/g, "");
+        result = result.replace(/&nbsp;/g, "");
+        result = result.replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, '').replace(/<[^>]+?>/g, '').replace(/\s+/g, ' ').replace(/ /g, ' ').replace(/>/g, "");
+    }
+    return result;
 }

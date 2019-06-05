@@ -36,11 +36,12 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             if("panel-collapse collapse in" == _class){
                 _span += _obj_['createdName'] + '&nbsp;';
                 _span += _obj_['messageDate'] + '&nbsp;';
-                if(!isEmpty(_obj_.messageContent)){
-                    if(_obj_.messageContent.length >= 10){
-                        _span += _obj_.messageContent.substr(0, 11) + '......';
+                var _c = htmlToText(_obj_.messageContent);
+                if(!isEmpty(_c)){
+                    if(_c.length >= 18){
+                        _span += _c.substr(0, 19) + '......';
                     }else{
-                        _span += _obj_.messageContent;
+                        _span += _c;
                     }
                 }
             }
@@ -92,7 +93,7 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
             formData.repliedBy = _replied_by_;
             formData.repliedName = _replied_name_;
             formData.messageContent = $('#_message_textarea_bottom_' + _idx_).html();
-            if (isEmpty(formData.messageContent)) {
+            if (isEmpty(htmlToText(formData.messageContent))) {
                 $.alert('回复内容不能为空!');
                 return;
             }

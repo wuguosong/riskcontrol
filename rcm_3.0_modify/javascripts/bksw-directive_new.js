@@ -1914,7 +1914,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                         'queryParams':JSON.stringify($scope._query_params_)
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded',
-                    async:false}
+                        async:false}
                 }).success(function (data) {
                     $scope._messages_array_ = data;
                     // $scope._init_collapse($scope._messages_array_);
@@ -1968,11 +1968,16 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 }
                 formData.messageType = $scope.messageType;
                 formData.messageScreenType = $scope.screenType;
+                // 针对留言主题，做操作
+                formData.messageTitle = htmlToText(formData.messageTitle);
                 return formData;
             };
             // 校验留言
             $scope._checkFormData = function(formData, _is_first_, _isMessageUse){
-                if (isEmpty(formData.messageTitle)) {
+                // 去html标签
+                var title = htmlToText(formData.messageTitle);
+                var content = htmlToText(formData.messageContent);
+                if (isEmpty(title)) {
                     if(_is_first_ == 'Y'){
                         if(_isMessageUse == 'Y'){
                             $.alert('留言主题不能为空!');
@@ -1982,7 +1987,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                         return false;
                     }
                 }
-                if (isEmpty(formData.messageContent)) {
+                if (isEmpty(content)) {
                     if(_is_first_ == 'Y'){
                         if(_isMessageUse == 'Y'){
                             $.alert('留言内容不能为空!');
@@ -2000,12 +2005,12 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     return false;
                 }
                 if(_is_first_ == 'Y'){
-                    if(_common_get_string_byte_length(formData.messageTitle) > 128){
+                    if(_common_get_string_byte_length(title) > 128){
                         $.alert('标题不能超过128个字符!');
                         return false;
                     }
                 }
-                if(_common_get_string_byte_length(formData.messageContent) > 2500){
+                if(_common_get_string_byte_length(content) > 2500){
                     //$.alert('内容不能超过2500个字符!');
                     //return false;
                 }
@@ -2170,11 +2175,12 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 if("panel-collapse collapse in" == _class){
                     _span += _obj_['createdName'] + '&nbsp;';
                     _span += _obj_['messageDate'] + '&nbsp;';
-                    if(!isEmpty(_obj_.messageContent)){
-                        if(_obj_.messageContent.length >= 10){
-                            _span += _obj_.messageContent.substr(0, 11) + '......';
+                    var _c = htmlToText(_obj_.messageContent);
+                    if(!isEmpty(_c)){
+                        if(_c.length >= 18){
+                            _span += _c.substr(0, 19) + '......';
                         }else{
-                            _span += _obj_.messageContent;
+                            _span += _c;
                         }
                     }
                 }
@@ -2289,7 +2295,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     method: 'post',
                     url: srvUrl + "message/queryMessagesListPage.do",
                     data: $.param({"page": JSON.stringify($scope._message_pagination_configuration_),'queryParams':JSON.stringify($scope._query_params_)})
-                ,async:false}).success(function(data){
+                    ,async:false}).success(function(data){
                     $scope._message_pagination_configuration_.totalItems = data['result_data'].totalItems;
                     $scope._messages_array_ = data['result_data'].list;
                     $scope._init_collapse($scope._messages_array_);
