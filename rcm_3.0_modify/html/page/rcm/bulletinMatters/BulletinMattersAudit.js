@@ -1059,4 +1059,12 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         //$scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask7';
         var curTask = wf_getCurrentProject('bulletin', $routeParams.id);
         $scope._message_publish_reply_ = !isEmpty(curTask) && (curTask.AUDITSTATUS == 0 || curTask.AUDITSTATUS == 1);
+
+        /******************************* 审批标签权限管理 *********************************/
+        var curTask = wf_getCurrentTask('bulletin', $routeParams.id);
+        if (isEmpty(curTask)) {
+            $scope.isShowEdit = false;
+        } else {
+            $scope.isShowEdit = true;
+        }
 }]);

@@ -255,7 +255,7 @@
                             </div>
                             <!--专业评审end-->
 
-                            <div class="panel" ng-show="!isOldFlow && hasWaiting">
+                            <div class="panel" ng-show="!isOldFlow && hasWaiting && isShowEdit">
                                 <div class="panel-heading">
                                     <a class="accordion-toggle collapsed" href="/#approvalPart" data-parent="#reviewLeader"
                                        data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
@@ -665,10 +665,10 @@
                                         <!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn"
                                                 class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交
                                         </button>-->
-                                        <button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button"
+                                        <button ng-if="isOldFlow && hasWaiting && isShowEdit" ng-click="showOldSubmitModal()" type="button"
                                                 id="submitlbtnn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交
                                         </button>
-                                        <a ng-if="!isOldFlow && hasWaiting"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+                                        <a ng-if="!isOldFlow && hasWaiting && isShowEdit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
                                            ng-click="submitNext()">提交</a>
 
                                         <!-- 新提交模态框 -->
@@ -677,7 +677,7 @@
                                         </div>-->
 
                                         <!-- 旧提交模态框 -->
-                                        <div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog"
+                                        <div id="oldSubmitModal" ng-if="isOldFlow && isShowEdit" class="modal" tabindex="-1" role="dialog"
                                              style="display: none;">
                                             <approve-pop-win approvearr="approve"></approve-pop-win>
                                         </div>

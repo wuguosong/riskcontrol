@@ -2751,5 +2751,9 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 
      /******************************* 审批标签权限管理 *********************************/
      var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
-     var cur
+     if (isEmpty(curTask)) {
+     	$scope.isShowEdit = false;
+	 } else {
+         $scope.isShowEdit = true;
+	 }
 }]);
