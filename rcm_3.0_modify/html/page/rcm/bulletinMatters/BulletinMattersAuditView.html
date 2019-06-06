@@ -511,6 +511,14 @@
         });
     });
 
+    angular.element(document).ready(function() {
+        setTimeout(function () {
+            $('#riskLeaderOption').removeAttrs('style');
+            $('#reviewLeaderOption').removeAttrs('style');
+            $('#legalLeaderOption').removeAttrs('style');
+        }, 1000);
+    });
+
 </script>
 <!--加签弹窗(页面)-->
 <div id="_signModalDialog" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog"
