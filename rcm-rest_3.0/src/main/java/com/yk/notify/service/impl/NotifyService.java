@@ -351,16 +351,18 @@ public class NotifyService implements INotifyService {
             String messageId = jsonObject.getString("ASSOCIATE_ID");
             if (StringUtils.isNotBlank(messageId)) {
                 Message message = messageMapper.selectMessageById(new Long(messageId));
-                Long parentId = message.getParentId();
-                if(new Long(0).compareTo(parentId) == -1){
-                    Message parent = messageMapper.selectMessageById(parentId);
-                    jsonObject.put("AnchorPointMessageSubject", parent.getMessageId());// 主题id
-                }else{
-                    jsonObject.put("AnchorPointMessageSubject", messageId);// 主题id
-                }
-                if (message != null) {
-                    jsonObject.put("AnchorPointMessageTab", message.getMessageScreenType());
-                    jsonObject.put("AnchorPointMessageId", messageId);
+                if(message != null){
+                    Long parentId = message.getParentId();
+                    if(new Long(0).compareTo(parentId) == -1){
+                        Message parent = messageMapper.selectMessageById(parentId);
+                        jsonObject.put("AnchorPointMessageSubject", parent.getMessageId());// 主题id
+                    }else{
+                        jsonObject.put("AnchorPointMessageSubject", messageId);// 主题id
+                    }
+                    if (message != null) {
+                        jsonObject.put("AnchorPointMessageTab", message.getMessageScreenType());
+                        jsonObject.put("AnchorPointMessageId", messageId);
+                    }
                 }
             }
             jsonObject.put("AnchorPointMessageIdx", idx);
