@@ -489,20 +489,139 @@ public class MessageController {
         }
         boolean open = messageService.getOpenBusinessExecute();
         if (open) {
-            JSONObject mongo = messageService.getInvestmentAndLaw(message.getProcInstId(), message.getMessageType());
-            if ("review".equals(message.getMessageScreenType())) {// 评审留言，查询业务单据的投资经理，推送待阅和钉钉。
-                String investmentManager = mongo.getString("investmentManager");
-                if (StringUtils.isNotBlank(investmentManager)) {
-                    if (!checkUsers.contains(investmentManager)) {
-                        this.executeSend(message, investmentManager);
+            // 获取业务单据
+            JSONObject mongoData = messageService.getBusinessMongoDbData(message.getProcInstId(), message.getMessageType());
+            if (mongoData != null) {
+                if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(message.getMessageType())) {
+                    // 项目归属负责人
+                    JSONObject companyHeader = mongoData.getJSONObject("companyHeader");
+                    String companyHeaderValue = "";
+                    if (companyHeader != null) {
+                        companyHeaderValue = companyHeader.getString("VALUE");
                     }
-                }
-            }
-            if ("legal".equals(message.getMessageScreenType())) {// 法律留言，查询业务单据的基层法务人员，推送待阅和钉钉。
-                String grassrootsLegalStaff = mongo.getString("grassrootsLegalStaff");
-                if (StringUtils.isNotBlank(grassrootsLegalStaff)) {
-                    if (!checkUsers.contains(grassrootsLegalStaff)) {
-                        this.executeSend(message, grassrootsLegalStaff);
+                    // 获取投资经理和项目归属负责人
+                    if ("review".equals(message.getMessageScreenType())) {
+                        // 投资经理
+                        JSONObject investmentManager = mongoData.getJSONObject("investmentManager");
+                        String investmentManagerValue = "";
+                        if (investmentManager != null) {
+                            investmentManagerValue = investmentManager.getString("VALUE");
+                        }
+                        if (StringUtils.isNotBlank(investmentManagerValue)) {
+                            if (!checkUsers.contains(investmentManagerValue)) {
+                                this.executeSend(message, investmentManagerValue);
+                            }
+                        }
+                        // 项目归属负责人
+                        if (StringUtils.isNotBlank(companyHeaderValue)) {
+                            if (!checkUsers.contains(companyHeaderValue)) {
+                                this.executeSend(message, companyHeaderValue);
+                            }
+                        }
+                    }
+                    // 获取基层法务和项目归属负责人
+                    if ("legal".equals(message.getMessageScreenType())) {
+                        // 基层法务
+                        JSONObject grassrootsLegalStaff = mongoData.getJSONObject("grassrootsLegalStaff");
+                        String grassrootsLegalStaffValue = "";
+                        if (grassrootsLegalStaff != null) {
+                            grassrootsLegalStaffValue = grassrootsLegalStaff.getString("VALUE");
+                        }
+                        if (StringUtils.isNotBlank(grassrootsLegalStaffValue)) {
+                            if (!checkUsers.contains(grassrootsLegalStaffValue)) {
+                                this.executeSend(message, grassrootsLegalStaffValue);
+                            }
+                        }
+                        // 项目归属负责人
+                        if (StringUtils.isNotBlank(companyHeaderValue)) {
+                            if (!checkUsers.contains(companyHeaderValue)) {
+                                this.executeSend(message, companyHeaderValue);
+                            }
+                        }
+                    }
+                } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(message.getMessageType())) {
+                    // 项目归属负责人
+                    JSONObject companyHeader = mongoData.getJSONObject("companyHeader");
+                    String companyHeaderValue = "";
+                    if (companyHeader != null) {
+                        companyHeaderValue = companyHeader.getString("VALUE");
+                    }
+                    // 获取投资经理和项目归属负责人
+                    if ("review".equals(message.getMessageScreenType())) {
+                        // 投资经理
+                        JSONObject investmentManager = mongoData.getJSONObject("investmentManager");
+                        String investmentManagerValue = "";
+                        if (investmentManager != null) {
+                            investmentManagerValue = investmentManager.getString("VALUE");
+                        }
+                        if (StringUtils.isNotBlank(investmentManagerValue)) {
+                            if (!checkUsers.contains(investmentManagerValue)) {
+                                this.executeSend(message, investmentManagerValue);
+                            }
+                        }
+                        // 项目归属负责人
+                        if (StringUtils.isNotBlank(companyHeaderValue)) {
+                            if (!checkUsers.contains(companyHeaderValue)) {
+                                this.executeSend(message, companyHeaderValue);
+                            }
+                        }
+                    }
+                    // 获取基层法务和项目归属负责人
+                    if ("legal".equals(message.getMessageScreenType())) {
+                        // 基层法务
+                        JSONObject grassrootsLegalStaff = mongoData.getJSONObject("grassrootsLegalStaff");
+                        String grassrootsLegalStaffValue = "";
+                        if (grassrootsLegalStaff != null) {
+                            grassrootsLegalStaffValue = grassrootsLegalStaff.getString("VALUE");
+                        }
+                        if (StringUtils.isNotBlank(grassrootsLegalStaffValue)) {
+                            if (!checkUsers.contains(grassrootsLegalStaffValue)) {
+                                this.executeSend(message, grassrootsLegalStaffValue);
+                            }
+                        }
+                        // 项目归属负责人
+                        if (StringUtils.isNotBlank(companyHeaderValue)) {
+                            if (!checkUsers.contains(companyHeaderValue)) {
+                                this.executeSend(message, companyHeaderValue);
+                            }
+                        }
+                    }
+                } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(message.getMessageType())) {
+                    JSONObject unitPerson = mongoData.getJSONObject("unitPerson");
+                    String unitPersonValue = "";
+                    if (unitPerson != null) {
+                        unitPersonValue = unitPerson.getString("VALUE");
+                    }
+                    JSONObject applyUser = mongoData.getJSONObject("applyUser");
+                    String applyUserValue = "";
+                    if (applyUser != null) {
+                        applyUserValue = applyUser.getString("VALUE");
+                    }
+                    // 获取单位负责人和申请人
+                    if ("review".equals(message.getMessageScreenType())) {
+                        if (StringUtils.isNotBlank(unitPersonValue)) {
+                            if (!checkUsers.contains(unitPersonValue)) {
+                                this.executeSend(message, unitPersonValue);
+                            }
+                        }
+                        if (StringUtils.isNotBlank(applyUserValue)) {
+                            if (!checkUsers.contains(applyUserValue)) {
+                                this.executeSend(message, applyUserValue);
+                            }
+                        }
+                    }
+                    // 获取单位负责人和申请人
+                    if ("legal".equals(message.getMessageScreenType())) {
+                        if (StringUtils.isNotBlank(unitPersonValue)) {
+                            if (!checkUsers.contains(unitPersonValue)) {
+                                this.executeSend(message, unitPersonValue);
+                            }
+                        }
+                        if (StringUtils.isNotBlank(applyUserValue)) {
+                            if (!checkUsers.contains(applyUserValue)) {
+                                this.executeSend(message, applyUserValue);
+                            }
+                        }
                     }
                 }
             }
