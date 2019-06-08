@@ -1612,6 +1612,11 @@ function _checkDeleteNotInRunTask(processKey, businessKey) {
     });
 }
 
+/**
+ * 网页转换为纯文本
+ * @param str
+ * @returns {*}
+ */
 function htmlToText(str) {
     var result = str;
     if (!isEmpty(result)) {
@@ -1622,4 +1627,70 @@ function htmlToText(str) {
         result = result.replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, '').replace(/<[^>]+?>/g, '').replace(/\s+/g, ' ').replace(/ /g, ' ').replace(/>/g, "");
     }
     return result;
+}
+
+/**
+ * 获取留言在流程过程中的开启权限
+ * @param processKey 流程Key
+ * @param processKey 业务Key
+ * @return tasks 任务节点列表
+ */
+function getMessageOpenAuthorityInApproval(processKey, businessKey) {
+    var tasks = null;
+    $.ajax({
+        url: srvUrl + 'message/getMessageOpenAuthorityInApproval.do',
+        type: 'post',
+        data: {
+            'processKey': processKey,
+            'businessKey': businessKey
+        },
+        success: function (_res) {
+            if (!isEmpty(_res)) {
+                if (_res.success) {
+                    tasks = _res.data;
+                }
+            }
+        },
+        error: function () {
+        },
+        async: false
+    });
+    return tasks;
+}
+
+/**
+ * 判断留言在流程过程中的开启权限
+ * @param processKey
+ * @param businessKey
+ */
+function validateMessageOpenAuthority(processKey, businessKey) {
+    debugger;
+    var tasks = getMessageOpenAuthorityInApproval(processKey, businessKey);
+    if (isEmpty(tasks)) {
+        return false;
+    } else {
+        var length = tasks.length;
+        var count = 0;
+        for (var i = 0; i < length; i++) {
+            var task = tasks[i];
+            var key = task.key;
+            if (processKey == 'formalReview') {
+                // 法律分配||评审负责人审批||基层法务||法律负责人审批
+                if("usertask19" == key || "usertask7" == key || "usertask20" == key || "usertask6" == key){
+                    count ++;
+                }
+            } else if (processKey == 'preReview') {
+                // 法律分配||评审负责人审批||基层法务||法律负责人审批
+                if("usertask9" == key || "usertask5" == key || "usertask12" == "" || "usertask10" == key){
+                    count ++;
+                }
+            } else {
+                // 法律分配||评审负责人审批||法律负责人审批
+                if("usertask8" == key || "usertask7" == key || "usertask6" == key){
+                    count ++;
+                }
+            }
+        }
+        return count > 0;
+    }
 }

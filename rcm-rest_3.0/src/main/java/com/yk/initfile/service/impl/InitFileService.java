@@ -11,6 +11,7 @@ import com.yk.common.IBaseMongo;
 import com.yk.exception.BusinessException;
 import com.yk.initfile.entity.InitFile;
 import com.yk.initfile.entity.JsonField;
+import com.yk.initfile.entity.MeetingFile;
 import com.yk.initfile.entity.MyJson;
 import com.yk.initfile.service.IInitFileService;
 import com.yk.initfile.service.MyFilter;
@@ -262,7 +263,7 @@ public class InitFileService implements IInitFileService {
                                 }
                                 jsonMap.put("item", data);
                                 String json = JSON.toJSONString(jsonMap);
-                                try{
+                                try {
                                     if ("rcm_pre_info".equalsIgnoreCase(table)) {
                                         preInfoCreateService.addNewAttachment(json);
                                     } else if ("rcm_formalAssessment_info".equalsIgnoreCase(table)) {
@@ -270,7 +271,7 @@ public class InitFileService implements IInitFileService {
                                     } else {
                                         bulletinInfoService.addNewAttachment(json);
                                     }
-                                }catch(Exception e){
+                                } catch (Exception e) {
                                     logger.error(e.getMessage());
                                 }
                                 logger.info(initFile.getName() + "Mongo数据被保存：" + json);
@@ -350,7 +351,7 @@ public class InitFileService implements IInitFileService {
         String code = initFile.getCode();
         String location = initFile.getLocation();
         String pathServer = initFile.getPathServer();
-        if(StringUtils.isEmpty(pathServer)){
+        if (StringUtils.isEmpty(pathServer)) {
             pathServer = "";
         }
         List<FileDto> files = fileMapper.listFile(type, code, location);
@@ -523,5 +524,63 @@ public class InitFileService implements IInitFileService {
             location = locations.get(0);
         }
         return location;
+    }
+
+    @Override
+    public List<MeetingFile> queryMeetingSynchronize(JSONObject meeting, JSONObject condition) {
+        final List<MeetingFile> list = new ArrayList();
+        if (meeting != null) {
+            final String dataName = meeting.getString(JsonField.dataName);
+            final String dataTable = meeting.getString(JsonField.dataTable);
+            final String fileTable = meeting.getString(JsonField.fileTable);
+            // 1.统计上会附件的单据信息
+            MongoCollection<Document> collection = baseMongo.getCollection(fileTable);
+            logger.info(dataName + ":[" + dataTable + "]" + collection.count());
+            if (collection != null) {
+                FindIterable<Document> findIterable = collection.find();
+                findIterable.forEach(new Block<Document>() {
+                    @Override
+                    public void apply(Document document) {
+                        JSONObject record = JSON.parseObject(document.toJson(), JSONObject.class);
+                        if (record != null) {
+                            JSONObject policyDecision = record.getJSONObject(JsonField.policyDecision);
+                            if (policyDecision != null) {
+                                Object filesObj = policyDecision.get(JsonField.decisionMakingCommitteeStaffFiles);
+                                if (filesObj != null) {
+                                    List<JSONObject> files = JSON.parseArray(JSON.toJSONString(filesObj), JSONObject.class);
+                                    if (CollectionUtils.isNotEmpty(files)) {
+                                        MeetingFile meetingFile = new MeetingFile();
+                                        meetingFile.setId(record.getString(JsonField.projectFormalId));
+                                        meetingFile.setName(dataName);
+                                        meetingFile.setTable(dataTable);
+                                        meetingFile.setFiles(files);
+                                        meetingFile.setStatus(1);
+                                        list.add(meetingFile);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        logger.info("统计出的上会单据数量：" + list.size());
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (MeetingFile meetingFile : list) {
+                meetingFile.setSequence(list.indexOf(meetingFile));
+            }
+        }
+        /*===分页===*/
+        int limit = 0;
+        int skip = 0;
+        if (condition.getInteger("limit") != null) {
+            limit = condition.getInteger("limit");
+        }
+        if (condition.getInteger("skip") != null) {
+            skip = condition.getInteger("skip");
+        }
+        List<MeetingFile> filter = new MyFilter(limit, skip).doFilter(list);
+        logger.info("分页后数量：" + filter.size());
+        return filter;
     }
 }

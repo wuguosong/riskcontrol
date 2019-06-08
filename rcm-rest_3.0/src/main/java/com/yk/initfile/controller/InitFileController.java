@@ -3,6 +3,7 @@ package com.yk.initfile.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yk.initfile.entity.InitFile;
+import com.yk.initfile.entity.MeetingFile;
 import com.yk.initfile.service.IInitFileService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -42,10 +43,7 @@ public class InitFileController {
         try {
             if (StringUtils.isNotBlank(list)) {
                 List<JSONObject> jsonObjects = JSON.parseArray(list, JSONObject.class);
-                JSONObject jsonCondition = new JSONObject();
-                if (StringUtils.isNotBlank(condition)) {
-                    jsonCondition = JSON.parseObject(condition, JSONObject.class);
-                }
+                JSONObject jsonCondition = this.createCondition(condition);
                 List<InitFile> initFiles = initFileService.queryMongo(jsonObjects, jsonCondition);
                 js.put(data, initFiles);
                 js.put(success, true);
@@ -73,10 +71,7 @@ public class InitFileController {
         try {
             if (StringUtils.isNotBlank(list)) {
                 List<JSONObject> jsonObjects = JSON.parseArray(list, JSONObject.class);
-                JSONObject jsonCondition = new JSONObject();
-                if (StringUtils.isNotBlank(condition)) {
-                    jsonCondition = JSON.parseObject(condition, JSONObject.class);
-                }
+                JSONObject jsonCondition = this.createCondition(condition);
                 List<InitFile> initFiles = initFileService.querySynchronize(jsonObjects, jsonCondition);
                 js.put(data, initFiles);
                 js.put(success, true);
@@ -128,10 +123,7 @@ public class InitFileController {
         try {
             if (StringUtils.isNotBlank(list)) {
                 List<JSONObject> jsonObjects = JSON.parseArray(list, JSONObject.class);
-                JSONObject jsonCondition = new JSONObject();
-                if (StringUtils.isNotBlank(condition)) {
-                    jsonCondition = JSON.parseObject(condition, JSONObject.class);
-                }
+                JSONObject jsonCondition = this.createCondition(condition);
                 List<InitFile> initFiles = initFileService.executeSynchronizeModule(jsonObjects, jsonCondition);
                 js.put(data, initFiles);
                 js.put(success, true);
@@ -143,5 +135,67 @@ public class InitFileController {
             logger.error("同步模块失败：" + e.getMessage());
         }
         return js;
+    }
+
+    /**
+     * 同步上会文件
+     *
+     * @param table
+     * @param condition
+     * @return
+     */
+    @RequestMapping("executeMeetingSynchronize")
+    @ResponseBody
+    public JSONObject executeMeetingSynchronize(String table, String condition) {
+        JSONObject js = new JSONObject();
+        try {
+            if (StringUtils.isNotBlank(table)) {
+                JSONObject jsCondition = this.createCondition(condition);
+                js.put(data, null);
+                js.put(success, true);
+            }
+        } catch (Exception e) {
+            js.put(data, e.getMessage());
+            js.put(success, false);
+            e.printStackTrace();
+            logger.error("同步上会文件失败：" + e.getMessage());
+        }
+        return js;
+    }
+
+    /**
+     * 查询上会文件
+     *
+     * @param meeting
+     * @param condition
+     * @return
+     */
+    @RequestMapping("queryMeetingSynchronize")
+    @ResponseBody
+    public JSONObject queryMeetingSynchronize(String meeting, String condition) {
+        JSONObject js = new JSONObject();
+        try {
+            if (StringUtils.isNotBlank(meeting)) {
+                JSONObject jsMeeting = JSON.parseObject(meeting, JSONObject.class);
+                JSONObject jsCondition = this.createCondition(condition);
+                List<MeetingFile> meetingFiles = initFileService.queryMeetingSynchronize(jsMeeting, jsCondition);
+                js.put(data, meetingFiles);
+                js.put(success, true);
+            }
+        } catch (Exception e) {
+            js.put(data, e.getMessage());
+            js.put(success, false);
+            e.printStackTrace();
+            logger.error("查询上会文件失败：" + e.getMessage());
+        }
+        return js;
+    }
+
+    private JSONObject createCondition(String condition) {
+        JSONObject jsCondition = new JSONObject();
+        if (StringUtils.isNotBlank(condition)) {
+            jsCondition = JSON.parseObject(condition, JSONObject.class);
+        }
+        return jsCondition;
     }
 }

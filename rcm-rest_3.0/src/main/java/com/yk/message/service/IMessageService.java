@@ -203,4 +203,12 @@ public interface IMessageService {
      * @return
      */
     JSONObject getInvestmentAndLaw(String business_id, String business_module);
+
+    /**
+     * 获取审批过程中的留言开关权限
+     * @param processKey
+     * @param businessKey
+     * @return
+     */
+    List<JSONObject> getMessageOpenAuthorityInApproval(String processKey, String businessKey);
 }

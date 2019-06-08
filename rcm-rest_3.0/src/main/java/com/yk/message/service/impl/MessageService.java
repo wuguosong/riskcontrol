@@ -17,6 +17,8 @@ import common.Constants;
 import common.PageAssistant;
 import common.commonMethod;
 import fnd.UserDto;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +31,10 @@ import ws.msg.client.MessageClient;
 import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LiPan on 2019/1/25.
@@ -41,6 +46,8 @@ public class MessageService implements IMessageService {
     IMessageMapper messageMapper;
     @Resource
     IUserMapper userMapper;
+    @Resource
+    TaskService taskService;
     // 配置文件
     private Prop prop = PropKit.use("wsdl_conf.properties");
 
@@ -527,7 +534,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public JSONObject getBusinessMongoDbData(String business_id, String business_module){
+    public JSONObject getBusinessMongoDbData(String business_id, String business_module) {
         Map<String, Object> mongo = null;
         JSONObject applyJs = null;
         String collectionName = null;
@@ -537,16 +544,16 @@ public class MessageService implements IMessageService {
             collectionName = Constants.RCM_PRE_INFO;
         } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
             collectionName = Constants.RCM_BULLETIN_INFO;
-        }else {
+        } else {
             return null;
         }
-        if(StringUtils.isNotBlank(collectionName)){
+        if (StringUtils.isNotBlank(collectionName)) {
             mongo = baseMongo.queryById(business_id, collectionName);
-            if(mongo != null){
+            if (mongo != null) {
                 JSONObject mongoJs = JSON.parseObject(JSON.toJSONString(mongo), JSONObject.class);
                 if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
                     applyJs = mongoJs;
-                }else{
+                } else {
                     applyJs = mongoJs.getJSONObject("apply");
                 }
             }
@@ -556,37 +563,37 @@ public class MessageService implements IMessageService {
 
 
     @Override
-    public JSONObject getInvestmentAndLaw(String business_id, String business_module){
+    public JSONObject getInvestmentAndLaw(String business_id, String business_module) {
         JSONObject js = new JSONObject();
         js.put("investmentManager", "");
         js.put("grassrootsLegalStaff", "");
         JSONObject jsonObject = this.getBusinessMongoDbData(business_id, business_module);
-        if(jsonObject != null){
+        if (jsonObject != null) {
             if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(business_module)) {
                 JSONObject investmentManager = jsonObject.getJSONObject(prop.get("message.share.to.business.formal.investmentManagerField", "investmentManager"));
-                if(investmentManager != null){
+                if (investmentManager != null) {
                     js.put("investmentManager", investmentManager.get("VALUE"));
                 }
                 JSONObject grassrootsLegalStaff = jsonObject.getJSONObject(prop.get("message.share.to.business.formal.grassrootsLegalStaffFiled", "grassrootsLegalStaff"));
-                if(grassrootsLegalStaff != null){
+                if (grassrootsLegalStaff != null) {
                     js.put("grassrootsLegalStaff", grassrootsLegalStaff.get("VALUE"));
                 }
             } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(business_module)) {
                 JSONObject investmentManager = jsonObject.getJSONObject(prop.get("message.share.to.business.pre.investmentManagerField", "investmentManager"));
-                if(investmentManager != null){
+                if (investmentManager != null) {
                     js.put("investmentManager", investmentManager.get("VALUE"));
                 }
                 JSONObject grassrootsLegalStaff = jsonObject.getJSONObject(prop.get("message.share.to.business.pre.grassrootsLegalStaffFiled", "grassrootsLegalStaff"));
-                if(grassrootsLegalStaff != null){
+                if (grassrootsLegalStaff != null) {
                     js.put("grassrootsLegalStaff", grassrootsLegalStaff.get("VALUE"));
                 }
             } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(business_module)) {
                 JSONObject investmentManager = jsonObject.getJSONObject(prop.get("message.share.to.business.bulletin.investmentManagerField", "applyUser"));
-                if(investmentManager != null){
+                if (investmentManager != null) {
                     js.put("investmentManager", investmentManager.get("VALUE"));
                 }
                 JSONObject grassrootsLegalStaff = jsonObject.getJSONObject(prop.get("message.share.to.business.bulletin.grassrootsLegalStaffFiled", "applyUser"));
-                if(grassrootsLegalStaff != null){
+                if (grassrootsLegalStaff != null) {
                     js.put("grassrootsLegalStaff", grassrootsLegalStaff.get("VALUE"));
                 }
             }
@@ -669,19 +676,19 @@ public class MessageService implements IMessageService {
                 }
             }
             // 再次去掉本人
-            if(StringUtils.isNotBlank(users)){
-                if(users.contains(",")){
+            if (StringUtils.isNotBlank(users)) {
+                if (users.contains(",")) {
                     String[] array = users.split(",");
                     String newUsers = "";
-                    for(String id : array){
-                        if(!id.equals(curUserUuid)){
+                    for (String id : array) {
+                        if (!id.equals(curUserUuid)) {
                             newUsers += id;
                             newUsers += ",";
                         }
                     }
                     users = newUsers.substring(0, newUsers.lastIndexOf(","));
-                }else{
-                    if(users.equals(curUserUuid)){
+                } else {
+                    if (users.equals(curUserUuid)) {
                         return null;
                     }
                 }
@@ -695,7 +702,7 @@ public class MessageService implements IMessageService {
     @Override
     public HashMap<String, Object> getProject(String type, String id) {
         List<HashMap<String, Object>> list = messageMapper.selectProjectByTypeAndId(type, id);
-        if(CollectionUtils.isNotEmpty(list)){
+        if (CollectionUtils.isNotEmpty(list)) {
             return list.get(0);
         }
         return null;
@@ -704,5 +711,24 @@ public class MessageService implements IMessageService {
     @Override
     public boolean getOpenBusinessExecute() {
         return prop.getBoolean("message.share.to.business.open", false);
+    }
+
+
+    @Override
+    public List<JSONObject> getMessageOpenAuthorityInApproval(String processKey, String businessKey) {
+        List<Task> tasks = taskService.createTaskQuery().processDefinitionKey(processKey).processInstanceBusinessKey(businessKey).list();
+        if (CollectionUtils.isEmpty(tasks)) {
+            return null;
+        }
+        List<JSONObject> list = new ArrayList();
+        for (Task task : tasks) {
+            JSONObject js = new JSONObject();
+            js.put("key", task.getTaskDefinitionKey());
+            js.put("name", task.getName());
+            js.put("id", task.getId());
+            js.put("assignee", task.getAssignee());
+            list.add(js);
+        }
+        return list;
     }
 }

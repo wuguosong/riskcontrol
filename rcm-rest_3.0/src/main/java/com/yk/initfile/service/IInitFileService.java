@@ -2,6 +2,7 @@ package com.yk.initfile.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yk.initfile.entity.InitFile;
+import com.yk.initfile.entity.MeetingFile;
 
 import java.util.List;
 
@@ -42,4 +43,13 @@ public interface IInitFileService {
      * @return
      */
     List<InitFile> executeSynchronizeModule(List<JSONObject> jsonObjectList, JSONObject jsonCondition);
+
+    /**
+     * 查询上会附件
+     *
+     * @param meeting
+     * @param condition
+     * @return
+     */
+    List<MeetingFile> queryMeetingSynchronize(JSONObject meeting, JSONObject condition);
 }

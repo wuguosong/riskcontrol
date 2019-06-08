@@ -455,6 +455,29 @@ public class MessageController {
     }
 
     /**
+     * 获取留言在审批过程中的开启权限
+     *
+     * @param processKey  流程Key
+     * @param businessKey 业务Key
+     * @return Task
+     */
+    @RequestMapping("/getMessageOpenAuthorityInApproval")
+    @ResponseBody
+    public JSONObject getMessageOpenAuthorityInApproval(String processKey, String businessKey) {
+        JSONObject result = new JSONObject();
+        try {
+            List<JSONObject> tasks = messageService.getMessageOpenAuthorityInApproval(processKey, businessKey);
+            result.put("data", tasks);
+            result.put("success", true);
+        } catch (Exception e) {
+            result.put("data", null);
+            result.put("success", false);
+            LoggerFactory.getLogger(MessageController.class).error(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
      * 执行业务模块需求
      *
      * @param message

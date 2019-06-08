@@ -1,5 +1,6 @@
 ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter', '$window',
     function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter, $window) {
+        /*========================================================在途数据start=======================================*/
         $scope.unSynchronize = false;// 仅查询同步的
         $scope.isLimit = false;// 仅查询当前页面的
         $scope.fileSkip = null;// 从
@@ -139,4 +140,109 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                 });
             }
         };
+        /*================================================================在途数据end===============================*/
+        /*================================================================上会附件start===============================*/
+        $scope.meetingFiles = [];
+        $scope.meetingUnSynchronize = false;// 仅查询同步的
+        $scope.meetingIsLimit = false;// 仅查询当前页面的
+        $scope.meetingSkip = null;// 从
+        $scope.meetingLimit = null;// 至
+        $scope.meetingType = -1;
+        $scope.meetingTypes = [
+            {
+                'dataName': '正式评审上会附件',
+                'dataTable': 'rcm_formalAssessment_info',
+                'fileTable': 'rcm_formalReport_info'
+            },
+            {
+                'dataName': '投标评审上会附件',
+                'dataTable': 'rcm_pre_info',
+                'fileTable': 'rcm_formalReport_info'
+            }
+        ];
+        /*======查询上会附件=====*/
+        $scope.queryMeetingSynchronize = function () {
+            if (!$scope.validateMeetingType()) {
+                return;
+            }
+            if (!$scope.validateMeetingCondition()) {
+                return;
+            }
+            var data = {};
+            data.meeting = JSON.stringify($scope.meetingTypes[$scope.meetingType]);
+            data.condition = JSON.stringify({
+                'limit': $scope.meetingLimit,
+                'skip': $scope.meetingSkip,
+                'unSynchronize': $scope.meetingUnSynchronize
+            });
+            console.log(data);
+            $scope.commonAjax(srvUrl + 'initfile/queryMeetingSynchronize.do', 'post', data, false, function (res) {
+                if (res.success) {
+                    $scope.meetingFiles = res.data;
+                } else {
+                    $.alert(res.data);
+                }
+            });
+        };
+        /*======同步上会附件=====*/
+        $scope.executeMeetingSynchronize = function () {
+            if (!$scope.validateMeetingType()) {
+                return;
+            }
+            if ($scope.meetingIsLimit) {
+                if (!$scope.validateMeetingCondition()) {
+                    return;
+                }
+            }
+            var data = {};
+            data.meeting = JSON.stringify($scope.meetingTypes[$scope.meetingType]);
+            if ($scope.meetingIsLimit) {
+                data.condition = JSON.stringify({
+                    'limit': $scope.meetingLimit,
+                    'skip': $scope.meetingSkip
+                });
+            }
+            console.log(data);
+            $scope.commonAjax(srvUrl + 'initfile/executeMeetingSynchronize.do', 'post', data, false, function (res) {
+                if (res.success) {
+                    $.alert('同步完成！');
+                } else {
+                    $.alert(res.data);
+                }
+            });
+        };
+        /*====条件校验:来源====*/
+        $scope.validateMeetingType = function () {
+            if ($scope.meetingType == -1) {
+                $('#meetingType').focus();
+                return false;
+            }
+            return true;
+        };
+        /*====条件校验:Skip和Limit====*/
+        $scope.validateMeetingCondition = function () {
+            if (isEmpty($('#meetingSkip').val())) {
+                $('#meetingSkip').focus();
+                return false;
+            }
+            if (isEmpty($('#meetingLimit').val())) {
+                $('#meetingLimit').focus();
+                return false;
+            }
+            return true;
+        };
+        $scope.getMeetingCount = function(){
+            if ($scope.meetingType > -1) {
+                var data = {};
+                data.meeting = JSON.stringify($scope.meetingTypes[$scope.meetingType]);
+                $scope.commonAjax(srvUrl + 'initfile/queryMeetingSynchronize.do', 'post', data, false, function (res) {
+                    if (res.success) {
+                        $scope.meetingInfo = '当前数量: ' + $scope.meetingFiles.length + ', 实际数量: ' + res.data.length;
+                    } else {
+                        $.alert(res.data);
+                    }
+                });
+            }
+        };
+        /*=======================================================上会附件end==========================================*/
     }]);

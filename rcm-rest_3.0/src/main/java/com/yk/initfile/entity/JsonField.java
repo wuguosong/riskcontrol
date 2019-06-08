@@ -16,4 +16,14 @@ public interface JsonField {
     String mongoId = "mongoId";// 表主键ID
     String _location = "_location";
     String version = "version";
+    /*=========上会附件相关参数常量========*/
+    String dataName = "dataName";
+    String dataTable = "dataTable";
+    String fileTable = "fileTable";
+    String ITEM_NAME = "ITEM_NAME";
+    String fileName = "fileName";
+    String filePath = "filePath";
+    String projectFormalId = "projectFormalId";
+    String policyDecision = "policyDecision";
+    String decisionMakingCommitteeStaffFiles = "decisionMakingCommitteeStaffFiles";
 }
