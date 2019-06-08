@@ -8,6 +8,7 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
         $scope.fileTypes = [];// 附件来源
         $scope.fileTypesIndex = -1;// 附件来源下标
         $scope.initFiles = [];// 查询结果列表
+        $scope.unDifferent = false;// 查询同步的
         $scope.initFileType = function () {
             $.getJSON("page/sys/initfile/initfile.json", function (data) {
                 $scope.fileTypes = data;
@@ -140,6 +141,81 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                 });
             }
         };
+        /*====查询不同文件名文件列表====*/
+        $scope.queryDifferentFiles = function () {
+            if (!$scope.validateFileTypesIndex()) {
+                return;
+            }
+            if (!$scope.validateCondition()) {
+                return;
+            }
+            var data = {};
+            data.list = JSON.stringify([$scope.fileTypes[$scope.fileTypesIndex]]);
+            data.condition = JSON.stringify({
+                'limit': $scope.fileLimit,
+                'skip': $scope.fileSkip,
+                'unSynchronize': $scope.unSynchronize,
+                'unDifferent': $scope.unDifferent
+            });
+            _showLoading("正在查询中，请稍等...");
+            $scope.commonAjax(srvUrl + 'initfile/queryDifferentFiles.do', 'post', data, false, function (res) {
+                if (res.success) {
+                    _hideLoading();
+                    $scope.initFiles = res.data;
+                    $scope.setCountInfo();
+                } else {
+                    _hideLoading();
+                    $.alert(res.data);
+                }
+            });
+        };
+        /*====更新不同文件名文件列表====*/
+        $scope.updateDifferentFiles = function () {
+            if (!$scope.validateFileTypesIndex()) {
+                return;
+            }
+            if ($scope.isLimit) {
+                if (!$scope.validateCondition()) {
+                    return;
+                }
+            }
+            var data = {};
+            data.list = JSON.stringify([$scope.fileTypes[$scope.fileTypesIndex]]);
+            if ($scope.isLimit) {
+                data.condition = JSON.stringify({
+                    'limit': $scope.fileLimit,
+                    'skip': $scope.fileSkip
+                });
+            }
+            $.confirm('确认更新模块文件吗？', function () {
+                _showLoading("数据更新中，请稍等...")
+                $scope.commonAjax(srvUrl + 'initfile/updateDifferentFiles.do', 'post', data, false, function (res) {
+                    if (res.success) {
+                        $.alert('更新完成！');
+                        $scope.initFiles = res.data;
+                        _hideLoading();
+                    } else {
+                        _hideLoading();
+                        $.alert(res.data);
+                    }
+                });
+            });
+        };
+        $scope.updateDifferentFiles = function (file) {
+            $.confirm('确认更新文件吗？', function () {
+                _showLoading("文件更新中，请稍等...")
+                $scope.commonAjax(srvUrl + 'initfile/updateDifferentFile.do', 'post', file, false, function (res) {
+                    if (res.success) {
+                        $.alert('更新完成！');
+                        $scope.queryDifferentFiles();
+                        _hideLoading();
+                    } else {
+                        _hideLoading();
+                        $.alert(res.data);
+                    }
+                });
+            });
+        };
         /*================================================================在途数据end===============================*/
         /*================================================================上会附件start===============================*/
         $scope.meetingFiles = [];
@@ -231,7 +307,7 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
             }
             return true;
         };
-        $scope.getMeetingCount = function(){
+        $scope.getMeetingCount = function () {
             if ($scope.meetingType > -1) {
                 var data = {};
                 data.meeting = JSON.stringify($scope.meetingTypes[$scope.meetingType]);

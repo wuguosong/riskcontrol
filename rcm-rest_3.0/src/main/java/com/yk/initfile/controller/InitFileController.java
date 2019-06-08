@@ -198,4 +198,85 @@ public class InitFileController {
         }
         return jsCondition;
     }
+
+    /**
+     * 查询文件名不一致的文件列表
+     *
+     * @param list
+     * @param condition
+     * @return
+     */
+    @RequestMapping("queryDifferentFiles")
+    @ResponseBody
+    public JSONObject queryDifferentFiles(String list, String condition) {
+        JSONObject js = new JSONObject();
+        try {
+            if (StringUtils.isNotBlank(list)) {
+                List<JSONObject> jsonObjects = JSON.parseArray(list, JSONObject.class);
+                JSONObject jsCondition = this.createCondition(condition);
+                List<InitFile> initFiles = initFileService.queryDifferentFiles(jsonObjects, jsCondition);
+                js.put(data, initFiles);
+                js.put(success, true);
+            }
+        } catch (Exception e) {
+            js.put(data, e.getMessage());
+            js.put(success, false);
+            e.printStackTrace();
+            logger.error("查询失败：" + e.getMessage());
+        }
+        return js;
+    }
+
+    /**
+     * 更新文件名不一致的文件列表
+     *
+     * @param list
+     * @param condition
+     * @return
+     */
+    @RequestMapping("updateDifferentFiles")
+    @ResponseBody
+    public JSONObject updateDifferentFiles(String list, String condition) {
+        JSONObject js = new JSONObject();
+        try {
+            if (StringUtils.isNotBlank(list)) {
+                List<JSONObject> jsonObjects = JSON.parseArray(list, JSONObject.class);
+                JSONObject jsonCondition = this.createCondition(condition);
+                List<InitFile> initFiles = initFileService.updateDifferentFiles(jsonObjects, jsonCondition);
+                js.put(data, initFiles);
+                js.put(success, true);
+            }
+        } catch (Exception e) {
+            js.put(data, e.getMessage());
+            js.put(success, false);
+            e.printStackTrace();
+            logger.error("更新失败：" + e.getMessage());
+        }
+        return js;
+    }
+
+    /**
+     * 更新文件名不一致的文件列表
+     *
+     * @param initFile
+     * @return
+     */
+    @RequestMapping("updateDifferentFile")
+    @ResponseBody
+    public JSONObject updateDifferentFile(InitFile initFile) {
+        JSONObject js = new JSONObject();
+        try {
+            if (initFile != null) {
+                InitFile initFiles = initFileService.updateDifferentFile(initFile);
+                js.put(data, initFiles);
+                js.put(success, true);
+            }
+        } catch (Exception e) {
+            js.put(data, e.getMessage());
+            js.put(success, false);
+            e.printStackTrace();
+            logger.error("更新失败：" + e.getMessage());
+        }
+        return js;
+    }
 }

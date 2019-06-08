@@ -108,6 +108,7 @@ public class InitFileService implements IInitFileService {
                                         initFile.setLocation(file.getString(JsonField._location));
                                         initFile.setType(cloudParams.getString(JsonField.type));
                                         initFile.setCode(id);
+                                        initFile.setDifferentFileName(differentFileName(initFile));
                                         list.add(initFile);
                                     }
                                 }
@@ -153,12 +154,17 @@ public class InitFileService implements IInitFileService {
                     try {
                         fileService.fileUpload(pathCloud.replaceFirst(YunkuConf.UPLOAD_ROOT, ""), fileLocal, initFile.getType(), initFile.getCode(), initFile.getLocation(), optName, new Integer(optId));
                         FileDto fileDto = judgeFileDtoByPath(initFile);
-                        initFile.setCloud(true);
-                        initFile.setSynchronize(true);
-                        try {
-                            this.insertToMongo(initFile, fileDto);
-                        } catch (Exception e) {
-                            logger.error("##########Mongo数据插入失败：" + initFile);
+                        if (fileDto != null) {
+                            initFile.setCloud(true);
+                            initFile.setSynchronize(true);
+                            try {
+                                this.insertToMongo(initFile, fileDto);
+                            } catch (Exception e) {
+                                logger.error("##########Mongo数据插入失败：" + initFile);
+                            }
+                        } else {
+                            initFile.setCloud(false);
+                            initFile.setSynchronize(false);
                         }
                     } catch (Exception e) {
                         // 该异常导致事务回滚，FileDto不会保存
@@ -310,13 +316,16 @@ public class InitFileService implements IInitFileService {
         List<InitFile> filter = new ArrayList<>();// 未同步的文件列表
         if (CollectionUtils.isNotEmpty(list)) {
             for (InitFile file : list) {
-                String pathCloud = file.getPathCloud();
-                String type = file.getType();
-                String code = file.getCode();
-                String location = file.getLocation();
-                FileDto fileDto = judgeFileDtoByPath(file);
-                file.setCloud(fileDto != null);
-                file.setSynchronize(fileDto != null);
+                FileDto fileDto = this.judgeFileDtoByPath(file);
+                if (fileDto != null) {
+                    file.setCloud(true);
+                    file.setSynchronize(true);
+                    file.setUpdate(this.compareSuffix(file, fileDto));
+                } else {
+                    file.setCloud(false);
+                    file.setSynchronize(false);
+                    file.setUpdate(false);
+                }
                 String pathServer = file.getPathServer();
                 if (StringUtils.isNotBlank(pathServer)) {
                     File tmp = new File(pathServer);
@@ -352,15 +361,18 @@ public class InitFileService implements IInitFileService {
         String location = initFile.getLocation();
         String pathServer = initFile.getPathServer();
         if (StringUtils.isEmpty(pathServer)) {
-            pathServer = "";
+            pathServer = "PATH SERVER IS NULL";
         }
         List<FileDto> files = fileMapper.listFile(type, code, location);
         if (CollectionUtils.isEmpty(files)) {
             return null;
         } else {
             for (FileDto fileDto : files) {
-                System.out.println("%FileDto%" + fileDto);
-                if (fileDto.getUploadserver().replace("\\", "/").contains(pathServer)) {
+                String uploadServer = fileDto.getUploadserver();
+                if (StringUtils.isBlank(uploadServer)) {
+                    uploadServer = "UPLOAD SERVER IS NULL";
+                }
+                if (uploadServer.replace("\\", "/").contains(pathServer)) {
                     return fileDto;
                 }
             }
@@ -582,5 +594,161 @@ public class InitFileService implements IInitFileService {
         List<MeetingFile> filter = new MyFilter(limit, skip).doFilter(list);
         logger.info("分页后数量：" + filter.size());
         return filter;
+    }
+
+    @Override
+    public List<InitFile> queryDifferentFiles(List<JSONObject> list, JSONObject condition) {
+        List<InitFile> synchronizeList = this.querySynchronize(list, condition);
+        boolean unDifferent = false;
+        if (condition.get("unDifferent") != null) {
+            unDifferent = condition.getBoolean("unDifferent");
+        }
+        List<InitFile> unDifferentList = new ArrayList();
+        if (unDifferent) {
+            for(InitFile initFile : synchronizeList){
+                if(initFile.isUpdate()){
+                    unDifferentList.add(initFile);
+                }
+            }
+        } else {
+            unDifferentList = synchronizeList;
+        }
+        return this.filterDifferentFiles(unDifferentList);
+    }
+
+    /**
+     * 初始化不同的文件
+     *
+     * @param queryList
+     * @return
+     */
+    private List<InitFile> filterDifferentFiles(List<InitFile> queryList) {
+        List<InitFile> differentFiles = new ArrayList();
+        // 对查询出的结果再进行过滤：判断不一致的文件名，必须满足该条件
+        if (CollectionUtils.isNotEmpty(queryList)) {
+            for (InitFile file : queryList) {
+                if (this.differentFileName(file)) {
+                    differentFiles.add(file);
+                }
+            }
+        }
+        return differentFiles;
+    }
+
+    @Override
+    public List<InitFile> updateDifferentFiles(List<JSONObject> list, JSONObject condition) {
+        List<InitFile> differentFiles = this.queryDifferentFiles(list, condition);
+        this.updateDifferentFiles(differentFiles);
+        return differentFiles;
+    }
+
+    /**
+     * 更新文件
+     */
+    private void updateDifferentFiles(List<InitFile> differentFiles) {
+        if (CollectionUtils.isNotEmpty(differentFiles)) {
+            for (InitFile file : differentFiles) {
+                try {
+                    // 查询是否已经上传
+                    FileDto fileDto = this.judgeFileDtoByPath(file);
+                    if (fileDto != null) {
+                        // 再次校验，对于后缀名相同的，不再进行同步了
+                        if (this.compareSuffix(file, fileDto)) {
+                            String type = file.getType();
+                            String code = file.getCode();
+                            String location = file.getLocation();
+                            String localFile = file.getPathServer();
+                            String optName = UserUtil.getCurrentUserName();
+                            Integer opdId = new Integer(UserUtil.getCurrentUserId());
+                            // 先删除云库上的文件
+                            fileService.deleteFile(fileDto);
+                            // 构造新的云库文件路径
+                            String fileName = this.getFileNameWithSuffix(file);
+                            String pathCloud = YunkuConf.UPLOAD_ROOT + "/" + type + "/" + code + "/" + fileName;
+                            logger.info("更新文件：" + file.getPathCloud() + "===>" + pathCloud);
+                            file.setPathCloud(pathCloud);
+                            // 重新上传文件
+                            fileService.fileUpload(pathCloud, localFile, type, code, location, optName, opdId);
+                        }
+                    }
+                    // 因为第三方接口，所以事务的回滚要控制在最小单元。
+                    // 第三方接口不可回滚。
+                    // 一个失败，其它本地的记录不能全部回滚，否则附件记录会增加。
+                } catch (Exception e) {
+                    logger.error("更新失败：" + e.getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     * 校验文件后缀是否相同
+     *
+     * @param file
+     * @param fileDto
+     * @return
+     */
+    private boolean compareSuffix(InitFile file, FileDto fileDto) {
+        String pathServer = file.getPathServer();
+        String rcmFileName = fileDto.getRcmfilename();
+        if (StringUtils.isAnyBlank(pathServer, rcmFileName)) {
+            return true;
+        }
+        String pathServerSuffix = pathServer.substring(pathServer.lastIndexOf("."), pathServer.length());
+        String rcmFileNameSuffix = rcmFileName.substring(rcmFileName.lastIndexOf("."), rcmFileName.length());
+        return !pathServerSuffix.equalsIgnoreCase(rcmFileNameSuffix);
+    }
+
+
+    /**
+     * 判断服务器路径后缀名和文件后缀名是否相同
+     *
+     * @param file
+     * @return
+     */
+    private boolean differentFileName(InitFile file) {
+        String nameCloud = file.getNameCloud();
+        String nameServer = file.getNameServer();
+        String pathCloud = file.getPathCloud();
+        String pathServer = file.getPathServer();
+        // 严格校验，任何一个为空都不进行添加
+        if (StringUtils.isAnyBlank(nameCloud, nameServer, pathCloud, pathServer)) {
+            return false;
+        }
+        String pathServerSuffix = "";
+        if (pathServer.lastIndexOf(".") > 0) {
+            pathServerSuffix = pathServer.substring(pathServer.lastIndexOf("."), pathServer.length());
+        }
+        String nameServerSuffix = "";
+        if (nameServer.lastIndexOf(".") > 0) {
+            nameServerSuffix = nameServer.substring(nameServer.lastIndexOf("."), nameServer.length());
+        }
+        // 严格校验，任何一个为空都不进行添加
+        if (StringUtils.isAnyBlank(pathServerSuffix, nameServerSuffix)) {
+            return false;
+        }
+        return !pathServerSuffix.equalsIgnoreCase(nameServerSuffix);
+    }
+
+    /**
+     * 获取和实际文后缀一致的文件名
+     *
+     * @param file
+     * @return
+     */
+    private String getFileNameWithSuffix(InitFile file) {
+        String nameServer = file.getNameServer();
+        String pathServer = file.getPathServer();
+        String newName = nameServer.substring(0, nameServer.lastIndexOf("."));
+        String suffix = pathServer.substring(pathServer.lastIndexOf("."), pathServer.length());
+        return newName + suffix;
+    }
+
+    @Override
+    public InitFile updateDifferentFile(InitFile initFile) {
+        List<InitFile> list = new ArrayList();
+        list.add(initFile);
+        this.updateDifferentFiles(list);
+        return list.get(0);
     }
 }

@@ -52,4 +52,30 @@ public interface IInitFileService {
      * @return
      */
     List<MeetingFile> queryMeetingSynchronize(JSONObject meeting, JSONObject condition);
+
+    /**
+     * 查询文件名不一致的文件列表
+     *
+     * @param list
+     * @param condition
+     * @return
+     */
+    List<InitFile> queryDifferentFiles(List<JSONObject> list, JSONObject condition);
+
+    /**
+     * 更新文件名不一致的文件列表
+     *
+     * @param list
+     * @param condition
+     * @return
+     */
+    List<InitFile> updateDifferentFiles(List<JSONObject> list, JSONObject condition);
+
+    /**
+     * 更新文件名不一致的文件
+     *
+     * @param initFile
+     * @return
+     */
+    InitFile updateDifferentFile(InitFile initFile);
 }

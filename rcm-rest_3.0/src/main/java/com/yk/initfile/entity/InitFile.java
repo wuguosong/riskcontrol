@@ -24,6 +24,8 @@ public class InitFile {
     private Integer limitTotal;// 分页总数量
     private String filePathField;
     private String fileNameField;
+    private boolean differentFileName;// 文件名是否相同
+    private boolean update;// 是否需要更新
 
     public boolean isServer() {
         return server;
@@ -167,6 +169,22 @@ public class InitFile {
 
     public void setFileNameField(String fileNameField) {
         this.fileNameField = fileNameField;
+    }
+
+    public boolean isDifferentFileName() {
+        return differentFileName;
+    }
+
+    public void setDifferentFileName(boolean differentFileName) {
+        this.differentFileName = differentFileName;
+    }
+
+    public boolean isUpdate() {
+        return update;
+    }
+
+    public void setUpdate(boolean update) {
+        this.update = update;
     }
 
     @Override
