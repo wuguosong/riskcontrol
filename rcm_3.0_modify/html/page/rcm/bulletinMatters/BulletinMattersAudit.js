@@ -1057,10 +1057,10 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         ////////////审批阶段对留言编辑权限的控制
         //var curTask = wf_getCurrentTask('bulletin', $routeParams.id);
         //$scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask7';
-        var curTask = wf_getCurrentProject('bulletin', $routeParams.id);
-        $scope._message_publish_reply_ = !isEmpty(curTask) && (curTask.AUDITSTATUS == 0 || curTask.AUDITSTATUS == 1);
-
-        /******************************* 审批标签权限管理 *********************************/
+        //var curTask = wf_getCurrentProject('bulletin', $routeParams.id);
+        //!isEmpty(curTask) && (curTask.AUDITSTATUS == 0 || curTask.AUDITSTATUS == 1);
+        $scope._message_publish_reply_ = validateMessageOpenAuthority('bulletin', $routeParams.id);
+		/******************************* 审批标签权限管理 *********************************/
         var curTask = wf_getCurrentTask('bulletin', $routeParams.id);
         if (isEmpty(curTask)) {
             $scope.isShowEdit = false;

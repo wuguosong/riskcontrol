@@ -1664,7 +1664,6 @@ function getMessageOpenAuthorityInApproval(processKey, businessKey) {
  * @param businessKey
  */
 function validateMessageOpenAuthority(processKey, businessKey) {
-    debugger;
     var tasks = getMessageOpenAuthorityInApproval(processKey, businessKey);
     if (isEmpty(tasks)) {
         return false;

@@ -925,6 +925,20 @@ public class SignService implements ISignService {
                 _backgroundTask = "background: #2d8cf0!important;";
             }
             _reviewApproval.get_legalDistribution().put("_backgroundTask", _backgroundTask);
+            // 设置评审负责人审批时竖线样式
+            String _backgroundReviewChargeApproval = "";
+            if(_reviewApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _reviewApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                _backgroundReviewChargeApproval = "background: #999!important;";
+            }
+            _reviewApproval.get_reviewChargeApproval().put("_backgroundReviewChargeApproval", _backgroundReviewChargeApproval);
+            // 设置法律负责人审批时竖线样式
+            String _backgroundLawChargeApproval = "";
+            if(_reviewApproval.get_lawChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _reviewApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                _backgroundLawChargeApproval = "background: #999!important;";
+            }
+            _reviewApproval.get_lawChargeApproval().put("_backgroundLawChargeApproval", _backgroundLawChargeApproval);
             _reviewApproval.execute();
             _approvalNode.set_reviewApproval(_reviewApproval);
             _approvalNode.set_processId(processId);
@@ -962,6 +976,20 @@ public class SignService implements ISignService {
                 _backgroundTask = "background: #2d8cf0!important;";
             }
             _formalApproval.get_legalDistribution().put("_backgroundTask", _backgroundTask);
+            // 设置评审负责人审批时竖线样式
+            String _backgroundReviewChargeApproval = "";
+            if(_formalApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _formalApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                _backgroundReviewChargeApproval = "background: #999!important;";
+            }
+            _formalApproval.get_reviewChargeApproval().put("_backgroundReviewChargeApproval", _backgroundReviewChargeApproval);
+            // 设置法律负责人审批时竖线样式
+            String _backgroundLawChargeApproval = "";
+            if(_formalApproval.get_lawChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _formalApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+                _backgroundLawChargeApproval = "background: #999!important;";
+            }
+            _formalApproval.get_lawChargeApproval().put("_backgroundLawChargeApproval", _backgroundLawChargeApproval);
             _formalApproval.execute();
             _approvalNode.set_formalApproval(_formalApproval);
             _approvalNode.set_processId(processId);
