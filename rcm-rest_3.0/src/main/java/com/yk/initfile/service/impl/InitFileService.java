@@ -605,8 +605,8 @@ public class InitFileService implements IInitFileService {
         }
         List<InitFile> unDifferentList = new ArrayList();
         if (unDifferent) {
-            for(InitFile initFile : synchronizeList){
-                if(initFile.isUpdate()){
+            for (InitFile initFile : synchronizeList) {
+                if (initFile.isUpdate()) {
                     unDifferentList.add(initFile);
                 }
             }
@@ -694,8 +694,17 @@ public class InitFileService implements IInitFileService {
         if (StringUtils.isAnyBlank(pathServer, rcmFileName)) {
             return true;
         }
-        String pathServerSuffix = pathServer.substring(pathServer.lastIndexOf("."), pathServer.length());
-        String rcmFileNameSuffix = rcmFileName.substring(rcmFileName.lastIndexOf("."), rcmFileName.length());
+        String pathServerSuffix = "";
+        if (pathServer.lastIndexOf(".") > 0) {
+            pathServer.substring(pathServer.lastIndexOf("."), pathServer.length());
+        }
+        String rcmFileNameSuffix = "";
+        if (rcmFileName.lastIndexOf(".") > 0) {
+            rcmFileNameSuffix = rcmFileName.substring(rcmFileName.lastIndexOf("."), rcmFileName.length());
+        }
+        if (StringUtils.isAnyBlank(pathServerSuffix, rcmFileNameSuffix)) {
+            return true;
+        }
         return !pathServerSuffix.equalsIgnoreCase(rcmFileNameSuffix);
     }
 

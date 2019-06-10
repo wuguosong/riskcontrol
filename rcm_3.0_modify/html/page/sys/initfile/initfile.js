@@ -201,7 +201,7 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                 });
             });
         };
-        $scope.updateDifferentFiles = function (file) {
+        $scope.updateDifferentFile = function (file) {
             $.confirm('确认更新文件吗？', function () {
                 _showLoading("文件更新中，请稍等...")
                 $scope.commonAjax(srvUrl + 'initfile/updateDifferentFile.do', 'post', file, false, function (res) {
