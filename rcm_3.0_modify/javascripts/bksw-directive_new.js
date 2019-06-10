@@ -2569,7 +2569,11 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 _span.html('');
                 _span.addClass('uibadge');
                 _span.html('新回复');
-            };
+            };/**/
+            // 监听流程变量,控制留言编辑权限
+            $scope.$parent.$watch('refreshImg', function(){
+                $scope._is_show_publish_btn_ = validateMessageOpenAuthority($scope.messageType, $scope.businessId);
+            });
         }
     };
 }]);
