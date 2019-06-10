@@ -372,6 +372,7 @@ public class FileService implements IFileService {
                     query = true;
                 }
             }
+            query = true;
             if(query){
                 String fullPath = fileDto.getFullpath().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
                 LinkDto download = this.fileDownloadLink(fullPath);
