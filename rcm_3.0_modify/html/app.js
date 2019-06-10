@@ -1675,21 +1675,61 @@ function validateMessageOpenAuthority(processKey, businessKey) {
             var key = task.key;
             if (processKey == 'formalReview') {
                 // 法律分配||评审负责人审批||基层法务||法律负责人审批
-                if("usertask19" == key || "usertask7" == key || "usertask20" == key || "usertask6" == key){
-                    count ++;
+                if ("usertask19" == key || "usertask7" == key || "usertask20" == key || "usertask6" == key) {
+                    count++;
                 }
             } else if (processKey == 'preReview') {
                 // 法律分配||评审负责人审批||基层法务||法律负责人审批
-                if("usertask9" == key || "usertask5" == key || "usertask12" == "" || "usertask10" == key){
-                    count ++;
+                if ("usertask9" == key || "usertask5" == key || "usertask12" == "" || "usertask10" == key) {
+                    count++;
                 }
             } else {
                 // 法律分配||评审负责人审批||法律负责人审批
-                if("usertask8" == key || "usertask7" == key || "usertask6" == key){
-                    count ++;
+                if ("usertask8" == key || "usertask7" == key || "usertask6" == key) {
+                    count++;
                 }
             }
         }
         return count > 0;
     }
+}
+
+/**
+ * 校验流程审批过程中知会人的显示权限
+ * @param processKey
+ * @param businessKey
+ */
+function validateNotifyShowAuthority(processKey, businessKey) {
+    // 获取当前审批节点
+    var curTask = wf_getCurrentTask(processKey, businessKey);
+    if (isEmpty(curTask)) {
+        return false;
+    }
+    var taskDefKey = curTask['TASK_DEF_KEY_'];
+    if (processKey == 'formalReview') {// 正式评审
+        // 分配评审任务|法律分配|法律负责人审批|评审负责人审批
+        if ('usertask8' == taskDefKey ||
+            'usertask19' == taskDefKey ||
+            'usertask6' == taskDefKey ||
+            'usertask7' == taskDefKey) {
+            return true;
+        }
+    } else if (processKey == 'preReview') {// 投标评审
+        // 分配评审任务|法律分配|法律负责人审批|评审负责人审批
+        if ('usertask4' == taskDefKey ||
+            'usertask9' == taskDefKey ||
+            'usertask5' == taskDefKey ||
+            'usertask10' == taskDefKey) {
+            return true;
+        }
+    } else {// 其它评审
+        // 分配任务|法律分配|法律负责人审批|评审负责人审批
+        if ('usertask5' == taskDefKey ||
+            'usertask8' == taskDefKey ||
+            'usertask6' == taskDefKey ||
+            'usertask7' == taskDefKey) {
+            return true;
+        }
+    }
+    return false;
 }

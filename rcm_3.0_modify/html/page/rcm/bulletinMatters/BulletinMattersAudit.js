@@ -1060,7 +1060,9 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         //var curTask = wf_getCurrentProject('bulletin', $routeParams.id);
         //!isEmpty(curTask) && (curTask.AUDITSTATUS == 0 || curTask.AUDITSTATUS == 1);
         $scope._message_publish_reply_ = validateMessageOpenAuthority('bulletin', $routeParams.id);
-		/******************************* 审批标签权限管理 *********************************/
+        ////////////知会人弹窗显示节点设置
+        $scope.showNotifyPopup = validateNotifyShowAuthority('bulletin', $routeParams.id);
+        /******************************* 审批标签权限管理 *********************************/
         var curTask = wf_getCurrentTask('bulletin', $routeParams.id);
         if (isEmpty(curTask)) {
             $scope.isShowEdit = false;

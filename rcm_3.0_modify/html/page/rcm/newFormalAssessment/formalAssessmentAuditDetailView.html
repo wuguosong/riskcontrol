@@ -417,7 +417,7 @@
 									</div>
 								</div>
 								<!--知会人-->
-								<div class="row" ng-include="'page/sys/common/notify-user.html'">
+								<div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
 								</div>
 								<div class="row" ng-show="approve.showController.isReviewLeaderConfirm">
 									<label class="col-sm-3 control-label">是否上会：</label>
@@ -707,7 +707,7 @@
 									</div>
 								</div>
 								<!--知会人-->
-								<div class="row" ng-include="'page/sys/common/notify-user.html'">
+								<div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
 								</div>
 								<!--快捷意见-->
 								<div class="row">

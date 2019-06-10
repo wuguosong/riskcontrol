@@ -2748,6 +2748,8 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
      // var curTask = wf_getCurrentProject('formalReview', $routeParams.id);
      //!isEmpty(curTask) && (curTask.WF_STATE == 0 || curTask.WF_STATE == 1);
      $scope._message_publish_reply_ = validateMessageOpenAuthority('formalReview', $routeParams.id);
+     //////// 知会人弹窗显示节点设置
+     $scope.showNotifyPopup = validateNotifyShowAuthority('formalReview', $routeParams.id);
      /******************************* 审批标签权限管理 *********************************/
      var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
      if (isEmpty(curTask)) {

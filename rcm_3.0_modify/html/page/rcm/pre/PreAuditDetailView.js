@@ -1917,9 +1917,9 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$sco
     //$scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask8';
     //var curTask = wf_getCurrentProject('preReview', $routeParams.id);
     //!isEmpty(curTask) && (curTask.WF_STATE == 0 || curTask.WF_STATE == 1);
-    $scope.$watch("refreshImg", function(){
-        $scope._message_publish_reply_ = validateMessageOpenAuthority('preReview', $routeParams.id);
-    });
+    $scope._message_publish_reply_ = validateMessageOpenAuthority('preReview', $routeParams.id);
+    ////////////知会人弹窗显示节点设置
+    $scope.showNotifyPopup = validateNotifyShowAuthority('preReview', $routeParams.id);
     /******************************* 审批标签权限管理 *********************************/
     var curTask = wf_getCurrentTask('preReview', $routeParams.id);
     if (isEmpty(curTask)) {
