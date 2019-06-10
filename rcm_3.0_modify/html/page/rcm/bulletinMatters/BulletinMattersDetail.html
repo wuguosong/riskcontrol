@@ -86,7 +86,7 @@
 							<select name="tbsxType" ng-model="tbsxTypeModel" id="tbsxType" class="form-control" ng-change="changeTbsxType()">
 								<option value=''>-- 请选择 --</option>
 								<option ng-repeat="item in tbsxType" value="{{item}}"
-										ng-selected="item.UUID==bulletin.bulletinType.VALUE" >{{item.ITEM_NAME}}</option>
+										 ng-selected="item.UUID==bulletin.bulletinType.VALUE" >{{item.ITEM_NAME}}</option>
 							</select>
 						</div>
 						<label ng-if="isNotCityService" class="col-sm-2 control-label"><span class="required-m">*</span>职能部门负责人</label>
