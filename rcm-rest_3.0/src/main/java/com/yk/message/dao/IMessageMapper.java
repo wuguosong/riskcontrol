@@ -1,5 +1,6 @@
 package com.yk.message.dao;
 
+import com.alibaba.fastjson.JSONObject;
 import com.goukuai.dto.FileDto;
 import com.yk.common.BaseMapper;
 import com.yk.message.entity.Message;
@@ -70,7 +71,8 @@ public interface IMessageMapper extends BaseMapper {
 
     List<Message> selectMessages(@Param("procInstId") String procInstId, @Param("createdBy") String createdBy, @Param("notIncludeCreatedBy") boolean notIncludeCreatedBy);
 
-    List<Message> selectLeavesMessageList(@Param("procInstId") String procInstId,@Param("messageId") Long messageId);
+    List<Message> selectLeavesMessageList(@Param("procInstId") String procInstId, @Param("messageId") Long messageId);
+
     HashMap<String, Object> selectUserInfoByUuid(@Param("uuid") String uuid);
 
     List<Message> selectMessageListPage(Map<String, Object> params);
@@ -85,8 +87,16 @@ public interface IMessageMapper extends BaseMapper {
 
     /**
      * 查询留言过程附件的位置序列号
+     *
      * @param params 查询条件
      * @return List<FileDto> 文件实体列表
      */
     List<FileDto> selectPageLocationSequenceNumber(Map<String, Object> params);
+
+    /**
+     * 查询@用户列表
+     *
+     * @return
+     */
+    List<JSONObject> selectViaUsers();
 }

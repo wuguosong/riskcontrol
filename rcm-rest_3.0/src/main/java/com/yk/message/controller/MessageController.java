@@ -399,8 +399,8 @@ public class MessageController {
         Result result = new Result();
         PageAssistant page = new PageAssistant(request.getParameter("page"));
         Map<String, Object> paramMap = page.getParamMap();
-        paramMap.put("message_business_id", message_business_id);
-        paramMap.put("message_type", message_type);
+        paramMap.put("messageBusinessId", message_business_id);
+        paramMap.put("messageType", message_type);
         page.setParamMap(paramMap);
         messageService.queryViaUsers(page);
         result.setResult_data(page);

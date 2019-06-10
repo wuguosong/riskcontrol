@@ -15,8 +15,9 @@ import java.util.Map;
 public interface IMessageService {
     /**
      * 留言列表
+     *
      * @param procInstId 流程实例ID
-     * @param parentId 父留言ID,不传查询所有
+     * @param parentId   父留言ID,不传查询所有
      * @return List<Message>
      */
     List<Message> list(String procInstId, Long parentId);
@@ -69,6 +70,7 @@ public interface IMessageService {
 
     /**
      * 获取一个留言下的所有叶子留言
+     *
      * @param parentId 父留言ID
      * @return List<Message>
      */
@@ -76,6 +78,7 @@ public interface IMessageService {
 
     /**
      * 更新是否已读标志
+     *
      * @param messageId 留言ID
      * @return Message
      */
@@ -83,6 +86,7 @@ public interface IMessageService {
 
     /**
      * 更新是否推送标志
+     *
      * @param messageId 留言ID
      * @return Message
      */
@@ -90,6 +94,7 @@ public interface IMessageService {
 
     /**
      * 根据创建人查找本人和其他人留言
+     *
      * @param procInstId
      * @param createdBy
      * @param notIncludeCreatedBy
@@ -99,6 +104,7 @@ public interface IMessageService {
 
     /**
      * 根据创建人查找本人和其他人留言
+     *
      * @param procInstId
      * @param createdBy
      * @return
@@ -107,16 +113,18 @@ public interface IMessageService {
 
     /**
      * 根据创建人查找本人和其他人留言
+     *
      * @param procInstId
      * @param createdBy
      * @return
      */
     List<JSONObject> messages(String procInstId, String createdBy);
 
-	List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId, String _query_params_);
+    List<List<JSONObject>> queryMessagesList(String procInstId, Long parentId, String _query_params_);
 
     /**
      * 分享留言
+     *
      * @param messageId
      * @param shareUsers
      * @return
@@ -125,6 +133,7 @@ public interface IMessageService {
 
     /**
      * 通过用户uuid获取用户信息
+     *
      * @param uuid
      * @return
      */
@@ -132,24 +141,28 @@ public interface IMessageService {
 
     /**
      * 留言列表-分页查询
+     *
      * @param pageAssistant
      */
     void queryMessagesListPage(PageAssistant pageAssistant);
 
     /**
      * 获取当前登录人的留言列表
+     *
      * @return List<Message>
      */
     List<Message> getMessageNotify();
 
     /**
      * 查询@用户
+     *
      * @param page
      */
     void queryViaUsers(PageAssistant page);
 
     /**
      * 获取附件类型
+     *
      * @param message_business_id
      * @param message_type
      * @return
@@ -158,14 +171,16 @@ public interface IMessageService {
 
     /**
      * 向同一个主题的留言推送留言信息
+     *
      * @param message
      */
     void shareMessageToSameSubject(Message message);
 
     /**
      * 获取过程附件的位置序列号
-     * @param docType 附件类型
-     * @param docCode 附件业务ID
+     *
+     * @param docType  附件类型
+     * @param docCode  附件业务ID
      * @param tempUuid 临时UUID，这里用创建人的UUID
      * @return 序列号
      */
@@ -173,6 +188,7 @@ public interface IMessageService {
 
     /**
      * 从留言中获取知会人
+     *
      * @param message 留言
      * @return 知会人，格式用户id，多个以“,”分隔
      */
@@ -180,6 +196,7 @@ public interface IMessageService {
 
     /**
      * 查询项目
+     *
      * @param type
      * @param id
      * @return
@@ -190,7 +207,8 @@ public interface IMessageService {
 
     /**
      * 获取业务数据MongoDB
-     * @param business_id 业务id
+     *
+     * @param business_id     业务id
      * @param business_module 业务模块
      * @return JSONObject
      */
@@ -198,6 +216,7 @@ public interface IMessageService {
 
     /**
      * 获取投资经理和基层法务
+     *
      * @param business_id
      * @param business_module
      * @return
@@ -206,9 +225,17 @@ public interface IMessageService {
 
     /**
      * 获取审批过程中的留言开关权限
+     *
      * @param processKey
      * @param businessKey
      * @return
      */
     List<JSONObject> getMessageOpenAuthorityInApproval(String processKey, String businessKey);
+
+    /**
+     * 查询@用户列表
+     *
+     * @return
+     */
+    List<JSONObject> listViaUsers();
 }

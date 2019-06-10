@@ -289,14 +289,31 @@ public class MessageService implements IMessageService {
             if (ArrayUtils.isNotEmpty(viaUsersArray)) {
                 Map<String, Object> params = new HashMap<String, Object>();
                 List<JSONObject> viaUsersList = new ArrayList<JSONObject>();
+                /*==
+                1、先从特定的@用户数据字典中对用户进行判断。
+                2、将有自定义别名的用户刷选出来，使用自定义名称进行显示。
+                ==*/
+                List<JSONObject> viaList = this.listViaUsers();
+                Map<String, JSONObject> viaMap = new HashMap();
+                if (CollectionUtils.isNotEmpty(viaList)) {
+                    for (JSONObject via : viaList) {
+                        viaMap.put(via.getString("ID"), via);
+                    }
+                }
                 for (String viaUser : viaUsersArray) {
                     params.put("UUID", viaUser);
                     Map<String, Object> user = userMapper.selectAUser(params);
                     if (user != null) {
                         JSONObject jb = new JSONObject();
                         jb.put("viaId", viaUser);
-                        jb.put("viaName", user.get("NAME"));
-                        jb.put("via", "@" + user.get("NAME"));
+                        JSONObject via = viaMap.get(viaUser);
+                        if (via != null) {
+                            jb.put("viaName", via.get("NAME"));
+                            jb.put("via", "@" + via.get("NAME"));
+                        } else {
+                            jb.put("viaName", user.get("NAME"));
+                            jb.put("via", "@" + user.get("NAME"));
+                        }
                         viaUsersList.add(jb);
                     }
                 }
@@ -730,5 +747,10 @@ public class MessageService implements IMessageService {
             list.add(js);
         }
         return list;
+    }
+
+    @Override
+    public List<JSONObject> listViaUsers() {
+        return messageMapper.selectViaUsers();
     }
 }

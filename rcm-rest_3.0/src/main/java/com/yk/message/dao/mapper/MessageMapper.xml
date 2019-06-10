@@ -102,38 +102,38 @@
                    keyProperty="messageId">
             select sys_message_seq.nextval from dual
         </selectKey>
-		insert into sys_message
-		values(
+        insert into sys_message
+        values(
         #{messageId},
-		#{messageType},
-		#{procInstId},
-		#{parentId},
-		#{originalId},
-		#{createdBy},
-		#{createdName},
+        #{messageType},
+        #{procInstId},
+        #{parentId},
+        #{originalId},
+        #{createdBy},
+        #{createdName},
         #{createdDept},
         #{createdPosition},
-		#{repliedBy},
-		#{repliedName},
+        #{repliedBy},
+        #{repliedName},
         #{repliedDept},
         #{repliedPosition},
-		#{messageTitle},
+        #{messageTitle},
         #{messageContent},
-		#{messageDate},
-		#{pushFlag},
-		#{readFlag},
-		#{bsUniRelated},
+        #{messageDate},
+        #{pushFlag},
+        #{readFlag},
+        #{bsUniRelated},
         #{viaUsers},
         #{messagePriority},
         #{messageFile},
         #{messageFileType},
         #{messageScreenType},
-		#{attriText01},
-		#{attriText02},
-		#{attriText03},
-		#{attriText04}
-		)
-	</insert>
+        #{attriText01},
+        #{attriText02},
+        #{attriText03},
+        #{attriText04}
+        )
+    </insert>
     <!--更新-->
     <update id="updateMessage" parameterType="com.yk.message.entity.Message">
 		update sys_message set
@@ -184,27 +184,27 @@
         from sys_message
         where 1 = 1
         <if test="procInstId != null and procInstId != ''">
-        and proc_inst_id = #{procInstId}
+            and proc_inst_id = #{procInstId}
         </if>
         <if test="createdBy != null and createdBy != '' and notIncludeCreatedBy != null and 'false'.toString() == notIncludeCreatedBy.toString()">
-        and created_by = #{createdBy}
+            and created_by = #{createdBy}
         </if>
         <if test="createdBy != null and createdBy != '' and notIncludeCreatedBy != null and 'true'.toString() == notIncludeCreatedBy.toString()">
             and created_by <![CDATA[ <> ]]> #{createdBy}
         </if>
         order by message_priority desc, message_id, message_date asc
     </select>
-    
-     <select id="selectLeavesMessageList" resultMap="messageMap">
+
+    <select id="selectLeavesMessageList" resultMap="messageMap">
         select
         <include refid="baseColumn"/>
         from sys_message
         where 1 = 1
         <if test="procInstId != null and procInstId != ''">
-        and proc_inst_id = #{procInstId}
+            and proc_inst_id = #{procInstId}
         </if>
         <if test="messageId != null and messageId != ''">
-        and original_id = #{messageId}
+            and original_id = #{messageId}
         </if>
         order by message_id, message_date asc
     </select>
@@ -252,100 +252,136 @@
         and m.created_by = #{curUuid}
     </select>
     <select id="selectUserByCondition" parameterType="map" resultType="hashmap">
-        select tmp.* from
+        select distinct tmp.* from
         (
-            select decode(u.orgcode, '000001', o2.name, o1.name) as orgname,
-            u.*
-            from sys_user u, sys_org o1, sys_org o2
-            where 1 = 1
-            and u.state = '2'
-            and u.orgpkvalue = o1.orgpkvalue(+)
-            and u.deptpkvalue = o2.orgpkvalue(+)
-            and exists
-            (
-                select 1 from sys_dictionary sd, sys_dictionary_item st
-                where sd.dictionary_code in('REGIONAL_INFORMER', 'INSPECTION_TEAM')
-                and sd.uuid = st.fk_dictionary_uuid
-                and st.is_enabled = '1'
-                and st.item_code = u.uuid
-                <if test="message_type != null and message_type != '' and message_business_id != null and message_business_id != ''">
-                    /*正式评审*/
-                    <if test="message_type == 'formal'">
-                        union
-                        select 1 from rcm_formalassessment_info f
-                        where f.businessid = '${message_business_id}'
-                        and f.largeareapersonid = u.uuid
-                        union
-                        select 1 from rcm_formalassessment_info f
-                        where f.businessid = '${message_business_id}'
-                        and f.taskpersonid = u.uuid
-                        union
-                        select 1 from rcm_formalassessment_info f
-                        where f.businessid = '${message_business_id}'
-                        and f.legalreviewpersonid = u.uuid
-                        union
-                        select 1 from rcm_formalassessment_info f
-                        where f.businessid = '${message_business_id}'
-                        and f.reviewpersonid = u.uuid
-                        union
-                        select 1 from rcm_formalassessment_info f
-                        where f.businessid = '${message_business_id}'
-                        and f.grassrootslegalpersonid = u.uuid
-                        union
-                        select 1 from rcm_formalassessment_info f
-                        where f.businessid = '${message_business_id}'
-                        and f.firstlevellawyerpersonid = u.uuid
-                        union
-                        select 1 from rcm_formalassessment_log lg
-                        where lg.businessid = '${message_business_id}'
-                        and lg.audituserid = u.uuid
-                    </if>
-                    /*投标评审*/
-                    <if test="message_type == 'preview'">
-                        union
-                        select 1 from rcm_pre_info p
-                        where p.businessid = '${message_business_id}'
-                        and p.largeareapersonid = u.uuid
-                        union
-                        select 1 from rcm_pre_info p
-                        where p.businessid = '${message_business_id}'
-                        and p.servicetypepersonid = u.uuid
-                        union
-                        select 1 from rcm_pre_info p
-                        where p.businessid = '${message_business_id}'
-                        and p.taskpersonid = u.uuid
-                        union
-                        select 1 from rcm_pre_info p
-                        where p.businessid = '${message_business_id}'
-                        and p.reviewpersonid = u.uuid
-                        union
-                        select 1 from rcm_pre_log lg
-                        where lg.businessid = '${message_business_id}'
-                        and lg.audituserid = u.uuid
-                    </if>
-                    /*其它评审*/
-                    <if test="message_type == 'bulletin'">
-                        union
-                        select 1 from rcm_bulletin_info b
-                        where b.businessid = '${message_business_id}'
-                        and b.legalleaderid = u.uuid
-                        union
-                        select 1 from rcm_bulletin_info b
-                        where b.businessid = '${message_business_id}'
-                        and b.reviewleaderid = u.uuid
-                        union
-                        select 1 from rcm_bulletin_log lg
-                        where lg.businessid = '${message_business_id}'
-                        and lg.audituserid = u.uuid
-                    </if>
-                </if>
-            )
-            order by ${orderBy}
+        select
+        distinct
+        decode(u.orgcode, '000001', o2.name, o1.name) as orgname,
+        u.ID,
+        u.UUID,
+        u.CODE,
+        u.VERSION,
+        nvl(tmp_d.item_name, u.NAME) AS NAME,
+        u.SEXCODE,
+        u.IDCARD,
+        u.TYPECODE,
+        u.ORGCODE,
+        u.DEPTCODE,
+        u.ACCOUNT,
+        u.STATE,
+        u.POSITIONCODE,
+        u.POSITIONTYPECODE,
+        u.WORKPLACE,
+        u.CONTACT1,
+        u.CONTACT2,
+        u.EMAIL,
+        u.WEIGHT,
+        u.ORGPKVALUE,
+        u.DEPTPKVALUE,
+        u.POSTPKVALUE,
+        u.PSNPKVALUE,
+        u.POSITIONNAME,
+        u.CREATE_TIME
+        from sys_user u, sys_org o1, sys_org o2,
+        (
+        select
+        st.item_name as item_name,
+        st.item_code as item_code
+        from sys_dictionary sd, sys_dictionary_item st
+        where sd.dictionary_code in('REGIONAL_INFORMER', 'INSPECTION_TEAM')
+        and sd.uuid = st.fk_dictionary_uuid
+        and st.is_enabled = '1'
+        ) tmp_d
+        where 1 = 1
+        and u.state = '2'
+        and u.orgpkvalue = o1.orgpkvalue(+)
+        and u.deptpkvalue = o2.orgpkvalue(+)
+        and u.uuid = tmp_d.item_code(+)
+        and exists
+        (
+        select 1 from sys_dictionary sd, sys_dictionary_item st
+        where sd.dictionary_code in('REGIONAL_INFORMER', 'INSPECTION_TEAM')
+        and sd.uuid = st.fk_dictionary_uuid
+        and st.is_enabled = '1'
+        and st.item_code = u.uuid
+        <if test="messageType != null and messageType != '' and messageBusinessId != null and messageBusinessId != ''">
+            /*正式评审*/
+            <if test="messageType == 'formalReview'">
+                union
+                select 1 from rcm_formalassessment_info f
+                where f.businessid = '${messageBusinessId}'
+                and f.largeareapersonid = u.uuid
+                union
+                select 1 from rcm_formalassessment_info f
+                where f.businessid = '${messageBusinessId}'
+                and f.taskpersonid = u.uuid
+                union
+                select 1 from rcm_formalassessment_info f
+                where f.businessid = '${messageBusinessId}'
+                and f.legalreviewpersonid = u.uuid
+                union
+                select 1 from rcm_formalassessment_info f
+                where f.businessid = '${messageBusinessId}'
+                and f.reviewpersonid = u.uuid
+                union
+                select 1 from rcm_formalassessment_info f
+                where f.businessid = '${messageBusinessId}'
+                and f.grassrootslegalpersonid = u.uuid
+                union
+                select 1 from rcm_formalassessment_info f
+                where f.businessid = '${messageBusinessId}'
+                and f.firstlevellawyerpersonid = u.uuid
+                union
+                select 1 from rcm_formalassessment_log lg
+                where lg.businessid = '${messageBusinessId}'
+                and lg.audituserid = u.uuid
+            </if>
+            /*投标评审*/
+            <if test="messageType == 'preReview'">
+                union
+                select 1 from rcm_pre_info p
+                where p.businessid = '${messageBusinessId}'
+                and p.largeareapersonid = u.uuid
+                union
+                select 1 from rcm_pre_info p
+                where p.businessid = '${messageBusinessId}'
+                and p.servicetypepersonid = u.uuid
+                union
+                select 1 from rcm_pre_info p
+                where p.businessid = '${messageBusinessId}'
+                and p.taskpersonid = u.uuid
+                union
+                select 1 from rcm_pre_info p
+                where p.businessid = '${messageBusinessId}'
+                and p.reviewpersonid = u.uuid
+                union
+                select 1 from rcm_pre_log lg
+                where lg.businessid = '${messageBusinessId}'
+                and lg.audituserid = u.uuid
+            </if>
+            /*其它评审*/
+            <if test="messageType == 'bulletin'">
+                union
+                select 1 from rcm_bulletin_info b
+                where b.businessid = '${messageBusinessId}'
+                and b.legalleaderid = u.uuid
+                union
+                select 1 from rcm_bulletin_info b
+                where b.businessid = '${messageBusinessId}'
+                and b.reviewleaderid = u.uuid
+                union
+                select 1 from rcm_bulletin_log lg
+                where lg.businessid = '${messageBusinessId}'
+                and lg.audituserid = u.uuid
+            </if>
+        </if>
+        )
+        order by ${orderBy}
         ) tmp
         where 1 = 1
-        <if test="username != null and username != ''"> and tmp.name like '%${username}%' </if>
-        <if test="username != null and username != ''"> or tmp.account like '%${username}%' </if>
-        <if test="username != null and username != ''"> or tmp.orgname like '%${username}%' </if>
+        <if test="username != null and username != ''">and tmp.name like '%${username}%'</if>
+        <if test="username != null and username != ''">or tmp.account like '%${username}%'</if>
+        <if test="username != null and username != ''">or tmp.orgname like '%${username}%'</if>
     </select>
     <select id="selectUserAbout" parameterType="java.lang.String" resultType="java.util.HashMap">
        select u.*,
@@ -366,7 +402,7 @@
             lg.projectname as "projectName",
             lg.createby as "sender",
             lg.projectname as "title"
-            from  rcm_formalassessment_info lg
+            from rcm_formalassessment_info lg
             where lg.businessid = #{id}
         </if>
         /*投标评审审批*/
@@ -376,7 +412,7 @@
             lg.projectname as "projectName",
             lg.createby as "sender",
             lg.projectname as "title"
-            from  rcm_pre_info lg
+            from rcm_pre_info lg
             where lg.businessid = #{id}
         </if>
         /*其它评审审批*/
@@ -386,37 +422,37 @@
             lg.bulletinname as "projectName",
             lg.createby as "sender",
             lg.bulletinname as "title"
-            from  rcm_bulletin_info lg
+            from rcm_bulletin_info lg
             where lg.businessid = #{id}
         </if>
     </select>
     <resultMap id="fileDtoMap" type="com.goukuai.dto.FileDto">
-        <id column="fileid" property="fileid" javaType="java.lang.Long" />
-        <result column="hash" property="hash" javaType="java.lang.String" />
-        <result column="dir" property="dir" javaType="java.lang.Integer" />
-        <result column="fullpath" property="fullpath" javaType="java.lang.String" />
-        <result column="filename" property="filename" javaType="java.lang.String" />
-        <result column="filehash" property="filehash" javaType="java.lang.String" />
-        <result column="filesize" property="filesize" javaType="java.lang.Long" />
-        <result column="create_member_name" property="create_member_name" javaType="java.lang.String" />
-        <result column="create_dateline" property="create_dateline" javaType="java.lang.Long" />
-        <result column="last_member_name" property="last_member_name" javaType="java.lang.String" />
-        <result column="last_dateline" property="last_dateline" javaType="java.lang.Long" />
-        <result column="property" property="property" javaType="java.lang.String" />
-        <result column="uploadserver" property="uploadserver" javaType="java.lang.String" />
-        <result column="uri" property="uri" javaType="java.lang.String" />
-        <result column="preview" property="preview" javaType="java.lang.String" />
-        <result column="thumbnail" property="thumbnail" javaType="java.lang.String" />
-        <result column="tag" property="tag" javaType="java.lang.String" />
-        <result column="doctype" property="doctype" javaType="java.lang.String" />
-        <result column="doccode" property="doccode" javaType="java.lang.String" />
-        <result column="rcmfilename" property="rcmfilename" javaType="java.lang.String" />
-        <result column="preview3d" property="preview3d" javaType="java.lang.String" />
-        <result column="download3d" property="download3d" javaType="java.lang.String" />
-        <result column="previeqr3d" property="previeqr3d" javaType="java.lang.String" />
-        <result column="downloadqr3d" property="downloadqr3d" javaType="java.lang.String" />
-        <result column="pagelocation" property="pagelocation" javaType="java.lang.String" />
-        <result column="logicopt" property="logicopt" javaType="java.lang.String" />
+        <id column="fileid" property="fileid" javaType="java.lang.Long"/>
+        <result column="hash" property="hash" javaType="java.lang.String"/>
+        <result column="dir" property="dir" javaType="java.lang.Integer"/>
+        <result column="fullpath" property="fullpath" javaType="java.lang.String"/>
+        <result column="filename" property="filename" javaType="java.lang.String"/>
+        <result column="filehash" property="filehash" javaType="java.lang.String"/>
+        <result column="filesize" property="filesize" javaType="java.lang.Long"/>
+        <result column="create_member_name" property="create_member_name" javaType="java.lang.String"/>
+        <result column="create_dateline" property="create_dateline" javaType="java.lang.Long"/>
+        <result column="last_member_name" property="last_member_name" javaType="java.lang.String"/>
+        <result column="last_dateline" property="last_dateline" javaType="java.lang.Long"/>
+        <result column="property" property="property" javaType="java.lang.String"/>
+        <result column="uploadserver" property="uploadserver" javaType="java.lang.String"/>
+        <result column="uri" property="uri" javaType="java.lang.String"/>
+        <result column="preview" property="preview" javaType="java.lang.String"/>
+        <result column="thumbnail" property="thumbnail" javaType="java.lang.String"/>
+        <result column="tag" property="tag" javaType="java.lang.String"/>
+        <result column="doctype" property="doctype" javaType="java.lang.String"/>
+        <result column="doccode" property="doccode" javaType="java.lang.String"/>
+        <result column="rcmfilename" property="rcmfilename" javaType="java.lang.String"/>
+        <result column="preview3d" property="preview3d" javaType="java.lang.String"/>
+        <result column="download3d" property="download3d" javaType="java.lang.String"/>
+        <result column="previeqr3d" property="previeqr3d" javaType="java.lang.String"/>
+        <result column="downloadqr3d" property="downloadqr3d" javaType="java.lang.String"/>
+        <result column="pagelocation" property="pagelocation" javaType="java.lang.String"/>
+        <result column="logicopt" property="logicopt" javaType="java.lang.String"/>
     </resultMap>
     <select id="selectPageLocationSequenceNumber" resultMap="fileDtoMap" parameterType="map">
         select
@@ -429,5 +465,14 @@
         and instr(f.pagelocation, #{tempUuid}) > 0
         order by
         f.fileid desc
+    </select>
+    <select id="selectViaUsers" resultType="com.alibaba.fastjson.JSONObject">
+        select
+        st.item_name as "NAME",
+        st.item_code as "ID"
+        from sys_dictionary sd, sys_dictionary_item st
+        where sd.dictionary_code in('REGIONAL_INFORMER', 'INSPECTION_TEAM')
+        and sd.uuid = st.fk_dictionary_uuid
+        and st.is_enabled = '1'
     </select>
 </mapper>
