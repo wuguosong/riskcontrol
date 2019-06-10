@@ -89,7 +89,7 @@
 		#{notify.notifyUser},
 		#{notify.notifyUserName},
 		#{notify.notifyComments},
-		sysdate,
+		#{notify.notifyDate},
 		#{notify.portalStatus},
         #{notify.messageStatus},
         #{notify.notifyUrl},

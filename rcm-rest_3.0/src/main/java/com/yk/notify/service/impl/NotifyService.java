@@ -132,6 +132,7 @@ public class NotifyService implements INotifyService {
                     Map<String, Object> user = userMapper.selectAUser(params);
                     if (user != null) {
                         notify.setNotifyUser(notifyUser);
+                        notify.setNotifyDate(DateUtil.getCurrentDate());
                         notify.setNotifyUserName(String.valueOf(user.get("NAME")));
                         notify.setNotifyCreated(notifyCreated);
                         notify.setNotifyCreatedName(notifyCreatedName);
