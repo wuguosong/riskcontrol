@@ -121,7 +121,8 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
 
     // 更多页面跳转逻辑
     $scope.toMoreList = function (flag) {
-        if (isEmpty($scope.params)){
+        debugger
+        if (isEmpty($scope.params.projectName)){
             if (flag == 'pfr') {
                 $location.path("/pfrProjectBoardList/"+$filter('encodeURI')('#/projectBoardList/JTI1MjMlMkY='));
             } else if (flag == 'pre') {
