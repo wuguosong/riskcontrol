@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.DbUtil;
 import util.UserUtil;
+import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -540,60 +541,236 @@ public class InitFileService implements IInitFileService {
 
     @Override
     public List<MeetingFile> queryMeetingSynchronize(JSONObject meeting, JSONObject condition) {
-        final List<MeetingFile> list = new ArrayList();
+        List<MeetingFile> list = new ArrayList();
         if (meeting != null) {
             final String dataName = meeting.getString(JsonField.dataName);
             final String dataTable = meeting.getString(JsonField.dataTable);
             final String fileTable = meeting.getString(JsonField.fileTable);
-            // 1.统计上会附件的单据信息
-            MongoCollection<Document> collection = baseMongo.getCollection(fileTable);
-            logger.info(dataName + ":[" + dataTable + "]" + collection.count());
-            if (collection != null) {
-                FindIterable<Document> findIterable = collection.find();
-                findIterable.forEach(new Block<Document>() {
-                    @Override
-                    public void apply(Document document) {
-                        JSONObject record = JSON.parseObject(document.toJson(), JSONObject.class);
-                        if (record != null) {
-                            JSONObject policyDecision = record.getJSONObject(JsonField.policyDecision);
-                            if (policyDecision != null) {
-                                Object filesObj = policyDecision.get(JsonField.decisionMakingCommitteeStaffFiles);
-                                if (filesObj != null) {
-                                    List<JSONObject> files = JSON.parseArray(JSON.toJSONString(filesObj), JSONObject.class);
-                                    if (CollectionUtils.isNotEmpty(files)) {
+            /*===统计上会附件的单据信息===*/
+            list = this.createMeetingFiles(fileTable, dataTable, dataName);
+            /*===装入附件列表主数据记录===*/
+            Map<String, JSONObject> dataTableMap = this.createMainDataMap(dataTable);
+            /*===设置序列和其它属性===*/
+            if (CollectionUtils.isNotEmpty(list)) {
+                for (MeetingFile meetingFile : list) {
+                    meetingFile.setSequence(list.indexOf(meetingFile));// 设置序列
+                    this.setMeetingFileOtherAttributes(dataTableMap, meetingFile);// 设置属性
+                    this.resetMeetingFileOtherAttributes(meetingFile.getFiles());// 重置属性
+                }
+            }
+            /*===分页===*/
+            int limit = 0;
+            int skip = 0;
+            if (condition.getInteger("limit") != null) {
+                limit = condition.getInteger("limit");
+            }
+            if (condition.getInteger("skip") != null) {
+                skip = condition.getInteger("skip");
+            }
+            List<MeetingFile> filter = new MyFilter(limit, skip).doFilter(list);
+            logger.info("分页+过滤:" + filter.size());
+            return filter;
+        }
+        return list;
+    }
+
+    @Override
+    public MeetingFile executeMeetingSynchronize(MeetingFile meetingFile) {
+        List<MeetingFile> meetingFiles = new ArrayList();
+        meetingFiles.add(meetingFile);
+        return this.executeMeetingSynchronize(meetingFiles, meetingFile.getDataTable()).get(0);
+    }
+
+    /**
+     * 执行上会附件更新
+     *
+     * @param meetingFiles
+     * @param dataTable
+     * @return
+     */
+    private List<MeetingFile> executeMeetingSynchronize(List<MeetingFile> meetingFiles, String dataTable) {
+        if (CollectionUtils.isNotEmpty(meetingFiles)) {
+            Map<String, JSONObject> dataTableMap = this.createMainDataMap(dataTable);
+            for (MeetingFile meetingFile : meetingFiles) {
+                List<JSONObject> files = meetingFile.getFiles();// 上会附件
+                if (CollectionUtils.isNotEmpty(files)) {
+                    String id = meetingFile.getId();
+                    JSONObject dataJs = dataTableMap.get(id);
+                    if (dataJs != null) {
+                        Object attachmentListObj = dataJs.get(JsonField.attachmentList);// 附件列表
+                        if (attachmentListObj != null) {
+                            List<JSONObject> attachmentListJs = JSON.parseArray(JSON.toJSONString(attachmentListObj), JSONObject.class);
+                            for (JSONObject attachment : attachmentListJs) {// 迭代附件列表
+                                String item_name = "";
+                                JSONObject typeJs = attachment.getJSONObject(JsonField.type);
+                                if (typeJs != null) {
+                                    item_name = typeJs.getString(JsonField.ITEM_NAME);
+                                }
+                                String file_name = attachment.getString(JsonField.fileName);
+                                for (JSONObject file : files) {// 迭代上会附件
+                                    String ITEM_NAME = file.getString(JsonField.ITEM_NAME);
+                                    String FILE_NAME = file.getString(JsonField.fileName);
+                                    if (ITEM_NAME.equals(item_name) && FILE_NAME.equals(file_name)) {
+                                        attachment.put(JsonField.isMettingAttachment, "1");
+                                    }
+                                }
+                            }
+                            dataJs.put(JsonField.attachmentList, attachmentListJs);// 重新设置
+                            Map<String, Object> dataMap = JSON.parseObject(JSON.toJSONString(dataJs), HashMap.class);
+                            baseMongo.updateSetById(id, dataMap, dataTable);// 更新
+                        }
+                    }
+                }
+            }
+        }
+        return meetingFiles;
+    }
+
+    @Override
+    public List<MeetingFile> executeMeetingSynchronize(JSONObject meeting, JSONObject condition) {
+        List<MeetingFile> meetingFiles = this.queryMeetingSynchronize(meeting, condition);
+        return this.executeMeetingSynchronize(meetingFiles, meeting.getString(JsonField.dataTable));
+    }
+
+    /**
+     * 创建上会文件
+     *
+     * @param fileTable
+     * @param dataTable
+     * @param dataName
+     * @return
+     */
+    List<MeetingFile> createMeetingFiles(String fileTable, String dataTable, String dataName) {
+        final List<MeetingFile> list = new ArrayList();
+        MongoCollection<Document> collection = baseMongo.getCollection(fileTable);
+        if (collection != null) {
+            logger.info(dataName + ":[" + fileTable + "]:" + collection.count());
+            FindIterable<Document> findIterable = collection.find();
+            findIterable.forEach(new Block<Document>() {
+                @Override
+                public void apply(Document document) {
+                    JSONObject record = JSON.parseObject(document.toJson(), JSONObject.class);
+                    if (record != null) {
+                        JSONObject policyDecision = record.getJSONObject(JsonField.policyDecision);
+                        if (policyDecision != null) {
+                            Object decisionMakingCommitteeStaffFiles = policyDecision.get(JsonField.decisionMakingCommitteeStaffFiles);
+                            if (decisionMakingCommitteeStaffFiles != null) {
+                                List<JSONObject> decisionMakingCommitteeStaffFilesJs = JSON.parseArray(JSON.toJSONString(decisionMakingCommitteeStaffFiles), JSONObject.class);
+                                if (CollectionUtils.isNotEmpty(decisionMakingCommitteeStaffFilesJs)) {
+                                    String id = "";
+                                    String url = "";
+                                    if ("rcm_pre_info".equalsIgnoreCase(fileTable)) {
+                                        JSONObject idJs = record.getJSONObject(JsonField._id);
+                                        if (idJs != null) {
+                                            id = idJs.getString(JsonField.$oid);
+                                        }
+                                        url += "#/projectPreInfoAllBoardView/";
+                                    } else {
+                                        id = record.getString(JsonField.projectFormalId);
+                                        url += "#/projectInfoAllBoardView/";
+                                    }
+                                    url += id + "/" + JaXmlBeanUtil.encodeScriptUrl("index.html#/");// hello world
+                                    if (StringUtils.isNotBlank(id)) {
                                         MeetingFile meetingFile = new MeetingFile();
-                                        meetingFile.setId(record.getString(JsonField.projectFormalId));
+                                        meetingFile.setUrl(url);
+                                        meetingFile.setId(id);
                                         meetingFile.setName(dataName);
-                                        meetingFile.setTable(dataTable);
-                                        meetingFile.setFiles(files);
+                                        meetingFile.setDataTable(dataTable);
+                                        meetingFile.setFileTable(fileTable);
+                                        meetingFile.setFiles(decisionMakingCommitteeStaffFilesJs);
                                         meetingFile.setStatus(1);
+                                        // 构造url
                                         list.add(meetingFile);
                                     }
                                 }
                             }
                         }
                     }
+                }
+            });
+        }
+        return list;
+    }
+
+
+    /**
+     * 创建主数据Map
+     *
+     * @param mainDataTable
+     * @return
+     */
+    private Map<String, JSONObject> createMainDataMap(String mainDataTable) {
+        final Map<String, JSONObject> dataTableMap = new HashMap();
+        if (StringUtils.isNotBlank(mainDataTable)) {
+            MongoCollection mongoCollection = baseMongo.getCollection(mainDataTable);
+            if (mongoCollection != null) {
+                FindIterable<Document> findIterable = mongoCollection.find();
+                findIterable.forEach(new Block<Document>() {
+                    @Override
+                    public void apply(Document document) {
+                        JSONObject record = JSON.parseObject(document.toJson(), JSONObject.class);
+                        if (record != null) {
+                            JSONObject _id = record.getJSONObject(JsonField._id);
+                            if (_id != null) {
+                                String id = _id.getString(JsonField.$oid);
+                                dataTableMap.put(id, record);
+                            }
+                        }
+                    }
                 });
             }
         }
-        logger.info("统计出的上会单据数量：" + list.size());
-        if (CollectionUtils.isNotEmpty(list)) {
-            for (MeetingFile meetingFile : list) {
-                meetingFile.setSequence(list.indexOf(meetingFile));
+        return dataTableMap;
+    }
+
+    /**
+     * 设置上会附件的其它属性
+     *
+     * @param dataTableMap
+     * @param meetingFile
+     */
+    private void setMeetingFileOtherAttributes(Map<String, JSONObject> dataTableMap, MeetingFile meetingFile) {
+        String id = meetingFile.getId();
+        JSONObject record = dataTableMap.get(id);
+        if (record != null) {
+            List<JSONObject> files = meetingFile.getFiles();// 上会附件列表
+            Object attachmentList = record.get(JsonField.attachmentList);// 主表附件列表
+            if (attachmentList != null) {
+                if (CollectionUtils.isNotEmpty(files)) {
+                    List<JSONObject> attachmentListJs = JSON.parseArray(JSON.toJSONString(attachmentList), JSONObject.class);
+                    for (JSONObject attachment : attachmentListJs) {// 主表附件循环
+                        String item_name = "";
+                        JSONObject typeJs = attachment.getJSONObject(JsonField.type);
+                        if (typeJs != null) {
+                            item_name = typeJs.getString(JsonField.ITEM_NAME);
+                        }
+                        String file_name = attachment.getString(JsonField.fileName);
+                        for (JSONObject file : files) {// 上会附件循环
+                            // 判断条件:资源类型名称+文件名称
+                            String ITEM_NAME = file.getString(JsonField.ITEM_NAME);
+                            String FILE_NAME = file.getString(JsonField.fileName);
+                            if (item_name.equals(ITEM_NAME)
+                                    && file_name.equals(FILE_NAME)) {
+                                file.put(JsonField.update, true);
+                                file.put(JsonField.exist, true);
+                            }
+                        }
+                    }
+                }
             }
         }
-        /*===分页===*/
-        int limit = 0;
-        int skip = 0;
-        if (condition.getInteger("limit") != null) {
-            limit = condition.getInteger("limit");
+    }
+
+    /**
+     * 属性重置
+     *
+     * @param files
+     */
+    private void resetMeetingFileOtherAttributes(List<JSONObject> files) {
+        for (JSONObject file : files) {
+            file.put(JsonField.update, file.get(JsonField.update) != null ? file.get(JsonField.update) : false);
+            file.put(JsonField.exist, file.get(JsonField.exist) != null ? file.get(JsonField.exist) : false);
         }
-        if (condition.getInteger("skip") != null) {
-            skip = condition.getInteger("skip");
-        }
-        List<MeetingFile> filter = new MyFilter(limit, skip).doFilter(list);
-        logger.info("分页后数量：" + filter.size());
-        return filter;
     }
 
     @Override

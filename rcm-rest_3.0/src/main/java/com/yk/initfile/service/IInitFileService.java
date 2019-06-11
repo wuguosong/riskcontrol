@@ -54,6 +54,23 @@ public interface IInitFileService {
     List<MeetingFile> queryMeetingSynchronize(JSONObject meeting, JSONObject condition);
 
     /**
+     * 同步上会附件
+     *
+     * @param meeting
+     * @param condition
+     * @return
+     */
+    List<MeetingFile> executeMeetingSynchronize(JSONObject meeting, JSONObject condition);
+
+    /**
+     * 同步上会文件，一个
+     *
+     * @param meetingFile
+     * @return
+     */
+    MeetingFile executeMeetingSynchronize(MeetingFile meetingFile);
+
+    /**
      * 查询文件名不一致的文件列表
      *
      * @param list

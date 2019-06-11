@@ -219,7 +219,6 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
         /*================================================================在途数据end===============================*/
         /*================================================================上会附件start===============================*/
         $scope.meetingFiles = [];
-        $scope.meetingUnSynchronize = false;// 仅查询同步的
         $scope.meetingIsLimit = false;// 仅查询当前页面的
         $scope.meetingSkip = null;// 从
         $scope.meetingLimit = null;// 至
@@ -233,11 +232,11 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
             {
                 'dataName': '投标评审上会附件',
                 'dataTable': 'rcm_pre_info',
-                'fileTable': 'rcm_formalReport_info'
+                'fileTable': 'rcm_pre_info'
             }
         ];
         /*======查询上会附件=====*/
-        $scope.queryMeetingSynchronize = function () {
+        $scope.queryMeetingFiles = function () {
             if (!$scope.validateMeetingType()) {
                 return;
             }
@@ -248,20 +247,20 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
             data.meeting = JSON.stringify($scope.meetingTypes[$scope.meetingType]);
             data.condition = JSON.stringify({
                 'limit': $scope.meetingLimit,
-                'skip': $scope.meetingSkip,
-                'unSynchronize': $scope.meetingUnSynchronize
+                'skip': $scope.meetingSkip
             });
             console.log(data);
-            $scope.commonAjax(srvUrl + 'initfile/queryMeetingSynchronize.do', 'post', data, false, function (res) {
+            $scope.commonAjax(srvUrl + 'initfile/queryMeetingFiles.do', 'post', data, false, function (res) {
                 if (res.success) {
                     $scope.meetingFiles = res.data;
+                    $scope.getMeetingCount();
                 } else {
                     $.alert(res.data);
                 }
             });
         };
-        /*======同步上会附件=====*/
-        $scope.executeMeetingSynchronize = function () {
+        /*======同步上会附件-多个=====*/
+        $scope.executeMeetingFiles = function () {
             if (!$scope.validateMeetingType()) {
                 return;
             }
@@ -278,8 +277,18 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                     'skip': $scope.meetingSkip
                 });
             }
-            console.log(data);
-            $scope.commonAjax(srvUrl + 'initfile/executeMeetingSynchronize.do', 'post', data, false, function (res) {
+            $scope.commonAjax(srvUrl + 'initfile/executeMeetingFiles.do', 'post', data, false, function (res) {
+                if (res.success) {
+                    $.alert('同步完成！');
+                    $scope.meetingFiles = res.data;
+                } else {
+                    $.alert(res.data);
+                }
+            });
+        };
+        /*======同步上会附件-单个=====*/
+        $scope.executeMeetingFile = function (meeting) {
+            $scope.commonAjax(srvUrl + 'initfile/executeMeetingFile.do', 'post', meeting, false, function (res) {
                 if (res.success) {
                     $.alert('同步完成！');
                 } else {
@@ -307,11 +316,12 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
             }
             return true;
         };
+        /*====获取上会附件数量信息====*/
         $scope.getMeetingCount = function () {
             if ($scope.meetingType > -1) {
                 var data = {};
                 data.meeting = JSON.stringify($scope.meetingTypes[$scope.meetingType]);
-                $scope.commonAjax(srvUrl + 'initfile/queryMeetingSynchronize.do', 'post', data, false, function (res) {
+                $scope.commonAjax(srvUrl + 'initfile/queryMeetingFiles.do', 'post', data, false, function (res) {
                     if (res.success) {
                         $scope.meetingInfo = '当前数量: ' + $scope.meetingFiles.length + ', 实际数量: ' + res.data.length;
                     } else {
@@ -319,6 +329,9 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
                     }
                 });
             }
+        };
+        $scope.open = function (url) {
+            $window.open(url);
         };
         /*=======================================================上会附件end==========================================*/
     }]);

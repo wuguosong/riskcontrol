@@ -138,41 +138,15 @@ public class InitFileController {
     }
 
     /**
-     * 同步上会文件
-     *
-     * @param table
-     * @param condition
-     * @return
-     */
-    @RequestMapping("executeMeetingSynchronize")
-    @ResponseBody
-    public JSONObject executeMeetingSynchronize(String table, String condition) {
-        JSONObject js = new JSONObject();
-        try {
-            if (StringUtils.isNotBlank(table)) {
-                JSONObject jsCondition = this.createCondition(condition);
-                js.put(data, null);
-                js.put(success, true);
-            }
-        } catch (Exception e) {
-            js.put(data, e.getMessage());
-            js.put(success, false);
-            e.printStackTrace();
-            logger.error("同步上会文件失败：" + e.getMessage());
-        }
-        return js;
-    }
-
-    /**
      * 查询上会文件
      *
      * @param meeting
      * @param condition
      * @return
      */
-    @RequestMapping("queryMeetingSynchronize")
+    @RequestMapping("queryMeetingFiles")
     @ResponseBody
-    public JSONObject queryMeetingSynchronize(String meeting, String condition) {
+    public JSONObject queryMeetingFiles(String meeting, String condition) {
         JSONObject js = new JSONObject();
         try {
             if (StringUtils.isNotBlank(meeting)) {
@@ -191,6 +165,65 @@ public class InitFileController {
         return js;
     }
 
+    /**
+     * 同步上会附件
+     *
+     * @param meeting
+     * @param condition
+     * @return
+     */
+    @RequestMapping("executeMeetingFiles")
+    @ResponseBody
+    public JSONObject executeMeetingFiles(String meeting, String condition) {
+        JSONObject js = new JSONObject();
+        try {
+            if (StringUtils.isNotBlank(meeting)) {
+                JSONObject jsMeeting = JSON.parseObject(meeting, JSONObject.class);
+                JSONObject jsCondition = this.createCondition(condition);
+                List<MeetingFile> meetingFiles = initFileService.executeMeetingSynchronize(jsMeeting, jsCondition);
+                js.put(data, meetingFiles);
+                js.put(success, true);
+            }
+        } catch (Exception e) {
+            js.put(data, e.getMessage());
+            js.put(success, false);
+            e.printStackTrace();
+            logger.error("同步上会文件失败：" + e.getMessage());
+        }
+        return js;
+    }
+
+    /**
+     * 同步上会文件
+     *
+     * @param meetingFile
+     * @return
+     */
+    @RequestMapping("executeMeetingFile")
+    @ResponseBody
+    public JSONObject executeMeetingFile(MeetingFile meetingFile) {
+        JSONObject js = new JSONObject();
+        try {
+            if (meetingFile != null) {
+                MeetingFile meetingF = initFileService.executeMeetingSynchronize(meetingFile);
+                js.put(data, meetingF);
+                js.put(success, true);
+            }
+        } catch (Exception e) {
+            js.put(data, e.getMessage());
+            js.put(success, false);
+            e.printStackTrace();
+            logger.error("同步上会文件失败：" + e.getMessage());
+        }
+        return js;
+    }
+
+    /**
+     * 创建查询条件
+     *
+     * @param condition
+     * @return
+     */
     private JSONObject createCondition(String condition) {
         JSONObject jsCondition = new JSONObject();
         if (StringUtils.isNotBlank(condition)) {

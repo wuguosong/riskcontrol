@@ -26,4 +26,10 @@ public interface JsonField {
     String projectFormalId = "projectFormalId";
     String policyDecision = "policyDecision";
     String decisionMakingCommitteeStaffFiles = "decisionMakingCommitteeStaffFiles";
+    String update = "update";// 是否同步，主表中的上会标记是否存在或者为1
+    String exist = "exist";// 是否存在，主表中的文件和当前查询到的是否保持一致
+    String attachmentList = "attachmentList";
+    String _id = "_id";
+    String $oid = "$oid";
+    String isMettingAttachment = "isMettingAttachment";
 }

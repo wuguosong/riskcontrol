@@ -11,10 +11,12 @@ import java.util.List;
 public class MeetingFile {
     private String id;// id
     private String name;// 名称
-    private String table;// 表名
+    private String dataTable;// 主表名
+    private String fileTable;// 上会附件表名
     private Integer status;// 状态
     private List<JSONObject> files;// 上会文件
     private Integer sequence;// 序号
+    private String url;// 链接url
 
     public String getId() {
         return id;
@@ -32,12 +34,20 @@ public class MeetingFile {
         this.name = name;
     }
 
-    public String getTable() {
-        return table;
+    public String getDataTable() {
+        return dataTable;
     }
 
-    public void setTable(String table) {
-        this.table = table;
+    public void setDataTable(String dataTable) {
+        this.dataTable = dataTable;
+    }
+
+    public String getFileTable() {
+        return fileTable;
+    }
+
+    public void setFileTable(String fileTable) {
+        this.fileTable = fileTable;
     }
 
     public Integer getStatus() {
@@ -62,6 +72,14 @@ public class MeetingFile {
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
