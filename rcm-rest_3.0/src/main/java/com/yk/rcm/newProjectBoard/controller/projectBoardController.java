@@ -36,4 +36,40 @@ public class projectBoardController {
 		result.setResult_data(page);
 		return result;
 	}
+	
+	@RequestMapping("/getPfrProjectList")
+	@ResponseBody
+	public Result getPfrProjectList(HttpServletRequest request){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		String json = request.getParameter("json");
+		this.projectBoardService.getPfrProjectList(page, json);
+		page.setParamMap(null);
+		result.setResult_data(page);
+		return result;
+	}
+	
+	@RequestMapping("/getPreProjectList")
+	@ResponseBody
+	public Result getPreProjectList(HttpServletRequest request){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		String json = request.getParameter("json");
+		this.projectBoardService.getPreProjectList(page, json);
+		page.setParamMap(null);
+		result.setResult_data(page);
+		return result;
+	}
+	
+	@RequestMapping("/getBulletinProjectList")
+	@ResponseBody
+	public Result getBulletinProjectList(HttpServletRequest request){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		String json = request.getParameter("json");
+		this.projectBoardService.getBulletinProjectList(page, json);
+		page.setParamMap(null);
+		result.setResult_data(page);
+		return result;
+	}
 }
