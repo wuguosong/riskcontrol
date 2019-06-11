@@ -4,10 +4,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.projectName = $routeParams.projectName;
     $scope.oldUrl = $routeParams.url;
     $scope.tabIndex = '0';
-    var projectName = '';
-    $scope.params = {};
 
-    // 初始化分页组件
     $scope.paginationConf1 = {
         currentPage: 1,
         totalItems: 0,
@@ -37,23 +34,22 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
         }
     };
 
-    $scope.initData = function (){
-        if (!isEmpty($scope.projectName)){
-            projectName = $filter('decodeURI')($scope.projectName,"VALUE");
-            $scope.params.projectName = projectName;
+    // 查询项目看板分配任务及之前的项目
+    $scope.getProjectList1 = function(){
+        console.log("sssssssssssssss");
+        if($scope.paginationConf1.queryObj == null || $scope.paginationConf1.queryObj == ''){
+            $scope.paginationConf1.queryObj = {};
         }
-    };
 
-    // 查询项目看正式评审项目
-    $scope.getPfrProjectList = function(){
-        $scope.paginationConf1.queryObj.userId = $scope.credentials.UUID;
-        if (!isEmpty($scope.params)) {
-            $scope.paginationConf1.queryObj.projectName = $scope.params.projectName;
-            $scope.paginationConf1.queryObj.wf_state = $scope.params.wf_state;
+        if ($scope.projectName != null && $scope.projectName != ''){
+            var projectName = $filter('decodeURI')($scope.projectName,"VALUE");
+            $scope.paginationConf1.queryObj.projectName = projectName;
         }
+        $scope.paginationConf1.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf1.queryObj.stageList = ['1', '2'];
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getPfrProjectList.do",
+            url: srvUrl + "projectBoard/getProjectList.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf1),
                 "json":JSON.stringify($scope.paginationConf1.queryObj)
@@ -63,16 +59,21 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf1.totalItems = result.result_data.totalItems;
         });
     };
-    // 查询项目看板投标评审项目
-    $scope.getPreProjectList = function(){
-        $scope.paginationConf2.queryObj.userId = $scope.credentials.UUID;
-        if (!isEmpty($scope.params)) {
-            $scope.paginationConf2.queryObj.projectName = $scope.params.projectName;
-            $scope.paginationConf2.queryObj.wf_state = $scope.params.wf_state;
+    // 查询项目看板风控任务的项目
+    $scope.getProjectList2 = function(){
+        if($scope.paginationConf2.queryObj == null || $scope.paginationConf2.queryObj == ''){
+            $scope.paginationConf2.queryObj = {};
         }
+
+        if ($scope.projectName != null && $scope.projectName != ''){
+            var projectName = $filter('decodeURI')($scope.projectName,"VALUE");
+            $scope.paginationConf2.queryObj.projectName = projectName;
+        }
+        $scope.paginationConf2.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf2.queryObj.stageList = ['3','4','5'];
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getPreProjectList.do",
+            url: srvUrl + "projectBoard/getProjectList.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf2),
                 "json":JSON.stringify($scope.paginationConf2.queryObj)
@@ -82,16 +83,21 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf2.totalItems = result.result_data.totalItems;
         });
     };
-    // 查询项目看板其他评审项目
-    $scope.getBulletinProjectList = function(){
-        $scope.paginationConf3.queryObj.userId = $scope.credentials.UUID;
-        if (!isEmpty($scope.params)) {
-            $scope.paginationConf3.queryObj.projectName = $scope.params.projectName;
-            $scope.paginationConf3.queryObj.wf_state = $scope.params.wf_state;
+    // 查询项目看板已完成的项目
+    $scope.getProjectList3 = function(){
+        if($scope.paginationConf3.queryObj == null || $scope.paginationConf3.queryObj == ''){
+            $scope.paginationConf3.queryObj = {};
         }
+
+        if ($scope.projectName != null && $scope.projectName != ''){
+            var projectName = $filter('decodeURI')($scope.projectName,"VALUE");
+            $scope.paginationConf3.queryObj.projectName = projectName;
+        }
+        $scope.paginationConf3.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf3.queryObj.stageList = ['6','7','9'];
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getBulletinProjectList.do",
+            url: srvUrl + "projectBoard/getProjectList.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf3),
                 "json":JSON.stringify($scope.paginationConf3.queryObj)
@@ -102,50 +108,13 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
         });
     };
 
-    // 查询逻辑
-    $scope.getProjectList = function (){
-        $scope.getPfrProjectList();
-        $scope.getPreProjectList();
-        $scope.getBulletinProjectList();
-        $("#publicProjectName").val('');
-    };
 
-     // 清除逻辑
-    $scope.cancel = function () {
-        if (!isEmpty($scope.params)) {
-            $scope.params.projectName = '';
-            $scope.params.wf_state = '';
-            $scope.getProjectList();
-        }
-    };
-
-    // 更多页面跳转逻辑
-    $scope.toMoreList = function (flag) {
-        if (isEmpty($scope.params)){
-            if (flag == 'pfr') {
-                $location.path("/pfrProjectBoardList/"+$filter('encodeURI')('#/projectBoardList/JTI1MjMlMkY='));
-            } else if (flag == 'pre') {
-                $location.path("/preProjectBoardList/"+$filter('encodeURI')('#/projectBoardList/JTI1MjMlMkY='));
-            } else {
-                $location.path("/bulletinProjectBoardList/"+$filter('encodeURI')('#/projectBoardList/JTI1MjMlMkY='));
-            }
-        } else {
-            if (flag == 'pfr') {
-                $location.path("/pfrProjectBoardList/"+ $filter('encodeURI')($scope.params.projectName) +  '/' +$filter('encodeURI')('#/projectBoardList/JTI1MjMlMkY='));
-            } else if (flag == 'pre') {
-                $location.path("/preProjectBoardList/"+ $filter('encodeURI')($scope.params.projectName) +  '/' +$filter('encodeURI')('#/projectBoardList/JTI1MjMlMkY='));
-            } else {
-                $location.path("/bulletinProjectBoardList/"+ $filter('encodeURI')($scope.params.projectName) +  '/' +$filter('encodeURI')('#/projectBoardList/JTI1MjMlMkY='));
-            }
-        }
-    };
 
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
-    $scope.$watch('paginationConf1.currentPage + paginationConf1.itemsPerPage', $scope.getPfrProjectList);
+    $scope.$watch('paginationConf1.currentPage + paginationConf1.itemsPerPage', $scope.getProjectList1);
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
-    $scope.$watch('paginationConf2.currentPage + paginationConf2.itemsPerPage', $scope.getPreProjectList);
+    $scope.$watch('paginationConf2.currentPage + paginationConf2.itemsPerPage', $scope.getProjectList2);
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
-    $scope.$watch('paginationConf3.currentPage + paginationConf3.itemsPerPage', $scope.getBulletinProjectList);
+    $scope.$watch('paginationConf3.currentPage + paginationConf3.itemsPerPage', $scope.getProjectList3);
 
-    $scope.initData();
 }]);
