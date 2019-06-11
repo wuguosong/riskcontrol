@@ -1,0 +1,85 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">正式评审-{{serviceTypeName}}{{areaName}}-{{stageName}}</span>
+	</div>
+	<div class="tab-content tab-content-bordered">
+		<div class="tab-pane active" id="bs-tabdrop-tab1">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div class="panel">
+					<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">正式评审<i class="i-triangle"></i></span></div></div>
+					<div class="panel-body">
+						<div class="form-group row">
+						</div>
+						<div class="form-group row nobottom-mar table-responsive table-list">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+								<thead>
+								<tr>
+									<th>序号</th>
+									<th>项目名称</th>
+									<th>所属大区</th>
+									<th>项目类型</th>
+									<th>评审状态</th>
+									<th>投资经理</th>	
+									<th>投资模式</th>							
+									<th>创建时间</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="p in formalAssessmentList" on-finish-render-filters>
+									<td>{{$index+1}}</td> <!-- 序号 -->
+									<td>
+										<!--<a ng-if="p.OLDDATA !='1'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalDeptWorkList/'+serviceTypeId+'/'+areaId+'/'+stages+'/'+oldUrl |encodeURI}}">{{p.PROJECTNAME}}
+										</a>
+										<a ng-if="p.OLDDATA =='1'" href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalDeptWorkList/'+serviceTypeId+'/'+areaId+'/'+stages+'/'+oldUrl |encodeURI}}">{{p.PROJECTNAME}}
+										</a>-->
+										<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/formalDeptWorkList/'+serviceTypeId+'/'+areaId+'/'+stages+'/'+oldUrl |encodeURI}}">{{p.PROJECTNAME}}
+										</a>
+									</td>
+									<td>
+										{{p.PERTAINAREANAME}} <!-- 所属大区 -->
+									</td>
+									<img ng-if="p.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
+									</td>
+									<td>{{p.mongoDate.apply.serviceType[0].VALUE}}</td> <!-- 项目类型 -->
+									<td>
+										<div ng-if="'0'== p.WF_STATE">起草中</div>
+										<div ng-if="'1'== p.WF_STATE">审批中</div>
+										<div ng-if="'2'== p.WF_STATE">已审批</div>
+										<div ng-if="'3'== p.WF_STATE">已终止</div>
+									</td>
+									<td>{{p.INVESTMENTNAME}}</td>  <!--投资经理  -->
+									<td>{{p.mongoDate.apply.projectModel[0].VALUE}}</td> <!-- 投资模式 -->
+									<td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td> <!-- 创建时间 -->
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="mypaginationConf"></tm-pagination>
+					</div>
+				</div>
+				<div class="button-group">
+					<div class="row">
+						<div class="option">
+							<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>
+<script>
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#formalApplyTime').datepicker(options);
+	});
+</script>

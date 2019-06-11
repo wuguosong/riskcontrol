@@ -2,12 +2,11 @@
 	<div class="header">
 		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" /> <span class="hd-title">正式评审</span>
 	</div>
-	
 	<!--  三个图 -->
 	<div class="row" style="margin: 10px; border: 1px solid #e6e8e9; border-radius: 5px">
 		<div class="p-nav">
-			<div class="p-header-fromal color_darkBlue panel-heading search-box">
-				<ul class="nav nav-tabs col-md-12 col-sm-12" style="border-bottom: 0" role="tablist" id="myTab">
+			<div class="p-header-fromal color_darkBlue ">
+				<ul class="nav nav-tabs" style="border-bottom: 0" role="tablist" id="myTab">
 					<li role="presentation" class="active col-md-2 col-sm-3"><a href="/#noCompleted" ng-click="qiehuanNoCompleted()" data-toggle="tab"> 跟进中 </a></li>
 					<li role="presentation" class="col-md-2 col-sm-3"><a href="/#completed" ng-click="qiehuanCompleted()" data-toggle="tab"> 已决策 </a></li>
 					<li class="col-md-8 col-sm-6" role="presentation"><a class="accordion-toggle collapse in" href="/#taskAssignment1" data-toggle="collapse"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
@@ -16,20 +15,20 @@
 		</div>
 		<div class="panel-body panel-collapse collapse in " id="taskAssignment1">
 			<div id="noCompleted">
-<!-- 				<div class="row"> -->
-<!-- 					 <button type="button" ng-click="exportTenderReportInfoWgh()" class="btn btn-info"> -->
-<!-- 						<i class="glyphicon glyphicon-export"></i>导出未过会台账 -->
-<!-- 					</button>  -->
-<!-- 				</div> -->
+				<!-- 				<div class="row"> -->
+				<!-- 					 <button type="button" ng-click="exportTenderReportInfoWgh()" class="btn btn-info"> -->
+				<!-- 						<i class="glyphicon glyphicon-export"></i>导出未过会台账 -->
+				<!-- 					</button>  -->
+				<!-- 				</div> -->
 				<table id = "wghTable" class="first-col-fixed table table-bordered table-light table-text-mid table-hd-center table-hover nobottom-mar" >
 				</table>
 			</div>
 			<div id="completed">
-<!-- 				<div class="row"> -->
-<!-- 					<button type="button" ng-click="exportTenderReportInfo()" class="btn btn-info"> -->
-<!-- 						<i class="glyphicon glyphicon-export"></i>导出已过会台账 -->
-<!-- 					</button>  -->
-<!-- 				</div> -->
+				<!-- 				<div class="row"> -->
+				<!-- 					<button type="button" ng-click="exportTenderReportInfo()" class="btn btn-info"> -->
+				<!-- 						<i class="glyphicon glyphicon-export"></i>导出已过会台账 -->
+				<!-- 					</button>  -->
+				<!-- 				</div> -->
 				<table id = "yghTable" class="first-col-fixed table table-bordered table-light table-text-mid table-hd-center table-hover nobottom-mar" >
 				</table>
 			</div>

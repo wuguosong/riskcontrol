@@ -2812,6 +2812,115 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            // 项目看板 - 正式评审列表（新）
+            .when('/pfrProjectBoardList/:url', {
+                controller: 'pfrProjectBoardList',
+                templateUrl: 'page/rcm/projectBoard/pfrProjectBoardList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/pfrProjectBoardList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 项目看板 - 投标评审列表（新）
+            .when('/preProjectBoardList/:url', {
+                controller: 'preProjectBoardList',
+                templateUrl: 'page/rcm/projectBoard/preProjectBoardList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/preProjectBoardList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 项目看板 - 其他评审列表（新）
+            .when('/bulletinProjectBoardList/:url', {
+                controller: 'bulletinProjectBoardList',
+                templateUrl: 'page/rcm/projectBoard/bulletinProjectBoardList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/bulletinProjectBoardList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 项目看板 - 正式评审列表（新）
+            .when('/pfrProjectBoardList/:projectName/:url', {
+                controller: 'pfrProjectBoardList',
+                templateUrl: 'page/rcm/projectBoard/pfrProjectBoardList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/pfrProjectBoardList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 项目看板 - 投标评审列表（新）
+            .when('/preProjectBoardList/:projectName/:url', {
+                controller: 'preProjectBoardList',
+                templateUrl: 'page/rcm/projectBoard/preProjectBoardList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/preProjectBoardList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+            // 项目看板 - 其他评审列表（新）
+            .when('/bulletinProjectBoardList/:projectName/:url', {
+                controller: 'bulletinProjectBoardList',
+                templateUrl: 'page/rcm/projectBoard/bulletinProjectBoardList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/bulletinProjectBoardList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
+
             // 资料填写面板（新）
             .when('/fillMaterialList/:tabIndex/:url', {
                 controller: 'fillMaterialList',
@@ -3513,7 +3622,59 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
-            /************************ 统计页面结束 ****************************/
+
+            //正式评审项目列表
+            .when('/formalDeptWorkList/:serviceTypeId/:areaId/:stages/:oldUrl',{
+                controller:'formalDeptWorkList',
+                templateUrl:'page/rcm/deptwork/formalDeptWorkList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/deptwork/formalDeptWorkList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            //投标评审项目列表
+            .when('/preDeptWorkList/:serviceTypeId/:areaId/:stages/:oldUrl',{
+                controller:'preDeptWorkList',
+                templateUrl:'page/rcm/deptwork/preDeptWorkList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/deptwork/preDeptWorkList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            //其他评审项目列表
+            .when('/bulletinDeptWorkList/:serviceTypeId/:areaId/:stages/:oldUrl',{
+                controller:'bulletinDeptWorkList',
+                templateUrl:'page/rcm/deptwork/bulletinDeptWorkList.html',
+                controllerAs:'model',
+                resolve:{
+                    resolver:['$q','$rootScope',function($q,$rootScope){
+                        var deferred = $q.defer();
+                        require(['page/rcm/deptwork/bulletinDeptWorkList.js?_v='+_version],function(){
+                            $rootScope.$apply(function(){
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+        /************************ 统计页面结束 ****************************/
     }
 ]);
 
