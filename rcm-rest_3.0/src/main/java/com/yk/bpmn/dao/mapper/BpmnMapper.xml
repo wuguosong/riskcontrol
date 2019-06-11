@@ -10,6 +10,7 @@ select '投标评审' typeName,'pre' project_type,p.businessid business_id,p.pro
 union 
 select '其他评审' typeName,'bulletin' project_type,b.businessid business_id,b.bulletinname project_name from rcm_bulletin_info b where b.auditstatus = '1'
 		) ta where 1 = 1
+		<if test="ORGNAME != null and ORGNAME != ''"> and ta.project_name like '%${ORGNAME}%'</if>
 		<if test="projectName != null and projectName != ''"> and ta.project_name like '%${projectName}%'</if>
 		<if test="PROJECT_NAME != null and PROJECT_NAME != ''"> and ta.project_name like '%${PROJECT_NAME}%'</if>
 	</select>
