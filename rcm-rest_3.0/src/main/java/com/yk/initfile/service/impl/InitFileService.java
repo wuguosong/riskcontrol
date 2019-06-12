@@ -590,14 +590,13 @@ public class InitFileService implements IInitFileService {
      */
     private List<MeetingFile> executeMeetingSynchronize(List<MeetingFile> meetingFiles, String dataTable) {
         if (CollectionUtils.isNotEmpty(meetingFiles)) {
-            Map<String, JSONObject> dataTableMap = this.createMainDataMap(dataTable);
             for (MeetingFile meetingFile : meetingFiles) {
                 List<JSONObject> files = meetingFile.getFiles();// 上会附件
                 if (CollectionUtils.isNotEmpty(files)) {
                     String id = meetingFile.getId();
-                    JSONObject dataJs = dataTableMap.get(id);
-                    if (dataJs != null) {
-                        Object attachmentListObj = dataJs.get(JsonField.attachmentList);// 附件列表
+                    Map<String, Object> dataMap = baseMongo.queryById(id, dataTable);
+                    if (dataMap != null) {
+                        Object attachmentListObj = dataMap.get(JsonField.attachmentList);// 附件列表
                         if (attachmentListObj != null) {
                             List<JSONObject> attachmentListJs = JSON.parseArray(JSON.toJSONString(attachmentListObj), JSONObject.class);
                             for (JSONObject attachment : attachmentListJs) {// 迭代附件列表
@@ -615,9 +614,11 @@ public class InitFileService implements IInitFileService {
                                     }
                                 }
                             }
-                            dataJs.put(JsonField.attachmentList, attachmentListJs);// 重新设置
-                            Map<String, Object> dataMap = JSON.parseObject(JSON.toJSONString(dataJs), HashMap.class);
-                            baseMongo.updateSetById(id, dataMap, dataTable);// 更新
+                            if (dataMap != null) {
+                                List<HashMap> attachmentListMap = JSON.parseArray(JSON.toJSONString(attachmentListJs), HashMap.class);
+                                dataMap.put(JsonField.attachmentList, attachmentListMap);
+                                baseMongo.updateSetByObjectId(id, dataMap, dataTable);// 更新
+                            }
                         }
                     }
                 }
