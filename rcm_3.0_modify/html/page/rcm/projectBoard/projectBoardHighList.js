@@ -66,6 +66,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
             $scope.paginationConf1.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf1.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf1.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf1.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf1.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
@@ -91,6 +93,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
             $scope.paginationConf2.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf2.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf2.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf2.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf2.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
@@ -116,6 +120,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
             $scope.paginationConf3.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf3.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf3.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf3.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf3.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
@@ -141,6 +147,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
             $scope.paginationConf4.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf4.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf4.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf4.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf4.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
@@ -171,6 +179,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
             $scope.params.legalReviewPersonName = '';
             $scope.params.pertainareaName = '';
             $scope.params.projectType = '';
+            $scope.params.applyDateEnd = '';
+            $scope.params.applyDateStart = '';
             $scope.getProjectList();
         }
     };

@@ -54,6 +54,8 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf1.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf1.queryObj.wf_state = $scope.params.wf_state;
             $scope.paginationConf1.queryObj.stage = $scope.params.stage;
+            $scope.paginationConf1.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf1.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
@@ -78,6 +80,8 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf2.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf2.queryObj.wf_state = $scope.params.wf_statee;
             $scope.paginationConf2.queryObj.stage = $scope.params.stage;
+            $scope.paginationConf2.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf2.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
@@ -102,6 +106,8 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf3.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf3.queryObj.wf_state = $scope.params.wf_state;
             $scope.paginationConf3.queryObj.stage = $scope.params.stage;
+            $scope.paginationConf3.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf3.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
@@ -133,7 +139,9 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.params.legalReviewPersonName = '';
             $scope.params.pertainareaName = '';
             $scope.params.stage = '';
-            $scope.params.wf_state = ''
+            $scope.params.wf_state = '';
+            $scope.params.applyDateEnd = '';
+            $scope.params.applyDateStart = '';
             $scope.getProjectList();
         }
     };

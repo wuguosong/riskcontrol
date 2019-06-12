@@ -69,8 +69,20 @@
             <div class="col-sm-4 col-md-3 sm-col">
                 <input type="text" name="LEGAL_REVIEW_PERSON_NAME" id="LEGAL_REVIEW_PERSON_NAME" ng-model="params.legalReviewPersonName" class="form-control ng-pristine ng-untouched ng-valid" />
             </div>
-            <div class="col-sm-4 col-md-4 sm-col"></div>
-            <div class="col-sm-12 col-md-2" style="right: -150px">
+            <label class="col-sm-2 col-md-1 control-label">申请时间（从）</label>
+            <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_START" name="APPLY_DATE_START" ng-model="params.applyDateStart" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">申请时间（至）</label>
+            <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_END" name="APPLY_DATE_END" ng-model="params.applyDateEnd" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 col-md-10 sm-col"></div>
+            <div class="col-sm-12 col-md-2" style="margin-right: 0px;">
                 <button class="btn btn-info" ng-click="getProjectList(params)">查询</button>
                 <button class="btn btn-info" ng-click="cancel()">清除</button>
             </div>
@@ -320,3 +332,14 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    /*===初始化查询开始时间和结束时间===*/
+    angular.element(document).ready(function () {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        };
+        $('#APPLY_DATE_START').datepicker();
+        $('#APPLY_DATE_END').datepicker(options);
+    });
+</script>
