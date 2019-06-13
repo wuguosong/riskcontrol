@@ -26,12 +26,12 @@
 								<div class="panel-body search-body" style="padding-top: 3px;">
 									<div class="col-sm-8 col-md-6 sm-col">
 										<ul id="myTab" class="nav nav-tabs bs-tabdrop-example">
-											<li class="{{tabIndex=='0'?'active':''}}"><a href="/#bs-tabdrop-tab1" data-toggle="tab">正式评审跟进中</a></li>
-											<li class="{{tabIndex=='1'?'active':''}}"><a href="/#bs-tabdrop-tab2" data-toggle="tab">正式评审已决策</a></li>
-											<li class="{{tabIndex=='2'?'active':''}}"><a href="/#bs-tabdrop-tab3" data-toggle="tab">投标评审跟进中</a></li>
-											<li class="{{tabIndex=='3'?'active':''}}"><a href="/#bs-tabdrop-tab4" data-toggle="tab">投标评审已决策</a></li>
-											<li class="{{tabIndex=='4'?'active':''}}"><a href="/#bs-tabdrop-tab5" data-toggle="tab">其他评审跟进中</a></li>
-											<li class="{{tabIndex=='5'?'active':''}}"><a href="/#bs-tabdrop-tab6" data-toggle="tab">其他评审已决策</a></li>
+											<li ng-click="clickIndex('0')" class="{{tabIndex=='0'?'active':''}}"><a href="/#bs-tabdrop-tab1" data-toggle="tab">正式评审跟进中</a></li>
+											<li ng-click="clickIndex('1')" class="{{tabIndex=='1'?'active':''}}"><a href="/#bs-tabdrop-tab2" data-toggle="tab">正式评审已决策</a></li>
+											<li ng-click="clickIndex('2')" class="{{tabIndex=='2'?'active':''}}"><a href="/#bs-tabdrop-tab3" data-toggle="tab">投标评审跟进中</a></li>
+											<li ng-click="clickIndex('3')" class="{{tabIndex=='3'?'active':''}}"><a href="/#bs-tabdrop-tab4" data-toggle="tab">投标评审已决策</a></li>
+											<li ng-click="clickIndex('4')" class="{{tabIndex=='4'?'active':''}}"><a href="/#bs-tabdrop-tab5" data-toggle="tab">其他评审跟进中</a></li>
+											<li ng-click="clickIndex('5')" class="{{tabIndex=='5'?'active':''}}"><a href="/#bs-tabdrop-tab6" data-toggle="tab">其他评审已决策</a></li>
 										</ul>
 									</div>
 									<label class="col-sm-2 col-md-1 control-label">项目名称</label>
@@ -63,8 +63,9 @@
 
 													<td class="txc">{{$index+1}}</td>
 													<td>
-														<a ng-if="p.OLDDATA == '0'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/0' | encodeURI}}" >{{p.NAME}}</a>
-														<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/0' | encodeURI}}" >{{p.NAME}}</a>
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/0' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/0' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
@@ -96,8 +97,10 @@
 												<tr ng-repeat=" p in projectReport1">
 													<td class="txc">{{$index+1}}</td>
 													<td>
-														<a ng-if="p.OLDDATA == '0'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>
-														<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>
+														{{ tabIndex }}
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
@@ -130,8 +133,9 @@
 												<tr ng-repeat=" p in projectReport2">
 													<td class="txc">{{$index+1}}</td>
 													<td>
-														<a ng-if="p.OLDDATA == '0'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/2' | encodeURI}}" >{{p.NAME}}</a>
-														<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/2' | encodeURI}}" >{{p.NAME}}</a>
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/2' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/2' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
@@ -163,8 +167,9 @@
 												<tr ng-repeat=" p in projectReport3">
 													<td class="txc">{{$index+1}}</td>
 													<td>
-														<a ng-if="p.OLDDATA == '0'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/3' | encodeURI}}" >{{p.NAME}}</a>
-														<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/3' | encodeURI}}" >{{p.NAME}}</a>
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/3' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/3' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
@@ -195,7 +200,10 @@
 												<tbody class="valign-middle">
 												<tr ng-repeat=" p in projectReport4">
 													<td class="txc">{{$index+1}}</td>
-													<td><a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/4' | encodeURI}}" >{{p.NAME}}</a></td>
+													<td>
+														<!--<a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/4' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
@@ -225,7 +233,10 @@
 												<tbody class="valign-middle">
 												<tr ng-repeat=" p in projectReport5">
 													<td class="txc">{{$index+1}}</td>
-													<td><a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/5' | encodeURI}}" >{{p.NAME}}</a></td>
+													<td>
+														<!--<a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/5' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>

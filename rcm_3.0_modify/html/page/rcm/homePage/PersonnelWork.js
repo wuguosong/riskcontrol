@@ -214,5 +214,10 @@ ctmApp.register.controller('PersonnelWork', ['$http','$scope','$location','$rout
     $scope.$watch('paginationConf3.currentPage + paginationConf3.itemsPerPage', $scope.getPreNoticed);
     $scope.$watch('paginationConf4.currentPage + paginationConf4.itemsPerPage', $scope.getBulletinGoing);
     $scope.$watch('paginationConf5.currentPage + paginationConf5.itemsPerPage', $scope.getBulletinNoticed);
+
+    $scope.clickIndex = function(index){
+        $scope.tabIndex = index;
+    }
+
     
 }]);
