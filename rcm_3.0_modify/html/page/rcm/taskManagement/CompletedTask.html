@@ -60,12 +60,12 @@
 								<tr ng-repeat="t in tasks">
 									<td>{{$index+1}}</td>
 									<td>
-										<a ng-if="t.TYPE_ == 'preAssessment'" ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3">{{t.SUBJECT}}</a>
-										<a ng-if="t.TYPE_ == 'formalAssessment'" ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3">{{t.SUBJECT}}</a>
-										<a ng-if="t.TYPE_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}">{{t.SUBJECT}}</a>
-										<a ng-if="t.TYPE_ == 'noticeOfDecision'" ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3">{{t.SUBJECT}}</a>
-										<a ng-if="t.TYPE_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}">{{t.SUBJECT}}</a>
-										<a ng-if="t.TYPE_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}">{{t.SUBJECT}}</a>
+										<a ng-if="t.TYPE_ == 'preAssessment'" ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'formalAssessment'" ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'noticeOfDecision'" ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
 									</td>
 									<td>{{t.TYPE_TEXT}}</td>
 									<td>{{t.PHASE}}</td>

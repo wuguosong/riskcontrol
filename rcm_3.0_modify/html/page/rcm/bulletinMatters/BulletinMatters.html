@@ -95,7 +95,7 @@
                                     </td>
                                     <td>{{$index+1}}</td>
                                     <td>
-                                        <a href="#/BulletinMattersDetailView/{{p.BUSINESSID}}/{{'#/BulletinMatters/0'|encodeURI}}">{{p.BULLETINNAME}}</a>
+                                        <a href="#/BulletinMattersDetailView/{{p.BUSINESSID}}/{{'#/BulletinMatters/0'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
                                     </td>
                                     <td>{{p.APPLYUNITNAME}}</td>
                                     <td>{{p.UNITPERSONNAME}}</td>
@@ -174,7 +174,7 @@
                                 <!-- 										</td> -->
                                 <td>{{$index+1}}</td>
                                 <td>
-                                    <a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/BulletinMatters/1'|encodeURI}}">{{p.BULLETINNAME}}</a>
+                                    <a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/BulletinMatters/1'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
                                 </td>
                                 <td>{{p.BULLETINTYPENAME}}</td>
                                 <td>{{p.APPLYUNITNAME}}</td>

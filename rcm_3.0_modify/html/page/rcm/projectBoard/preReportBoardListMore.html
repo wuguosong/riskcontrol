@@ -62,10 +62,10 @@
 								<tr ng-repeat="p in moreList track by $index" on-finish-render-filters>
 									<td>{{$index+1}}</td>
 									<td>
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/preReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/preReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/preReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/preReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}

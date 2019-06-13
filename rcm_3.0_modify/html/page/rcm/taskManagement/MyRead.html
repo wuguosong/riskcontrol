@@ -58,9 +58,9 @@
                                 <tr ng-repeat="t in MyReadPage">
                                     <td>{{$index+1}}</td>
                                     <td>
-                                        <a ng-if="t.FORM_KEY_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                        <a ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/OverTask/'+oldUrl|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>

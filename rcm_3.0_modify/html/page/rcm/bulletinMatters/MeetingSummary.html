@@ -73,7 +73,7 @@
 											</label>
 										</td>
 										<td>{{$index+1}}</td>
-										<td><a href="#/BulletinMattersDetailView/{{p.BUSINESSID}}/{{'#/MeetingSummary/0'|encodeURI}}">{{p.BULLETINNAME}}</a></td>
+										<td><a href="#/BulletinMattersDetailView/{{p.BUSINESSID}}/{{'#/MeetingSummary/0'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a></td>
 										<td>{{p.APPLYUNITNAME}}</td>
 										<td>{{p.UNITPERSONNAME}}</td>
 										<td>{{p.APPLYUSERNAME}}</td>
@@ -139,7 +139,7 @@
 									<tbody>
 									<tr ng-repeat="p in applyedBulletins">
 										<td>{{$index+1}}</td>
-										<td><a href="#/BulletinMattersDetailView/{{p.BUSINESSID}}/{{'#/MeetingSummary/1'|encodeURI}}">{{p.BULLETINNAME}}</a></td>
+										<td><a href="#/BulletinMattersDetailView/{{p.BUSINESSID}}/{{'#/MeetingSummary/1'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a></td>
 										<td>{{p.BULLETINTYPENAME}}</td>
 										<td>{{p.APPLYUNITNAME}}</td>
 										<td>{{p.UNITPERSONNAME}}</td>

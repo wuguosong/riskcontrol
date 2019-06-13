@@ -65,10 +65,10 @@
 									<th>{{$index+1}}</th>
 									<td>
 <!--  										<a href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/0'|encodeURI}}">{{p.PROJECTNAME}}</a>  -->
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/0'|encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/0'|encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/0'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/0'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -108,10 +108,10 @@
 								<td>{{$index+1}}</td>
 									<td>
 <!--  										<a href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/1'|encodeURI}}">{{p.PROJECTNAME}}</a>  -->
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/1'|encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/1'|encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/1'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/1'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -153,10 +153,10 @@
 								<td>{{$index+1}}</td>
 									<td>
 <!--  										<a href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/2'|encodeURI}}">{{p.PROJECTNAME}}</a>  -->
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/2'|encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/2'|encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/2'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/2'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -200,10 +200,10 @@
 								<td>{{$index+1}}</td>
 									<td>
 <!--  										<a href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/3'|encodeURI}}">{{p.PROJECTNAME}}</a>  -->
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/3'|encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/3'|encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/3'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/3'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -246,10 +246,10 @@
 								<tr ng-repeat=" p in overMeetingList">
 								<td>{{$index+1}}</td>
 									<td>
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/4'|encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/4'|encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/4'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/4'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -292,10 +292,10 @@
 								<tr ng-repeat=" p in decisionList">
 								<td>{{$index+1}}</td>
 									<td>
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/5'|encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/5'|encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/5'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/5'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -338,10 +338,10 @@
 								<tr ng-repeat=" p in endList">
 								<td>{{$index+1}}</td>
 									<td>
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/6'|encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/6'|encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/6'|encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/6'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -427,10 +427,10 @@
 							<tr ng-repeat="p in allList track by $index" on-finish-render-filters>
 								<td>{{$index+1}}</td>
 								<td>
-									<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/0'+oldUrl |encodeURI}}">
-										{{p.PROJECTNAME}}
+									<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardList/0'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">
+										{{p.PROJECTNAME|projectNameFilter:32}}
 									</a>
-									<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/0'+oldUrl |encodeURI}}">{{p.PROJECTNAME}}</a>
+									<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardList/0'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 								</td>
 								<td>
 									{{p.PERTAINAREANAME}}

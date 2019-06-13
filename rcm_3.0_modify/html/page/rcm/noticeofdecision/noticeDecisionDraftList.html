@@ -127,7 +127,7 @@
 											<td>{{$index+1}}
 											</td>
 											<td>
-												<a href="#/NoticeDecisionDraftDetailView/toSubmit/{{p.BUSINESSID}}/{{'#/NoticeDecisionDraftList/0'|encodeURI}}">{{p.PROJECTNAME}}</a>
+												<a href="#/NoticeDecisionDraftDetailView/toSubmit/{{p.BUSINESSID}}/{{'#/NoticeDecisionDraftList/0'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 												<img ng-if="p.ISURGENT==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
 											</td>
 											<td>{{p.PERTAINAREANAME}}</td>
@@ -199,7 +199,7 @@
 											<td>{{$index+1}}
 											</td>
 											<td>
-												<a href="#/NoticeDecisionDraftDetailView/submitted/{{p.BUSINESSID}}/{{'#/NoticeDecisionDraftList/1'|encodeURI}}">{{p.PROJECTNAME}}</a>
+												<a href="#/NoticeDecisionDraftDetailView/submitted/{{p.BUSINESSID}}/{{'#/NoticeDecisionDraftList/1'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 												<img ng-if="p.ISURGENT==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
 											</td>
 											<td>{{p.PERTAINAREANAME}}</td>
@@ -276,7 +276,7 @@
 											<td>{{$index+1}}
 											</td>
 											<td>
-												<a href="#/NoticeDecisionDraftDetailView/submitted/{{p.BUSINESSID}}/{{'#/NoticeDecisionDraftList/2'|encodeURI}}">{{p.PROJECTNAME}}</a>
+												<a href="#/NoticeDecisionDraftDetailView/submitted/{{p.BUSINESSID}}/{{'#/NoticeDecisionDraftList/2'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 												<img ng-if="p.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
 											</td>
 											<td>{{p.PERTAINAREANAME}}</td>

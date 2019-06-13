@@ -92,7 +92,7 @@
 									</label>
 								</td>-->
 								<td>{{$index+1}}</td>
-								<td><a href="#/AuctionResultFeedback/View/{{p._id}}/{{'#/FeedbackList'|encodeURI}}">{{p.projectName}}</a></td>
+								<td><a href="#/AuctionResultFeedback/View/{{p._id}}/{{'#/FeedbackList'|encodeURI}}" title="{{p.projectName}}">{{p.projectName|projectNameFilter:32}}</a></td>
 								<td>{{p.tenderResults}}</td>
 								<td>{{p.projectOpentime}}</td>
 								<td>{{p.create_name}}</td>

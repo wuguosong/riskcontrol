@@ -61,7 +61,7 @@
 								<tbody>
 								<tr ng-repeat="p in moreList track by $index" on-finish-render-filters>
 									<td>{{$index+1}}</td>
-									<td><a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}">{{p.BULLETINNAME}}</a></td>
+									<td><a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a></td>
 									<td>
 										{{p.PERTAINAREANAME}}
 									<img ng-if="p.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>

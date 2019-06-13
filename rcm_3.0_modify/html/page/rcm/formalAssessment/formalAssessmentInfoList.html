@@ -104,7 +104,7 @@
                                     </td>
                                     <td>{{$index+1}}</td> <!-- 序号 -->
                                     <td>
-                                        <a href="#/FormalAssessmentDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentInfoList/0'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a href="#/FormalAssessmentDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentInfoList/0'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
                                         <!-- 项目名称 -->
                                     <td>
                                         {{p.PERTAINAREANAME}} <!-- 所属大区 -->
@@ -209,11 +209,11 @@
                                     <td>{{$index+1}}</td>
                                     <td>
                                         <a ng-if="p.OLDDATA !='1'"
-                                           href="#/FormalAssessmentDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentInfoList/1'|encodeURI}}">
-                                            {{p.PROJECTNAME}}
+                                           href="#/FormalAssessmentDetailView/{{p.BUSINESSID}}/{{'#/FormalAssessmentInfoList/1'|encodeURI}}" title="{{p.PROJECTNAME}}">
+                                            {{p.PROJECTNAME|projectNameFilter:32}}
                                         </a>
-                                        <a ng-if="p.OLDDATA =='1'" href="#/{{p.OLDURL}}10">
-                                            {{p.PROJECTNAME}}
+                                        <a ng-if="p.OLDDATA =='1'" href="#/{{p.OLDURL}}10" title="{{p.PROJECTNAME}}">
+                                            {{p.PROJECTNAME|projectNameFilter:32}}
                                         </a>
                                     <td>
                                         {{p.PERTAINAREANAME}}  <!-- 所属大区 -->

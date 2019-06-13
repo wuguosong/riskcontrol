@@ -88,7 +88,7 @@
 												<td>{{$index+1}}</td>
 												<td>
 													<a href="#/PreBiddingInfo/{{p.BUSINESSID}}@2/{{'#/PreBiddingInfoList/0'|encodeURI}}/0"
-														title="项目名称"> {{p.PROJECTNAME}}</a> 
+													   title="{{p.PROJECTNAME}}"> {{p.PROJECTNAME|projectNameFilter:32}}</a>
 													<img ng-if="p.ISURGENT==1"
 														src="assets/images/icons/urgent.png" width="20" height="20"
 														alt="" title="" class="urgent-sign" />
@@ -166,7 +166,7 @@
 										<td>{{$index+1}}</td>
 										<td>
 											<a href="#/PreBiddingInfoView/{{p.BUSINESSID}}@view/{{'#/PreBiddingInfoList/1'|encodeURI}}"
-												title=""> {{p.PROJECTNAME}}</a>
+												title="{{p.PROJECTNAME}}"> {{p.PROJECTNAME|projectNameFilter:32}}</a>
 										</td>
 										<td>{{p.CREATEBY}}</td>
 										<td>{{p.REVIEWPERSONNAME}}</td>

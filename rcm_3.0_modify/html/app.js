@@ -569,6 +569,26 @@ ctmApp.filter('contentEllipsisFilter', function () {
         return _newContent;
     };
 });
+ctmApp.filter('projectNameFilter', function () {
+    return function (_content, _length) {
+        if(isEmpty(_length)){
+            _length = 18;
+        }else{
+            if(_length <= 0){
+                _length = 18;
+            }
+        }
+        var _newContent = '';
+        if (!isEmpty(_content)) {
+            if (_content.length > _length) {
+                _newContent += _content.substr(0, _length) + '...';
+            } else {
+                _newContent += _content;
+            }
+        }
+        return _newContent;
+    };
+});
 ctmApp.service('DirPipeSrv', ['$rootScope', function ($rootScope) {
     var service = {
         /*设置相关信息，留言指令调用*/

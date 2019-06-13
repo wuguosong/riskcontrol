@@ -59,9 +59,9 @@
                                 <tr ng-repeat="t in MyReadingPage">
                                     <td>{{$index+1}}</td>
                                     <td>
-                                        <a ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)" ng-if="t.FORM_KEY_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)" ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
-                                        <a ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)" ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}">{{t.SUBJECT}}</a>
+                                        <a ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)" ng-if="t.FORM_KEY_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                        <a ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)" ng-if="t.FORM_KEY_ == 'preReview'" ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                        <a ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)" ng-if="t.FORM_KEY_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/MyTask/'+oldUrl |encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>

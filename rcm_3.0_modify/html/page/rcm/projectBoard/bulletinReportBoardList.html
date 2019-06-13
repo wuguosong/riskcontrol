@@ -60,7 +60,7 @@
 									<th>{{$index+1}}</th>
 									<td>
 										<!-- <a ng-if="'0' == p.WF_STATE" href="#/BulletinMattersDetailView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/0'|encodeURI}}">{{p.BULLETINNAME}}</a> -->
-										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/0'|encodeURI}}">{{p.BULLETINNAME}}</a>
+										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/0'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -99,7 +99,7 @@
 								<tr ng-repeat=" p in taskList">
 									<td>{{$index+1}}</td>
 									<td>
-										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/1'|encodeURI}}">{{p.BULLETINNAME}}</a>
+										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/1'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>{{p.PERTAINAREANAME}}
 									<img ng-if="p.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
@@ -139,7 +139,7 @@
 								<tr ng-repeat=" p in meetingList">
 								<td>{{$index+1}}</td>
 									<td>
-										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/2'|encodeURI}}">{{p.BULLETINNAME}}</a>
+										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/2'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -182,7 +182,7 @@
 								<tr ng-repeat=" p in overMeetingList">
 								<td>{{$index+1}}</td>
 									<td>
-										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/3'|encodeURI}}">{{p.BULLETINNAME}}</a>
+										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/3'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -225,7 +225,7 @@
 								<tr ng-repeat=" p in summaryList">
 								<td>{{$index+1}}</td>
 									<td>
-										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/4'|encodeURI}}">{{p.BULLETINNAME}}</a>
+										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/4'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -268,7 +268,7 @@
 								<tr ng-repeat=" p in endList">
 								<td>{{$index+1}}</td>
 									<td>
-										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/5'|encodeURI}}">{{p.BULLETINNAME}}</a>
+										<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/5'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}
@@ -354,7 +354,7 @@
 						<tr ng-repeat="p in allList track by $index" on-finish-render-filters>
 							<td>{{$index+1}}</td>
 							<td>
-								<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/0'|encodeURI}}">{{p.BULLETINNAME}}</a>
+								<a href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/bulletinReportBoardList/0'|encodeURI}}" title="{{p.BULLETINNAME}}">{{p.BULLETINNAME|projectNameFilter:32}}</a>
 							</td>
 							<td>
 								{{p.PERTAINAREANAME}}

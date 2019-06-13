@@ -67,7 +67,7 @@
 										</td>
 										<td>{{$index+1}}</td>
 										<!--<td><a href="#/PreMeetingInfoCreate/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/0'|encodeURI}}">{{p.PROJECTNAME}}</a></td>-->
-										<td><a href="#/ConferenceInformationCreate/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/0'|encodeURI}}/0">{{p.PROJECTNAME}}</a></td>
+										<td><a href="#/ConferenceInformationCreate/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/0'|encodeURI}}/0" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a></td>
 										<td>{{p.PERTAINAREANAME}}</td>
 										<td>{{p.INVESTMENTNAME}}</td>
 										<td>{{p.REVIEWPERSONNAME}}</td>
@@ -125,7 +125,7 @@
 										<td>{{$index+1}}</td>
 										<td>
 											<!--<a href="#/PreMeetingInfoDetailView/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/1'|encodeURI}}">{{p.PROJECTNAME}}</a></td>-->
-											<a href="#/ConferenceInformationDetailView/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/1'|encodeURI}}/0">{{p.PROJECTNAME}}</a></td>
+											<a href="#/ConferenceInformationDetailView/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/1'|encodeURI}}/0" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a></td>
 										<td>{{p.PERTAINAREANAME}}</td>
 										<td>{{p.INVESTMENTNAME}}</td>
 										<td>{{p.REVIEWPERSONNAME}}</td>
@@ -182,7 +182,7 @@
 									<tr ng-repeat="p in needMeeting" on-finish-render-filters>
 										<td>{{$index+1}}</td>
 										<td>
-											<a href="#/PreAuditDetailView/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/2'|encodeURI}}">{{p.PROJECTNAME}} </a>
+											<a href="#/PreAuditDetailView/{{p.BUSINESSID}}/{{'#/PreMeetingInfoList/2'|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}} </a>
 										</td>
 										<td>{{p.PERTAINAREANAME}}</td>
 										<td>{{p.INVESTMENTNAME}}</td>

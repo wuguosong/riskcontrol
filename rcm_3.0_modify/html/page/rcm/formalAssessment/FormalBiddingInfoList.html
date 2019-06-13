@@ -90,7 +90,7 @@
 												<td>{{$index+1}}</td>
 												<td>
 													<a href="#/FormalBiddingInfo/{{p.BUSINESSID}}@2/{{'#/FormalBiddingInfoList/0'|encodeURI}}/0"
-														title="项目名称"> {{p.PROJECTNAME}}</a> 
+													   title="{{p.PROJECTNAME}}"> {{p.PROJECTNAME|projectNameFilter:32}}</a>
 													<img ng-if="p.ISURGENT==1"
 														src="assets/images/icons/urgent.png" width="20" height="20"
 														alt="" title="" class="urgent-sign" />
@@ -167,7 +167,7 @@
 									<tr ng-repeat="p in submittedReport track by $index">
 										<td>{{$index+1}}</td>
 										<td>
-											<a ng-click="getInfo(p.BUSINESSID)">{{p.PROJECTNAME}}</a>
+											<a ng-click="getInfo(p.BUSINESSID)" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 											<!--<a href="#/FormalBiddingInfoPreview/{{p.BUSINESSID}}/{{'#/FormalBiddingInfoList/1'|encodeURI}}/3"
 												title=""> {{p.PROJECTNAME}}</a>-->
 										</td>

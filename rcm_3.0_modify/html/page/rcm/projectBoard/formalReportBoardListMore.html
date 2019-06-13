@@ -63,10 +63,10 @@
 									<td>{{$index+1}}</td>
 									<td>
 <!--  										<a href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl|encodeURI}}">{{p.PROJECTNAME}}</a>  -->
-										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}">
-											{{p.PROJECTNAME}}
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
 										</a>
-										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}">{{p.PROJECTNAME}}</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
 									</td>
 									<td>
 										{{p.PERTAINAREANAME}}

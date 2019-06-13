@@ -90,7 +90,7 @@
 												<td>{{$index+1}}</td>
 												<td><a
 													href="#/{{p.CONTROLLER_VAL}}View/{{p.BUSINESSID}}/{{'#/PreAuditReportList/0'|encodeURI}}"
-													title=""> {{p.PROJECTNAME}}</a> <img ng-if="p.ISURGENT==1"
+													title="{{p.PROJECTNAME}}"> {{p.PROJECTNAME|projectNameFilter:32}}</a> <img ng-if="p.ISURGENT==1"
 													src="assets/images/icons/urgent.png" width="20" height="20"
 													alt="" title="" class="urgent-sign" /></td>
 												<td>{{p.CREATEBY}}</td>
@@ -172,7 +172,7 @@
 											<td>{{$index+1}}</td>
 											<td><a
 												href="#/{{p.CONTROLLER_VAL}}View/{{p.BUSINESSID}}/{{'#/PreAuditReportList/1'|encodeURI}}"
-												title=""> {{p.PROJECTNAME}}</a></td>
+												title="{{p.PROJECTNAME}}"> {{p.PROJECTNAME|projectNameFilter:32}}</a></td>
 											<td>{{p.CREATEBY}}</td>
 											<td>{{p.REVIEWPERSONNAME}}</td>
 											<td>{{p.PERTAINAREANAME}}</td>

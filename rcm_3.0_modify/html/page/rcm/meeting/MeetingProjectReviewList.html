@@ -55,9 +55,9 @@
 								<!--<a ng-if="'pfr' == p.PROJECT_TYPE" href="#/projectInfoAllView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}">{{p.PROJECT_NAME}}</a>
 								<a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/projectBulletinInfoAllView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}">{{p.PROJECT_NAME}}</a>
 								<a ng-if="'pre' == p.PROJECT_TYPE" href="#/PreBiddingInfoMeetingReview/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}">{{p.PROJECT_NAME}}</a>-->
-									<a ng-if="'pfr' == p.PROJECT_TYPE" href="#/projectInfoAllBoardView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}">{{p.PROJECT_NAME}}</a>
-									<a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/projectBulletinInfoAllBoardView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}">{{p.PROJECT_NAME}}</a>
-									<a ng-if="'pre' == p.PROJECT_TYPE" href="#/projectPreInfoAllBoardView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}">{{p.PROJECT_NAME}}</a>
+									<a ng-if="'pfr' == p.PROJECT_TYPE" href="#/projectInfoAllBoardView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:32}}</a>
+									<a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/projectBulletinInfoAllBoardView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:32}}</a>
+									<a ng-if="'pre' == p.PROJECT_TYPE" href="#/projectPreInfoAllBoardView/{{p.BUSINESS_ID}}/{{'#'+oldUrl|encodeURI}}" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:32}}</a>
 								</td>
 								<td>
                                 	<font ng-if="'pfr' == p.PROJECT_TYPE">正式评审</font>

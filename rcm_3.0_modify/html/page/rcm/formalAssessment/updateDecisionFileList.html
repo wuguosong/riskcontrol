@@ -76,11 +76,11 @@
 										<tr ng-repeat="p in pfrList ">
 											<td>{{$index+1}}</td>
 											<td>
-												<a ng-if="p.PROJECT_TYPE == 'pfr'" href="#/formalBiddingFileInfo/{{p.BUSINESS_ID}}@2/{{'#/updateDecisionFileList'|encodeURI}}" title="项目名称"> {{p.PNAME}}</a> 
+												<a ng-if="p.PROJECT_TYPE == 'pfr'" href="#/formalBiddingFileInfo/{{p.BUSINESS_ID}}@2/{{'#/updateDecisionFileList'|encodeURI}}" title="{{p.PNAME}}"> {{p.PNAME|projectNameFilter:32}}</a>
 												<img ng-if="p.ISURGENT==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign" />
-												<a ng-if="p.PROJECT_TYPE == 'pre'" href="#/preBiddingFileInfo/{{p.BUSINESS_ID}}@2/{{'#/updateDecisionFileList'|encodeURI}}" title="项目名称"> {{p.PNAME}}</a> 
+												<a ng-if="p.PROJECT_TYPE == 'pre'" href="#/preBiddingFileInfo/{{p.BUSINESS_ID}}@2/{{'#/updateDecisionFileList'|encodeURI}}" title="{{p.PNAME}}"> {{p.PNAME|projectNameFilter:32}}</a>
 												<img ng-if="p.ISURGENT==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign" />
-												<a ng-if="p.PROJECT_TYPE == 'bulletin'" href="#/bulletinReviewFileDetail/{{p.BUSINESS_ID}}/{{'#/updateDecisionFileList'|encodeURI}}" title="项目名称"> {{p.PNAME}}</a> 
+												<a ng-if="p.PROJECT_TYPE == 'bulletin'" href="#/bulletinReviewFileDetail/{{p.BUSINESS_ID}}/{{'#/updateDecisionFileList'|encodeURI}}" title="{{p.PNAME}}"> {{p.PNAME|projectNameFilter:32}}</a>
 												<img ng-if="p.ISURGENT==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign" />
 											</td>
 											<td>{{p.PROJECTTYPE}}</td>

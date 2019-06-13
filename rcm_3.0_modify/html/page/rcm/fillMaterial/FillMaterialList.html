@@ -69,11 +69,11 @@
                                             </td>
                                             <td>
                                                 <a ng-if="'pfr' == noSubmit.PROJECT_TYPE"
-                                                   ng-href="#/FormalAssessmentAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
+                                                   ng-href="#/FormalAssessmentAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME|projectNameFilter:18}}</a>
                                                 <a ng-if="'pre' == noSubmit.PROJECT_TYPE"
-                                                   ng-href="#/PreAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
+                                                   ng-href="#/PreAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME | projectNameFilter:18}}</a>
                                                 <a ng-if="'bulletin' == noSubmit.PROJECT_TYPE"
-                                                   ng-href="#/BulletinMattersAuditView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}">{{ noSubmit.PROJECTNAME }}</a>
+                                                   ng-href="#/BulletinMattersAuditView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME | projectNameFilter:18}}</a>
                                             </td>
                                             <td ng-if="'pfr' == noSubmit.PROJECT_TYPE">
                                                 正式评审
@@ -331,11 +331,11 @@
                                             </td>
                                             <td>
                                                 <a ng-if="'pfr' == submit.PROJECT_TYPE"
-                                                   ng-href="#/projectInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}">{{ submit.PROJECTNAME }}</a>
+                                                   ng-href="#/projectInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:18}}</a>
                                                 <a ng-if="'pre' == submit.PROJECT_TYPE"
-                                                   ng-href="#/projectPreInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}">{{ submit.PROJECTNAME }}</a>
+                                                   ng-href="#/projectPreInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:18 }}</a>
                                                 <a ng-if="'bulletin' == submit.PROJECT_TYPE"
-                                                   ng-href="#/projectBulletinInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}">{{ submit.PROJECTNAME }}</a>
+                                                   ng-href="#/projectBulletinInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:18 }}</a>
                                             </td>
                                             <td ng-if="'pfr' == submit.PROJECT_TYPE">
                                                 正式评审
