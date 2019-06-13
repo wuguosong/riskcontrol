@@ -548,10 +548,10 @@ ctmApp.filter('decodeURI', function () {
 });
 ctmApp.filter('textToHtml', function ($sce) {
     return function (text) {
-        return $sce.trustAsHtml(text);
+        return $sce.trustAsHtml(htmlTagReg(text));
     }
 });
-ctmApp.filter('htmlToText', function ($sce) {
+ctmApp.filter('htmlToText', function () {
     return function (text) {
         return htmlToText(text);
     }
@@ -571,10 +571,10 @@ ctmApp.filter('contentEllipsisFilter', function () {
 });
 ctmApp.filter('projectNameFilter', function () {
     return function (_content, _length) {
-        if(isEmpty(_length)){
+        if (isEmpty(_length)) {
             _length = 18;
-        }else{
-            if(_length <= 0){
+        } else {
+            if (_length <= 0) {
                 _length = 18;
             }
         }
@@ -591,10 +591,10 @@ ctmApp.filter('projectNameFilter', function () {
 });
 ctmApp.filter('projectTimeFilter', function () {
     return function (_content, _length) {
-        if(isEmpty(_length)){
+        if (isEmpty(_length)) {
             _length = 18;
-        }else{
-            if(_length <= 0){
+        } else {
+            if (_length <= 0) {
                 _length = 18;
             }
         }
@@ -1772,4 +1772,46 @@ function validateNotifyShowAuthority(processKey, businessKey) {
         }
     }
     return false;
+}
+
+/**
+ * html定制更改特定标签
+ * @param text
+ * @returns {*}
+ */
+function htmlTagReg(text) {
+    if (isEmpty(text)) {
+        return text;
+    }
+    // console.log("转换前：==================\n" + text);
+    // html
+    text = text.replace(/(h1|h2|h3|h4|h5|h6|strong|pre|font)(.*?)/gi, 'span');
+    // 样式
+    var styleReg = /style="[^=>]*"([(\s+\w+=)|>])/g;
+    text = text.replace(styleReg, 'style="color:black;font-size:16px;" $1');
+    // 类
+    var classReg = /class="[^=>]*"([(\s+\w+=)|>])/g;
+    text = text.replace(classReg, '$1');
+    // 超链接
+    var hrefReg = /href="[^=>]*"([(\s+\w+=)|>])/g;
+    text = text.replace(hrefReg, '$1');
+    // word
+    var faceReg = /face="[^=>]*"([(\s+\w+=)|>])/g;
+    text = text.replace(faceReg, 'style="color:black;font-size:16px;" $1');
+    // 加粗
+    text = text.replace(/<b>/gi, '<span style="color:black;font-size:16px;">');
+    text = text.replace(/<\/b>/gi, '</span>');
+    // 斜体
+    text = text.replace(/<i>/gi, '<span style="color:black;font-size:16px;">');
+    text = text.replace(/<\/i>/gi, '</span>');
+    // 下划线
+    text = text.replace(/<u>/gi, '<span style="color:black;font-size:16px;">');
+    text = text.replace(/<\/u>/gi, '</span>');
+    // 删除线
+    text = text.replace(/<s>/gi, '<span style="color:black;font-size:16px;">');
+    text = text.replace(/<\/s>/gi, '</span>');
+    // <o:p></o:p>
+    text = text.replace(/<o:p><\/o:p>/gi, '');
+    // console.log("转换后：==================\n" + text);
+    return text;
 }
