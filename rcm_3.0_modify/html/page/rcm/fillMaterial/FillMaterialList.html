@@ -52,28 +52,28 @@
                                     <table class="table table-hover maintable">
                                         <thead>
                                         <tr>
-                                            <th width="5%">序号</th>
-                                            <th width="10%">项目名称</th>
+                                            <th style="text-align: center" width="5%">序号</th>
+                                            <th style="text-align: center" width="40%">项目名称</th>
                                             <th width="10%">评审类型</th>
-                                            <th width="10%">所属大区</th>
-                                            <th width="15%">投资经理</th>
-                                            <th width="5%">申请时间</th>
+                                            <th width="15%">所属大区</th>
+                                            <th width="10%">投资经理</th>
+                                            <th width="10%">申请时间</th>
                                             <!--<th width="5%">审批状态</th>-->
-                                            <th width="5%">评审状态</th>
+                                            <th width="10%">评审状态</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="noSubmit in noSubmitList">
-                                            <td>
+                                            <td style="text-align: center">
                                                 {{ $index + 1 }}
                                             </td>
                                             <td>
                                                 <a ng-if="'pfr' == noSubmit.PROJECT_TYPE"
-                                                   ng-href="#/FormalAssessmentAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME|projectNameFilter:18}}</a>
+                                                   ng-href="#/FormalAssessmentAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME|projectNameFilter:32}}</a>
                                                 <a ng-if="'pre' == noSubmit.PROJECT_TYPE"
-                                                   ng-href="#/PreAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME | projectNameFilter:18}}</a>
+                                                   ng-href="#/PreAuditDetailView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME | projectNameFilter:32}}</a>
                                                 <a ng-if="'bulletin' == noSubmit.PROJECT_TYPE"
-                                                   ng-href="#/BulletinMattersAuditView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME | projectNameFilter:18}}</a>
+                                                   ng-href="#/BulletinMattersAuditView/{{noSubmit.BUSINESSID}}/{{'#/fillMaterialList/0/JTI1MjMlMkY='|encodeURI}}" title="{{ noSubmit.PROJECTNAME }}">{{ noSubmit.PROJECTNAME | projectNameFilter:32}}</a>
                                             </td>
                                             <td ng-if="'pfr' == noSubmit.PROJECT_TYPE">
                                                 正式评审
@@ -91,7 +91,7 @@
                                                 {{ noSubmit.INVESTMENTNAME }}
                                             </td>
                                             <td>
-                                                {{ noSubmit.APPLY_DATE }}
+                                                {{ noSubmit.APPLY_DATE|projectTimeFilter: 10 }}
                                             </td>
                                             <!--<td ng-if="'1'== noSubmit.STAGE">申请阶段</td>-->
                                             <!--<td ng-if="'2'== noSubmit.STAGE">任务分配</td>-->
@@ -111,7 +111,7 @@
                                 <table class="table table-hover lefttable" style="width: 23%">
                                     <thead>
                                     <tr>
-                                        <th class="fixedth">填写评审资料</th>
+                                        <th style="text-align: center" class="fixedth">填写评审资料</th>
                                     </tr>
 
                                     </thead>
@@ -314,28 +314,28 @@
                                     <table class="table table-hover maintable">
                                         <thead>
                                         <tr>
-                                            <th width="5%">序号</th>
-                                            <th width="10%">项目名称</th>
+                                            <th style="text-align: center" width="5%">序号</th>
+                                            <th style="text-align: center" width="20%">项目名称</th>
                                             <th width="10%">评审类型</th>
                                             <th width="10%">所属大区</th>
-                                            <th width="15%">投资经理</th>
-                                            <th width="5%">申请时间</th>
-                                            <th width="5%">审批状态</th>
-                                            <th width="5%">评审状态</th>
+                                            <th width="10%">投资经理</th>
+                                            <th width="10%">申请时间</th>
+                                            <th width="10%">审批状态</th>
+                                            <th width="10%">评审状态</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="submit in submitList">
-                                            <td>
+                                            <td style="text-align: center">
                                                 {{ $index + 1 }}
                                             </td>
                                             <td>
                                                 <a ng-if="'pfr' == submit.PROJECT_TYPE"
-                                                   ng-href="#/projectInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:18}}</a>
+                                                   ng-href="#/projectInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:32}}</a>
                                                 <a ng-if="'pre' == submit.PROJECT_TYPE"
-                                                   ng-href="#/projectPreInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:18 }}</a>
+                                                   ng-href="#/projectPreInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:32 }}</a>
                                                 <a ng-if="'bulletin' == submit.PROJECT_TYPE"
-                                                   ng-href="#/projectBulletinInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:18 }}</a>
+                                                   ng-href="#/projectBulletinInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/fillMaterialList/1/JTI1MjMlMkY='|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:32 }}</a>
                                             </td>
                                             <td ng-if="'pfr' == submit.PROJECT_TYPE">
                                                 正式评审
@@ -347,28 +347,28 @@
                                                 其他评审
                                             </td>
                                             <td>
-                                                {{ submit.PERTAINAREANAME }}
+                                                <a style="color: black" title="{{submit.PERTAINAREANAME}}"> {{ submit.PERTAINAREANAME|projectNameFilter:8 }}</a>
                                             </td>
                                             <td>
                                                 {{ submit.INVESTMENTNAME }}
                                             </td>
                                             <td>
-                                                {{ submit.APPLY_DATE }}
+                                                {{ submit.APPLY_DATE|projectTimeFilter: 10 }}
                                             </td>
                                             <td ng-if="'bulletin' != submit.PROJECT_TYPE">
-                                                <a ng-if="'1'== submit.STAGE">申请阶段</a>
-                                                <a ng-if="'2'== submit.STAGE">任务分配</a>
-                                                <a ng-if="'3'== submit.STAGE">风控处理</a>
-                                                <a ng-if="'4'== submit.STAGE">准备上会</a>
-                                                <a ng-if="'5'== submit.STAGE">已安排上会</a>
-                                                <a ng-if="'6'== submit.STAGE">已决策</a>
-                                                <a ng-if="'7'== submit.STAGE">已确认通知书</a>
-                                                <a ng-if="'9'== submit.STAGE">已终止</a>
+                                                <a style="color: black" ng-if="'1'== submit.STAGE">申请阶段</a>
+                                                <a style="color: black" ng-if="'2'== submit.STAGE">任务分配</a>
+                                                <a style="color: black" ng-if="'3'== submit.STAGE">风控处理</a>
+                                                <a style="color: black" ng-if="'4'== submit.STAGE">准备上会</a>
+                                                <a style="color: black" ng-if="'5'== submit.STAGE">已安排上会</a>
+                                                <a style="color: black" ng-if="'6'== submit.STAGE">已决策</a>
+                                                <a style="color: black" ng-if="'7'== submit.STAGE">已确认通知书</a>
+                                                <a style="color: black" ng-if="'9'== submit.STAGE">已终止</a>
                                             </td>
                                             <td ng-if="'bulletin' == submit.PROJECT_TYPE">
-                                                <a ng-if="'4'== submit.STAGE">已决策</a>
-                                                <a ng-if="'5'== submit.STAGE">已填写纪要</a>
-                                                <a ng-if="'9'== submit.STAGE">已终止</a>
+                                                <a style="color: black" ng-if="'4'== submit.STAGE">已决策</a>
+                                                <a style="color: black" ng-if="'5'== submit.STAGE">已填写纪要</a>
+                                                <a style="color: black" ng-if="'9'== submit.STAGE">已终止</a>
                                             </td>
                                             <td>
                                                 <div ng-if="'0'== submit.STATUS">起草中</div>
@@ -384,7 +384,7 @@
                                 <table class="table table-hover lefttable" style="width: 23%">
                                     <thead>
                                     <tr>
-                                        <th class="fixedth">填写评审资料</th>
+                                        <th style="text-align: center" class="fixedth">填写评审资料</th>
                                     </tr>
 
                                     </thead>

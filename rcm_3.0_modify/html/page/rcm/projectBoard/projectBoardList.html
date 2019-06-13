@@ -101,16 +101,16 @@
                         <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
                             <thead>
                             <tr>
-                                <th>序号</th>
-                                <th>项目名称</th>
-                                <th>评审类型</th>
-                                <th>所属大区</th>
-                                <th>投资经理</th>
-                                <th>评审负责人</th>
-                                <th>法律负责人</th>
-                                <th>申请时间</th>
-                                <th>评审状态</th>
-                                <th>申请状态</th>
+                                <th width="5%">序号</th>
+                                <th style="text-align: center" width="31%">项目名称</th>
+                                <th width="8%">评审类型</th>
+                                <th width="8%">所属大区</th>
+                                <th width="8%">投资经理</th>
+                                <th width="8%">评审负责人</th>
+                                <th width="8%">法律负责人</th>
+                                <th width="8%">申请时间</th>
+                                <th width="8%">评审状态</th>
+                                <th width="8%">申请状态</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -134,20 +134,22 @@
                                     <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
                                     <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
                                 </td>
-                                <td>{{p.PERTAINAREANAME}}</td>
+                                <td>
+                                    <a style="color: black" title="{{p.PERTAINAREANAME}}"> {{ p.PERTAINAREANAME|projectNameFilter:8 }}</a>
+                                </td>
                                 <td>{{p.INVESTMENTNAME}}</td>
                                 <td>{{p.REVIEWPERSONNAME}}</td>
                                 <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                 <td>
-                                    <a ng-if="'1'== p.STAGE">申请阶段</a>
-                                    <a ng-if="'2'== p.STAGE">任务分配</a>
-                                    <a ng-if="'3'== p.STAGE">风控处理</a>
-                                    <a ng-if="'4'== p.STAGE">准备上会</a>
-                                    <a ng-if="'5'== p.STAGE">已安排上会</a>
-                                    <a ng-if="'6'== p.STAGE">已决策</a>
-                                    <a ng-if="'7'== p.STAGE">已确认通知书</a>
-                                    <a ng-if="'9'== p.STAGE">无需上会</a>
+                                    <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
+                                    <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已确认通知书</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
                                 </td>
                                 <td>
                                     <div ng-if="'0'== p.WF_STATE">起草中</div>
@@ -180,16 +182,16 @@
                         <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
                             <thead>
                             <tr>
-                                <th>序号</th>
-                                <th>项目名称</th>
-                                <th>评审类型</th>
-                                <th>所属大区</th>
-                                <th>投资经理</th>
-                                <th>评审负责人</th>
-                                <th>法律负责人</th>
-                                <th>申请时间</th>
-                                <th>评审状态</th>
-                                <th>申请状态</th>
+                                <th width="5%">序号</th>
+                                <th style="text-align: center" width="31%">项目名称</th>
+                                <th width="8%">评审类型</th>
+                                <th width="8%">所属大区</th>
+                                <th width="8%">投资经理</th>
+                                <th width="8%">评审负责人</th>
+                                <th width="8%">法律负责人</th>
+                                <th width="8%">申请时间</th>
+                                <th width="8%">评审状态</th>
+                                <th width="8%">申请状态</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -204,29 +206,31 @@
                                     <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
                                     <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
 
-                                    <a ng-if="'pfr'==p.PROJECT_TYPE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'pre'==p.PROJECT_TYPE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:30}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:30}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:30}}</a>
                                 </td>
                                 <td>
                                     <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
                                     <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
                                     <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
                                 </td>
-                                <td>{{p.PERTAINAREANAME}}</td>
+                                <td>
+                                    <a style="color: black" title="{{p.PERTAINAREANAME}}"> {{ p.PERTAINAREANAME|projectNameFilter:8 }}</a>
+                                </td>
                                 <td>{{p.INVESTMENTNAME}}</td>
                                 <td>{{p.REVIEWPERSONNAME}}</td>
                                 <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                 <td>
-                                    <a ng-if="'1'== p.STAGE">申请阶段</a>
-                                    <a ng-if="'2'== p.STAGE">任务分配</a>
-                                    <a ng-if="'3'== p.STAGE">风控处理</a>
-                                    <a ng-if="'4'== p.STAGE">准备上会</a>
-                                    <a ng-if="'5'== p.STAGE">已安排上会</a>
-                                    <a ng-if="'6'== p.STAGE">已决策</a>
-                                    <a ng-if="'7'== p.STAGE">已确认通知书</a>
-                                    <a ng-if="'9'== p.STAGE">无需上会</a>
+                                    <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
+                                    <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已确认通知书</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
                                 </td>
                                 <td>
                                     <div ng-if="'0'== p.WF_STATE">起草中</div>
@@ -259,16 +263,16 @@
                         <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
                             <thead>
                             <tr>
-                                <th>序号</th>
-                                <th>项目名称</th>
-                                <th>评审类型</th>
-                                <th>所属大区</th>
-                                <th>投资经理</th>
-                                <th>评审负责人</th>
-                                <th>法律负责人</th>
-                                <th>申请时间</th>
-                                <th>评审状态</th>
-                                <th>申请状态</th>
+                                <th width="5%">序号</th>
+                                <th style="text-align: center" width="31%">项目名称</th>
+                                <th width="8%">评审类型</th>
+                                <th width="8%">所属大区</th>
+                                <th width="8%">投资经理</th>
+                                <th width="8%">评审负责人</th>
+                                <th width="8%">法律负责人</th>
+                                <th width="8%">申请时间</th>
+                                <th width="8%">评审状态</th>
+                                <th width="8%">申请状态</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -292,20 +296,22 @@
                                     <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
                                     <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
                                 </td>
-                                <td>{{p.PERTAINAREANAME}}</td>
+                                <td>
+                                    <a style="color: black" title="{{p.PERTAINAREANAME}}"> {{ p.PERTAINAREANAME|projectNameFilter:8 }}</a>
+                                </td>
                                 <td>{{p.INVESTMENTNAME}}</td>
                                 <td>{{p.REVIEWPERSONNAME}}</td>
                                 <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                 <td>
-                                    <a ng-if="'1'== p.STAGE">申请阶段</a>
-                                    <a ng-if="'2'== p.STAGE">任务分配</a>
-                                    <a ng-if="'3'== p.STAGE">风控处理</a>
-                                    <a ng-if="'4'== p.STAGE">准备上会</a>
-                                    <a ng-if="'5'== p.STAGE">已安排上会</a>
-                                    <a ng-if="'6'== p.STAGE">已决策</a>
-                                    <a ng-if="'7'== p.STAGE">已填写会议纪要</a>
-                                    <a ng-if="'9'== p.STAGE">无需上会</a>
+                                    <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
+                                    <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已填写会议纪要</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
                                 </td>
                                 <td>
                                     <div ng-if="'0'== p.WF_STATE">起草中</div>

@@ -32,10 +32,10 @@
                                     <tbody>
                                     <tr ng-repeat="p in projects">
                                         <td>
-                                            <a ng-if="'pre' == p.PROJECT_TYPE" href="#/PreBiddingInfoPreview/{{p.BUSINESS_ID}}/{{'#/'|encodeURI}}/2" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:32}}</a>
-                                            <a ng-if="'pfr' == p.PROJECT_TYPE && p.BIDDING_TYPE != 'PPT'" href="#/FormalBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/2" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:32}}</a>
-                                            <a ng-if="'pfr' == p.PROJECT_TYPE && p.BIDDING_TYPE == 'PPT'" href="#/OtherBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/3" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:32}}</a>
-                                            <a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{p.BUSINESS_ID}}_0/{{('#/') |encodeURI}}/2" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:32}}</a>
+                                            <a ng-if="'pre' == p.PROJECT_TYPE" href="#/PreBiddingInfoPreview/{{p.BUSINESS_ID}}/{{'#/'|encodeURI}}/2" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:40}}</a>
+                                            <a ng-if="'pfr' == p.PROJECT_TYPE && p.BIDDING_TYPE != 'PPT'" href="#/FormalBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/2" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:40}}</a>
+                                            <a ng-if="'pfr' == p.PROJECT_TYPE && p.BIDDING_TYPE == 'PPT'" href="#/OtherBiddingInfoPreview/{{p.BUSINESS_ID}}/{{('#/') | encodeURI}}/3" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:40}}</a>
+                                            <a ng-if="'bulletin' == p.PROJECT_TYPE" href="#/BulletinReviewDetailPreview/{{p.BUSINESS_ID}}_0/{{('#/') |encodeURI}}/2" title="{{p.PROJECT_NAME}}">{{p.PROJECT_NAME|projectNameFilter:40}}</a>
                                         </td>
                                         <td>
                                             <font ng-if="'pfr' == p.PROJECT_TYPE">正式评审</font>
@@ -141,21 +141,21 @@
                                 <tr ng-repeat="t in myTaskList">
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '')"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'"
-                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '正式评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '投标评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -185,23 +185,23 @@
                                 <tbody>
                                 <tr ng-repeat=" t in overTaskList">
                                     <td><a ng-if="t.TYPE_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeOfDecision'"
-                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '1'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '0'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.PHASE}}</td>
@@ -233,13 +233,13 @@
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -267,15 +267,15 @@
                                 <tbody>
                                 <tr ng-repeat=" t in myReadList">
                                     <td><a ng-if="t.FORM_KEY_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -426,21 +426,21 @@
                                 <tr ng-repeat="t in myTaskList">
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '')"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'"
-                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '正式评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '投标评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -470,23 +470,23 @@
                                 <tbody>
                                 <tr ng-repeat=" t in overTaskList">
                                     <td><a ng-if="t.TYPE_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeOfDecision'"
-                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '1'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '0'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.PHASE}}</td>
@@ -518,13 +518,13 @@
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -552,15 +552,15 @@
                                 <tbody>
                                 <tr ng-repeat=" t in myReadList">
                                     <td><a ng-if="t.FORM_KEY_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -689,21 +689,21 @@
                                 <tr ng-repeat="t in myTaskList">
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '')"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'"
-                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '正式评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '投标评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -733,23 +733,23 @@
                                 <tbody>
                                 <tr ng-repeat=" t in overTaskList">
                                     <td><a ng-if="t.TYPE_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeOfDecision'"
-                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '1'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '0'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.PHASE}}</td>
@@ -781,13 +781,13 @@
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -815,15 +815,15 @@
                                 <tbody>
                                 <tr ng-repeat=" t in myReadList">
                                     <td><a ng-if="t.FORM_KEY_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -912,21 +912,21 @@
                                 <tr ng-repeat="t in myTaskList">
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '')"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'"
-                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '正式评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '投标评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -956,23 +956,23 @@
                                 <tbody>
                                 <tr ng-repeat=" t in overTaskList">
                                     <td><a ng-if="t.TYPE_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeOfDecision'"
-                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '1'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '0'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.PHASE}}</td>
@@ -1004,13 +1004,13 @@
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -1038,15 +1038,15 @@
                                 <tbody>
                                 <tr ng-repeat=" t in myReadList">
                                     <td><a ng-if="t.FORM_KEY_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -1140,25 +1140,25 @@
                                 <tr ng-repeat="t in myTaskList">
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && (t.TASKMARK == null || t.TASKMARK == '') && t.NAME_ != '基层法务'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && t.TASKMARK != null && t.TASKMARK != ''  && t.NAME_ != '基层法务'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{t.TASKMARK}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview' && t.NAME_ == '基层法务'"
-                                           ng-href="#/FormalAssessmentAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview' && t.NAME_ != '基层法务'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview' && t.NAME_ == '基层法务'"
-                                           ng-href="#/PreAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailLegalView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ != 'preReview' && t.FORM_KEY_ != 'formalReview' && t.FORM_KEY_ != 'bulletin' && t.FORM_KEY_ != 'noticeDecision'  && t.FORM_KEY_ != 'conferenceInformation'"
-                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#{{t.FORM_KEY_}}/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@{{t.ID_}}@2" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '正式评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'conferenceInformation' && t.TYPE_TEXT == '投标评审'"
-                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationCreate/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable' |encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -1188,23 +1188,23 @@
                                 <tbody>
                                 <tr ng-repeat=" t in overTaskList">
                                     <td><a ng-if="t.TYPE_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeOfDecision'"
-                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'noticeDecision'"
-                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '1'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.TYPE_ == 'conferenceInformation' && t.PROC_DEF_ID_ == '0'"
-                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ConferenceInformationDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable/'+oldUrl|encodeURI}}/0" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.PHASE}}</td>
@@ -1236,13 +1236,13 @@
                                     <td>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
                                            ng-click="notify_UpdateStatus(t.NOTIFY_ID, t)"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>
@@ -1270,15 +1270,15 @@
                                 <tbody>
                                 <tr ng-repeat=" t in myReadList">
                                     <td><a ng-if="t.FORM_KEY_ == 'preAssessment'"
-                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalAssessment'"
-                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@1" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'formalReview'"
-                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'preReview'"
-                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/PreAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                         <a ng-if="t.FORM_KEY_ == 'bulletin'"
-                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+                                           ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/IndividualTable'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:40}}</a>
                                     </td>
                                     <td>{{t.TYPE_TEXT}}</td>
                                     <td>{{t.NAME_}}</td>

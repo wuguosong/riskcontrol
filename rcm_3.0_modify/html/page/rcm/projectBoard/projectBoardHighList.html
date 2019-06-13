@@ -121,9 +121,9 @@
                                         <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
                                         <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
 
-                                        <a ng-if="'pfr'==p.PROJECT_TYPE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/pfrProjectBoardList/JTI1MjMlMkZwcm9qZWN0Qm9hcmRMaXN0JTJGSlRJMU1qTWxNa1klMjUzRA=='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                        <a ng-if="'pre'==p.PROJECT_TYPE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/pfrProjectBoardList/JTI1MjMlMkZwcm9qZWN0Qm9hcmRMaXN0JTJGSlRJMU1qTWxNa1klMjUzRA=='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/pfrProjectBoardList/JTI1MjMlMkZwcm9qZWN0Qm9hcmRMaXN0JTJGSlRJMU1qTWxNa1klMjUzRA=='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/pfrProjectBoardList/JTI1MjMlMkZwcm9qZWN0Qm9hcmRMaXN0JTJGSlRJMU1qTWxNa1klMjUzRA=='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/pfrProjectBoardList/JTI1MjMlMkZwcm9qZWN0Qm9hcmRMaXN0JTJGSlRJMU1qTWxNa1klMjUzRA=='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/pfrProjectBoardList/JTI1MjMlMkZwcm9qZWN0Qm9hcmRMaXN0JTJGSlRJMU1qTWxNa1klMjUzRA=='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
                                     </td>
                                     <td>
                                         <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
@@ -134,7 +134,7 @@
                                     <td>{{p.INVESTMENTNAME}}</td>
                                     <!--<td>{{p.REVIEWPERSONNAME}}</td>
                                     <td>{{p.LEGALREVIEWPERSONNAME}}</td>-->
-                                    <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                    <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                     <td>
                                         <div ng-if="'0'== p.WF_STATE">起草中</div>
                                         <div ng-if="'1'== p.WF_STATE">审批中</div>
