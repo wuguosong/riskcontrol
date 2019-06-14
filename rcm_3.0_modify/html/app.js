@@ -1818,13 +1818,13 @@ function htmlTagReg(text) {
 
 /**
  * 判断云库指令文件是否上传
- * @param businessId
- * @param fileLocation
- * @param areaCode
+ * @param directId <cloud-file>的file-id
+ * @param fileLocation <cloud-file>的file-location
+ * @param areaCode <cloud-file>的area-code
  * @returns {boolean}
  */
-function cloudFileIsUpload(businessId, fileLocation, areaCode) {
-    var _cloud = businessId + "_" + fileLocation + "_" + areaCode;
+function cloudFileIsUpload(directId, fileLocation, areaCode) {
+    var _cloud = directId + "_" + fileLocation + "_" + areaCode;
     var _cloud_file_ipt_ = '_cloud_file_ipt_' + areaCode + "_" + _cloud;
     var ipt = $('#' + _cloud_file_ipt_);
     if (!ipt) {
