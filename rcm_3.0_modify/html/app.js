@@ -1815,3 +1815,23 @@ function htmlTagReg(text) {
     // console.log("转换后：==================\n" + text);
     return text;
 }
+
+/**
+ * 判断云库指令文件是否上传
+ * @param businessId
+ * @param fileLocation
+ * @param areaCode
+ * @returns {boolean}
+ */
+function cloudFileIsUpload(businessId, fileLocation, areaCode) {
+    var _cloud = businessId + "_" + fileLocation + "_" + areaCode;
+    var _cloud_file_ipt_ = '_cloud_file_ipt_' + areaCode + "_" + _cloud;
+    var ipt = $('#' + _cloud_file_ipt_);
+    if (!ipt) {
+        return false;
+    }
+    if (isEmpty(ipt.val())) {
+        return false;
+    }
+    return true;
+}
