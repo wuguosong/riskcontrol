@@ -273,6 +273,7 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                             $scope.newAttachment[j].approved = file.approved;
                             $scope.newAttachment[j].lastUpdateBy = file.lastUpdateBy;
                             $scope.newAttachment[j].lastUpdateData = file.lastUpdateData;
+                            $scope.newAttachment[j].isMettingAttachment = file.isMettingAttachment;
                             break;
                         }
                     }
