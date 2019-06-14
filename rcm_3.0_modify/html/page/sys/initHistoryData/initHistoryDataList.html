@@ -1,0 +1,94 @@
+<div class="visa-menu">
+    <div class="col-md-12">
+        <ol class="breadcrumb breadcrumb-menu">
+            <li>
+                <!-- <i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+                <a class="breadcrumb-text breadcrumb-text-menu">
+                    历史数据
+                </a>
+            </li>
+            <li>
+                <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                    历史数据列表
+                </a>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="tab-content">
+        <div class="tab-pane active" id="bs-tabdrop-tab1">
+            <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <div class="txl col-md-8">
+                                <div class="panel-body search-body" style="padding-top: 3px;">
+                                    <label class="col-sm-1 col-md-2 control-label">项目名称</label>
+                                    <div class="col-sm-1 col-md-4 sm-col">
+                                        <input type="text" name="projectName" id="projectName"
+                                               ng-model="paginationConf.queryObj.projectName"
+                                               class="form-control ng-pristine ng-untouched ng-valid"/></div>
+                                    <label class="col-sm-2 col-md-2 control-label">项目类型</label>
+                                    <div class="col-sm-1 col-md-4">
+                                        <select name="projectType" ng-model="paginationConf.queryObj.projectType"
+                                                id="projectType" class="form-control">
+                                            <option value=''>-- 请选择 --</option>
+                                            <option value='pfr'>正式评审</option>
+                                            <option value='pre'>预评审</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-2" style="right: -150px">
+                                <button class="btn btn-info" ng-click="queryList()">查询</button>
+                                <button class="btn btn-info" ng-click="cancel()">清除</button>
+                                <!--<button class="btn btn-info" ng-click="saveList()">同步数据</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="form-group row table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0"
+                                   class="table table-hover datatable fs-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目名称</th>
+                                    <th>项目类型</th>
+                                    <th>业务类型</th>
+                                    <th>投资部门</th>
+                                    <th>项目经理</th>
+                                    <th>评审时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in historyList">
+                                    <td>{{$index+1}}</td>
+                                    <td style="text-align: left">
+                                        <a ng-if="'pfr' == p.PROJECT_TYPE" href="#/pfrHistoryInfo/{{p.BUSINESS_ID}}/{{'#/initHistoryDataList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+                                        <a ng-if="'pre' == p.PROJECT_TYPE" href="#/preHistoryInfo/{{p.BUSINESS_ID}}/{{'#/initHistoryDataList'|encodeURI}}">{{p.PROJECT_NAME}}</a>
+                                    </td>
+                                    <td>
+                                        <div ng-if="'pfr'== p.PROJECT_TYPE">正式评审</div>
+                                        <div ng-if="'pre'== p.PROJECT_TYPE">预评审</div>
+                                    </td>
+                                    <td>{{p.SERVICE_TYPE}}</td>
+                                    <td>{{p.INVESTMENT_DEPT}}</td>
+                                    <td>{{p.CREATE_BY}}</td>
+                                    <td>{{p.REVIEW_TIME | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer clearfix">
+                        <tm-pagination conf="paginationConf"></tm-pagination>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -7260,3 +7260,186 @@ ctmApp.directive('directMeetingVoteResultInfo', function(){
         }
     }
 });*/
+
+// 列表附件
+ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) {
+    return {
+        restrict: 'E',
+        templateUrl: 'page/sys/directive/directiveAttachmentList.html',
+        replace: true,
+        scope: {
+            // 唯一标识
+            id: "@",
+            // 业务类型
+            businessType: "@",
+            pageLocation: "@",
+            // 项目Oracle数据
+            businessId: "=",
+            wfState: "=",
+            // 替换发送相关信息
+            projectName: "=",
+            toSend: "=",
+            // 附件列表
+            fileList: "=",
+            // 附件类型
+            attachmentType: "=",
+            // 设置属性
+            isEdite: "@",
+            isShowType: "@", // 是否显示附件类型，默认false
+            // 调用父组件操作
+            initUpdate: "&initUpdate"
+        },
+        link:function(scope,element,attr){
+        },
+        controller:function($scope,$http,$element,Upload,$window){
+
+            // 初始化数据
+            $scope._initData = function () {
+                if($scope.isEdite == "true"){
+                    $scope.isEdite = true;
+                } else {
+                    $scope.isEdite = false;
+                }
+                if($scope.isShowType == "true"){
+                    $scope._isShowType = true;
+                } else {
+                    $scope._isShowType = false;
+                }
+
+            };
+
+            $scope._initData();
+
+            // 新增文件
+            $scope._addOneNewFile = function () {
+                if (!$scope._vaildNew()){
+                    alert("已有新增条目，请上传完再新增！");
+                    return;
+                }
+                function _addBlankRow(_array) {
+                    var blankRow = {
+                        newFile: '1',
+                        _file_content: ''
+                    };
+                    var size = 0;
+                    for (var idx in _array) {
+                        console.log(idx);
+                        size++;
+                    }
+                    _array[size] = blankRow;
+                }
+
+                if (undefined == $scope.fileList) {
+                    $scope.fileList = [];
+                }
+                _addBlankRow($scope.fileList);
+            };
+
+            $scope._deleteBlank = function (index) {
+                $scope.fileList.splice(index,1);
+            };
+
+            // 添加校验新增
+            $scope._vaildNew = function (){
+                var count = 0;
+                angular.forEach($scope.fileList, function (data, index) {
+                    if (data.newFile == '1'){
+                        count = 1;
+                    }
+                });
+                if (count == 1){
+                    return false;
+                }
+                return true;
+            };
+
+            // 上传
+            $scope._uploadThat = function (_file, _idx, _item) {
+                if(($scope.pageLocation == 'pfrHistoryInfo' || $scope.pageLocation == 'preHistoryInfo') && isEmpty(_item.type)){
+                    alert("资源类型不能为空，请先选择资源类型再上传！");
+                } else {
+                    if (!isEmpty(_file)){
+                        show_Mask();
+                        Upload.upload({
+                            url: srvUrl + 'cloud/upload.do',
+                            data: {
+                                file: _file,
+                                "docType": $scope.businessType,
+                                'docCode': $scope.businessId,
+                                'pageLocation': $scope.pageLocation
+                            }
+                        }).then(function (resp) {
+                            if (resp.data.result_code == 'S'){
+                                var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
+
+                                if ($scope._isShowType) {
+                                    var url = 'historyData/addAttachmengInfoToMongo.do';
+
+                                    _item.fileId = _fileList[0].fileid + "";
+                                    _item.fileName = _file.name;
+
+                                    $http({
+                                        method:'post',
+                                        url:srvUrl + url,
+                                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
+                                    }).success(function(data){
+                                        if(data.success){
+                                            $scope.initUpdate({'id': $scope.businessId});
+                                            $.alert(data.result_name);
+                                        }else{
+                                            $.alert(data.result_name);
+                                        }
+                                    });
+                                } else {
+                                    $scope.initUpdate({'id': $scope.businessId});
+                                    $.alert("执行成功！");
+                                }
+
+                            } else {
+                                hide_Mask();
+                                alert("上传失败，请联系管理员！");
+                            }
+                        }, function (resp) {
+                            $.alert(resp.status);
+                        }, function (evt) {
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                        });
+                    }
+                }
+            };
+
+            // 预览
+            $scope._review = function (uri) {
+                $window.open(uri);
+                // $window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+
+            // 下载
+            $scope._download = function (uri) {
+                $window.open(uri);
+                // window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            };
+
+            // 删除
+            $scope._delete = function(file_id){
+                attach_delete(file_id);
+                if ($scope.isShowType) {
+                    var url = 'historyData/deleteAttachmengInfoInMongo.do';
+                    $http({
+                        method:'post',
+                        url:srvUrl + url,
+                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
+                    }).success(function(data){
+                        if(data.success){
+                            $.alert(data.result_name);
+                            $scope.initUpdate({'id': $scope.businessId});
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
+                }
+            };
+        }
+    };
+}]);

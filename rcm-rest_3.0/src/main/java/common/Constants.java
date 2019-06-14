@@ -261,4 +261,14 @@ public class Constants {
 	 * 
 	 */
 	public static final String RCM_FORMAL_SUMMARY = "rcm_formal_summary";
+	
+	/**
+	 * author: Sunny Qi
+	 * date: 2019-06-12
+	 * 历史数据Mongo表
+	 * 必填参数：
+	 * _id:历史数据id-业务id
+	 * 
+	 */
+	public static final String RCM_HISTORYDATA_INFO = "rcm_historyData_info";
 }

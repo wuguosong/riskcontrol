@@ -195,4 +195,10 @@ SELECT MA.PROJECTID,
 		   </foreach>
 	</select>
 	
+	<!-- 根据ENUMNAME查询地理信息 -->
+	<select id="getAreaInfoByEnumName" resultType="map" useCache="false">	
+	       SELECT MAR.*
+             FROM ZSJ.MDM_AREA MAR
+            WHERE MAR.ENUMNAME LIKE '%${enumName}%'
+	</select>
 </mapper>

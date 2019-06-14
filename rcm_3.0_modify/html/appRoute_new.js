@@ -2901,6 +2901,7 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
+
             /*********************************项目看板结束******************************/
 
             /*********************************决策会开始******************************/
@@ -3584,6 +3585,60 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
         /************************ 统计页面结束 ****************************/
+
+        /************************ 历史数据开始 ****************************/
+            // 历史数据列表
+            .when('/initHistoryDataList', {
+                controller: 'initHistoryData',
+                templateUrl: 'page/sys/initHistoryData/initHistoryDataList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/sys/initHistoryData/initHistoryData.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 历史数据详情 - 正式评审
+            .when('/pfrHistoryInfo/:id/:url', {
+                controller: 'pfrHistoryInfo',
+                templateUrl: 'page/sys/initHistoryData/pfrHistoryInfo.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/sys/initHistoryData/initHistoryData.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 历史数据详情 - 预评审
+            .when('/preHistoryInfo/:id/:url', {
+                controller: 'preHistoryInfo',
+                templateUrl: 'page/sys/initHistoryData/preHistoryInfo.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/sys/initHistoryData/initHistoryData.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+        /************************ 历史数据结束 ****************************/
     }
 ]);
 

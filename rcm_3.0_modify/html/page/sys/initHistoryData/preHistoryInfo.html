@@ -1,0 +1,548 @@
+<div class="xh-content container-fluid">
+    <form name="pfrHostoryInfo" novalidate class="row">
+        <div class="main-content col-md-12 col-sm-12 col-xs-12">
+            <div class="visa-menu">
+                <div class="col-md-12">
+                    <ol class="breadcrumb breadcrumb-menu">
+                        <li>
+                            <a class="breadcrumb-text breadcrumb-text-menu">
+                                历史数据
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                                预评审
+                            </a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs bs-tabdrop-example">
+                    <li class="active">
+                        <a href="/#bs-tabdrop-tab1" data-toggle="tab">表单详情</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab2" data-toggle="tab">相关资源</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab3" data-toggle="tab">签约版投资协议</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab4" data-toggle="tab">预评审报告</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab5" data-toggle="tab">风控测算</a>
+                    </li>
+                </ul>
+                <div class="panel">
+                    <div class="tab-content">
+                        <div  class="tab-pane in active" id="bs-tabdrop-tab1">
+                            <div  class="tab-pane in active" id="bs-tabdrop-tab1">
+                                <div class="mcontent content1">
+                                    <div class="row normalline titline" style="color: red; font-size: 16px; font-weight: normal;margin-bottom: 15px">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span >注： 题目加粗的为表格中导入的数据部分，题目为正常字体的是需要填写的数据</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">项目编号</span>
+                                                <span class="col-md-6 slim">
+						             <input type="text" class="form-control" id="projectNum" name="projectNum" ng-model="historyInfo.PROJECT_NUM" placeholder="">
+					             </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">项目名称</span>
+                                                <span class="col-md-6 slim">
+						             <input type="text"   class="form-control" id="projectName" name="projectName" ng-model="historyInfo.PROJECT_NAME" placeholder="">
+					             </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">项目所在地ID</span>
+                                                <span class="col-md-3 slim">
+									<input type="text" class="form-control" id="PROVINCE_ID" name="PROVINCE_ID" ng-model="historyInfo.PROVINCE_ID" placeholder="" />
+					            </span>
+                                                <span class="col-md-3 slim">
+                                    <input type="text" class="form-control" id="CITY_ID" name="CITY_ID" ng-model="historyInfo.CITY_ID" placeholder="" />
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">项目所在地</span>
+                                                <span class="col-md-3 slim">
+									<input type="text" class="form-control" id="PROVINCE" name="PROVINCE" ng-model="historyInfo.PROVINCE" placeholder="xx省/xx自治区" />
+					            </span>
+                                                <span class="col-md-3 slim">
+                                    <input type="text" class="form-control" id="CITY" name="CITY" ng-model="historyInfo.CITY" placeholder="xx市" />
+					            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">业务类型</span>
+                                                <span class="col-md-6 slim">
+									<div id="headeroneservicetypebox"  class="col-sm-12 noleft-pad">
+                                        <div class="select2-success">
+                                            <select multiple="multiple" name="oneservicetypeboxName" id="oneservicetypeboxName" class="form-control" ng-model="historyInfo.serviceType"
+                                                    ng-options="sy.VALUE for sy in Syncbusinessmodel track by sy.KEY">
+                                            </select>
+                                             <span class="unit" style="width: 15px; right: 18px;">
+                                                 <span class="caret"></span>
+                                             </span>
+                                        </div>
+                                    </div>
+					            </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">业务类型(旧)</span>
+                                                <span class="col-md-6 slim">
+									<input type="text" class="form-control" id="serviceType" name="serviceType" ng-model="historyInfo.SERVICE_TYPE" placeholder="" />
+					            </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">商业模式</span>
+                                                <span class="col-md-6 slim">
+						             <div id="headerprojectmodebox" class="col-sm-12 noleft-pad">
+                                    <div class="select2-success">
+                                        <select multiple="multiple" id="projectmodeboxName" name="projectmodeboxName" class="form-control"  ng-model="historyInfo.projectModel"
+                                                ng-options="pm.VALUE for pm in projectModelValue track by pm.KEY">
+                                        </select>
+                                        <span class="unit" style="width: 15px; right: 18px;">
+                                            <span class="caret"></span>
+                                        </span>
+                                    </div>
+                                </div>
+					             </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">商业模式(旧)</span>
+                                                <span class="col-md-6 slim">
+						             <input type="text"  class="form-control" id="businessModel" name="businessModel" ng-model="historyInfo.BUSINESS_MODEL" placeholder="" >
+					             </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">特许经营期</span>
+                                                <span class="col-md-6 slim">
+									<input type="text"  class="form-control" id="franchisePeriod" name="franchisePeriod" ng-model="historyInfo.FRANCHISE_PERIOD">
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">评审规模</span>
+                                                <span class="col-md-6 slim">
+						             <input type="text"   class="form-control"  id="reviewScale" name="reviewScale" ng-model="historyInfo.REVIEW_SCALE" >
+					             </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">集团持股比例</span>
+                                                <span class="col-md-6 slim">
+						              <input name="groupShareholdingRatio"  id="groupShareholdingRatio" class="form-control" ng-model="historyInfo.GROUP_SHAREHOLDING_RATIO">
+					             </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">评审的自有资金比例</span>
+                                                <span class="col-md-6 slim">
+									<input type="text"   class="form-control" id="selfFundsRatio" name="selfFundsRatio" ng-model="historyInfo.SELF_FUNDS_RATIO">
+					            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">总投资额</span>
+                                                <span class="col-md-6 slim">
+									<input type="text"   class="form-control" id="investmentTotal" name="investmentTotal" ng-model="historyInfo.INVESTMENT_TOTAL">
+                                    <span class="unit-n">万元</span>
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">评审价格</span>
+                                                <span class="col-md-6 slim">
+						             <input class="form-control"   id="reviewPrice" name="reviewPrice" ng-model="historyInfo.REVIEW_PRICE" >
+					             </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">预期收益率</span>
+                                                <span class="col-md-6 slim">
+									<input type="text"  class="form-control"  id="expectedRateOfReturn" name="expectedRateOfReturn" ng-model="historyInfo.EXPECTED_RATE_OF_RETURN">
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">评审时间</span>
+                                                <span class="col-md-6 slim">
+                                                 <input type="text" id="reviewTime" name="reviewTime"
+                                                        value="{{historyInfo.REVIEW_TIME}}"
+                                                        ng-model="historyInfo.REVIEW_TIME" class="form-control"/>
+                                                  <i class="fa fa-calendar form-control-feedback"></i>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">是否中标</span>
+                                                <span class="col-md-6 slim">
+                                    <label class="radio radio-inline local">
+                                        <input type="radio"  name="isWinBid" ng-model="historyInfo.IS_WIN_BID" value="否" class="px" ng-checked="true" /><span class="lbl">否</span>
+                                    </label>
+                                    <label class="radio radio-inline local">
+                                        <input type="radio"  name="isWinBid" ng-model="historyInfo.IS_WIN_BID" value="是" class="px" /><span class="lbl">是</span>
+                                    </label>
+                                    <label class="radio radio-inline local">
+                                        <input type="radio"  name="isWinBid" ng-model="historyInfo.IS_WIN_BID" value="投标中" class="px" /><span class="lbl">投标中</span>
+                                    </label>
+					             </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">立项时间</span>
+                                                <span class="col-md-6 slim">
+                                                <input type="text" id="createTime" name="createTime"
+                                                       value="{{historyInfo.CREATE_TIME}}"
+                                                       ng-model="historyInfo.CREATE_TIME" class="form-control"/>
+                                                  <i class="fa fa-calendar form-control-feedback"></i>
+					                         </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">投资部门ID</span>
+                                                <span class="col-md-6 slim">
+						                  <input type="text"   class="form-control" name="investmentDeptId" id="investmentDeptId"   ng-model="historyInfo.INVESTMENT_DEPT_ID" >
+					                  </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">投资部门</span>
+                                                <span class="col-md-6 slim">
+						                  <input type="text"   class="form-control" name="investmentDept" id="investmentDept"   ng-model="historyInfo.INVESTMENT_DEPT" >
+					                  </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">项目经理ID</span>
+                                                <span class="col-md-6 slim">
+									<input   class="form-control" id="createById" name="createById" ng-model="historyInfo.CREATE_BY_ID" placeholder=""/>
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">项目经理</span>
+                                                <span class="col-md-6 slim">
+									<input   class="form-control" id="createBy" name="createBy" ng-model="historyInfo.CREATE_BY" placeholder="" />
+					            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">评审人员ID</span>
+                                                <span class="col-md-6 slim">
+						             <input type="text"   class="form-control" id="reviewPersonId" name="reviewPersonId" ng-model="historyInfo.REVIEW_PERSON_ID" placeholder="">
+					             </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">评审人员</span>
+                                                <span class="col-md-6 slim">
+						             <input type="text"   class="form-control" id="reviewPerson" name="reviewPerson" ng-model="historyInfo.REVIEW_PERSON" placeholder="">
+					             </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">法务人员ID</span>
+                                                <span class="col-md-6 slim">
+									<input type="text" class="form-control"  id="legalReviewPersonId" name="legalReviewPersonId" ng-model="historyInfo.LEGAL_REVIEW_PERSON_ID" />
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">法务人员</span>
+                                                <span class="col-md-6 slim">
+									<input type="text" class="form-control"  id="legalReviewPerson" name="legalReviewPerson" ng-model="historyInfo.LEGAL_REVIEW_PERSON" />
+					            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">区域/平台公司ID</span>
+                                                <span class="col-md-6 slim">
+									<input type="text" class="form-control"  id="regionalCompanyId" name="regionalCompanyId" ng-model="historyInfo.REGIONAL_COMPANY_ID" />
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">区域/平台公司</span>
+                                                <span class="col-md-6 slim">
+									<input type="text" class="form-control"  id="regionalCompany" name="regionalCompany" ng-model="historyInfo.REGIONAL_COMPANY" />
+					            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding" style="font-weight: normal">我方签约主体ID</span>
+                                                <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.OUR_CONTRACTING_ENTITY_ID" >
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">我方签约主体</span>
+                                                <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.OUR_CONTRACTING_ENTITY" >
+					            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row normalline titline">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">合同名称</span>
+                                                <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.CONTRACT_TITLE" >
+					            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-4 noPadding">签约时间</span>
+                                                <span class="col-md-6 slim">
+                                                <input type="text" id="signingTime" name="signingTime"
+                                                       value="{{historyInfo.SIGNING_TIME}}"
+                                                       ng-model="historyInfo.SIGNING_TIME" class="form-control"/>
+                                                  <i class="fa fa-calendar form-control-feedback"></i>
+					                         </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row normalline titline">
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="row">
+                                                <span class="col-md-2 noPadding">备注</span>
+                                                <span class="col-md-9 slim">
+                                    <textarea class="form-control" type="text" ng-model="historyInfo.REMARKS" ></textarea>
+					            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="button-group">
+                                    <div class="row">
+                                        <div class="btn-group-gap txl">
+                                            <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                                            <button class="btn btn-info" type="button" ng-click="update()">保存</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab2">
+                            <div class="mcontent content1">
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <directive-attachment-list id="preHistoryInfo" business-type="historyData"
+                                                                       page-location="preHistoryInfo"
+                                                                       business-id="id" wf-state=""
+                                                                       file-list="newAttachment" attachment-type="attachmentType"
+                                                                       init-update="initUpdate(id)" is-show-type="true"
+                                                                       is-edite="true"></directive-attachment-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab3">
+                            <div class="mcontent content1">
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <directive-attachment-list id="preHistoryInvestmnetAgreement" business-type="historyData"
+                                                                       page-location="preHistoryInvestmnetAgreement"
+                                                                       business-id="id" wf-state=""
+                                                                       file-list="attch.investmnetAgreementList"
+                                                                       init-update="initUpdate(id)" is-show-type="false"
+                                                                       is-edite="true"></directive-attachment-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab4">
+                            <div class="mcontent content1">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">项目名称</label>
+                                    <div class="col-sm-10"  style="font-weight: normal">
+                                        {{historyInfo.PROJECT_NAME}}
+                                    </div>
+                                </div>
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-2 noPadding">上传评审报告附件</span>
+                                            <cloud-file
+                                                    file-id="preHistoryReport"
+                                                    file-type="preHistoryReport"
+                                                    file-code="{{id}}"
+                                                    file-location="preHistoryReport"
+                                                    show-upload="false"
+                                                    show-preview="false"
+                                                    show-replace="false"
+                                                    show-download="false"
+                                                    show-delete="false"
+                                                    show-upload-or-replace="true"
+                                                    area-code="1"
+                                                    text-before="false"
+                                                    btn-class="btn btn-primary"
+                                                    text-class="col-md-8 slim"
+                                                    btn-area-class="col-md-1 slim"
+                                            >
+                                            </cloud-file>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab5">
+                            <div class="mcontent content1">
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <directive-attachment-list id="preHistoryWindControlCalualation" business-type="historyData"
+                                                                       page-location="preHistoryWindControlCalualation"
+                                                                       business-id="id" wf-state=""
+                                                                       file-list="attch.windControlCalualationList"
+                                                                       init-update="initUpdate(id)" is-show-type="false"
+                                                                       is-edite="true"></directive-attachment-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    angular.element(document).ready(function () {
+        var date = new Date();
+        date.setDate(date.getDate());
+        var curDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto',
+        };
+        $('#bs-datepicker-edit').datepicker();
+        $('#reviewTime').datepicker(options);
+        $('#createTime').datepicker(options);
+        $('#signingTime').datepicker(options);
+
+        $("#headeroneservicetypebox select").select2();
+        $("#headerprojectmodebox select").select2();
+    });
+</script>
+
+<style>
+    .mcontent {
+        box-shadow: 0 0 0 rgba(0, 0, 0, .15);
+    }
+    .mcontent .normalline {
+        padding: 0;
+    }
+    .panel-body .form-group, .panel-body .row {
+        margin: 0 0 5px;
+    }
+</style>

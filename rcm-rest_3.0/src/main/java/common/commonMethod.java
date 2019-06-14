@@ -360,4 +360,14 @@ public class commonMethod extends BaseService{
 			return list;
 		}
 		
+		/**
+		 * 通过省市名称获取对应ID
+		 * */
+		public List<Map> getAreaInfoByEnumName (String json){
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("enumName", json);
+			List<Map> list = DbUtil.openSession().selectList("common.getAreaInfoByEnumName", paramMap);
+			DbUtil.close();
+			return list;
+		}
 }
