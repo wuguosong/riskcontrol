@@ -247,5 +247,103 @@
 	       AND RBI.BUSINESSID LIKE '%${businessId}%'
 	     </if>
 	</select>
+
+
+	<!-- 查询全部项目列表 -->
+	<select id="getProjectList" resultType="map"  parameterType="map">
+		SELECT *
+		FROM
+		(
+		SELECT
+		FI.BUSINESS_ID as "BUSINESSID",
+		nvl(FI.PROJECT_NAME, fi.BULLETINNAME) as "PROJECTNAME",
+		fi.PROJECT_TYPE as "PROJECT_TYPE",
+		fi.PERTAINAREA_NAME as "PERTAINAREANAME",
+		fi.INVESTMENT_MANAGER_NAME as "INVESTMENTNAME",
+		fi.REVIEW_PERSON as "REVIEWPERSONNAME",
+		fi.LEGAL_REVIEW_PERSON as "LEGALREVIEWPERSONNAME",
+		FI.MEETING_TIME as "MEETING_TIME",
+		FI.WF_STATE,
+		FI.STAGE,
+		fi.MEETING_LEADERS as "MEETING_LEADERS",
+		fi.VOTING_RESULTS as "VOTING_RESULTS"
+		FROM rcm_v_report_data FI
+		) T
+		WHERE 1 = 1
+		and t.VOTING_RESULTS is not null
+		AND T.WF_STATE <![CDATA[ <> ]]> '0'
+		<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
+		<if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+
+		<if test="meetingLeader != null and meetingLeader != ''">
+			and instr(T.MEETING_LEADERS, '${meetingLeader}') > 0
+		</if>
+		ORDER BY T.MEETING_TIME DESC
+	</select>
+
+	<!-- 查询全部项目数量 -->
+	<select id="getProjectListCount" resultType="int"  parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(
+		SELECT
+		FI.BUSINESS_ID as "BUSINESSID",
+		nvl(FI.PROJECT_NAME, fi.BULLETINNAME) as "PROJECTNAME",
+		fi.PROJECT_TYPE as "PROJECT_TYPE",
+		fi.PERTAINAREA_NAME as "PERTAINAREANAME",
+		fi.INVESTMENT_MANAGER_NAME as "INVESTMENTNAME",
+		fi.REVIEW_PERSON as "REVIEWPERSONNAME",
+		fi.LEGAL_REVIEW_PERSON as "LEGALREVIEWPERSONNAME",
+		FI.MEETING_TIME as "MEETING_TIME",
+		FI.WF_STATE,
+		FI.STAGE,
+		fi.MEETING_LEADERS as "MEETING_LEADERS",
+		fi.VOTING_RESULTS as "VOTING_RESULTS"
+		FROM rcm_v_report_data FI
+		) T
+		WHERE 1 = 1
+		and t.VOTING_RESULTS is not null
+		AND T.WF_STATE <![CDATA[ <> ]]> '0'
+		<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
+		<if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingLeader != null and meetingLeader != ''">
+			and instr(T.MEETING_LEADERS, '${meetingLeader}') > 0
+		</if>
+		ORDER BY T.MEETING_TIME DESC
+	</select>
+	<!--获取领导和秘书的映射关系-->
+	<select id="getLeaderSecretaryMappingList" resultType="map">
+		select
+        st.item_name as "leader",
+        st.item_code as "secretary"
+        from sys_dictionary sd, sys_dictionary_item st
+        where sd.dictionary_code = 'LEADER_SECRETARY_MAPPING'
+        and sd.uuid = st.fk_dictionary_uuid
+        and st.is_enabled = '1'
+	</select>
 </mapper>
 

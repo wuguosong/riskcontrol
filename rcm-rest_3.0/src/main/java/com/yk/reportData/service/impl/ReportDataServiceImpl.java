@@ -1,25 +1,26 @@
 package com.yk.reportData.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.mongodb.BasicDBObject;
+import com.yk.common.IBaseMongo;
+import com.yk.reportData.dao.IReportDataMapper;
+import com.yk.reportData.service.IReportDataService;
+import common.Constants;
+import common.PageAssistant;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.alibaba.fastjson.JSON;
-import com.mongodb.BasicDBObject;
-import com.yk.common.IBaseMongo;
-import com.yk.reportData.dao.IReportDataMapper;
-import com.yk.reportData.service.IReportDataService;
-
-import common.Constants;
 import util.Util;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -349,5 +350,108 @@ public class ReportDataServiceImpl implements IReportDataService {
 		/** 整理INFO表数据结束 **/
 
 		return data;
+	}
+
+	@Override
+	public PageAssistant getProjectList(PageAssistant page, String json) {
+		Map<String, Object> params = new HashMap();
+		Map<String, Object> params1 = new HashMap();
+		JSONObject js = JSONObject.parseObject(json, JSONObject.class);
+		String userId = null;
+		if(js != null){
+			if(js.get("loginUser") != null){
+				userId = this.getMeetingLeaderByCurrentUser(js.getString("loginUser"));
+			}
+		}
+		params.put("page", page);
+		if (page.getParamMap() != null) {
+			params.putAll(page.getParamMap());
+			params1.putAll(page.getParamMap());
+		}
+		List<Map<String, Object>> list = null;
+		if(StringUtils.isNotBlank(userId)){
+			params.put("meetingLeader", userId);
+			params1.put("meetingLeader", userId);
+		}
+		list = this.reportDataMapper.getProjectList(params);
+		// 设置表决结果
+		this.setVotingResult(list, userId);
+		int totalCount = this.reportDataMapper.getProjectListCount(params1);
+		page.setTotalItems(totalCount);
+		page.setList(list);
+		return page;
+	}
+
+	@Override
+	public String getMeetingLeaderByCurrentUser(String loginUser) {
+		List<Map<String, Object>> list = reportDataMapper.getLeaderSecretaryMappingList();
+		String userId = null;
+		if(CollectionUtils.isEmpty(list)){
+			return userId;
+		}
+		// 先直接判断领导是否是登录用户
+		for(Map<String,Object> map : list){
+			String leader = String.valueOf(map.get("leader"));
+			if(loginUser.equals(leader)){
+				return loginUser;
+			}
+		}
+		// 再判断当前登录用户是否是秘书，取其映射的领导
+		for(Map<String,Object> map : list){
+			String secretary = String.valueOf(map.get("secretary"));
+			if(loginUser.equals(secretary)){
+				String leader = String.valueOf(map.get("leader"));
+				return leader;
+			}
+		}
+		return userId;
+	}
+
+	/**
+	 * 设置表决结果
+	 * @param list
+	 */
+	private void setVotingResult(List<Map<String, Object>> list,String userId){
+		if(StringUtils.isNotBlank(userId)){
+			if(CollectionUtils.isNotEmpty(list)){
+				for(Map<String, Object> map : list){
+					String leaders = String.valueOf(map.get("MEETING_LEADERS"));
+					if(StringUtils.isNotBlank(leaders)){
+						String[] leadersArray = null;
+						if(leaders.contains(",")){
+							leadersArray = leaders.split(",");
+						}else{
+							leadersArray = new String[]{leaders};
+						}
+						int idx = -1;
+						// 获取评审索引
+						for(int i = 0; i < leadersArray.length; i++){
+							if(userId.equals(leadersArray[i])){
+								idx = i;
+								break;
+							}
+						}
+						// 获取评审结果
+						if(idx != -1){
+							String votes = String.valueOf(map.get("VOTING_RESULTS"));
+							if(StringUtils.isNotBlank(votes)){
+								String[] votesArray = null;
+								if(votes.contains(",")){
+									votesArray = votes.split(",");
+								}else{
+									votesArray = new String[]{votes};
+								}
+								for(int j = 0; j < votesArray.length; j++){
+									if(j == idx){
+										map.put("VOTING_RESULT", votesArray[j]);
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

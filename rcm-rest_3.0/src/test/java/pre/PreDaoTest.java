@@ -40,8 +40,8 @@ public class PreDaoTest {
         data.put("changeType", "1008611");
         data.put("oldUserId", "1008611");
         data.put("notifUsers", "1008611");
-        int result = preAuditLogMapper.save(data);
-        System.out.println("执行结果：" + result);
+        /*int result = preAuditLogMapper.save(data);
+        System.out.println("执行结果：" + result);*/
     }
 
     @Test
@@ -49,8 +49,8 @@ public class PreDaoTest {
         Map<String, Object> data = new HashMap();
         data.put("businessId", "5a1e2f7222ddf2508278de51");
         data.put("wf_state", "2");
-        int result = preInfoMapper.updateAuditStatusByBusinessId(data);
-        System.out.println("执行结果：" + result);
+        /*int result = preInfoMapper.updateAuditStatusByBusinessId(data);
+        System.out.println("执行结果：" + result);*/
     }
 
     @Test
@@ -62,7 +62,7 @@ public class PreDaoTest {
         }catch(Exception e){
             e.printStackTrace();
         }
-        int result = preInfoMapper.updateLastUpdateDate(data);
-        System.out.println("执行结果：" + result);
+        /*int result = preInfoMapper.updateLastUpdateDate(data);
+        System.out.println("执行结果：" + result);*/
     }
 }

@@ -3639,6 +3639,25 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
         /************************ 历史数据结束 ****************************/
+            /*===================新功能：秘书查询项目看板start==================*/
+            // 历史评审 - 首页项目查询
+            .when('/reportDataList/:url', {
+                controller: 'reportDataListCtrl',
+                templateUrl: 'page/rcm/reportData/projectBoardList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/reportData/projectBoardList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+        /*===================新功能：秘书查询项目看板end==================*/
     }
 ]);
 
