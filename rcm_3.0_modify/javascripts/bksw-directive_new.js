@@ -7213,7 +7213,6 @@ ctmApp.directive('directiveRoleUserRadioList', function() {
     };
 });
 
-/*
 // 投票结果详情弹出框
 ctmApp.directive('directMeetingVoteResultInfo', function(){
     return {
@@ -7229,6 +7228,9 @@ ctmApp.directive('directMeetingVoteResultInfo', function(){
             isYiPiaoFouJue: "="
         },
         controller:function($scope,$location,$http,Upload,$element){
+
+            $scope.title = '投票详情';
+
             $scope._initData = function () {
                 $http({
                     method:'post',
@@ -7236,21 +7238,9 @@ ctmApp.directive('directMeetingVoteResultInfo', function(){
                     data:$.param({"id":$scope.searchId})
                 }).success(function(data) {
                     if (data.success) {
-                        if (data.result_data.userVoteStatus != null && data.result_data.userVoteStatus == "1") {
-                            $location.path("/MeetingVoteWait/" + data.result_data.ID + "/" + $scope.oldUrl);
-                        } else {
-                            console.log($scope.decision);
-                            $scope.decision = data.result_data;
-                            $scope.decision.tongYiCountStyle = [];
-                            $scope.decision.tongYiCountStyle.width = $scope.decision.tongYiCount / $scope.decision.zongRenShu * 100 + "%";
-                            $scope.decision.buTongYiCountStyle = [];
-                            $scope.decision.buTongYiCountStyle.width = $scope.decision.buTongYiCount / $scope.decision.zongRenShu * 100 + "%";
-                            $scope.decision.tiaoJianTongYiCountStyle = [];
-                            $scope.decision.tiaoJianTongYiCountStyle.width = $scope.decision.tiaoJianTongYiCount / $scope.decision.zongRenShu * 100 + "%";
-                            $scope.decision.zeQiShangHuiCountStyle = [];
-                            $scope.decision.zeQiShangHuiCountStyle.width = $scope.decision.zeQiShangHuiCount / $scope.decision.zongRenShu * 100 + "%";
-                            console.log($scope.decision);
-                        }
+                        console.log(data.result_data);
+                        $scope.decisionOpinionList = data.result_data.decisionOpinionList;
+                        $scope.jueCeHuiYiZhuXiId = data.result_data.jueCeHuiYiZhuXiId;
                     } else {
                         $.alert(data.result_name);
                     }
@@ -7259,7 +7249,7 @@ ctmApp.directive('directMeetingVoteResultInfo', function(){
             $scope._initData();
         }
     }
-});*/
+});
 
 // 列表附件
 ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) {

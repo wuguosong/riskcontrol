@@ -59,7 +59,7 @@ ctmApp.register.controller('MeetingVoteResult', ['$http','$scope','$location','$
 
 	// 弹出结果页面
 	$scope.showResltInfo = function () {
-        $('#submitModal').modal('show');
+        $('#showVoteResultModel').modal('show');
 	};
 
     $scope.initialize();

@@ -1279,40 +1279,39 @@ public class DecisionServiceImpl implements IDecisionService {
 		// 项目类型(0:评审项目,1:通报项目)
 		String formalId = resultData.get("FORMAL_ID").toString();
 		int formalType = Integer.parseInt(resultData.get("FORMAL_TYPE").toString());
-		Map meetingData = null;
+		Map<String, Object> resultList = new HashMap<String, Object>();
 		Map<String, Object> queryData = null;
-		List<Map<String, Object>> meetingLeaders = null;
-		List<Map<String, Object>> decisionOpinionList = null;
-		String jueCeHuiYiZhuXiId = null;
+		Map meetingData = null;
 		switch (formalType) {
 		case 0:
 			queryData = baseMongo
 					.queryByCondition(new BasicDBObject("formalId", formalId), Constants.FORMAL_MEETING_INFO).get(0);
-			jueCeHuiYiZhuXiId = queryData.get("jueCeHuiYiZhuXiId").toString();
-			meetingLeaders = (List<Map<String, Object>>) queryData.get("decisionMakingCommitteeStaff");
-			decisionOpinionList = (List<Map<String, Object>>) queryData.get("decisionOpinionList");
-			resultData.put("project_name", queryData.get("projectName"));
+			resultList.put("project_name", queryData.get("projectName"));
+			resultList.put("decisionOpinionList", queryData.get("decisionOpinionList"));
+			resultList.put("meetingLeaders", queryData.get("decisionMakingCommitteeStaff"));
+			resultList.put("jueCeHuiYiZhuXiId", queryData.get("jueCeHuiYiZhuXiId"));
 			break;
 		case 1:
 			queryData = baseMongo.queryByCondition(new BasicDBObject("_id", formalId), Constants.RCM_BULLETIN_INFO)
 					.get(0);
 			meetingData = (Map) queryData.get("meeting");
-			jueCeHuiYiZhuXiId = meetingData.get("jueCeHuiYiZhuXiId").toString();
-			meetingLeaders = (List<Map<String, Object>>) meetingData.get("meetingLeaders");
-			decisionOpinionList = (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
-			resultData.put("project_name", queryData.get("bulletinName"));
+
+			resultList.put("project_name", meetingData.get("bulletinName"));
+			resultList.put("decisionOpinionList", meetingData.get("decisionOpinionList"));
+			resultList.put("meetingLeaders", meetingData.get("decisionMakingCommitteeStaff"));
+			resultList.put("jueCeHuiYiZhuXiId", meetingData.get("jueCeHuiYiZhuXiId"));
 			break;
 		case 2:
 			queryData = baseMongo.queryById(formalId, Constants.RCM_PRE_INFO);
 			meetingData = (Map) queryData.get("meetingInfo");
-			jueCeHuiYiZhuXiId = meetingData.get("jueCeHuiYiZhuXiId").toString();
-			meetingLeaders = (List<Map<String, Object>>) meetingData.get("meetingLeaders");
-			decisionOpinionList = (List<Map<String, Object>>) meetingData.get("decisionOpinionList");
 			Map apply = (Map) queryData.get("apply");
-			resultData.put("project_name", apply.get("projectName"));
+			resultList.put("project_name", apply.get("projectName"));
+			resultList.put("decisionOpinionList", meetingData.get("decisionOpinionList"));
+			resultList.put("meetingLeaders", meetingData.get("decisionMakingCommitteeStaff"));
+			resultList.put("jueCeHuiYiZhuXiId", meetingData.get("jueCeHuiYiZhuXiId"));
 			break;
 		}
 
-		return null;
+		return resultList;
 	}
 }

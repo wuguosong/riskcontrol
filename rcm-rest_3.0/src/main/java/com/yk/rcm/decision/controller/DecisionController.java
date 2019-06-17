@@ -332,8 +332,8 @@ public class DecisionController {
 	@ResponseBody
 	public Result getDecisionResultInfo(String id) {
 		Result result = new Result();
-		Map<String, Object> resultData = decisionService.getDecisionResultInfo(id);
-		result.setResult_data(resultData);
+		Map<String, Object> resultList = decisionService.getDecisionResultInfo(id);
+		result.setResult_data(resultList);
 		return result;
 	}
 	
