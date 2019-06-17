@@ -78,7 +78,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf2.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf2.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf2.queryObj.pertainareaName = $scope.params.pertainareaName;
-            $scope.paginationConf2.queryObj.wf_state = $scope.params.wf_statee;
+            $scope.paginationConf2.queryObj.wf_state = $scope.params.wf_state;
             $scope.paginationConf2.queryObj.stage = $scope.params.stage;
             $scope.paginationConf2.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf2.queryObj.applyDateEnd = $scope.params.applyDateEnd;

@@ -29,9 +29,9 @@
         <li>
             <a ng-if="firstLevelOpinion!=null" href="/#bs-tabdrop-tab3" data-toggle="tab">一级业务单位意见</a>
         </li>
-        <!-- <li>
+         <li>
              <a ng-if="fengkongOpinion!=null" href="/#bs-tabdrop-tab4"  data-toggle="tab">风控意见</a>
-         </li>-->
+         </li>
         <li>
             <a ng-show="mark!=null" href="/#bs-tabdrop-tab5" data-toggle="tab">能力评价</a>
         </li>
@@ -59,10 +59,31 @@
                 <directive-process-list ng-if="isOldFlow"></directive-process-list>
             </div>
             <div class="tab-pane" id="bs-tabdrop-tab2">
-                <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
-                                          page-location="formalAssessmentInfo" business-id="pfr.id"
-                                          wf-state="oracleData.WF_STATE" file-list="newAttachment"
-                                          init-update="initUpdate(id)"></directive-accachment-new>
+                <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                    <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
+                                              page-location="formalAssessmentInfo" business-id="pfr.id"
+                                              wf-state="oracleData.WF_STATE" file-list="newAttachment"
+                                              init-update="initUpdate(id)"></directive-accachment-new>
+                </div>
+                <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                    <div class="panel-body">
+                        <div class="myTab">
+                            <ul class="nav nav-tabs bs-tabdrop-example" id="_myMsgTab">
+                                <li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+                                <li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content tab-content-bordered clearfix row">
+                            <div class="tab-pane in active" id="reviewMessageTab">
+                                <bbs-chat-new id="formAssessmentAuditDetailBbsReview" business-id="{{pfr.id}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
+                            </div>
+                            <div class="tab-pane" id="legalMessageTab">
+                                <bbs-chat-new id="formAssessmentAuditDetailBbsLegal" business-id="{{pfr.id}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
             </div>
             <div class="tab-pane" id="bs-tabdrop-tab3">
@@ -81,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="tab-pane" id="bs-tabdrop-tab4">
+             <div class="tab-pane" id="bs-tabdrop-tab4">
                  <div class="panel" ng-show="fengkongOpinion.approveAttachment!= null && fengkongOpinion.approveAttachment != ''">
                      <div class="panel-heading">
                          <a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#commentsFeedback" data-toggle="collapse"><span class="text">初步评审意见反馈<i class="i-triangle"></i></span></a>
@@ -181,7 +202,7 @@
                                              </td>
                                              <td>
                                                  <select disabled="disabled" ng-model="m.attachmentUList"  ng-options="f.ITEM_NAME for f in fileName track by f.UUID" class="form-control">
-                                                     <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+                                                     <option value="">---请选择---</option>
                                                  </select>
                                              </td>
                                              <td class="attachmentTd">
@@ -300,9 +321,9 @@
                                                      <span class="lbl">&nbsp;</span>
                                                  </label>
                                              </td>
-                                             <td>  &lt;!&ndash;  ng-options="f.UUID as f.ITEM_NAME for f in  dic.fileName track by f.UUID"&ndash;&gt;
+                                             <td>  <!--  ng-options="f.UUID as f.ITEM_NAME for f in  dic.fileName track by f.UUID"-->
                                                  <select disabled="disabled" ng-model="am.attachmentUList"  ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
-                                                     <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+                                                     <option value="">---请选择---</option>
                                                  </select>
                                              </td>
                                              <td class="attachmentTd">
@@ -324,7 +345,7 @@
                          </div>
                      </div>
                  </div>
-             </div>-->
+             </div>
             <div class="tab-pane" id="bs-tabdrop-tab5">
                 <div class="row">
                     <div class="row col-md-6" id="markPieChart" style="width: 500px;height: 330px;float: left;"></div>

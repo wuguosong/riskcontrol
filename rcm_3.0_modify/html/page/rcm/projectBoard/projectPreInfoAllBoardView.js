@@ -301,14 +301,14 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                         $scope.reduceAttachment(data.result_data.projectInfo.attachmentList, objId);
                         //2、一级业务单位意见
                         $scope.firstLevelOpinion = data.result_data.firstLevelOpinion;
-                       /* //3、风控意见
+                        //3、风控意见
                         $scope.fengkongOpinion = data.result_data.fengkongOpinion;
                         $scope.fileName=[];
                         var filenames=$scope.pre.attachment;
                         for(var i=0;i<filenames.length;i++){
                             var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
                             $scope.fileName.push(arr);
-                        }*/
+                        }
                         //4、投资评审报告
                         var file = attach_list('preReportInfo', $scope.businessId, 'preReport').result_data;
                         if (!isEmpty(file) && !isEmpty(data.result_data.report)){
