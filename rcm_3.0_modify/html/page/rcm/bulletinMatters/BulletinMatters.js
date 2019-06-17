@@ -303,7 +303,8 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 			$scope.APPLYINGUNIT_ID_OLD = data.REPORTINGUNIT_ID;
 			//申请人单位负责人名称
 			$scope.APPLYHEADER_NAME_OLD = data.COMPANYHEADER_NAME;
-			$scope.APPLYHEADER_ID_OLD = data.APPLYUSER_ID;
+            // $scope.APPLYHEADER_ID_OLD = data.APPLYUSER_ID;
+			$scope.APPLYHEADER_ID_OLD = data.COMPANYHEADER_ID;
 			
 			$scope.APPLYHEADER_NAME = $scope.bulletin.unitPerson.NAME;
 			$scope.APPLYHEADER_ID = $scope.bulletin.unitPerson.VALUE;
@@ -491,6 +492,26 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
 		}
      };*/
 
+	/*==========提交前保存方法========*/
+     $scope.saveBeforeApproval = function(){
+         if(!$("#myForm").valid()) {
+             $.alert("有必填项未填！");
+             return false;
+         }
+         var url = srvUrl + "bulletinInfo/saveOrUpdate.do";
+         $http({
+             method:'post',
+             url: url,
+             data: $.param({"json": JSON.stringify($scope.bulletin)})
+         }).success(function (result) {
+             if (result.success){
+                 $scope.bulletin._id = result.result_data;
+             } else {
+                 $.alert(result.result_name);
+             }
+         });
+         return true;
+     };
 
 	//保存
 	$scope.save = function(callBack){
@@ -543,7 +564,15 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
                  alert(result.review.message);
                  return;
              } else {
-                 $scope.showSubmitModal();
+             	if(!isEmpty($scope.queryParamId) && $scope.queryParamId.length > 8){
+                    if($scope.saveBeforeApproval()){
+                        $scope.showSubmitModal();
+                    };
+				}else{
+                    $.alert('项目初次创建，请先保存！');
+                    return;
+				}
+				// $scope.showSubmitModal();
              }
          });
      };
