@@ -97,7 +97,6 @@
 												<tr ng-repeat=" p in projectReport1">
 													<td class="txc">{{$index+1}}</td>
 													<td>
-														{{ tabIndex }}
 														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>-->
 														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>-->
 														<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
