@@ -391,7 +391,7 @@
 						</div>
 					</div>
 					<!--审批-->
-					<div class="panel" ng-show="!isOldFlow && hasWaiting && isShowEdit">
+					<div class="panel" ng-show="!isOldFlow && hasWaiting"><!--&&isShowEdit-->
 						<div class="panel-heading">
 							<a class="accordion-toggle collapsed" href="/#approvalPart"
 							   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
@@ -757,17 +757,17 @@
 								<!-- 8.22新增 专家评审显示保存按钮 -->
 								<button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
 								<!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
-								<button ng-if="isOldFlow && hasWaiting && isShowEdit" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
-								<!-- 新提交模态框 -->
+								<button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+								<!-- 新提交模态框 --><!--&& isShowEdit-->
 								<!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
                                     <formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
                                 </div>-->
 								<!-- 旧提交模态框 -->
-								<div id="oldSubmitModal" ng-if="isOldFlow && isShowEdit" class="modal" tabindex="-1" role="dialog" style="display: none;">
-									<approve-pop-win approvearr="approve"></approve-pop-win>
+								<div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+									<approve-pop-win approvearr="approve"></approve-pop-win><!-- && isShowEdit-->
 								</div>
-								<a ng-if="!isOldFlow && hasWaiting && isShowEdit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
-								   ng-click="submitNext()">提交</a>
+								<a ng-if="!isOldFlow && hasWaiting"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+								   ng-click="submitNext()">提交</a><!-- && isShowEdit-->
 							</div>
 						</div>
 					</div>

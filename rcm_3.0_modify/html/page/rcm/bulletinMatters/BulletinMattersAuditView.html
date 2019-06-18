@@ -315,7 +315,7 @@
 						</div>
 					</div>
 					<!--审批-->
-					<div class="panel" ng-show="showSubmit && isShowEdit">
+					<div class="panel" ng-show="showSubmit"><!--&&isShowEdit-->
 						<div class="panel-heading">
 							<a class="accordion-toggle collapsed" href="/#approvalPart"
 							   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
@@ -474,8 +474,8 @@
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
 					<!--<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
 					<!--<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>-->
-					<a ng-if="showSubmit && isShowEdit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
-					   ng-click="submitNext()">提交</a>
+					<a ng-if="showSubmit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+					   ng-click="submitNext()">提交</a><!-- && isShowEdit-->
 					<!--<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
                         <bpmn-pop-win approve="approve"></bpmn-pop-win>
                     </div>-->
