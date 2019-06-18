@@ -266,11 +266,13 @@
 		FI.WF_STATE,
 		FI.STAGE,
 		fi.MEETING_LEADERS as "MEETING_LEADERS",
+		fi.MEETINGLEADERS as "MEETING_LEADERS_C",
+		fi.DECISIONRESULT as "DECISION_RESULT",
 		fi.VOTING_RESULTS as "VOTING_RESULTS"
 		FROM rcm_v_report_data FI
 		) T
 		WHERE 1 = 1
-		and t.VOTING_RESULTS is not null
+		and t.DECISION_RESULT is not null
 		AND T.WF_STATE <![CDATA[ <> ]]> '0'
 		<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
 		<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
@@ -310,11 +312,13 @@
 		FI.WF_STATE,
 		FI.STAGE,
 		fi.MEETING_LEADERS as "MEETING_LEADERS",
+		fi.MEETINGLEADERS as "MEETING_LEADERS_C",
+		fi.DECISIONRESULT as "DECISION_RESULT",
 		fi.VOTING_RESULTS as "VOTING_RESULTS"
 		FROM rcm_v_report_data FI
 		) T
 		WHERE 1 = 1
-		and t.VOTING_RESULTS is not null
+		and t.DECISION_RESULT is not null
 		AND T.WF_STATE <![CDATA[ <> ]]> '0'
 		<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
 		<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>

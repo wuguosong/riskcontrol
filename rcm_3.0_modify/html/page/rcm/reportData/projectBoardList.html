@@ -21,7 +21,7 @@
             <div class="col-sm-4 col-md-3 sm-col">
                 <input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="params.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
             </div>
-            <label class="col-sm-2 col-md-1 control-label">评审状态</label>
+            <!--<label class="col-sm-2 col-md-1 control-label">评审状态</label>
             <div class="col-sm-4 col-md-3 sm-col">
                 <select name="STAGE" id="STAGE" class="form-control"
                         ng-model="params.stage">
@@ -35,14 +35,28 @@
                     <option value="7">已确认通知书/填写会议纪要</option>
                     <option value="9">无需上会</option>
                 </select>
-            </div>
+            </div>-->
             <label class="col-sm-2 col-md-1 control-label">所属大区</label>
             <div class="col-sm-4 col-md-3 sm-col">
                 <input type="text" name="PERTAINAREA_NAME" id="PERTAINAREA_NAME" ng-model="params.pertainareaName" class="form-control ng-pristine ng-untouched ng-valid" />
             </div>
+            <label class="col-sm-2 col-md-1">决策委员会委员</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <div id="fixed-member-box">
+                    <div class="select2-success">
+                        <direct-fzr-single-select
+                                id="{{'MEETING_LEADERS'}}"
+                                is-multi-select="{{'false'}}"
+                                checked-user="meetingLeader"
+                                url="reportData/queryRoleUserByCode.do?code=DECISION_LEADERS"
+                        >
+                        </direct-fzr-single-select>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-md-1 control-label">投资经理</label>
+            <!--<label class="col-sm-2 col-md-1 control-label">投资经理</label>
             <div class="col-sm-4 col-md-3 sm-col">
                 <input type="text" name="INVESTMENT_NAME" id="INVESTMENT_NAME" ng-model="params.investmentName" class="form-control ng-pristine ng-untouched ng-valid" />
             </div>
@@ -53,9 +67,7 @@
             <label class="col-sm-2 col-md-1 control-label">评审负责人</label>
             <div class="col-sm-4 col-md-3 sm-col">
                 <input type="text" name="REVIEW_PERSON_NAME" id="REVIEW_PERSON_NAME" ng-model="params.reviewPersonName" class="form-control ng-pristine ng-untouched ng-valid" />
-            </div>
-        </div>
-        <div class="form-group row">
+            </div>-->
             <label class="col-sm-2 col-md-1 control-label">表决时间（从）</label>
             <div class="col-sm-4 col-md-3 sm-col has-feedback">
                 <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_START" name="APPLY_DATE_START" ng-model="params.applyDateStart" />
@@ -72,6 +84,13 @@
                 <button class="btn btn-info" ng-click="cancel()">清除</button>
             </div>
         </div>
+        <!--<div class="form-group row">
+            <div class="col-sm-2 col-md-1 sm-col"></div>
+            <div class="col-sm-4 col-md-3"></div>
+            <div class="col-sm-2 col-md-1 sm-col"></div>
+            <div class="col-sm-4 col-md-3"></div>
+
+        </div>-->
     </div>
     <!--<ul class="nav nav-tabs bs-tabdrop-example" style="margin-bottom: -9px;">
         <li class="active">
@@ -87,15 +106,12 @@
                             <thead>
                             <tr>
                                 <th width="5%">序号</th>
-                                <th style="text-align: center" width="31%">项目名称</th>
-                                <th width="8%">评审类型</th>
-                                <th width="8%">所属大区</th>
-                                <th width="8%">投资经理</th>
-                                <th width="8%">评审负责人</th>
-                                <th width="8%">法律负责人</th>
-                                <th width="8%">表决时间</th>
-                                <th width="8%">表决结果</th>
-                                <th width="8%">评审状态</th>
+                                <th style="text-align: center" width="45%">项目名称</th>
+                                <th width="15%">评审类型</th>
+                                <th width="15%">所属大区</th>
+                                <th width="10%">表决时间</th>
+                                <th width="10%">表决结果</th>
+                                <!--<th width="8%">评审状态</th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -114,18 +130,14 @@
                                 <td>
                                     <a style="color: black" title="{{p.PERTAINAREANAME}}"> {{ p.PERTAINAREANAME|projectNameFilter:8 }}</a>
                                 </td>
-                                <td>{{p.INVESTMENTNAME}}</td>
+                                <!--<td>{{p.INVESTMENTNAME}}</td>
                                 <td>{{p.REVIEWPERSONNAME}}</td>
-                                <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                <td>{{p.LEGALREVIEWPERSONNAME}}</td>-->
                                 <td>{{p.MEETING_TIME |projectTimeFilter: 10}}</td>
                                 <td>
-                                    <span style="color: black" ng-if="'0'== p.VOTING_RESULT || 'null' == p.VOTING_RESULT">没投票</span>
-                                    <span style="color: black" ng-if="'1'== p.VOTING_RESULT">同意</span>
-                                    <span style="color: black" ng-if="'2'== p.VOTING_RESULT">不同意</span>
-                                    <span style="color: black" ng-if="'3'== p.VOTING_RESULT">有条件同意</span>
-                                    <span style="color: black" ng-if="'4'== p.VOTING_RESULT">择期决议</span>
+                                    {{p.DECISION_RESULT | voteResultFilter}}
                                 </td>
-                                <td>
+                                <!--<td>
                                     <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
                                     <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
                                     <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
@@ -134,7 +146,7 @@
                                     <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
                                     <a style="color: black" ng-if="'7'== p.STAGE">已确认通知书</a>
                                     <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
-                                </td>
+                                </td>-->
                             </tr>
                             </tbody>
                         </table>

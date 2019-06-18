@@ -556,6 +556,19 @@ ctmApp.filter('htmlToText', function () {
         return htmlToText(text);
     }
 });
+ctmApp.filter('voteResultFilter', function () {
+    return function (text) {
+        if(isEmpty(text)){
+            return text;
+        }
+        text = text.replace(/(null|0)(.*?)/gi, '没投票');
+        text = text.replace(/1(.*?)/gi, '同意');
+        text = text.replace(/2(.*?)/gi, '不同意');
+        text = text.replace(/3(.*?)/gi, '有条件同意');
+        text = text.replace(/4(.*?)/gi, '择期决议');
+        return text;
+    }
+});
 ctmApp.filter('contentEllipsisFilter', function () {
     return function (_content) {
         var _newContent = '';

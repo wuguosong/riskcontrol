@@ -1,5 +1,6 @@
 package com.yk.reportData.controller;
 
+import com.yk.power.service.IRoleService;
 import com.yk.reportData.service.IReportDataService;
 import common.PageAssistant;
 import common.Result;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 同步报表数据
@@ -21,6 +24,8 @@ public class ReportDataController {
 
     @Resource
     private IReportDataService reportDataService;
+    @Resource
+    private IRoleService roleService;
 
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
@@ -54,6 +59,24 @@ public class ReportDataController {
         this.reportDataService.getProjectList(page, json);
         page.setParamMap(null);
         result.setResult_data(page);
+        return result;
+    }
+
+
+    /**
+     * 根据角色编码查询用户
+     *
+     * @param code 角色编码
+     * @return
+     */
+    @RequestMapping("queryRoleUserByCode")
+    @ResponseBody
+    public Result queryRoleUserByCode(String code) {
+        Result result = new Result();
+        List<Map<String, Object>> mapList = roleService.queryRoleuserByCode(code);
+        // 对结果进行过滤，根据当前登录用户
+        // mapList = reportDataService.filterRoleUser(mapList);
+        result.setResult_data(mapList);
         return result;
     }
 }

@@ -765,7 +765,11 @@ ctmApp.directive('directFzrSingleDialog', function() {
                 });
                 if($scope.isMultiSelect == "false"){
                     if($scope._jsonIsEmpty($scope.tempCheckedUser) || $scope._jsonIsEmpty($scope.checkedUser)){
-                        $scope.tempCheckedUser = {'VALUE':_users[0].VALUE,'NAME':_users[0].NAME};
+                        try{
+                            $scope.tempCheckedUser = {'VALUE':_users[0].VALUE,'NAME':_users[0].NAME};
+                        }catch (e){
+                            $scope.tempCheckedUser = {};
+                        }
                     }
                 }else if($scope.isMultiSelect == "true"){
                     if($scope.tempCheckedUser.length < 0 || $scope.checkedUser.length < 0){

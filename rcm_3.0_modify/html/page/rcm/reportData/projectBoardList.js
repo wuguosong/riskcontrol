@@ -25,14 +25,15 @@ ctmApp.register.controller('reportDataListCtrl', ['$routeParams', '$http', '$sco
         $scope.paginationConf1.queryObj.userId = $scope.credentials.UUID;
         if (!isEmpty($scope.params)) {
             $scope.paginationConf1.queryObj.projectName = $scope.params.projectName;
-            $scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
-            $scope.paginationConf1.queryObj.reviewPersonName = $scope.params.reviewPersonName;
-            $scope.paginationConf1.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
+            //$scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
+            //$scope.paginationConf1.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            //$scope.paginationConf1.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf1.queryObj.pertainareaName = $scope.params.pertainareaName;
-            $scope.paginationConf1.queryObj.wf_state = $scope.params.wf_state;
-            $scope.paginationConf1.queryObj.stage = $scope.params.stage;
+            //$scope.paginationConf1.queryObj.wf_state = $scope.params.wf_state;
+            //$scope.paginationConf1.queryObj.stage = $scope.params.stage;
             $scope.paginationConf1.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf1.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+            $scope.paginationConf1.queryObj.meetingLeader = $scope.meetingLeader.VALUE;
         }
         $http({
             method: 'post',
@@ -55,18 +56,20 @@ ctmApp.register.controller('reportDataListCtrl', ['$routeParams', '$http', '$sco
     $scope.cancel = function () {
         if (!isEmpty($scope.params)) {
             $scope.params.projectName = '';
-            $scope.params.investmentName = '';
-            $scope.params.reviewPersonName = '';
-            $scope.params.legalReviewPersonName = '';
+            //$scope.params.investmentName = '';
+            //$scope.params.reviewPersonName = '';
+            //$scope.params.legalReviewPersonName = '';
             $scope.params.pertainareaName = '';
-            $scope.params.stage = '';
-            $scope.params.wf_state = '';
+            //$scope.params.stage = '';
+            //$scope.params.wf_state = '';
             $scope.params.applyDateEnd = '';
             $scope.params.applyDateStart = '';
+            $scope.meetingLeader = {}
             $scope.getProjectList();
         }
     };
     // 监听分页条件变化
     $scope.$watch('paginationConf1.currentPage + paginationConf1.itemsPerPage', $scope.getPfrProjectList);
     $scope.initData();
+    $scope.meetingLeader = {};
 }]);

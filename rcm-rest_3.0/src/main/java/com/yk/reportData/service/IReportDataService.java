@@ -2,6 +2,9 @@ package com.yk.reportData.service;
 
 import common.PageAssistant;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Sunny Qi
  */
@@ -25,8 +28,17 @@ public interface IReportDataService {
 
     /**
      * 通过当前登录用户获取MeetingLeader
+     *
      * @param loginUser
      * @return
      */
     String getMeetingLeaderByCurrentUser(String loginUser);
+
+    /**
+     * 过滤查询到的角色用户列表
+     *
+     * @param mapList
+     * @return
+     */
+    List<Map<String, Object>> filterRoleUser(List<Map<String, Object>> mapList);
 }
