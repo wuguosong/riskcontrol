@@ -57,10 +57,6 @@
             </div>
         </div>
         <div style="text-align: left;font-size: small;">
-            <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
-               ng-click="_submit_message_form_('Y', '', '', '', '', '', 'Y')">
-                <span class="addlabel blue">发表留言</span>
-            </a>
             <!--表单附件上传start-->
             <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
                ng-click="_show_message_attach_popup('Y', '', '', '', '', '')">
@@ -68,6 +64,10 @@
             </a>
             <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_first.html'"></span>
             <!--表单附件上传end-->
+            <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
+               ng-click="_submit_message_form_('Y', '', '', '', '', '', 'Y')">
+                <span class="addlabel blue">发表留言</span>
+            </a>
         </div>
     </div>
     <!--锚点-顶部-->
@@ -177,6 +177,13 @@
                 <input type="text" ng-model="_message.repliedBy" ng-hide="true">
                 <input type="text" ng-model="_message.repliedName" ng-hide="true">
                 <input type="text" ng-model="_message.via" ng-hide="true">
+                <!--表单附件上传start-->
+                <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
+                   ng-click="_show_message_attach_popup('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
+                    <span class="addlabel blue">选择附件</span>
+                </a>
+                <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_form.html'"></span>
+                <!--表单附件上传end-->
                 <a href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index, 'Y')">
                     <span class="addlabel blue">回复</span>
@@ -193,13 +200,6 @@
                    data-target="#_via_users_mul_dialog">
                     <span class="addlabel blue">@用户</span>
                 </a>-->
-                <!--表单附件上传start-->
-                <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
-                   ng-click="_show_message_attach_popup('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
-                    <span class="addlabel blue">选择附件</span>
-                </a>
-                <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_form.html'"></span>
-                <!--表单附件上传end-->
             </form>
         </div>
     </div>
