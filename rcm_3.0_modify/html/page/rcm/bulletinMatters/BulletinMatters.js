@@ -314,16 +314,19 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
                     $scope.tbsxTypeModel = JSON.stringify(angular.copy(data));
                 }
             });
-            $scope.changeTbsxType();
+            $scope.changeTbsxType(1);
             hide_Mask();
+            console.log($scope.bulletin.bulletinName);
 		});
 	};
 	$scope.initDefaultData();
 	// 修改事项类型事件
-	$scope.changeTbsxType = function(){
+	$scope.changeTbsxType = function(flag){
+		if (flag != 1){
+            $scope.bulletinNameBuild();
+            $scope.setTitle();
+		}
 
-        $scope.bulletinNameBuild();
-        $scope.setTitle();
         console.log($scope.tbsxTypeModel);
 		var tbsxTypeModel = $scope.tbsxTypeModel;
 		if(tbsxTypeModel == null){
@@ -704,7 +707,7 @@ ctmApp.register.controller('BulletinMattersDetail', ['$http','$scope','$location
          }
      };
 
-     $scope.$watch('tbsxTypeModel', $scope.bulletinNameBuild);
+    /* $scope.$watch('tbsxTypeModel', $scope.bulletinNameBuild);*/
 }]);
 
 ctmApp.register.controller('BulletinMattersDetailView', ['$http','$scope','$location', '$routeParams', '$filter',
