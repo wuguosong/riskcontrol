@@ -667,4 +667,13 @@
 		 where (p.pigeonhole_status is null or p.pigeonhole_status = '1') 
 		   and (p.WF_STATE in ('3') or p.stage in ('7', '9'))
 	</select>
+	
+	<update id="updateStageByProjectType" parameterType="hashmap">
+	    update ${table} 
+		  set stage=${stage}
+		      <if test="projectType != 'bulletin'">
+		            ,need_meeting=${need_meeting},metting_commit_time=to_date(#{metting_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss') 
+		       </if>
+		where BUSINESSID = '${businessId}'
+	</update>
 </mapper>

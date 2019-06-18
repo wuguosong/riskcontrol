@@ -159,7 +159,7 @@ public interface IFormalAssessmentInfoService {
 	 * @param stage
 	 * @param need_meeting 
 	 */
-	public void updateStageById(String businessId, String stage, String need_meeting);
+	public void updateStageById(String businessId, String stage, String need_meeting, String projectType);
 	
 	/**
 	 * 查询所有评审项目

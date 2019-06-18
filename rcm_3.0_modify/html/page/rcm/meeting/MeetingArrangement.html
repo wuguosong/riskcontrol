@@ -41,6 +41,10 @@
 								<div class="txl col-md-2 padding0">
 									<button class="btn btn-info" ng-click="toAddNotSubmitProject()"><i class="fa fa-bullhorn"></i>暂存</button>
 									<button class="btn btn-info" ng-click="getForamlAssessmentSubmitedList()">查询</button>
+									<button ng-click="noNeedMeeting()" ng-if="showFlag" type="button"  id="submitBtn" class="btn btn-info" title="">无需上会</button>
+									<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+										<no-need-meeting-bpmn-pop-win business-id="businessId"></no-need-meeting-bpmn-pop-win>
+									</div>
 								</div>
 								<div class="txl col-md-10">
 									<div class="panel-body search-body" style="padding-top: 3px;">

@@ -83,7 +83,8 @@ public class ConferenceInformationController {
 		String businessId = request.getParameter("businessId");
 		String stage = request.getParameter("stage");
 		String need_meeting = request.getParameter("need_meeting");
-		this.formalAssessmentInfoService.updateStageById(businessId,stage,need_meeting);
+		String projectType = request.getParameter("projectType");
+		this.formalAssessmentInfoService.updateStageById(businessId,stage,need_meeting,projectType);
 		return result;
 	}
 

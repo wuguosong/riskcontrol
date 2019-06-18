@@ -1114,7 +1114,7 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 
 	
 	@Override
-	public void updateStageById(String businessId, String stage,String need_meeting) {
+	public void updateStageById(String businessId, String stage,String need_meeting,String projectType) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String[] businessIdArr = businessId.split(",");
 		for (String id : businessIdArr) {
@@ -1122,7 +1122,17 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 			map.put("stage", "9");
 			map.put("need_meeting", "0");
 			map.put("metting_commit_time", Util.getTime());
-			this.formalAssessmentInfoMapper.updateStage(map);
+			map.put("projectType", projectType);
+			
+			if ("pfr".equals(projectType)){
+				map.put("table", Constants.RCM_FORMALASSESSMENT_INFO);
+			} else if ("pre".equals(projectType)) {
+				map.put("table", Constants.RCM_PRE_INFO);
+			} else {
+				map.put("table", Constants.RCM_BULLETIN_INFO);
+			}
+			
+			this.formalAssessmentInfoMapper.updateStageByProjectType(map);
 			
 			
 			this.daxtService.prfStart(id);

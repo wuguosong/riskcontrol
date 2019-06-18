@@ -137,11 +137,24 @@ ctmApp.register.controller('MeetingArrangement', ['$http','$scope','$location','
 			}
 		});
 	};
+
+    // 使用无需上会权限
+    $scope.isShowInfo = function () {
+        var currentUserRoles = $scope.credentials.roles;
+        $scope.showFlag = false;
+        angular.forEach(currentUserRoles, function (data, index, array) {
+            if (data.CODE == '1') { // 风控部门管理员角色
+                $scope.showFlag = true;
+            }
+        });
+    };
+    
 	$scope.initData = function(){
+        $scope.isShowInfo();
 		$scope.queryCanArrangeProjectListByPage();
 		$scope.queryNotSubmitProjectList();
 		$scope.querySubmitMeetingListByPage();
-	}
+	};
 	$scope.initData();
     $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryCanArrangeProjectListByPage);
     $scope.$watch('paginationConfes.currentPage + paginationConfes.itemsPerPage', $scope.querySubmitMeetingListByPage);
@@ -166,4 +179,47 @@ ctmApp.register.controller('MeetingArrangement', ['$http','$scope','$location','
         }
     	$location.path("/MeetingUpdate/"+projectArray[0]);
 	};
+
+    /** 无需上会 **/
+    $scope.noNeedMeeting = function () {
+        var canArrangeProjectCheckboxs = document.getElementsByName("canArrangeProjectCheckbox");
+        var projectArray = new Array(),num=0;
+        for(var i=0;i<canArrangeProjectCheckboxs.length;i++)
+        {
+            if(canArrangeProjectCheckboxs[i].checked)
+            {
+                projectArray[num] = canArrangeProjectCheckboxs[i].value;
+                num++;
+            }
+        }
+        if(projectArray.length == 0){
+            $.alert("请选择无需上会的项目！");
+            return false;
+        }
+        if(projectArray.length > 1){
+            $.alert("请只选择一条数据进行操作!");
+            return false;
+        }
+
+
+        $.confirm("确认选中项目无需上会吗？",function(){
+            var m = [];
+            for(var i = 0; i < projectArray.length; i++){
+            	m = JSON.parse(projectArray[0]);
+            }
+            $http({
+                method:'post',
+                url: srvUrl + "information/noNeedMeeting.do",
+                data: $.param({
+                    "businessId": m.BUSINESS_ID,
+                    "stage": $scope.stage,
+                    "need_meeting": $scope.need_meeting,
+					"projectType": m.PROJECT_TYPE
+                })
+            }).success(function(result){
+                $.alert(result.result_name);
+                $scope.initData();
+            });
+        });
+    };
 }]);

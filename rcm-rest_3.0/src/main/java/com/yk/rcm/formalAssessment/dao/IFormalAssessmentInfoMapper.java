@@ -164,4 +164,10 @@ public interface IFormalAssessmentInfoMapper extends BaseMapper {
 	void updatePigeStatByBusiId(Map<String, Object> params);
 
 	List<Map<String, Object>> queryEnvirSubmitedByPage(Map<String, Object> params);
+	
+	/**
+	 * 保存之后修改stage状态
+	 * @param map
+	 */
+	public void updateStageByProjectType(Map<String, Object> map);
 }
