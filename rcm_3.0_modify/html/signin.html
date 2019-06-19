@@ -71,7 +71,7 @@
 		$scope.login=function() {
 			$http({
       			method:'POST',  
-      		    url: srvUrl + "user/getAUser.do",
+      		    url: "/rcm-rest/user/getAUser.do",
       		    data:$.param({"json":JSON.stringify($scope.credentials)})
       		}).success(function(data){
             	if(data.success){
