@@ -383,4 +383,5 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
             });
 
             $scope.initUpdate(objId);
+            $scope._init_uuid_ = $scope.credentials.UUID;
         }]);

@@ -65,4 +65,5 @@ ctmApp.register.controller('projectBulletinInfoAllBoardView', ['$http','$scope',
 			$(":checkbox[name='choose']").attr("checked",false);
 		}
 	}
+	$scope._init_uuid_ = $scope.credentials.UUID;
 }]);
