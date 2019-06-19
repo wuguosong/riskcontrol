@@ -2307,11 +2307,13 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 });
             };
             // 分页参数初始化
-            $scope._message_pagination_configuration_ = {};
-            $scope._message_pagination_configuration_.queryObj = {};
-            $scope._message_pagination_configuration_.itemsPerPage = 5;
-            $scope._message_pagination_configuration_.perPageOptions = [5, 10, 15, 20, 25, 30];
-            $scope.$watch('_message_pagination_configuration_.currentPage + _message_pagination_configuration_.itemsPerPage', $scope._query_messages_list_page_);
+            if($scope._is_pagination_){
+                $scope._message_pagination_configuration_ = {};
+                $scope._message_pagination_configuration_.queryObj = {};
+                $scope._message_pagination_configuration_.itemsPerPage = 5;
+                $scope._message_pagination_configuration_.perPageOptions = [5, 10, 15, 20, 25, 30];
+                $scope.$watch('_message_pagination_configuration_.currentPage + _message_pagination_configuration_.itemsPerPage', $scope._query_messages_list_page_);
+            }
             // 查询初始化
             if(!$scope._is_pagination_){
                 $scope._query_messages_list_(0);
