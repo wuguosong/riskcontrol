@@ -37,6 +37,34 @@
                               SELECT FL.BUSINESSID BUSINESS_ID
                                 FROM RCM_FORMALASSESSMENT_LOG FL
                                WHERE FL.AUDITUSERID = #{userId}))
+                               
+        UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pfr'))
 
         UNION ALL
 
@@ -70,6 +98,34 @@
                                   SELECT PL.BUSINESSID BUSINESS_ID
                                     FROM RCM_PRE_LOG PL
                                    WHERE PL.AUDITUSERID = #{userId}))
+                                   
+        UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pre'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pre'))
 
         UNION ALL
 
@@ -118,7 +174,7 @@
 			 　#{stage}
 		   </foreach>
 		</if>
-      ORDER BY T.CREATE_DATE DESC
+      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询项目列表, 查询角色绑定的项目以及本人参与审批的项目数量 -->
@@ -156,6 +212,34 @@
                               SELECT FL.BUSINESSID BUSINESS_ID
                                 FROM RCM_FORMALASSESSMENT_LOG FL
                                WHERE FL.AUDITUSERID = #{userId}))
+                               
+        UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pfr'))
 
         UNION ALL
 
@@ -189,6 +273,34 @@
                                   SELECT PL.BUSINESSID BUSINESS_ID
                                     FROM RCM_PRE_LOG PL
                                    WHERE PL.AUDITUSERID = #{userId}))
+                                   
+        UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pre'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pre'))
 
         UNION ALL
 
@@ -237,7 +349,7 @@
 			 　#{stage}
 		   </foreach>
 		</if>
-      ORDER BY T.CREATE_DATE DESC
+      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询项目列表, 查询所有项目 -->
@@ -259,6 +371,24 @@
                      FI.APPLY_DATE,
                      FI.STAGE
                 FROM RCM_FORMALASSESSMENT_INFO FI
+                
+        UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+          FROM RCM_HISTORY_DATA RHD
+         WHERE RHD.PROJECT_TYPE = 'pfr'
 
         UNION ALL
 
@@ -276,6 +406,24 @@
                PI.APPLY_DATE,
                PI.STAGE
           FROM RCM_PRE_INFO PI
+          
+       UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+          FROM RCM_HISTORY_DATA RHD
+         WHERE RHD.PROJECT_TYPE = 'pre'
 
         UNION ALL
 
@@ -315,7 +463,7 @@
         <if test="applyDateEnd != null and applyDateEnd != ''">
             and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
         </if>
-      ORDER BY T.CREATE_DATE DESC
+      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询项目列表, 查询所有项目 -->
@@ -337,6 +485,24 @@
                      FI.APPLY_DATE,
                      FI.STAGE
                 FROM RCM_FORMALASSESSMENT_INFO FI
+                
+        UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+          FROM RCM_HISTORY_DATA RHD
+         WHERE RHD.PROJECT_TYPE = 'pfr'
 
         UNION ALL
 
@@ -354,6 +520,24 @@
                PI.APPLY_DATE,
                PI.STAGE
           FROM RCM_PRE_INFO PI
+          
+       UNION ALL
+        
+        SELECT to_char(RHD.ID) ID,
+	           RHD.BUSINESS_ID BUSINESSID,
+	           RHD.PROJECT_NAME PROJECTNAME,
+	           RHD.PROJECT_TYPE,
+	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	           RHD.CREATE_BY INVESTMENTNAME,
+	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
+               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+               RHD.CREATE_TIME CREATE_DATE,
+	           '5' WF_STATE,
+	           '' OLDDATA,
+	           NULL APPLY_DATE,
+	           '' STAGE 
+          FROM RCM_HISTORY_DATA RHD
+         WHERE RHD.PROJECT_TYPE = 'pre'
 
         UNION ALL
 
@@ -393,7 +577,7 @@
         <if test="applyDateEnd != null and applyDateEnd != ''">
             and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
         </if>
-      ORDER BY T.CREATE_DATE DESC
+      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	
@@ -417,7 +601,25 @@
                      FI.OLDDATA,
                      FI.APPLY_DATE,
                      FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI) T
+                FROM RCM_FORMALASSESSMENT_INFO FI
+                
+                UNION ALL
+        
+               SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr') T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
     	       <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -434,7 +636,7 @@
                <if test="applyDateEnd != null and applyDateEnd != ''">
                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                </if>
-          ORDER BY T.CREATE_DATE DESC
+          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询全部正式评审项目数量 -->
@@ -456,7 +658,25 @@
                      FI.OLDDATA,
                      FI.APPLY_DATE,
                      FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI) T
+                FROM RCM_FORMALASSESSMENT_INFO FI
+                
+                UNION ALL
+        
+               SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr') T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -473,7 +693,7 @@
                 <if test="applyDateEnd != null and applyDateEnd != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                 </if>
-        ORDER BY T.CREATE_DATE DESC
+        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询全部投标评审项目 -->
@@ -493,7 +713,25 @@
                      PI.OLDDATA,
                      PI.APPLY_DATE,
                      PI.STAGE
-                FROM RCM_PRE_INFO PI) T
+                FROM RCM_PRE_INFO PI
+                
+                UNION ALL
+        
+               SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pre') T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -510,7 +748,7 @@
                <if test="applyDateEnd != null and applyDateEnd != ''">
                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                </if>
-        ORDER BY T.CREATE_DATE DESC
+        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询全部投标评审项目数量 -->
@@ -530,7 +768,25 @@
                      PI.OLDDATA,
                      PI.APPLY_DATE,
                      PI.STAGE
-                FROM RCM_PRE_INFO PI) T
+                FROM RCM_PRE_INFO PI
+                
+                UNION ALL
+                
+                SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pre') T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -547,7 +803,7 @@
                 <if test="applyDateEnd != null and applyDateEnd != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                 </if>
-        ORDER BY T.CREATE_DATE DESC
+        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询全部其他评审项目 -->
@@ -584,7 +840,7 @@
                <if test="applyDateEnd != null and applyDateEnd != ''">
                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                </if>
-        ORDER BY T.CREATE_DATE DESC
+        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询全部其他评审项目数量 -->
@@ -621,7 +877,7 @@
                 <if test="applyDateEnd != null and applyDateEnd != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                 </if>
-        ORDER BY T.CREATE_DATE DESC
+        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询正式项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
@@ -659,7 +915,34 @@
 
                               SELECT FL.BUSINESSID BUSINESS_ID
                                 FROM RCM_FORMALASSESSMENT_LOG FL
-                               WHERE FL.AUDITUSERID = #{userId}))) T
+                               WHERE FL.AUDITUSERID = #{userId}))
+              UNION ALL
+        
+              SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pfr'))) T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -669,7 +952,7 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
-          ORDER BY T.CREATE_DATE DESC
+          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询正式项目列表数量, 查询角色绑定的项目以及本人参与审批的项目 -->
@@ -707,7 +990,34 @@
 
                               SELECT FL.BUSINESSID BUSINESS_ID
                                 FROM RCM_FORMALASSESSMENT_LOG FL
-                               WHERE FL.AUDITUSERID = #{userId}))) T
+                               WHERE FL.AUDITUSERID = #{userId}))
+              UNION ALL
+        
+              SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pfr'))) T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -717,7 +1027,7 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
-          ORDER BY T.CREATE_DATE DESC
+          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询投标项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
@@ -753,7 +1063,34 @@
                           
                                   SELECT PL.BUSINESSID BUSINESS_ID
                                     FROM RCM_PRE_LOG PL
-                                   WHERE PL.AUDITUSERID = #{userId}))) T
+                                   WHERE PL.AUDITUSERID = #{userId}))
+              UNION ALL
+        
+              SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pre'))) T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -763,7 +1100,7 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
-          ORDER BY T.CREATE_DATE DESC
+          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询投标项目列表数量, 查询角色绑定的项目以及本人参与审批的项目 -->
@@ -799,7 +1136,34 @@
                           
                                   SELECT PL.BUSINESSID BUSINESS_ID
                                     FROM RCM_PRE_LOG PL
-                                   WHERE PL.AUDITUSERID = #{userId}))) T
+                                   WHERE PL.AUDITUSERID = #{userId}))
+              UNION ALL
+        
+              SELECT to_char(RHD.ID) ID,
+	                 RHD.BUSINESS_ID BUSINESSID,
+	                 RHD.PROJECT_NAME PROJECTNAME,
+	                 RHD.PROJECT_TYPE,
+	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
+	                 RHD.CREATE_BY INVESTMENTNAME,
+	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
+	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+	                 RHD.CREATE_TIME CREATE_DATE,
+	                 '5' WF_STATE,
+	                 '' OLDDATA,
+	                 NULL APPLY_DATE,
+	                 '' STAGE 
+                FROM RCM_HISTORY_DATA RHD
+               WHERE RHD.PROJECT_TYPE = 'pfr'
+                 AND RHD.BUSINESS_ID IN
+                    (SELECT DISTINCT (BUSINESS_ID)
+                       FROM (SELECT PR.BUSINESS_ID
+                               FROM SYS_PROJECT_ROLE PR
+                              WHERE 1 = 1
+                                AND PR.ROLE_ID IN
+                                   (SELECT UR.ROLE_ID
+                                      FROM SYS_USER_ROLE UR
+                                     WHERE UR.USER_ID = #{userId})
+                                       AND PR.PROJECT_TYPE = 'pre'))) T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -809,7 +1173,7 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
-          ORDER BY T.CREATE_DATE DESC
+          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询其他项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
@@ -855,7 +1219,7 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
-          ORDER BY T.CREATE_DATE DESC
+          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询其他项目列表数量, 查询角色绑定的项目以及本人参与审批的项目 -->
@@ -901,6 +1265,6 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
-          ORDER BY T.CREATE_DATE DESC
+          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 </mapper>

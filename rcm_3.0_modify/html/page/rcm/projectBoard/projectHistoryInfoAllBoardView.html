@@ -1,0 +1,463 @@
+<div class="xh-content container-fluid">
+    <form name="pfrHostoryInfo" novalidate class="row">
+        <div class="main-content col-md-12 col-sm-12 col-xs-12">
+            <div class="visa-menu">
+                <div class="col-md-12">
+                    <ol class="breadcrumb breadcrumb-menu">
+                        <li>
+                            <a class="breadcrumb-text breadcrumb-text-menu">
+                                项目看板
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                                正式评审
+                            </a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs bs-tabdrop-example">
+                    <li class="active">
+                        <a href="/#bs-tabdrop-tab1" data-toggle="tab">表单详情</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab2" data-toggle="tab">相关资源</a>
+                    </li>
+                    <li>
+                        <a  href="/#bs-tabdrop-tab3" data-toggle="tab">签约版投资协议</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab4" data-toggle="tab">正式评审报告</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab5" data-toggle="tab">风控测算</a>
+                    </li>
+                    <li>
+                        <a href="/#bs-tabdrop-tab6" data-toggle="tab">决策会通知书</a>
+                    </li>
+
+                </ul>
+                <div class="panel">
+                    <div class="tab-content">
+                        <div  class="tab-pane in active" id="bs-tabdrop-tab1">
+                            <div class="mcontent content1">
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">项目名称</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text" readonly  class="form-control" id="projectName" name="projectName" ng-model="historyInfo.PROJECT_NAME" placeholder="">
+					             </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">项目编号</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text" readonly class="form-control" id="projectNum" name="projectNum" ng-model="historyInfo.PROJECT_NUM" placeholder="">
+					             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">区域/平台公司</span>
+                                            <span class="col-md-6 slim">
+									<input type="text" class="form-control" id="regionalCompany" name="regionalCompany" ng-model="historyInfo.REGIONAL_COMPANY" placeholder="" readonly/>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">项目所在地</span>
+                                            <span class="col-md-3 slim">
+									<input  type="text" class="form-control" id="PROVINCE" name="PROVINCE" ng-model="historyInfo.PROVINCE" placeholder="xx省/xx自治区" readonly/>
+					            </span>
+                                            <span class="col-md-3 slim">
+                                    <input type="text" class="form-control" id="CITY" name="CITY" ng-model="historyInfo.CITY" placeholder="xx市" readonly/>
+					            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">业务类型</span>
+                                            <span class="col-md-6 slim">
+									<input type="text" class="form-control" id="serviceTypeNew" name="serviceTypeNew" ng-model="historyInfo.serviceType" placeholder="" readonly/>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">商业模式</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text" readonly class="form-control" id="businessModelNew" name="businessModelNew" ng-model="historyInfo.projectModel" placeholder="" readonly>
+					             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">业务类型(旧)</span>
+                                            <span class="col-md-6 slim">
+									<input type="text" class="form-control" id="serviceType" name="serviceType" ng-model="historyInfo.SERVICE_TYPE" placeholder="" readonly/>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">商业模式(旧)</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text" readonly class="form-control" id="businessModel" name="businessModel" ng-model="historyInfo.BUSINESS_MODEL" placeholder="" readonly>
+					             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">特许经营期</span>
+                                            <span class="col-md-6 slim">
+									<input type="text" readonly class="form-control" id="franchisePeriod" name="franchisePeriod" ng-model="historyInfo.FRANCHISE_PERIOD">
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">评审规模</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text" readonly  class="form-control"  id="reviewScale" name="reviewScale" ng-model="historyInfo.REVIEW_SCALE" >
+					             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">集团持股比例</span>
+                                            <span class="col-md-6 slim">
+						              <input name="groupShareholdingRatio" readonly id="groupShareholdingRatio" class="form-control" ng-model="historyInfo.GROUP_SHAREHOLDING_RATIO">
+					             </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">评审的自有资金比例</span>
+                                            <span class="col-md-6 slim">
+									<input type="text"  readonly class="form-control" id="selfFundsRatio" name="selfFundsRatio" ng-model="historyInfo.SELF_FUNDS_RATIO">
+					            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">总投资额</span>
+                                            <span class="col-md-6 slim">
+									<input type="text" readonly  class="form-control" id="investmentTotal" name="investmentTotal" ng-model="historyInfo.INVESTMENT_TOTAL">
+                                    <span class="unit-n">万元</span>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">评审价格</span>
+                                            <span class="col-md-6 slim">
+						             <input class="form-control"  readonly id="reviewPrice" name="reviewPrice" ng-model="historyInfo.REVIEW_PRICE" >
+					             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">预期收益率</span>
+                                            <span class="col-md-6 slim">
+									<input type="text"  class="form-control" readonly id="expectedRateOfReturn" name="expectedRateOfReturn" ng-model="historyInfo.EXPECTED_RATE_OF_RETURN">
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">投资部门</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text" readonly  class="form-control" name="investmentDept" id="investmentDept"   ng-model="historyInfo.INVESTMENT_DEPT" >
+					             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">项目经理</span>
+                                            <span class="col-md-6 slim">
+									<input  readonly class="form-control" id="createBy" name="createBy" ng-model="historyInfo.CREATE_BY" placeholder=""></input>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">评审时间</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text" class="form-control" readonly id="reviewTime" name="reviewTime" ng-model="historyInfo.REVIEW_TIME" />
+                                     <i class="fa fa-calendar form-control-feedback"></i>
+					             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">评审人员</span>
+                                            <span class="col-md-6 slim">
+						             <input type="text"  readonly class="form-control" id="reviewPerson" name="reviewPerson" ng-model="historyInfo.REVIEW_PERSON" placeholder="">
+					             </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">法务人员</span>
+                                            <span class="col-md-6 slim">
+									<input type="text" class="form-control" readonly id="legalReviewPerson" name="legalReviewPerson" ng-model="historyInfo.LEGAL_REVIEW_PERSON" />
+					            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">后续需要签署协议名称</span>
+                                            <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.FOLLOW_SIGN_AGREEMENT_NAME" readonly>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">立项时间</span>
+                                            <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.CREATE_TIME" readonly>
+					            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">合同名称</span>
+                                            <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.CONTRACT_TITLE" readonly>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">签约时间</span>
+                                            <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.SIGNING_TIME" readonly>
+					            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">我方签约主体</span>
+                                            <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.OUR_CONTRACTING_ENTITY" readonly>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">合同金额</span>
+                                            <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.CONTRACT_AMOUNT" readonly>
+					            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row normalline titline">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">合同规模</span>
+                                            <span class="col-md-6 slim">
+									<input class="form-control" type="text" ng-model="historyInfo.CONTRACT_SCALE" readonly>
+					            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-4 noPadding">备注</span>
+                                            <span class="col-md-6 slim">
+                                    <textarea class="form-control" type="text" ng-model="historyInfo.REMARKS" readonly></textarea>
+					            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <div class="row">
+                                    <div class="btn-group-gap txl">
+                                        <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab2">
+                            <div class="mcontent content1">
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <directive-attachment-list id="pfrHistoryInfo" business-type="historyData"
+                                                                       page-location="pfrHistoryInfo"
+                                                                       business-id="id" wf-state=""
+                                                                       file-list="newAttachment"
+                                                                       init-update="initUpdate(id)" is-show-type="true"></directive-attachment-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab3">
+                            <div class="mcontent content1">
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <directive-attachment-list id="pfrHistoryInvestmnetAgreement" business-type="historyData"
+                                                                       page-location="pfrHistoryInvestmnetAgreement"
+                                                                       business-id="id" wf-state=""
+                                                                       file-list="attch.investmnetAgreementList"
+                                                                       init-update="initUpdate(id)" is-show-type="false"></directive-attachment-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab4">
+                            <div class="mcontent content1">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">项目名称</label>
+                                    <div class="col-sm-10"  style="font-weight: normal">
+                                        {{historyInfo.PROJECT_NAME}}
+                                    </div>
+                                </div>
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <span class="col-md-2 noPadding">上传评审报告附件</span>
+                                            <cloud-file
+                                                    file-id="pfrHistoryReport"
+                                                    file-type="pfrHistoryReport"
+                                                    file-code="{{id}}"
+                                                    file-location="pfrHistoryReport"
+                                                    show-upload="false"
+                                                    show-preview="false"
+                                                    show-replace="false"
+                                                    show-download="false"
+                                                    show-delete="false"
+                                                    show-upload-or-replace="false"
+                                                    area-code="1"
+                                                    text-before="false"
+                                                    btn-class="btn btn-primary"
+                                                    text-class="col-md-10 slim"
+                                                    btn-area-class="col-md-1 slim"
+                                            >
+                                            </cloud-file>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab5">
+                            <div class="mcontent content1">
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <directive-attachment-list id="pfrHistoryWindControlCalualation" business-type="historyData"
+                                                                       page-location="pfrHistoryWindControlCalualation"
+                                                                       business-id="id" wf-state=""
+                                                                       file-list="attch.windControlCalualationList"
+                                                                       init-update="initUpdate(id)" is-show-type="false"></directive-attachment-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="tab-pane" id="bs-tabdrop-tab6">
+                            <div class="mcontent content1">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">项目名称</label>
+                                    <div class="col-sm-10" style="font-weight: normal">
+                                        {{historyInfo.PROJECT_NAME}}
+                                    </div>
+                                </div>
+                                <div class="row normalline">
+                                    <div class="col-md-12 col-sm-12  col-xs-12">
+                                        <div class="row">
+                                            <label class="col-md-2 noPadding">上传决策通知书附件</label>
+                                            <cloud-file
+                                                    file-id="pfrHistoryDecision"
+                                                    file-type="pfrHistoryDecision"
+                                                    file-code="{{id}}"
+                                                    file-location="pfrHistoryDecision"
+                                                    show-upload="false"
+                                                    show-preview="false"
+                                                    show-replace="false"
+                                                    show-download="false"
+                                                    show-delete="false"
+                                                    show-upload-or-replace="false"
+                                                    area-code="1"
+                                                    text-before="false"
+                                                    btn-class="btn btn-primary"
+                                                    text-class="col-md-10 slim"
+                                                    btn-area-class="col-md-1 slim"
+                                                    is-show-relace-name="true"
+                                            >
+                                            </cloud-file>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .mcontent {
+        box-shadow: 0 0 0 rgba(0, 0, 0, .15);
+    }
+    .mcontent .normalline {
+        padding: 0;
+    }
+    .panel-body .form-group, .panel-body .row {
+        margin: 0 0 5px;
+    }
+</style>

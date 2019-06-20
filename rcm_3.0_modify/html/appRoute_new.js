@@ -2901,7 +2901,40 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     }]
                 }
             })
-
+            // 历史数据详情 - 正式评审
+            .when('/projectHistoryInfoAllBoardView/:id/:url', {
+                controller: 'projectHistoryInfoAllBoardView',
+                templateUrl: 'page/rcm/projectBoard/projectHistoryInfoAllBoardView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/projectHistoryDataBoard.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 历史数据详情 - 预评审
+            .when('/projectPreHistoryInfoAllBoardView/:id/:url', {
+                controller: 'projectPreHistoryInfoAllBoardView',
+                templateUrl: 'page/rcm/projectBoard/projectPreHistoryInfoAllBoardView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectBoard/projectHistoryDataBoard.js?_v='+_version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
             /*********************************项目看板结束******************************/
 
             /*********************************决策会开始******************************/

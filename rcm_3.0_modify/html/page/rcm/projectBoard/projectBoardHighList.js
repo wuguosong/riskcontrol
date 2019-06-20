@@ -46,6 +46,16 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
         onChange: function () {
         }
     };
+    $scope.paginationConf5 = {
+        currentPage: 1,
+        totalItems: 0,
+        itemsPerPage: 10,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        queryObj: {},
+        onChange: function () {
+        }
+    };
 
     /*$scope.initData = function (){
         if (!isEmpty($scope.projectName)){
@@ -163,11 +173,39 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
         });
     };
 
+    // 查询项目看板 - 历史数据
+    $scope.getProjectList5 = function(){
+        $scope.paginationConf5.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf5.queryObj.wf_state = '5';
+        if (!isEmpty($scope.params)) {
+            $scope.paginationConf5.queryObj.projectName = $scope.params.projectName;
+            $scope.paginationConf5.queryObj.investmentName = $scope.params.investmentName;
+            $scope.paginationConf5.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf5.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
+            $scope.paginationConf5.queryObj.pertainareaName = $scope.params.pertainareaName;
+            $scope.paginationConf5.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf5.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf5.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+        }
+        $http({
+            method:'post',
+            url: srvUrl + "projectBoard/getProjectList.do",
+            data: $.param({
+                "page":JSON.stringify($scope.paginationConf5),
+                "json":JSON.stringify($scope.paginationConf5.queryObj)
+            })
+        }).success(function(result){
+            $scope.projectList5 = result.result_data.list;
+            $scope.paginationConf5.totalItems = result.result_data.totalItems;
+        });
+    };
+
     $scope.getProjectList = function (){
         $scope.getProjectList1();
         $scope.getProjectList2();
         $scope.getProjectList3();
         $scope.getProjectList4();
+        $scope.getProjectList5();
         $("#publicProjectName").val('');
     };
 
@@ -193,6 +231,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
     $scope.$watch('paginationConf3.currentPage + paginationConf3.itemsPerPage', $scope.getProjectList3);
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
     $scope.$watch('paginationConf4.currentPage + paginationConf4.itemsPerPage', $scope.getProjectList4);
+    // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
+    $scope.$watch('paginationConf5.currentPage + paginationConf5.itemsPerPage', $scope.getProjectList5);
 
     /*$scope.initData();*/
 
