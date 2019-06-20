@@ -19,7 +19,7 @@
                     <tr>
                         <td>{{outerIndex+1}}</td>
                         <td>
-                            <a href="javascript:void(0);" ng-click="_download(item.DOWNLOAD3D)" ng-if="!item.newFile">{{item.fileName}}</a>
+                            <a href="javascript:void(0);" ng-click="_download(item.DOWNLOAD3D, item)" ng-if="!item.newFile">{{item.fileName}}</a>
                         </td>
                         <td>
                             <span>{{item.description}}</span>

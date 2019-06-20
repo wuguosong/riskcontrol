@@ -3713,11 +3713,15 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 下载
             $scope._download = function (uri, file) {
+                var fullPath = file.fullpath;
+                if(isEmpty(fullPath)){
+                    fullPath = file.FULLPATH;
+                }
                 $.ajax({
                     url: srvUrl + 'cloud/getUrl.do',
                     type: "POST",
                     dataType: "json",
-                    data: {"type": 'download', 'path': file.fullpath},
+                    data: {"type": 'download', 'path': fullPath},
                     async: true,
                     success: function (data) {
                         if(!isEmpty(data)){
