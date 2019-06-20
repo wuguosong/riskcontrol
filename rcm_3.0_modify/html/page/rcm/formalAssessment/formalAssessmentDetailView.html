@@ -17,7 +17,7 @@
 </div>
 
 <div class="panel-body">
-    <ul class="nav nav-tabs bs-tabdrop-example">
+    <ul class="nav nav-tabs bs-tabdrop-example" id="_myTopTab">
         <li class="active">
             <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
         </li>
@@ -93,21 +93,63 @@
                 <directive-process-page-new
                         process-key="formalReview"></directive-process-page-new>
             </div>
-            <div class="tab-pane clearfix row" id="contracts_resources">
-                <!--<directive-project-formal-file-list></directive-project-formal-file-list>-->
-                <!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
-                <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
-                                          page-location="formalAssessmentInfo"
-                                          business-id="pfrOracle.BUSINESSID"
-                                          wf-state="pfrOracle.WF_STATE"
-                                          file-list="newAttachment"
-                                          init-update="initUpdate(id)"
-                                          service-type="serviceType"
-                                          project-model="projectModel"></directive-accachment-new>
-                <!--</div>
+            <div class="tab-pane" id="contracts_resources">
                 <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
-                    <bbs-chat-new id="formAssessmentAuditDetailBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
-                </div>-->
+                    <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
+                                              page-location="formalAssessmentInfo"
+                                              business-id="pfrOracle.BUSINESSID"
+                                              wf-state="pfrOracle.WF_STATE"
+                                              file-list="newAttachment"
+                                              init-update="initUpdate(id)"
+                                              service-type="serviceType"
+                                              project-model="projectModel"></directive-accachment-new>
+
+                </div>
+                <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                    <div class="panel-body">
+                        <div class="myTab">
+                            <ul class="nav nav-tabs bs-tabdrop-example" id="_myMsgTab">
+                                <li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+                                <li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content tab-content-bordered clearfix row">
+                            <div class="tab-pane in active" id="reviewMessageTab">
+                                <bbs-chat-new id="formAssessmentAuditDetailBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
+                            </div>
+                            <div class="tab-pane" id="legalMessageTab">
+                                <bbs-chat-new id="formAssessmentAuditDetailBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
+                            </div>
+                            <!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
+                            <div id="formalAssessmentInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content panel">
+                                        <div class="modal-header panel-heading" style="text-align: center;">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="_relation_resources_abel">相关资源</h4>
+                                        </div>
+                                        <div class="modal-body panel-body">
+                                            <directive-accachment-new id="formalAssessmentInfo2" business-type="formalReview"
+                                                                      page-location="formalAssessmentInfo"
+                                                                      business-id="pfrOracle.BUSINESSID"
+                                                                      wf-state="0"
+                                                                      file-list="newAttachment"
+                                                                      init-update="initUpdate(id)"
+                                                                      service-type="serviceType"
+                                                                      project-model="projectModel"></directive-accachment-new>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="button-group">
+                                                <div class="row">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -25,7 +25,6 @@ import ws.msg.client.MessageBack;
 import ws.msg.client.MessageClient;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -356,7 +355,7 @@ public class FileService implements IFileService {
     @Override
     public List<FileDto> createFileList(String docType, String docCode, String pageLocation) throws Exception {
         List<FileDto> list = this.listFile(docType, docCode, pageLocation);
-        for (FileDto fileDto : list) {
+        /*for (FileDto fileDto : list) {
             boolean query = false;
             // 根据查询时间，判断是否超过了3天，如果超过三天，则必须再次查询一次。因为预览和下载链接，三天内有效。
             Timestamp queryTime = fileDto.getQuerytime();
@@ -372,7 +371,7 @@ public class FileService implements IFileService {
                     query = true;
                 }
             }
-            query = true;
+            query = false;
             if(query){
                 String fullPath = fileDto.getFullpath().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
                 LinkDto download = this.fileDownloadLink(fullPath);
@@ -387,7 +386,7 @@ public class FileService implements IFileService {
                 }
                 this.updateFile(fileDto);
             }
-        }
+        }*/
         return list;
     }
 }

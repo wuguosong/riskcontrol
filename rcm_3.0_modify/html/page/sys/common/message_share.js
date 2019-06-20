@@ -162,10 +162,22 @@ ctmApp.register.controller('shareMessageCtrl', ['$http', '$scope', '$location', 
                 $location.path("/message/share/" + $routeParams.id);
             });
         };
-        $scope._message_preview_file_ = function(_url_){
-            if(!isEmpty(_url_)){
+        $scope._message_preview_file_ = function(_url_, fullpath){
+            /*if(!isEmpty(_url_)){
                 $window.open(_url_);
-            }
+            }*/
+            $.ajax({
+                url: srvUrl + 'cloud/getUrl.do',
+                type: "POST",
+                dataType: "json",
+                data: {"type": 'preview', 'path': fullpath},
+                async: true,
+                success: function (data) {
+                    if(!isEmpty(data)){
+                        $window.open(data);
+                    }
+                }
+            });
         };
         $scope._private_setTips = function(subjectId){
             window.setTimeout(function(){

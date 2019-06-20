@@ -5,13 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.yk.message.dao.IMessageMapper;
 import com.yk.message.entity.Message;
 import com.yk.message.service.IMessageService;
-import com.yk.message.service.impl.MessageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ws.client.message.MessageStatus;
 import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
@@ -141,5 +139,10 @@ public class MessageTest {
         String m3 = "preReview", b3 = "5cbd21b9ddd03403775404aa";
         JSONObject js = messageService.getInvestmentAndLaw(b3, m3);
         System.out.println(JSON.toJSONString(js));
+    }
+
+    @Test
+    public void  encodeScriptUrl(){
+        System.out.println(JaXmlBeanUtil.encodeScriptUrl("10866"));
     }
 }

@@ -1,13 +1,13 @@
 package com.yk.rcm.file.controller;
 
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import com.goukuai.constant.YunkuConf;
 import com.goukuai.dto.FileDto;
 import com.goukuai.dto.LinkDto;
 import com.goukuai.kit.PathKit;
+import com.yk.log.utils.IPUtils;
+import com.yk.rcm.file.constant.FileOpt;
+import com.yk.rcm.file.service.IFileService;
 import common.Constants;
 import common.Result;
 import org.apache.commons.collections4.CollectionUtils;
@@ -17,19 +17,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.yk.log.utils.IPUtils;
-import com.yk.message.service.IMessageService;
-import com.yk.rcm.file.constant.FileOpt;
-import com.yk.rcm.file.service.IFileService;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import util.UserUtil;
 import ws.msg.client.MessageBack;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 @Controller
 @RequestMapping("/cloud")
@@ -162,33 +160,6 @@ public class YunkuController {
     }
 
     /**
-     * @param docType      业务类型
-     * @param docCode      业务编码
-     * @param pageLocation 页面位置
-     * @return List<FileDto>
-     * @throws Exception
-     * @description 创建公共的文件列表
-     */
-    @Deprecated
-    private List<FileDto> createFileList(String docType, String docCode, String pageLocation) throws Exception {
-        List<FileDto> list = fileService.listFile(docType, docCode, pageLocation);
-        for (FileDto fileDto : list) {
-            String fullPath = fileDto.getFullpath().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
-            LinkDto download = fileService.fileDownloadLink(fullPath);
-            if (download != null) {
-                fileDto.setDownload3d(download.getLink());
-                fileDto.setDownloadqr3d(download.getQr_url());
-            }
-            LinkDto preview = fileService.filePreviewLink(fullPath);
-            if (preview != null) {
-                fileDto.setPreview3d(preview.getLink());
-                fileDto.setPrevieqr3d(preview.getQr_url());
-            }
-        }
-        return list;
-    }
-    
-    /**
      * @param request      HttpServletRequest
      * @param docType      业务类型
      * @param docCode      业务编码
@@ -242,7 +213,7 @@ public class YunkuController {
                             File fileNow = new File(path + nowFileName);
                             multipartFile.transferTo(fileNow);
                             FileDto newFile = fileService.fileUpload(fullPath.replaceFirst(YunkuConf.UPLOAD_ROOT, "") + originalFilename, fileNow.getAbsolutePath(), docType, docCode, pageLocation, optName, optId);
-                            List<FileDto> newFiles = this.createFileList(docType, docCode, pageLocation);
+                            List<FileDto> newFiles = fileService.createFileList(docType, docCode, pageLocation);
                             result.setSuccess(true);
                             result.setResult_code(Constants.S);
                             if(CollectionUtils.isEmpty(newFiles)){
@@ -320,5 +291,35 @@ public class YunkuController {
         fileDto.setPagelocation("file");
         fileService.updateFile(fileDto);
         return "This is test";
+    }
+
+    /**
+     * 获取连接:下载和预览
+     * @param type
+     * @param path
+     * @return
+     */
+    @RequestMapping("/getUrl")
+    @ResponseBody
+    public String getUrl(String type, String path) {
+	    String url = null;
+	    try{
+            String fullPath = path.replaceFirst(YunkuConf.UPLOAD_ROOT, "");
+            if("preview".equals(type)){// 预览
+                LinkDto preview = fileService.filePreviewLink(fullPath);
+                if(preview != null){
+                    url = preview.getLink();
+                }
+            }
+            if("download".equals(type)){// 下载
+                LinkDto download = fileService.filePreviewLink(fullPath);
+                if(download != null){
+                    url = download.getLink();
+                }
+            }
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
+        return url;
     }
 }

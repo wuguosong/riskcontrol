@@ -2424,7 +2424,8 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 append += '<a';
                 append += ' style="font-size: small;color: blue;"';
                 append += ' href="javascript:void(0);"';
-                append += ' ng-click="_message_preview_file_(\'' +_file_dto_.preview3d + '\')"';
+                //append += ' ng-click="_message_preview_file_(\'' +_file_dto_.preview3d + '\')"';
+                append += ' ng-click="_message_preview_file_(\'' +_file_dto_.preview3d + '\',\'' + _file_dto_.fullpath + '\')"';
                 append += '>';
                 append += _file_dto_.rcmfilename;
                 append += '&nbsp;';
@@ -2481,10 +2482,23 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 });
             };
             // 附件预览
-            $scope._message_preview_file_ = function(_url_){
-                if(!isEmpty(_url_)){
+            $scope._message_preview_file_ = function(_url_, fullpath){
+                /*if(!isEmpty(_url_)){
                     $window.open(_url_);
-                }
+                }*/
+                console.log(fullpath);
+                $.ajax({
+                    url: srvUrl + 'cloud/getUrl.do',
+                    type: "POST",
+                    dataType: "json",
+                    data: {"type": 'preview', 'path': fullpath},
+                    async: true,
+                    success: function (data) {
+                        if(!isEmpty(data)){
+                            $window.open(data);
+                        }
+                    }
+                });
             };
             // 展示上传附件弹窗
             $scope._show_message_attach_popup = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
@@ -3565,7 +3579,6 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                         } else if ($scope.businessType == 'formalReview') {
                             addUrl = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
                         } else {
-                            debugger
                             addUrl = "bulletinInfo/addAttachmengInfoToMongo.do";
                         }
                         /* _item.fileId = _fileList[_fileList.length-1].fileid + "";*/
@@ -3681,14 +3694,38 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             };
 
             // 预览
-            $scope._review = function (uri) {
-                $window.open(uri);
+            $scope._review = function (uri, file) {
+                $.ajax({
+                    url: srvUrl + 'cloud/getUrl.do',
+                    type: "POST",
+                    dataType: "json",
+                    data: {"type": 'preview', 'path': file.fullpath},
+                    async: true,
+                    success: function (data) {
+                        if(!isEmpty(data)){
+                            $window.open(data);
+                        }
+                    }
+                });
+                // $window.open(uri);
                 // $window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
 
             // 下载
-            $scope._download = function (uri) {
-                $window.open(uri);
+            $scope._download = function (uri, file) {
+                $.ajax({
+                    url: srvUrl + 'cloud/getUrl.do',
+                    type: "POST",
+                    dataType: "json",
+                    data: {"type": 'download', 'path': file.fullpath},
+                    async: true,
+                    success: function (data) {
+                        if(!isEmpty(data)){
+                            $window.open(data);
+                        }
+                    }
+                });
+                // $window.open(uri);
                 // window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
 
@@ -6827,10 +6864,22 @@ ctmApp.directive('cloudFile', function () {
             // 下载
             $scope._cloud_download_ = function(_cloud_){
                 var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
-                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.download3d)){
+                if(isEmpty(_cloud_file_dto_)){
                     return;
                 }
-                $window.open(_cloud_file_dto_.download3d);
+                $.ajax({
+                    url: srvUrl + 'cloud/getUrl.do',
+                    type: "POST",
+                    dataType: "json",
+                    data: {"type": 'download', 'path': _cloud_file_dto_.fullpath},
+                    async: true,
+                    success: function (data) {
+                        if(!isEmpty(data)){
+                            $window.open(data);
+                        }
+                    }
+                });
+                // $window.open(_cloud_file_dto_.download3d);
             };
             // 删除
             $scope._cloud_delete_ = function(_cloud_){
@@ -6857,10 +6906,22 @@ ctmApp.directive('cloudFile', function () {
             // 预览
             $scope._cloud_preview_ = function(_cloud_){
                 var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
-                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.preview3d)){
+                if(isEmpty(_cloud_file_dto_)){
                     return;
                 }
-                $window.open(_cloud_file_dto_.preview3d);
+                $.ajax({
+                    url: srvUrl + 'cloud/getUrl.do',
+                    type: "POST",
+                    dataType: "json",
+                    data: {"type": 'preview', 'path': _cloud_file_dto_.fullpath},
+                    async: true,
+                    success: function (data) {
+                        if(!isEmpty(data)){
+                            $window.open(data);
+                        }
+                    }
+                });
+                // $window.open(_cloud_file_dto_.preview3d);
             };
             // 上传/替换
             $scope._cloud_upload_or_replace_ = function (_file_, _cloud_) {

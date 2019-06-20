@@ -58,7 +58,7 @@
                     </div>
                 </td>
                 <td>
-                    <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="item.newFile != '1'">{{item.rcmfilename}}</a>
+                    <a href="javascript:void(0);" ng-click="_download(item.download3d,item)" ng-if="item.newFile != '1'">{{item.rcmfilename}}</a>
                     <div ng-if="item.newFile == '1' != undefined || item.rcmfilename != null">
                         <span ng-if="item.newFile == '1'">{{item.rcmfilename}}</span>
                     </div>
@@ -67,10 +67,10 @@
                 <td>{{item.lastUpdateData}}</td>
                 <td>
                     <button type="button" class="btn btn-danger" ng-click="_delete(item.fileid)"
-                            ng-if="item.preview3d != null && (isEdite || wfState =='0')">删除
+                            ng-if="item.rcmfilename != null && (isEdite || wfState =='0')">删除
                     </button>
-                    <button ng-if="item.preview3d != null && (isEdite || wfState =='0')" type="button"
-                            class="btn btn-info" ng-click="_review(item.preview3d)">预览
+                    <button ng-if="item.rcmfilename != null && (isEdite || wfState =='0')" type="button"
+                            class="btn btn-info" ng-click="_review(item.preview3d, item)">预览
                     </button>
                     <button type="button" class="btn btn-danger" ng-click="_deleteBlank($index)"
                             ng-if="item.newFile == '1' && (isEdite || wfState =='0')">删除
@@ -82,7 +82,7 @@
                             class="btn btn-info" ng-click="showModel()"
                             ng-if="!isAddDisable && (item.preview3d != null && (isEdite || wfState =='0' && !_ignoreReplaceReason))">替换
                     </button>
-                    <a ng-if="item.preview3d != null && (isEdite || wfState =='0') && _ignoreReplaceReason"
+                    <a ng-if="item.rcmfilename != null && (isEdite || wfState =='0') && _ignoreReplaceReason"
                        ngf-max-size="1000MB" ngf-select="_uploadReplace($file,$invalidFiles,item)"
                        href="javascript:void(0);"
                        class="btn btn-info">替换
