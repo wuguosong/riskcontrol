@@ -1475,10 +1475,11 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}).success(function(data){
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
-
             // 附件显示
             var time = $scope.pfr.create_date.substring(0,10);
             var thisTime = '2019-6-3';
+            time = time.replace(/-/g, '/');
+            thisTime = thisTime.replace(/-/g, '/');
             if (new Date(time) < new Date(thisTime)){
                 $scope.isShowOld = true;
             }

@@ -350,6 +350,8 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$sco
             // 附件显示
             var time = $scope.pre.create_date.substring(0, 10);
             var thisTime = '2019-6-3';
+            time = time.replace(/-/g, '/');
+            thisTime = thisTime.replace(/-/g, '/');
             if (new Date(time) < new Date(thisTime)) {
                 $scope.isShowOld = true;
             }
