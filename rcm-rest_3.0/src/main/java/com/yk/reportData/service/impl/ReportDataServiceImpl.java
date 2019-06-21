@@ -143,6 +143,7 @@ public class ReportDataServiceImpl implements IReportDataService {
             if (Util.isNotEmpty(decisionOpinionList)) {
                 String meetingLeaders = "";
                 String votingResults = "";
+                StringBuffer meetingLeadersName = new StringBuffer("");// 评审委员名称字符串 add by lipan 2019-06-21
                 for (int i = 0; i < decisionOpinionList.size(); i++) {
                     Document decisionOption = decisionOpinionList.get(i);
                     Object result = decisionOption.get("aagreeOrDisagree");
@@ -152,11 +153,14 @@ public class ReportDataServiceImpl implements IReportDataService {
                     if (i < decisionOpinionList.size() - 1) {
                         meetingLeaders = meetingLeaders + decisionOption.get("userId") + ",";
                         votingResults = votingResults + result + ",";
+                        meetingLeadersName.append(decisionOption.get("userName") + ",");// add by lipan 2019-06-21
                     } else {
                         meetingLeaders = meetingLeaders + decisionOption.get("userId");
                         votingResults = votingResults + result;
+                        meetingLeadersName.append(decisionOption.get("userName") + "");// add by lipan 2019-06-21
                     }
                 }
+                data.put("MEETING_LEADERS_NAME", meetingLeadersName.toString());// add by lipan 2019-06-21
                 data.put("MEETING_LEADERS", meetingLeaders);
                 data.put("VOTING_RESULTS", votingResults);
             }
@@ -250,6 +254,7 @@ public class ReportDataServiceImpl implements IReportDataService {
             if (Util.isNotEmpty(decisionOpinionList)) {
                 String meetingLeaders = "";
                 String votingResults = "";
+                StringBuffer meetingLeadersName = new StringBuffer("");// 评审委员名称字符串 add by lipan 2019-06-21
                 for (int i = 0; i < decisionOpinionList.size(); i++) {
                     Document decisionOption = decisionOpinionList.get(i);
                     Object result = decisionOption.get("aagreeOrDisagree");
@@ -259,13 +264,16 @@ public class ReportDataServiceImpl implements IReportDataService {
                     if (i < decisionOpinionList.size() - 1) {
                         meetingLeaders = meetingLeaders + decisionOption.get("userId") + ",";
                         votingResults = votingResults + result + ",";
+                        meetingLeadersName.append(decisionOption.get("userName") + ",");// add by lipan 2019-06-21
                     } else {
                         meetingLeaders = meetingLeaders + decisionOption.get("userId");
+                        meetingLeadersName.append(decisionOption.get("userName") + "");// add by lipan 2019-06-21
                         votingResults = votingResults + result;
                     }
                 }
                 data.put("MEETING_LEADERS", meetingLeaders);
                 data.put("VOTING_RESULTS", votingResults);
+                data.put("MEETING_LEADERS_NAME", meetingLeadersName.toString());// add by lipan 2019-06-21
             }
         }
 
@@ -335,6 +343,7 @@ public class ReportDataServiceImpl implements IReportDataService {
                 List<Document> decisionOpinionList = (List<Document>) meeting.get("decisionOpinionList");
                 if (Util.isNotEmpty(decisionOpinionList)) {
                     String meetingLeaders = "";
+                    StringBuffer meetingLeadersName = new StringBuffer("");// 评审委员名称字符串 add by lipan 2019-06-21
                     String votingResults = "";
                     for (int i = 0; i < decisionOpinionList.size(); i++) {
                         Document decisionOption = decisionOpinionList.get(i);
@@ -343,13 +352,16 @@ public class ReportDataServiceImpl implements IReportDataService {
                             result = "0";
                         }
                         if (i < decisionOpinionList.size() - 1) {
+                            meetingLeadersName.append(decisionOption.get("userName") + ",");// add by lipan 2019-06-21
                             meetingLeaders = meetingLeaders + decisionOption.get("userId") + ",";
                             votingResults = votingResults + result + ",";
                         } else {
                             meetingLeaders = meetingLeaders + decisionOption.get("userId");
                             votingResults = votingResults + result;
+                            meetingLeadersName.append(decisionOption.get("userName") + "");// add by lipan 2019-06-21
                         }
                     }
+                    data.put("MEETING_LEADERS_NAME", meetingLeadersName);
                     data.put("MEETING_LEADERS", meetingLeaders);
                     data.put("VOTING_RESULTS", votingResults);
                 }
