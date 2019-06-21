@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <button ng-if="item.preview3d != null" type="button" class="btn btn-info"  ng-click="showHistory(item)">查看历史</button>
+                    <button ng-if="item.rcmfilename != null" type="button" class="btn btn-info"  ng-click="showHistory(item)">查看历史</button>
                 </td>
                 <td ng-if="isChoose" align="center">
                     <label class="checkbox-inline choose">
@@ -146,7 +146,7 @@
                     <span>{{item.type.ITEM_NAME}}</span>
                 </td>
                 <td>
-                    <a href="javascript:void(0);" ng-click="_download(item.download3d)">{{item.fileName}}</a>
+                    <a href="javascript:void(0);" ng-click="_download(item.download3d,item)">{{item.fileName}}</a>
                 </td>
                 <td>{{item.lastUpdateBy.NAME}}</td>
                 <td>{{item.lastUpdateData}}</td>
