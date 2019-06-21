@@ -558,7 +558,7 @@ ctmApp.filter('htmlToText', function () {
 });
 ctmApp.filter('voteResultFilter', function () {
     return function (text) {
-        if(isEmpty(text)){
+        if (isEmpty(text)) {
             return text;
         }
         text = text.replace(/(null|0)(.*?)/gi, '没投票');
@@ -1858,10 +1858,29 @@ function cloudFileIsUpload(directId, fileLocation, areaCode) {
 function timestampToTime(timestamp) {
     var date = new Date(timestamp);
     var Y = date.getFullYear() + '-';
-    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
     var D = date.getDate() + ' ';
     var h = date.getHours() + ':';
     var m = date.getMinutes() + ':';
     var s = date.getSeconds();
-    return Y+M+D+h+m+s;
+    return Y + M + D + h + m + s;
 }
+
+/**
+ * 云预览
+ * @param fullPath 文件全路径
+ */
+function cloudPreview(fullPath) {
+    $.ajax({
+        url: srvUrl + 'cloud/getUrl.do',
+        type: "POST",
+        dataType: "json",
+        data: {"type": 'preview', 'path': fullPath},
+        async: true,
+        success: function (data) {
+            if (!isEmpty(data)) {
+                $window.open(data);
+            }
+        }
+    });
+};
