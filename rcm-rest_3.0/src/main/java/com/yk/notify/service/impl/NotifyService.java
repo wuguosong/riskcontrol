@@ -27,6 +27,7 @@ import ws.todo.entity.TodoInfo;
 import ws.todo.utils.JaXmlBeanUtil;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -292,6 +293,14 @@ public class NotifyService implements INotifyService {
         params.put("curUserUuid", UserUtil.getCurrentUserUuid());
         List<Map<String, Object>> list = notifyMapper.selectNotifyInfoPage(params);
         this.initAnchorPoint(list);
+        // 处理时间
+        for(Map<String,Object> map : list){
+            Object time = map.get("CREATE_TIME_");
+            if(time != null){
+                Timestamp timestamp = new Timestamp(new Long(String.valueOf(time)));
+                map.put("CREATE_TIME_", timestamp);
+            }
+        }
         page.setList(list);
     }
 
