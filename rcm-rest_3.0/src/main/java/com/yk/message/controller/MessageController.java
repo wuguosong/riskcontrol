@@ -109,17 +109,13 @@ public class MessageController {
         message.setReadFlag("N");
         try {
             message = messageService.save(message);
-            // 推送钉钉消息
-            messageService.shareMessageToSameSubject(message);
-            // 推送待阅消息
-            String users = messageService.getNotifyUsers(message);
-            /*if (StringUtils.isNotBlank(users)) {
-                notifyService.save(message.getMessageType(), message.getProcInstId(), users, Notify.TYPE_MESSAGE, String.valueOf(message.getMessageId()), message.getMessageContent(),
-                        false);
-                notifyService.sendToPortal(message.getMessageType(), message.getProcInstId(), false, true, Notify.TYPE_MESSAGE);
-            }*/
-            this.executeSend(message, users);
-            this.executeBusinessModuleFromMessage(message, users);
+            String users = messageService.getNotifyUsers(message);// 同一个主题下的所有用户，同时作为已经发送过的集合校验容器
+            // 推送钉钉消息：向同一个主题的其他人发送钉钉
+            this.executeMessage(message, users);
+            // 推送待阅消息：向同一个主题的其他人发送待阅
+            this.executePortal(message, users);
+            // 向特定的业务人员推送钉钉和待阅，如果特定人员已经包含在前面的推送中，则不再推送。
+            this.executeBusinessMessageAndPortal(message, users);// 向特定的业务人员发送待阅（同时包含钉钉消息）
             result.setSuccess(true);
             result.setResult_code(Constants.S);
             result.setResult_data(message);
@@ -483,7 +479,7 @@ public class MessageController {
      * @param message
      * @param checkUsers
      */
-    private void executeBusinessModuleFromMessage(Message message, String checkUsers) {
+    private void executeBusinessMessageAndPortal(Message message, String checkUsers) {
         if (StringUtils.isBlank(checkUsers)) {
             checkUsers = "";
         }
@@ -492,6 +488,7 @@ public class MessageController {
             // 获取业务单据
             JSONObject mongoData = messageService.getBusinessMongoDbData(message.getProcInstId(), message.getMessageType());
             if (mongoData != null) {
+                // 正式评审
                 if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(message.getMessageType())) {
                     // 项目归属负责人
                     JSONObject companyHeader = mongoData.getJSONObject("companyHeader");
@@ -502,43 +499,48 @@ public class MessageController {
                     // 获取投资经理和项目归属负责人
                     if ("review".equals(message.getMessageScreenType())) {
                         // 投资经理
-                        JSONObject investmentManager = mongoData.getJSONObject("investmentManager");
                         String investmentManagerValue = "";
+                        JSONObject investmentManager = mongoData.getJSONObject("investmentManager");
                         if (investmentManager != null) {
                             investmentManagerValue = investmentManager.getString("VALUE");
                         }
                         if (StringUtils.isNotBlank(investmentManagerValue)) {
                             if (!checkUsers.contains(investmentManagerValue)) {
-                                this.executeSend(message, investmentManagerValue);
+                                this.executeMessage(message, investmentManagerValue);
+                                this.executePortal(message, investmentManagerValue);
                             }
                         }
                         // 项目归属负责人
                         if (StringUtils.isNotBlank(companyHeaderValue)) {
                             if (!checkUsers.contains(companyHeaderValue)) {
-                                this.executeSend(message, companyHeaderValue);
+                                this.executeMessage(message, companyHeaderValue);
+                                this.executePortal(message, companyHeaderValue);
                             }
                         }
                     }
                     // 获取基层法务和项目归属负责人
                     if ("legal".equals(message.getMessageScreenType())) {
                         // 基层法务
-                        JSONObject grassrootsLegalStaff = mongoData.getJSONObject("grassrootsLegalStaff");
                         String grassrootsLegalStaffValue = "";
+                        JSONObject grassrootsLegalStaff = mongoData.getJSONObject("grassrootsLegalStaff");
                         if (grassrootsLegalStaff != null) {
                             grassrootsLegalStaffValue = grassrootsLegalStaff.getString("VALUE");
                         }
                         if (StringUtils.isNotBlank(grassrootsLegalStaffValue)) {
                             if (!checkUsers.contains(grassrootsLegalStaffValue)) {
-                                this.executeSend(message, grassrootsLegalStaffValue);
+                                this.executeMessage(message, grassrootsLegalStaffValue);
+                                this.executePortal(message, grassrootsLegalStaffValue);
                             }
                         }
                         // 项目归属负责人
                         if (StringUtils.isNotBlank(companyHeaderValue)) {
                             if (!checkUsers.contains(companyHeaderValue)) {
-                                this.executeSend(message, companyHeaderValue);
+                                this.executeMessage(message, companyHeaderValue);
+                                this.executePortal(message, companyHeaderValue);
                             }
                         }
                     }
+                    // 投标评审
                 } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(message.getMessageType())) {
                     // 项目归属负责人
                     JSONObject companyHeader = mongoData.getJSONObject("companyHeader");
@@ -556,13 +558,15 @@ public class MessageController {
                         }
                         if (StringUtils.isNotBlank(investmentManagerValue)) {
                             if (!checkUsers.contains(investmentManagerValue)) {
-                                this.executeSend(message, investmentManagerValue);
+                                this.executeMessage(message, investmentManagerValue);
+                                this.executePortal(message, investmentManagerValue);
                             }
                         }
                         // 项目归属负责人
                         if (StringUtils.isNotBlank(companyHeaderValue)) {
                             if (!checkUsers.contains(companyHeaderValue)) {
-                                this.executeSend(message, companyHeaderValue);
+                                this.executeMessage(message, companyHeaderValue);
+                                this.executePortal(message, companyHeaderValue);
                             }
                         }
                     }
@@ -576,16 +580,19 @@ public class MessageController {
                         }
                         if (StringUtils.isNotBlank(grassrootsLegalStaffValue)) {
                             if (!checkUsers.contains(grassrootsLegalStaffValue)) {
-                                this.executeSend(message, grassrootsLegalStaffValue);
+                                this.executeMessage(message, grassrootsLegalStaffValue);
+                                this.executePortal(message, grassrootsLegalStaffValue);
                             }
                         }
                         // 项目归属负责人
                         if (StringUtils.isNotBlank(companyHeaderValue)) {
                             if (!checkUsers.contains(companyHeaderValue)) {
-                                this.executeSend(message, companyHeaderValue);
+                                this.executeMessage(message, companyHeaderValue);
+                                this.executePortal(message, companyHeaderValue);
                             }
                         }
                     }
+                    // 其它评审
                 } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(message.getMessageType())) {
                     JSONObject unitPerson = mongoData.getJSONObject("unitPerson");
                     String unitPersonValue = "";
@@ -601,12 +608,14 @@ public class MessageController {
                     if ("review".equals(message.getMessageScreenType())) {
                         if (StringUtils.isNotBlank(unitPersonValue)) {
                             if (!checkUsers.contains(unitPersonValue)) {
-                                this.executeSend(message, unitPersonValue);
+                                this.executeMessage(message, unitPersonValue);
+                                this.executePortal(message, unitPersonValue);
                             }
                         }
                         if (StringUtils.isNotBlank(applyUserValue)) {
                             if (!checkUsers.contains(applyUserValue)) {
-                                this.executeSend(message, applyUserValue);
+                                this.executeMessage(message, applyUserValue);
+                                this.executePortal(message, applyUserValue);
                             }
                         }
                     }
@@ -614,12 +623,14 @@ public class MessageController {
                     if ("legal".equals(message.getMessageScreenType())) {
                         if (StringUtils.isNotBlank(unitPersonValue)) {
                             if (!checkUsers.contains(unitPersonValue)) {
-                                this.executeSend(message, unitPersonValue);
+                                this.executeMessage(message, unitPersonValue);
+                                this.executePortal(message, unitPersonValue);
                             }
                         }
                         if (StringUtils.isNotBlank(applyUserValue)) {
                             if (!checkUsers.contains(applyUserValue)) {
-                                this.executeSend(message, applyUserValue);
+                                this.executeMessage(message, applyUserValue);
+                                this.executePortal(message, applyUserValue);
                             }
                         }
                     }
@@ -629,17 +640,31 @@ public class MessageController {
     }
 
     /**
-     * 执行发送
+     * 执行发送-待阅
      *
      * @param message
      * @param user
      */
-    private void executeSend(Message message, String user) {
+    private void executePortal(Message message, String user) {
         if (StringUtils.isNotBlank(user)) {
-            messageService.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), user, MessageClient._DT);
+            // 生成风控系统的待阅（根据user生成多个知会记录）
             notifyService.save(message.getMessageType(), message.getProcInstId(), user, Notify.TYPE_MESSAGE, String.valueOf(message.getMessageId()), message.getMessageContent(),
                     false);
+            // 向统一代办平台发送待阅（根据类型个业务id查询多个知会记录，获取其知会人，进行一次性同步）
             notifyService.sendToPortal(message.getMessageType(), message.getProcInstId(), false, true, Notify.TYPE_MESSAGE);
+        }
+    }
+
+    /**
+     * 执行发送-钉钉
+     *
+     * @param message
+     * @param user
+     */
+    private void executeMessage(Message message, String user) {
+        if (StringUtils.isNotBlank(user)) {
+            // 一次性向多个用户推送
+            messageService.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), user, MessageClient._DT);
         }
     }
 }

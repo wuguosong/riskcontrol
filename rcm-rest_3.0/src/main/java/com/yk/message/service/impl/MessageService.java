@@ -622,7 +622,6 @@ public class MessageService implements IMessageService {
     public void shareMessageToSameSubject(Message message) {
         String users = getNotifyUsers(message);
         if (StringUtils.isNotBlank(users)) {
-            System.out.println(users);
             this.shareMessage(message.getParentId() == 0 ? message.getMessageId() : message.getParentId(), users, MessageClient._DT);
         }
     }
