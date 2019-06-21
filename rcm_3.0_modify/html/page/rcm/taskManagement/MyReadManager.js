@@ -27,7 +27,10 @@ ctmApp.register.controller('MyReadingCtrl', ['$http','$scope','$location','$rout
     };
     $scope.notify_UpdateStatus = function(id,t){
         notify_UpdateStatus(id, 2);
-        DirPipeSrv._setNotifyInfo(t);
+        // 判断是待阅类型：消息/知会
+        if(t['NOTIFY_TYPE'] == 'MESSAGE'){
+            DirPipeSrv._setNotifyInfo(t);
+        }
     };
     $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage',  $scope.queryMyTaskByPage);
 }]);

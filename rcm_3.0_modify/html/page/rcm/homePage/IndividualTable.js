@@ -128,7 +128,10 @@ ctmApp.register.controller('IndividualTable', ['$http', '$scope', '$location', '
     // 更新只会信息状态
     $scope.notify_UpdateStatus = function(id,t){
         notify_UpdateStatus(id, 2);// 待阅->已阅
-        DirPipeSrv._setNotifyInfo(t);
+        // 判断是待阅类型：消息/知会
+        if(t['NOTIFY_TYPE'] == 'MESSAGE'){
+            DirPipeSrv._setNotifyInfo(t);
+        }
     };
 
 
