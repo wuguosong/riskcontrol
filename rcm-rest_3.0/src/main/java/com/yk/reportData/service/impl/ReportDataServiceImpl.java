@@ -361,7 +361,7 @@ public class ReportDataServiceImpl implements IReportDataService {
                             meetingLeadersName.append(decisionOption.get("userName") + "");// add by lipan 2019-06-21
                         }
                     }
-                    data.put("MEETING_LEADERS_NAME", meetingLeadersName);
+                    data.put("MEETING_LEADERS_NAME", meetingLeadersName.toString());
                     data.put("MEETING_LEADERS", meetingLeaders);
                     data.put("VOTING_RESULTS", votingResults);
                 }
