@@ -105,7 +105,6 @@
 							<textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
 						</div>
 					</div>
-
 					<!-- 风控负责人审批 -->
 					<div  class="panel" ng-show="(( null != bulletin.riskLeaderAttachment  && '' != bulletin.riskLeaderAttachment) || ( null != bulletin.riskLeaderOpinion  && '' != bulletin.riskLeaderOpinion) ||showController.isRiskLeader) && isShowOld ">
 						<div class="panel-heading">
@@ -474,6 +473,12 @@
 					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
 					<!--<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
 					<!--<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>-->
+					<!--风控负责人意见保存按钮-->
+					<button ng-if="(( null != bulletin.riskLeaderAttachment  && '' != bulletin.riskLeaderAttachment) || ( null != bulletin.riskLeaderOpinion  && '' != bulletin.riskLeaderOpinion) ||showController.isRiskLeader) && isShowOld && showSubmit" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+					<!--评审负责人意见保存按钮-->
+					<button ng-if="(( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader ) && isShowOld && showSubmit" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+					<!--法律负责人意见保存按钮-->
+					<button ng-if="(( null != bulletin.legalLeaderAttachment  && '' != bulletin.legalLeaderAttachment) || ( null != bulletin.legalLeaderOpinion  && '' != bulletin.legalLeaderOpinion) ||showController.isLegalLeader ) && isShowOld && showSubmit" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
 					<a ng-if="showSubmit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
 					   ng-click="submitNext()">提交</a><!-- && isShowEdit-->
 					<!--<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
