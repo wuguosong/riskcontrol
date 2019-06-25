@@ -126,9 +126,10 @@ public interface IBulletinInfoService {
 	/**
 	 * 保存会议纪要信息(并修改stage状态为"5")
 	 * @param businessId
+	 * @param pmodel 
 	 * @param attachment
 	 */
-	public void saveMettingSummary(String businessId, String mettingSummaryInfo);
+	public void saveMettingSummary(String businessId, String mettingSummaryInfo, String pmodel);
 	/**
 	 * 查询rcm_bulletin_info数据信息
 	 */

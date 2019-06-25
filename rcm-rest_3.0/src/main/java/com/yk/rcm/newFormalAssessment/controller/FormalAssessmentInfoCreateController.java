@@ -215,7 +215,8 @@ public class FormalAssessmentInfoCreateController {
 		String businessId = request.getParameter("businessId");
 		String projectName = request.getParameter("projectName");
 		String mettingSummaryInfo = request.getParameter("mettingSummaryInfo");
-		this.formalAssessmentInfoCreateService.saveEnvirMettingSummary(businessId, mettingSummaryInfo, projectName);
+		String pmodel = request.getParameter("pmodel");
+		this.formalAssessmentInfoCreateService.saveEnvirMettingSummary(businessId, mettingSummaryInfo, projectName, pmodel);
 		return result;
 	}
 	

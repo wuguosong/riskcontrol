@@ -1,5 +1,5 @@
-ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', '$routeParams', '$filter',
-    function ($http, $scope, $location, $routeParams, $filter) {
+ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', '$routeParams', '$filter', '$window',
+    function ($http, $scope, $location, $routeParams, $filter, $window) {
         $scope.paginationConf1 = {
             currentPage: 1,
             totalItems: 0,
@@ -11,7 +11,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             }
         };
 
-    $scope.tabIndex = $routeParams.tabIndex;
+        $scope.tabIndex = $routeParams.tabIndex;
         $scope.oldUrl = $routeParams.url;
         $scope.initData = function () {
             $scope.queryNoSubmitList();
@@ -63,16 +63,16 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
 
         $scope.r = {};
 
-        $scope.r={};
+        $scope.r = {};
         //新建评审报告
         $scope.openRFIReport = function (noSubmit) {
             $scope.toCreateReport = noSubmit;
-            $scope.r.pmodel="FormalReviewReport/Create";
+            $scope.r.pmodel = "FormalReviewReport/Create";
         };
         $scope.y = {};
         $scope.openRFIBiddingInfo = function (noSubmit) {
             $scope.toCreateBiddingInfo = noSubmit;
-            $scope.y.pmodel="normal";
+            $scope.y.pmodel = "normal";
         };
 
 
@@ -114,19 +114,19 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                     $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
                 }*/
                 // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
-                if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
-                    $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+                if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT') {
+                    $location.path("/FormalBiddingInfo_view/" + id + "/" + path);
                 } else if ($scope.stage == 7) {
-                    if($scope.type == 'PPT') {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                    if ($scope.type == 'PPT') {
+                        $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/3");
                     } else {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                        $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/3");
                     }
                 } else {
-                    if($scope.type == 'PPT') {
-                        $location.path("/OtherBidding/0/View/"+ id + "/" + path);
+                    if ($scope.type == 'PPT') {
+                        $location.path("/OtherBidding/0/View/" + id + "/" + path);
                     } else {
-                        $location.path("/FormalBiddingInfo/"+ id + "/" + path + "/3");
+                        $location.path("/FormalBiddingInfo/" + id + "/" + path + "/3");
                     }
                 }
             }).error(function (data, status, header, config) {
@@ -164,17 +164,17 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
         }
 
         //编辑正是评审提交决策会材料
-        $scope.createRFIBiddingInfo = function(model,uuid){
+        $scope.createRFIBiddingInfo = function (model, uuid) {
             console.log(model);
             console.log(uuid);
             var ind = model.lastIndexOf("/");
-            var modelAction = model.substring(ind + 1,model.length);
-            var routePath = model.substring(0,ind);
+            var modelAction = model.substring(ind + 1, model.length);
+            var routePath = model.substring(0, ind);
             $('#addModal4').modal('hide');
             if (model == 'normal') {
-                $location.path("/FormalBiddingInfo/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable') + '/0');
+                $location.path("/FormalBiddingInfo/" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable') + '/0');
             } else {
-                $location.path("/"+model+""+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+                $location.path("/" + model + "" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable'));
             }
         }
 
@@ -220,45 +220,45 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             });
         }
 
-        $scope.r={};
+        $scope.r = {};
         //新建评审报告
         $scope.openRFIReport = function (noSubmit) {
             $scope.toCreateReport = noSubmit;
-            $scope.r.pmodel="FormalReviewReport/Create";
+            $scope.r.pmodel = "FormalReviewReport/Create";
         };
         $scope.y = {};
         $scope.openRFIBiddingInfo = function (noSubmit) {
             $scope.toCreateBiddingInfo = noSubmit;
-            $scope.y.pmodel="OtherBidding/0/Create/";
+            $scope.y.pmodel = "OtherBidding/0/Create/";
         };
 
         //编辑评审报告
-        $scope.createRFIReport = function(model,uuid){
+        $scope.createRFIReport = function (model, uuid) {
             var ind = model.lastIndexOf("/");
-            var modelAction = model.substring(ind + 1,model.length);
-            if(modelAction == 'Update'){
+            var modelAction = model.substring(ind + 1, model.length);
+            if (modelAction == 'Update') {
                 $.alert("请选择项目模式!");
                 return false;
-            }else if(uuid == null || uuid == ""){
+            } else if (uuid == null || uuid == "") {
                 $.alert("请选择一个项目!");
                 return false;
-            }else{
-                var routePath = model.substring(0,ind);
+            } else {
+                var routePath = model.substring(0, ind);
                 $('#addModal').modal('hide');
-                $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+                $location.path("/" + routePath + "/0/Create/" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable'));
             }
         }
 
         //编辑正是评审提交决策会材料
-        $scope.createRFIBiddingInfo = function(model,uuid){
+        $scope.createRFIBiddingInfo = function (model, uuid) {
             var ind = model.lastIndexOf("/");
-            var modelAction = model.substring(ind + 1,model.length);
-            var routePath = model.substring(0,ind);
+            var modelAction = model.substring(ind + 1, model.length);
+            var routePath = model.substring(0, ind);
             $('#addModal4').modal('hide');
             if (model == 'normal') {
-                $location.path("/FormalBiddingInfo/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable') + '/0');
+                $location.path("/FormalBiddingInfo/" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable') + '/0');
             } else {
-                $location.path("/"+model+""+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+                $location.path("/" + model + "" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable'));
             }
         }
 
@@ -289,19 +289,19 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                     $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
                 }*/
                 // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
-                if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
-                    $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/" + flag);
+                if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT') {
+                    $location.path("/FormalBiddingInfoPreviewOld/" + id + "/" + path + "/" + flag);
                 } else if ($scope.stage == 7) {
-                    if($scope.type == 'PPT') {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/"  + flag);
+                    if ($scope.type == 'PPT') {
+                        $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/" + flag);
                     } else {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/"  + flag);
+                        $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/" + flag);
                     }
                 } else {
-                    if($scope.type == 'PPT') {
-                        $location.path("/OtherBidding/0/View/"+ id + "/" + path);
+                    if ($scope.type == 'PPT') {
+                        $location.path("/OtherBidding/0/View/" + id + "/" + path);
                     } else {
-                        $location.path("/FormalBiddingInfo/"+ id + "/" + path + "/3");
+                        $location.path("/FormalBiddingInfo/" + id + "/" + path + "/3");
                     }
                 }
             }).error(function (data, status, header, config) {
@@ -312,7 +312,7 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
         $scope.x = {};
         $scope.openPREReport = function (noSubmit) {
             $scope.preProjectName = noSubmit;
-            $scope.x.pmodel="normal";
+            $scope.x.pmodel = "normal";
         };
 
         //新建投资评审报告
@@ -337,7 +337,10 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
             }
         }
 
+        // 其他评审上传会议纪要模式
+        $scope.b = {};
         $scope.openRBIMeeting = function (noSubmit) {
+            $scope.b.pmodel = "file";
             $scope.businessId = noSubmit.BUSINESSID;
             $scope.projectType = noSubmit.PROJECT_TYPE;
             $scope.projectName = noSubmit.PROJECTNAME;
@@ -345,23 +348,32 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
 
         $scope.mettingSummary = "";
         $scope.mettingSubmit = function () {
-            if ($scope.mettingSummary == null || $scope.mettingSummary == "") {
-                $.alert("会议纪要不得为空！");
-                return false;
-            }
-            //show_Mask();
-            //保存附件到mongo
-            var saveMeeting = null;
-            if($scope.projectType == 'pfr') {
-                saveMeeting = "formalAssessmentInfoCreate/saveEnvirMettingSummary.do";
+            console.log($scope.b);
+            if ($scope.b.pmodel == "file") {
+                if (!cloudFileIsUpload("rbiSummary", "rbiSummary", "1")) {
+                    $.alert("请上传会议纪要附件！");
+                    return false;
+                }
+                ;
             } else {
-                saveMeeting = "bulletinInfo/saveMettingSummary.do";
+                if ($scope.mettingSummary == null || $scope.mettingSummary == "") {
+                    $.alert("会议纪要不得为空！");
+                    return false;
+                }
+            }
+
+            var saveMeetingUrl = null;
+            if ($scope.projectType == 'pfr') {
+                saveMeetingUrl = "formalAssessmentInfoCreate/saveEnvirMettingSummary.do";
+            } else {
+                saveMeetingUrl = "bulletinInfo/saveMettingSummary.do";
             }
             $http({
                 method: 'post',
-                url: srvUrl + saveMeeting,
+                url: srvUrl + saveMeetingUrl,
                 data: $.param({
                     "businessId": $scope.businessId,
+                    "pmodel": $scope.b.pmodel,
                     "projectName": $scope.projectName,
                     "mettingSummaryInfo": $scope.mettingSummary
                 })
@@ -379,6 +391,8 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
 
         $scope.queryRBIMeeting = function (submit) {
             console.log(submit);
+            $scope.mettingSummarys = null;
+            $scope.businessId = null;
             var queryMeeting = null;
             if (submit.PROJECT_TYPE == 'pfr') {
                 queryMeeting = "formalAssessmentInfoCreate/queryEnvirMettingSummarys.do";
@@ -393,6 +407,27 @@ ctmApp.register.controller('fillMaterialList', ['$http', '$scope', '$location', 
                 })
             }).success(function (result) {
                 $scope.mettingSummarys = result.result_data.mettingSummary;
+                $scope.businessId = submit.BUSINESSID;
+                console.log($scope.mettingSummarys);
+                $scope.newAttachment = attach_list("rbiSummary", $scope.businessId, "rbiSummary").result_data;
+                $scope.fullpath = $scope.newAttachment[0].fullpath;
+                console.log($scope.newAttachment);
+            });
+        }
+
+        $scope.cloudPreview = function (fullPath) {
+            console.log(fullPath)
+            $.ajax({
+                url: srvUrl + 'cloud/getUrl.do',
+                type: "POST",
+                dataType: "json",
+                data: {"type": 'preview', 'path': fullPath},
+                async: true,
+                success: function (data) {
+                    if (!isEmpty(data)) {
+                        $window.open(data);
+                    }
+                }
             });
         }
 

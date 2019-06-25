@@ -1,5 +1,6 @@
 ctmApp.register.controller('projectBulletinInfoAllBoardView', ['$http','$scope','$location', '$routeParams', '$filter',
  function ($http,$scope,$location, $routeParams, $filter) {
+
 	$scope.queryParamId = $routeParams.id;
 	$scope.oldUrl = $routeParams.url;
 	$scope.initDefaultData = function(){
@@ -66,4 +67,5 @@ ctmApp.register.controller('projectBulletinInfoAllBoardView', ['$http','$scope',
 		}
 	}
 	$scope._init_uuid_ = $scope.credentials.UUID;
+
 }]);

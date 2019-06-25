@@ -430,10 +430,18 @@ public class BulletinInfoService implements IBulletinInfoService {
 	}
 
 	@Override
-	public void saveMettingSummary(String businessId, String mettingSummaryInfo) {
+	public void saveMettingSummary(String businessId, String mettingSummaryInfo, String pmodel) {
 		// 1.保存会议纪要
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("mettingSummary", mettingSummaryInfo);
+		if("normal".equals(pmodel)) {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("summaryType", "normal");
+			data.put("mettingSummary", mettingSummaryInfo);
+			this.baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
+		} else {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("summaryType", "file");
+			this.baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
+		}
 
 		Map<String, Object> statusMap = new HashMap<String, Object>();
 		statusMap.put("table", "RCM_BULLETIN_INFO");
@@ -447,7 +455,6 @@ public class BulletinInfoService implements IBulletinInfoService {
 		map.put("businessId", businessId);
 		map.put("mettingSummaryTime", Util.now());
 		map.put("stage", "5");
-		this.baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
 		this.bulletinInfoMapper.updateStage(map);
 
 		// 同步报表数据
@@ -463,7 +470,7 @@ public class BulletinInfoService implements IBulletinInfoService {
 		}
 
 		// 归档
-		this.daxtService.bulletinStart(businessId);
+//		this.daxtService.bulletinStart(businessId);
 	}
 
 	@Override

@@ -413,10 +413,10 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	 * @SuppressWarnings("unchecked")
 	 * 
 	 * @Override public void updateAttachment(String json) { Document doc =
-	 * Document.parse(json); String uuid = (String) doc.get("UUID"); String
-	 * version = doc.get("version").toString(); String businessId = (String)
-	 * doc.get("businessId"); String fileName = (String) doc.get("fileName");
-	 * String filePath = (String) doc.get("filePath");
+	 * Document.parse(json); String uuid = (String) doc.get("UUID"); String version
+	 * = doc.get("version").toString(); String businessId = (String)
+	 * doc.get("businessId"); String fileName = (String) doc.get("fileName"); String
+	 * filePath = (String) doc.get("filePath");
 	 * 
 	 * Document programmed = (Document) doc.get("programmed");
 	 * 
@@ -429,13 +429,12 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	 * queryById.get("attachment");
 	 * 
 	 * for (Map<String, Object> attachment : attachmentList) {
-	 * if(attachment.get("UUID").toString().equals(uuid)){ List<Map<String,
-	 * Object>> filesList = (List<Map<String, Object>>) attachment.get("files");
-	 * if(Util.isNotEmpty(filesList)){ for (Map<String, Object> files :
-	 * filesList) { if(files.get("version").toString().equals(version)){
-	 * files.put("fileName", fileName); files.put("filePath", filePath);
-	 * files.put("approved", approved); files.put("programmed", programmed); } }
-	 * } } }
+	 * if(attachment.get("UUID").toString().equals(uuid)){ List<Map<String, Object>>
+	 * filesList = (List<Map<String, Object>>) attachment.get("files");
+	 * if(Util.isNotEmpty(filesList)){ for (Map<String, Object> files : filesList) {
+	 * if(files.get("version").toString().equals(version)){ files.put("fileName",
+	 * fileName); files.put("filePath", filePath); files.put("approved", approved);
+	 * files.put("programmed", programmed); } } } } }
 	 * 
 	 * Map<String, Object> data = new HashMap<String,Object>();
 	 * data.put("attachment", attachmentList);
@@ -537,12 +536,20 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 	}
 
 	@Override
-	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo, String projectName) {
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("mettingSummary", mettingSummaryInfo);
-
+	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo, String projectName,
+			String pmodel) {
+		// 1.保存会议纪要
 		// 环卫、危废项目保存会议纪要，如果全部提交后，应修改状态
-		this.baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_FORMALASSESSMENT_INFO);
+		if ("normal".equals(pmodel)) {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("summaryType", "normal");
+			data.put("mettingSummary", mettingSummaryInfo);
+			this.baseMongo.updateSetByObjectId(businessId, data, Constants.RCM_FORMALASSESSMENT_INFO);
+		} else {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("summaryType", "file");
+			this.baseMongo.updateSetById(businessId, data, Constants.RCM_BULLETIN_INFO);
+		}
 
 		// 在oracle增加决策通知书数据
 		Map<String, Object> params = new HashMap<String, Object>();
