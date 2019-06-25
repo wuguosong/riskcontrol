@@ -524,6 +524,22 @@ ctmApp.filter('jsonStrFilter', function () {
         return JSON.stringify(jsonObj);
     };
 });
+ctmApp.filter('transferFileTypeNameFromCode', function () {
+    return function (fileTypeCode) {
+        var fileTypeName = fileTypeCode;
+        if(isEmpty(fileTypeCode)){
+            return fileTypeName;
+        }
+        fileTypeName = fileTypeName.replace('formalReview', '正式评审相关资源');
+        fileTypeName = fileTypeName.replace('FormalReportInfo', '正式评审报告');
+        fileTypeName = fileTypeName.replace('FormalDecisionDraftInfo', '正式评审决策通知书附件');
+        fileTypeName = fileTypeName.replace('FormalBiddingInfo', '正式评审模板');
+        fileTypeName = fileTypeName.replace('preReview', '投标评审相关资源');
+        fileTypeName = fileTypeName.replace('preReportInfo', '投标评审报告');
+        fileTypeName = fileTypeName.replace('bulletin', '其他评审相关资源');
+        return fileTypeName;
+    };
+});
 ctmApp.filter('keyValueNames', function () {
     return function (array, name) {
         var str = "";

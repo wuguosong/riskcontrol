@@ -5,11 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.yk.initfile.entity.InitFile;
 import com.yk.initfile.entity.MeetingFile;
 import com.yk.initfile.service.IInitFileService;
+import common.PageAssistant;
+import common.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -311,5 +314,51 @@ public class InitFileController {
             logger.error("更新失败：" + e.getMessage());
         }
         return js;
+    }
+
+    /**
+     * 分页查询文件列表
+     *
+     * @param page
+     * @return
+     */
+    @RequestMapping(value = "queryFileListByPage", method = RequestMethod.POST)
+    @ResponseBody
+    public Result queryFileListByPage(String page) {
+        Result result = new Result();
+        try {
+            PageAssistant pageAssistant = new PageAssistant(page);
+            initFileService.queryFileListByPage(pageAssistant);
+            result.setResult_data(pageAssistant);
+            logger.info("查询信息成功!");
+        } catch (Exception e) {
+            logger.error("查询信息失败!" + e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 从Mongo中获取文件列表
+     * @param docType
+     * @param docCode
+     * @return
+     */
+    @RequestMapping(value = "getFileListFromMongo", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getFileListFromMongo(String docType, String docCode) {
+        Result result = new Result();
+        try{
+            JSONObject data = initFileService.getDataFromMongo(docType,docCode);
+            if(data != null){
+                result.setResult_data(data.get("attachmentList"));
+                result.setSuccess(true);
+            }
+        }catch(Exception e){
+            result.setSuccess(false);
+            result.setError_msg(e.getMessage());
+            result.setResult_name(e.getMessage());
+        }
+        return result;
     }
 }

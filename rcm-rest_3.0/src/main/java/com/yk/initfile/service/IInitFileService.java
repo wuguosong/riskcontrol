@@ -3,6 +3,7 @@ package com.yk.initfile.service;
 import com.alibaba.fastjson.JSONObject;
 import com.yk.initfile.entity.InitFile;
 import com.yk.initfile.entity.MeetingFile;
+import common.PageAssistant;
 
 import java.util.List;
 
@@ -95,4 +96,21 @@ public interface IInitFileService {
      * @return
      */
     InitFile updateDifferentFile(InitFile initFile);
+
+    /**
+     * 分页查询附件列表
+     *
+     * @param pageAssistant 分页对象
+     */
+    void queryFileListByPage(PageAssistant pageAssistant);
+
+    /**
+     * 从Mongo中查询数据
+     *
+     * @param docType
+     * @param docCode
+     * @return
+     */
+    JSONObject getDataFromMongo(String docType, String docCode);
+
 }
