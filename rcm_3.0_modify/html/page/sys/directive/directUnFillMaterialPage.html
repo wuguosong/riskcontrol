@@ -350,9 +350,59 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <label class="col-sm-2 control-label select-mode">上传模式</label>
+                        <div class="col-sm-10 single-mode">
+                            <label class="radio radio-inline">
+                                <input type="radio" name="mode1" ng-model="b.pmodel" class="px"
+                                       value="file"/>
+                                <span class="lbl">上传会议纪要文件</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-2 control-label select-mode">填写模式</label>
+                        <div class="col-sm-10 single-mode">
+                            <label class="radio radio-inline">
+                                <input type="radio" ng-checked="true" name="mode1"
+                                       ng-model="b.pmodel" class="px"
+                                       value="normal"/>
+                                <span class="lbl">填写会议纪要</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" ng-if="b.pmodel == 'file'">
+                    <div class="row">
+                        <label class="col-sm-2 control-label">附件上传：</label>
+                        <div class="col-sm-10">
+                            <cloud-file
+                                    file-id="rbiSummary"
+                                    file-type="rbiSummary"
+                                    file-code="{{businessId}}"
+                                    file-location="rbiSummary"
+                                    show-upload="false"
+                                    show-preview="true"
+                                    show-replace="false"
+                                    show-download="false"
+                                    show-upload-or-replace="true"
+                                    show-delete="true"
+                                    area-code="1"
+                                    text-before="false"
+                                    btn-class="btn btn-primary"
+                                    text-class="col-md-8 slim"
+                                    btn-area-class="col-md-1 slim"
+                                    upload-text="浏览"
+                            >
+                            </cloud-file>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" ng-if="b.pmodel == 'normal'">
+                    <div class="row">
                         <label class="col-sm-2 control-label">会议纪要：</label>
                         <div class="col-sm-10">
-                            <textarea name="" ng-model="mettingSummary" rows="6" cols="" class="form-control" auto-height></textarea></td>
+                        <textarea name="" ng-model="mettingSummary" rows="6" cols="" class="form-control"
+                                  auto-height></textarea></td>
                         </div>
                     </div>
                 </div>

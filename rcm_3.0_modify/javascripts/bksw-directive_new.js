@@ -6537,44 +6537,62 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                 }
             }
 
+            // 其他评审上传会议纪要模式
+            $scope.b = {};
             $scope.openRBIMeeting = function (noSubmit) {
+                $scope.b.pmodel = "file";
                 $scope.businessId = noSubmit.BUSINESSID;
                 $scope.projectType = noSubmit.PROJECT_TYPE;
+                $scope.projectName = noSubmit.PROJECTNAME;
             }
+
             $scope.mettingSummary = "";
             $scope.mettingSubmit = function () {
-                if ($scope.mettingSummary == null || $scope.mettingSummary == "") {
-                    $.alert("会议纪要不得为空！");
-                    return false;
-                }
-                //show_Mask();
-                //保存附件到mongo
-                var saveMeeting = null;
-                if($scope.projectType == 'pfr') {
-                    saveMeeting = "formalAssessmentInfoCreate/saveEnvirMettingSummary.do";
+                console.log($scope.b);
+                if ($scope.b.pmodel == "file") {
+                    if (!cloudFileIsUpload("rbiSummary", "rbiSummary", "1")) {
+                        $.alert("请上传会议纪要附件！");
+                        return false;
+                    }
+                    ;
                 } else {
-                    saveMeeting = "bulletinInfo/saveMettingSummary.do";
+                    if ($scope.mettingSummary == null || $scope.mettingSummary == "") {
+                        $.alert("会议纪要不得为空！");
+                        return false;
+                    }
+                }
+
+                var saveMeetingUrl = null;
+                if ($scope.projectType == 'pfr') {
+                    saveMeetingUrl = "formalAssessmentInfoCreate/saveEnvirMettingSummary.do";
+                } else {
+                    saveMeetingUrl = "bulletinInfo/saveMettingSummary.do";
                 }
                 $http({
                     method: 'post',
-                    url: srvUrl + saveMeeting,
+                    url: srvUrl + saveMeetingUrl,
                     data: $.param({
                         "businessId": $scope.businessId,
+                        "pmodel": $scope.b.pmodel,
+                        "projectName": $scope.projectName,
                         "mettingSummaryInfo": $scope.mettingSummary
                     })
                 }).success(function (result) {
                     $('#addModal3').modal('hide');
                     $.alert(result.result_name);
                     $scope.mettingSummary = "";
-                    $scope.initDataFill();
+                    $scope.initData();
                 });
             };
+
             $scope.cancel = function () {
                 $scope.mettingSummary = "";
             }
 
             $scope.queryRBIMeeting = function (submit) {
                 console.log(submit);
+                $scope.mettingSummarys = null;
+                $scope.businessId = null;
                 var queryMeeting = null;
                 if (submit.PROJECT_TYPE == 'pfr') {
                     queryMeeting = "formalAssessmentInfoCreate/queryEnvirMettingSummarys.do";
@@ -6589,6 +6607,11 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                     })
                 }).success(function (result) {
                     $scope.mettingSummarys = result.result_data.mettingSummary;
+                    $scope.businessId = submit.BUSINESSID;
+                    console.log($scope.mettingSummarys);
+                    $scope.newAttachment = attach_list("rbiSummary", $scope.businessId, "rbiSummary").result_data;
+                    $scope.fullpath = $scope.newAttachment[0].fullpath;
+                    console.log($scope.newAttachment);
                 });
             }
 
