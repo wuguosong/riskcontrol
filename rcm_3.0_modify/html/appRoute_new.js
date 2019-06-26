@@ -3709,6 +3709,56 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
         /*===================新功能：秘书查询项目看板end==================*/
+            /*==================投标、正式、其它-修改附件功能start==================*/
+            .when('/BulletinMattersDetailViewModify/:id/:url', {
+                controller: 'BulletinMattersDetailViewModify',
+                templateUrl: 'page/rcm/projectAttachmentModify/BulletinMattersDetailView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectAttachmentModify/BulletinMattersDetailView.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .when('/FormalAssessmentDetailViewModify/:id/:url', {
+                controller: 'FormalAssessmentDetailViewModify',
+                templateUrl: 'page/rcm/projectAttachmentModify/formalAssessmentDetailView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectAttachmentModify/formalAssessmentDetailView.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .when('/PreDetailViewModify/:id/:url', {
+                controller: 'PreDetailViewModify',
+                templateUrl: 'page/rcm/projectAttachmentModify/PreDetailView.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectAttachmentModify/PreDetailView.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+        /*==================投标、正式、其它-修改附件功能end==================*/
     }
 ]);
 
