@@ -72,6 +72,9 @@
                     <button ng-if="item.rcmfilename != null && (isEdite || wfState =='0')" type="button"
                             class="btn btn-info" ng-click="_review(item.preview3d, item)">预览
                     </button>
+                    <button ng-if="item.rcmfilename != null && _isShowPreviewBtn" type="button"
+                            class="btn btn-info" ng-click="_review(item.preview3d, item)">预览
+                    </button>
                     <button type="button" class="btn btn-danger" ng-click="_deleteBlank($index)"
                             ng-if="item.newFile == '1' && (isEdite || wfState =='0')">删除
                     </button>
@@ -115,7 +118,7 @@
                             </div>
                         </div>
                     </div>
-                    <button ng-if="item.rcmfilename != null" type="button" class="btn btn-info"  ng-click="showHistory(item)">查看历史</button>
+                    <button ng-if="item.rcmfilename != null && _isShowHistoryList" type="button" class="btn btn-info"  ng-click="showHistory(item)">查看历史</button>
                 </td>
                 <td ng-if="isChoose" align="center">
                     <label class="checkbox-inline choose">
