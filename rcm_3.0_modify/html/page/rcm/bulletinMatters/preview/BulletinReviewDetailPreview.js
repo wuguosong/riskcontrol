@@ -70,6 +70,13 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
                     angular.element("#"+data).addClass('chose');
                 }
             });
+        };
+
+        // 展开展示信息
+        $scope.expandMore = function (parentId, val) {
+            angular.element("#"+parentId).addClass('hideOpen');
+            $scope[val] = true;
+            angular.element("")
         }
 
         $scope.initDefaultData();
