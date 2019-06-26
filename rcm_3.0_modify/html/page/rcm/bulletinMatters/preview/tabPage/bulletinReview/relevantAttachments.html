@@ -27,6 +27,10 @@
             //
             //     $('#content3_cover').hide()
             // }
+            $('.table-cover .more').click(function(){
+                $(this).parent('.table-cover').hide()
+                $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+            })
         },1000)
 
     })
