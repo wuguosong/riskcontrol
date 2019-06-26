@@ -125,11 +125,11 @@
                                     <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
                                     <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
 
-                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' != p.WF_STATE"    title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' == p.WF_STATE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' != p.WF_STATE"  title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' == p.WF_STATE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
                                 </td>
                                 <td>
                                     <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
@@ -208,11 +208,11 @@
                                     <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
                                     <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
 
-                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
-                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' != p.WF_STATE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' == p.WF_STATE"    title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' != p.WF_STATE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' == p.WF_STATE"    title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
                                 </td>
                                 <td>
                                     <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
