@@ -1,0 +1,157 @@
+
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!--<i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					流程申请
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					其他评审申请
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="panel-body">
+	<ul class="nav nav-tabs bs-tabdrop-example">
+		<li class="active">
+			<a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+		</li>
+		<!--<li>
+			<a href="/#flow_chart" data-toggle="tab" ng-if="queryParamId != '0'">流程图</a>
+		</li>-->
+		<li>
+			<a href="/#contracts_resources" data-toggle="tab" ng-if="queryParamId != '0'">相关资源</a>
+		</li>
+	</ul>
+	<form class="form-horizontal" name="myFormPfR" id="myFormPfR" novalidate>
+		<div class="panel">
+			<div class="tab-content">
+				<div class="tab-pane in active special-form" id="contracts_file_info">
+					<div class="row">
+						<label class="col-sm-2 control-label">项目名称</label>
+						<div class="col-sm-4">
+							<input type="text"  class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}" readonly/>
+						</div>
+						<label class="col-sm-2 control-label">项目编号</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
+							<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label">所属大区</label>
+						<div class="col-sm-4 has-feedback reporting-unit">
+							<div class="full-drop">
+								<input type="text" readonly required-m class="form-control" id="applyUnitName"
+									   name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+							</div>
+						</div>
+						<label class="col-sm-2 control-label"><span class="required-m"></span>单位负责人</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required-m class="form-control" id="unitPersonName"
+								   name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label">申请人</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required-m class="form-control" id="applyUserName"
+								   name="applyUserName" ng-model="bulletin.applyUser.NAME">
+						</div>
+						<label class="col-sm-2 control-label">申请时间</label>
+						<div class="col-sm-4 has-feedback">
+							<input type="text" class="form-control" id="createDate" name="createDate"
+								   ng-model="bulletin.createTime" readonly/>
+							<!-- 									<i class="fa fa-calendar form-control-feedback"></i> -->
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>事项类型</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required-m class="form-control" id="bulletinType"
+								   name="bulletinType" ng-model="bulletin.bulletinType.NAME">
+						</div>
+						<label class="col-sm-2 control-label">职能部门负责人</label>
+						<div class="col-sm-4">
+							<input class="form-control" readonly required-m id="businessPersonName"
+								   name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>申报事项</label>
+						<div class="col-sm-10">
+							<input type="text" readonly required-m class="form-control" id="bulletinName"
+								   name="bulletinName" ng-model="bulletin.bulletinName"/>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>事项原因</label>
+						<div class="col-sm-10">
+                                    <textarea readonly required-m class="form-control" name="reason" id="reason"
+											  ng-model="bulletin.reason" placeholder="" auto-height></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label"><span class="required-m">*</span>申请需求</label>
+						<div class="col-sm-10">
+                                    <textarea readonly required-m class="form-control" id="applyRequirement"
+											  name="applyRequirement" ng-model="bulletin.applyRequirement"
+											  auto-height></textarea>
+						</div>
+					</div>
+					<div ng-show="bulletin.businessOpinion!=null && bulletin.businessOpinion!=''" class="row">
+						<label class="col-sm-2 control-label">职能部门审核意见</label>
+						<div class="col-sm-10">
+                                    <textarea class="form-control" name="businessOpinion"
+											  ng-model="bulletin.businessOpinion" placeholder="" readonly
+											  auto-height></textarea>
+						</div>
+					</div>
+					<div ng-show="bulletin.windControlOpinion!=null && bulletin.windControlOpinion!=''"
+						 class="row">
+						<label class="col-sm-2 control-label">风控中心审核意见</label>
+						<div class="col-sm-10">
+                                    <textarea class="form-control" id="windControlOpinion" name="windControlOpinion"
+											  ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="flow_chart">
+					<!--<directive-process-page></directive-process-page>-->
+					<directive-process-page-new process-key="bulletin"></directive-process-page-new>
+				</div>
+				<div class="tab-pane clearfix row" id="contracts_resources">
+					<!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
+					<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+											  wf-state="0" file-list="newAttachment"
+											  init-update="initUpdate(id)"></directive-accachment-new>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option">
+					<!-- 					<a class="btn btn-info" href="#/BulletinMattersAudit"><i class="fa fa-reply"></i>返回</a> -->
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+					<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info"
+							title=""><i class="fa fa-cloud-upload"></i>提交
+					</button>
+					<!--<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)"
+							ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i
+							class="fa fa-cloud-upload"></i>保存
+					</button>-->
+
+					<div id="submitModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+						<bpmn-pop-win approve="approve"></bpmn-pop-win>
+					</div>
+					<!--<button ng-if="isHide" ng-click="generateApplication()" class="btn btn-info"><i class="fa fa-file-o"></i>导出申请单</button>-->
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -80,7 +80,7 @@
                     </button>
                     <button type="button" data-toggle="modal" data-target="#addModal{{$index}}" id="compareBtn"
                             class="btn btn-info" ng-click="showModel()"
-                            ng-if="!isAddDisable && (item.preview3d != null && (isEdite || wfState =='0' && !_ignoreReplaceReason))">替换
+                            ng-if="!isAddDisable && (item.rcmfilename != null && (isEdite || wfState =='0' && !_ignoreReplaceReason))">替换
                     </button>
                     <a ng-if="item.rcmfilename != null && (isEdite || wfState =='0') && _ignoreReplaceReason"
                        ngf-max-size="1000MB" ngf-select="_uploadReplace($file,$invalidFiles,item)"

@@ -334,4 +334,244 @@ ctmApp.register.controller('initFileCtrl', ['$http', '$scope', '$location', '$ro
             $window.open(url);
         };
         /*=======================================================上会附件end==========================================*/
+        /*=================文件管理开始==================*/
+        /*初始化项目类型*/
+        $scope.projectTypes = [];
+        $scope.initProjectTypes = function () {
+            $.getJSON("page/sys/initfile/projecttypes.json", function (data) {
+                $scope.projectTypes = data;
+            });
+        };
+        $scope.initProjectTypes();
+        /*初始化查询条件*/
+        $scope.projectType = '';
+        $scope.projectName = '';
+        $scope.projectNumber = '';
+        $scope.projectId = '';
+        $scope.replaceReason = '';
+        $scope.projectFile = {};
+        /*清空查询条件*/
+        $scope.clearQueryObj = function () {
+            $scope.projectType = '';
+            $scope.projectName = '';
+            $scope.projectNumber = '';
+            $scope.projectId = '';
+            $scope.queryFileListByPage();
+        };
+        /*创建查询条件*/
+        $scope.crateQueryObj = function () {
+            $scope.fileManagerConfiguration.queryObj.projectType = $scope.projectType;
+            $scope.fileManagerConfiguration.queryObj.projectName = $scope.projectName;
+            $scope.fileManagerConfiguration.queryObj.projectNumber = $scope.projectNumber;
+            $scope.fileManagerConfiguration.queryObj.projectId = $scope.projectId;
+        };
+        /*分页查询*/
+        $scope.queryFileListByPage = function () {
+            $scope.crateQueryObj();
+            $http({
+                method: 'post',
+                url: srvUrl + "initfile/queryFileListByPage.do",
+                data: $.param({
+                    "page": JSON.stringify($scope.fileManagerConfiguration)
+                })
+                , async: false
+            }).success(function (data) {
+                $scope.fileManagerConfiguration.totalItems = data['result_data'].totalItems;
+                $scope.projectFiles = data['result_data'].list;
+            });
+        };
+        /*初始化分页条件*/
+        $scope.fileManagerConfiguration = {};
+        $scope.fileManagerConfiguration.queryObj = {};
+        $scope.fileManagerConfiguration.itemsPerPage = 5;
+        $scope.fileManagerConfiguration.perPageOptions = [5, 10, 15, 20, 25, 30];
+        /*分页监听*/
+        $scope.$watch('fileManagerConfiguration.currentPage + fileManagerConfiguration.itemsPerPage', $scope.queryFileListByPage);
+        /*文件预览*/
+        $scope.cloudPreview = function (fullPath) {
+            $.ajax({
+                url: srvUrl + 'cloud/getUrl.do',
+                type: "POST",
+                dataType: "json",
+                data: {"type": 'preview', 'path': fullPath},
+                async: true,
+                success: function (data) {
+                    if (!isEmpty(data)) {
+                        $window.open(data);
+                    }
+                }
+            });
+        };
+        /*替换文件*/
+        $scope.replaceFile = function (replaceFile, projectFile) {
+            var docType = projectFile['fileTypeCode'];
+            var docCode = projectFile['projectId'];
+            var pageLocation = projectFile['pageLocation'];
+            var oldFileId = projectFile['cloudFileId'];
+            var oldFileName = projectFile['cloudFileName'];
+            var replaceReason = '管理员替换';
+            if (!isEmpty($scope.replaceReason)) {
+                replaceReason = $scope.replaceReason;
+            }
+            $scope.executeReplace(replaceFile, docType, docCode, pageLocation, oldFileId, oldFileName, replaceReason, function (data) {
+                $scope.updateRelationResources(replaceFile, projectFile);
+            });
+        };
+        /*
+         * 替换文件后对Mongo的操作
+         * replaceFile:替换的文件
+         * projectFile:原始文件信息
+         */
+        $scope.updateRelationResources = function (replaceFile, projectFile) {
+            show_Mask();
+            // 只针对相关资源的操作
+            var docType = projectFile['fileTypeCode'];
+            var docCode = projectFile['projectId'];
+            var pageLocation = projectFile['pageLocation'];
+            var cloudFileId = projectFile['cloudFileId'];
+            var addUrl = '';
+            if (docType == 'preReview') {
+                addUrl = "preInfoCreate/addAttachmengInfoToMongo.do";
+            } else if (docType == 'formalReview') {
+                addUrl = "formalAssessmentInfoCreate/addAttachmengInfoToMongo.do";
+            } else if (docType == 'bulletin') {
+                addUrl = "bulletinInfo/addAttachmengInfoToMongo.do";
+            }
+            if (!isEmpty(addUrl)) {
+                // 查询替换了的文件信息
+                var fileList = attach_list(docType, docCode, pageLocation)['result_data'];
+                if (!isEmpty(fileList) && fileList.length > 0) {
+                    var newFile = fileList[0];
+                    // 从Mongo中获取附件列表信息
+                    $scope.getFileListFromMongo(docType, docCode, function (list) {
+                        // 通过原始附件id来判断到底替换的是哪一个附件
+                        var item = null;
+                        if (!isEmpty(list) && list.length > 0) {
+                            for (var i = 0; i < list.length; i++) {
+                                var js = list[i];
+                                if (js['fileId'] == cloudFileId) {
+                                    item = js;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!isEmpty(item)) {
+                            // 更新附件变量信息
+                            item.fileId = newFile['fileid'] + '';
+                            item.lastUpdateBy = {
+                                NAME: $scope.credentials['userName'],
+                                VALUE: $scope.credentials['UUID']
+                            };
+                            item.lastUpdateData = getDate();
+                            item.fileName = replaceFile['name'];
+                            // 修改Mongo中相关数据
+                            $http({
+                                method: 'post',
+                                url: srvUrl + addUrl,
+                                data: $.param({
+                                    "json": JSON.stringify({
+                                        "businessId": docCode,
+                                        "item": item,
+                                        "oldFileName": replaceFile['name']
+                                    })
+                                })
+                            }).success(function (data) {
+                                if (data.success) {
+                                    $.alert('替换成功！');
+                                    $scope.queryFileListByPage();
+                                    $scope.replaceDialogClose();
+                                } else {
+                                    $.alert(data.result_name);
+                                }
+                            });
+                        }
+                    });
+                }
+            } else {
+                $.alert('替换成功！');
+                $scope.queryFileListByPage();
+                $scope.replaceDialogClose();
+            }
+            hide_Mask();
+        };
+        /*从Mongo中查询原始附件信息*/
+        $scope.getFileListFromMongo = function (docType, docCode, callBack) {
+            $.ajax({
+                url: srvUrl + 'initfile/getFileListFromMongo.do',
+                type: "POST",
+                data: {
+                    'docType': docType,
+                    'docCode': docCode
+                },
+                async: true,
+                success: function (data) {
+                    if (data.success) {
+                        if (!isEmpty(callBack) && typeof callBack == 'function') {
+                            callBack(data['result_data']);
+                        }
+                    } else {
+                        $.alert(data.result_name);
+                    }
+                }
+            });
+        };
+        /*执行替换文件*/
+        $scope.executeReplace = function (replaceFile, docType, docCode, pageLocation, oldFileId, oldFileName, replaceReason, successBack) {
+            Upload.upload({
+                url: srvUrl + 'cloud/replace.do',
+                data: {
+                    file: replaceFile,
+                    "docType": docType,
+                    'docCode': docCode,
+                    'pageLocation': pageLocation,
+                    "oldFileId": oldFileId,
+                    "oldFileName": oldFileName,
+                    "reason": replaceReason
+
+                }
+            }).then(function (resp) {
+                if (resp.data['result_code'] == 'S') {
+                    if (!isEmpty(successBack) && typeof successBack == 'function') {
+                        successBack(resp.data);
+                    }
+                } else {
+                    $.alert(resp.data['result_name']);
+                }
+            }, function (resp) {
+            }, function (evt) {
+            });
+        };
+        /*查看项目文件*/
+        $scope.showProjectFile = function (file) {
+            var url = '';
+            var fileTypeCode = file['fileTypeCode'];
+            var projectId = file['projectId'];
+            var returnUrl = 'index.html#/initfile';
+            if ('formalReview' == fileTypeCode ||
+                'FormalReportInfo' == fileTypeCode ||
+                'FormalDecisionDraftInfo' == fileTypeCode ||
+                'FormalBiddingInfo' == fileTypeCode) {
+                url += "#/projectInfoAllBoardView/";
+            } else if ('preReview' == fileTypeCode ||
+                'preReportInfo' == fileTypeCode) {
+                url += "#/projectPreInfoAllBoardView/"
+            } else {
+                url += "#/projectBulletinInfoAllBoardView/"
+            }
+            url += projectId + "/" + $filter('encodeURI')(returnUrl);
+            $window.open(url);
+        };
+        /*关闭弹窗*/
+        $scope.replaceDialogClose = function () {
+            $('#replaceDialog').modal('hide');
+            $scope.replaceReason = '';
+            $scope.projectFile = {};
+        };
+        /*打开弹窗*/
+        $scope.replaceDialogOpen = function (projectFile) {
+            $('#replaceDialog').modal('show');
+            // 给每一行原始文件赋值
+            $scope.projectFile = projectFile;
+        }
+        /*=================文件管理结束==================*/
     }]);

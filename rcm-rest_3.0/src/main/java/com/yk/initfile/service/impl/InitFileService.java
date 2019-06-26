@@ -9,6 +9,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.yk.common.IBaseMongo;
 import com.yk.exception.BusinessException;
+import com.yk.initfile.dao.IInitFileMapper;
 import com.yk.initfile.entity.InitFile;
 import com.yk.initfile.entity.JsonField;
 import com.yk.initfile.entity.MeetingFile;
@@ -20,6 +21,8 @@ import com.yk.rcm.file.dao.IFileMapper;
 import com.yk.rcm.file.service.IFileService;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
 import com.yk.rcm.newPre.service.IPreInfoCreateService;
+import common.Constants;
+import common.PageAssistant;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
@@ -56,6 +59,8 @@ public class InitFileService implements IInitFileService {
     private IFormalAssessmentInfoCreateService formalAssessmentInfoCreateService;
     @Resource
     private IBulletinInfoService bulletinInfoService;
+    @Resource
+    private IInitFileMapper initFileMapper;
 
     @Override
     public List<InitFile> queryMongo(List<JSONObject> jsonObjectList, final JSONObject jsonCondition) {
@@ -937,5 +942,41 @@ public class InitFileService implements IInitFileService {
         list.add(initFile);
         this.updateDifferentFiles(list);
         return list.get(0);
+    }
+
+
+    @Override
+    public void queryFileListByPage(PageAssistant pageAssistant) {
+        Map<String, Object> queryParams = new HashMap();
+        queryParams.put("page", pageAssistant);
+        if (pageAssistant.getParamMap() != null) {
+            queryParams.putAll(pageAssistant.getParamMap());
+        }
+        List<JSONObject> jsonObjects = initFileMapper.queryFileListByPage(queryParams);
+        pageAssistant.setList(jsonObjects);
+    }
+
+    @Override
+    public JSONObject getDataFromMongo(String docType, String docCode) {
+        Map<String, Object> mongo = null;
+        JSONObject applyJs = null;
+        String collectionName = null;
+        if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(docType)) {
+            collectionName = Constants.RCM_FORMALASSESSMENT_INFO;
+        } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(docType)) {
+            collectionName = Constants.RCM_PRE_INFO;
+        } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(docType)) {
+            collectionName = Constants.RCM_BULLETIN_INFO;
+        } else {
+            return null;
+        }
+        if (StringUtils.isNotBlank(collectionName)) {
+            mongo = baseMongo.queryById(docCode, collectionName);
+            if (mongo != null) {
+                JSONObject mongoJs = JSON.parseObject(JSON.toJSONString(mongo), JSONObject.class);
+                return mongoJs;
+            }
+        }
+        return null;
     }
 }

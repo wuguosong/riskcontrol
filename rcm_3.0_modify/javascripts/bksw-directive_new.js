@@ -3735,27 +3735,29 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 删除
             $scope._delete = function(file_id){
-                attach_delete(file_id);
-                var url = '';
-                // 判断文件路径
-                if ($scope.businessType == 'preReview') {
-                    url = "preInfoCreate/deleteAttachmengInfoInMongo.do";
-                } else if ($scope.businessType == 'formalReview') {
-                    url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
-                } else {
-                    url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
-                }
-                $http({
-                    method:'post',
-                    url:srvUrl + url,
-                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
-                }).success(function(data){
-                    if(data.success){
-                        $.alert(data.result_name);
-                        $scope.initUpdate({'id': $scope.businessId});
-                    }else{
-                        $.alert(data.result_name);
+                $.confirm('确定删除该资源文件吗?', function(){
+                    attach_delete(file_id);
+                    var url = '';
+                    // 判断文件路径
+                    if ($scope.businessType == 'preReview') {
+                        url = "preInfoCreate/deleteAttachmengInfoInMongo.do";
+                    } else if ($scope.businessType == 'formalReview') {
+                        url = "formalAssessmentInfoCreate/deleteAttachmengInfoInMongo.do";
+                    } else {
+                        url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
                     }
+                    $http({
+                        method:'post',
+                        url:srvUrl + url,
+                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
+                    }).success(function(data){
+                        if(data.success){
+                            $.alert(data.result_name);
+                            $scope.initUpdate({'id': $scope.businessId});
+                        }else{
+                            $.alert(data.result_name);
+                        }
+                    });
                 });
             };
 

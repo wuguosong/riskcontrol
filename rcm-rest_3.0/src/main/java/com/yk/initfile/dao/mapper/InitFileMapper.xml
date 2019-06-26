@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.initfile.dao.IInitFileMapper">
+    <select id="queryFileListByPage" resultType="com.alibaba.fastjson.JSONObject"  parameterType="map">
+        select
+        allRec.*
+        from
+        (
+          select
+          case f.doctype
+            when
+                  'formalReview'
+            then
+                 0
+             when
+                 'FormalReportInfo'
+             then
+                 1
+             when
+                 'FormalDecisionDraftInfo'
+             then
+                  2
+             when
+                  'FormalBiddingInfo'
+             then
+                  3
+             when 'preReview'
+             then
+                  4
+             when 'preReportInfo'
+             then
+                  4
+             else
+                  5
+             end
+          as "fileTypeIdx",
+          f.doctype as "fileTypeCode",
+          f.fileid as "cloudFileId",
+          f.fullpath as "cloudFullPath",
+          f.filename as "cloudFileName",
+          f.rcmfilename as "fileName",
+          f.pagelocation as "pageLocation",
+          tmp.*
+          from file_dto f
+          left join
+          (
+          select
+          b.bulletinname as "projectName",
+          b.businessid as "projectId",
+          b.projectnum as "projectNumber"
+          from rcm_bulletin_info b
+          union
+          select
+          f.projectname as "projectName",
+          f.businessid as "projectId",
+          f.projectnum as "projectNumber"
+          from rcm_formalassessment_info f
+          union
+          select
+          p.projectname as "projectName",
+          p.businessid as "projectId",
+          p.projectnum as "projectNumber"
+          from rcm_pre_info p
+          ) tmp
+          on tmp."projectId" = f.doccode
+          where 1 = 1
+          and f.logicopt = 'UPLOAD'
+          and instr(f.doctype, 'sys_message_') = 0
+          order by f.doccode
+        ) allRec
+        where 1 = 1
+        <if test="projectType != null and projectType != ''">
+            and allRec."fileTypeCode" = #{projectType}
+        </if>
+        <if test="projectId != null and projectId != ''">
+            and allRec."projectId" = #{projectId}
+        </if>
+        <if test="projectName != null and projectName != ''">
+            and instr(allRec."projectName", #{projectName}) > 0
+        </if>
+        <if test="projectNumber != null and projectNumber != ''">
+            and instr(allRec."projectNumber", #{projectNumber}) > 0
+        </if>
+        order by allRec."fileTypeIdx"
+    </select>
+</mapper>
