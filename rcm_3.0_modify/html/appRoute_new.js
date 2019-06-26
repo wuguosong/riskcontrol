@@ -2794,6 +2794,24 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            // 项目看板（新）
+            .when('/projectReplaceFileList/:url', {
+                controller: 'projectReplaceFileList',
+                templateUrl: 'page/rcm/projectReplaceFileList/projectReplaceFileList.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/projectReplaceFileList/projectReplaceFileList.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+
             // 项目看板 - 首页项目查询
             .when('/projectBoardList/:projectName/:url', {
                 controller: 'projectBoardList',

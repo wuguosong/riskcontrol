@@ -1,0 +1,345 @@
+<div class="visa-menu">
+    <div class="col-md-12">
+        <ol class="breadcrumb breadcrumb-menu">
+            <li>
+                <!-- <i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+                <a class="breadcrumb-text breadcrumb-text-menu">
+                    首页
+                </a>
+            </li>
+            <li>
+                <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                    附件替换
+                </a>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="panel-body">
+    <div style="margin: 25px 0;">
+        <div class="form-group row">
+            <label class="col-sm-2 col-md-1 control-label">项目名称</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="params.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">申请状态</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <select name="WF_STATE" id="WF_STATE" class="form-control"
+                        ng-model="params.wf_state">
+                    <option value="">请选择...</option>
+                    <!--<option value="0">起草中</option>-->
+                    <option value="1">审批中</option>
+                    <option value="2">已审批</option>
+                    <option value="3">已终止</option>
+                </select>
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">评审状态</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <select name="STAGE" id="STAGE" class="form-control"
+                        ng-model="params.stage">
+                    <option value="">请选择...</option>
+                    <!--<option value="0">起草中</option>-->
+                    <option value="1">申请阶段</option>
+                    <option value="2">任务分配</option>
+                    <option value="3">风控处理</option>
+                    <option value="4">准备上会</option>
+                    <option value="5">已安排上会</option>
+                    <option value="6">已决策</option>
+                    <option value="7">已确认通知书/填写会议纪要</option>
+                    <option value="9">无需上会</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-md-1 control-label">所属大区</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="PERTAINAREA_NAME" id="PERTAINAREA_NAME" ng-model="params.pertainareaName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">投资经理</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="INVESTMENT_NAME" id="INVESTMENT_NAME" ng-model="params.investmentName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">评审负责人</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="REVIEW_PERSON_NAME" id="REVIEW_PERSON_NAME" ng-model="params.reviewPersonName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-md-1 control-label">法律负责人</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="LEGAL_REVIEW_PERSON_NAME" id="LEGAL_REVIEW_PERSON_NAME" ng-model="params.legalReviewPersonName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">申请时间（从）</label>
+            <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_START" name="APPLY_DATE_START" ng-model="params.applyDateStart" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">申请时间（至）</label>
+            <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_END" name="APPLY_DATE_END" ng-model="params.applyDateEnd" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 col-md-10 sm-col"></div>
+            <div class="col-sm-12 col-md-2" style="margin-right: 0px;">
+                <button class="btn btn-info" ng-click="getProjectList(params)">查询</button>
+                <button class="btn btn-info" ng-click="cancel()">清除</button>
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs bs-tabdrop-example" style="margin-bottom: -9px;">
+        <li class="active">
+            <a href="/#bs-tabdrop-tab1" data-toggle="tab">正式评审</a>
+        </li>
+    </ul>
+    <div id="bs-tabdrop-tab1">
+        <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="form-group row nobottom-mar table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                                <th width="5%">序号</th>
+                                <th style="text-align: center" width="31%">项目名称</th>
+                                <th width="8%">评审类型</th>
+                                <th width="8%">所属大区</th>
+                                <th width="8%">投资经理</th>
+                                <th width="8%">评审负责人</th>
+                                <th width="8%">法律负责人</th>
+                                <th width="8%">申请时间</th>
+                                <th width="8%">评审状态</th>
+                                <th width="8%">申请状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="p in projectList1" on-finish-render-filters>
+                                <td>{{$index+1}}</td>
+                                <td>
+                                    <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                </td>
+                                <td>
+                                    <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                    <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                    <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                </td>
+                                <td>
+                                    <a style="color: black" title="{{p.PERTAINAREANAME}}"> {{ p.PERTAINAREANAME|projectNameFilter:8 }}</a>
+                                </td>
+                                <td>{{p.INVESTMENTNAME}}</td>
+                                <td>{{p.REVIEWPERSONNAME}}</td>
+                                <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
+                                <td>
+                                    <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
+                                    <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已确认通知书</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
+                                </td>
+                                <td>
+                                    <div ng-if="'0'== p.WF_STATE">起草中</div>
+                                    <div ng-if="'1'== p.WF_STATE">审批中</div>
+                                    <div ng-if="'2'== p.WF_STATE">已审批</div>
+                                    <div ng-if="'3'== p.WF_STATE">已终止</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-footer clearfix">
+                    <tm-pagination conf="paginationConf1"></tm-pagination>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ul class="nav nav-tabs bs-tabdrop-example"  style="margin-bottom: -9px; margin-top: 20px;">
+        <li class="active">
+            <a href="/#bs-tabdrop-tab2" data-toggle="tab">投标评审</a>
+        </li>
+    </ul>
+    <div  id="bs-tabdrop-tab2">
+        <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="form-group row nobottom-mar table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                                <th width="5%">序号</th>
+                                <th style="text-align: center" width="31%">项目名称</th>
+                                <th width="8%">评审类型</th>
+                                <th width="8%">所属大区</th>
+                                <th width="8%">投资经理</th>
+                                <th width="8%">评审负责人</th>
+                                <th width="8%">法律负责人</th>
+                                <th width="8%">申请时间</th>
+                                <th width="8%">评审状态</th>
+                                <th width="8%">申请状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="p in projectList2" on-finish-render-filters>
+                                <td>{{$index+1}}</td>
+                                <td>
+                                    <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                </td>
+                                <td>
+                                    <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                    <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                    <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                </td>
+                                <td>
+                                    <a style="color: black" title="{{p.PERTAINAREANAME}}"> {{ p.PERTAINAREANAME|projectNameFilter:8 }}</a>
+                                </td>
+                                <td>{{p.INVESTMENTNAME}}</td>
+                                <td>{{p.REVIEWPERSONNAME}}</td>
+                                <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
+                                <td>
+                                    <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
+                                    <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已确认通知书</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
+                                </td>
+                                <td>
+                                    <div ng-if="'0'== p.WF_STATE">起草中</div>
+                                    <div ng-if="'1'== p.WF_STATE">审批中</div>
+                                    <div ng-if="'2'== p.WF_STATE">已审批</div>
+                                    <div ng-if="'3'== p.WF_STATE">已终止</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-footer clearfix">
+                    <tm-pagination conf="paginationConf2"></tm-pagination>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ul class="nav nav-tabs bs-tabdrop-example" style="margin-bottom: -9px; margin-top: 20px;">
+        <li class="active">
+            <a href="/#bs-tabdrop-tab3" data-toggle="tab">其他评审</a>
+        </li>
+    </ul>
+    <div id="bs-tabdrop-tab3">
+        <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="form-group row nobottom-mar table-responsive table-list">
+                        <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                            <thead>
+                            <tr>
+                                <th width="5%">序号</th>
+                                <th style="text-align: center" width="31%">项目名称</th>
+                                <th width="8%">评审类型</th>
+                                <th width="8%">所属大区</th>
+                                <th width="8%">投资经理</th>
+                                <th width="8%">评审负责人</th>
+                                <th width="8%">法律负责人</th>
+                                <th width="8%">申请时间</th>
+                                <th width="8%">评审状态</th>
+                                <th width="8%">申请状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="p in projectList3" on-finish-render-filters>
+                                <td>{{$index+1}}</td>
+                                <td>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                </td>
+                                <td>
+                                    <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                    <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                    <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                </td>
+                                <td>
+                                    <a style="color: black" title="{{p.PERTAINAREANAME}}"> {{ p.PERTAINAREANAME|projectNameFilter:8 }}</a>
+                                </td>
+                                <td>{{p.INVESTMENTNAME}}</td>
+                                <td>{{p.REVIEWPERSONNAME}}</td>
+                                <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
+                                <td>
+                                    <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
+                                    <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已填写会议纪要</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
+                                </td>
+                                <td>
+                                    <div ng-if="'0'== p.WF_STATE">起草中</div>
+                                    <div ng-if="'1'== p.WF_STATE">审批中</div>
+                                    <div ng-if="'2'== p.WF_STATE">已审批</div>
+                                    <div ng-if="'3'== p.WF_STATE">已终止</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-footer clearfix">
+                    <tm-pagination conf="paginationConf3"></tm-pagination>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="button-group">
+        <div class="row">
+            <div class="option">
+                <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /*===初始化查询开始时间和结束时间===*/
+    angular.element(document).ready(function () {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        };
+        $('#APPLY_DATE_START').datepicker();
+        $('#APPLY_DATE_END').datepicker(options);
+    });
+</script>
