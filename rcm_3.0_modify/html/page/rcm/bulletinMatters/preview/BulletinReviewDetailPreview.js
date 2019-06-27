@@ -29,6 +29,7 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
                     }
                 }
             }
+            $scope.newAttachment_FK = attach_list("bulletin", id, "BulletinMattersDetail_FK").result_data;
         };
 
         $scope.initUpdate = function(){
@@ -82,7 +83,7 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
         $scope._message_publish_reply_ = validateMessageOpenAuthority('bulletin', $scope.businessid);
 
 
-        //附件列表---->上传附件---->风控负责人--临时添加
+       /* //附件列表---->上传附件---->风控负责人--临时添加
         $scope.uploadRiskLeaderAttachment = function (file,errorFile, idx) {
             debugger
             if(errorFile && errorFile.length>0){
@@ -108,7 +109,7 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
                 dates=strs[0]+strs[1]; //分割后的字符输出
                 fileFolder=fileFolder+dates+"/"+no;
 
-               /* $scope.errorAttach[idx]={msg:''};*/
+               /!* $scope.errorAttach[idx]={msg:''};*!/
                 Upload.upload({
                     url:srvUrl+'file/uploadFile.do',
                     data: {file: file, folder:fileFolder}
@@ -182,7 +183,7 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
                     $.alert(data.result_name);
                 }
             });
-        };
+        };*/
 
 
         $scope.initDefaultData();

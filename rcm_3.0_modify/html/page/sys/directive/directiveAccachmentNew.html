@@ -35,8 +35,8 @@
                 <th width="20%">附件内容</th>
                 <!--<th ng-if="businessType != 'bulletin'"  width="8%">编制人</th>
                 <th ng-if="businessType != 'bulletin'"  width="8%">审核人</th>-->
-                <th width="10%">提交人</th>
-                <th width="15%">提交时间</th>
+                <th width="10%" ng-if="id != 'BulletinMattersDetail_FK'">提交人</th>
+                <th width="15%" ng-if="id != 'BulletinMattersDetail_FK'">提交时间</th>
                     <!--ng-if="isEdite || wfState =='0'"-->
                 <th width="30%">相关操作</th>
                 <th ng-if="isChoose" width="5%">上会附件</th>
@@ -63,8 +63,8 @@
                         <span ng-if="item.newFile == '1'">{{item.rcmfilename}}</span>
                     </div>
                 </td>
-                <td>{{item.lastUpdateBy.NAME}}</td>
-                <td>{{item.lastUpdateData}}</td>
+                <td ng-if="id != 'BulletinMattersDetail_FK'">{{item.lastUpdateBy.NAME}}</td>
+                <td ng-if="id != 'BulletinMattersDetail_FK'">{{item.lastUpdateData}}</td>
                 <td>
                     <button type="button" class="btn btn-danger" ng-click="_delete(item.fileid)"
                             ng-if="item.rcmfilename != null && (isEdite || wfState =='0')">删除

@@ -24,6 +24,7 @@ ctmApp.register.controller('BulletinMattersDetailViewModify', ['$http','$scope',
                     }
                 }
 
+                $scope.newAttachment_FK = attach_list("bulletin", id, "BulletinMattersDetail_FK").result_data;
             }
         };
         $scope.initUpdate = function(id){

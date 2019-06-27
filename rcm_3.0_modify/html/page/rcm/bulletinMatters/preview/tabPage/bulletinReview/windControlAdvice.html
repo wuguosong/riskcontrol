@@ -1,54 +1,6 @@
 <div class="mcontent content2 content_2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class='text-blue text-blue-out'>风控意见及附件</h3>
     <div class="contentwrap hideOpen">
-        <div class="row normalline titline">
-            <div class="mytable" >
-                <h4 class="text-blue">风控附件列表</h4>
-                <div class="row">
-                    <button type="button" class="btn btn-info" ng-click="addRiskLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
-                    <button type="button" class="btn btn-info" ng-click="deleteRiskLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
-                    <div class="table-responsive">
-                        <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
-                            <thead>
-                            <tr>
-                                <th width="5%">选择</th>
-                                <th>上传附件</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="item in bulletin.riskLeaderAttachment track by $index">
-                                <td class="txc">
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" class="px" ng-model="item.selected">
-                                        <span class="lbl">&nbsp;</span>
-                                    </label>
-                                </td>
-                                <td>
-                                    <div class="col-sm-9 noleft-pad noright-pad">
-                                        <span ng-bind="progress$index"></span>
-                                        <span style="">{{errorAttach[$index].msg}}</span>
-                                        <span class="required">*</span>
-                                        <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
-                                    </div>
-                                    <div class="col-sm-3 noright-pad txr">
-                                        <button type="button" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadRiskLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="button-group">
-                <div class="row">
-                    <div class="option">
-                        <button ng-click="save()"  id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''
 						|| bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''
 						|| bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''
@@ -108,7 +60,7 @@
                     {{bulletin.riskLeaderOpinion}}
                 </div>
             </div>-->
-            <!--<div class="row normalline titline">
+            <div class="row normalline titline">
                 <div class="mytable" style="margin: 20px" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0
 								|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length > 0
 								|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment.length > 0 ">
@@ -143,42 +95,18 @@
                         </tr>
                     </table>
                 </div>
-            </div>-->
-            <div class="row normalline titline">
-                <div class="mytable" style="margin: 20px">
-                    <h4 class="text-blue">风控附件列表</h4>
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr class="info">
-                            <th>附件</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="item in bulletin.legalLeaderAttachment track by $index">
-                            <td>
-                                <span ng-bind="progress$index"></span>
-                                <span style="">{{errorAttach[$index].msg}}</span>
-                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
-                            </td>
-                        </tr>
-                        <tr ng-repeat="item in bulletin.reviewLeaderAttachment track by $index">
-                            <td>
-                                <span ng-bind="progress$index"></span>
-                                <span style="">{{errorAttach[$index].msg}}</span>
-                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
-                            </td>
-                        </tr>
-                        <tr ng-repeat="item in bulletin.riskLeaderAttachment track by $index">
-                            <td>
-                                <span ng-bind="progress$index"></span>
-                                <span style="">{{errorAttach[$index].msg}}</span>
-                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
             </div>
 
+        </div>
+
+        <div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
+						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
+						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')">
+            <directive-accachment-new id="BulletinMattersDetail_FK" business-type="bulletin" page-location="BulletinMattersDetail_FK" business-id="businessid"
+                                      wf-state="WF_STATE" file-list="newAttachment_FK"
+                                      init-update="initUpdate(id)"
+                                      is-show-history-list="false"
+                                      is-show-preview-btn="true"></directive-accachment-new>
         </div>
 
         <!--<div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
