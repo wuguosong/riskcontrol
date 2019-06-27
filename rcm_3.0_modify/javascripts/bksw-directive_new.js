@@ -3298,7 +3298,9 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             isDisabled: "@",
             // 调用父组件操作
             initUpdate: "&initUpdate",
-            ignoreReplaceReason:'@'// 忽略替换原因，直接替换，默认为false
+            ignoreReplaceReason:'@',// 忽略替换原因，直接替换，默认为false
+            isShowHistoryList:'@',// 是否显示查看历史按钮，默认为true
+            isShowPreviewBtn:'@',// 是否仅仅显示预览按钮，默认为false
         },
         link:function(scope,element,attr){
         },
@@ -3308,6 +3310,16 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                 $scope._ignoreReplaceReason = false;
             }else{
                 $scope._ignoreReplaceReason = $scope.ignoreReplaceReason == 'true';
+            }
+            if(isEmpty($scope.isShowHistoryList)){
+                $scope._isShowHistoryList = true;
+            }else{
+                $scope._isShowHistoryList = $scope.isShowHistoryList == 'true';
+            }
+            if(isEmpty($scope.isShowPreviewBtn)){
+                $scope._isShowPreviewBtn = false;
+            }else{
+                $scope._isShowPreviewBtn = $scope.isShowPreviewBtn == 'true';
             }
             $scope.getDate = function () {
                 var myDate = new Date();
