@@ -77,7 +77,10 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
             angular.element("#"+parentId).addClass('hideOpen');
             $scope[val] = true;
             angular.element("")
-        }
+        };
+
+        $scope._message_publish_reply_ = validateMessageOpenAuthority('bulletin', $scope.businessid);
+
 
         $scope.initDefaultData();
     }]);
