@@ -21,9 +21,9 @@
         <li class="active">
             <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
         </li>
-        <li>
+        <!--<li>
             <a href="/#flow_chart" data-toggle="tab" ng-if="flag != '1'">流程图</a>
-        </li>
+        </li>-->
         <li>
             <a href="/#contracts_resources" data-toggle="tab" ng-if="flag != '1'">相关资源</a>
         </li>
@@ -94,7 +94,15 @@
                         process-key="formalReview"></directive-process-page-new>
             </div>
             <div class="tab-pane" id="contracts_resources">
-                <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
+                                          page-location="formalAssessmentInfo"
+                                          business-id="pfrOracle.BUSINESSID"
+                                          wf-state="0"
+                                          file-list="newAttachment"
+                                          init-update="initUpdate(id)"
+                                          service-type="serviceType"
+                                          project-model="projectModel"></directive-accachment-new>
+                <!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
                     <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
                                               page-location="formalAssessmentInfo"
                                               business-id="pfrOracle.BUSINESSID"
@@ -104,8 +112,8 @@
                                               service-type="serviceType"
                                               project-model="projectModel"></directive-accachment-new>
 
-                </div>
-                <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                </div>-->
+                <!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
                     <div class="panel-body">
                         <div class="myTab">
                             <ul class="nav nav-tabs bs-tabdrop-example" id="_myMsgTab">
@@ -120,7 +128,7 @@
                             <div class="tab-pane" id="legalMessageTab">
                                 <bbs-chat-new id="formAssessmentAuditDetailBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
                             </div>
-                            <!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
+                            &lt;!&ndash;相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用&ndash;&gt;
                             <div id="formalAssessmentInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content panel">
@@ -149,7 +157,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
