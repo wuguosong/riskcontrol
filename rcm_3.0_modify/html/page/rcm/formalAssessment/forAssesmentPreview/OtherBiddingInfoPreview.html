@@ -37,12 +37,12 @@
         </a>
     </div>
     <div class="row mtab2 text-gray">
-        <h3 class='text-blue text-blue-out' style="padding-left: 0;">上传电子版正式评审决策会材料</h3>
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">电子版正式评审决策会材料</h3>
         <div class="col-md-12 col-sm-12 col-xs-12" style="">
             <cloud-file
                     file-id="pfrOtherBidding"
                     file-type="FormalBiddingInfo"
-                    file-code="{{paramId}}"
+                    file-code="{{waitId}}"
                     file-location="pfrOtherBidding"
                     show-upload="false"
                     show-preview="false"
@@ -59,6 +59,26 @@
             >
             </cloud-file>
         </div>
+
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">正式评审报告</h3>
+        <h5 class='file-download'>
+            <cloud-file
+                    file-id="pfrReport"
+                    file-type="FormalReportInfo"
+                    file-code="{{waitId}}"
+                    file-location="pfrReport"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+            >
+            </cloud-file>
+            <!--<a ng-click="downLoadFormalBiddingInfoFile(formalPreview.filePath,formalPreview.projectName)">
+                {{formalPreview.projectName}}-正式评审报告.docx</a>-->
+        </h5>
 
         <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
         <div id='content3_table' class="mytable">
