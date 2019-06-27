@@ -1,6 +1,6 @@
 <div class="mcontent content2 content_2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class='text-blue text-blue-out'>风控意见及附件</h3>
-    <div class="contentwrap">
+    <div class="contentwrap hideOpen">
         <div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''
 						|| bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''
 						|| bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''
@@ -97,14 +97,64 @@
                 </div>
             </div>
         </div>
+
         <div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
 						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
 						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')
 						&& (bulletin.legalLeaderAttachment == null || bulletin.legalLeaderAttachment == '')
 						&& (bulletin.reviewLeaderAttachment == null || bulletin.reviewLeaderAttachment == '')
 						&& (bulletin.riskLeaderAttachment == null || bulletin.riskLeaderAttachment == '')">
-            <h4>风控意见暂未填写</h4>
+            <div class="col-md-12 lg-md-12 col-sm-12 col-xs-12">
+                <div class="panel-body">
+                    <div class="myTab">
+                        <ul class="nav nav-tabs bs-tabdrop-example" id="_myMsgTab">
+                            <li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+                            <li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content tab-content-bordered clearfix row">
+                        <div class="tab-pane in active" id="reviewMessageTab">
+                            <bbs-chat-new id="bulletinMattersAuditBbsReview" business-id="{{businessid}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" is-show-attach-type="false" relation-sources-popup="BulletinMattersDetailRelationResourcesPopup"></bbs-chat-new>
+                        </div>
+                        <div class="tab-pane" id="legalMessageTab">
+                            <bbs-chat-new id="bulletinMattersAuditBbsLegal" business-id="{{businessid}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" is-show-attach-type="false" relation-sources-popup="BulletinMattersDetailRelationResourcesPopup"></bbs-chat-new>
+                        </div>
+                        <!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
+                        <div id="BulletinMattersDetailRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content panel">
+                                    <div class="modal-header panel-heading" style="text-align: center;">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="_relation_resources_abel">相关资源</h4>
+                                    </div>
+                                    <div class="modal-body panel-body">
+                                        <directive-accachment-new id="BulletinMattersDetail2" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+                                                                  wf-state="0" file-list="newAttachment"
+                                                                  ignore-replace-reason="true"
+                                                                  init-update="initUpdate(id)"></directive-accachment-new>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="button-group">
+                                            <div class="row">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!--<div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
+						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
+						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')
+						&& (bulletin.legalLeaderAttachment == null || bulletin.legalLeaderAttachment == '')
+						&& (bulletin.reviewLeaderAttachment == null || bulletin.reviewLeaderAttachment == '')
+						&& (bulletin.riskLeaderAttachment == null || bulletin.riskLeaderAttachment == '')">
+            <h4>风控意见暂未填写</h4>
+        </div>-->
         <div class="table-cover" ng-hide="hideFlagS">
             <div class="more">
                 <div class="icon"></div>
@@ -123,11 +173,11 @@
             if(content_2_wrap.height() < content_2.height() - 52){
                 content_2_cover.hide()
             }
-        },1000)
+        },1000);
 
         $('.table-cover .more').click(function(){
-            $(this).parent('.table-cover').hide()
-            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
-        })
+            $(this).parent('.table-cover').hide();
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen');
+        });
     })
 </script>
