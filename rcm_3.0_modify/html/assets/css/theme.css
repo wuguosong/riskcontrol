@@ -847,8 +847,8 @@ a.btn-sm.btn-grey:active {
     padding: 0;
     margin: 0;
     position: absolute;
-    left: 37%;
-    top: 33%;
+    left: 51%;
+    top: 50%;
     transform: translate(-50%, -50%);
     width: 30%;
   }
