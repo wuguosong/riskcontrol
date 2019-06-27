@@ -335,7 +335,7 @@ public class FileService implements IFileService {
         params.put("pageLocation", pageLocation);
         List<Map<String, Object>> list = sysLogService.getReplaceFile(params);
 
-        for (Map<String, Object> fileInfo : list) {
+        /*for (Map<String, Object> fileInfo : list) {
             String fullPath = fileInfo.get("FULLPATH").toString().replaceFirst(YunkuConf.UPLOAD_ROOT, "");
             LinkDto download = this.fileDownloadLink(fullPath);
             if (download != null) {
@@ -347,7 +347,7 @@ public class FileService implements IFileService {
                 fileInfo.put("DOWNLOAD3D", download.getLink());
                 fileInfo.put("DOWNLOADQR3D", download.getQr_url());
             }
-        }
+        }*/
 
         return list;
     }
