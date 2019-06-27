@@ -1,5 +1,5 @@
-ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$location', '$routeParams', '$filter', '$routeParams',
-    function ($http,$scope,$location, $routeParams, $filter,$routeParams) {
+ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$location', '$routeParams', '$filter', '$routeParams','Upload',
+    function ($http,$scope,$location, $routeParams, $filter,$routeParams, Upload) {
         $scope.oldUrl = $routeParams.url;
         var routeParams = $routeParams.id.split("_");
         $scope.flag = $routeParams.flag;
@@ -80,6 +80,109 @@ ctmApp.register.controller('BulletinReviewDetailPreview', ['$http','$scope','$lo
         };
 
         $scope._message_publish_reply_ = validateMessageOpenAuthority('bulletin', $scope.businessid);
+
+
+        //附件列表---->上传附件---->风控负责人--临时添加
+        $scope.uploadRiskLeaderAttachment = function (file,errorFile, idx) {
+            debugger
+            if(errorFile && errorFile.length>0){
+                var errorMsg = fileErrorMsg(errorFile);
+                $scope.errorAttach[idx]={msg:errorMsg};
+            }else if(file){
+
+                if(file.name){
+                    //检查压缩文件
+                    var index = file.name.lastIndexOf('.');
+                    var suffix  = file.name.substring(index+1);
+                    if("rar" == suffix || "zip" == suffix || "7z" == suffix){
+                        $.alert("附件不能是压缩文件！");
+                        return false;
+                    }
+                }
+
+                var fileFolder = "bulletin/risk/";
+                var dates=$scope.bulletin.createTime;
+                var no=$scope.bulletin.id;
+                var strs= new Array(); //定义一数组
+                strs=dates.split("-"); //字符分割
+                dates=strs[0]+strs[1]; //分割后的字符输出
+                fileFolder=fileFolder+dates+"/"+no;
+
+               /* $scope.errorAttach[idx]={msg:''};*/
+                Upload.upload({
+                    url:srvUrl+'file/uploadFile.do',
+                    data: {file: file, folder:fileFolder}
+                }).then(function (resp) {
+                    var retData = resp.data.result_data[0];
+                    $scope.bulletin.riskLeaderAttachment[idx]=retData;
+                }, function (resp) {
+                    $.alert(resp.status);
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    $scope["progress"+idx]=progressPercentage == 100 ? "":progressPercentage+"%";
+                });
+            }
+        };
+
+        //附件---->新增列表---->风控负责人附件
+        $scope.addRiskLeaderAttachment = function(){
+            function addBlankRow(array){
+                var blankRow = {
+                    file_content:''
+                }
+                var size=0;
+                for(attr in array){
+                    size++;
+                }
+                array[size]=blankRow;
+            }
+            if(undefined==$scope.bulletin.riskLeaderAttachment){
+                $scope.bulletin.riskLeaderAttachment=[];
+            }
+            addBlankRow($scope.bulletin.riskLeaderAttachment);
+        }
+
+        //附件列表---->删除指定的列表---->评审负责人
+        $scope.deleteReviewLeaderAttachment = function(){
+            var commentsObj = $scope.bulletin.reviewLeaderAttachment;
+            if(commentsObj!=null){
+                for(var i=0;i<commentsObj.length;i++){
+                    if(commentsObj[i].selected){
+                        commentsObj.splice(i,1);
+                        i--;
+                    }
+                }
+            }
+        };
+
+        //保存方法
+        $scope.save = function(callback){
+
+            //保存风控负责人信息
+            $http({
+                method:'post',
+                url: srvUrl + "bulletinInfo/saveRiskLeaderAttachment.do",
+                data:$.param({
+                    "businessId":$scope.businessid,
+                    "attachment":JSON.stringify($scope.bulletin.riskLeaderAttachment),
+                    "opinion":$scope.bulletin.riskLeaderOpinion
+                })
+            }).success(function(data){
+                debugger
+                if(data.success){
+
+                        for(var i in $scope.bulletin.riskLeaderAttachment){
+                            if($scope.bulletin.riskLeaderAttachment[i].fileName == null || $scope.bulletin.riskLeaderAttachment[i].fileName == ''){
+                                $.alert("您有附件未上传，请上传附件！");
+                                return;
+                            }
+                        }
+                    $.alert(data.result_name);
+                }else{
+                    $.alert(data.result_name);
+                }
+            });
+        };
 
 
         $scope.initDefaultData();
