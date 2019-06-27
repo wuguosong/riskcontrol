@@ -13,6 +13,7 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
         if (null != params[2] && "" != params[2] && null != params[3] && "" != params[3] && null != params[4] && "" != params[4] && null != params[5] && "" != params[5] && null != params[6] && "" != params[6]) {
             $scope.reportReturnId = params[2] + "@" + params[3] + "@" + params[4] + "@" + params[5] + "@" + params[6];
         }
+        $scope.paramBusinessId = params[0];
         var objId = params[0];
         $scope.formalReport = {};
         $scope.projectSummary = {};
