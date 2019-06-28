@@ -1,0 +1,481 @@
+<div>
+    <div class="">
+        <!--流程图-->
+        <div class="fade widget-followers in active">
+            <!--正式-->
+            <div class="imgArea" ng-if="_process_key_ == 'formalReview'">
+                <div class="{{_approvalNode_._formalApproval._investmentManagerDrafting._approvalState}}" nodeNum = "1"  style="top: 200px;left: 50px;">
+                    <!--节点前线 第一个节点没有-->
+                    <!--<div class="preLine"></div>-->
+                    <!--节点-->
+                    <div class="timeNode" ></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left: -94px" ><p>投资经理起草</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._investmentManagerDrafting._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._investmentManagerDrafting._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._businessAreaApproval._approvalState}}" nodeNum = "2" style="top: 200px;left:250px;">
+                    <div class="preLine" style="top: 4px;left: -187px;width: 188px"></div>
+                    <!--节点-->
+                    <div class="timeNode" ></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left: -94px" ><p>大区审批</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._businessAreaApproval._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._businessAreaApproval._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._waterInvestmentCenter._approvalState}}" nodeNum = "3" style="top: 200px;left: 460px;">
+                    <div class="preLine" style="top: 4px;left: -197px;width: 198px"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px" ><p>投资中心/水环境</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._waterInvestmentCenter._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._waterInvestmentCenter._approvalDate}}</p>
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._legalDistribution._approvalState}}" nodeNum = "4" subNum="1" style="top: 120px;left: 630px;">
+                    <!--一个竖线一个直线-->
+                    <div class="preLine" style="top: 84px;left: -157px;width: 163px;{{_approvalNode_._formalApproval._legalDistribution._backgroundTask}}"></div>
+                    <div class="preLine" style="top: 48px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:-25px;left:-94px" ><p>法律分配</p></div>
+                    <div class="nodeInfo" style="top: -75px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._legalDistribution._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._legalDistribution._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._assignmentTask._approvalState}}" nodeNum = "4" subNum="2" style="top: 280px;left: 630px">
+                    <!--一个竖线-->
+                    <div class="preLine" style="top: -36px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px" ><p>分配评审任务</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._assignmentTask._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._assignmentTask._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._lawChargeApproval._approvalState}}" nodeNum = "5" subNum="1" style="top: 120px;left: 820px">
+                    <!--一个竖线-->
+                    <div class="preLine" style="top: 4px;left: -177px;width:178px"></div>
+                    <div class="preLine" style="top: 48px;left: -30px;width: 77px;transform: rotate(90deg);{{_approvalNode_._formalApproval._lawChargeApproval._backgroundLawChargeApproval}}"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:-25px;left:-94px" ><p>法律负责人审批</p></div>
+                    <div class="nodeInfo" style="top: -75px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._lawChargeApproval._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._lawChargeApproval._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._reviewChargeApproval._approvalState}}" nodeNum = "5" subNum="2" style="top: 280px;left: 820px">
+                    <!--一个竖线-->
+                    <div class="preLine" style="top: 4px;left: -177px;width: 178px;"></div>
+                    <div class="preLine" style="top: -40px;left: -30px;width: 77px;transform: rotate(90deg);{{_approvalNode_._formalApproval._reviewChargeApproval._backgroundReviewChargeApproval}}"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px" ><p>评审负责人审批</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._reviewChargeApproval._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._reviewChargeApproval._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._reviewChargeConfirm._approvalState}}" nodeNum = "6"  style="top: 200px;left: 979px">
+                    <!--一横-->
+                    <div class="preLine" style="top: 4px;left: -149px;width: 150px;"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px;"><p>上会确认</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._reviewChargeConfirm._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._reviewChargeConfirm._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._formalApproval._completed._approvalState}}" nodeNum = "8"  style="top: 200px;left: /*1320px*/1150px">
+                    <div class="preLine" style="top: 4px;left: /*-155.5*/-158px;width: /*156.5*/159px;"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName " style="top:30px;left:-94px;"><p>完成</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._formalApproval._completed._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._formalApproval._completed._approvalDate}}</p>
+
+                    </div>
+                </div>
+            </div>
+            <!--投标-->
+            <div class="imgArea" ng-if="_process_key_ == 'preReview'" style="margin-left: 20px;">
+                <div class="{{_approvalNode_._reviewApproval._investmentManagerDrafting._approvalState}}" nodeNum = "1"  style="top: 200px;left: 50px;">
+                    <!--节点前线 第一个节点没有-->
+                    <!--<div class="preLine"></div>-->
+                    <!--节点-->
+                    <div class="timeNode" ></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left: -94px" ><p>投资经理起草</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._investmentManagerDrafting._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._investmentManagerDrafting._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._businessAreaApproval._approvalState}}" nodeNum = "2" style="top: 200px;left:250px;">
+                    <div class="preLine" style="top: 4px;left: -187px;width: 188px"></div>
+                    <!--节点-->
+                    <div class="timeNode" ></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left: -94px" ><p>大区审批</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._businessAreaApproval._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._businessAreaApproval._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._waterInvestmentCenter._approvalState}}" nodeNum = "3" style="top: 200px;left: 460px;">
+                    <div class="preLine" style="top: 4px;left: -197px;width: 198px"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px" ><p>投资中心/水环境</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._waterInvestmentCenter._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._waterInvestmentCenter._approvalDate}}</p>
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._legalDistribution._approvalState}}" nodeNum = "4" subNum="1" style="top: 120px;left: 630px;">
+                    <!--一个竖线一个直线-->
+                    <div class="preLine" style="top: 84px;left: -157px;width: 163px;{{_approvalNode_._reviewApproval._legalDistribution._backgroundTask}}"></div>
+                    <div class="preLine" style="top: 48px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:-25px;left:-94px" ><p>法律分配</p></div>
+                    <div class="nodeInfo" style="top: -75px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._legalDistribution._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._legalDistribution._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._assignmentTask._approvalState}}" nodeNum = "4" subNum="2" style="top: 280px;left: 630px">
+                    <!--一个竖线-->
+                    <div class="preLine" style="top: -36px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px" ><p>分配评审任务</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._assignmentTask._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._assignmentTask._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._lawChargeApproval._approvalState}}" nodeNum = "5" subNum="1" style="top: 120px;left: 820px">
+                    <!--一个竖线-->
+                    <div class="preLine" style="top: 4px;left: -177px;width:178px"></div>
+                    <div class="preLine" style="top: 48px;left: -30px;width: 77px;transform: rotate(90deg);{{_approvalNode_._reviewApproval._lawChargeApproval._backgroundLawChargeApproval}}"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:-25px;left:-94px" ><p>法律负责人审批</p></div>
+                    <div class="nodeInfo" style="top: -75px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._lawChargeApproval._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._lawChargeApproval._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._reviewChargeApproval._approvalState}}" nodeNum = "5" subNum="2" style="top: 280px;left: 820px">
+                    <!--一个竖线-->
+                    <div class="preLine" style="top: 4px;left: -177px;width: 178px;"></div>
+                    <div class="preLine" style="top: -40px;left: -30px;width: 77px;transform: rotate(90deg);{{_approvalNode_._reviewApproval._reviewChargeApproval._backgroundReviewChargeApproval}}"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px" ><p>评审负责人审批</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._reviewChargeApproval._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._reviewChargeApproval._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._reviewChargeConfirm._approvalState}}" nodeNum = "6"  style="top: 200px;left: 979px">
+                    <!--一横-->
+                    <div class="preLine" style="top: 4px;left: -149px;width: 150px;"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName" style="top:30px;left:-94px;"><p>上会确认</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._reviewChargeConfirm._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._reviewChargeConfirm._approvalDate}}</p>
+
+                    </div>
+                </div>
+                <div class="{{_approvalNode_._reviewApproval._completed._approvalState}}" nodeNum = "8"  style="top: 200px;left: /*1320px*/1150px">
+                    <div class="preLine" style="top: 4px;left: /*-155.5*/-158px;width: /*156.5*/159px;"></div>
+                    <!--节点-->
+                    <div class="timeNode"></div>
+                    <!--节点下的文字-->
+                    <div class="nodeName " style="top:30px;left:-94px;"><p>完成</p></div>
+                    <div class="nodeInfo" style="top: 55px;left: -95px">
+                        <p class="operator">{{_approvalNode_._reviewApproval._completed._approvalUser}}</p>
+                        <p class="opetimeYMD">{{_approvalNode_._reviewApproval._completed._approvalDate}}</p>
+
+                    </div>
+                </div>
+            </div>
+            <!--其他-->
+            <div class="imgArea" ng-if="_process_key_ == 'bulletin'">
+                <div ng-if="_approvalNode_._bulletinApproval._choice == 1">
+                    <div class="{{_approvalNode_._bulletinApproval._drafting._approvalState}}" nodeNum = "1"  style="top: 200px;left: 50px;">
+                        <!--节点前线 第一个节点没有-->
+                        <!--<div class="preLine"></div>-->
+                        <!--节点-->
+                        <div class="timeNode" ></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left: -94px" ><p>起草</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._drafting._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._drafting._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._unitChargeApproval._approvalState}}" nodeNum = "2" style="top: 200px;left:235px;">
+                        <div class="preLine" style="top: 4px;left: -172px;width: 173px"></div>
+                        <!--节点-->
+                        <div class="timeNode" ></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left: -94px" ><p>单位负责人审批</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._unitChargeApproval._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._unitChargeApproval._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._businessLeaderApproval._approvalState}} " nodeNum = "3" style="top: 200px;left:450px;">
+                        <div class="preLine" style="top: 4px;left: -202px;width: 203px"></div>
+                        <!--节点-->
+                        <div class="timeNode" ></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left: -94px" ><p>业务负责人审批</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._businessLeaderApproval._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._businessLeaderApproval._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._assignmentTask._approvalState}}" nodeNum = "4" style="top: 200px;left:674px;">
+                        <div class="preLine" style="top: 4px;left: -211px;width: 212px"></div>
+                        <!--节点-->
+                        <div class="timeNode" ></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left: -94px" ><p>分配任务</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._assignmentTask._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._assignmentTask._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._lawChargeApproval._approvalState}}" nodeNum = "5" subNum="1" style="top: 120px;left: 884px;">
+                        <!--一个竖线一个直线-->
+                        <div class="preLine" style="top: 84px;left: -197px;width: 202px;{{_approvalNode_._bulletinApproval._lawChargeApproval._background}}"></div>
+                        <div class="preLine" style="top: 48px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:-25px;left:-94px" ><p>法律负责人审批</p></div>
+                        <div class="nodeInfo" style="top: -75px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._lawChargeApproval._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._lawChargeApproval._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._reviewChargeApproval._approvalState}} " nodeNum = "5" subNum="2" style="top: 280px;left: 884px">
+                        <!--一个竖线-->
+                        <div class="preLine" style="top: -36px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left:-94px" ><p>评审负责人审批</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._reviewChargeApproval._approvalUser}}</p>
+                            <p class="opetime">{{_approvalNode_._bulletinApproval._reviewChargeApproval._approvalDate}}</p>
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._completed._approvalState}}" nodeNum = "6"  style="top: 200px;left: 1320px">
+                        <!--上横-->
+                        <div class="preLine" style="top: -76px;left: -422px;width: 268px"></div>
+                        <!--下横-->
+                        <div class="preLine" style="top: 84.5px;left: -422px;width: 268px"></div>
+                        <!--一个竖线-->
+                        <div class="preLine" style="top: -76px;left: -154px;width: 5px;height: 165.5px"></div>
+                        <!--一横-->
+                        <div class="preLine" style="top: 4px;left: -149px;width: 150px;"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left:-94px;"><p>完成</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._completed._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._completed._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="_approvalNode_._bulletinApproval._choice == 2">
+                    <div class="{{_approvalNode_._bulletinApproval._drafting._approvalState}}" nodeNum="1" style="top: 200px;left: 50px;">
+                        <!--节点前线 第一个节点没有-->
+                        <!--<div class="preLine"></div>-->
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left: -94px"><p>起草</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._drafting._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._drafting._approvalDate}}</p>
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._unitChargeApproval._approvalState}}" nodeNum="2" style="top: 120px;left:235px;">
+                        <div class="preLine" style="top: 84px;left: -171px;width: 177px;{{_approvalNode_._bulletinApproval._backgroundFirstLine}}"></div>
+                        <div class="preLine" style="top: 4px;left: 4px;width: 5px;height: 85px"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:-25px;left: -94px"><p>单位负责人审批</p></div>
+                        <div class="nodeInfo" style="top: -75px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._unitChargeApproval._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._unitChargeApproval._approvalDate}}</p>
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._businessLeaderApproval._approvalState}}" nodeNum="3" style="top: 280px;left:235px;">
+                        <div class="preLine" style="top: -72px;left: 4px;width: 5px;height: 73px"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left: -94px"><p>业务负责人审批</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._businessLeaderApproval._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._businessLeaderApproval._approvalDate}}</p>
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._assignmentTask._approvalState}} " nodeNum="4" style="top: 200px;left:674px;">
+                        <div class="preLine" style="top: -76px;left: -425.5px;width: 203px;{{_approvalNode_._bulletinApproval._unitChargeApproval._background}}"></div>
+                        <div class="preLine" style="top: 84.5px;left: -425.5px;width: 203px;{{_approvalNode_._bulletinApproval._businessLeaderApproval._background}}"></div>
+                        <div class="preLine" style="top: 4px;left: -220px;width: 221px"></div>
+                        <!--<div class="preLine" style="top: -76px;left: -224px;width: 5px;height: 165.5px;{{_approvalNode_._bulletinApproval._businessLeaderApproval._background}}"></div>-->
+                        <div class="preLine" style="top: -76px;left: -224px;width: 5px;height: 85px;{{_approvalNode_._bulletinApproval._unitChargeApproval._background}}"></div>
+                        <div class="preLine" style="top: 4.5px;left: -224px;width: 5px;height: 85px;{{_approvalNode_._bulletinApproval._businessLeaderApproval._background}}"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left: -94px"><p>分配任务</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._assignmentTask._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._assignmentTask._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._lawChargeApproval._approvalState}} " nodeNum="5" subNum="1" style="top: 120px;left: 884px;">
+                        <!--一个竖线一个直线-->
+                        <div class="preLine" style="top: 84px;left: -197px;width: 202px;{{_approvalNode_._bulletinApproval._lawChargeApproval._background}}"></div>
+                        <div class="preLine" style="top: 48px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:-25px;left:-94px"><p>法律负责人审批</p></div>
+                        <div class="nodeInfo" style="top: -75px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._lawChargeApproval._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._assignmentTask._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._reviewChargeApproval._approvalState}} " nodeNum="5" subNum="2" style="top: 280px;left: 884px">
+                        <!--一个竖线-->
+                        <div class="preLine" style="top: -36px;left: -31.5px;width: 77px;transform: rotate(90deg)"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left:-94px"><p>评审负责人审批</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._reviewChargeApproval._approvalUser}}</p>
+                            <p class="opetime">{{_approvalNode_._bulletinApproval._reviewChargeApproval._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                    <div class="{{_approvalNode_._bulletinApproval._completed._approvalState}} " nodeNum="6" style="top: 200px;left: 1320px">
+                        <!--上横-->
+                        <div class="preLine" style="top: -76px;left: -422px;width: 268px"></div>
+                        <!--下横-->
+                        <div class="preLine" style="top: 84.5px;left: -422px;width: 268px"></div>
+                        <!--一个竖线-->
+                        <div class="preLine" style="top: -76px;left: -154px;width: 5px;height: 165.5px"></div>
+                        <!--一横-->
+                        <div class="preLine" style="top: 4px;left: -149px;width: 150px;"></div>
+                        <!--节点-->
+                        <div class="timeNode"></div>
+                        <!--节点下的文字-->
+                        <div class="nodeName" style="top:30px;left:-94px;"><p>完成</p></div>
+                        <div class="nodeInfo" style="top: 55px;left: -95px">
+                            <p class="operator">{{_approvalNode_._bulletinApproval._completed._approvalUser}}</p>
+                            <p class="opetimeYMD">{{_approvalNode_._bulletinApproval._completed._approvalDate}}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--审批意见-->
+        <div class="row nobottom-mar">
+            <div class="row-tit">审批意见</div>
+        </div>
+        <div class="fade widget-followers in active" id="approvalinfo">
+            <ul class="apply-list">
+                <li>
+                    <div class="row" style="font-weight: bold;">
+                        <div class="col-md-1">处理人</div>
+                        <div class="col-md-2">审批状态</div>
+                        <div class="col-md-2">审批环节</div>
+                        <div class="col-md-5">审批意见</div>
+                        <div class="col-md-2">审批时间</div>
+                    </div>
+                </li>
+                <li ng-repeat="_process_log_ in _process_logs_">
+                    <div class="row">
+                        <div class="col-md-1">{{_process_log_.AUDITUSERNAME}}</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='A'" class="col-md-2">提交</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='B'" class="col-md-2">审批通过</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='C'" class="col-md-2">审批不通过</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='D'" class="col-md-2">退回投资经理</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='BREAK'" class="col-md-2">驳回</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='E'" class="col-md-2">提交固定小组成员</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='F'" class="col-md-2">分配任务</div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='9' && _process_log_.TASKDESC !='通过结束' && _process_log_.TASKDESC !='不通过结束'"
+                             class="col-md-2">待处理
+                        </div>
+                        <div ng-if="_process_log_.AUDITSTATUS=='9' && (_process_log_.TASKDESC =='通过结束' || _process_log_.TASKDESC =='不通过结束')"
+                             class="col-md-2"></div>
+                        <div class="col-md-2">{{_process_log_.TASKDESC}}</div>
+                        <div class="col-md-5">{{_process_log_.OPINION}}</div>
+                        <div class="col-md-2">{{_process_log_.AUDITTIME | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

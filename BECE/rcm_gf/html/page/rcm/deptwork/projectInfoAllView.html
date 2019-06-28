@@ -1,0 +1,714 @@
+<div class="panel-body" >
+    <form class="form-horizontal ng-pristine ng-valid" >
+        <div class="">
+            <div class="header detail-page">
+                <img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">正式评审项目详情</span>
+            </div>
+            <div id="professionalReviewComments" class="panel-group">
+                <div id="myTab" class="myTab">
+                    <ul class="nav nav-tabs bs-tabdrop dept-nav">
+                        <li class="active">
+                            <a href="/#bs-tabdrop-tab1" data-toggle="tab">评审申请单</a>
+                        </li>
+                        <li>
+                            <a href="/#flow_chart" data-toggle="tab">流程图</a>
+                        </li>
+                        <li>
+                            <a ng-if="firstLevelOpinion!=null" href="/#bs-tabdrop-tab2" data-toggle="tab">一级业务单位意见</a>
+<!--                             <a href="" data-toggle="tab" class={{firstLevelOpinion==null?"tab-disabled":''}}>一级业务单位意见</a> -->
+                        </li>
+                        <li>
+                            <a ng-if="fengkongOpinion!=null" href="/#bs-tabdrop-tab3"  data-toggle="tab">风控意见</a>
+<!--                             <a href="{{fengkongOpinion==null?'javascript:void(0);':'/#bs-tabdrop-tab3'}}" data-toggle="tab" class={{fengkongOpinion==null?"tab-disabled":''}}>风控意见</a> -->
+                        </li>
+                        <li>
+                            <a ng-if="report1=null" href="/#bs-tabdrop-tab4" data-toggle="tab">投资评审报告</a>
+<!--                             <a href={{report==null?'javascript:void(0);':'/#bs-tabdrop-tab4'}} data-toggle="tab" class={{report==null?"tab-disabled":''}}>投资评审报告</a> -->
+                        </li>
+                        <li>
+<!--                             <a ng-init="ahref='javascript:void(0);'" href="{{nod==null?ahref:'/#bs-tabdrop-tab5'}}" data-toggle="tab" class={{nod==null?"tab-disabled":''}}>投资决策通知书</a> -->
+                            <a ng-if="nod!=null" href="/#bs-tabdrop-tab5" data-toggle="tab">投资决策通知书</a>
+                        </li>
+                        <li>
+<!--                             <a href="{{report.pfrBusinessUnitCommit==null?'javascript:void(0);':'/#bs-tabdrop-tab6'}}" data-toggle="tab" class={{report.pfrBusinessUnitCommit==null?"tab-disabled":''}}>业务单位承诺</a> -->
+                            <a ng-if="report.pfrBusinessUnitCommit!=null" href="/#bs-tabdrop-tab6" data-toggle="tab">业务单位承诺</a>
+                        </li>
+                         <li>
+<!--                             <a href="{{arf==null?'javascript:void(0);':'/#bs-tabdrop-tab7'}}" data-toggle="tab" class={{arf==null?"tab-disabled":''}}>项目经验总结</a> -->
+                            <a ng-if="arf!=null" href="/#bs-tabdrop-tab7" data-toggle="tab">项目经验总结</a>
+                        </li>
+                        <li>
+                            <a href="/#bs-tabdrop-tab8"  data-toggle="tab">相关资源</a>
+                        </li>
+                        <li>
+                            <a ng-show="mark!=null" href="/#bs-tabdrop-tab9" data-toggle="tab">能力评价</a>
+<!--                             <a href="{{mark==null?'javascript:void(0);':'/#bs-tabdrop-tab9'}}" data-toggle="tab" class={{mark==null?"tab-disabled":''}}>能力评价</a> -->
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content tab-content-bordered">
+                    <div class="tab-pane in active" id="bs-tabdrop-tab1">
+                        <directive-project-formal-review></directive-project-formal-review>
+                    </div>
+                    <div class="tab-pane" id="flow_chart">
+                    	<!-- 新流程图 -->
+                        <directive-process-page ng-if="!isOldFlow"></directive-process-page>
+                        <!-- 旧流程图 -->
+                        <directive-process-list ng-if="isOldFlow"></directive-process-list>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab2">
+                        <div class="row">
+                            <label for="" class="col-sm-2 control-label">一级业务单位审核意见</label>
+                            <div class="col-sm-10 ">
+                                <div class="reason"><textarea class="form-control" readonly  name="reason" auto-height>{{firstLevelOpinion.cesuanFileOpinion}}</textarea></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="" class="col-sm-2 control-label">一级法务单位审核意见</label>
+                            <div class="col-sm-10 ">
+                                <div class="reason"><textarea class="form-control" readonly  name="reason" auto-height>{{firstLevelOpinion.tzProtocolOpinion}}</textarea></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab3">
+                        <div class="panel" ng-show="fengkongOpinion.approveAttachment!= null && fengkongOpinion.approveAttachment != ''">
+                            <div class="panel-heading">
+                                <a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#commentsFeedback" data-toggle="collapse"><span class="text">初步评审意见反馈<i class="i-triangle"></i></span></a>
+                            </div>
+                            <div id="reviewComments" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center reviewCommentsTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>选择</th>
+                                                    <th>序号</th>
+                                                    <th>意见类型</th>
+                                                    <th>具体内容</th>
+                                                    <th>反馈要求</th>
+                                                    <th>投资经理反馈</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="m in fengkongOpinion.approveAttachment.commentsList">
+                                                    <td class="txc">
+                                                        <label class="checkbox-inline choose">
+                                                            <input type="checkbox" class="px" ng-model="m.selected" disabled="disabled">
+                                                            <span class="lbl">&nbsp;</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="txc">{{ $index + 1 }}</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <select ng-model="m.opinionType" ng-options="ot.ITEM_NAME for  ot in optionTypeList track by ot.ITEM_CODE" disabled="disabled" name="" id="" class="form-control">
+                                                                <option value="">请选择...</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="row nobottom-mar">
+                                                            <input type="text" style="border:0;width:100%;color:red;background-color:#ffffff;text-align:center;" readonly ng-model="m.commentDate" value="{{m.commentDate}}"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="" ng-model="m.commentConent" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="" ng-model="m.commentFeedback" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                                    </td>
+                                                    <td class="attachmentTd">
+                                                        <div class="row">
+                                                            <textarea name="" readonly ng-model="m.commentDepartment"  rows="" cols="" class="form-control" auto-height></textarea>
+                                                        </div>
+                                                        <div class="row nobottom-mar">
+                                                            <div class="col-sm-12 noleft-pad noright-pad">
+                                                                <span ng-bind="progress$index"></span>
+                                                                <span style="">{{errorAttach[$index].msg}}</span>
+                                                                <input type="hidden" ng-model="m.files.filePath" />
+                                                                <a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
+                                                                <button class="btn btn-info attachmentBtn" disabled="disabled" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles, $index)">浏览</button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="tr-max">
+                                                    <td colspan="2" rowspan="2"></td>
+                                                    <td>重点风险提示</td>
+                                                    <td colspan="3">
+                                                        <textarea name="riskWarning" readonly rows="" cols="" ng-model="fengkongOpinion.approveAttachment.riskWarning" class="form-control" auto-height></textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr class="tr-max">
+                                                    <td>要求反馈时间</td>
+                                                    <td colspan="3">
+                                                        <div class="has-feedback">
+                                                            <input type="text" id="" readonly name="" ng-model="fengkongOpinion.approveAttachment.feedbackTime" class="form-control" />
+                                                            <i class="fa fa-calendar form-control-feedback"></i>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center attachmentTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>选择</th>
+                                                    <th>需更新附件</th>
+                                                    <th>最新版本附件</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="m in fengkongOpinion.approveAttachment.attachmentNew">
+                                                    <td class="txc">
+                                                        <label class="checkbox-inline choose">
+                                                            <input type="checkbox" class="px" ng-model="m.selected" disabled="disabled">
+                                                            <span class="lbl">&nbsp;</span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <select disabled="disabled" ng-model="m.attachmentUList"  ng-options="f.ITEM_NAME for f in fileName track by f.UUID" class="form-control">
+                                                            <option value="">---请选择---</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="attachmentTd">
+                                                        <div class="row nobottom-mar">
+                                                            <div class="col-sm-12 noleft-pad noright-pad">
+                                                                <span ng-bind="progress$index"></span>
+                                                                <span style="">{{errorAttach[$index].msg}}</span>
+                                                                <input type="hidden" ng-model="m.attachment_new.filePath" />
+                                                                <a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.attachment_new)">{{m.attachment_new.fileName}}</a>
+                                                                <button class="btn btn-info attachmentBtn" disabled="disabled" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index,am.attachmentUList)">浏览</button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel" ng-show="fengkongOpinion.approveLegalAttachment!= null && fengkongOpinion.approveLegalAttachment != ''">
+                            <div class="panel-heading">
+                                <a class="accordion-toggle collapsed" href="/#reviewCommentslegal" data-parent="#commentsFeedback" data-toggle="collapse"><span class="text">法律初步评审意见反馈<i class="i-triangle"></i></span></a>
+                            </div>
+                            <div id="reviewCommentslegal" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center reviewCommentsTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>选择</th>
+                                                    <th>序号</th>
+                                                    <th>意见类型</th>
+                                                    <th>具体内容</th>
+                                                    <th>反馈要求</th>
+                                                    <th>基层法务人员反馈</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="m in fengkongOpinion.approveLegalAttachment.commentsList track by $index">
+                                                    <td class="txc">
+                                                        <label class="checkbox-inline choose">
+                                                            <input type="checkbox" class="px" ng-model="m.selected" disabled="disabled">
+                                                            <span class="lbl">&nbsp;</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="txc">{{ $index + 1 }}</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <select ng-model="m.opinionType" ng-options="ot.ITEM_NAME for  ot in optionTypeListL track by ot.ITEM_CODE" disabled="disabled" name="" id="" class="form-control">
+                                                                <option value="">请选择...</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="row nobottom-mar">
+                                                            <input type="text" style="border:0;width:100%;color:red;background-color:#ffffff;text-align: center;" readonly ng-model="m.commentDate" value="{{m.commentDate}}"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="" ng-model="m.commentConent" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="" ng-model="m.commentFeedback" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                                    </td>
+                                                    <td class="attachmentTd">
+                                                        <div class="row">
+                                                            <textarea name="" ng-model="m.commentDepartment" readonly rows="" cols="" class="form-control" auto-height></textarea>
+                                                        </div>
+                                                        <div class="row nobottom-mar">
+                                                            <div class="col-sm-12 noleft-pad noright-pad">
+                                                                <span ng-bind="progress$index"></span>
+                                                                <span style="">{{errorAttach[$index].msg}}</span>
+                                                                <input type="hidden" ng-model="m.files.filePath" />
+                                                                <a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
+                                                                <button class="btn btn-info attachmentBtn" disabled="disabled" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles, $index)">浏览</button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="tr-max">
+                                                    <td colspan="2" rowspan="2"></td>
+                                                    <td>法律风险提示</td>
+                                                    <td colspan="3">
+                                                        <textarea name="riskWarning" readonly rows="" cols="" ng-model="fengkongOpinion.approveLegalAttachment.riskWarning" class="form-control" auto-height></textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr class="tr-max">
+                                                    <td>要求反馈时间</td>
+                                                    <td colspan="3">
+                                                        <div class="has-feedback">
+                                                            <input type="text" id="feedbackTime" readonly name="" ng-model="fengkongOpinion.approveLegalAttachment.feedbackTime" class="form-control" />
+                                                            <i class="fa fa-calendar form-control-feedback"></i>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center attachmentTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>选择</th>
+                                                    <th>需更新附件</th>
+                                                    <th>最新版本附件</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="am in fengkongOpinion.approveLegalAttachment.attachmentNew">
+                                                    <td class="txc">
+                                                        <label class="checkbox-inline choose">
+                                                            <input type="checkbox" class="px" ng-model="am.selected" disabled="disabled">
+                                                            <span class="lbl">&nbsp;</span>
+                                                        </label>
+                                                    </td>
+                                                    <td>  <!--  ng-options="f.UUID as f.ITEM_NAME for f in  dic.fileName track by f.UUID"-->
+                                                        <select disabled="disabled" ng-model="am.attachmentUList"  ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
+                                                            <option value="">---请选择---</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="attachmentTd">
+                                                        <div class="row nobottom-mar">
+                                                            <div class="col-sm-12 noleft-pad noright-pad">
+                                                                <span ng-bind="progress$index"></span>
+                                                                <span style="">{{errorAttach[$index].msg}}</span>
+                                                                <input type="hidden" ng-model="am.attachment_new.filePath" />
+                                                                <a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(am.attachment_new)">{{am.attachment_new.fileName}}</a>
+                                                                <button class="btn btn-info attachmentBtn" disabled="disabled" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab4">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">项目名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly ng-model="report.projectName" class="form-control" id="projectName" name="projectName"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">评审报告</label>
+                            <div class="col-sm-10">
+<!--                                 <div class="col-sm-2 noleft-pad"> -->
+<!--                                     <button id="btnfile" disabled class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadfformal2($file,$invalidFiles, $index)">浏览</button> -->
+<!--                                 </div> -->
+                                <div class="col-sm-10">
+                                    <span ng-bind="progress$index"></span>
+                                    <a href="javascript:void(0);" ng-click="downLoadFileReport(report.filePath,report.projectName+'评审报告')" style="line-height: 27px;">{{report.projectName+'评审报告'}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab5">
+                        <div class="table-responsive">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light">
+                                <tbody>
+                                <tr>
+                                    <td>项目名称</td>
+                                    <td colspan="3">{{nod.projectName}}</td>
+                                </tr>
+                                <tr class="tr-max">
+                                    <td>合同规模<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td colspan="3">
+                                        <div class="has-feedback">
+                                            <input type="text" name="contractScale" id="contractScale" readonly class="form-control" ng-model="nod.contractScale"/>
+                                            <span class="unit-s-td">万吨/日</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>评审规模<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <div class="has-feedback">
+                                            <input type="text" name="evaluationScale" id="evaluationScale" readonly class="form-control" ng-model="nod.evaluationScale" />
+                                            <span class="unit-s-td">万吨/日</span>
+                                        </div>
+                                    </td>
+                                    <td>评审总投资<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <div class="has-feedback">
+                                            <input type="text" name="reviewOfTotalInvestment" id="reviewOfTotalInvestment" readonly class="form-control" ng-model="nod.reviewOfTotalInvestment"
+                                                   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                                   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                                   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+                                            <span class="unit-my-td">万元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>业务单位</td>
+                                    <td>
+                                        <input type="text" name="" class="form-control" disabled ng-model="nod.pertainArea.VALUE"/>
+                                    </td>
+                                    <td>原有项目再投资或已投资项目补充评审<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <select name="additionalReview" id="additionalReview" disabled class="form-control" ng-model="nod.additionalReview">
+                                            <option value="">请选择...</option>
+                                            <option value="1">是</option>
+                                            <option value="2">否</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>投资决策会议期次<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td><input type="text" name="decisionStage" id="decisionStage" readonly class="form-control" ng-model="nod.decisionStage" /></td>
+                                    <td>会议日期<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <div class="has-feedback">
+                                            <input type="text" name="dateOfMeeting" id="dateOfMeeting" readonly class="form-control" ng-model="nod.dateOfMeeting" />
+                                            <i class="fa fa-calendar form-control-feedback date-form"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>项目投资决策意见<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td colspan="3" class="radio-group">
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="px" disabled name="consentToInvestment" ng-model="nod.consentToInvestment" value="1"/>
+                                            <span class="lbl">同意投资</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="px" disabled name="consentToInvestment" ng-model="nod.consentToInvestment" value="2"  />
+                                            <span class="lbl">不同意投资</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="px" disabled name="consentToInvestment" ng-model="nod.consentToInvestment" value="3" />
+                                            <span class="lbl">同意有条件投资</span>
+                                        </label>
+                                        <!--<span class="radio-verify error">此项必填</span>-->
+                                        <label for="consentToInvestment" class="radio-verify error">此项必填</label>
+                                    </td>
+                                </tr>
+                                <tr class="tr-max">
+                                    <td>项目投资前须落实事项</td>
+                                    <td colspan="3"><textarea name="" ng-model="nod.implementationMatters" rows="" cols="" readonly class="form-control" auto-height></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>项目实施主体<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <input type="text" ng-click="setDirectiveParam('subjectOfImplementation')" data-toggle="modal" data-target="#companyUnit-modal" disabled class="form-control" id="subjectOfImplementationName" name="subjectOfImplementationName" ng-model="nod.subjectOfImplementation.name" value="{{nod.subjectOfImplementation.name}}"  >
+                                        <input type="hidden"  class="form-control" id="subjectOfImplementation" name="subjectOfImplementation"  ng-model="nod.subjectOfImplementation.value"/>
+                                    </td>
+                                    <td>北控水务股权比例<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <div class="has-feedback">
+                                            <input type="text" name="equityRatio" id="equityRatio" ng-model="nod.equityRatio" readonly class="form-control"
+                                                   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                                   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                                   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+                                            <span class="percent">%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>是否新注册项目公司<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <select name="register" id="register" disabled class="form-control" ng-model="nod.register">
+                                            <option value="">请选择...</option>
+                                            <option value="1">是</option>
+                                            <option value="2">否</option>
+                                        </select>
+                                    </td>
+                                    <td>注册资本金<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <div class="has-feedback">
+                                            <input type="text" name="registeredCapital" id="registeredCapital" ng-model="nod.registeredCapital" readonly class="form-control"
+                                                   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                                   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+                                                   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+                                            <span class="unit-my-td">万元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>责任单位<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <input type="text" ng-click="setDirectiveParam('responsibilityUnit')" data-toggle="modal" data-target="#companyUnit-modal" disabled class="form-control" id="responsibilityUnitName" name="responsibilityUnitName" ng-model="nod.responsibilityUnit.name" value="{{nod.responsibilityUnit.name}}"  >
+                                        <input type="hidden"  class="form-control" id="responsibilityUnit" name="responsibilityUnit"  ng-model="nod.responsibilityUnit.value"/>
+                                    <td>责任人<span class="required-r" ng-if="actionPam=='Create' || actionPam=='Update' || actionPam=='Edit'">*</span></td>
+                                    <td>
+                                        <div  ng-if="actionPam=='view' || actionPam=='view1'  || actionPam=='view2' || actionPam=='view3'">
+                                            <input type="text" value="{{nod.personLiableName}}" disabled class="form-control" />
+                                        </div>
+                                        <input type="hidden" id="personLiableName" name="personLiableName" ng-model="nod.personLiable.name"  class="form-control" value="{{nod.personLiable}}" />
+                                        <input type="hidden" ng-model="nod.personLiable.value"  />
+                                    </td>
+                                </tr>
+                                <tr class="tr-max">
+                                    <td>执行要求</td>
+                                    <td colspan="3">
+                                        <textarea name="" ng-model="nod.implementationRequirements" rows="" cols="" readonly class="form-control" auto-height></textarea>
+                                    </td>
+                                </tr>
+                                <tr class="tr-max" ng-if="null!=noticeLeader && ''!=noticeLeader" >
+                                    <td>主管领导签发</td>
+                                    <td colspan="3">{{noticeLeader[0].OPINION}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+			             <div class="panel" ng-show="action!='view3' && null!=nod.attachment[0]  && ''!=nod.attachment[0]">
+							<div class="panel-heading">
+								<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">决策通知书附件<i class="i-triangle"></i></span></div></div>
+								<div class="panel-body">
+									<div class="row">
+										<label class="col-sm-2 control-label">决策通知书相关附件</label>
+										<div class="col-sm-10">
+											<div class="col-sm-10 noleft-pad">
+												<div class="col-sm-2">
+												</div>
+												<div class="col-sm-10 noleft-pad">
+													<span ng-bind="progress$index"></span>
+													<!--<span style="">{{errorAttach[$index].msg}}</span>-->
+													<a href="javascript:void(0);" ng-click="downLoadFile(nod.attachment[0])" style="line-height: 27px;">{{nod.attachment[0].fileName}}</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+         			</div>
+                    <div class="tab-pane" id="bs-tabdrop-tab6">
+                        <directive-project-formal-business-unit-commit></directive-project-formal-business-unit-commit>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab7">
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light basic-info">
+                                    <tbody>
+                                    <input type="hidden"  name="UUID" id="UUID"   class="form-control"  value="{{id}}" />
+                                    <tr>
+                                        <td width="20%">项目名称</td>
+                                        <td>
+                                            <input type="text"  name="projectName" id="projectName" ng-model="arf.projectName" class="form-control" disabled/>
+                                            <input type="hidden"  name="projectNo" id="projectNo" ng-model="arf.projectNo" class="form-control"  />
+                                            <input type="hidden"  name="projectSize" id="projectSize" ng-model="arf.projectSize" class="form-control"  />
+                                            <input type="hidden"  name="create_date" id="create_date" ng-model="arf.create_date" class="form-control"  />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目评审遇到问题及解决建议</td>
+                                        <td><textarea rows="" cols=""  name="projectAdvice" id="projectAdvice" ng-model="arf.projectAdvice" readonly class="form-control" auto-height></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目评审不足及改进措施</td>
+                                        <td><textarea  rows="" cols=""  name="projectImprove" id="projectImprove" ng-model="arf.projectImprove" readonly class="form-control" auto-height></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目评审经验分享</td>
+                                        <td><textarea  rows="" cols=""  name="projectExperience" id="projectExperience" ng-model="arf.projectExperience" readonly class="form-control" auto-height></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td>测算能力</td>
+                                        <td><textarea  rows="" cols="" name="projectMeasure" id="projectMeasure"  ng-model="arf.projectMeasure" readonly class="form-control" auto-height></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td>协议质量</td>
+                                        <td><textarea type="text" name="projectQuality" id="projectQuality" ng-model="arf.projectQuality" readonly class="form-control" auto-height></textarea></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+					<div class="row">
+						<div class="row-tit">附件列表</div>
+					</div>
+					<div class="row">
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+							<thead>
+							<tr>
+								<th width="5%">选择</th>
+								<th width="30%">附件名称</th>
+								<th>上传附件</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="item in arf.fileList track by $index">
+								<td class="txc">
+									<label class="checkbox-inline ">
+										<input type="checkbox" class="px"  ng-model="item.selected">
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td><input type="text" ng-model="item.file_content"  class="form-control" ng-disabled="actions=='View'"></td>
+								<td>
+									<div class="col-sm-10 noleft-pad noright-pad">
+										<span ng-bind="progress$index"></span>
+										<span style="">{{errorAttach[$index].msg}}</span>
+										<a href="javascript:void(0);" ng-click="downLoadFile(item.files.filePath,item.files.fileName)" style="line-height: 27px;">{{item.files.fileName}}</a>
+									</div>
+									<div class="col-sm-2 noright-pad txr">
+										<button type="button" ng-if="actions!='View'" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
+									</div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						</div>
+					</div>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab8">
+                        <directive-project-formal-file-list></directive-project-formal-file-list>
+                    </div>
+                    <div class="tab-pane" id="bs-tabdrop-tab9">
+                    	<div class="row">
+    	                	<div class="row col-md-6" id="markPieChart" style="width: 500px;height: 330px;float: left;"></div>
+	                    	<div class="row col-md-6" id="markBarChart" style="width: 600px;height: 330px;float: left;"></div>
+<!--     	                	<div class="row col-md-6" id="markPieChart" style="float: left;"></div> -->
+<!-- 	                    	<div class="row col-md-6" id="markBarChart" style="float: left;"></div> -->
+                    	</div>
+                    	<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light basic-info">
+                    		<tr>
+                    			<td>项目</td>
+                    			<td>分数</td>
+                    			<td>项目</td>
+                    			<td>分数</td>
+                    			<td>扣分原因</td>
+                    		</tr>
+                    		<tr>
+                    			<td rowspan="2">评审合规能力</td>
+                    			<td rowspan="2">{{mark.HEGUITOTALMARK}}</td>
+                    			<td>流程熟悉度</td>
+                    			<td>{{mark.FLOWMARK}}</td>
+                    			<td>{{mark.FLOWMARKREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>资料备案</td>
+                    			<td>{{mark.FILECOPY}}</td>
+                    			<td>{{mark.FILECOPYREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td rowspan="3">评审资料质量</td>
+                    			<td rowspan="3">{{mark.FILETOTALMARK}}</td>
+                    			<td>及时性</td>
+                    			<td>{{mark.FILETIME}}</td>
+                    			<td>{{mark.FILETIMEREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>完整性</td>
+                    			<td>{{mark.FILECONTENT}}</td>
+                    			<td>{{mark.FILECONTENTREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>准确性</td>
+                    			<td>{{mark.REVIEWFILEACCURACY+mark.LEGALFILEACCURACY}}</td>
+                    			<td>
+                    				<div>业务资料准确性：{{mark.REVIEWFILEACCURACYREASON}}</div>
+                    				<div>法律资料准确性：{{mark.LEGALFILEACCURACYREASON}}</div>
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td rowspan="4">投资核心能力</td>
+                    			<td rowspan="4">{{mark.HEXINTOTALMARK}}</td>
+                    			<td>风险识别及规避能力</td>
+                    			<td>{{mark.RISKCONTROL}}</td>
+                    			<td>{{mark.RISKCONTROLREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>财务测算能力</td>
+                    			<td>{{mark.MONEYCALCULATE}}</td>
+                    			<td>{{mark.MONEYCALCULATEREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>方案设计能力</td>
+                    			<td>{{mark.PLANDESIGN}}</td>
+                    			<td>{{mark.PLANDESIGNREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>协议谈判能力</td>
+                    			<td>{{mark.TALKS}}</td>
+                    			<td>{{mark.TALKSREASON}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>总分</td>
+                    			<td colspan="4">{{mark.ALLTOTALMARK}}</td>
+                    		</tr>
+                    		<tr>
+                    			<td>评价等级</td>
+                    			<td colspan="4">
+                    				<span ng-if="mark.ALLTOTALMARK >= 80 " style="color: green;" >优秀(甲级)</span>
+                    				<span ng-if="mark.ALLTOTALMARK >= 60 && mark.ALLTOTALMARK < 80" style="color:orange;" >良好(乙级)</span>
+                    				<span ng-if="mark.ALLTOTALMARK < 60 " style="color: red;" >差(丙级)</span>
+                    			</td>
+                    		</tr>
+                    	</table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="btn-group-gap">
+<!--                     <a class="btn btn-info" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a> -->
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    <!--
+    $(function(){
+        $('#reviewComments').collapse('show');
+        $('#reviewCommentslegal').collapse('show');
+    });
+
+    $("#compareBtn").click(function(){
+        var chooseCount=0;
+        $("input[name='choose']").each(function(){
+            if($(this).attr("checked")){
+                chooseCount++;
+            }
+        });
+        if(chooseCount==0){
+            alert("请选择要对比的数据！");
+            return;
+        }else if(chooseCount>1){
+            alert("只能选择一条数据！");
+            return;
+        }
+    });
+    //-->
+</script>
+<script>
+//     angular.element(document).ready(function() {
+//         $('ul.bs-tabdrop').tabdrop();
+//     });
+</script>

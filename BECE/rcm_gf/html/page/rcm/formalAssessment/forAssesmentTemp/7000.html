@@ -1,0 +1,330 @@
+﻿<div class="innertable">
+	<h5>申请事项</h5>
+	<div class="mytable">
+		<table  class="table table-bordered"  style="table-layout: fixed">
+			<thead>
+			<tr class="info">
+				<th width="16%">分类</th>
+				<th width="48%">内容</th>
+				<th width="18%">附件</th>
+				<th width="18%">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr scope="row" ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
+				<th>
+					<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
+					<a class="template-table-font" ng-if="projectOverview.edit == 0" >
+						{{ projectOverview.value }}
+					</a>
+				</th>
+				<td class="padding5">
+                <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
+						  name="{{ 'projectOverview_content' + $index }}"
+						  ng-model="projectOverview.content"
+						  class="form-control ng-pristine ng-valid ng-touched" ng-required="projectOverview.modify === '1'"></textarea>
+					<div class="error-messages"
+						 ng-if="interacted(formalReportForm['projectOverview_content' + $index])">
+						这里是必填项
+					</div>
+				</td>
+				<td>
+					<!--<button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"
+							ngf-max-size="100MB"
+							ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
+						<span>添加</span>
+					</button>
+					<button ng-if="projectOverview.attachmentValue != null" class="btn-add btn-scale"
+							ngf-max-size="100MB"
+							ngf-select="changeAttachment($file, $invalidFiles, $index, projectOverview)">
+						<span>替换</span>
+					</button>
+					<button ng-if="projectOverview.attachmentValue != null" class="btn-delete btn-scale"
+							ngf-max-size="100MB"
+							ng-click="deleteAttachment(projectOverview)">
+						<span>删除</span>
+					</button>
+					<div class="text-hidden" style="float: left; width: 100%;">
+						<a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
+							{{ projectOverview.attachmentValue }}
+						</a>
+					</div>-->
+					<cloud-file
+							file-id="{{projectOverview.code}}{{$index}}_7000"
+							file-type="FormalBiddingInfo"
+							file-code="{{businessId}}"
+							file-location="{{projectOverview.code}}{{$index}}_7000"
+							show-preview="false"
+							show-replace="true"
+							show-download="false"
+							show-delete="false"
+							area-code="1"
+					>
+					</cloud-file>
+				</td>
+				<td class="padding5">
+
+					<button ng-if="projectOverview.delete != '1' && projectOverview.modify == '1'" class="btn-close btn-scale" ng-click="closeOverview(projectOverview)">
+						<span>关闭</span>
+					</button>
+					<button ng-if="projectOverview.delete != '1' && projectOverview.modify == '0'" class="btn-close btn-scale" ng-click="closeOverview(projectOverview)">
+						<span>打开</span>
+					</button>
+					<button ng-if="projectOverview.delete == '1'" class="btn-close btn-scale" ng-click="deleteObj(projectOverview, projectSummary.projectOverviews)">
+						<span>删除</span>
+					</button>
+
+
+					<button class="btn-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews')">
+					</button>
+					<button class="btn-desc" ng-click="descOrderno(projectOverview, 'projectOverviews')">
+					</button>
+
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addOverview('projectOverviews')"/>
+		</div>
+	</div>
+</div><!--项目概况-->
+
+
+<div class="innertable">
+	<h5>申请原因</h5>
+	<div class="mytable">
+		<table  class="table table-bordered"  style="table-layout: fixed">
+			<thead>
+			<tr class="info">
+				<th width="16%">分类</th>
+				<th width="48%">内容</th>
+				<th width="18%">附件</th>
+				<th width="18%">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr scope="row" ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc">
+				<th>
+					<input ng-if="projectOverview.edit == 1" ng-model="projectOverview.value">
+					<a class="template-table-font" ng-if="projectOverview.edit == 0" >
+						{{ projectOverview.value }}
+					</a>
+				</th>
+				<td class="padding5">
+                <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
+						  name="{{ 'projectOverview_content' + $index }}"
+						  ng-model="projectOverview.content"
+						  class="form-control ng-pristine ng-valid ng-touched" ng-required="projectOverview.modify === '1'"></textarea>
+					<div class="error-messages"
+						 ng-if="interacted(formalReportForm['projectOverview_content' + $index])">
+						这里是必填项
+					</div>
+				</td>
+				<td>
+					<!--<button ng-if="projectOverview.attachmentValue == null" class="btn-add btn-scale"
+							ngf-max-size="100MB"
+							ngf-select="uploadAttachment($file, $invalidFiles, $index, projectOverview)">
+						<span>添加</span>
+					</button>
+					<button ng-if="projectOverview.attachmentValue != null" class="btn-add btn-scale"
+							ngf-max-size="100MB"
+							ngf-select="changeAttachment($file, $invalidFiles, $index, projectOverview)">
+						<span>替换</span>
+					</button>
+					<button ng-if="projectOverview.attachmentValue != null" class="btn-delete btn-scale"
+							ngf-max-size="100MB"
+							ng-click="deleteAttachment(projectOverview)">
+						<span>删除</span>
+					</button>
+					<div class="text-hidden" style="float: left; width: 100%;">
+						<a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
+							{{ projectOverview.attachmentValue }}
+						</a>
+					</div>-->
+					<cloud-file
+							file-id="{{projectOverview.code}}{{$index}}_7000"
+							file-type="FormalBiddingInfo"
+							file-code="{{businessId}}"
+							file-location="{{projectOverview.code}}{{$index}}_7000"
+							show-preview="false"
+							show-replace="true"
+							show-download="false"
+							show-delete="false"
+							area-code="1"
+					>
+					</cloud-file>
+				</td>
+				<td class="padding5">
+
+					<button ng-if="projectOverview.delete != '1'" class="btn-close btn-scale" ng-click="closeOverview(projectOverview)">
+						<span>关闭</span>
+					</button>
+					<button ng-if="projectOverview.delete == '1'" class="btn-close btn-scale" ng-click="deleteObj(projectOverview, projectSummary.projectOverviews1)">
+						<span>删除</span>
+					</button>
+
+
+					<button class="btn-asc" ng-click="ascOrderno(projectOverview, 'projectOverviews1')">
+					</button>
+					<button class="btn-desc" ng-click="descOrderno(projectOverview, 'projectOverviews1')">
+					</button>
+
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addOverview('projectOverviews1')"/>
+		</div>
+	</div>
+</div><!--项目概况-->
+
+
+<div class="innertable">
+	<h5>还款计划</h5>
+	<div class="mytable">
+		<table  class="table table-bordered">
+			<thead>
+			<tr class="info">
+				<th width="16%">借款时间</th>
+				<th width="16%">借款金额(万元)</th>
+				<th width="16%">还款计划</th>
+				<th width="16%">还款方式</th>
+				<th width="16%">还款来源</th>
+				<th width="20%">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="repaymentPlanVar in projectSummary.repaymentPlans | orderBy: 'orderno': desc">
+				<td>
+					<div class="has-feedback">
+						<input class="form-control" type="text" name="{{ 'loanTime' + $index }}"
+							   ng-model="repaymentPlanVar.loanTime" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['loanTime' + $index])">
+							这里是必填项
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="has-feedback">
+						<input class="form-control" type="text" name="{{ 'loanAmount' + $index }}"
+							   ng-model="repaymentPlanVar.loanAmount" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['loanAmount' + $index])">
+							这里是必填项
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="has-feedback">
+						<input class="form-control" type="text" name="{{ 'repaymentPlan' + $index }}"
+							   ng-model="repaymentPlanVar.repaymentPlan" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['repaymentPlan' + $index])">
+							这里是必填项
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="has-feedback">
+						<input class="form-control" type="text" name="{{ 'repaymnetMethod' + $index }}"
+							   ng-model="repaymentPlanVar.repaymnetMethod" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['repaymnetMethod' + $index])">
+							这里是必填项
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="has-feedback">
+						<input class="form-control" type="text" name="{{ 'repaymentSource' + $index }}"
+							   ng-model="repaymentPlanVar.repaymentSource" required/>
+						<div class="error-messages"
+							 ng-if="interacted(formalReportForm['repaymentSource' + $index])">
+							这里是必填项
+						</div>
+					</div>
+				</td>
+				<td class="padding5">
+					<div class="col-sm-6" align="center">
+						<button class="btn-close" ng-click="deleteObj(repaymentPlanVar, projectSummary.repaymentPlans)">
+							删除
+						</button>
+					</div>
+
+					<div class="col-md-6" align="center">
+						<button class="btn-asc" ng-click="ascOrderno(repaymentPlanVar, 'repaymentPlans')">
+						</button>
+						<button class="btn-desc" ng-click="descOrderno(repaymentPlanVar, 'repaymentPlans')">
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addRepaymentPlan()"/>
+		</div>
+	</div>
+</div>
+
+<div class="innertable">
+	<h5>原评审情况说明</h5>
+	<div class="mytable">
+		<table class="table table-bordered">
+			<thead>
+			<tr class="info">
+				<th width="80%">原评审情况说明</th>
+				<th width="20%">操作</th>
+			</tr>
+			</thead>
+			<tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
+				<td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+						  ng-model="desciptionVar.desciption" name="{{ 'desciption' + $index }}" required></textarea>
+					<div class="error-messages"
+						 ng-if="interacted(formalReportForm['desciption' + $index])">
+						这里是必填项
+					</div>
+				</td>
+				<td class="padding5">
+					<div class="col-sm-6" align="center">
+						<button class="btn-close" ng-click="deleteObj(desciptionVar, projectSummary.desciptions)">
+							删除
+						</button>
+					</div>
+
+					<div class="col-md-6" align="center">
+						<button class="btn-asc" ng-click="ascOrderno(desciptionVar, 'desciptions')">
+						</button>
+						<button class="btn-desc" ng-click="descOrderno(desciptionVar, 'desciptions')">
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row" align="center">
+			<button class="btn-add1" ng-click="addDesciption()"/>
+		</div>
+	</div>
+</div><!--原评审情况说明-->
+
+<script>
+    $(function() {
+        setTimeout(function(){
+            /*$('#textarea' + '0').onchange(
+                $('.ng-pristine.ng-valid.ng-touched').each(function(){
+                    console.log(this.scrollHeight)
+                    this.style.height = this.scrollHeight + 12 + 'px'
+                })
+            );*/
+            $('.ng-pristine.ng-valid.ng-touched').each(function(){
+                console.log(this.scrollHeight)
+                this.style.height = this.scrollHeight + 12 + 'px'
+            })
+        },100)
+    })
+</script>

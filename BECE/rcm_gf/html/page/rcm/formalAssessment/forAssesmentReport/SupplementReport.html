@@ -1,0 +1,488 @@
+<div class="xh-content container-fluid padding0">
+	<form id="FormalReviewReport" name="FormalReviewReport" novalidate class="row">
+		<div class="visa-menu">
+			<div class="col-md-9">
+				<ol class="breadcrumb breadcrumb-menu">
+					<li>
+						<a class="breadcrumb-text breadcrumb-text-menu">
+							资料填写
+						</a>
+					</li>
+					<li>
+						<a href="" class="breadcrumb-text breadcrumb-text-menu">
+							{{title}}
+						</a>
+					</li>
+				</ol>
+			</div>
+			<div class="col-md-3 padding0" align="right">
+				<directive-return-btn-menu url="{{oldUrl}}"></directive-return-btn-menu>
+			</div>
+		</div>
+		<div class="main-content col-md-10 col-sm-10 col-xs-12 padding0">
+			<div class="mcontent content1" id="flag1-c">
+				<h3 class="text-blue">原评审回顾</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">项目名称</span>
+							<span class="col-md-10 slim">
+								<input type="text" readonly ng-model="formalReport.projectName" class="form-control" id="projectName" name="projectName"/>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="mytable">
+					<table  class="table table-bordered" style="table-layout: fixed">
+						<thead>
+						<tr class="info">
+							<th width="15%">分类</th>
+							<th>主要内容</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>原评审时间<span ng-if="actionparm!='View'" class="required-r">*</span></td>
+							<td><input type="text" ng-model="formalReport.originalReviewTime" name="originalReviewTime" id="originalReviewTime" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td>原评审结论<span ng-if="actionparm!='View'" class="required-r">*</span></td>
+							<td><input type="text" ng-model="formalReport.originalAppraisalConclusion" name="originalAppraisalConclusion" id="originalAppraisalConclusion" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td>原评审项目信息<span ng-if="actionparm!='View'" class="required-r">*</span></td>
+							<td><input type="text" ng-model="formalReport.originalReviewProjectInformation" name="originalReviewProjectInformation" id="originalReviewProjectInformation" class="form-control" /></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="mcontent content1" id="flag2-c">
+				<h3 class="text-blue">重要调整及原因分析</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="" ng-model="formalReport.mainReason"  rows="1" cols="1" class="form-control" auto-height></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<button  type="button" class="btn btn-primary" ng-click="addAdjustment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+							<button  type="button" class="btn btn-primary" ng-click="commonDdelete(10)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+						</div>
+					</div>
+				</div>
+				<div class="mytable">
+					<table  class="table table-bordered" style="table-layout: fixed">
+						<thead>
+						<tr class="info">
+							<th width="5%">选择</th>
+							<th>调整指标</th>
+							<th colspan="2">主要内容</th>
+							<th>调整原因</th>
+						</tr>
+						</thead>
+						<tbody  ng-repeat="c in formalReport.adjustmentAnalysis track by $index">
+						<tr>
+							<td rowspan="2" class="txc">
+								<label class="checkbox-inline">
+									<input ng-disabled="actionparm=='View'" type="checkbox" class="px" ng-model="c.selected"/>
+									<span class="lbl">&nbsp;</span>
+								</label>
+							</td>
+							<td rowspan="2"><input type="text" name="" ng-model="c.adjustTargets" class="form-control" /></td>
+							<td>原评审</td>
+							<td><input type="text" name="" ng-model="c.oldReview" class="form-control" /></td>
+							<td rowspan="2"><textarea name="" rows="" ng-model="c.jumpingReason" cols="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>调整后</td>
+							<td><input type="text" name="" ng-model="c.afterReview" class="form-control" /></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="mcontent content1" id="flag3-c">
+				<h3 class="text-blue">收益评估</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea name="" ng-model="formalReport.borderCondition"  rows="1" cols="1" class="form-control" auto-height></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<div class="table-caption">项目各项财务指标表</div>
+						</div>
+					</div>
+				</div>
+				<div class="mytable">
+					<table  class="table table-bordered" style="table-layout: fixed">
+						<thead>
+						<tr class="info">
+							<th>指标分类</th>
+							<th>指标名称</th>
+							<th>原评审</th>
+							<th>调整后</th>
+							<th>指标变化情况</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td rowspan="3">投资指标</td>
+							<td>全投资内部收益率IRR</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" ng-model="formalReport.inerIncomeInvestmentIRR1" name="" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" ng-model="formalReport.inerIncomeInvestmentIRR2" name="" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td><input type="text" name="" ng-model="formalReport.inerIncomeInvestmentIRR3" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td>自有资金内部收益率IRR</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" ng-model="formalReport.ownIncomeInvestmentIRR1"  name="" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" ng-model="formalReport.ownIncomeInvestmentIRR2" name="" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td><input type="text" name="" ng-model="formalReport.ownIncomeInvestmentIRR3" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td>全投资静态回收期</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" ng-model="formalReport.staticIncomeInvestment1"name="" class="form-control" />
+									<span class="percent">年</span>
+								</div>
+							</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" ng-model="formalReport.staticIncomeInvestment2"name="" class="form-control" />
+									<span class="percent">年</span>
+								</div>
+							</td>
+							<td><input type="text" ng-model="formalReport.staticIncomeInvestment3"name="" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td rowspan="2">财务指标</td>
+							<td>运营期平均ROE</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" name="" ng-model="formalReport.averageROE1" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" name="" ng-model="formalReport.averageROE2" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td><input type="text" name="" ng-model="formalReport.averageROE3" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td>运营期平均ROI</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" name="" ng-model="formalReport.averageROI1" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td>
+								<div class="has-feedback">
+									<input type="text" name="" ng-model="formalReport.averageROI2" class="form-control" />
+									<span class="percent">%</span>
+								</div>
+							</td>
+							<td><input type="text" name="" ng-model="formalReport.averageROI3" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td>现金流指标</td>
+							<td>自有资金前五年现金净流量</td>
+							<td><input type="text" name="" ng-model="formalReport.ownCashFlow1" class="form-control" /></td>
+							<td><input type="text" name="" ng-model="formalReport.ownCashFlow2" class="form-control" /></td>
+							<td><input type="text" name="" ng-model="formalReport.ownCashFlow3" class="form-control" /></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="mcontent content1" id="flag4-c">
+				<h3 class="text-blue">风险及问题总结</h3>
+				<directive-formal-report-fxjwtzj-new></directive-formal-report-fxjwtzj-new>
+			</div>
+
+			<div class="mcontent content1" id="flag5-c">
+				<h3 class="text-blue">挖潜空间</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-12 slim">
+								<textarea name="" ng-model="formalReport.potentialSpace" rows="" cols="" class="form-control" placeholder="内容说明：此处应填写可量化的挖潜空间" auto-height></textarea>
+							</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="mcontent content1" id="flag6-c">
+				<h3 class="text-blue">结论与建议</h3>
+				<directive-formal-report-jlyjy-new></directive-formal-report-jlyjy-new>
+			</div>
+
+			<div class="mcontent content1" id="flag7-c">
+				<h3 class="text-blue">后续执行要求</h3>
+				<directive-formal-report-hxzxyq-new></directive-formal-report-hxzxyq-new>
+			</div>
+			<div class="left-content col-md-2 col-sm-2 hidden-xs new-box">
+
+				<div class="linkline mcontent">
+					<div class="stage" >
+						<div class="row" align="center">
+							<button type="button" id="wordbtn" ng-click="createWord(formalReport._id)" class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档</button>
+						</div>
+						<button type="button" ng-click="saveReport6()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
+						<div class="inline-div">
+							<button type="button" ng-if="tabIndex=='0'" class="btn btn-primary"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+							<div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+								<directive-need-meeting></directive-need-meeting>
+							</div>
+						</div>
+					</div>
+					<div class="line new-line"></div>
+					<a id="flag1" class="catalog-list catalog-list-formal chose" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						原评审回顾
+					</a>
+					<a id="flag2" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						重要调整及原因分析
+					</a>
+					<a id="flag3" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						收益评估
+					</a>
+					<a id="flag4" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						风险及问题总结
+					</a>
+					<a id="flag5" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						挖潜空间
+					</a>
+					<a id="flag6" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						结论与建议
+					</a>
+					<a id="flag7" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+						后续执行要求
+					</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+    $().ready(function() {
+        // validate signup form on keyup and submit
+        $("#SupplementReport").validate({
+            rules: {
+                //	personLiable:"required",
+                originalReviewTime:"required",
+                originalAppraisalConclusion:"required",
+                originalReviewProjectInformation:"required"
+            },
+            messages: {
+                //	personLiable:"此项必填",
+                originalReviewTime:"此项必填",
+                originalAppraisalConclusion:"此项必填",
+                originalReviewProjectInformation:"此项必填"
+            }
+        });
+    });
+    //dom监听resize事件
+    (function($, h, c) {
+        var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j
+            + "-special-event", b = "delay", f = "throttleWindow";
+        e[b] = 350;
+        e[f] = true;
+        $.event.special[j] = {
+            setup : function() {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.add(l);
+                $.data(this, d, {
+                    w : l.width(),
+                    h : l.height()
+                });
+                if (a.length === 1) {
+                    g()
+                }
+            },
+            teardown : function() {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.not(l);
+                l.removeData(d);
+                if (!a.length) {
+                    clearTimeout(i)
+                }
+            },
+            add : function(l) {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var n;
+                function m(s, o, p) {
+                    var q = $(this), r = $.data(this, d);
+                    r.w = o !== c ? o : q.width();
+                    r.h = p !== c ? p : q.height();
+                    n.apply(this, arguments)
+                }
+                if ($.isFunction(l)) {
+                    n = l;
+                    return m
+                } else {
+                    n = l.handler;
+                    l.handler = m
+                }
+            }
+        };
+        function g() {
+            i = h[k](function() {
+                a.each(function() {
+                    var n = $(this), m = n.width(), l = n.height(), o = $
+                        .data(this, d);
+                    if (m !== o.w || l !== o.h) {
+                        n.trigger(j, [ o.w = m, o.h = l ])
+                    }
+                });
+                g()
+            }, e[b])
+        }
+    })(jQuery, this);
+</script>
+<script>
+    $(function () {
+        //侧边目录
+        $(".side-catalog").css("display", "block");
+        //显示隐藏侧边目录
+        $(".toggle-span").click(function () {
+            $(".side-catalog").toggleClass("collapse");
+        });
+
+        //点击目录跳到相应模块
+        $(".catalog-list-formal").click(function () {
+            //alert(123)
+            $(this).addClass("chose").siblings("a").removeClass("chose");
+            var _id = $(this).attr("id");
+            if (typeof $('#' + _id + '-c').offset() !== 'undefined') {
+                var _idTop = $("#" + _id + "-c").offset().top - 10;
+                $("html,body").animate({"scrollTop": _idTop}, 300);
+            }
+        });
+        //滚动响应
+        if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
+            var SideCatalog = {};
+        };
+
+        SideCatalog.catalogDetail = (function () {
+            // scroll to tab content
+            var _gotoTab = function () {
+                window.onscroll = function () {
+                    SideCatalog.ids = [];
+                    $('.catalog-list-formal').each(function () {
+                        var id = $(this).attr('id');
+                        if (typeof $('#' + id + '-c').offset() !== 'undefined') {
+                            SideCatalog[id] = $('#' + id + '-c').offset().top - 11;
+                        }
+                        SideCatalog.ids.push(id);
+                    });
+                    var _top = $(document).scrollTop();
+                    //循环ID处理屏幕滚动情况
+                    $.each(SideCatalog.ids, function (key, id) {
+                        var next_id = key + 1;
+                        var next_tab = SideCatalog.ids[next_id];
+                        if ((_top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id]) {
+                            $('#' + id).addClass('chose').siblings("a").removeClass("chose");
+                        }
+                    });
+                };
+            };
+
+            function _init() {
+                _gotoTab();
+            }
+
+            return {
+                init: _init
+            }
+        })();
+        $(document).ready(function () {
+            SideCatalog.catalogDetail.init();
+        });
+        //查看页面不可编辑
+        var href = window.location.href;
+        if (href.indexOf("/View/") > 0) {
+            $('#content-wrapper input').attr("readonly", "readonly");
+            $('textarea').attr("readonly", "readonly");
+            $('select').attr("disabled", "disabled");
+        }
+        // 监听主题区域宽度变化
+        $('.xh-content').resize(function(){
+            $('.left-content').width($(this).width()*.16);
+            $('.btn-scale').each(function(){
+                $(this).css('padding-bottom',$(this).innerWidth()*0.467);
+
+                if($(this).css('padding-bottom').slice(0,-2)>'35'){
+                    $(this).css('padding-bottom','35px')
+
+                }
+            })
+        })
+
+    });
+</script>

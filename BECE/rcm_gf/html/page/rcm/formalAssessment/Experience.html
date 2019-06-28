@@ -1,0 +1,137 @@
+<div class="panel-body">
+	<!--form表单开始-->
+	<form id="Experience"  class="form-horizontal" name="Experience"  >
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt="" title="" /><span class="hd-title">{{titleName}}</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">投资项目经验总结<i class="i-triangle"></i></span></div></div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light basic-info">
+								<tbody>
+									<input type="hidden"  name="UUID" id="UUID"   class="form-control"  value="{{id}}" />
+									<tr>
+										<td width="20%">项目名称</td>
+										<td>
+											<input type="text"  name="projectName" id="projectName" ng-model="arf.projectName" class="form-control" disabled/>
+											<input type="hidden"  name="projectFormalId" id="projectFormalId" ng-model="arf.projectFormalId" class="form-control"  />
+											<input type="hidden"  name="projectSize" id="projectSize" ng-model="arf.projectSize" class="form-control"  />
+											<input type="hidden"  name="create_date" id="create_date" ng-model="arf.create_date" class="form-control"  />
+										</td>
+									</tr>
+									<tr>
+										<td>项目评审遇到问题及解决建议<span class="required-r" ng-if="actions!='View'">*</span></td>
+										<td><textarea rows="" cols=""  name="projectAdvice" id="projectAdvice" ng-model="arf.projectAdvice" class="form-control" auto-height></textarea></td>
+									</tr>
+									<tr>
+										<td>项目评审不足及改进措施<span class="required-r" ng-if="actions!='View'">*</span></td>
+										<td><textarea  rows="" cols=""  name="projectImprove" id="projectImprove" ng-model="arf.projectImprove" class="form-control" auto-height></textarea></td>
+									</tr>
+									<tr>
+										<td>项目评审经验分享<span class="required-r" ng-if="actions!='View'">*</span></td>
+										<td><textarea  rows="" cols=""  name="projectExperience" id="projectExperience" ng-model="arf.projectExperience" class="form-control" auto-height></textarea></td>
+									</tr>
+									<tr>
+										<td>测算能力</td>
+										<td><textarea  rows="" cols="" name="projectMeasure" id="projectMeasure"  ng-model="arf.projectMeasure" class="form-control" auto-height></textarea></td>
+									</tr>
+									<tr>
+										<td>协议质量<span class="required-r" ng-if="actions!='View'">*</span></td>
+										<td><textarea type="text" name="projectQuality" id="projectQuality" ng-model="arf.projectQuality" class="form-control" auto-height></textarea></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row-tit">附件列表</div>
+						<button  type="button" class="btn btn-info" ng-click="addFileList()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+						<button  type="button" class="btn btn-info" ng-click="commonDdelete()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+					</div>
+					<div class="row">
+						<div class="table-responsive">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+							<thead>
+							<tr>
+								<th width="5%">选择</th>
+								<th width="30%">附件名称</th>
+								<th>上传附件</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="item in arf.fileList track by $index">
+								<td class="txc">
+									<label class="checkbox-inline">
+										<input type="checkbox" class="px"  ng-model="item.selected">
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td><input type="text" ng-model="item.file_content"  class="form-control" ng-disabled="actions=='View'"></td>
+								<td>
+									<div class="col-sm-10 noleft-pad noright-pad">
+										<span ng-bind="progress$index"></span>
+										<span style="">{{errorAttach[$index].msg}}</span>
+										<a href="javascript:void(0);" ng-click="downLoadFile(item.files.filePath,item.files.fileName)" style="line-height: 27px;">{{item.files.fileName}}</a>
+									</div>
+									<div class="col-sm-2 noright-pad txr">
+										<button type="button" ng-if="actions!='View'" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
+									</div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+				<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+<!-- 					<a href="#/ExperienceList" type="button"  class="btn btn-info"><i class="fa fa-reply"></i>返回</a> -->
+					<button type="button" id="savebtn" class="btn btn-info" ng-click="save()"><i class="fa fa-save"></i>保存</button>
+					<button type="button" ng-if="arf.state != '2'" id="submitbtn" class="btn btn-info" ng-click="submitbtn()"><i class="fa fa-cloud-upload"></i>提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script  type="text/javascript">
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#bs-datepicker-edit').datepicker();
+		$('#tenderTime').datepicker(options);
+		$('#paymentTime').datepicker(options);
+
+		$("#project-type-box select").select2();
+		$("#project-mode-box select").select2();
+   });
+	$().ready(function() {
+		// validate signup form on keyup and submit
+		$("#Experience").validate({
+			rules: {
+			//	projectMeasure:"required",
+				projectAdvice:"required",
+				projectImprove:"required",
+				projectExperience:"required",
+				projectQuality:"required"
+			},
+			messages: {
+			//	projectMeasure:"此项必填",
+				projectAdvice:"此项必填",
+				projectImprove:"此项必填",
+				projectExperience:"此项必填",
+				projectQuality:"此项必填"
+			}
+		});
+	});
+
+</script>

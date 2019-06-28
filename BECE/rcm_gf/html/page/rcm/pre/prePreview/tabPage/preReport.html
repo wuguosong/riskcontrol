@@ -1,0 +1,123 @@
+
+<div class="mcontent content3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <div class="contentwrap hideOpen">
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">正式评审报告</h3>
+        <h5 class='file-download'><span class='file-icon'></span>
+            <cloud-file
+                    file-id="preReport"
+                    file-type="preReportInfo"
+                    file-code="{{waitId}}"
+                    file-location="preReport"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+            >
+        </h5>
+           <!-- <a ng-click="downLoadFormalBiddingInfoFile(prePreview.filePath,prePreview.projectName)">
+                {{prePreview.projectName}}-正式评审报告.docx</a>-->
+        <!--<div class="mytable" style="margin-top: 20px">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="75%">上传附件</th>
+                    <th width="20%">上会附件</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="item in prePreview.fileList track by $index">
+                    <td>
+                        <div class="col-sm-9 noleft-pad noright-pad">
+                            <span ng-bind="progress$index"></span>
+                            <span style="">{{errorAttach[$index].msg}}</span>
+                            <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
+                        </div>
+                    </td>
+
+                    <td ng-show = "preBidding.policyDecision != null">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
+                                   ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.files.filePath)"
+                                   class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+                            <span class="lbl">&nbsp;</span>
+                        </label>
+                    </td>
+                    <td ng-show = "preBidding.policyDecision == null">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
+                                   class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+                            <span class="lbl">&nbsp;</span>
+                        </label>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>-->
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
+        <div id='content3_table' class="mytable">
+            <directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo" business-id="preBidding.id"
+                                      wf-state="wfState" file-list="newAttachment"
+                                      init-update="initUpdate(id)" is-show-meeting-attachment="true"></directive-accachment-new>
+            <!--<table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th>序号</th>
+                    <th>资源名称</th>
+                    <th>附件内容</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="item in prePreview.newAttachment track by $index">
+                    <th scope="row">
+                        {{$index+1}}
+                    </td>
+                    <td>
+                        {{item.ITEM_NAME}}
+                    </td>
+                    <td>
+                        <span ng-bind="progress$index"></span>
+                        <span style="">{{errorMsg[$index].msg}}</span>
+                        <a href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)">
+                            {{item.fileName }}
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>-->
+
+        </div>
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;" ng-if="null != noticeDecision && noticeDecision.attachment != null">决策会通知书</h3>
+        <h5 class='file-download' ng-if="null != noticeDecision && noticeDecision.attachment != null"> <span class='file-icon'></span>
+            <a ng-click="downLoadFormalBiddingInfoFile(noticeDecision.attachment[0].filePath,noticeDecision.attachment[0].fileName,1)">{{noticeDecision.attachment[0].fileName }}</a>
+        </h5>
+        <!--<div id="content3_cover" class="table-cover" ng-hide="hideFlagR">-->
+            <!--<div class="more">-->
+                <!--<div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>-->
+                <!--<h6 class="text-blue" ng-click="expandMore('content3_table', 'hideFlagR')">点击查看更多</h6>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+
+<script>
+    $(function(){
+        setTimeout(function(){
+
+            if($('.content3 .contentwrap').height() < $('.content3').height() - 52){
+                $('.content3 .table-cover').hide()
+            }
+            // if($('#content3_table .table').height() < $('#content3_table .table').height()){
+            //
+            //     $('#content3_cover').hide()
+            // }
+        },1000)
+
+    })
+</script>

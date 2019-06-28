@@ -1,0 +1,278 @@
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!-- <i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					工作量统计
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					人员工作情况
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="panel-body">
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div class="panel">
+					<div class="panel-body">
+						<div class="form-group row">
+							<div class="txl col-md-12">
+								<div class="panel-body search-body" style="padding-top: 3px;">
+									<div class="col-sm-8 col-md-6 sm-col">
+										<ul id="myTab" class="nav nav-tabs bs-tabdrop-example">
+											<li ng-click="clickIndex('0')" class="{{tabIndex=='0'?'active':''}}"><a href="/#bs-tabdrop-tab1" data-toggle="tab">正式评审跟进中</a></li>
+											<li ng-click="clickIndex('1')" class="{{tabIndex=='1'?'active':''}}"><a href="/#bs-tabdrop-tab2" data-toggle="tab">正式评审已决策</a></li>
+											<li ng-click="clickIndex('2')" class="{{tabIndex=='2'?'active':''}}"><a href="/#bs-tabdrop-tab3" data-toggle="tab">投标评审跟进中</a></li>
+											<li ng-click="clickIndex('3')" class="{{tabIndex=='3'?'active':''}}"><a href="/#bs-tabdrop-tab4" data-toggle="tab">投标评审已决策</a></li>
+											<li ng-click="clickIndex('4')" class="{{tabIndex=='4'?'active':''}}"><a href="/#bs-tabdrop-tab5" data-toggle="tab">其他评审跟进中</a></li>
+											<li ng-click="clickIndex('5')" class="{{tabIndex=='5'?'active':''}}"><a href="/#bs-tabdrop-tab6" data-toggle="tab">其他评审已决策</a></li>
+										</ul>
+									</div>
+									<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" ng-model="projectName" class="form-control" />
+									</div>
+									<div class="col-sm-12 col-md-1" style="right: -150px">
+										<button class="btn btn-info" ng-click="selectByCondition()">查询</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div  class="tab-content tab-content-bordered">
+							<div class="tab-pane{{tabIndex=='0'?' active':''}}" id="bs-tabdrop-tab1">
+								<div class="panel-body">
+									<div class="row nobottom-mar">
+										<div class="table-responsive table-list">
+											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+												<thead>
+												<tr>
+													<th class="txc">序号</th>
+													<th>项目名称</th>
+													<th>项目状态</th>
+												</tr>
+												</thead>
+												<tbody class="valign-middle">
+												<tr ng-repeat=" p in projectReport">
+
+													<td class="txc">{{$index+1}}</td>
+													<td>
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/0' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/0' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
+													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
+														<span ng-if="'1'== p.WF_STATE">审批中</span>
+														<span ng-if="'2'== p.WF_STATE">已审批</span>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="table-footer clearfix">
+									<tm-pagination conf="paginationConf"></tm-pagination>
+								</div>
+							</div>
+							<div class="tab-pane{{tabIndex=='1'?' active':''}}" id="bs-tabdrop-tab2">
+								<div class="panel-body">
+									<div class="row nobottom-mar">
+										<div class="table-responsive table-list">
+											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+												<thead>
+												<tr>
+													<th class="txc">序号</th>
+													<th>项目名称</th>
+													<th>项目状态</th>
+												</tr>
+												</thead>
+												<tbody class="valign-middle">
+												<tr ng-repeat=" p in projectReport1">
+													<td class="txc">{{$index+1}}</td>
+													<td>
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
+													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
+														<span ng-if="'1'== p.WF_STATE">审批中</span>
+														<span ng-if="'2'== p.WF_STATE">已审批</span>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="table-footer clearfix">
+									<tm-pagination conf="paginationConf1"></tm-pagination>
+								</div>
+							</div>
+							<div class="tab-pane{{tabIndex=='2'?' active':''}}" id="bs-tabdrop-tab3">
+								<!-- {{personnelWorkList}} -->
+								<div class="panel-body">
+									<div class="row nobottom-mar">
+										<div class="table-responsive table-list">
+											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+												<thead>
+												<tr>
+													<th class="txc">序号</th>
+													<th>项目名称</th>
+													<th>项目状态</th>
+												</tr>
+												</thead>
+												<tbody class="valign-middle">
+												<tr ng-repeat=" p in projectReport2">
+													<td class="txc">{{$index+1}}</td>
+													<td>
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/2' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/2' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
+													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
+														<span ng-if="'1'== p.WF_STATE">审批中</span>
+														<span ng-if="'2'== p.WF_STATE">已审批</span>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="table-footer clearfix">
+									<tm-pagination conf="paginationConf2"></tm-pagination>
+								</div>
+							</div>
+							<div class="tab-pane{{tabIndex=='3'?' active':''}}" id="bs-tabdrop-tab4">
+								<div class="panel-body">
+									<div class="row nobottom-mar">
+										<div class="table-responsive table-list">
+											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+												<thead>
+												<tr>
+													<th class="txc">序号</th>
+													<th>项目名称</th>
+													<th>项目状态</th>
+												</tr>
+												</thead>
+												<tbody class="valign-middle">
+												<tr ng-repeat=" p in projectReport3">
+													<td class="txc">{{$index+1}}</td>
+													<td>
+														<!--<a ng-if="p.OLDDATA == '0'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/3' | encodeURI}}" >{{p.NAME}}</a>-->
+														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/3' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
+													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
+														<span ng-if="'1'== p.WF_STATE">审批中</span>
+														<span ng-if="'2'== p.WF_STATE">已审批</span>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="table-footer clearfix">
+									<tm-pagination conf="paginationConf3"></tm-pagination>
+								</div>
+							</div>
+							<div class="tab-pane{{tabIndex=='4'?' active':''}}" id="bs-tabdrop-tab5">
+								<div class="panel-body">
+									<div class="row nobottom-mar">
+										<div class="table-responsive table-list">
+											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+												<thead>
+												<tr>
+													<th class="txc">序号</th>
+													<th>项目名称</th>
+													<th>项目状态</th>
+												</tr>
+												</thead>
+												<tbody class="valign-middle">
+												<tr ng-repeat=" p in projectReport4">
+													<td class="txc">{{$index+1}}</td>
+													<td>
+														<!--<a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/4' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
+													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
+														<span ng-if="'1'== p.WF_STATE">审批中</span>
+														<span ng-if="'2'== p.WF_STATE">已审批</span>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="table-footer clearfix">
+									<tm-pagination conf="paginationConf4"></tm-pagination>
+								</div>
+							</div>
+							<div class="tab-pane{{tabIndex=='5'?' active':''}}" id="bs-tabdrop-tab6">
+								<div class="panel-body">
+									<div class="row nobottom-mar">
+										<div class="table-responsive table-list">
+											<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+												<thead>
+												<tr>
+													<th class="txc">序号</th>
+													<th>项目名称</th>
+													<th>项目状态</th>
+												</tr>
+												</thead>
+												<tbody class="valign-middle">
+												<tr ng-repeat=" p in projectReport5">
+													<td class="txc">{{$index+1}}</td>
+													<td>
+														<!--<a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/5' | encodeURI}}" >{{p.NAME}}</a>-->
+														<a href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
+													</td>
+													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
+														<span ng-if="'1'== p.WF_STATE">审批中</span>
+														<span ng-if="'2'== p.WF_STATE">已审批</span>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="table-footer clearfix">
+									<tm-pagination conf="paginationConf5"></tm-pagination>
+								</div>
+							</div>
+						</div>
+						<div class="button-group">
+							<div class="row">
+								<div class="option">
+									<!--<a class="btn btn-info" href="#/homePage"><i class="fa fa-reply"></i>返回</a>-->
+									<a ng-if="flag == '0'" class="btn btn-info" href="#/"><i class="fa fa-reply"></i>返回</a>
+									<a ng-if="flag == '1'" class="btn btn-info" href="#/workloadStatisticsList"><i class="fa fa-reply"></i>返回</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#meetingTime').datepicker(options);
+    });
+</script>

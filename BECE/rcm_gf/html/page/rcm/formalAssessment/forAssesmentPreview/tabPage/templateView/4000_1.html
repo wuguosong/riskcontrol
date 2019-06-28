@@ -1,0 +1,70 @@
+
+<div class="mcontent content2 content4-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class="text-blue">原项目概况</h3>
+    <div class="contentwrap">
+        <div class="mytable">
+            <table  class="table table-bordered">
+                <tbody>
+                <tr ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc"
+                    ng-if="projectOverview.content != '' && projectOverview.content != undefined
+                    && projectOverview.content != null && projectOverview.modify != '0'">
+                    <th style="width: 20%">
+                        {{projectOverview.value}}
+                    </th>
+                    <td class="">
+                        {{projectOverview.content}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-repeat="projectOverview in formalPreview.projectOverviews | orderBy: 'orderno': desc">
+            <!--<div ng-if="projectOverview.attachmentValue != null || projectOverview.attachmentValue != null">
+                <div class="img col-md-6 col-sm-6 col-xs-12">
+                    <span></span>
+                    <a ng-click="downLoadAttachment(projectOverview)">{{projectOverview.attachmentValue }}</a>
+                </div>
+            </div>-->
+            <cloud-file
+                    file-id="{{projectOverview.code}}{{$index}}_4000"
+                    file-type="FormalBiddingInfo"
+                    file-code="{{businessId}}"
+                    file-location="{{projectOverview.code}}{{$index}}_4000"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+                    text-class="img col-md-6 col-sm-6 col-xs-12"
+            >
+            </cloud-file>
+        </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var content40_1 = $('.content4-1').eq(1),
+            content40_1_wrap = content40_1.children('.contentwrap'),
+            content40_1_cover = content40_1_wrap.children('.table-cover');
+        setTimeout(function(){
+            //console.log(content40_1_wrap.height(),content40_1.height(),content40_1)
+            if(content40_1_wrap.height() < content40_1.height() - 52){
+                content40_1_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

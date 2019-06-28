@@ -1,0 +1,194 @@
+<div class="mcontent content2 content_2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue text-blue-out'>风控意见及附件</h3>
+    <div class="contentwrap hideOpen">
+        <div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''
+						|| bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''
+						|| bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''
+						|| bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment != ''
+						|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment != ''
+						|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment != ''">
+            <div class="mytable">
+                <table  class="table table-bordered">
+                    <tbody>
+                    <tr  ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
+                        <th style="width: 20%">评审负责人意见</th>
+                        <td>
+                            <div class="has-feedback">
+                                {{bulletin.reviewLeaderOpinion}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''">
+                        <th>
+                            法律负责人意见
+                        </th>
+                        <td>
+                            <div class="has-feedback">
+                                {{bulletin.legalLeaderOpinion}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr  ng-show="bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''">
+                        <th>
+                            风控负责人意见
+                        </th>
+                        <td>
+                            <div class="has-feedback">
+                                {{bulletin.riskLeaderOpinion}}
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--<div class="row" ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
+                <div class="tit col-md-2 col-sm-2 col-xs-12">评审负责人意见</div>
+                <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    {{bulletin.reviewLeaderOpinion}}
+                </div>
+            </div>
+            <div class="row" ng-show="bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''">
+                <div class="tit col-md-2 col-sm-2 col-xs-12">法律负责人意见</div>
+                <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    {{bulletin.legalLeaderOpinion}}
+                </div>
+            </div>
+            <div class="row" ng-show="bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''">
+                <div class="tit col-md-2 col-sm-2 col-xs-12">风控负责人意见</div>
+                <div class="det col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    {{bulletin.riskLeaderOpinion}}
+                </div>
+            </div>-->
+            <div class="row normalline titline">
+                <div class="mytable" style="margin: 20px" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0
+								|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length > 0
+								|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment.length > 0 ">
+                    <h4 class="text-blue">风控附件列表</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="info">
+                            <th>附件</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in bulletin.legalLeaderAttachment track by $index">
+                            <td>
+                                <span ng-bind="progress$index"></span>
+                                <span style="">{{errorAttach[$index].msg}}</span>
+                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in bulletin.reviewLeaderAttachment track by $index">
+                            <td>
+                                <span ng-bind="progress$index"></span>
+                                <span style="">{{errorAttach[$index].msg}}</span>
+                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in bulletin.riskLeaderAttachment track by $index">
+                            <td>
+                                <span ng-bind="progress$index"></span>
+                                <span style="">{{errorAttach[$index].msg}}</span>
+                                <a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
+						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
+						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')">
+            <directive-accachment-new id="BulletinMattersDetail_FK" business-type="bulletin" page-location="BulletinMattersDetail_FK" business-id="businessid"
+                                      wf-state="WF_STATE" file-list="newAttachment_FK"
+                                      init-update="initUpdate(id)"
+                                      is-show-history-list="false"
+                                      is-show-preview-btn="true"></directive-accachment-new>
+        </div>
+
+        <!--<div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
+						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
+						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')
+						&& (bulletin.legalLeaderAttachment == null || bulletin.legalLeaderAttachment == '')
+						&& (bulletin.reviewLeaderAttachment == null || bulletin.reviewLeaderAttachment == '')
+						&& (bulletin.riskLeaderAttachment == null || bulletin.riskLeaderAttachment == '')">
+            <div class="col-md-12 lg-md-12 col-sm-12 col-xs-12">
+                <div class="panel-body">
+                    <div class="myTab">
+                        <ul class="nav nav-tabs bs-tabdrop-example" id="_myMsgTab">
+                            <li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+                            <li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content tab-content-bordered clearfix row">
+                        <div class="tab-pane in active" id="reviewMessageTab">
+                            <bbs-chat-new id="bulletinMattersAuditBbsReview" business-id="{{businessid}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" is-show-attach-type="false" relation-sources-popup="BulletinMattersDetailRelationResourcesPopup"></bbs-chat-new>
+                        </div>
+                        <div class="tab-pane" id="legalMessageTab">
+                            <bbs-chat-new id="bulletinMattersAuditBbsLegal" business-id="{{businessid}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" is-show-attach-type="false" relation-sources-popup="BulletinMattersDetailRelationResourcesPopup"></bbs-chat-new>
+                        </div>
+                        &lt;!&ndash;相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用&ndash;&gt;
+                        <div id="BulletinMattersDetailRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content panel">
+                                    <div class="modal-header panel-heading" style="text-align: center;">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="_relation_resources_abel">相关资源</h4>
+                                    </div>
+                                    <div class="modal-body panel-body">
+                                        <directive-accachment-new id="BulletinMattersDetail2" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+                                                                  wf-state="0" file-list="newAttachment"
+                                                                  ignore-replace-reason="true"
+                                                                  init-update="initUpdate(id)"></directive-accachment-new>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="button-group">
+                                            <div class="row">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <!--<div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
+						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
+						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')
+						&& (bulletin.legalLeaderAttachment == null || bulletin.legalLeaderAttachment == '')
+						&& (bulletin.reviewLeaderAttachment == null || bulletin.reviewLeaderAttachment == '')
+						&& (bulletin.riskLeaderAttachment == null || bulletin.riskLeaderAttachment == '')">
+            <h4>风控意见暂未填写</h4>
+        </div>-->
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var content_2 = $('.content_2').eq(0),
+            content_2_wrap = content_2.children('.contentwrap'),
+            content_2_cover = content_2_wrap.children('.table-cover');
+        setTimeout(function(){
+            if(content_2_wrap.height() < content_2.height() - 52){
+                content_2_cover.hide()
+            }
+        },1000);
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide();
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen');
+        });
+    })
+</script>

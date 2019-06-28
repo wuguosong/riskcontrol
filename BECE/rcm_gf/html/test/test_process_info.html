@@ -1,0 +1,15 @@
+<script type="text/javascript" src="test_process.js"></script>
+2018-12-23 23:23:03 李贺审批<br>
+2018-12-24 12:12:12 张三审批<br>
+2018-12-25 15:34:56 里斯审批<br>
+2018-12-26 20:56:09 王五审批<br>
+<span id="processInfo">
+
+</span>
+<script>
+    window.onload = function (){
+        var processState = this.parent.document.getElementById("process_state_info");
+        alert(processState.value);
+        document.getElementById("processInfo").text = processState.value;
+    }
+</script>

@@ -1,0 +1,49 @@
+<html ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="http://apps.bdimg.com/libs/angular.js/1.2.16/angular.min.js"></script>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div ng-controller="EngineeringController" class="container">
+    <div class="col-md-12">
+        {{engineer.name}} is currently: {{ engineer.currentActivity}}
+    </div>
+    <div class="col-md-4">
+        <label for="name">Choose a new activity:</label>
+        <!-- <select
+        ng-model = "engineer.currentActivity"
+        class="form-control"
+        ng-options = "a.name +' (' + a.type + ')' for a in activities" >
+        </select >  -->
+        <select ng-model = "engineer.currentActivity"
+                class="form-control"
+                ng-options = "a.name group by a.type for a in activities" >
+        </select >
+    </div>
+</div>
+<script type="text/javascript">
+    var myAppModule = angular.module("myApp",[]);
+    myAppModule.controller("EngineeringController",["$scope",function($scope){
+        $scope.engineer = {
+            name: "Dani" ,
+            currentActivity: {
+                id: 3,
+                type: "Work" ,
+                name: "Fixing bugs"
+            }
+        };
+
+        $scope.activities =
+                [
+                    { id: 1, type: "Work" , name: "Writing code" },
+                    { id: 2, type: "Work" , name: "Testing code" },
+                    { id: 3, type: "Work" , name: "Fixing bugs" },
+                    { id: 4, type: "Play" , name: "Dancing" }
+                ];
+    }]);
+</script>
+</body>
+</html>

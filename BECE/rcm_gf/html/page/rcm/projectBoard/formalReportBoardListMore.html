@@ -1,0 +1,113 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">投资正式评审</span>
+	</div>
+	<div class="tab-content tab-content-bordered">
+		<div class="tab-pane active" id="bs-tabdrop-tab1">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div id="projectPreReview" class="panel-group">
+					<div class="panel">
+						<input type="hidden"  name="proId" id="proId" ng-model="conf.orgId"/>
+						<div class="panel-heading search-box">
+							<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#projectPreReview" href="/#searchbox">查询</a>
+						</div>
+						<div id="searchbox" class="panel-collapse collapse">
+							<div class="panel-body search-body">
+									<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+									<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="paginationConf.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+									<label class="col-sm-2 col-md-1 control-label">业务单位</label>
+									<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="REPORTING_UNIT_NAME" id="REPORTING_UNIT_NAME" ng-model="paginationConf.queryObj.projectUnitName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+									<div class="col-sm-12 col-md-6 input-daterange noleft-pad noright-pad" id="formalApplyTime">
+									</div>
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">评审状态</label>
+									<div class="col-sm-4 col-md-2">
+										<select name="WF_STATE" id="WF_STATE" class="form-control" ng-model="paginationConf.queryObj.wf_state">
+											<option value="">请选择...</option>
+											<option value="0">起草中</option>
+											<option value="1">审批中</option>
+											<option value="2">已审批</option>
+											<option value="3">已终止</option>
+										</select>
+									</div>
+									<div class="col-sm-12 col-md-2">
+										<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="getMoreList()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">{{prefix}}--项目正式评审列表<i class="i-triangle"></i></span></div></div>
+					<div class="panel-body">
+						<div class="form-group row">
+						</div>
+						<div class="form-group row nobottom-mar table-responsive table-list">
+							<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+								<thead>
+								<tr>
+									<th>序号</th>
+									<th>项目名称</th>
+									<th>业务单位</th>
+									<th>投资经理</th>
+									<th>评审负责人</th>
+									<th>法律负责人</th>
+									<th>申请时间</th>
+									<th>评审状态</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="p in moreList track by $index" on-finish-render-filters>
+									<td>{{$index+1}}</td>
+									<td>
+<!--  										<a href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl|encodeURI}}">{{p.PROJECTNAME}}</a>  -->
+										<a ng-if="p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">
+											{{p.PROJECTNAME|projectNameFilter:32}}
+										</a>
+										<a ng-if="p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/formalReportBoardListMore/'+stage+'/'+wf_state+'/'+oldUrl |encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+									</td>
+									<td>
+										{{p.PERTAINAREANAME}}
+									<img ng-if="p.isUrgent==1" src="assets/images/icons/urgent.png" width="20" height="20" alt="" title="" class="urgent-sign"/>
+									</td>
+									<td>{{p.INVESTMENTNAME}}</td>
+									<td>{{p.REVIEWPERSONNAME}}</td>
+									<td>{{p.LEGALREVIEWPERSONNAME}}</td>
+									<td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+									<td>
+										<div ng-if="'0'== p.WF_STATE">起草中</div>
+										<div ng-if="'1'== p.WF_STATE">审批中</div>
+										<div ng-if="'2'== p.WF_STATE">已审批</div>
+										<div ng-if="'3'== p.WF_STATE">已终止</div>
+									</td>
+								</tr>
+		
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="table-footer clearfix">
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+				</div>
+			</form>
+			<div class="option">
+				<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+			</div>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript" src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>
+<script>
+// 	angular.element(document).ready(function() {
+// 		var options = {
+// 			todayBtn: "linked",
+// 			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+// 		}
+// 		$('#formalApplyTime').datepicker(options);
+// 	});
+</script>

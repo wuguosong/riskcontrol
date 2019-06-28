@@ -1,0 +1,201 @@
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!--<i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					流程申请
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					正式评审申请
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="panel-body">
+	<ul class="nav nav-tabs bs-tabdrop-example" id="_myTopTab">
+		<li class="active">
+			<a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+		</li>
+		<li>
+			<a href="/#flow_chart" data-toggle="tab">流程图</a>
+		</li>
+		<li>
+			<a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+		</li>
+	</ul>
+	<form class="form-horizontal" name="myFormPfR" id="myFormPfR" novalidate>
+		<div class="panel">
+			<div class="tab-content">
+				<div class="tab-pane in active special-form" id="contracts_file_info">
+					<!--                                     <directive-project-formal-review></directive-project-formal-review> -->
+					<directive-project-formal-assessment-info></directive-project-formal-assessment-info>
+					<div class="panel" ng-if="(pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != '') && (pfr.tzProtocolOpinion != null &&pfr.tzProtocolOpinion != '')">
+						<directive-formal-opinion-new></directive-formal-opinion-new>
+					</div>
+
+					<!--审批-->
+					<div class="panel" ng-show="!isOldFlow && hasWaiting">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#approvalPart"
+							   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="approvalPart" class="panel-collapse collapse in">
+							<!--审批阶段-->
+							<div class="panel-body" ng-show="approve.operateType=='audit'">
+								<div class="row">
+									<label class="col-sm-3 control-label">下一环节：</label>
+									<div class="col-sm-8">
+										<div ng-repeat="x in approve.processOptions">
+											<label class="radio radio-inline">
+												<input id="showAttr" class="px" type="radio"
+													   init-bind="a=x.documentation" aaa="{{x.documentation}}"
+													   ng-click="showMarkMethod(x.documentation)"
+													   name="bpmnProcessOption" ng-checked="$index==0"
+													   value="{{x.sequenceFlow}}"/>
+												<span class="lbl">
+                                                <div class="text">{{x.flowName}}</div>
+                                            </span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!--快捷意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">快捷意见：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+											<input class="px" type="radio"
+												   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+												   name="_quickComments" ng-checked="$index==0"
+												   value="{{comment}}"/>
+											<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 control-label">处理意见：</label>
+									<div class="col-sm-8">
+												<textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
+														  data-ng-init="flowVariables.opinion=''"
+														  ng-model="flowVariables.opinion"></textarea>
+									</div>
+								</div>
+
+							</div>
+							<!--加签阶段-->
+							<div class="panel-body" ng-show="approve.operateType=='change'">
+								<div class="row">
+									<label class="col-sm-3 control-label">下一环节：</label>
+									<div class="col-sm-8">
+										<div>
+											<label class="radio radio-inline">
+												<input class="px" type="radio" name="bpmnProcessOption"
+													   id="workOver" value="WORKOVER"/>
+												<span class="lbl">
+                                                <div class="text">完结</div>
+                                            </span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!--知会人-->
+								<div class="row" ng-include="'page/sys/common/notify-user.html'">
+								</div>
+								<!--快捷意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">快捷意见：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+											<input class="px" type="radio"
+												   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+												   name="_quickComments" ng-checked="$index==0"
+												   value="{{comment}}"/>
+											<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+										</label>
+									</div>
+								</div>
+								<!--审批意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">处理意见：</label>
+									<div class="col-sm-8">
+														<textarea class="form-control" rows="4" cols="" id="comments2" ng-change="_signFillSignComments('comments2')"
+																  data-ng-init="flowVariables.opinion=''" ng-model="flowVariables.opinion"></textarea>
+									</div>
+								</div>
+							</div>
+							<!--提交按钮-->
+							<!--<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+                            </div>-->
+						</div>
+					</div>
+					<div class="button-group">
+						<div class="row">
+							<div class="btn-group-gap txl">
+								<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
+								<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
+								<button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+								<!-- 新提交模态框 -->
+								<!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                    <formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
+                                </div>-->
+								<!-- 旧提交模态框 -->
+								<div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+									<approve-pop-win approvearr="approve"></approve-pop-win>
+								</div>
+								<a ng-if="!isOldFlow && hasWaiting"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+								   ng-click="submitNext()">提交</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="flow_chart">
+					<!--<directive-process-page></directive-process-page>-->
+					<directive-process-page-new ng-if="!isOldFlow" process-key="formalReview"></directive-process-page-new>
+					<directive-process-page ng-if="isOldFlow"></directive-process-page>
+				</div>
+				<div class="tab-pane" id="contracts_resources">
+					<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+											  wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
+											  init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
+											  service-type="serviceType" project-model="projectModel" is-edite="true"></directive-accachment-new>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#approveFeedbackTime').datepicker(options);
+        $('#approveLegalFeedbackTime').datepicker(options);
+    });
+</script>
+<!--加签弹窗(页面)-->
+<div id="_signModalDialog" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog"
+	 ng-include="'page/sys/common/sign-dialog.html'">
+</div>
+<!--知会人选择弹窗(多选)-->
+<div id="_notifyUserMulDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-multi-dialog id="{{'_notifyUserMulDialog'}}" title="{{'用户列表'}}"
+							  url="{{'role/queryRoleAddUserByPage.do'}}" mapped-key-value="_notifyMappedKeyValue"
+							  checked-users="_notifyCheckedUsers"
+							  parent-save-selected="_notifyParentSaveSelected()"></direct-user-multi-dialog>
+</div>
+<!--加签人选择弹窗(单选)-->
+<div id="_signUserSinDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-single-dialog id="_signUserSinDialog" title="{{title}}" checked-user="_signCheckedUser"
+							   callback="_signCallback"
+							   mapped-key-value="_signMappedKeyValue" parent-save-selected="_signParentSaveSelected()"></direct-user-single-dialog>
+</div>

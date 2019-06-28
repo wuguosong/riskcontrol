@@ -1,0 +1,93 @@
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!-- <i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					首页
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					已完成任务
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="panel-body">
+	<div class="tab-content">
+		<div class="tab-pane active" id="bs-tabdrop-tab1">
+			<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+				<div class="panel">
+					<div class="panel-body">
+						<div class="form-group row">
+							<div class="txl col-md-12">
+								<div class="panel-body search-body" style="padding-top: 3px;">
+									<label class="col-sm-2 col-md-1 control-label">工单主题</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" ng-model="paginationConf.queryObj.subject" class="form-control" />
+									</div>
+									<label class="col-sm-2 col-md-1 control-label">工单类型</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<select class="form-control" ng-model="paginationConf.queryObj.processKey">
+											<option value="">请选择...</option>
+											<option value="preAssessment">投标评审</option>
+											<option value="formalReview">正式评审</option>
+											<option value="bulletin">其他决策事项</option>
+											<option value="noticeDecision">决策通知书</option>
+										</select>
+									</div>
+									<div class="col-sm-12 col-md-1" style="right: -150px">
+										<button class="btn btn-info" ng-click="executeQueryCompletedTaskByPage()">查询</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="table-responsive table-list">
+							<table class="table table-hover datatable first-col-fixed">
+								<thead>
+								<tr>
+									<th>序号</th>
+									<th>工单主题</th>
+									<th>工单类型</a></th>
+									<th>当前环节</th>
+									<th>流程开始时间</th>
+									<th>流程结束时间</th>
+								</tr>
+								</thead>
+								<tbody class="valign-middle">
+								<tr ng-repeat="t in tasks">
+									<td>{{$index+1}}</td>
+									<td>
+										<a ng-if="t.TYPE_ == 'preAssessment'" ng-href="#/ProjectPreReviewView/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'formalAssessment'" ng-href="#/ProjectFormalReviewDetailView/View/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'formalReview'" ng-href="#/FormalAssessmentAuditDetailView/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'noticeOfDecision'" ng-href="#/NoticeOfDecision/view/{{t.BUSINESS_KEY_}}@{{t.PROC_DEF_ID_}}@{{t.PROC_INST_ID_}}@@3" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'noticeDecision'" ng-href="#/noticeDecisionAuditView/submitted/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+										<a ng-if="t.TYPE_ == 'bulletin'" ng-href="#/BulletinMattersAuditView/{{t.BUSINESS_KEY_}}/{{'#/CompletedTask'|encodeURI}}" title="{{t.SUBJECT}}">{{t.SUBJECT|projectNameFilter:32}}</a>
+									</td>
+									<td>{{t.TYPE_TEXT}}</td>
+									<td>{{t.PHASE}}</td>
+									<td>{{t.START_TIME_}}</td>
+									<td>{{t.END_TIME_}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="table-footer clearfix">
+							<tm-pagination conf="paginationConf"></tm-pagination>
+						</div>
+					</div>
+					<div class="button-group">
+						<div class="row">
+							<div class="option">
+								<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

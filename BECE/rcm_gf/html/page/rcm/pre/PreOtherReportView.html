@@ -1,0 +1,57 @@
+<div class="xh-content container-fluid">
+	<form name="FormalReviewReport" novalidate class="row">
+		<div class="main-content col-md-12 col-sm-12 col-xs-12">
+			<h3 class='text-blue item-name'>
+				投资评审报告-查看
+			</h3>
+			<div class="mcontent content1" id="flag1-c">
+				<h3 class="text-blue">上传电子版预评审报告</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">项目名称</span>
+							<span class="col-md-10 slim">
+                               <input type="text" readonly value="{{pre.apply.projectName}}" class="form-control" id="projectName" name="projectName"/>
+							</span>
+						</div>
+					</div>
+
+					<div class="row normalline">
+						<div class="col-md-12 col-sm-12  col-xs-12">
+							<div class="row">
+								<span class="col-md-2 noPadding">附件上传</span>
+								<cloud-file
+										file-id="preReport"
+										file-type="preReportInfo"
+										file-code="{{paramId}}"
+										file-location="preReport"
+										show-upload="false"
+										show-preview="false"
+										show-replace="false"
+										show-download="false"
+										show-delete="false"
+										area-code="1"
+										text-before="false"
+										text-class="col-md-10 slim"
+								>
+								</cloud-file>
+								<!--<span class="col-md-10 slim">
+						            <span ng-bind="progress$index"></span>
+									<a href="javascript:void(0);" ng-click="downLoadFile(pre.reviewReport.filePath,pre.reviewReport.fileName)" style="line-height: 27px;">{{pre.reviewReport.fileName}}</a>
+                                 </span>-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="button-group">
+					<div class="row">
+						<div class="option txl">
+							<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</form>
+</div>

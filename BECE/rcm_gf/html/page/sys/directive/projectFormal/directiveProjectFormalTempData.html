@@ -1,0 +1,489 @@
+<div>
+    <div class="innertable">
+        <h5 ng-if="projectSummary.summaryType != '4000' && projectSummary.summaryType != '7000' && projectSummary.summaryType != '8000'">项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType == '4000'">原项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType == '7000'">申请事项</h5>
+        <h5 ng-if="projectSummary.summaryType == '8000'">新设公司简介</h5>
+        <div class="mytable">
+            <table  class="table table-bordered" style="table-layout: fixed">
+                <thead>
+                <tr class="info">
+                    <th width="16%">分类</th>
+                    <th width="48%">内容</th>
+                    <th width="18%">附件</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr scope="row" ng-repeat="projectOverview in projectSummary.projectOverviews | orderBy: 'orderno': desc">
+                    <th>
+                        <a class="template-table-font">
+                            {{ projectOverview.value }}
+                        </a>
+                    </th>
+                    <td>
+                    <textarea style="resize:vertical;height: auto;"
+                              name="{{ 'projectOverview_content' + $index }}"
+                              ng-model="projectOverview.content"
+                              class="form-control ng-pristine ng-valid ng-touched"readOnly></textarea>
+                    </td>
+                    <td>
+                        <cloud-file
+                                file-id="{{projectOverview.fileCode}}"
+                                file-type="FormalBiddingInfo"
+                                file-code="{{businessId}}"
+                                file-location="{{projectOverview.fileCode}}"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="false"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                        >
+                        </cloud-file>
+                        <!--<div class="text-hidden" style="float: left; width: 100%;">
+                            <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
+                                {{ projectOverview.attachmentValue }}
+                            </a>
+                        </div>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--项目概况-->
+
+    <div class="innertable" ng-if="projectSummary.projectOverviews1!=undefined && projectSummary.projectOverviews1!=null">
+        <h5 ng-if="projectSummary.summaryType == '4000'">技改项目概况</h5>
+        <h5 ng-if="projectSummary.summaryType == '7000'">申请原因</h5>
+        <h5 ng-if="projectSummary.summaryType == '8000'">公司股权结构</h5>
+        <div class="mytable">
+            <table  class="table table-bordered"  style="table-layout: fixed">
+                <thead>
+                <tr class="info">
+                    <th width="16%">分类</th>
+                    <th width="48%">内容</th>
+                    <th width="18%">附件</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr scope="row" ng-repeat="projectOverview in projectSummary.projectOverviews1 | orderBy: 'orderno': desc" data-ng-init="init()">
+                    <th>
+                        <a class="template-table-font" >
+                            {{ projectOverview.value }}
+                        </a>
+                    </th>
+                    <td class="padding5">
+                <textarea style="resize:vertical;" ng-disabled="projectOverview.modify === '0'"
+                          name="{{ 'projectOverview_content' + $index }}"
+                          ng-model="projectOverview.content"
+                          class="form-control ng-pristine ng-valid ng-touched" readonly></textarea>
+                    </td>
+                    <td>
+                        <cloud-file
+                                file-id="{{projectOverview.fileCode}}"
+                                file-type="FormalBiddingInfo"
+                                file-code="{{businessId}}"
+                                file-location="{{projectOverview.fileCode}}"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="false"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                        >
+                        </cloud-file>
+                        <!--<div class="text-hidden" style="float: left; width: 100%;">
+                            <a href="javascript:void(0);" ng-click="downLoadAttachment(projectOverview)" title="{{ projectOverview.attachmentValue }}">
+                                {{ projectOverview.attachmentValue }}
+                            </a>
+                        </div>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--项目概况-->
+
+
+    <div class="innertable" ng-if="projectSummary.project!=undefined && projectSummary.project!=null">
+        <h5>项目收益</h5>
+        <div class="mytable">
+            <table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="17%">指标分类</th>
+                    <th width="47%">指标名称</th>
+                    <th width="36%">本项目指标</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td rowspan="3">投资指标</td>
+                    <td class="text-right">
+                        全投资内部收益率IRR
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="investmentGlobale" ng-model="projectSummary.project.investmentGlobale" readOnly/>
+                            <span class="percent">%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        自有资金内部收益率IRR
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="investmentInternal" ng-model="projectSummary.project.investmentInternal" readOnly/>
+                            <span class="percent">%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        全投资静态回收期
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="investmentStatic" ng-model="projectSummary.project.investmentStatic" readOnly/>
+                            <span class="percent">年</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        财务指标
+                    </td>
+                    <td class="text-right">
+                        运营期平均ROE
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="financialROE" ng-model="projectSummary.project.financialROE" readOnly/>
+                            <span class="percent">%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        运营期平均ROI
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="financialROI" ng-model="projectSummary.project.financialROI" readOnly/>
+                            <span class="percent">%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        现金流指标
+                    </td>
+                    <td class="text-right">
+                        自有资金前五年现金净流量
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input type="text" ng-model="projectSummary.project.indicatorCash" class="form-control" name="indicatorCash" readOnly/>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-repeat="incomeTable in projectSummary.incomeTables">
+                <div>项目收益表{{$index + 1}}</div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="info">
+                        <th width="20%">收益项</th>
+                        <th width="80%">收益内容</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input class="form-control" type="text" name="{{ 'incomeName' + $index }}" ng-model="incomeTable.incomeName" readOnly/>
+                        </td>
+                        <td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="incomeTable.incomeContent" name="{{ 'incomeContent' + $index }}" readOnly></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="innertable" ng-if="projectSummary.projectIncomes!=undefined && projectSummary.projectIncomes!=null && projectSummary.summaryType=='4000'">
+        <h5>技改项目收益</h5>
+        <div class="mytable">
+            <table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="20%"></th>
+                    <th width="26%">原评审情况</th>
+                    <th width="26%">实际运营情况</th>
+                    <th width="26%">技改后</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="projectIncome in projectSummary.projectIncomes">
+                    <td>
+                        <a class="template-table-font" >
+                            {{ projectIncome.value }}
+                        </a>
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'originalReview' + $index }}"
+                                   ng-model="projectIncome.originalReview" readOnly/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'actualOperation' + $index }}"
+                                   ng-model="projectIncome.actualOperation" readOnly/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'afterTechnicalReform' + $index }}"
+                                   ng-model="projectIncome.afterTechnicalReform" readOnly/>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="innertable" ng-if="projectSummary.projectIncomes!=undefined && projectSummary.projectIncomes!=null && projectSummary.summaryType!='4000'">
+        <h5>项目收益</h5>
+        <div class="mytable">
+            <table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="70%">指标名称</th>
+                    <th width="30%">本项目指标</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="projectIncome in projectSummary.projectIncomes">
+                    <th>
+                        <a class="template-table-font" >
+                            {{ projectIncome.value }}
+                        </a>
+                    </th>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'indicator' + $index }}"
+                                   ng-model="projectIncome.indicator" readOnly/>
+                            <span class="percent">%</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="innertable" ng-if="projectSummary.seriousRisks!=undefined && projectSummary.seriousRisks!=null">
+        <h5>风险提示</h5>
+        <div class="mytable">
+            <div>重点关注</div>
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="15%">风险类别</th>
+                    <th width="65%">风险事项</th>
+                </tr>
+                </thead>
+                <tr  ng-repeat="seriousRisk in projectSummary.seriousRisks | orderBy: 'orderno': desc">
+                    <th>
+                        <input type="text" ng-model="seriousRisk.riskType" name="{{ 'seriousRiskType' + $index }}" readOnly>
+                        <div class="error-messages"
+                             ng-if="interacted(formalReportForm['seriousRiskType' + $index])">
+                            这里是必填项
+                        </div>
+                    </th>
+                    <td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="seriousRisk.riskContent" name="{{ 'seriousRiskContent' + $index }}" readOnly></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div>一般关注</div>
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="15%">风险类别</th>
+                    <th width="65%">风险事项</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="generalRisk in projectSummary.generalRisks | orderBy: 'orderno': desc">
+                    <th>
+                        <input type="text" ng-model="generalRisk.riskType" name="{{ 'generalRiskType' + $index }}" readOnly>
+                        <div class="error-messages"
+                             ng-if="interacted(formalReportForm['generalRiskType' + $index])">
+                            这里是必填项
+                        </div>
+                    </th>
+                    <td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="generalRisk.riskContent" name="{{ 'generalRiskContent' + $index }}" readOnly></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div><!--风险提示-->
+
+
+
+    <div class="innertable" ng-if="projectSummary.requirements!=undefined && projectSummary.requirements!=null">
+        <h5>投前条件</h5>
+        <div class="mytable">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="80%">投前条件</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="requirement in projectSummary.requirements | orderBy: 'orderno': desc">
+                    <td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="requirement.requirementContent" name="{{ 'requirementContent' + $index }}" readOnly></textarea>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--投前条件-->
+
+    <div class="innertable" ng-if="projectSummary.performs!=undefined && projectSummary.performs!=null">
+        <h5>后续执行要求</h5>
+        <div class="mytable">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="80%">后续执行要求</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="perform in projectSummary.performs | orderBy: 'orderno': desc">
+                    <td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="perform.requirementContent" name="{{ 'performRequirementContent' + $index }}" readOnly></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div><!--后续执行要求-->
+
+    <div class="innertable" ng-if="projectSummary.repaymentPlans!=undefined && projectSummary.repaymentPlans!=null">
+        <h5>还款计划</h5>
+        <div class="mytable">
+            <table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="16%">借款时间</th>
+                    <th width="16%">借款金额(万元)</th>
+                    <th width="16%">还款计划</th>
+                    <th width="16%">还款方式</th>
+                    <th width="16%">还款来源</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="repaymentPlanVar in projectSummary.repaymentPlans | orderBy: 'orderno': desc">
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'loanTime' + $index }}"
+                                   ng-model="repaymentPlanVar.loanTime" required/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'loanAmount' + $index }}"
+                                   ng-model="repaymentPlanVar.loanAmount" required/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'repaymentPlan' + $index }}"
+                                   ng-model="repaymentPlanVar.repaymentPlan" required/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'repaymnetMethod' + $index }}"
+                                   ng-model="repaymentPlanVar.repaymnetMethod" required/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="has-feedback">
+                            <input class="form-control" type="text" name="{{ 'repaymentSource' + $index }}"
+                                   ng-model="repaymentPlanVar.repaymentSource" required/>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="innertable" ng-if="projectSummary.desciptions!=undefined && projectSummary.desciptions!=null">
+        <h5 ng-if="projectSummary.summaryType == '7000'">原评审情况说明</h5>
+        <h5 ng-if="projectSummary.summaryType == '8000'">特殊事项说明</h5>
+        <div class="mytable">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="80%" ng-if="projectSummary.summaryType == '7000'">原评审情况说明</th>
+                    <th width="80%" ng-if="projectSummary.summaryType == '8000'">原评审情况说明</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="desciptionVar in projectSummary.desciptions | orderBy: 'orderno': desc">
+                    <td>
+                <textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="desciptionVar.desciption" name="{{ 'desciption' + $index }}" required></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--原评审情况说明-->
+
+
+    <div class="innertable" ng-if="projectSummary.decisionMakings!=undefined && projectSummary.decisionMakings!=null">
+        <h5>决策事项</h5>
+        <div class="mytable">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="80%">决策事项</th>
+                    <th width="20%">操作</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="decisionMakingVar in projectSummary.decisionMakings| orderBy: 'orderno': desc">
+                    <td>
+					<textarea style="resize:vertical;" class="form-control ng-pristine ng-valid ng-touched"
+                              ng-model="decisionMakingVar.decisionMaking" name="{{ 'decisionMaking' + $index }}" required></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--决策事项-->
+
+</div>

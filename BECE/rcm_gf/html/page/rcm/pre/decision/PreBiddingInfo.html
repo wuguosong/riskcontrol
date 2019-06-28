@@ -1,0 +1,787 @@
+<div class="xh-content container-fluid">
+	<form name="preReportForm" novalidate class="row">
+
+		<div class="main-content col-md-10 col-sm-10 col-xs-12">
+			<directive-pre-jcwyh-new></directive-pre-jcwyh-new>
+			<!--正式评审报告 Start-->
+			<div class="mcontent content1" id="flag4-c">
+				<h3 class="text-blue">投标评审报告</h3>
+				<div class="innertable">
+					<h5>风控部门提供</h5>
+					<div class="filework" style="height: 40px">
+						<cloud-file
+								file-id="preReport"
+								file-type="preReportInfo"
+								file-code="{{businessId}}"
+								file-location="preReport"
+								show-upload="false"
+								show-preview="false"
+								show-replace="true"
+								show-download="false"
+								show-delete="false"
+								area-code="1"
+								text-before="true"
+								text-class="col-md-9"
+								text-style="padding-left: 0"
+								btn-area-class="col-md-3"
+								btn-class="btn-replace-out"
+								btn-style="float: right; top: 3px"
+						>
+						</cloud-file>
+						<!--<div class="col-md-9" style="padding-left: 0">
+							<a ng-click="downLoadFormalBiddingInfoFile(preBidding.reviewReport.filePath,preBidding.apply.projectName)"
+							   style="cursor: pointer;" title="">
+								{{preBidding.apply.projectName}}-投标评审报告.docx
+							</a>
+						</div>
+						<div class="col-md-3">
+							<button class="btn-replace-out"
+									ng-disabled="!hasWaiting"
+									ngf-max-size="100MB"
+									ngf-select="uploadReprot($file,$invalidFiles,$index)"
+									style="float: right; top: 3px">
+								<span>替换</span>
+							</button>
+						</div>-->
+					</div>
+					<!--<div class="mytable" style="margin-top: 20px">
+						<table class="table table-bordered">
+							<thead>
+							<tr class="info">
+								<th width="5%">选择</th>
+								<th width="75%">上传附件</th>
+								<th width="20%">上会附件</th>
+							</tr>
+							</thead>
+
+							<tbody>
+							<tr ng-repeat="item in preBidding.policyDecision.fileList track by $index">
+								<td class="txc">
+									<label class="checkbox-inline choose">
+										<input type="checkbox" class="px" ng-model="item.selected">
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								&lt;!&ndash; 									<td width="20%"><input type="text" ng-model="item.file_content"  class="form-control"></td> &ndash;&gt;
+								<td>
+									<div class="col-sm-9 noleft-pad noright-pad">
+										<span ng-bind="progress$index"></span>
+										<span style="">{{errorAttach[$index].msg}}</span>
+										<a href="javascript:void(0);" ng-click="downLoadBiddingFile(item.files)" style="line-height: 27px;">{{item.files.fileName}}</a>
+									</div>
+									<div class="col-sm-3 noright-pad txr">
+										<button type="button" ng-disabled="!hasWaiting"  class="btn btn-info" ngf-max-size="100MB" ngf-select="upload($file,$invalidFiles, $index)">浏览</button>
+									</div>
+								</td>
+
+								<td ng-show = "preBidding.policyDecision != null">
+									<label class="checkbox-inline choose">
+										<input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
+											   ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.files.filePath)"
+											   class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td ng-show = "preBidding.policyDecision == null">
+									<label class="checkbox-inline choose">
+										<input type="checkbox" name="choosem" ng-disabled="true" ng-click="checkFileZip(item.files.fileName,$event)"
+											   class="px" value="||||{{credentials.userName}}||{{credentials.userName}}||{{item.files.fileName}}||{{item.files.filePath}}||1||||{{credentials.UUID}}||{{credentials.UUID}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+							</tr>
+							</tbody>
+
+						</table>
+					</div>-->
+				</div>
+			</div>
+			<div class="mcontent content1" id="flag5-c">
+				<h3 class="text-blue">业务单位上报评审文件</h3>
+				<div class="innertable">
+					<div class="col-md-9" style="padding-left: 0px;">
+						<h5>投资部门提供</h5>
+					</div>
+					<directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo" business-id="preBidding.id"
+											  wf-state="preOracle.WF_STATE" file-list="newAttachment"
+											  init-update="initUpdate(id)" is-edite="true" is-choose="true" service-type="serviceType" project-model="projectModel"></directive-accachment-new>
+					<!--<div class="mytable">
+						<table class="table table-bordered">
+							<thead>
+							<tr class="info">
+								<th>序号</th>
+								<th>资源名称</th>
+								<th>附件内容</th>
+								<th>文件替换</th>
+								<th>编制人</th>
+								<th>审核人</th>
+								<th>创建时间</th>
+								<th>版本号</th>
+								<th>上会附件</th>
+							</tr>
+							</thead>
+
+							<tbody  ng-repeat="item in newAttachment track by $index" ng-init="outerIndex = $index">
+							<tr>
+								<td>{{outerIndex+1}}</td>
+								<td>{{item.ITEM_NAME}}
+									<div ng-if="item.newFile">
+										<select  ng-model="item.newItem" class="newItem"  ng-options="y.ITEM_NAME for y in attach " >
+										</select>
+									</div>
+								</td>
+								<td>
+									<span ng-bind="progress$index"></span>
+									<span style="">{{errorMsg[$index].msg}}</span>
+									<a href="javascript:void(0);"  ng-click="downLoadBiddingFile(item)">
+										{{item.fileName}}
+									</a>
+								</td>
+								<td>
+									<div ng-if="!item.newFile" class="">
+										<button type="button"  ng-disabled="!hasWaiting" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">替换</button>
+									</div>
+									<div ng-if="item.newFile" class="">
+										<button type="button"  ng-disabled="!hasWaiting" class="btn btn-info" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles,$index)">浏览</button>
+									</div>
+								</td>
+								<td>
+									<direct-user-single-select id="{{'bzr_'+$index}}" is-editable="selectFlag" checked-user="item.programmed" callback = "hello">
+									</direct-user-single-select>
+								</td>
+								<td>
+									<direct-user-single-select id="{{'shr_'+$index}}" is-editable="selectFlag" checked-user="item.approved">
+									</direct-user-single-select>
+								</td>
+								<td>{{item.upload_date}}</td>
+								<td>{{item.version}}</td>
+								<td ng-if="preBidding.policyDecision != null">
+									<label class="checkbox-inline">
+										<input ng-if="!item.newFile" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true"
+											   ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.filePath)"
+											   type="checkbox" name="choose" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+										<input ng-if="item.newFile" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true" ng-checked="isValueExist(preBidding.policyDecision.decisionMakingCommitteeStaffFiles, 'filePath', item.filePath)"
+											   type="checkbox" name="choose" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td ng-if="preBidding.policyDecision == null">
+									<label class="checkbox-inline">
+										<input ng-if="!item.newFile"
+											   type="checkbox" name="choose" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+										<input ng-if="item.newFile"
+											   type="checkbox" name="choose" ng-click="checkFileZip(item.fileName,$event)"  ng-disabled="true" class="px" value="{{item.UUID}}||{{item.ITEM_NAME}}||{{item.programmed.NAME}}||{{item.approved.NAME}}||{{item.fileName}}||{{item.filePath}}||{{item.version}}||{{item.upload_date}}||{{item.programmed.VALUE}}||{{item.approved.VALUE}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+							</tr>
+							</tbody>
+
+						</table>
+					</div>-->
+				</div>
+			</div>
+			<div class="contnet1 mcontent" id="flag6-c">
+				<h3 class="text-blue">项目整体评分</h3>
+				<div class="innertable">
+					<div class="mytable ranktable">
+						<table class="table table-bordered">
+							<thead>
+							<tr class="info">
+								<th width="25%">打分项</th>
+								<th width="25%">分数</th>
+								<th width="40%">扣分原因</th>
+								<th width="10%">提示</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<th scope="row"><span class="required">*</span>合规-审批流程熟悉度</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="15"
+											   ng-model="mark.flowMark" ng-click="validMark(15)"
+											   name="flowMark" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.flowMark )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                        <span class="score">
+                                        (满分: &nbsp;&nbsp;15分)
+                                        </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.flowMarkReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th>
+									<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1、合格标准：流程完整为满分。</div><div>2 、缺少一个前置审批流程环节扣3-5分，以此累加，最低分得为0分。</div>">提示</a>
+								</th>
+							</tr>
+							<tr>
+								<th scope="row"><span class="required">*</span>合规-资料备案
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="15"
+											   ng-model="mark.fileCopy"
+											   ng-click="validMark(15)" name="fileCopy" required/>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.fileCopy )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                       <span class="score">
+                                        (满分: &nbsp;&nbsp;15分)
+                                        </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.fileCopyReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th>
+									<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="">提示</a>
+								</th>
+							</tr>
+							<tr>
+								<th scope="row"><span class="required">*</span>资料-及时性
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="9"
+											   ng-model="mark.fileTime" name="fileTime" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.fileCopy )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                       <span class="score">
+                                        (满分: &nbsp;&nbsp;&nbsp;&nbsp;9分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.fileTimeReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a></th>
+							</tr>
+							<tr>
+								<th scope="row"><span class="required">*</span>资料-完整性
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="9"
+											   ng-model="mark.fileContent" name="fileContent" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.fileContent )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                       <span class="score">
+                                        (满分: &nbsp;&nbsp;&nbsp;&nbsp;9分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.fileContentReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<!--class="help"-->
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1 、每缺少一项资料或资料无相关人员签字确认扣2分，以此累加，最低得分为0分。</div>">提示</a></th>
+							</tr>
+							<tr>
+								<th scope="row"><span class="required">*</span>核心-财务测算能力
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="12"
+											   ng-model="mark.moneyCalculate" name="moneyCalculate" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.moneyCalculate )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                       <span class="score">
+                                        (满分: &nbsp;&nbsp;12分)
+                                        </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.moneyCalculateReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1 、测算有错误或取值不合理，但测算思路正确，可得8-12分。</div><div>2、测算错误较多，且思路不正确，可得0-8分。</p><p>3、未独立进行测算的项目此项不得分。</div>">提示</a>
+								</th>
+							</tr>
+							<!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
+							<tr>
+								<th scope="row"><span class="required">*</span>资料-准确性(业务类资料)
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="6"
+											   ng-model="mark.reviewFileAccuracy" name="reviewFileAccuracy" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.reviewFileAccuracy )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                       <span class="score">
+                                        (满分: &nbsp;&nbsp;&nbsp;&nbsp;6分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.reviewFileAccuracyReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣2分，修改2-5次每次扣3分，以此累加，最低得分为0分。</div>">提示</a>
+								</th>
+							</tr>
+							<tr>
+								<th scope="row"><span class="required">*</span>核心-风险识别及规避能力
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="12"
+											   ng-model="mark.riskControl" name="riskControl" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.riskControl )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                       <span class="score">
+                                        (满分: &nbsp;&nbsp;12分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.riskControlReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1 、若投资部门风险识别及规避工作较好，评审阶段无发现新增重大风险，可得6-12分；</div><div>2 、若投资部门开展了风险识别及规避工作，但效果一般，评审阶段发现多个新增重大风险，可得0-6分；</div><div>3 、若投资部门未开展风险识别及规避工作，此项不得分。</div>">提示</a>
+								</th>
+							</tr>
+							<tr>
+								<th scope="row"><span class="required">*</span>核心-方案设计能力
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="4"
+											   ng-model="mark.planDesign" name="planDesign" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.planDesign )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                       <span class="score">
+                                        (满分: &nbsp;&nbsp;&nbsp;&nbsp;4分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.planDesignReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1 、若交易结构不合理或无人员安置方案，可扣0-4分，最低分为0分。</div>">提示</a></th>
+							</tr>
+							<!-- -------------------------------评审负责人到确认  end--------------------------------------------- -->
+							<!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
+							<tr>
+								<th scope="row"><span class="required">*</span>资料-准确性(法律类资料)
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="6"
+											   ng-model="mark.legalFileAccuracy" name="legalFileAccuracy" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.legalFileAccuracy )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                        <span class="score">
+                                        (满分: &nbsp;&nbsp;&nbsp;&nbsp;6分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.legalFileAccuracyReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣2分，修改2-5次每次扣3分，以此累加，最低得分为0分。</div>">提示</a>
+								</th>
+							</tr>
+							<tr>
+								<th scope="row"><span class="required">*</span>核心-协议谈判能力
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" min="0" max="12"
+											   ng-model="mark.talks" name="talks" required>
+										<div class="error-messages"
+											 ng-if="interacted(preReportForm.talks )">
+											这里是必填项
+										</div>
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                         <span class="score">
+                                        (满分: &nbsp;&nbsp;12分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+									<textarea style="resize:vertical;" ng-model="mark.talksReason" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>1 、是否依据集团要求在谈判中落实关键条款，若情况较好，得6-10分，若不理想得0-6分，最低分为0分。</div><div>2 、未独立进行谈判或者未能独立起草协议的项目，此项不得分。</div>">提示</a>
+								</th>
+							</tr>
+							<!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
+							<tr>
+								<th scope="row"><span></span>评审合规能力
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" ng-disabled="true" min="0"
+											   max="30"
+											   ng-model="mark.HEGUITOTALMARK">
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                           <span class="score">
+                                        (满分: &nbsp;&nbsp;30分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="流程熟悉度+资料备案">提示</a></th>
+							</tr>
+							<tr>
+								<th scope="row"><span></span>评审资料质量
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" ng-disabled="true" min="0"
+											   max="30"
+											   ng-model="mark.FILETOTALMARK">
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                          <span class="score">
+                                        (满分: &nbsp;&nbsp;30分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="及时性+完整性+准确性">提示</a></th>
+							</tr>
+							<tr>
+								<th scope="row"><span></span>投资核心能力
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" ng-disabled="true" min="0"
+											   max="40"
+											   ng-model="mark.HEXINTOTALMARK">
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                         <span class="score">
+                                        (满分: &nbsp;&nbsp;40分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+								</th>
+								<th><a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="风险识别及规避能力+财务测算能力+方案设计能力+协议谈判能力">提示</a></th>
+							</tr>
+							<tr>
+								<th scope="row"><span></span>总得分
+								</th>
+								<th>
+									<div class="col-md-6">
+										<input class="mark form-control" type="number" ng-disabled="true" min="0"
+											   max="100"
+											   ng-model="mark.ALLTOTALMARK">
+									</div>
+									<div class="col-md-6" style="margin-top: 6px">
+                                          <span class="score">
+                                        (满分: 100分)
+                                    </span>
+									</div>
+								</th>
+								<th>
+								</th>
+								<th>
+									<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top"
+									   data-html="true"
+									   data-backColor="white"
+									   title="<div>评审合规能力:30%</div><div>评审资料质量:30%</div><div>投资核心能力:40%</div>">提示</a>
+								</th>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="left-content col-md-2 col-sm-2 hidden-xs">
+			<div class="preview" ng-click="toPreview()">
+				预览报告
+			</div>
+			<div class="row" align="center">
+				<span ng-if="hasWaiting" type="span" class="btn-preview" ng-click="toPreview()" class="btn btn-info"/>
+			</div>
+			<div class="stage">
+				<a href="" ng-click="submitSave()">提交</a><a href="" ng-click="saveOnly()">暂存</a>
+				<!--<button class="btn-add btn-scale" ng-click="submitSave()">
+                    <span>提交</span>
+                </button>
+                <button class="btn-add btn-scale" ng-click="saveOnly()">
+                    <span>暂存</span>
+                </button>-->
+				<directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
+			</div>
+			<div class="linkline mcontent">
+				<div class="line"></div>
+				<a id="flag1" class="catalog-list catalog-list-formal chose" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+					项目过程回顾
+				</a>
+				<a id="flag2" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+					项目评级
+				</a>
+				<a id="flag4" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+					正式评审报告
+				</a>
+				<a id="flag5" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+					业务单位上报评审文件
+				</a>
+				<a id="flag6" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+					项目整体评分
+				</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+    angular.element(document).ready(function() {
+        $("#fixed-member-box select").select2();
+    });
+</script>
+<script type="text/javascript">
+    //dom监听resize事件
+    (function($, h, c) {
+        var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j
+            + "-special-event", b = "delay", f = "throttleWindow";
+        e[b] = 350;
+        e[f] = true;
+        $.event.special[j] = {
+            setup : function() {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.add(l);
+                $.data(this, d, {
+                    w : l.width(),
+                    h : l.height()
+                });
+                if (a.length === 1) {
+                    g()
+                }
+            },
+            teardown : function() {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.not(l);
+                l.removeData(d);
+                if (!a.length) {
+                    clearTimeout(i)
+                }
+            },
+            add : function(l) {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var n;
+                function m(s, o, p) {
+                    var q = $(this), r = $.data(this, d);
+                    r.w = o !== c ? o : q.width();
+                    r.h = p !== c ? p : q.height();
+                    n.apply(this, arguments)
+                }
+                if ($.isFunction(l)) {
+                    n = l;
+                    return m
+                } else {
+                    n = l.handler;
+                    l.handler = m
+                }
+            }
+        };
+        function g() {
+            i = h[k](function() {
+                a.each(function() {
+                    var n = $(this), m = n.width(), l = n.height(), o = $
+                        .data(this, d);
+                    if (m !== o.w || l !== o.h) {
+                        n.trigger(j, [ o.w = m, o.h = l ])
+                    }
+                });
+                g()
+            }, e[b])
+        }
+    })(jQuery, this);
+</script>
+<script>
+    angular.element(document).ready(function () {
+        $("#fixed-member-box select").select2();
+    });
+
+    $(function () {
+        //侧边目录
+        $(".side-catalog").css("display", "block");
+        //显示隐藏侧边目录
+        $(".toggle-span").click(function () {
+            $(".side-catalog").toggleClass("collapse");
+        });
+
+        //点击目录跳到相应模块
+        $(".catalog-list-formal").click(function () {
+            //alert(123)
+            $(this).addClass("chose").siblings("a").removeClass("chose");
+            var _id = $(this).attr("id");
+            if (typeof $('#' + _id + '-c').offset() !== 'undefined') {
+                var _idTop = $("#" + _id + "-c").offset().top - 10;
+                $("html,body").animate({"scrollTop": _idTop}, 300);
+            }
+        });
+        //滚动响应
+        if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
+            var SideCatalog = {};
+        };
+
+        SideCatalog.catalogDetail = (function () {
+            // scroll to tab content
+            var _gotoTab = function () {
+                window.onscroll = function () {
+                    SideCatalog.ids = [];
+                    $('.catalog-list-formal').each(function () {
+                        var id = $(this).attr('id');
+                        if (typeof $('#' + id + '-c').offset() !== 'undefined') {
+                            SideCatalog[id] = $('#' + id + '-c').offset().top - 11;
+                        }
+                        SideCatalog.ids.push(id);
+                    });
+                    var _top = $(document).scrollTop();
+                    //循环ID处理屏幕滚动情况
+                    $.each(SideCatalog.ids, function (key, id) {
+                        var next_id = key + 1;
+                        var next_tab = SideCatalog.ids[next_id];
+                        if ((_top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id]) {
+                            $('#' + id).addClass('chose').siblings("a").removeClass("chose");
+                        }
+                    });
+                };
+            };
+            function _init() {
+                _gotoTab();
+            }
+
+            return {
+                init: _init
+            }
+        })();
+        $(document).ready(function () {
+            SideCatalog.catalogDetail.init();
+        });
+        //查看页面不可编辑
+        var href = window.location.href;
+        if (href.indexOf("/View/") > 0) {
+            $('#content-wrapper input').attr("readonly", "readonly");
+            $('textarea').attr("readonly", "readonly");
+            $('select').attr("disabled", "disabled");
+        }
+        // 监听主题区域宽度变化
+        $('.xh-content').resize(function(){
+            $('.left-content').width($(this).width()*.16);
+            $('.btn-scale').each(function(){
+                $(this).css('padding-bottom',$(this).innerWidth()*0.467);
+
+                if($(this).css('padding-bottom').slice(0,-2)>'35'){
+                    $(this).css('padding-bottom','35px')
+
+                }
+            })
+        })
+    });
+</script>
+
+<style>
+	.left-content .linkline .line{
+		height: calc(100% - 35px);
+	}
+	.mcontent .innertable td button:first-child{
+		margin-right: 0px;
+	}
+</style>

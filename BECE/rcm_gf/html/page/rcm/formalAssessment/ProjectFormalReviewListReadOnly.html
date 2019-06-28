@@ -1,0 +1,130 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" /> <span class="hd-title">正式评审</span>
+	</div>
+	<!--  三个图 -->
+	<div class="row" style="margin: 10px; border: 1px solid #e6e8e9; border-radius: 5px">
+		<div class="p-nav">
+			<div class="p-header-fromal color_darkBlue ">
+				<ul class="nav nav-tabs" style="border-bottom: 0" role="tablist" id="myTab">
+					<li role="presentation" class="active col-md-2 col-sm-3"><a href="/#noCompleted" ng-click="qiehuanNoCompleted()" data-toggle="tab"> 跟进中 </a></li>
+					<li role="presentation" class="col-md-2 col-sm-3"><a href="/#completed" ng-click="qiehuanCompleted()" data-toggle="tab"> 已决策 </a></li>
+					<li class="col-md-8 col-sm-6" role="presentation"><a class="accordion-toggle collapse in" href="/#taskAssignment1" data-toggle="collapse"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="panel-body panel-collapse collapse in " id="taskAssignment1">
+			<div id="noCompleted">
+				<!-- 				<div class="row"> -->
+				<!-- 					 <button type="button" ng-click="exportTenderReportInfoWgh()" class="btn btn-info"> -->
+				<!-- 						<i class="glyphicon glyphicon-export"></i>导出未过会台账 -->
+				<!-- 					</button>  -->
+				<!-- 				</div> -->
+				<table id = "wghTable" class="first-col-fixed table table-bordered table-light table-text-mid table-hd-center table-hover nobottom-mar" >
+				</table>
+			</div>
+			<div id="completed">
+				<!-- 				<div class="row"> -->
+				<!-- 					<button type="button" ng-click="exportTenderReportInfo()" class="btn btn-info"> -->
+				<!-- 						<i class="glyphicon glyphicon-export"></i>导出已过会台账 -->
+				<!-- 					</button>  -->
+				<!-- 				</div> -->
+				<table id = "yghTable" class="first-col-fixed table table-bordered table-light table-text-mid table-hd-center table-hover nobottom-mar" >
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<!--  三个图 -->
+	<div class="row" style="margin: 10px; border: 1px solid #e6e8e9; border-radius: 5px">
+		<div class="p-nav">
+			<div class="p-header-fromal color_darkBlue ">
+ 				<a class="accordion-toggle collapse in" href="/#taskAssignment2" data-toggle="collapse"><span class="text">战区PK<i></i></span></a> 
+			</div>
+		</div>
+		<div class="panel-body panel-collapse collapse in " id="taskAssignment2">
+		
+		<div class="tab-content no-pad tab-table-contract">
+			<div class="tab-pane active" id="ff-tabdrop-tab1">
+				<div class="row">
+					<div class="col-md-2">阶段：</div>
+					<div class="col-md-10">
+						<span name="stage" href="" ng-click="aaa($event)" class="label" data="0,1" value="1,2" >申请中</span>
+						<span name="stage" href="" ng-click="aaa($event)" class="label" data="1,2" value="3,3.5,3.7,3.9,4,5" >跟进中</span>
+						<span name="stage" href="" ng-click="aaa($event)" class="label" data="2" value="6,7,9" resultData="1,3">已决策-同意投资</span>
+						<span name="stage" href="" ng-click="aaa($event)" class="label" data="2" value="6,7,9" resultData="2,4">已决策-不同意投资</span>
+						<span name="stage" href="" ng-click="aaa($event)" class="label" data="3" value="1" >已终止</span>
+						<label class="checkbox-inline"><input type="checkbox" ng-click="selectAllStage($event)" name="stageAll" class="px" value="" />
+							<span class="lbl">全选</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">大区：</div>
+					<div class="col-md-10">
+						<span ng-repeat=" p in pertainAreaList " repeat-finish="areaFinfish()">
+							<span href="" name="area" ng-click="aaa($event)" class="label" value="{{p.ORGPKVALUE}}">{{p.NAME}}</span>
+						</span>
+						<label class="checkbox-inline"><input type="checkbox" ng-click="selectAllArea($event)" name="areaAll" class="px" value="" />
+							<span class="lbl">全选</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">业务类型：</div>
+					<div class="col-md-10">
+						<span ng-repeat="s in serviceTypeList" repeat-finish="serviceTypeFinfish()">
+							<span href="" name="serviceType" ng-click="aaa($event)" class="label" value="{{s.ITEM_CODE}}">{{s.ITEM_NAME}}</span>
+						</span>
+						<label class="checkbox-inline"><input type="checkbox" ng-click="selectAllServiceType($event)" name="serviceTypeAll" class="px" value="" />
+							<span class="lbl">全选</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">年份：</div>
+					<div class="col-md-2">
+						<select ng-model="year" id="year" class="form-control">
+							<option value="">---请选择---</option>
+							<option value="{{y}}" ng-repeat="y in yearArr">{{y}}</option>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<button type="button" class="btn btn-info" ng-click="queryForPie()"><i class="glyphicon glyphicon-search"></i>查询</button>
+					</div>	
+				</div>
+				<div class="row">
+					<h4 class="col-md-2" style="color: green">总数:{{total1}}个</h4>
+				</div>
+				<div id="review1" style="width: 100%; height: 300px;"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+	<div class="button-group">
+		<div class="row">
+			<div class="option">
+				<!--<a class="btn btn-info" href="#/homePage"><i class="fa fa-reply"></i>返回</a>-->
+				<a class="btn btn-info" href="#/workloadStatisticsList"><i class="fa fa-reply"></i>返回</a>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+<script type="text/javascript"
+	src="assets/angularjs/angular-1.4.0/angular-route.js"></script>
+<script type="text/javascript" src="assets/requirejs/require.js"></script>
+<script>
+	angular
+			.element(document)
+			.ready(
+					function() {
+						var options = {
+							todayBtn : "linked",
+							orientation : $('body').hasClass('right-to-left') ? "auto right"
+									: 'auto auto'
+						}
+						$('#formalApplyTime').datepicker(options);
+					});
+</script>

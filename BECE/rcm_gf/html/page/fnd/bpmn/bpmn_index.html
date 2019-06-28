@@ -1,0 +1,266 @@
+<div class="panel-body">
+        <div class="header">
+            <img src="assets/images/icons/group.png" width="41" height="41" alt="" title="" />
+            <span class="hd-title">系统-流程管理</span>
+        </div>
+        <div class="">
+		<ul class="nav nav-tabs bs-tabdrop-example">
+			<li class="active"><a href="/#bs-tabdrop-tab1" data-toggle="tab">流程部署</a></li>
+			<li><a href="/#bs-tabdrop-tab2" data-toggle="tab">操作工单</a></li>
+			<li><a href="/#bs-tabdrop-tab3" data-toggle="tab">操作项目</a></li>
+			<li><a href="/#bs-tabdrop-tab4" data-toggle="tab">重推合同</a></li>
+		</ul>
+		<div class="tab-content tab-content-bordered">
+			<div class="tab-pane active" id="bs-tabdrop-tab1">
+				<form name="myform" class="form-horizontal ng-pristing ng-valid ng-pristine">
+					<div class="panel">
+						<div class="panel-heading search-box">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#projectPreReview" href="/#deployDiv">发布</a>
+						</div>
+						<div id="deployDiv" class="panel-collapse in">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">流程类型</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<input type="text" class="form-control" required ng-model="deploy_bpmnType" ><br>
+<!-- 										<input type="button" value="发布" onclick="deploy()"> -->
+									</div>
+									<div class="col-sm-12 col-md-2 search">
+										<button class="btn btn-info" ng-click="deploy_deploy()" type="button"><i class="fa fa-upload"></i>发布</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading search-box">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#projectPreReview" href="/#searchbox">查询</a>
+						</div>
+						<div id="searchbox" class="panel-collapse in">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">接口类型</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<select class="form-control" ng-model="paginationConf.queryObj.sysName">
+											<option value="">请选择...</option>
+											<option value="portal">portal</option>
+											<option value="contract">contract</option>
+										</select>
+									</div>
+									<label class="col-sm-2 col-md-1 control-label">是否成功</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<select class="form-control" ng-init="paginationConf.queryObj.successFlag='1'" ng-model="paginationConf.queryObj.successFlag">
+											<option value="">请选择...</option>
+											<option value="1">失败</option>
+											<option value="0">成功</option>
+										</select>
+									</div>
+									<div class="col-sm-12 col-md-2 search">
+										<button class="btn btn-info" ng-click="listAll()" type="button"><i class="glyphicon glyphicon-search"></i>查询</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">流程列表<i class="i-triangle"></i></span></div></div>
+						<div class="panel-body">
+							<div class="row nobottom-mar">
+								<div class="table-responsive table-list">
+									<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable">
+										<thead>
+										<tr>
+											<th>序号</th>
+											<th>流程类型名称</th>
+											<th>Category</th>
+											<th>版本</th>
+											<th>是否发布</th>
+                                            <th>发布时间</th>
+                                            <th>操作</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr ng-repeat="d in deploys">
+											<td>{{$index+1}}</td>
+											<td>{{l.SYS_NAME}}</td>
+											<td>{{l.CREATE_TIME}}</td>
+											<td>
+												<span ng-if="'0'==l.SUCCESS_FLAG">成功</span>
+												<span ng-if="'1'==l.SUCCESS_FLAG">失败</span>
+											</td>
+                                            <td>{{l.USE_TIME}}</td>
+                                            <td>{{l.USE_TIME}}</td>
+											<td><a class="btn btn-sm btn-info" ng-href="#/wsLogDetail/{{l.ID}}">查看</a></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="tab-pane" id="bs-tabdrop-tab2">
+				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">清除流程<i class="i-triangle"></i></span></div></div>
+						<div id="processDiv1" class="panel-collapse in">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">流程类型</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<input type="text" class="form-control" ng-model="process_bpmnType"><br>
+<!-- 										<input type="button" value="发布" onclick="deploy()"> -->
+									</div>
+									<label class="col-sm-2 col-md-1 control-label">工单号</label>
+									<div class="col-sm-4 col-md-2 sm-col" style="width:220px;">
+										<input type="text" class="form-control" ng-model="process_businessId" style="width:220px;"><br>
+<!-- 										<input type="button" value="发布" onclick="deploy()"> -->
+									</div>
+									<div class="col-sm-12 col-md-2 search">
+										<button class="btn btn-info" ng-click="process_clear()" type="button"><i class="fa fa-trash-o"></i>清除流程</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="tab-pane" id="bs-tabdrop-tab3">
+				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">清除项目记录<i class="i-triangle"></i></span></div></div>
+						<div id="projectDiv" class="panel-collapse in">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-1 control-label">流程类型</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<input type="text" class="form-control" ng-model="project_bpmnType"><br>
+<!-- 										<input type="button" value="发布" onclick="deploy()"> -->
+									</div>
+									<label class="col-sm-2 col-md-1 control-label">工单号</label>
+									<div class="col-sm-4 col-md-2 sm-col" style="width:220px;">
+										<input type="text" class="form-control" ng-model="project_businessId" style="width:220px;"><br>
+<!-- 										<input type="button" value="发布" onclick="deploy()"> -->
+									</div>
+									<div class="col-sm-12 col-md-2 search">
+										<button class="btn btn-info" ng-click="project_clear()" type="button"><i class="fa fa-trash-o"></i>清除数据</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="tab-pane" id="bs-tabdrop-tab4">
+				<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">重推合同<i class="i-triangle"></i></span></div></div>
+						<div id="processDiv2" class="panel-collapse in">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label">决策通知书ID</label>
+									<div class="col-sm-4 col-md-2 sm-col">
+										<input type="text" class="form-control" ng-model="noticeOfDecisionId"><br>
+<!-- 										<input type="button" value="发布" onclick="deploy()"> -->
+									</div>
+									<div class="col-sm-12 col-md-2 search">
+										<button class="btn btn-info" ng-click="notice_repeatCallOne()" type="button"><i class="fa fa-share-square-o"></i>重新调用</button>
+									</div>
+									<div class="row">
+										<label class="col-sm-2 col-md-2 control-label">刷数据</label>
+										<input type="text" ng-model="daiBan" >
+										<button class="btn btn-info" ng-click="notice_initReportStatus()" type="button"><i class="glyphicon glyphicon-search"></i>刷数据</button>
+<!-- 										title,url,userId,status,date -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">待办推送<i class="i-triangle"></i></span></div></div>
+						<div id="processDiv3" class="panel-collapse in">
+							<div class="panel-body search-body">
+								<div class="form-group ">
+									<label class="col-sm-2 col-md-2 control-label">TASKID：</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" class="form-control" ng-model="wait.taskId">
+									</div>
+									<label class="col-sm-2 col-md-2 control-label">标题：</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" class="form-control" ng-model="wait.title">
+									</div>
+								</div>
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label">路径：</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" class="form-control" ng-model="wait.url">
+									</div>
+									<label class="col-sm-2 col-md-2 control-label">接受者ID：</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" class="form-control" ng-model="wait.owner">
+									</div>
+								</div>
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label">创建日期：</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" class="form-control " ng-model="wait.createDate" placeholder="例:2017-06-22 14:52:33">
+									</div>
+									<label class="col-sm-2 col-md-2 control-label">状态：</label>
+									<div class="col-sm-4 col-md-3 ">
+										<select  ng-model="wait.status" class="form-control">
+											<option value="">---请选择---</option>
+											<option value="1">待办</option>
+											<option value="2">已办</option>
+											<option value="5">撤销</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label">发送人姓名：</label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<input type="text" class="form-control" ng-model="wait.sender">
+									</div>
+								</div>
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label"></label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<button class="btn btn-info" ng-click="sendTask()" type="button"><i class="fa fa-share-square-o"></i>发送</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">执行带参数初化接口<i class="i-triangle"></i></span></div></div>
+						<div id="processDiv" class="panel-collapse in">
+							<div class="panel-body search-body">
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label">接口名称：</label>
+									<div class="col-sm-4 col-md-8 sm-col">
+										<input type="text" class="form-control" ng-model="beanName">
+									</div>
+								</div>
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label">接口参数：</label>
+									<div class="col-sm-4 col-md-8 sm-col">
+										<textarea class="form-control" rows="20" cols="15" ng-model="beanParam"></textarea>
+									</div>
+								</div>
+								<div class="form-group row sm-row">
+									<label class="col-sm-2 col-md-2 control-label"></label>
+									<div class="col-sm-4 col-md-3 sm-col">
+										<button class="btn btn-info" ng-click="executeTargetInterface()" type="button"><i class="fa fa-share-square-o"></i>执行</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    
+</script>

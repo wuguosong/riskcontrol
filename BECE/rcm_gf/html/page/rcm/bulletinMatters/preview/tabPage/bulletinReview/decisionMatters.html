@@ -1,0 +1,100 @@
+<div class="mcontent content2 content_1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue text-blue-out'>决策事项意见汇总表</h3>
+    <div class="contentwrap">
+        <div class="mytable">
+            <table  class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th style="width: 20%">提交申请时间</th>
+                    <td>
+                        <div class="has-feedback">
+                            {{bulletinOracle.APPLYTIME | date:'yyyy-MM-dd hh:mm:ss'}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        业务单位
+                    </th>
+                    <td>
+                        <div class="has-feedback">
+                            {{bulletinOracle.APPLYUNITNAME}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        事项类型
+                    </th>
+                    <td>
+                        <div class="has-feedback">
+                            {{bulletinOracle.BULLETINTYPENAME}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        专业评审负责人
+                    </th>
+                    <td>
+                        <div class="has-feedback">
+                            {{bulletin.taskallocation.riskLeader.NAME}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        法律评审负责人
+                    </th>
+                    <td>
+                        <div class="has-feedback">
+                            {{bulletin.taskallocation.legalLeader.NAME}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th rowspan="2">
+                        事项说明
+                    </th>
+                    <td>
+                        <div class="has-feedback">
+                            事项原因：{{bulletin.reason}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="has-feedback">
+                            申请需求：{{bulletin.applyRequirement}}
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var content_1 = $('.content_1').eq(0),
+            content_1_wrap = content_1.children('.contentwrap'),
+            content_1_cover = content_1_wrap.children('.table-cover');
+        setTimeout(function(){
+            if(content_1_wrap.height() < content_1.height() - 52){
+                content_1_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

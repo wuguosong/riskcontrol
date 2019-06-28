@@ -1,0 +1,160 @@
+<div class="panel-body">
+    <div class="panel-work-link" style="margin-top: 6px">
+        <div class="p-header-home color_darkBlue" style="margin-bottom: 4px">
+            <i class="i-tit"></i><span class="text">项目量统计</span>
+        </div>
+        <div class="row">
+            <a href="#/ProjectPreReviewReadOnly" title="">
+                <div class="mod home-mod pre-review">
+                    <div class="mod-tit clearfix">
+                        <span class="text">投标评审</span>
+                        <i class="fa fa-list-ul"></i>
+                    </div>
+                    <div class="mod-cont clearfix">
+                        <div class="ico">
+                            <span class="num"> 总量  {{ypsCount}} </span>
+                        </div>
+                        <div class="detail txr">
+                            <span class="text"> 跟进中{{ypswghCount}} &nbsp&nbsp已决策{{ypsyghCount}}</span>
+                            <span class="num"></span>
+                            <span class="text"> 申请中{{preApplyingCount}} &nbsp&nbsp已终止{{preEndCount}}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="row" style="margin-top: 14px">
+            <a href="#/ProjectFormalReviewListReadOnly" title="">
+                <div class="mod home-mod formal-review">
+                    <div class="mod-tit clearfix">
+                        <span class="text">正式评审</span>
+                        <i class="fa fa-list-ul"></i>
+                    </div>
+                    <div class="mod-cont clearfix">
+                        <div class="ico">
+                            <span class="num"> 总量  {{zspsCount}}</span>
+                        </div>
+                        <div class="detail txr">
+                            <span class="text"> 跟进中{{zsswghCount}}&nbsp&nbsp 已决策{{zssyghCount}}</span>
+                            <span class="num"></span>
+                            <span class="text"> 申请中{{formalApplyingCount}} &nbsp&nbsp已终止{{formalEndCount}}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+        <div class="row" style="margin-top: 14px">
+            <a href="#/bulletinStatistics" title="">
+                <div class="mod home-mod law">
+                    <div class="mod-tit clearfix">
+                        <span class="text">其他评审</span>
+                        <i class="fa fa-list-ul"></i>
+                    </div>
+                    <div class="mod-cont clearfix">
+                        <div class="ico">
+                            <span class="num"> 总量  {{qtjcCount}}</span>
+                        </div>
+                        <div class="detail txr">
+                            <span class="text"> 跟进中{{qtjcwghCount}}&nbsp&nbsp 已决策{{qtjcyghCount}}</span>
+                            <span class="num"></span>
+                            <span class="text"> 申请中{{bulletinApplyingCount}}&nbsp&nbsp 已终止{{bulletinEndCount}}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="row" style="margin-top: 14px">
+            <a href="#/NoticeReviewListReadOnly" title="">
+                <div class="mod home-mod contract">
+                    <div class="mod-tit clearfix">
+                        <span class="text">投资决策</span>
+                        <i class="fa fa-list-ul"></i>
+                    </div>
+                    <div class="mod-cont clearfix">
+                        <div class="ico">
+                            <span class="num"> 总量  {{tzjcCount}}</span>
+                        </div>
+                        <div class="detail txr">
+                            <span class="text"> 无需上会{{tzjcWxshCount}}&nbsp&nbsp 需上会{{tzjcXshCount}}</span>
+                            <span class="num"> </span>
+                            <span class="text"> &nbsp</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="panel-work-list">
+        <div class="p-header-home color_darkBlue">
+            <i class="i-tit"></i><span class="text">人员工作量</span>
+        </div>
+        <div class="table-responsive">
+            <table class="first-col-fixed table table-bordered table-light table-text-mid table-hd-center table-hover nobottom-mar">
+                <thead>
+                <tr>
+                    <th class="txc" align="left">组名/姓名</th>
+                    <th colspan="2" style="border-bottom-width:1px;">跟进中</th>
+                    <th colspan="2" style="border-bottom-width:1px;">已决策</th>
+                    <th>总量</th>
+                </tr>
+                <tr>
+                    <th colspan="6" style="border-bottom-width:1px;">业务评审</th>
+                </tr>
+                </thead>
+                <tbody class="valign-middle">
+                <tr ng-repeat="t in projectReport0922ByYw" id="{{t.TEAM_ID}}">
+                    <td>
+                        <a href="" ng-click="queryFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}zk">+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <a href="" ng-click="sqFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}sq" hidden="true">- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <a href="#/PersonnelWork/team/{{t.TEAM_ID}}/YW/0/1">{{t.TEAM_NAME}}——{{t.TEAM_LEADER}}</a>
+                    </td>
+
+                    <td colspan="2">
+                        {{t.FORMAL_GOING + t.PRE_GOING + t.BULLETIN_GOING}}
+                    </td>
+                    <td colspan="2">
+                        {{t.FORMAL_DEALED+ t.PRE_DEALED + t.BULLETIN_DEALED}}
+                    </td>
+                    <td colspan="2">
+                        {{t.TOTAL}}
+                    </td>
+                </tr>
+                </tbody>
+                <thead>
+                <tr>
+                    <th colspan="6" style="border-bottom-width:1px;">法律评审</th>
+                </tr>
+                </thead>
+                <tbody class="valign-middle">
+                <tr ng-repeat="t in projectReport0922ByFL" id="{{t.TEAM_ID}}">
+                    <td>
+                        <a href="javaScript:void(0)" ng-click="queryFlFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}zk">+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <a href="javaScript:void(0)" ng-click="sqFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}sq"
+                           hidden="true">- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <a href="#/PersonnelWork/team/{{t.TEAM_ID}}/FL/0/1">{{t.TEAM_NAME}}——{{t.TEAM_LEADER}}</a>
+                    </td>
+
+                    <td colspan="2">
+                        {{t.FORMAL_GOING + t.BULLETIN_GOING}}
+                    </td>
+                    <td colspan="2">
+                        {{t.FORMAL_DEALED + t.BULLETIN_DEALED}}
+                    </td>
+                    <td colspan="2">
+                        {{t.TOTAL}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="button-group">
+        <div class="row">
+            <div class="option">
+                <a class="btn btn-info" href="#/"><i class="fa fa-reply"></i>返回</a>
+            </div>
+        </div>
+    </div>
+</div>

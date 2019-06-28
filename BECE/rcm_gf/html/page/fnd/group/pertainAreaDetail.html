@@ -1,0 +1,68 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/teanManage.png" width="41" height="41"
+			alt="" title="" /> <span class="hd-title">业务区负责人{{action}}</span>
+	</div>
+	<div class="panel">
+		<div class="panel-heading">
+			<div class="panel-hd-cont">
+				<span class="panel-title">业务区负责人{{action}}<i class="i-triangle"></i></span>
+			</div>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal ng-pristine ng-valid" name="myForm" novalidate>
+				<div class="special-form">
+					<div class="row">
+						<label for="" class="col-sm-2 control-label">负责人<span class="required-r">*</span></label>
+						<div class="col-sm-4">
+							<direct-user-single-select id="leader" checked-user="leader.user" mapped-key-value="teamLeaderMapped"></direct-user-single-select>
+						</div>
+						<label class="col-sm-2 control-label">职务<span class="required-r">*</span></label>
+						<div class="col-sm-4">
+							<select name="TYPE" id="TYPE" required ng-model="leader.TYPE"
+								class="form-control ng-pristine ng-untouched ng-valid">
+								<option value="">请选择...</option>
+								<option value="1">分管领导</option>
+								<option value="2">业务区负责人</option>
+							</select>
+						</div>
+					</div>
+					<div class="row" name="groupMember">
+						<label class="col-sm-2 control-label">所属单位<span class="required-r">*</span></label>
+						<div class="col-sm-4">
+							<direct-report-org-select id ="{{'org'}}" url = "{{'org/queryAllOrg.do'}}" mapped-key-value = "orgMappedKeyValue"
+								checked-org ="leader.org" is-editable="isEditable" is-page="true" columns="columns">
+							</direct-report-org-select>
+						</div>
+					</div>
+				</div>
+				<div class="row" ng-show="leader.TYPE == '1'">
+					<label  class="col-sm-2 control-label">负责业务类型<span class="required-r">*</span></label>
+					<div class="col-sm-10">
+						<label class="checkbox checkbox-inline">
+							<input type="checkbox" class="px" id="selectAll" name="serviceType" ng-click="selectAll()" ng-checked="leader.SERVICETYPE.indexOf('all')>=0" value="all"/>
+							<span class="lbl">所有</span>
+						</label>
+						<label class="checkbox checkbox-inline" ng-repeat="s in serviceTypeList">
+							<input type="checkbox" class="px" name="serviceType" ng-checked="leader.SERVICETYPE.indexOf(s.ITEM_CODE)>=0 || leader.SERVICETYPE.indexOf('all')>=0" value="{{s.ITEM_CODE}}"/>
+							<span class="lbl">{{s.ITEM_NAME}}</span>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="btn-group-gap txl">
+						<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+						<button type="button" ng-click="save()" class="btn btn-info">
+							<i class="fa fa-save"></i>保存
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<directive-user-list></directive-user-list>
+<directive-user-radio-list></directive-user-radio-list>
+<script type="text/javascript">
+</script>

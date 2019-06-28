@@ -1,0 +1,162 @@
+<div class=" table-list no-selectbox clearfix fixtable" style="overflow:hidden;">
+    <div class="lltable">
+        <table class="table table-hover maintable">
+            <thead>
+            <tr>
+                <th style="text-align: center" width="5%">序号</th>
+                <th style="text-align: center" width="20%">项目名称</th>
+                <th width="10%">评审类型</th>
+                <th width="10%">业务单位</th>
+                <th width="10%">投资经理</th>
+                <th width="10%">申请时间</th>
+                <th width="10%">审批状态</th>
+                <th width="10%">评审状态</th>
+            </tr>
+            </thead>
+            </thead>
+            <tbody>
+            <tr ng-repeat="submit in submitList">
+                <td style="text-align: center">
+                    {{ $index + 1 }}
+                </td>
+                <td>
+                    <a ng-if="'pfr' == submit.PROJECT_TYPE"
+                       ng-href="#/projectInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/'|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:24}}</a>
+                    <a ng-if="'pre' == submit.PROJECT_TYPE"
+                       ng-href="#/projectPreInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/'|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:24}}</a>
+                    <a ng-if="'bulletin' == submit.PROJECT_TYPE"
+                       ng-href="#/projectBulletinInfoAllBoardView/{{submit.BUSINESSID}}/{{'#/'|encodeURI}}" title="{{submit.PROJECTNAME}}">{{ submit.PROJECTNAME | projectNameFilter:24}}</a>
+                </td>
+                <td ng-if="'pfr' == submit.PROJECT_TYPE">
+                    正式评审
+                </td>
+                <td ng-if="'pre' == submit.PROJECT_TYPE">
+                    投标评审
+                </td>
+                <td ng-if="'bulletin' == submit.PROJECT_TYPE">
+                    其他评审
+                </td>
+                <td>
+                    <a style="color: black" title="{{submit.PERTAINAREANAME}}"> {{ submit.PERTAINAREANAME|projectNameFilter:6 }}</a>
+                </td>
+                <td>
+                    {{ submit.INVESTMENTNAME }}
+                </td>
+                <td>
+                    {{ submit.APPLY_DATE|projectTimeFilter: 10 }}
+                </td>
+                <td ng-if="'bulletin' != submit.PROJECT_TYPE">
+                    <a style="color: black" ng-if="'1'== submit.STAGE">申请阶段</a>
+                    <a style="color: black" ng-if="'2'== submit.STAGE">任务分配</a>
+                    <a style="color: black" ng-if="'3'== submit.STAGE">风控处理</a>
+                    <a style="color: black" ng-if="'4'== submit.STAGE">准备上会</a>
+                    <a style="color: black" ng-if="'5'== submit.STAGE">已安排上会</a>
+                    <a style="color: black" ng-if="'6'== submit.STAGE">已决策</a>
+                    <a style="color: black" ng-if="'7'== submit.STAGE">已确认通知书</a>
+                    <a style="color: black" ng-if="'9'== submit.STAGE">已终止</a>
+                </td>
+                <td ng-if="'bulletin' == submit.PROJECT_TYPE">
+                    <a style="color: black" ng-if="'4'== submit.STAGE">已决策</a>
+                    <a style="color: black" ng-if="'5'== submit.STAGE">已填写纪要</a>
+                    <a style="color: black" ng-if="'9'== submit.STAGE">已终止</a>
+                </td>
+                <td>
+                    <div ng-if="'0'== submit.STATUS">起草中</div>
+                    <div ng-if="'1'== submit.STATUS">审批中</div>
+                    <div ng-if="'2'== submit.STATUS">已审批</div>
+                    <div ng-if="'3'== submit.STATUS">已终止</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <table class="table table-hover lefttable">
+        <thead>
+        <tr>
+            <th class="fixedth" style="text-align: center">填写评审资料</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr ng-repeat="submit in submitList">
+            <td>
+                <a ng-if="submit.PROJECT_TYPE == 'pfr'"
+                   href="#/{{submit.PFR_CONTROLLER_VAL}}/0/View/{{submit.BUSINESSID}}@2/{{'#/IndividualTable'|encodeURI}}"
+                   class="btn btn-sm btn-success btn-left"
+                   title="">
+                    评审报告
+                </a>
+                <a ng-if="submit.PROJECT_TYPE == 'pfr'"
+                   ng-click="getInfo(submit.BUSINESSID)"
+                   class="btn btn-sm btn-success btn-center"
+                   title="">
+                    决策会材料
+                </a>
+                <a ng-if="submit.PROJECT_TYPE == 'pfr' && submit.SERVICETYPE != 1404 && submit.SERVICETYPE != 1406"
+                   href="#/NoticeDecisionDraftDetailView/submitted/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+                   class="btn btn-sm btn-success btn-right"
+                   title="">
+                    决策通知书草拟
+                </a>
+                <button ng-if="submit.PROJECT_TYPE == 'pfr' && (submit.SERVICETYPE == 1404 || submit.SERVICETYPE == 1406)"
+                        ng-click="queryRBIMeeting(submit)"
+                        class="btn btn-sm btn-success btn-right"
+                        data-toggle="modal"
+                        data-target="#addModal5"
+                        title="">
+                    会议纪要
+                </button>
+                <a ng-if="submit.PROJECT_TYPE == 'pre'"
+                   href="#/{{submit.RPE_CONTROLLER_VAL}}/0/View/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+                   class="btn btn-sm btn-success btn-right"
+                   title="">
+                    评审报告
+                </a>
+
+                <a ng-if="submit.PROJECT_TYPE == 'pre'"
+                   href="#/PreBiddingInfoPreview/{{submit.BUSINESSID}}/{{'#/'|encodeURI}}/2"
+                   class="btn btn-sm btn-success btn-center"
+                   title="">
+                    决策会材料
+                </a>
+                <button ng-if="submit.PROJECT_TYPE == 'bulletin'"
+                        ng-click="queryRBIMeeting(submit)"
+                        class="btn btn-sm btn-success btn-left"
+                        data-toggle="modal"
+                        data-target="#addModal5"
+                        title="">
+                    会议纪要
+                </button>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+    <div id="addModal5" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">会议纪要填写内容</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label class="col-sm-2 control-label">会议纪要：</label>
+                        <div class="col-sm-10" ng-if="mettingSummarys != undefined">
+                            <textarea name="" ng-model="mettingSummarys" rows="6" cols="" class="form-control" auto-height></textarea>
+                        </div>
+                        <div class="col-sm-10" ng-if="mettingSummarys == undefined">
+                            <a ng-click="cloudPreview(fullpath)">
+                                {{ newAttachment[0].rcmfilename }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<div>
+   <!-- <button type="button" class="btn btn-info"
+            ngf-max-size="100MB"
+            ngf-select="addWebuploadCurrent($file, $index)"
+    >上传
+    </button>-->
+     <button id="{{id}}" class="filePicker" ng-click="addWebuploadCurrent(picker)">上传</button>
+    <!--<div class="filePicker" ng-click="addWebuploadCurrent(picker)">上传</div>-->
+    <input type="hidden" name="{{ picker }}" id="{{ picker }}">
+</div>

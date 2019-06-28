@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>流程</title>
+    <script src="/html/assets/dagre-d3/d3.v4.min.js" charset="utf-8"></script>
+    <script src="/html/assets/dagre-d3/dagre-d3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/html/assets/javascripts/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="/html/assets/stylesheets/bootstrap.css" type="text/css"/>
+    <script type="text/javascript" src="/html/assets/javascripts/bootstrap.js"></script>
+    <script type="text/javascript" src="/html/assets/javascripts/popWindow.js"></script>
+    <script type="text/javascript" src="test_process.js?t=1"></script>
+    <style id="css">
+        /*文字样式*/
+        text {
+            font-weight: 200;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+            font-size: 13px;
+        }
+
+        /*圆样式*/
+        g.SAlready > circle { /*已经处理*/
+            fill: #3498db;
+        }
+
+        g.SAgency > circle { /*未处理*/
+            fill: #dfdfdf;
+        }
+
+        .node circle {
+            fill: #dfdfdf;
+            stroke-width: 1;
+        }
+
+        /*棱形样式*/
+        g.SAlready > polygon { /*已经处理*/
+            fill: #3498db;
+        }
+
+        g.SAgency > polygon { /*未处理*/
+            fill: #dfdfdf;
+        }
+
+        .node polygon {
+            fill: #dfdfdf;
+            stroke-width: 1;
+        }
+
+        /*方形样式*/
+        g.SAlready > rect { /*已经处理*/
+            fill: #3498db;
+        }
+
+        g.SAgency > rect { /*未处理*/
+            fill: #dfdfdf;
+        }
+
+        .node rect {
+            fill: #dfdfdf;
+            stroke-width: 1;
+        }
+
+        /*路径基础样式*/
+        .edgePath path {
+            stroke: #dfdfdf;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        /*路径样式*/
+        g.LAgency > path { /*未处理*/
+            stroke: #dfdfdf;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        g.LAlready > path { /*已经处理*/
+            stroke: #3498db;
+            stroke-width: 3;
+            fill: none;
+        }
+    </style>
+</head>
+<body>
+<svg id="svg-canvas" width=100% height="1024" style="border: 1px solid black;">
+</svg>
+<input type="hidden" id="process_state_info">
+</body>
+<script>
+    // 定义常量
+    const config = {
+        CSS_S: "S",
+        CSS_L: "L",
+        LABEL_START: "开始",
+        LABEL_END: "结束",
+        START_EVENT: "StartEvent",
+        END_EVENT: "EndEvent",
+        USER_TASK: "UserTask",
+        INCLUSIVE_GATEWAY: "InclusiveGateway",
+        EXCLUSIVE_GATEWAY: "ExclusiveGateway",
+        SUB_PROCESS: "SubProcess",
+        STATUS_ALREADY: "Already",
+        STATUS_AGENCY: "Agency",
+        SHAPE_CIRCLE: "circle",
+        SHAPE_RECT: "rect",
+        SHAPE_DIAMOND: "diamond",
+        DIR_LR: "LR",
+        DIR_RL: "RL",
+        DIR_TB: "TB",
+        DIR_BT: "BT"
+    };
+    function test_process_allConfig(){
+        var result = null;
+        test_process_commonAjax('post', 'http://localhost:8080/rcm-rest/process/allConfig.do', {
+            'processKey': 'formalReview',
+            'businessKey': '5cca5344e252c833503ad2a4'
+        }, function (data) {
+            result = data;
+        }, function (data) {
+            console.log(data);
+        });
+        return result;
+    }
+    var data = test_process_allConfig();
+    var map = eval(data.nodes);
+    for (var key in map) {
+        console.log(key);
+        if (key === "subprocess1") {
+             // data = map[key];// 子流程1
+        } else {
+             // data = map[key];// 主流程
+        }
+        // if else 注释掉,主流程和子流程同时展示
+    }
+    // 1.声明节点
+    var states = [];
+    var stateArray = data.states;
+    for (var index in stateArray) {
+        var json = {};
+        json.index = stateArray[index].index;
+        var option = {};
+        if (stateArray[index].type == config.START_EVENT) {
+            option.label = config.LABEL_START;
+            option.shape = config.SHAPE_CIRCLE;
+            // 设置宽高，数据来源：activi流程模型或者前端自定义
+            // option.width = 100;
+            // option.height = 100;
+        }
+        if (stateArray[index].type == config.END_EVENT) {
+            option.label = config.LABEL_END;
+            option.shape = config.SHAPE_CIRCLE;
+        }
+        if (stateArray[index].type == config.USER_TASK) {
+            option.label = stateArray[index].name;
+            option.shape = config.SHAPE_RECT;
+        }
+        if (stateArray[index].type == config.INCLUSIVE_GATEWAY) {
+            option.label = stateArray[index].id;
+            option.shape = config.SHAPE_DIAMOND;
+        }
+        if (stateArray[index].type == config.EXCLUSIVE_GATEWAY) {
+            option.label = stateArray[index].id;
+            option.shape = config.SHAPE_DIAMOND;
+        }
+        if (stateArray[index].type == config.SUB_PROCESS) {
+            option.label = stateArray[index].id;
+            option.shape = config.SHAPE_CIRCLE;
+        }
+        option.class = config.CSS_S + stateArray[index].status;
+        option.status = stateArray[index].status;
+        option.id = stateArray[index].id;
+        option.data = stateArray[index];
+        json.option = option;
+        states.push(json);
+    }
+    // 2.声明连线
+    var edges = [];
+    var edgeArray = data.edges;
+    for (var index in edgeArray) {
+        var json = {};
+        json.from = edgeArray[index].from.index;
+        json.to = edgeArray[index].to.index;
+        var option = {};
+        option.label = edgeArray[index].id;
+        option.class = config.CSS_L + edgeArray[index].status;
+        option.data = edgeArray[index];
+        json.option = option;
+        edges.push(json);
+    }
+    // 3.创建画布对象
+    var g = new dagreD3.graphlib.Graph().setGraph({rankdir: config.DIR_LR}).setDefaultEdgeLabel(function () {
+        return {};
+    });
+    // 4.设置节点
+    for (var index in states) {
+        g.setNode(states[index].index, states[index].option);
+    }
+    g.nodes().forEach(function (v) {
+        var node = g.node(v);
+        node.rx = node.ry = 5;
+    });
+    // 5.设置连线
+    for (var index in edges) {
+        g.setEdge(edges[index].from, edges[index].to, edges[index].option);
+    }
+    // 6.创建渲染对象
+    var render = new dagreD3.render();
+    var svg = d3.select("svg");// 声明节点
+    svg.select("g").remove(); //删除以前的节点，清空画面
+    svg.append("g");
+    var inner = svg.select("g");
+    var zoom = d3.zoom().on("zoom", function () { //添加鼠标滚轮放大缩小事件
+        inner.attr("transform", d3.event.transform);
+    });
+    svg.call(zoom);
+    render(d3.select("svg g"), this.g);// 渲染节点
+    var max = svg._groups[0][0].clientWidth > svg._groups[0][0].clientHeight ? svg._groups[0][0].clientWidth : svg._groups[0][0].clientHeight;
+    var initialScale = max / 1204; // initialScale元素放大倍数，随着父元素宽高发生变化时改变初始渲染大小 779
+    var tWidth = (svg._groups[0][0].clientWidth - this.g.graph().width * initialScale) / 2; //水平居中
+    var tHeight = (svg._groups[0][0].clientHeight - this.g.graph().height * initialScale) / 2; //垂直居中
+    svg.call(zoom.transform, d3.zoomIdentity.translate(tWidth, tHeight).scale(initialScale)); //元素水平垂直居中
+    // 设置svg高度
+    document.getElementById('svg-canvas').setAttribute('height', window.innerHeight.toFixed());
+    document.getElementById('svg-canvas').setAttribute('d', 'M1 1 C10 12 11');
+    // 去掉箭头
+    $("svg .edgePaths .edgePath path").each(function (i, e) {
+        $(e).removeAttr("marker-end");
+    });
+    // 为每个节点添加鼠标右击事件
+    for (var index in states) {
+        var state = states[index];
+        if (state.option.data.type == config.USER_TASK) {
+            if (state.option.data.status == config.STATUS_ALREADY) {
+                var element = document.getElementById(state.option.id);
+                element.setAttribute("state", JSON.stringify(state));
+                element.addEventListener('mousedown', function (event) {
+                    if (event.button == 2) {// 鼠标右击事件
+                        event = event || window.event;
+                        event.preventDefault();
+                        document.getElementById("process_state_info").value = this.getAttribute("state");
+                        $.dialog({
+                            id: JSON.parse(this.getAttribute("state")).id,
+                            title: "审批详情",
+                            url: 'test_process_info.html'
+                        });
+                    }
+                });
+            }
+        }
+    }
+    document.oncontextmenu = function () {
+        return false;
+    }
+</script>
+</body>
+</html>

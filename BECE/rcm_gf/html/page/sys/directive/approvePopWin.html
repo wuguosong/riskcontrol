@@ -1,0 +1,68 @@
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">提交审批</h4>
+            </div>
+            <!-- ng-show="!toNodeType" ng-checked="$index==0"-->
+            <div class="modal-body" ng-init="toNodeType=next">
+                <div class="row">
+                    <label class="col-sm-3 control-label">下一环节：</label>
+                    <div class="col-sm-9">
+                        <div  ng-repeat="x in approve">
+                            <label class="radio radio-inline">
+                                <input class="px" type="radio" name="toNodeIndex" ng-model="$parent.toNodeIndex" value="{{$index}}" ng-change="changeToNodeIndex()"/>
+                                <span class="lbl">
+                                    <div class="text" ng-show="'end'!=x.toNodeType">{{x.showInfo.destination}}：{{x.showInfo.approver}}</div>
+                                    <div class="text" ng-show="'end'==x.toNodeType">结束流程</div>
+                                </span>
+                            </label>
+                            <!--<input type="radio" name="toNodeIndex" ng-model="$parent.toNodeIndex" value="{{$index}}" ng-change="changeToNodeIndex()"/>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="cesuanFileOpinionDiv" style="display:none;">
+                    <label class="col-sm-3 control-label"><span class="required">*</span>测算文件意见：</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.cesuanFileOpinion"></textarea>
+                    </div>
+                </div>
+                <div class="row" id="tzProtocolOpinionDiv" style="display:none;">
+                    <label class="col-sm-3 control-label"><span class="required">*</span>投资协议意见：</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.tzProtocolOpinion"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label">处理意见：</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.opinion"></textarea>
+                    </div>
+                </div>
+                <div ng-hide="'end'==toNodeType">
+                    <div ng-if="isAllocateTask" class="row">
+                        <label class="col-sm-3 control-label">紧急程度：</label>
+                        <div class="col-sm-9">
+                            <label class="radio radio-inline">
+                                <input type="radio" name="emergencyLevel" value="一般" ng-model="$parent.emergencyLevel" class="px" />
+                                <span class="lbl">一般</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" name="emergencyLevel" value="紧急" ng-model="$parent.emergencyLevel" class="px"/>
+                                <span class="lbl">紧急</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" name="emergencyLevel" value="特急" ng-model="$parent.emergencyLevel" class="px"/>
+                                <span class="lbl">特急</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <a href="javascript:void(0);" class="btn btn-primary btn-confirm" ng-init="submitAllReady=false" ng-disabled="submitAllReady" ng-click="submitNext();">确定</a>
+            </div>
+        </div>
+    </div>

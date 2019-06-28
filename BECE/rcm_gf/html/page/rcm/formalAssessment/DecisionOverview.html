@@ -1,0 +1,145 @@
+<div class="panel-body">
+	<div class="row">
+		<div class="col-md-4 col-sm-12 col-xs-12 decision-overview pull-right">
+			<div class="col-md-12 col-sm-6 quick-entry quick-entry-lf">
+				<a href="#/FormalReviewListToday/{{'#/DecisionOverview'|encodeURI}}"
+					title="">
+					<div class="mod decision-review">
+						<div class="mod-cont clearfix">
+							<div class="ico">
+								<i class="i-c i-laws"></i>
+							</div>
+							<div class="detail txr">
+								<span class="num">{{todayLaterDecisionReviewNumber}}</span> <span class="text"></span>
+							</div>
+						</div>
+						<div class="mod-tit clearfix">
+							<span class="text">决策会审阅</span> <i class="fa fa-list-ul"></i>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-12 col-sm-6 col-xs-12 quick-entry quick-entry-ct">
+				<a href="#/MeetingVote/{{'#/DecisionOverview'|encodeURI}}" title="">
+					<div class="mod decision-vote">
+						<div class="mod-cont clearfix">
+							<div class="ico">
+								<i class="i-c i-today-decision"></i>
+							</div>
+							<div class="detail txr">
+								<span class="num">0</span> <span class="text"></span>
+							</div>
+						</div>
+						<div class="mod-tit clearfix">
+							<span class="text">决策会表决</span> <i class="fa fa-list-ul"></i>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-12 col-sm-6 col-xs-12 quick-entry quick-entry-rt">
+				<a href="#/historyDecisionReviewList/{{'#/DecisionOverview'|encodeURI}}" title="">
+					<div class="mod history-decision">
+						<div class="mod-cont clearfix">
+							<div class="ico">
+								<i class="i-c i-today-decision"></i>
+							</div>
+							<div class="detail txr">
+								<span class="num">{{historyDecisionNumber}}</span> <span class="text"></span>
+							</div>
+						</div>
+						<div class="mod-tit clearfix">
+							<span class="text">历史决策会</span> <i class="fa fa-list-ul"></i>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-md-8 col-sm-12 col-xs-12 pull-left">
+			<div class="hp-tit">
+				<i class="i-tit"></i><span class="text">项目数量统计</span>
+			</div>
+			<div class="table-responsive table-list">
+				<table
+					class="table table-bordered table-light table-text-mid table-hd-center table-hover nobottom-mar txr">
+					<thead>
+						<tr>
+							<th rowspan="2">区域</th>
+							<th rowspan="2">跟进中</th>
+							<th colspan="4">已过会</th>
+							<th rowspan="2">总量</th>
+						</tr>
+						<tr>
+							<th>同意投资</th>
+							<th>不同意投资</th>
+							<th>有条件投资</th>
+							<th>择期决议</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in pertainAreaAchievementList">
+							<td>{{item.AREANAME}}</td>
+							<td>
+								<a ng-if="item.BEING != '0'" href="#/DecisionOverviewList/{{item.PERTAINAREAID}}/0" title="">{{item.BEING}}</a>
+								<span ng-if="item.BEING == '0'" >{{item.BEING}}</span>
+							</td>
+							<td>
+								<a ng-if="item.DONE1 != '0'" href="#/DecisionOverviewList/{{item.PERTAINAREAID}}/1" title="">{{item.DONE1}}</a>
+								<span ng-if="item.DONE1 == '0'" >{{item.DONE1}}</span>
+							</td>
+							<td>
+								<a ng-if="item.DONE2 != '0'" href="#/DecisionOverviewList/{{item.PERTAINAREAID}}/2" title="">{{item.DONE2}}</a>
+								<span ng-if="item.DONE2 == '0'" >{{item.DONE2}}</span>
+							</td>
+							<td>
+								<a ng-if="item.DONE3 != '0'" href="#/DecisionOverviewList/{{item.PERTAINAREAID}}/3" title="">{{item.DONE3}}</a>
+								<span ng-if="item.DONE3 == '0'" >{{item.DONE3}}</span>
+							</td>
+							<td>
+								<a ng-if="item.DONE4 != '0'" href="#/DecisionOverviewList/{{item.PERTAINAREAID}}/4" title="">{{item.DONE4}}</a>
+								<span ng-if="item.DONE4 == '0'" >{{item.DONE4}}</span>
+							</td>
+							<td>
+								<a href="#/DecisionOverviewList/{{item.PERTAINAREAID}}/all" title="">{{item.BEING+item.DONE1+item.DONE2+item.DONE3+item.DONE4}}</a>
+								<span ng-if="item.BEING+item.DONE1+item.DONE2+item.DONE3+item.DONE4==0 ">{{item.BEING+item.DONE1+item.DONE2+item.DONE3+item.DONE4}}</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row"></div>
+	<!-- <div class="row">
+		<div class="col-sm-12 decision-total">
+			<div class="hp-tit">
+				<i class="i-tit"></i><span class="text">各区域投资统计</span>
+			</div>
+			<div>
+				<span class="total-tit">今年已决策项目规模总和：</span> <span
+					class="total-account">47.31 万吨</span> <span class="total-tit">今年已决策项目投资金额总和：</span>
+				<span class="total-account">64.69 万元</span> <span class="total-tit">今年已决策环卫项目：</span>
+				<span class="total-account">3 个</span>
+			</div>
+		</div>
+	</div> -->
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="hp-tit">
+				<i class="i-tit"></i><span class="text">战区投资统计</span>
+			</div>
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="/#bs-tabdrop-tab1"
+					data-toggle="tab">投资金额</a></li>
+				<li><a href="/#bs-tabdrop-tab2" data-toggle="tab">投资规模</a></li>
+			</ul>
+			<div class="tab-content tab-content-bordered">
+				<div class="tab-pane active" id="bs-tabdrop-tab1">
+					<div id="review" style="width: 100%; height: 250px;"></div>
+				</div>
+				<div class="tab-pane" id="bs-tabdrop-tab2">
+					<div id="review2" style="width: 100%; height: 250px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

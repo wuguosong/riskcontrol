@@ -1,0 +1,24 @@
+<label class="col-sm-3 control-label">知会人：</label>
+<div class="col-sm-8">
+    <div class="select2-success" style="border: 0px;">
+        <div id="s2id_projectModel" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+            <ul class="select2-choices">
+                <li class="select2-search-choice" ng-repeat="user in _notifyTempCheckedUsersDisabled">
+                    <div style="text-align: center;">{{user.NAME}}</div>
+                    <div class="full-drop"><input type="hidden" value="{{user.VALUE}}">
+                    </div>
+                </li>
+                <li class="select2-search-choice" ng-repeat="user in _notifyTempCheckedUsers">
+                    <div>{{user.NAME}}</div>
+                    <a class="select2-search-choice-close" tabindex="-1" ng-click="_notifyRemoveSelectedUser(user)"></a>
+                    <div class="full-drop"><input type="hidden" value="{{user.VALUE}}">
+                    </div>
+                </li>
+                <li style="height:25px;"></li>
+                <li>
+                    <span class="addlabel blue" style="cursor:pointer;" href="#" data-toggle="modal" data-target="#_notifyUserMulDialog">+添加知会人</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

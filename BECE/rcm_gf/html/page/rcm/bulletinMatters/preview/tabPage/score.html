@@ -1,0 +1,206 @@
+<div id="scoreExpand" class="mcontent content4 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <h3 class='text-blue text-blue-out'>项目整体评分
+        <span style="color: #0d0d0e;font-size: 14px">(总得分:{{formalPreview.mark.ALLTOTALMARK}})</span></h3>
+    <div class="contentwrap">
+        <div id='content4_table' class="mytable table-preview" >
+            <table  class="table table-bordered">
+                <thead>
+                <tr class="info">
+                    <th width="15%">分项得分</th>
+                    <th width="20%">打分项</th>
+                    <th width="15%">分数</th>
+                    <th width="50%">扣分原因</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th rowspan="2" align="center">评审合规能力
+                        <div>（满分：30分）</div>
+                        <div>得分：{{formalPreview.mark.HEGUITOTALMARK}}</div>
+                    </th>
+                    <th scope="row">合规-审批流程熟悉度</th>
+                    <!--<td>{{formalPreview.mark.flowMark}}<span> (满分：15分) </span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.flowMark}}
+                        </div>
+                        <div class="score-div">
+                            (满分：15分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.flowMarkReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">合规-资料备案</th>
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.fileCopy}}
+                        </div>
+                        <div class="score-div">
+                            (满分：15分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.fileCopyReason}}</td>
+                </tr>
+                <tr>
+                    <th rowspan="4" align="center">评审资料质量
+                        <div>（满分：30分）</div>
+                        <div>得分：{{formalPreview.mark.FILETOTALMARK}}</div>
+                    </th>
+                    <th scope="row">资料-及时性</th>
+                    <!--<td><span>{{formalPreview.mark.fileTime}}</span><span>（满分：9分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.fileTime}}
+                        </div>
+                        <div class="score-div">
+                            (满分：&nbsp;&nbsp;9分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.fileTimeReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">资料-完整性</th>
+                    <!--<td>{{formalPreview.mark.fileContent}} <span>（满分：9分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.fileContent}}
+                        </div>
+                        <div class="score-div">
+                            (满分：&nbsp;&nbsp;9分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.fileContentReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">资料-准确性(业务类资料)</th>
+                    <!--<td>{{formalPreview.mark.reviewFileAccuracy}}<span>（满分：6分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.reviewFileAccuracy}}
+                        </div>
+                        <div class="score-div">
+                            (满分：&nbsp;&nbsp;6分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.reviewFileAccuracyReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">资料-准确性(法律类资料)</th>
+                    <!--<td>{{formalPreview.mark.legalFileAccuracy}}<span>（满分：6分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.legalFileAccuracy}}
+                        </div>
+                        <div class="score-div">
+                            (满分：&nbsp;&nbsp;6分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.legalFileAccuracyReason}}</td>
+                </tr>
+                <tr>
+                    <th rowspan="4" align="center">
+                        投资核心能力
+                        <div>（满分：40分）</div>
+                        <div>得分：{{formalPreview.mark.HEXINTOTALMARK}}</div>
+                    </th>
+                    <th scope="row">核心-财务测算能力</th>
+                    <!--<td>{{formalPreview.mark.moneyCalculate}}<span>（满分：12分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.moneyCalculate}}
+                        </div>
+                        <div class="score-div">
+                            (满分：12分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.moneyCalculateReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">核心-风险识别及规避能力</th>
+                    <!--<td>{{formalPreview.mark.riskControl}}<span>（满分：12分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.riskControl}}
+                        </div>
+                        <div class="score-div">
+                            (满分：12分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.riskControlReason}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">核心-方案设计能力</th>
+                    <!--<td>{{formalPreview.mark.planDesign}}<span>（满分：4分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.planDesign}}
+                        </div>
+                        <div class="score-div">
+                            (满分：&nbsp;&nbsp;4分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.planDesignReason}}</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">核心-协议谈判能力</th>
+                    <!--<td>{{formalPreview.mark.talks}}<span>（满分：12分）</span></td>-->
+                    <td class="score-td">
+                        <div class="score-div score-div-a">
+                            {{formalPreview.mark.talks}}
+                        </div>
+                        <div class="score-div">
+                            (满分：12分)
+                        </div>
+                    </td>
+                    <td>{{formalPreview.mark.talksReason}}</td>
+                </tr>
+                <!--<tr>
+                    <th scope="row">评审合规能力</th>
+                    <td>{{formalPreview.mark.HEGUITOTALMARK}}<span>（满分：30分）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">评审资料质量</th>
+                    <td>{{formalPreview.mark.FILETOTALMARK}}<span>（满分：30分）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">投资核心能力</th>
+                    <td>{{formalPreview.mark.HEXINTOTALMARK}}<span>（满分：40分）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">总得分</th>
+                    <td>{{formalPreview.mark.ALLTOTALMARK}}<span>（满分：100分）</span></td>
+                </tr>-->
+                </tbody>
+            </table>
+
+        </div>
+        <div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+                <!--<div class="icon" ng-click="expandMore('content4_table', 'hideFlagS')"></div>-->
+                <!--<h6 class="text-blue" ng-click="expandMore('content4_table', 'hideFlagS')">点击查看更多</h6>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        setTimeout(function(){
+            if($('.content4 .contentwrap').height() < $('.content4').height() - 52){
+                $('.content4 .table-cover').hide()
+            }
+            // if($('#content4_table .table').height() < $('#content4_table').height()){
+            //
+            //     $('#content3_cover').hide()
+            // }
+        },1000)
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>

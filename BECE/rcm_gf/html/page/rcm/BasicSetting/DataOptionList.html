@@ -1,0 +1,127 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/DictionaryManagement.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">字典项管理</span>
+	</div>
+	<form ng-submit="ListAll()" class="form-horizontal ng-pristine ng-valid">
+		<div id="dataOption" class="panel-group">
+			<div class="panel">
+				<div class="panel-heading search-box">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="dataOption" href="/#searchbox">查询</a>
+				</div>
+				<div id="searchbox" class="panel-collapse collapse">
+					<div class="panel-body search-body">
+						<div class="row nobottom-mar sm-row">
+							<input type="hidden" name="UUID"  ng-model="item.UUID" value="{{item.UUID}}">
+							<label for="" class="col-sm-2 col-md-1 control-label">名称</label>
+							<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="ITEM_NAME" id="ITEM_NAME" ng-model="ITEM_NAME" class="form-control"/></div>
+							<label class="col-sm-2 col-md-1 control-label">编码</label>
+							<div class="col-sm-4 col-md-2 sm-col"><input type="text" name="ITEM_CODE" id="ITEM_CODE" ng-model="ITEM_CODE" class="form-control"/></div>
+							<div class="col-sm-12 col-md-1 search">
+								<button class="btn btn-info" type="submit" ><i class="glyphicon glyphicon-search"></i>查询</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">字典项管理<i class="i-triangle"></i></span></div></div>
+			<div class="panel-body">
+				<div class="row">
+					<a href="#/DataDictionaryList" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+					<button type="button" class="btn btn-info"  ng-click="Create(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+					<button type="button" class="btn btn-info"  ng-click="updateItem()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
+					<button type="button" class="btn btn-info"  ng-click="deleteItem()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+				</div>
+				<div class="row nobottom-mar">
+					<div class="table-responsive table-list">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-text-mid table-hover datatable fs-col-fixed">
+							<thead>
+								<tr>
+									<th>选择</th>
+									<th>序号</th>
+									<th>名称</th>
+									<th>编码</th>
+									<th>描述</th>
+									<th>是否启用</th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="t in item" on-finish-render-filters >
+								<td>
+									<label class="checkbox-inline choose">
+										<input type="checkbox" name="checkbox" class="px ng-pristine ng-untouched ng-valid" value="{{t.UUID}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td>{{t.CUST_NUMBER01}}</td>
+								<td><a href="#/DataOptionEdit/Update/{{t.UUID}}/{{fk_id}}">{{t.ITEM_NAME}}</a></td>
+								<td>{{t.ITEM_CODE}}</td>
+								<td>
+									<span ng-if="t.BUSINESS_TYPE.length > 20" data-toggle="tooltip" data-placement="top" data-html="true" title="{{t.BUSINESS_TYPE}}">{{t.BUSINESS_TYPE | limitTo:20}}...</span>
+									<span ng-if="t.BUSINESS_TYPE.length <= 20">{{t.BUSINESS_TYPE}}</span>
+								</td>
+								<td><div ng-if="'1'== t.IS_ENABLED"><span class="status-y">启用</span></div>
+									<div ng-if="'2'== t.IS_ENABLED"><span class="status-n">禁用</span></div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="table-footer clearfix">
+				<tm-pagination conf="paginationConf"></tm-pagination>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+	<!--
+	$(function(){
+		//查询关闭&展示
+		$(".panel-heading").find(".ico-dorp").click(function(){
+			$(this).toggleClass("fa-plus");
+			$(this).toggleClass("fa-minus");
+			$(this).parents(".panel-heading").siblings(".panel-body").stop().slideToggle(300);
+		});
+		//菜单关闭&展示
+		$(".wrap-info .menuico").toggle(function(){
+			$(this).addClass("glyphicon-menu-right").removeClass("glyphicon-menu-left");
+			$(this).parents(".wrapper").stop().animate({"margin-left":"-150px"},300);
+		},function(){
+			$(this).addClass("glyphicon-menu-left").removeClass("glyphicon-menu-right");
+			$(this).parents(".wrapper").stop().animate({"margin-left":"0"},300);
+		});
+		//二级菜单关闭&展示
+		$(".menu-bd .list").children("li").click(function(){
+			var dropDown = $(this).find(".sub-list");
+			var togClass=$(this).find(".ico");
+			$(".menu-bd .list li .sub-list").not(dropDown).slideUp(300);
+			$(".menu-bd .list li .ico").not(togClass).removeClass("fa-minus");
+			dropDown.slideToggle(300);
+			togClass.toggleClass("fa-minus");
+		});
+		//收藏
+		$(".ico-wrap .fa-star").click(function(){
+			$(this).toggleClass("red-star");
+		});
+		//分配角色弹层
+		$(".allot").click(function(){
+			Visa.NoticePopup.show();
+		});
+		$("#pub-notice .ico-x").click(function(){
+			$("#js-index-popup").hide(300);
+			$("#_Dialog_maskwrap").hide(100);
+		});
+	});
+	var name,value;
+	var str=location.href; //取得整个地址栏
+	var num=str.lastIndexOf("/");
+	str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+	$("#createbtn").attr('ng-click',"Create("+str+")");
+	//-->
+</script>

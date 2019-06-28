@@ -1,0 +1,578 @@
+<div class="xh-content container-fluid padding0">
+	<form id="myFormPfR" name="myFormPfR" novalidate class="row">
+		<div class="visa-menu">
+			<div class="col-md-9">
+				<ol class="breadcrumb breadcrumb-menu">
+					<li>
+						<a class="breadcrumb-text breadcrumb-text-menu">
+							资料填写
+						</a>
+					</li>
+					<li>
+						<a href="" class="breadcrumb-text breadcrumb-text-menu">
+							投资评审报告-查看
+						</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="main-content col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="mcontent content1" id="flag1-c">
+				<h3 class="text-blue">主要边界条件假设</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">项目名称</span>
+							<span class="col-md-10 slim">
+								<input type="text" class="form-control" id="projectName" name="projectName" ng-model="pre.apply.projectName"/>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<span class="col-md-2 noPadding">项目基本信息</span>
+							<span class="col-md-10 slim">
+								<textarea class="form-control"id="basicInfoOfProject" ng-model="pre.reviewReport.essentialInformation.basicInfoOfProject"  name="basicInfoOfProject"  rows="" cols="" auto-height readonly></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<span class="text-blue">项目基本信息</span>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">拟投标时间</span>
+							<span class="col-md-6 slim">
+								<input type="text"  ng-model="pre.reviewReport.essentialInformation.tenderTime" id="tenderTime"  name="tenderTime" class="form-control" /><i class="fa fa-calendar form-control-feedback"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>投标上限</span>
+							<span class="col-md-6 slim">
+								<input type="text" ng-model="pre.reviewReport.essentialInformation.bidLimit"  name="bidLimit" class="form-control" />
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">保证金支付时间</span>
+							<span class="col-md-6 slim">
+								<input type="text" id="paymentTime" name="paymentTime" ng-model="pre.reviewReport.essentialInformation.paymentTime" class="form-control"/><i class="fa fa-calendar form-control-feedback"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal"><span ng-if="actionparm!='View'" class="required">*</span>保证金支付金额</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="paymentMoney" ng-model="pre.reviewReport.essentialInformation.paymentMoney"  class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+								<span class="unit-n">元</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<span class="text-blue">项目总投资</span>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">投资总额</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="totalInvestment"   ng-model="pre.reviewReport.essentialInformation.totalInvestment"  class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+								<span class="unit-my">万元</span>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">一类费用</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="oneKindCost"  ng-model="pre.reviewReport.essentialInformation.oneKindCost"   class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+								<span class="unit-my">万元</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">二类费用</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="twoKindCost" ng-model="pre.reviewReport.essentialInformation.twoKindCost"  class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+								<span class="unit-my">万元</span>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">补充调试费用</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="additionalDebuggingCost"  ng-model="pre.reviewReport.essentialInformation.additionalDebuggingCost"   class="form-control"
+								       onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+								       onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+								       onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+								<span class="unit-my">万元</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">辅底流动资金</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="secondaryFloorCost"  ng-model="pre.reviewReport.essentialInformation.secondaryFloorCost"  class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/>
+								<span class="unit-my">万元</span>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">其他</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="otherCost"  ng-model="pre.reviewReport.essentialInformation.otherCost"  class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}" />
+								<span class="unit-my">万元</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<span class="text-blue">拟投标主体</span>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">公司名称</span>
+							<span class="col-md-6 slim">
+								<input type="text" ng-click="setDirectiveParam('tenderCompany')" data-toggle="modal" data-target="#companyUnit-modal" ng-model="pre.reviewReport.essentialInformation.tenderCompany.name" id="tenderCompanyName" name="tenderCompanyName" class="form-control"/>
+								<input type="hidden" ng-model="pre.reviewReport.essentialInformation.tenderCompany.value"  name="tenderCompanyValue" class="form-control" />
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">北控水务集团持股</span>
+							<span class="col-md-6 slim">
+								<input type="text"  ng-model="pre.reviewReport.essentialInformation.shareholding"  name="shareholding" class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"
+								/><span class="unit-n">%</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<span class="text-blue">资金来源</span>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">银行贷款</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="bankLoan"  id="bankLoan" ng-model="pre.reviewReport.essentialInformation.bankLoan"   class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"
+								/><span class="unit-n">%</span>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">年利率</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="annualInterestRate" ng-model="pre.reviewReport.essentialInformation.annualInterestRate"  class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"
+								/><span class="unit-n">%</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding" style="font-weight: normal">自有资金</span>
+							<span class="col-md-6 slim">
+								<input type="text" name="privateCapital" id="privateCapital"  ng-model="pre.reviewReport.essentialInformation.privateCapital"  class="form-control"
+									   onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
+									   onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"
+								/><span class="unit-n">%</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding">预评审规模</span>
+							<span class="col-md-6 slim">
+								<div class="radio radio-inline">
+									<label class="">
+										<input type="radio" name="inputWay" ng-model="pre.reviewReport.essentialInformation.inputWay" value="1" class="px">
+										<span class="lbl">数值计量</span>
+									</label>
+								</div>
+								<div class="radio radio-inline">
+									<label class="">
+										<input type="radio" name="inputWay" ng-model="pre.reviewReport.essentialInformation.inputWay" value="2" class="px">
+										<span class="lbl">文本计量</span>
+									</label>
+								</div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding"></span>
+							<span class="col-md-6 slim">
+								<input type="text" name="preAssessmentScale" ng-model="pre.reviewReport.essentialInformation.preAssessmentScale" class="form-control" />
+								<span id="unit" class="unit-s">万吨/日</span>
+								<textarea  name="preAssessmentScale"  ng-model="pre.reviewReport.essentialInformation.preAssessmentScale" rows="" cols="" class="form-control" style="display:none;"></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding">投资单位</span>
+							<span class="col-md-6 slim">
+								<input type="text"  ng-click="setDirectiveParam('invertmentUnit')" data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="invertmentUnitName" name="invertmentUnitName" ng-model="pre.reviewReport.essentialInformation.invertmentUnit.name" value="{{pre.reviewReport.essentialInformation.invertmentUnit.name}}"  >
+								<input type="hidden" class="form-control"  id="invertmentUnitValue" name="invertmentUnitValue"  ng-model="pre.reviewReport.essentialInformation.invertmentUnit.value"/>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding">运营单位</span>
+							<span class="col-md-6 slim">
+								<input type="text" ng-click="setDirectiveParam('operationsUnit')"  data-toggle="modal" data-target="#companyUnit-modal" class="form-control" id="operationsUnitName" name="operationsUnitName" ng-model="pre.reviewReport.essentialInformation.operationsUnit.name" value="{{pre.reviewReport.essentialInformation.operationsUnit.name}}"  >
+								<input type="hidden"  class="form-control" id="operationsUnitValue" name="operationsUnitValue"  ng-model="pre.reviewReport.essentialInformation.operationsUnit.value"/>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row normalline titline">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding">收入构成</span>
+							<span class="col-md-6 slim">
+								<textarea readonly name="incomeComposition" required ng-model="pre.reviewReport.essentialInformation.incomeComposition"   rows="" cols="" class="form-control" auto-height></textarea>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="row">
+							<span class="col-md-4 noPadding">测算水量</span>
+							<span class="col-md-6 slim">
+								<textarea readonly name="measuringWaterQuantity" required ng-model="pre.reviewReport.essentialInformation.measuringWaterQuantity" rows="" cols="" class="form-control" auto-height></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="mcontent content1">
+				<h3 class="text-blue">收益评价</h3>
+
+				<div class="mytable">
+					<table  class="table table-bordered" style="table-layout: fixed">
+						<thead>
+						<tr class="info">
+							<th>标的假设：XXX</th>
+							<th>全投资IRR</th>
+							<th>自有资金IRR</th>
+							<th>自有资金现金流情况</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="m in pre.reviewReport.incomeEvaluation track by $index">
+							<td><div class="has-feedback"><input type="text" readonly="readonly" ng-model="m.profitSubject" name="" class="form-control" /><span class="unit">元/吨</span></div></td>
+							<td><div class="has-feedback"><input type="text" readonly="readonly" ng-model="m.profitInvestment"  name="" class="form-control" /><span class="percent">%</span></div></td>
+							<td><div class="has-feedback"><input type="text" readonly="readonly" ng-model="m.profitPrivateCapital" name="" class="form-control" /><span class="percent">%</span></div></td>
+							<td><textarea ng-model="m.profitCashFlowInfo" readonly="readonly" name="" cols="" rows="" class="form-control"  auto-height></textarea></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="mcontent content1">
+				<h3 class="text-blue">项目关注要点及问题</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea readonly ng-model="pre.reviewReport.projectConcernsIssues.projectSummary" name="" rows="" cols="" class="form-control"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="mytable">
+					<table  class="table table-bordered" style="table-layout: fixed">
+						<thead>
+						<tr class="info">
+							<th style="width:15%;">分级</th>
+							<th style="width:5%;">序号</th>
+							<th style="width:40%;">识别出的关注要点及问题</th>
+							<th style="width:40%;">投资部门意见及承诺</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr >
+							<td>影响项目是否投标，需领导重点关注</td>
+							<td colspan="4" style="vertical-align:text-top;padding:0;border:1px solid #e4e4e4;margin:0;">
+								<table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+									<tr ng-repeat="m in pre.reviewReport.projectConcernsIssues.influenceBidding track by $index">
+										<td class="txc" style="width: 5.9%;border-left: 0;">{{$index+1}}</td>
+										<td style=" width:47.1%; "><textarea name="" readonly="readonly" ng-model="m.pointsAndProblems" rows="" cols="" class="form-control" auto-height></textarea></td>
+										<td style=" width:47%; border-right: 0;"><textarea name="" readonly="readonly" ng-model="m.opinionAndCommitment"  rows="" cols="" class="form-control" auto-height></textarea></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>其他重点关注事项</td>
+							<td colspan="4" style="vertical-align:text-top;padding:0;border:1px solid #e4e4e4;margin:0;">
+								<table style="width: 100%;height: 100%;padding:0;border:0;margin:0;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+									<tr  ng-repeat="m in pre.reviewReport.projectConcernsIssues.focusOnMatter track by $index">
+										<td class="txc" style="width: 5.9%;border-left: 0;border-top: 0;">{{$index+1}}</td>
+										<td style=" width:47.1%; border-top: 0;"><textarea name="" readonly="readonly" ng-model="m.pointsAndProblems" rows="" cols="" class="form-control" auto-height></textarea></td>
+										<td style=" width:47%; border-right: 0;border-top: 0;"><textarea name="" readonly="readonly" ng-model="m.opinionAndCommitment"  rows="" cols="" class="form-control" auto-height></textarea></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>后续协议需落实要点</td>
+							<td colspan="4" style="vertical-align:text-top;padding:0;border:1px solid #e4e4e4;margin:0px;">
+								<table style="width: 100%;height: 100%;padding:0;border:0;margin:0;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+									<tr ng-repeat="m in pre.reviewReport.projectConcernsIssues.agreementPoints track by $index">
+										<td class="txc" style="width: 5.9%;border-left: 0;border-top: 0;">{{$index+1}}</td>
+										<td style=" width:47.1%; border-top: 0;"><textarea name="" readonly="readonly" ng-model="m.pointsAndProblems" rows="" cols="" class="form-control" auto-height></textarea></td>
+										<td style=" width:47%; border-right: 0;border-top: 0;"><textarea name="" readonly="readonly" ng-model="m.opinionAndCommitment"  rows="" cols="" class="form-control" auto-height></textarea></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="mcontent content1">
+				<h3 class="text-blue">成本及费用预估</h3>
+				<div class="row normalline">
+					<div class="col-md-12 col-sm-12  col-xs-12">
+						<div class="row">
+							<textarea readonly ng-model="pre.reviewReport.projectConcernsIssues.projectSummary" name="" rows="" cols="" class="form-control"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="mytable">
+					<table  class="table table-bordered" style="table-layout: fixed">
+						<thead>
+						<tr class="info">
+							<th rowspan="2">序号</th>
+							<th rowspan="2">成本项目</th>
+							<th colspan="3">测算所用数值</th>
+							<th rowspan="2">说明</th>
+						</tr>
+						<tr class="info">
+							<th>万元/年</th>
+							<th>元/吨水</th>
+							<th>备注</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>1</td>
+							<td>电度电费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.electricityTariffYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.electricityTariffTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.electricityTariffRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.electricityTariffExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>基本电费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.basicElectricityYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.basicElectricityTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.basicElectricityRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.basicElectricityExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>药剂费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.reagentCostYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.reagentCostTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.reagentCostRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.reagentCostExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>污泥运输/处置费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.disposalFeeYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.disposalFeeTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.disposalFeeRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.disposalFeeExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>自来水费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.waterRatesYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.waterRatesTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.waterRatesRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.waterRatesExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>人工成本费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laborCostYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laborCostTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laborCostRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laborCostExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>7</td>
+							<td>维修及大修费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.maintenanceCostYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.maintenanceCostTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.maintenanceCostRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.maintenanceCostExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>8</td>
+							<td>化验检测费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeTonsWater" name="" class="form-control"></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.laboratoryTestingFeeExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>9</td>
+							<td>财产保险费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.propertyInsurancePremiumExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>10</td>
+							<td>土地使用税与房产税</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.taxationYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.taxationTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.taxationRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.taxationExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>11</td>
+							<td>取暖费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.heatingFeeYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.heatingFeeTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.heatingFeeRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.heatingFeeExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr><!-- Year TonsWater Remarks  Explain-->
+							<td>12</td>
+							<td>管理费</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.managementExpenseYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.managementExpenseTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.managementExpenseRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.managementExpenseExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>13</td>
+							<td>增值税</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.valueAddedTaxYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.valueAddedTaxTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.valueAddedTaxRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.valueAddedTaxExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						<tr>
+							<td>14</td>
+							<td>所得税</td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.incomeTaxYear" name="" class="form-control" /></td>
+							<td><input type="text" ng-model="pre.reviewReport.costEstimate.incomeTaxTonsWater" name="" class="form-control" /></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.incomeTaxRemarks" name="" class="form-control" auto-height></textarea></td>
+							<td><textarea readonly rows="" cols="" ng-model="pre.reviewReport.costEstimate.incomeTaxExplain" name="" class="form-control" auto-height></textarea></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="button-group">
+					<div class="row">
+						<div class="btn-group-gap">
+							<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+							<button type="button" id="wordbtn" ng-click="createWord(paramId)" class="btn btn-info"><i class="fa fa-file-o"></i>生成Word文档</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</form>
+</div>
+
+<directive-org-list></directive-org-list>
+<script type="text/javascript">
+</script>

@@ -1,0 +1,60 @@
+<div class="panel-body">
+	<form class="form-horizontal">
+		<div class="">
+			<div class="header detail-page">
+				<img src="assets/images/icons/detail.png" width="" height="" alt=""
+					title="" /><span class="hd-title">角色信息</span>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-hd-cont">
+						<span class="panel-title">{{title}}<i class="i-triangle"></i></span>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="special-form">
+						<div class="form-group row">
+	                        <label class="col-sm-2 control-label"><span class="required-r">*</span>角色名称：</label>
+	                        <div class="col-sm-4"><input type="text" ng-model="role.ROLE_NAME" class="form-control"/>
+	                        </div>
+	                        <label class="col-sm-2 control-label"><span class="required-r">*</span>编码：</label>
+	                        <div class="col-sm-4"><input type="text" ng-readonly="role.TYPE == '1'" ng-model="role.CODE" class="form-control"/>
+	                        </div>
+	                    </div>
+						<div class="form-group row">
+	                        <label class="col-sm-2 control-label">描述：</label>
+	                        <div class="col-sm-4">
+		                        <textarea rows="4" cols="" class="form-control" ng-model="role.EXPLAIN"></textarea>
+	                        </div>
+	                        <label class="col-sm-2 control-label"><span class="required-r">*</span>是否显示快速搜索：</label>
+	                        <div class="col-sm-4">
+	                        	<label class="radio radio-inline">
+									<input type="radio" class="px" checked="checked" name="isShowPublicSearch" value="0"/>
+									<span class="lbl">不显示</span>
+								</label>
+								<label class="radio checkbox-inline">
+									<input type="radio" class="px" name="isShowPublicSearch" value="1"/>
+									<span class="lbl">显示</span>
+								</label>
+	                        </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option txl">
+					<button type="button" class="btn btn-info" 
+						ng-click="cancel()">
+						<i class="fa fa-save"></i>返回
+					</button>
+					<button type="button" class="btn btn-info"
+						ng-click="saveRole()">
+						<i class="fa fa-cloud-upload"></i>确认
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

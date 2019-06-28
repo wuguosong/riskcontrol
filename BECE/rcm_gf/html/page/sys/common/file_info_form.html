@@ -1,0 +1,32 @@
+<!--
+<a  style="font-size: small;color: blue;"
+    href="javascript:void(0);"
+    ng-click="_message_preview_file_(_form_file_.preview3d)">
+    {{_form_file_.filename}}
+    <span ng-if="_form_file_.fileid != null">
+    &nbsp;
+    </span>
+    <span ng-if="_form_file_.fileid != null && _form_file_.filesize < 1048576">
+    {{_form_file_.filesize/1024 | number:2}}
+    </span>
+    <span ng-if="_form_file_.fileid != null && _form_file_.filesize < 1048576">
+    KB
+    </span>
+    <span ng-if="_form_file_.fileid != null && _form_file_.filesize >= 1048576">
+    {{_form_file_.filesize/1024/1024 | number:2}}
+    </span>
+    <span ng-if="_form_file_.fileid != null && _form_file_.filesize >= 1048576">
+    MB
+    </span>
+</a>
+<a  style="font-size: small;color: blue;"
+    ng-if="_form_file_.fileid != null && _is_show_reply_btn_"
+    ng-click="_message_delete_file_(_form_file_, 'FOR', $index);"
+    href="javascript:void(0);">移除
+</a>
+-->
+<input type="hidden" id="_form_file_ipt{{$index}}{{_screen_type_}}">
+<input type="hidden" id="_file_ipt{{$index}}{{_screen_type_}}">
+<span id="_form_file_span{{$index}}{{_screen_type_}}">
+
+</span>

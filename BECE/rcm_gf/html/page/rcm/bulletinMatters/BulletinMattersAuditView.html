@@ -1,0 +1,544 @@
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!--<i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					流程申请
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					其他评审申请
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="panel-body">
+	<ul class="nav nav-tabs bs-tabdrop-example" id="_myTopTab">
+		<li class="active">
+			<a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+		</li>
+		<li>
+			<a href="/#flow_chart" data-toggle="tab" ng-if="queryParamId != '0'">流程图</a>
+		</li>
+		<li >
+			<a href="/#contracts_resources" data-toggle="tab" ng-if="queryParamId != '0'">相关资源</a>
+		</li>
+	</ul>
+	<form class="form-horizontal" name="myFormPfR" id="myFormPfR" novalidate>
+		<div class="panel">
+			<div class="tab-content">
+				<div class="tab-pane in active special-form" id="contracts_file_info">
+					<div class="row" ng-show="bulletin.projectNo != null">
+						<label class="col-sm-2 control-label">项目名称</label>
+						<div class="col-sm-4">
+							<input type="text"  class="form-control" id="projectName" name="projectName" ng-model="bulletin.projectName" value="{{bulletin.projectName}}" readonly/>
+						</div>
+						<label class="col-sm-2 control-label">项目编号</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="projectNoNew" name="projectNoNew" ng-model="bulletin.projectNoNew" placeholder="" readonly/>
+							<input type="hidden" class="form-control" id="projectNo" name="projectNo" ng-model="bulletin.projectNo" placeholder="" readonly/>
+						</div>
+					</div>
+					<div class="row">
+						<label for="" class="col-sm-2 control-label">业务单位</label>
+						<div class="col-sm-4 has-feedback reporting-unit">
+							<div class="full-drop">
+								<input type="text" readonly required-m class="form-control" id="applyUnitName" name="applyUnitName" ng-model="bulletin.applyUnit.NAME">
+							</div>
+						</div>
+						<label for="" class="col-sm-2 control-label"><span class="required-m"></span>单位负责人</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required-m class="form-control" id="unitPersonName" name="unitPersonName" ng-model="bulletin.unitPerson.NAME">
+						</div>
+					</div>
+					<div class="row">
+						<label for="" class="col-sm-2 control-label">申请人</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required-m class="form-control" id="applyUserName" name="applyUserName" ng-model="bulletin.applyUser.NAME">
+						</div>
+						<label for="" class="col-sm-2 control-label">申请时间</label>
+						<div class="col-sm-4 has-feedback">
+							<input type="text" class="form-control" id="createDate" name="createDate" ng-model="bulletin.createTime" readonly />
+							<!-- 									<i class="fa fa-calendar form-control-feedback"></i> -->
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 control-label">事项类型</label>
+						<div class="col-sm-4">
+							<input type="text" readonly required-m class="form-control" id="bulletinType" name="bulletinType" ng-model="bulletin.bulletinType.NAME">
+						</div>
+						<label ng-if="isNotCityService" class="col-sm-2 control-label">职能部门负责人</label>
+						<div ng-if="isNotCityService" class="col-sm-4">
+							<input class="form-control" readonly required-m id="businessPersonName" name="businessPersonName" ng-model="bulletin.businessPerson.NAME"/>
+						</div>
+					</div>
+					<div class="row">
+						<label for="" class="col-sm-2 control-label">申报事项</label>
+						<div class="col-sm-10">
+							<input type="text" readonly required-m class="form-control" id="bulletinName" name="bulletinName" ng-model="bulletin.bulletinName"/>
+						</div>
+					</div>
+					<div class="row">
+						<label for="" class="col-sm-2 control-label">事项原因</label>
+						<div class="col-sm-10">
+							<textarea readonly required-m class="form-control" name="reason" id="reason" ng-model="bulletin.reason" placeholder="" auto-height></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<label for="" class="col-sm-2 control-label">申请需求</label>
+						<div class="col-sm-10">
+							<textarea readonly required-m class="form-control" id="applyRequirement" name="applyRequirement" ng-model="bulletin.applyRequirement" auto-height></textarea>
+						</div>
+					</div>
+					<div ng-show="bulletin.businessOpinion!=null && bulletin.businessOpinion!=''" class="row">
+						<label for="" class="col-sm-2 control-label">职能部门审核意见</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" name="businessOpinion" ng-model="bulletin.businessOpinion" placeholder="" readonly auto-height></textarea>
+						</div>
+					</div>
+					<div ng-show="bulletin.windControlOpinion!=null && bulletin.windControlOpinion!=''" class="row">
+						<label for="" class="col-sm-2 control-label">风控中心审核意见</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="windControlOpinion" name="windControlOpinion" ng-model="bulletin.windControlOpinion" readonly auto-height></textarea>
+						</div>
+					</div>
+					<!-- 风控负责人审批 -->
+					<div  class="panel" ng-show="(( null != bulletin.riskLeaderAttachment  && '' != bulletin.riskLeaderAttachment) || ( null != bulletin.riskLeaderOpinion  && '' != bulletin.riskLeaderOpinion) ||showController.isRiskLeader) && isShowOld ">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#riskLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">风控负责人意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="riskLeaderOption" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div class="row">
+									<label class="col-sm-2 control-label"><span class="required">*</span>风控负责人意见：</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" ng-readonly="!showController.isRiskLeader"  rows="" cols="" ng-model="bulletin.riskLeaderOpinion" auto-height></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="row-tit">附件列表</div>
+									<button type="button" ng-show="showController.isRiskLeader" class="btn btn-info" ng-click="addRiskLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button type="button" ng-show="showController.isRiskLeader" class="btn btn-info" ng-click="deleteRiskLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+											<thead>
+											<tr>
+												<th width="5%">选择</th>
+												<th>上传附件</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="item in bulletin.riskLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="!showController.isRiskLeader" ng-model="item.selected">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<span class="required">*</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+													<div class="col-sm-3 noright-pad txr">
+														<button type="button" ng-disabled="!showController.isRiskLeader" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadRiskLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 评审负责人意见 -->
+					<div  class="panel" ng-show="(( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader ) && isShowOld">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#reviewLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">评审负责人意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="reviewLeaderOption" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div class="row">
+									<label class="col-sm-2 control-label"><span class="required">*</span>评审负责人意见：</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" ng-readonly="!showController.isReviewLeader"  rows="" cols="" ng-model="bulletin.reviewLeaderOpinion" auto-height></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="row-tit">附件列表</div>
+									<button ng-show="showController.isReviewLeader" type="button" class="btn btn-info" ng-click="addReviewLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button ng-show="showController.isReviewLeader" type="button" class="btn btn-info" ng-click="deleteReviewLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+											<thead>
+											<tr>
+												<th width="5%">选择</th>
+												<th>上传附件</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="item in bulletin.reviewLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="!showController.isReviewLeader" ng-model="item.selected">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<span class="required">*</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+													<div class="col-sm-3 noright-pad txr">
+														<button type="button" ng-disabled="!showController.isReviewLeader" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadReviewLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 法律评审负责人意见 -->
+					<div  class="panel" ng-show="(( null != bulletin.legalLeaderAttachment  && '' != bulletin.legalLeaderAttachment) || ( null != bulletin.legalLeaderOpinion  && '' != bulletin.legalLeaderOpinion) ||showController.isLegalLeader ) && isShowOld">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#legalLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">法律负责人意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="legalLeaderOption" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div class="row">
+									<label class="col-sm-2 control-label"><span class="required">*</span>法律评审负责人意见：</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" ng-readonly="!showSubmit || !showController.isLegalLeader" rows="" cols="" ng-model="bulletin.legalLeaderOpinion" auto-height></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="row-tit">附件列表</div>
+									<button ng-show="showSubmit && showController.isLegalLeader" type="button" class="btn btn-info" ng-click="addLegalLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+									<button ng-show="showSubmit && showController.isLegalLeader" type="button" class="btn btn-info" ng-click="deleteLegalLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light">
+											<thead>
+											<tr>
+												<th width="5%">选择</th>
+												<th>上传附件</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="item in bulletin.legalLeaderAttachment track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="!showController.isLegalLeader" ng-model="item.selected">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<div class="col-sm-9 noleft-pad noright-pad">
+														<span ng-bind="progress$index"></span>
+														<span style="">{{errorAttach[$index].msg}}</span>
+														<span class="required">*</span>
+														<a href="javascript:void(0);" ng-click="downLoadFile(item)" style="line-height: 27px;">{{item.fileName}}</a>
+													</div>
+													<div class="col-sm-3 noright-pad txr">
+														<button type="button" ng-disabled="!showController.isLegalLeader" class="btn btn-info" ngf-max-size="100MB" ngf-select="uploadLegalLeaderAttachment($file,$invalidFiles, $index)">浏览</button>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel" ng-show="showController.isTask || showController.isRiskTask || bulletin.taskallocation != null && bulletin.taskallocation !='' ">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="taskAssignment1" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div ng-show="bulletin.taskallocation.reviewLeader.NAME != null || showController.isTask" class="row">
+									<label class="col-sm-2 control-label">评审负责人</label>
+									<div class="col-sm-4">
+										<direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}"
+																  checked-user="myTaskallocation.reviewLeader"
+																  is-editable="isTaskEdit"
+																  url="{{'role/queryReviewUsers.do'}}"
+																  ng-if="isTaskEdit == 'true'"
+										>
+										</direct-fzr-single-select>
+										<input ng-if="isTaskEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.reviewLeader.NAME" readonly/>
+									</div>
+									<label class="col-sm-2 control-label">法律评审负责人</label>
+									<div class="col-sm-4">
+										<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
+																  checked-user="myTaskallocation.legalLeader"
+																  is-editable="isLegalEdit"
+																  url="{{'role/queryLegalUsers.do'}}"
+																  ng-if="isLegalEdit == 'true'"
+										></direct-fzr-single-select>
+										<input ng-if="isLegalEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.legalLeader.NAME" readonly/>
+									</div>
+								</div>
+								<div ng-show="bulletin.taskallocation.riskLeader.NAME != null || showController.isRiskTask" class="row">
+									<label class="col-sm-2 control-label">风控评审负责人</label>
+									<div class="col-sm-4">
+										<direct-fzr-single-select is-group="{{'true'}}" id="{{'abbc'}}"
+																  checked-user="myTaskallocation.riskLeader"
+																  is-editable="isTaskEdit"
+																  url="{{'role/queryPsfzr.do'}}"
+																  ng-if="isTaskEdit == 'true'"
+										>
+										</direct-fzr-single-select>
+										<input ng-if="isTaskEdit != 'true'" class="form-control" type="text" ng-model="bulletin.taskallocation.riskLeader.NAME" readonly/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--审批-->
+					<div class="panel" ng-show="showSubmit"><!--&&isShowEdit-->
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#approvalPart"
+							   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="approvalPart" class="panel-collapse collapse in">
+							<!--审批阶段-->
+							<div class="panel-body" ng-show="approve.operateType=='audit'">
+								<div class="row">
+									<label class="col-sm-3 control-label">下一环节：</label>
+									<div class="col-sm-8">
+										<div  ng-repeat="x in approve.processOptions">
+											<label class="radio radio-inline">
+												<input class="px" type="radio" name="bpmnProcessOption" aaa="{{x.documentation}}" ng-checked="$index==0" value="{{x.sequenceFlow}}"/>
+												<span class="lbl">
+                                    <div class="text">{{x.flowName}}</div>
+                                </span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!--知会人-->
+								<div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
+								</div>
+								<!--快捷意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">快捷意见：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+											<input class="px" type="radio"
+												   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+												   name="_quickComments" ng-checked="$index==0"
+												   value="{{comment}}"/>
+											<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 control-label">处理意见：</label>
+									<div class="col-sm-8">
+												<textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
+														  data-ng-init="flowVariables.opinion=''"
+														  ng-model="flowVariables.opinion"></textarea>
+									</div>
+								</div>
+							</div>
+							<!--加签阶段-->
+							<div class="panel-body" ng-show="approve.operateType=='change'">
+								<div class="row">
+									<label class="col-sm-3 control-label">下一环节：</label>
+									<div class="col-sm-8">
+										<div>
+											<label class="radio radio-inline">
+												<input class="px" type="radio" name="bpmnProcessOption"
+													   id="workOver" value="WORKOVER"/>
+												<span class="lbl">
+                                                <div class="text">完结</div>
+                                            </span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!--知会人-->
+								<div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
+								</div>
+								<!--快捷意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">快捷意见：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+											<input class="px" type="radio"
+												   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+												   name="_quickComments" ng-checked="$index==0"
+												   value="{{comment}}"/>
+											<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+										</label>
+									</div>
+								</div>
+								<!--审批意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">处理意见：</label>
+									<div class="col-sm-8">
+                                    <textarea class="form-control" rows="4" cols="" id="comments2" ng-change="_signFillSignComments('comments2')"
+											  data-ng-init="flowVariables.opinion=''"
+											  ng-model="flowVariables.opinion"></textarea>
+									</div>
+								</div>
+							</div>
+							<!--提交按钮-->
+							<!--<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+                            </div>-->
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="flow_chart">
+					<!--<directive-process-page></directive-process-page>-->
+					<directive-process-page-new process-key="bulletin"></directive-process-page-new>
+				</div>
+				<div class="tab-pane clearfix row" id="contracts_resources">
+					<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+						<directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+												  wf-state="WF_STATE" file-list="newAttachment"
+												  init-update="initUpdate(id)"></directive-accachment-new>
+					</div>
+					<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+						<div class="panel-body">
+							<div class="myTab">
+								<ul class="nav nav-tabs bs-tabdrop-example" id="_myMsgTab">
+									<li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+									<li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
+								</ul>
+							</div>
+							<div class="tab-content tab-content-bordered clearfix row">
+								<div class="tab-pane in active" id="reviewMessageTab">
+									<bbs-chat-new id="bulletinMattersAuditBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" is-show-attach-type="false" relation-sources-popup="BulletinMattersDetailRelationResourcesPopup"></bbs-chat-new>
+								</div>
+								<div class="tab-pane" id="legalMessageTab">
+									<bbs-chat-new id="bulletinMattersAuditBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="bulletin" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" is-show-attach-type="false" relation-sources-popup="BulletinMattersDetailRelationResourcesPopup"></bbs-chat-new>
+								</div>
+								<!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
+								<div id="BulletinMattersDetailRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content panel">
+											<div class="modal-header panel-heading" style="text-align: center;">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="_relation_resources_abel">相关资源</h4>
+											</div>
+											<div class="modal-body panel-body">
+												<directive-accachment-new id="BulletinMattersDetail2" business-type="bulletin" page-location="BulletinMattersDetail" business-id="queryParamId"
+																		  wf-state="0" file-list="newAttachment"
+																		  ignore-replace-reason="true"
+																		  init-update="initUpdate(id)"></directive-accachment-new>
+											</div>
+											<div class="modal-footer">
+												<div class="button-group">
+													<div class="row">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-group">
+			<div class="row">
+				<div class="option">
+					<!-- 					<a class="btn btn-info" href="#/BulletinMattersAudit"><i class="fa fa-reply"></i>返回</a> -->
+					<directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+					<!--<button ng-show="showSubmit" ng-click="showSubmitModal()" id="submitBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
+					<!--<button ng-if="showSubmit && (showController.isLegalLeader || showController.isReviewLeader|| showController.isRiskLeader)" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>-->
+					<!--风控负责人意见保存按钮-->
+					<button ng-if="(( null != bulletin.riskLeaderAttachment  && '' != bulletin.riskLeaderAttachment) || ( null != bulletin.riskLeaderOpinion  && '' != bulletin.riskLeaderOpinion) ||showController.isRiskLeader) && isShowOld && showSubmit" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+					<!--评审负责人意见保存按钮-->
+					<button ng-if="(( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader ) && isShowOld && showSubmit" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+					<!--法律负责人意见保存按钮-->
+					<button ng-if="(( null != bulletin.legalLeaderAttachment  && '' != bulletin.legalLeaderAttachment) || ( null != bulletin.legalLeaderOpinion  && '' != bulletin.legalLeaderOpinion) ||showController.isLegalLeader ) && isShowOld && showSubmit" ng-click="save()" id="saveBtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+					<a ng-if="showSubmit"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+					   ng-click="submitNext()">提交</a><!-- && isShowEdit-->
+					<!--<div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                        <bpmn-pop-win approve="approve"></bpmn-pop-win>
+                    </div>-->
+					<!--<button ng-if="isHide" ng-click="generateApplication()" class="btn btn-info"><i class="fa fa-file-o"></i>导出申请单</button>-->
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script  type="text/javascript">
+    $(function() {
+        /* $("#tabUl a:last").tab("show");*/
+        $("#tabUl a").click(function(e){
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        // validate signup form on keyup and submit
+        $("#myForm").validate({
+            rules: {
+                tbsxType:"required-m",
+                reason:"required-m",
+                bulletinName:"required-m",
+                applyRequirement:"required-m"
+            },
+            messages: {
+                tbsxType:"此项必填",
+                reason:"此项必填",
+                bulletinName:"此项必填",
+                applyRequirement:"此项必填"
+            }
+        });
+    });
+
+    angular.element(document).ready(function() {
+        setTimeout(function () {
+            $('#riskLeaderOption').removeAttrs('style');
+            $('#reviewLeaderOption').removeAttrs('style');
+            $('#legalLeaderOption').removeAttrs('style');
+        }, 1000);
+    });
+
+</script>
+<!--加签弹窗(页面)-->
+<div id="_signModalDialog" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog"
+	 ng-include="'page/sys/common/sign-dialog.html'">
+</div>
+<!--知会人选择弹窗(多选)-->
+<div id="_notifyUserMulDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-multi-dialog id="{{'_notifyUserMulDialog'}}" title="{{'用户列表'}}"
+							  url="{{'role/queryRoleAddUserByPage.do'}}" mapped-key-value="_notifyMappedKeyValue"
+							  checked-users="_notifyCheckedUsers"
+							  parent-save-selected="_notifyParentSaveSelected()"></direct-user-multi-dialog>
+</div>
+<!--加签人选择弹窗(单选)-->
+<div id="_signUserSinDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-single-dialog id="_signUserSinDialog" title="{{title}}" checked-user="_signCheckedUser"
+							   callback="_signCallback"
+							   mapped-key-value="_signMappedKeyValue" parent-save-selected="_signParentSaveSelected()"></direct-user-single-dialog>
+</div>

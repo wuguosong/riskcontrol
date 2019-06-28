@@ -1,0 +1,40 @@
+<div>
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
+                <button  type="button" class="btn btn-info" ng-click="addRequire()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                <button  type="button" class="btn btn-info" ng-click="commonDdelete(1)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            项目后续执行要求表
+        </div>
+    </div>
+    <div class="mytable">
+        <table  class="table table-bordered" style="table-layout: fixed">
+            <thead>
+            <tr class="info">
+                <th width="5%">选择</th>
+                <th width="5%">序号</th>
+                <th>主要内容</th>
+                <th>执行部门</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="m in formalReport.requireList track by $index"  repeat-formal-report-finish>
+                <td class="txc">
+                    <label class="checkbox-inline xchoose">
+                        <input type="checkbox" class="px" ng-model="m.selected">
+                        <span class="lbl">&nbsp;</span>
+                    </label>
+                </td>
+                <td>{{ $index + 1 }}</td>
+                <td><textarea name="" ng-model="m.require_content" value="{{m.require_content}}" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea name="" ng-model="m.require_execute" value="{{m.require_execute}}" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

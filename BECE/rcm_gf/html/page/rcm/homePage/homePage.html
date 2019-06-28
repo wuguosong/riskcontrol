@@ -1,0 +1,414 @@
+<div class="panel-body">
+	<div class="row">
+		<div class="col-md-3 col-sm-6">
+			<a href="#/ProjectPreReviewReadOnly" title="">
+				<div class="mod home-mod pre-review" >
+					<div class="mod-cont clearfix">
+						<div class="ico">
+							<i class="i-c i-pre-review"></i>
+						</div>
+						<div class="detail txr">
+							<span class="num"> 总量  {{ypsCount}} </span>
+							<span class="text"> 跟进中{{ypswghCount}} &nbsp&nbsp已决策{{ypsyghCount}}</span>
+							<span class="num"></span>
+							<span class="text"> 申请中{{preApplyingCount}} &nbsp&nbsp已终止{{preEndCount}}</span>
+						</div>
+					</div>
+					<div class="mod-tit clearfix">
+						<span class="text">投标评审</span>
+						<i class="fa fa-list-ul"></i>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<a href="#/ProjectFormalReviewListReadOnly" title="">
+				<div class="mod formal-review">
+					<div class="mod-cont clearfix">
+						<div class="ico">
+							<i class="i-c i-formal-review"></i>
+						</div>
+						<div class="detail txr">
+							<span class="num"> 总量  {{zspsCount}}</span>
+							<span class="text"> 跟进中{{zsswghCount}}&nbsp&nbsp 已决策{{zssyghCount}}</span>
+							<span class="num"></span>
+							<span class="text"> 申请中{{formalApplyingCount}} &nbsp&nbsp已终止{{formalEndCount}}</span>
+						</div>
+					</div>
+					<div class="mod-tit clearfix">
+						<span class="text">正式评审</span>
+						<i class="fa fa-list-ul"></i>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<a href="#/bulletinStatistics" title="">
+				<div class="mod law">
+					<div class="mod-cont clearfix">
+						<div class="ico">
+							<i class="i-c i-laws"></i>
+						</div>
+						<div class="detail txr">
+							<span class="num"> 总量  {{qtjcCount}}</span>
+							<span class="text"> 跟进中{{qtjcwghCount}}&nbsp&nbsp 已决策{{qtjcyghCount}}</span>
+							<span class="num"></span>
+							<span class="text"> 申请中{{bulletinApplyingCount}}&nbsp&nbsp 已终止{{bulletinEndCount}}</span>
+						</div>
+					</div>
+					<div class="mod-tit clearfix">
+						<span class="text">其他评审</span>
+						<i class="fa fa-list-ul"></i>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<a href="#/NoticeReviewListReadOnly" title="">
+				<div class="mod contract">
+					<div class="mod-cont clearfix">
+						<div class="ico">
+							<i class="i-c i-today-decision"></i>
+						</div>
+						<div class="detail txr">
+							<span class="num"> 总量  {{tzjcCount}}</span>
+							<span class="text"> 无需上会{{tzjcWxshCount}}&nbsp&nbsp 需上会{{tzjcXshCount}}</span>
+							<span class="num"> </span>
+							<span class="text"> &nbsp</span>
+						</div>
+					</div>
+					<div class="mod-tit clearfix">
+						<span class="text">投资决策</span>
+						<i class="fa fa-list-ul"></i>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="row">
+	
+		<!-- 人员工作量 -->
+		<div class="col-md-6 col-sm-12 low-model" >
+			<div class="p-header-home color_darkBlue">
+				<i class="i-tit"></i><span class="text">人员工作量</span>
+			</div>
+			<div class="table-responsive"  style="overflow-y: auto;height: 380px;">
+				<table class="first-col-fixed table table-bordered table-light table-text-mid table-hd-center table-hover nobottom-mar" >
+					<thead>
+						<tr>
+							<th class="txc" align="left" >组名/姓名</th>
+							<th colspan="2" style="border-bottom-width:1px;" >跟进中</th>
+							<th colspan="2" style="border-bottom-width:1px;" >已决策</th>
+							<th >总量</th>
+						</tr>
+						<tr>
+							<th colspan="6" style="border-bottom-width:1px;" >业务评审</th>
+						</tr>
+					</thead>
+					<tbody class="valign-middle">
+						<tr ng-repeat="t in projectReport0922ByYw" id="{{t.TEAM_ID}}">
+							<td >
+								<a href="" ng-click="queryFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}zk">+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> 
+								<a href="" ng-click="sqFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}sq" hidden="true">- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> 
+								<a href="#/PersonnelWork/team/{{t.TEAM_ID}}/YW/0" >{{t.TEAM_NAME}}——{{t.TEAM_LEADER}}</a>
+							</td>
+							
+							<td colspan="2" >
+								{{t.FORMAL_GOING + t.PRE_GOING + t.BULLETIN_GOING}}
+							</td>
+							<td colspan="2" >
+								{{t.FORMAL_DEALED+ t.PRE_DEALED + t.BULLETIN_DEALED}}
+							</td>
+							<td colspan="2">
+								{{t.TOTAL}}
+							</td>
+						</tr>
+					</tbody>
+					<thead>
+						<tr>
+							<th colspan="6" style="border-bottom-width:1px;" >法律评审</th>
+						</tr>
+					</thead>
+					<tbody class="valign-middle">
+						<tr ng-repeat="t in projectReport0922ByFL" id="{{t.TEAM_ID}}">
+							<td >
+								<a href="javaScript:void(0)" ng-click="queryFlFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}zk">+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> 
+								<a href="javaScript:void(0)" ng-click="sqFZR($event,t.TEAM_ID)" id="{{t.TEAM_ID}}sq" hidden="true">- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> 
+								<a href="#/PersonnelWork/team/{{t.TEAM_ID}}/FL/0" >{{t.TEAM_NAME}}——{{t.TEAM_LEADER}}</a>
+							</td>
+							
+							<td colspan="2" >
+								{{t.FORMAL_GOING + t.BULLETIN_GOING}}
+							</td>
+							<td colspan="2" >
+								{{t.FORMAL_DEALED + t.BULLETIN_DEALED}}
+							</td>
+							<td colspan="2">
+								{{t.TOTAL}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div class="col-md-6 col-sm-12">
+			<div class="p-header-home color_darkBlue" id="pieContain">
+				<i class="i-tit"></i>
+				<span class="text">跟进中</span>
+			</div> 
+			<div class="panel">
+				<div class="panel-heading hp-heading">
+					<span class="panel-title">&nbsp;</span>
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="/#ff-tabdrop-tab2" data-toggle="tab">正式评审</a>
+						</li>
+						<li>
+							<a href="/#ff-tabdrop-tab1" data-toggle="tab">投标评审</a>
+						</li>
+						<li>
+							<a href="/#ff-tabdrop-tab3" data-toggle="tab">其他评审</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content no-pad tab-table-contract">
+					<div class="tab-pane active" id="ff-tabdrop-tab1">
+						<div class="row">
+							<div class="col-md-3">业务类型：</div>
+							<div class="col-md-9">
+								<span href="" name="preServiceType" ng-click="preServiceTypeClick($event)" class="label" value="1401">传统水务</span>
+								<span href="" name="preServiceType" ng-click="preServiceTypeClick($event)" class="label" value="1402">水环境</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">年份:</div>
+							<div class="col-md-3">
+								<select ng-model="review1Year" id="review1Year" class="" ng-change="queryPreForPie()">
+									<option value="">---请选择---</option>
+									<option ng-bind="y" ng-repeat="y in yearArr" >{{y}}</option>
+								</select>
+							</div>
+						</div>
+						<div ng-show="total1 != 0" style=" height: 280px;">
+							<div class="row">
+								<div class="col-md-3">总数：{{total1}}</div>
+							</div>
+							<div style="width: 100%;height:250px;" id="review1" ></div>
+						</div>
+						<div ng-show="total1 == 0" style=" height: 280px;">
+							<div class="row">
+								<h2 class="col-md-12 text-center">暂无数据</h2>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="ff-tabdrop-tab2">
+						<div class="row">
+							<div class="col-md-3">业务类型：</div>
+							<div class="col-md-9">
+								<span href="" name="formalServiceType" ng-click="formalServiceTypeClick($event)" class="label" value="1401">传统水务</span>
+								<span href="" name="formalServiceType" ng-click="formalServiceTypeClick($event)" class="label" value="1402">水环境</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">年份:</div>
+							<div class="col-md-3">
+								<select ng-model="review2Year" id="review2Year" class="" ng-change="queryFormalForPie()">
+									<option value="">---请选择---</option>
+									<option ng-bind="y" ng-repeat="y in yearArr" >{{y}}</option>
+								</select>
+							</div>
+						</div>
+						<div ng-show="total2 != 0" style=" height: 280px;">
+							<div class="row">
+								<div class="col-md-3">总数：{{total2}}</div>
+							</div>
+							<div id="review2" style="width: 100%; height: 250px;"></div>
+						</div>
+						<div ng-show="total2 == 0" style=" height: 280px;">
+							<div class="row">
+								<h2 class="col-md-12 text-center">暂无数据</h2>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="ff-tabdrop-tab3">
+						<div class="row">
+							<div class="col-md-3"> &nbsp;</div>
+							<div class="col-md-9">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">年份:</div>
+							<div class="col-md-3">
+								<select ng-model="review3Year" id="review3Year" class="" ng-change="initEchartsPieWGHData3()">
+									<option value="">---请选择---</option>
+									<option ng-bind="y" ng-repeat="y in yearArr" >{{y}}</option>
+								</select>
+							</div>
+						</div>
+						<div ng-show="total3 != 0" style="height: 280px;">
+							<div class="row">
+								<div class="col-md-3">总数：{{total3}}</div>
+							</div>
+							<div id="review3" style="width: 100%; height: 250px;"></div>
+						</div>
+						<div ng-show="total3 == 0" style=" height: 280px;">
+							<div class="row">
+								<h2 class="col-md-12 text-center">暂无数据</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+	<div class="row nobottom-mar">
+		<div class="col-md-6 col-sm-12 low-model">
+			<div class="p-header-home color_darkBlue">
+				<i class="i-tit"></i>
+				<span class="text">合同概况</span>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-12 low-model">
+			<div class="p-header-home color_darkBlue">
+				<i class="i-tit"></i>
+				<span class="text">已决策</span>
+			</div> 
+		</div>
+	</div>
+		<div class="col-md-6 col-sm-12 low-model">
+			<div class="panel">
+				<div class="panel-heading hp-heading">
+					<span class="panel-title">&nbsp;</span>
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="/#bs-tabdrop-tab1" data-toggle="tab">投资合同</a>
+						</li>
+						<li>
+							<a href="/#bs-tabdrop-tab2" data-toggle="tab">一般合同</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content no-pad tab-table-contract">
+					<div class="tab-pane active" id="bs-tabdrop-tab1">
+						<div class="row"></div>
+						<div class="table-responsive table-list">
+							<table class="table table-hover nobottom-mar">
+								<thead>
+									<tr>
+										<th class="txc">序号</th>
+										<th>姓名</th>
+										<th>完成数量</th>
+										<th>正在跟进中</th>
+										<th>平均完成时间</th>
+									</tr>
+								</thead>
+								<tbody class="valign-middle">
+									<tr ng-repeat="i in investment">
+										<td>{{$index+1}}</td>
+										<td>{{i.name}}</td>
+										<td>{{i.finished}}</td>
+										<td>{{i.followed}}</td>
+										<td>{{i.avgTime}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="table-footer clearfix">
+							<tm-pagination conf="paginationConf"></tm-pagination>
+						</div>
+<!-- 						<div class="more"> -->
+<!-- 							<a title="" href="javascript:void(0);">更多 ></a> -->
+<!-- 						</div> -->
+					</div>
+					<div class="tab-pane" id="bs-tabdrop-tab2">
+						<div class="row"></div>
+						<div class="table-responsive table-list">
+							<table class="table table-hover nobottom-mar ">
+								<thead>
+									<tr>
+										<th class="txc">序号</th>
+										<th>姓名</th>
+										<th>完成数量</th>
+										<th>正在跟进中</th>
+										<th>平均完成时间</th>
+									</tr>
+								</thead>
+								<tbody class="valign-middle">
+									<tr ng-repeat="o in others">
+										<td>{{$index+1}}</td>
+										<td>{{o.name}}</td>
+										<td>{{o.finished}}</td>
+										<td>{{o.followed}}</td>
+										<td>{{o.avgTime}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="table-footer clearfix">
+							<tm-pagination conf="paginationConfes"></tm-pagination>
+						</div>
+<!-- 						<div class="more"> -->
+<!-- 							<a title="" href="javascript:void(0);">更多 ></a> -->
+<!-- 						</div> -->
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="col-sm-5">
+			<div id="contract" style="width: 100%;height:300px;"></div>
+		</div> -->
+		<!-- <div class="col-md-6 col-sm-12" >
+			<div id="reviewJC" style="width: 100%;height:240px;" style="border:1px solid #e4e4e4; "></div>
+		</div> -->
+		
+		
+		<div class="col-md-6 col-sm-12 low-model">
+			<div class="panel">
+				<div class="panel-heading hp-heading">
+					<span class="panel-title">&nbsp;</span>
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="/#tz-tabdrop-tab1" data-toggle="tab">投资金额</a>
+						</li>
+						<li>
+							<a href="/#tz-tabdrop-tab2" data-toggle="tab">投资规模</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content no-pad tab-table-contract">
+					<div class="tab-pane active" id="tz-tabdrop-tab1">
+						<div class="row"></div>
+						<div class="table-responsive table-list">
+							<div id="reviewTZJE" style="width: 100%; height: 250px;"></div>
+						</div>
+					</div>
+					<div class="tab-pane" id="tz-tabdrop-tab2">
+						<div class="row"></div>
+						<div class="table-responsive table-list">
+							<div id="reviewTZGM" style="width: 100%; height: 250px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			<!--<ul class="nav nav-tabs"> 
+					<li class="active"><a href="/#tz-tabdrop-tab1"
+						data-toggle="tab">投资金额</a></li>
+					<li><a href="/#tz-tabdrop-tab2" data-toggle="tab">投资规模</a></li>
+				</ul>
+			<div class="tab-pane active" id="tz-tabdrop-tab1">
+				<div id="reviewJC" style="width: 100%; height: 250px;"></div>
+			</div> -->
+		</div>
+			
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,97 @@
+<div class="xh-content container-fluid padding0">
+    <form id="FormalReviewReport" name="FormalReviewReport" novalidate class="row">
+        <div class="visa-menu">
+            <div class="col-md-9">
+                <ol class="breadcrumb breadcrumb-menu">
+                    <li>
+                        <a class="breadcrumb-text breadcrumb-text-menu">
+                            资料填写
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                            {{title}}
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="main-content padding0">
+            <div class="mcontent content1" id="flag1-c">
+                <h3 class="text-blue">上传电子版正式评审报告</h3>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">项目名称</span>
+                            <span class="col-md-10 slim">
+                                <input type="text" readonly ng-model="formalReport.projectName" class="form-control" id="projectName" name="projectName"/>
+							</span>
+                        </div>
+                    </div>
+
+                    <div class="row normalline">
+                        <div class="col-md-12 col-sm-12  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-2 noPadding">附件上传</span>
+                                <cloud-file
+                                        file-id="pfrReport"
+                                        file-type="FormalReportInfo"
+                                        file-code="{{paramId}}"
+                                        file-location="pfrReport"
+                                        show-upload="false"
+                                        show-preview="false"
+                                        show-replace="false"
+                                        show-download="false"
+                                        show-delete="false"
+                                        show-upload-or-replace="true"
+                                        area-code="1"
+                                        text-before="false"
+                                        btn-class="btn btn-primary"
+                                        text-class="col-md-8 slim"
+                                        btn-area-class="col-md-1 slim"
+                                >
+                                </cloud-file>
+                               <!-- <span class="col-md-1 slim">
+						            <button id="btnfile" ng-disabled="actionparm=='View'" class="btn btn-primary" ngf-max-size="100MB" ngf-select="uploadfformal2($file,$invalidFiles, $index)">浏览</button>
+                                </span>
+                                <span class="col-md-8 slim">
+						            <span ng-bind="progress$index"></span>
+                                    &lt;!&ndash;<span style="">{{errorAttach[$index].msg}}</span>&ndash;&gt;
+                                    <a href="javascript:void(0);" ng-click="downLoadFile(formalReport.filePath,formalReport.fileName)" style="line-height: 27px;">{{formalReport.fileName}}</a>
+                                 </span>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <div class="row">
+                        <div class="option txl">
+                            <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                            <button type="button" ng-click="saveReport7()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
+                            <div class="inline-div">
+                                <button type="button" ng-if="tabIndex=='0'" class="btn btn-primary"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+                                <div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                    <directive-need-meeting></directive-need-meeting>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--<div class="left-content col-md-2 col-sm-2 hidden-xs">
+                <div class="stage" >
+                    <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                    <button type="button" ng-click="saveReport7()" class="btn btn-primary" id="savebtn"><i class="fa fa-save"></i>保存</button>
+                    <div class="inline-div">
+                        <button type="button" ng-if="tabIndex=='0'" class="btn btn-primary"  id="submitbnt" ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交</button>
+                        <div  id="passModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                            <directive-need-meeting></directive-need-meeting>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </form>
+</div>

@@ -1,0 +1,868 @@
+<div class="visa-menu">
+	<div class="col-md-12">
+		<ol class="breadcrumb breadcrumb-menu">
+			<li>
+				<!--<i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+				<a class="breadcrumb-text breadcrumb-text-menu">
+					流程申请
+				</a>
+			</li>
+			<li>
+				<a href="" class="breadcrumb-text breadcrumb-text-menu">
+					正式评审申请
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="panel-body">
+	<ul class="nav nav-tabs bs-tabdrop-example" id="_myTopTab">
+		<li class="active">
+			<a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+		</li>
+		<li>
+			<a href="/#flow_chart" data-toggle="tab">流程图</a>
+		</li>
+		<li>
+			<a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+		</li>
+	</ul>
+	<form class="form-horizontal" name="myFormPfR" id="myFormPfR" novalidate>
+		<div class="panel">
+			<div class="tab-content">
+				<div class="tab-pane in active special-form" id="contracts_file_info">
+					<!--                                     <directive-project-formal-review></directive-project-formal-review> -->
+					<directive-project-formal-assessment-info></directive-project-formal-assessment-info>
+					<div class="panel" ng-if="(pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != '') && (pfr.tzProtocolOpinion != null &&pfr.tzProtocolOpinion != '')">
+						<directive-formal-opinion-new></directive-formal-opinion-new>
+					</div>
+
+					<!--专业评审start-->
+					<div class="panel" ng-show="((approveShow && pfr.approveAttachment != null && pfr.approveAttachment != '') || showController.isReviewLeader) && isShowOld">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#reviewComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">初步评审意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="reviewComments" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row" ng-show="showController.isReviewLeader && hasWaiting">
+									<div class="txl">
+										<button  type="button" class="btn btn-info" ng-click="addFormalComment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+										<button  type="button" class="btn btn-info" ng-click="deleteFormalComment(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									</div>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center reviewCommentsTable">
+											<thead>
+											<tr>
+												<th>选择</th>
+												<th>序号</th>
+												<th>意见类型</th>
+												<th>具体内容</th>
+												<th>反馈要求</th>
+												<th>投资经理反馈</th>
+											</tr>
+											</thead>
+											<tbody id="commentList">
+											<tr ng-repeat="m in pfr.approveAttachment.commentsList">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader "  ng-model="m.selected"  >
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td class="txc">{{ $index + 1 }}</td>
+												<td>
+													<div class="row">
+														<select ng-model="m.opinionType" ng-disabled="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader "  ng-options="ot.ITEM_NAME for  ot in optionTypeList track by ot.ITEM_CODE"  class="form-control">
+															<option value="">请选择...</option>
+														</select>
+													</div>
+													<div class="row nobottom-mar">
+														<input type="text" style="border:0;width:100%;color:red;background-color:#ffffff;text-align: center;" readonly ng-model="m.commentDate" value="{{m.commentDate}}"/>
+													</div>
+												</td>
+												<td>
+													<textarea name=""  ng-readonly="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader " ng-model="m.commentConent"   rows="" cols="" class="form-control" auto-height></textarea>
+												</td>
+												<td>
+													<textarea name=""  ng-readonly="m.isReviewLeaderEdit=='0' || !showController.isReviewLeader "  ng-model="m.commentFeedback"  rows="" cols="" class="form-control" auto-height></textarea>
+												</td>
+												<td class="attachmentTd">
+													<div class="row">
+														<textarea name="" ng-readonly="m.isInvestmentManagerBackEdit=='0'  || !showController.isInvestmentManagerBack ||!hasWaiting" ng-model="m.commentDepartment"  rows="" cols="" class="form-control" auto-height></textarea>
+													</div>
+													<div class="row nobottom-mar">
+														<div class="col-sm-12 noleft-pad noright-pad">
+															<span ng-bind="progress$index"></span>
+															<span style="">{{errorAttach[$index].msg}}</span>
+															<input type="hidden" ng-model="pfr.approveAttachment.commentsList[$index].files.filePath" />
+															<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
+															<button class="btn btn-info attachmentBtn" ng-disabled="m.isInvestmentManagerBackEdit=='0' || !showController.isInvestmentManagerBack ||!hasWaiting" ngf-max-size="100MB" ngf-select="upload2Review($file,$invalidFiles, $index)">浏览</button>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr class="tr-max">
+												<td colspan="2" rowspan="2"></td>
+												<td>重点风险提示</td>
+												<td colspan="3">
+													<textarea  ng-readonly="!showController.isReviewLeader || !hasWaiting"  name="riskWarning" id="riskWarning" rows="" cols="" ng-model="pfr.approveAttachment.riskWarning" class="form-control" auto-height></textarea>
+												</td>
+											</tr>
+											<tr class="tr-max">
+												<td>要求反馈时间</td>
+												<td colspan="3">
+													<div class="has-feedback">
+														<input id="approveLegalFeedbackTime" ng-readonly="!showController.isReviewLeader || !hasWaiting" type="text" id="feedbackTime" name="" ng-model="pfr.approveAttachment.feedbackTime" class="form-control" />
+														<i class="fa fa-calendar form-control-feedback"></i>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="row"  ng-show="showController.isReviewLeader  && hasWaiting">
+									<div class="txl">
+										<button  type="button" class="btn btn-info" ng-click="addFormalAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+										<button  type="button" class="btn btn-info" ng-click="deleteFormalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									</div>
+								</div>
+
+								<div class="row">
+									<span class="prompt" ng-if="showController.isReviewLeader  && hasWaiting" >*请选择投资经理需要替换的附件</span>
+									<span class="prompt" ng-if="showController.isInvestmentManagerBack && hasWaiting" >*请替换需要更新的附件</span>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center attachmentTable">
+											<thead>
+											<tr>
+												<th>选择</th>
+												<th>需更新附件</th>
+												<th>最新版本附件</th>
+											</tr>
+											</thead>
+											<tbody id="attachmentList">
+											<tr ng-repeat="am in pfr.approveAttachment.attachmentNew">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px"  ng-disabled="!showController.isReviewLeader || am.isReviewLeaderEdit=='0'" ng-model="am.selected" id="selected{{$index}}">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<select id="attachmentNew{{$index}}"  ng-disabled="!showController.isReviewLeader || am.isReviewLeaderEdit=='0'" ng-model="am.attachmentUList"
+															ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
+														<option value="">---请选择---</option>
+													</select>
+													<input type="hidden" id="programmed{{$index}}" ng-model="am.programmed.NAME">
+													<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE">
+													<input type="hidden"  id="approved{{$index}}" ng-model="am.approved.NAME">
+													<input type="hidden" class="form-control"  ng-model="am.approved.VALUE">
+												</td>
+												<td class="attachmentTd">
+													<div class="row nobottom-mar">
+														<div class="col-sm-12 noleft-pad noright-pad">
+															<span ng-bind="progress$index"></span>
+															<span style="">{{errorAttach[$index].msg}}</span>
+															<input type="hidden" ng-model="am.attachment_new.filePath" />
+															<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(am.attachment_new)">{{am.attachment_new.fileName}}</a>
+															<button ng-if="!showController.isInvestmentManagerBack && !showController.isReviewLeader" class="btn btn-info attachmentBtn"  ng-disabled=" true" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+															<button ng-if="showController.isInvestmentManagerBack && hasWaiting" class="btn btn-info attachmentBtn"  ng-disabled="!(am.isInvestmentManagerBackEdit!='0' || !showController.isInvestmentManagerBack)" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+															<button ng-if="showController.isReviewLeader && hasWaiting" class="btn btn-info attachmentBtn"  ng-disabled=" !(showController.isReviewLeader && am.isReviewLeaderEdit!='0' )" ngf-max-size="100MB" ngf-select="uploadReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														</div>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--专业评审end-->
+
+					<!-- 法律评审 start-->
+					<div class="panel" ng-show="((approveLegalShow && null != pfr.approveLegalAttachment  && '' != pfr.approveLegalAttachment) || showController.isLegalReviewLeader) && isShowOld ">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#legalReviewComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">法律初步评审意见<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="legalReviewComments" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row" ng-show="showController.isLegalReviewLeader && hasWaiting">
+									<div class="txl">
+										<button  type="button" class="btn btn-info" ng-click="addFormalLegalComment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+										<button  type="button" class="btn btn-info" ng-click="deleteFormalLegalComment(0)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									</div>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center reviewCommentsTable">
+											<thead>
+											<tr>
+												<th>选择</th>
+												<th>序号</th>
+												<th>意见类型</th>
+												<th>具体内容</th>
+												<th>反馈要求</th>
+												<th>基层法务人员反馈</th>
+											</tr>
+											</thead>
+											<tbody id="">
+
+											<tr ng-repeat="m in pfr.approveLegalAttachment.commentsList track by $index">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="m.isLegalEdit=='0' || !showController.isLegalReviewLeader "  ng-model="m.selected" >
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td class="txc">{{ $index + 1 }}</td>
+												<td>
+													<div class="row">
+														<select ng-model="m.opinionType" ng-disabled="m.isLegalEdit=='0' || !showController.isLegalReviewLeader " ng-options="ot.ITEM_NAME for  ot in optionTypeListL track by ot.ITEM_CODE"  class="form-control">
+															<option value="">请选择...</option>
+														</select>
+													</div>
+													<div class="row nobottom-mar">
+														<input type="text" style="border:0;width:100%;color:red;background-color:#ffffff;text-align: center;" readonly ng-model="m.commentDate" value="{{m.commentDate}}"/>
+													</div>
+												</td>
+												<td>
+													<textarea name="" ng-readonly="m.isLegalEdit=='0' || !showController.isLegalReviewLeader " ng-model="m.commentConent"  rows="" cols="" class="form-control" auto-height></textarea>
+												</td>
+												<td>
+													<textarea name="" ng-readonly="m.isLegalEdit=='0' || !showController.isLegalReviewLeader " ng-model="m.commentFeedback" rows="" cols="" class="form-control" auto-height></textarea>
+												</td>
+												<td class="attachmentTd">
+													<div class="row">
+														<textarea name="" ng-readonly="m.isGrassEdit=='0'  || !showController.isGrassRootsLegal ||!hasWaiting" ng-model="m.commentDepartment"  rows="" cols="" class="form-control" auto-height></textarea>
+													</div>
+													<div class="row nobottom-mar">
+														<div class="col-sm-12 noleft-pad noright-pad">
+															<span ng-bind="progress$index"></span>
+															<span style="">{{errorAttach[$index].msg}}</span>
+															<input type="hidden" ng-model="m.files.filePath" />
+															<a  class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(m.files)">{{m.files.fileName}}</a>
+															<button class="btn btn-info attachmentBtn" ng-disabled="m.isGrassEdit=='0' || !showController.isGrassRootsLegal ||!hasWaiting" ngf-max-size="100MB" ngf-select="upload2($file,$invalidFiles, $index)">浏览</button>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr class="tr-max">
+												<td colspan="2" rowspan="2"></td>
+												<td>法律风险提示</td>
+												<td colspan="3">
+													<textarea name="riskWarning" id="riskWarning"  ng-readonly="!showController.isLegalReviewLeader || !hasWaiting" rows="" cols="" ng-model="pfr.approveLegalAttachment.riskWarning" class="form-control" auto-height></textarea>
+												</td>
+											</tr>
+											<tr class="tr-max">
+												<td>要求反馈时间</td>
+												<td colspan="3">
+													<div class="has-feedback">
+														<input type="text" id="approveFeedbackTime" name=""  ng-readonly="!showController.isLegalReviewLeader || !hasWaiting" ng-model="pfr.approveLegalAttachment.feedbackTime" class="form-control" />
+														<i class="fa fa-calendar form-control-feedback"></i>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="row"  ng-show="showController.isLegalReviewLeader  && hasWaiting">
+									<div class="txl">
+										<button  type="button" class="btn btn-info" ng-click="addFormalLegalAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+										<button  type="button" class="btn btn-info" ng-click="deleteFormalLegalComment(1)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+									</div>
+									<div class="row">
+										<span class="prompt" ng-if="showController.isLegalReviewLeader  && hasWaiting" >*请选择基层法务需要替换的附件</span>
+										<span class="prompt" ng-if="showController.isGrassRootsLegal && hasWaiting" >*请替换需要更新的附件</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center attachmentTable">
+											<thead>
+											<tr>
+												<th>选择</th>
+												<th>需更新附件</th>
+												<th>最新版本附件</th>
+											</tr>
+											</thead>
+											<tbody id="attachmentList">
+											<tr ng-repeat="am in pfr.approveLegalAttachment.attachmentNew">
+												<td class="txc">
+													<label class="checkbox-inline">
+														<input type="checkbox" class="px" ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader"   ng-model="am.selected" id="selected{{$index}}">
+														<span class="lbl">&nbsp;</span>
+													</label>
+												</td>
+												<td>
+													<select id="attachmentNew{{$index}}"  ng-disabled="am.isLegalEdit=='0' || !showController.isLegalReviewLeader" ng-model="am.attachmentUList"
+															ng-options="f.ITEM_NAME for f in  fileName track by f.UUID" class="form-control">
+														<option value="">---请选择---</option>
+													</select>
+													<input type="hidden" id="programmed{{$index}}" ng-model="am.programmed.NAME">
+													<input type="hidden" class="form-control"  ng-model="am.programmed.VALUE">
+
+													<input type="hidden"  id="approved{{$index}}" ng-model="am.approved.NAME">
+													<input type="hidden" class="form-control"  ng-model="am.approved.VALUE">
+												</td>
+												<td class="attachmentTd">
+													<div class="row nobottom-mar">
+														<div class="col-sm-12 noleft-pad noright-pad">
+															<span ng-bind="progress$index"></span>
+															<span style="">{{errorAttach[$index].msg}}</span>
+															<input type="hidden" ng-model="am.attachment_new.filePath" />
+															<a class="attachmentBox" href="javascript:void(0);" ng-click="downLoadFile(am.attachment_new)">{{am.attachment_new.fileName}}</a>
+															<button ng-if="!showController.isLegalReviewLeader && !showController.isGrassRootsLegal" class="btn btn-info attachmentBtn" ng-disabled="true" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+															<button ng-if="showController.isGrassRootsLegal && hasWaiting" class="btn btn-info attachmentBtn" ng-disabled="!(am.isGrassEdit!='0' && showController.isGrassRootsLegal)" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+															<button ng-if="showController.isLegalReviewLeader && hasWaiting" class="btn btn-info attachmentBtn" ng-disabled="!(am.isLegalEdit!='0' && showController.isLegalReviewLeader)" ngf-max-size="100MB" ngf-select="uploadlegalReview($file,$invalidFiles, $index,am.attachmentUList,am.attachment_new.version)">浏览</button>
+														</div>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 法律评审 end-->
+
+					<!-- 分配任务 -->
+					<div class="panel" ng-show="showController.isTask || pfr.taskallocation.reviewLeader != null && pfr.taskallocation.reviewLeader !=''" >
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#taskAssignment1" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">任务分配<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="taskAssignment1" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<div class="row">
+									<label  class="col-sm-2 control-label">评审负责人</label>
+									<div class="col-sm-4" >
+										<direct-fzr-single-select is-group="{{'true'}}" id="{{'reviewLeaderSelect'}}" checked-user="myTaskallocation.reviewLeader"
+																  is-editable="isTaskEdit" url="{{'role/queryReviewUsers.do'}}" ng-if="isTaskEdit == 'true'">
+										</direct-fzr-single-select>
+										<input class="form-control" type="text" ng-if="isTaskEdit == 'false'" ng-model="pfr.taskallocation.reviewLeader.NAME" readonly/>
+									</div>
+									<label ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask)|| pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-2 control-label">法律评审负责人</label>
+									<div   ng-show="(!showController.isSignLegal ) && hasWaiting && (showController.isSelectLegalLeader || showController.isTask) || pfr.taskallocation.legalReviewLeader.NAME != null" class="col-sm-4">
+										<direct-fzr-single-select is-group="{{'true'}}" id="{{'legalLeaderSelect'}}"
+																  checked-user="myTaskallocation.legalReviewLeader"
+																  is-editable="isTaskLegalEdit == 'true'"
+																  url="{{'role/queryLegalUsers.do'}}"
+																  ng-if="isTaskLegalEdit == 'true'"
+										></direct-fzr-single-select>
+										<input class="form-control" type="text" ng-if="isTaskLegalEdit == 'false'" ng-model="pfr.taskallocation.legalReviewLeader.NAME" readonly/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 固定小组成员意见 汇总-->
+					<div class="panel" ng-if="pfr.fixGroupOption != null && pfr.fixGroupOption != ''">
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#summaryOfComments" data-parent="#preReviewComments" data-toggle="collapse"><span class="text">小组固定成员意见汇总<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="summaryOfComments" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="row">
+									<ul class="apply-list">
+										<li>
+											<div class="row" style="font-weight: bold;">
+												<div class="col-md-2">成员姓名</div>
+												<div class="col-md-10">成员意见</div>
+											</div>
+										</li>
+										<li ng-repeat="g in pfr.fixGroupOption">
+											<div class="row">
+												<div class="col-md-2">{{g.USERNAME}}</div>
+												<div class="col-md-10">{{g.OPINION}}</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--审批-->
+					<div class="panel" ng-show="!isOldFlow && hasWaiting"><!--&&isShowEdit-->
+						<div class="panel-heading">
+							<a class="accordion-toggle collapsed" href="/#approvalPart"
+							   data-toggle="collapse"><span class="text">审批<i class="i-triangle"></i></span></a>
+						</div>
+						<div id="approvalPart" class="panel-collapse collapse in">
+							<!--审批阶段-->
+							<div class="panel-body" ng-show="approve.operateType=='audit'">
+								<div class="row">
+									<label class="col-sm-3 control-label">下一环节：</label>
+									<div class="col-sm-8">
+										<div ng-repeat="x in approve.processOptions">
+											<label class="radio radio-inline">
+												<input id="showAttr" class="px" type="radio"
+													   init-bind="a=x.documentation" aaa="{{x.documentation}}"
+													   ng-click="showMarkMethod(x.documentation)"
+													   name="bpmnProcessOption" ng-checked="$index==0"
+													   value="{{x.sequenceFlow}}"/>
+												<span class="lbl">
+                                                <div class="text">{{x.flowName}}</div>
+                                            </span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!--知会人-->
+								<div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
+								</div>
+								<div class="row" ng-show="approve.showController.isReviewLeaderConfirm">
+									<label class="col-sm-3 control-label">是否上会：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline">
+											<input type="radio" class="px" value="0" name="needMeeting"
+												   ng-model="pfr.needMeeting"/>
+											<span class="lbl">不需要上会</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="px" value="1" name="needMeeting"
+												   ng-click="checkReport()" ng-model="pfr.needMeeting"/>
+											<span class="lbl">需要上会</span>
+										</label>
+									</div>
+								</div>
+								<!--快捷意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">快捷意见：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+											<input class="px" type="radio"
+												   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+												   name="_quickComments" ng-checked="$index==0"
+												   value="{{comment}}"/>
+											<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+										</label>
+									</div>
+								</div>
+								<div class="row" id="cesuanFileOpinionDiv" ng-if="approve.showController.isServiewType">
+									<label class="col-sm-3 control-label"><span class="required-m">*</span>测算文件意见：</label>
+									<div class="col-sm-8">
+										<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.cesuanFileOpinion"></textarea>
+									</div>
+								</div>
+								<div class="row" id="tzProtocolOpinionDiv" ng-if="approve.showController.isServiewType">
+									<label class="col-sm-3 control-label"><span class="required-m">*</span>投资协议意见：</label>
+									<div class="col-sm-8">
+										<textarea class="form-control" rows="4" cols="" ng-model="submitInfo.currentTaskVar.tzProtocolOpinion"></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 control-label">处理意见：</label>
+									<div class="col-sm-8">
+												<textarea class="form-control" rows="4" cols="" id="comments1" ng-change="_signFillSignComments('comments1')"
+														  data-ng-init="flowVariables.opinion=''"
+														  ng-model="flowVariables.opinion"></textarea>
+									</div>
+								</div>
+								<hr ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" >
+								<div class="panel nobottom-mar" ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)">
+									<div class="panel-body pop-first-col-fixed" style="overflow-y: auto;height: 300px;"  >
+										<div ng-show="showMark && (showReviewFirstMark || showReviewToConfirm || showLegalToConfirm)" class="row">
+											<!-- 首次进入业务评审节点 -->
+											<div ng-show="showReviewFirstMark" >
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														合规-审批流程熟悉度
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="15" ng-model="mark.flowMark" ng-click="validMark(50)">
+														<span class="required-m">(满分：15分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.flowMarkReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1、合格标准：流程完整为满分。</div><div>2 、缺少一个前置审批流程环节扣3-5分，以此累加，最低分得为0分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<div ng-show="showReviewToConfirm">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														资料-及时性
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="9" ng-model="mark.fileTime">
+														<span class="required-m">(满分：9分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.fileTimeReason">
+														<a href="javaScropt:void(0)" data-toggle="tooltip" data-placement="top" data-html="true"
+														   title="<div>1、 预留时间少1个工作日扣3分，以此累加，最低得分为0分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<div ng-show="showReviewToConfirm">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														资料-完整性
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="9" ng-model="mark.fileContent">
+														<span class="required-m">(满分：9分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.fileContentReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1 、每缺少一项资料或资料无相关人员签字确认扣2分，以此累加，最低得分为0分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<div ng-show="showReviewFirstMark">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														核心-财务测算能力
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="12" ng-model="mark.moneyCalculate">
+														<span class="required-m">(满分：12分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.moneyCalculateReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1 、测算有错误或取值不合理，但测算思路正确，可得8-12分。</div><div>2、测算错误较多，且思路不正确，可得0-8分。</p><p>3、未独立进行测算的项目此项不得分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<!-- ----------------------------------评审负责人到确认 start------------------------------------------ -->
+											<div ng-show="showReviewFirstMark">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														资料-准确性
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="6" ng-model="mark.reviewFileAccuracy">
+														<span class="required-m">(满分：6分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.reviewFileAccuracyReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<div ng-show="showReviewToConfirm">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														核心-风险识别及规避能力
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="12" ng-model="mark.riskControl">
+														<span class="required-m">(满分：12分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.riskControlReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1 、若投资部门风险识别及规避工作较好，评审阶段无发现新增重大风险，可得6-12分；</div><div>2 、若投资部门开展了风险识别及规避工作，但效果一般，评审阶段发现多个新增重大风险，可得0-6分；</div><div>3 、若投资部门未开展风险识别及规避工作，此项不得分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<div ng-show="showReviewFirstMark">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														核心-方案设计能力
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="4" ng-model="mark.planDesign">
+														<span class="required-m">(满分：4分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.planDesignReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1 、若交易结构不合理或无人员安置方案，可扣0-4分，最低分为0分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<!-- -------------------------------评审负责人到确认  end--------------------------------------------- -->
+											<!-- -------------------------------法律负责人到确认  start--------------------------------------------- -->
+											<div ng-show="showLegalToConfirm">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														资料-准确性
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="6" ng-model="mark.legalFileAccuracy">
+														<span class="required-m">(满分：6分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.legalFileAccuracyReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1 、针对投资分析报告、协议及其他文件，仅修改1次扣1分，修改2-5次每次扣2分，以此累加，最低得分为0分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<div ng-show="showLegalToConfirm">
+												<div class="row">
+													<label class="col-sm-3 col-md-3 control-label">打分项：</label>
+													<div class="col-sm-5 col-md-5">
+														核心-协议谈判能力
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label"><span class="required-m">*</span>分数：</label>
+													<div class="col-sm-8">
+														<input class="mark" type="number" min="0" max="12" ng-model="mark.talks">
+														<span class="required-m">(满分：12分)</span>
+													</div>
+												</div>
+												<div class="row">
+													<label class="col-sm-3 control-label">扣分原因：</label>
+													<div class="col-sm-8">
+														<input type="text" ng-model="mark.talksReason">
+														<a href="javaScropt:void(0)"  data-toggle="tooltip" data-placement="top" data-html="true" data-backColor="white"
+														   title="<div>1 、是否依据集团要求在谈判中落实关键条款，若情况较好，得6-10分，若不理想得0-6分，最低分为0分。</div><div>2 、未独立进行谈判或者未能独立起草协议的项目，此项不得分。</div>">提示</a>
+													</div>
+												</div>
+											</div>
+											<!-- -------------------------------法律负责人到确认  end--------------------------------------------- -->
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<!--加签阶段-->
+							<div class="panel-body" ng-show="approve.operateType=='change'">
+								<div class="row">
+									<label class="col-sm-3 control-label">下一环节：</label>
+									<div class="col-sm-8">
+										<div>
+											<label class="radio radio-inline">
+												<input class="px" type="radio" name="bpmnProcessOption"
+													   id="workOver" value="WORKOVER"/>
+												<span class="lbl">
+                                                <div class="text">完结</div>
+                                            </span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!--知会人-->
+								<div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
+								</div>
+								<!--快捷意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">快捷意见：</label>
+									<div class="col-sm-8">
+										<label class="radio radio-inline" ng-repeat="comment in _quickComments">
+											<input class="px" type="radio"
+												   ng-click="_quickFillComments('_quickComments', 'flowVariables.opinion')"
+												   name="_quickComments" ng-checked="$index==0"
+												   value="{{comment}}"/>
+											<span class="lbl">
+                                                <div class="text">{{comment}}</div>
+                                        </span>
+										</label>
+									</div>
+								</div>
+								<!--审批意见-->
+								<div class="row">
+									<label class="col-sm-3 control-label">处理意见：</label>
+									<div class="col-sm-8">
+														<textarea class="form-control" rows="4" cols="" id="comments2" ng-change="_signFillSignComments('comments2')"
+																  data-ng-init="flowVariables.opinion=''" ng-model="flowVariables.opinion"></textarea>
+									</div>
+								</div>
+							</div>
+							<!--提交按钮-->
+							<!--<div class="button-group" ng-include="'page/sys/common/btn-groups.html'">
+                            </div>-->
+						</div>
+					</div>
+					<div class="button-group">
+						<div class="row">
+							<div class="btn-group-gap txl">
+								<a class="btn btn-primary" ng-if="flag=='1'" href="#/IndividualTable"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='2'" href="#/MyTask"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='3'" href="#/CompletedTask"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='4'" href="#/ProjectFormalReviewList"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='5'" href="#/OverTask/{{'#/' | encodeURI}}"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='6'" href="#/ProjectFormalReviewListReadOnly"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='8'" href="#/FormalAssessmentAuditList/0"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='9'" href="#/FormalAssessmentAuditList/1"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='10'" href="#/FormalAssessmentInfoList/1"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='11'" href="#/formalReportBoardList"><i class="fa fa-reply"></i>返回</a>
+								<a class="btn btn-primary" ng-if="flag=='12'" href="#/ConferenceInformation/1"><i class="fa fa-reply"></i>返回</a>
+								<directive-return-btn url="{{oldUrl}}"  ng-if="!isOldFlow"></directive-return-btn>
+								<!-- 保存按钮提供的节点，法律评审、基层法务反馈、专业评审、投资经理反馈 -->
+								<!-- 8.22新增 专家评审显示保存按钮 -->
+								<button ng-show="hasWaiting && showSaveBtn" ng-click="save()" type="button" id="savebtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>保存</button>
+								<!--<button ng-if="!isOldFlow && hasWaiting" ng-click="showSubmitModal()" type="button" id="submitlbtn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>-->
+								<button ng-if="isOldFlow && hasWaiting" ng-click="showOldSubmitModal()" type="button" id="submitlbtnn" class="btn btn-primary" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+								<!-- 新提交模态框 --><!--&& isShowEdit-->
+								<!--<div id="submitModal" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                    <formal-assessment-bpmn-pop-win  approve="approve"></formal-assessment-bpmn-pop-win>
+                                </div>-->
+								<!-- 旧提交模态框 -->
+								<div id="oldSubmitModal" ng-if="isOldFlow" class="modal" tabindex="-1" role="dialog" style="display: none;">
+									<approve-pop-win approvearr="approve"></approve-pop-win><!-- && isShowEdit-->
+								</div>
+								<a ng-if="!isOldFlow && hasWaiting"  href="javascript:void(0);" class="btn btn-primary btn-confirm"
+								   ng-click="submitNext()">提交</a><!-- && isShowEdit-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="flow_chart">
+					<!--<directive-process-page></directive-process-page>-->
+					<directive-process-page-new ng-if="!isOldFlow" process-key="formalReview"></directive-process-page-new>
+					<directive-process-page ng-if="isOldFlow"></directive-process-page>
+				</div>
+				<div class="tab-pane" id="contracts_resources">
+					<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+						<directive-accachment-new id="formalAssessmentInfo" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+												  wf-state="pfrOracle.WF_STATE" file-list="newAttachment"
+												  init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
+												  service-type="serviceType" project-model="projectModel"></directive-accachment-new>
+
+					</div>
+					<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+						<div class="panel-body">
+							<div class="myTab">
+								<ul class="nav nav-tabs bs-tabdrop-example" id="_myMsgTab">
+									<li class="active"><a class="btn tab tab-90" href="/#reviewMessageTab" data-toggle="tab">评审留言</a></li>
+									<li><a class="btn tab tab-90" href="/#legalMessageTab" data-toggle="tab">法律留言</a></li>
+								</ul>
+							</div>
+							<div class="tab-content tab-content-bordered clearfix row">
+								<div class="tab-pane in active" id="reviewMessageTab">
+									<bbs-chat-new id="formAssessmentAuditDetailBbsReview" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="review" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
+								</div>
+								<div class="tab-pane" id="legalMessageTab">
+									<bbs-chat-new id="formAssessmentAuditDetailBbsLegal" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false"  message-type="formalReview" is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}" screen-type="legal" relation-sources-popup="formalAssessmentInfoRelationResourcesPopup"  is-show-attach-type="false"></bbs-chat-new>
+								</div>
+								<!--相关资源附件弹窗，与bbs-chat-new标签的relation-sources-popup属性联合使用-->
+								<div id="formalAssessmentInfoRelationResourcesPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content panel">
+											<div class="modal-header panel-heading" style="text-align: center;">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+												<h4 class="modal-title" id="_relation_resources_abel">相关资源</h4>
+											</div>
+											<div class="modal-body panel-body">
+												<directive-accachment-new id="formalAssessmentInfo2" business-type="formalReview" page-location="formalAssessmentInfo" business-id="pfrOracle.BUSINESSID"
+																		  wf-state="0" file-list="newAttachment"
+																		  init-update="initUpdate(id)" to-send="pfr.taskallocation.reviewLeader" project-name="pfr.apply.projectName"
+																		  ignore-replace-reason="true"
+																		  service-type="serviceType" project-model="projectModel"></directive-accachment-new>
+											</div>
+											<div class="modal-footer">
+												<div class="button-group">
+													<div class="row">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+        $('#approveFeedbackTime').datepicker(options);
+        $('#approveLegalFeedbackTime').datepicker(options);
+    });
+    angular.element(document).ready(function() {
+        setTimeout(function () {
+             $('#legalReviewComments').removeAttrs('style');
+             $('#reviewComments').removeAttrs('style');
+        }, 1000);
+    });
+</script>
+<!--加签弹窗(页面)-->
+<div id="_signModalDialog" ng-if="!isOldFlow" class="modal" tabindex="-1" role="dialog"
+	 ng-include="'page/sys/common/sign-dialog.html'">
+</div>
+<!--知会人选择弹窗(多选)-->
+<div id="_notifyUserMulDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-multi-dialog id="{{'_notifyUserMulDialog'}}" title="{{'用户列表'}}"
+							  url="{{'role/queryRoleAddUserByPage.do'}}" mapped-key-value="_notifyMappedKeyValue"
+							  checked-users="_notifyCheckedUsers"
+							  parent-save-selected="_notifyParentSaveSelected()"></direct-user-multi-dialog>
+</div>
+<!--加签人选择弹窗(单选)-->
+<div id="_signUserSinDialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+	<direct-user-single-dialog id="_signUserSinDialog" title="{{title}}" checked-user="_signCheckedUser"
+							   callback="_signCallback"
+							   mapped-key-value="_signMappedKeyValue" parent-save-selected="_signParentSaveSelected()"></direct-user-single-dialog>
+</div>

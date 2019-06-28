@@ -1,0 +1,60 @@
+ <div class="modal-dialog">
+     <div class="modal-content">
+         <div class="modal-header">
+             <button type="button" class="close" ng-click="cancelSelected()" data-dismiss="modal" aria-hidden="true">×</button>
+             <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
+         </div>
+         <div ng-if="isGroup == 'false'" class="modal-body person-container">
+             <div class="row">
+             	<div class="col-sm-3 col-xs-6" ng-repeat="u in users">
+             		<div class="person-unitbox">
+	             		<label class="checkbox-inline">
+	                        <input class="px" type="checkbox" id="chk_{{id}}_{{u[mappedKeyValue.valueField]}}" name="{{u[mappedKeyValue.nameField]}}" ng-checked="isChecked(u)" ng-click="toggleChecked(u)"/>
+	                        <span class="lbl">{{u[mappedKeyValue.nameField]}}</span>
+	                    </label>
+             		</div>
+             	</div>
+             </div>
+          </div>
+          <div ng-if="isGroup == 'true'" class="modal-body person-container">
+             <div class="person-cont">
+                 <dl class="person-group" ng-repeat="u in users | filter : {ISGROUP : '1'} " >
+                    <dt class="group-tit">{{u[mappedKeyValue.nameField]}}</dt>
+                    <dd class="group-cont">
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-6" ng-repeat="member in users | filter:{PID:u[mappedKeyValue.valueField] }">
+                                <div class="person-unitbox">
+                                    <label class="checkbox-inline">
+                                        <input class="px" type="checkbox" id="chk_{{id}}_{{member[mappedKeyValue.valueField]}}" name="{{member[mappedKeyValue.nameField]}}" ng-checked="isChecked(member)" ng-click="toggleChecked(member)"/>
+                                        <span class="lbl">{{member[mappedKeyValue.nameField]}}</span>
+                                        <span class="addlabel red " ng-if="member.CPN_ > 3" style="min-width:18px;height: 18px;font-size: 11px;line-height: 16px; background:#ed4014 !important;color: #fff !important;padding: 0;border-radius: 100%">{{member.CPN_}}</span>
+                                        <span class="addlabel green " ng-if="member.CPN_ <= 3" style="min-width:18px;padding:0;height: 18px;font-size: 11px;line-height:16px;background:#19be6b !important;color: #fff !important;padding: 0;border-radius: 100%">{{member.CPN_}}</span>
+                                    </label>
+                                </div>
+                            </div>
+                         </div>
+                    </dd>
+                 </dl>
+<!--                  <dl class="person-group"> -->
+<!--                      <dt class="group-tit">第二组</dt> -->
+<!--                      <dd class="group-cont"> -->
+<!--                          <div class="row"> -->
+<!--                              <div class="col-sm-3 col-xs-6" ng-repeat="u in users"> -->
+<!--                                  <div class="person-unitbox"> -->
+<!--                                      <label class="checkbox-inline"> -->
+<!--                                          <input class="px" type="checkbox" id="chk_{{id}}_{{u.VALUE}}" name="{{u.NAME}}" ng-checked="isChecked(u)" ng-click="toggleChecked(u)"/> -->
+<!--                                          <span class="lbl">{{u.NAME}}</span> -->
+<!--                                      </label> -->
+<!--                                  </div> -->
+<!--                              </div> -->
+<!--                          </div> -->
+<!--                      </dd> -->
+<!--                  </dl> -->
+             </div>
+          </div>
+         <div class="modal-footer">
+             <button type="button" class="btn btn-default" ng-click="cancelSelected()" data-dismiss="modal">取消</button>
+             <button type="button" class="btn btn-primary" ng-click="saveSelected()" data-dismiss="modal">确定</button>
+         </div>
+     </div>
+ </div>

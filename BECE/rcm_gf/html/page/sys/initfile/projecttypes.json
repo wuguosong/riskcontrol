@@ -1,0 +1,30 @@
+[
+  {
+    "name": "正式评审相关资源",
+    "type": "formalReview"
+  },
+  {
+    "name": "正式评审报告",
+    "type": "FormalReportInfo"
+  },
+  {
+    "name": "正式评审决策通知书附件",
+    "type": "FormalDecisionDraftInfo"
+  },
+  {
+    "name": "正式评审模板",
+    "type": "FormalBiddingInfo"
+  },
+  {
+    "name": "投标评审相关资源",
+    "type": "preReview"
+  },
+  {
+    "name": "投标评审报告",
+    "type": "preReportInfo"
+  },
+  {
+    "name": "其他评审相关资源",
+    "type": "bulletin"
+  }
+]

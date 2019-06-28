@@ -1,0 +1,34 @@
+<div class="panel-body">
+	<div class="help-page">
+		<ul class="nav-list">
+			<li class="nav-role">投资经理</li>
+			<li class="func-option active"><a href="/#tabs-1" data-toggle="tab">评审发起</a></li>
+			<li class="func-option"><a href="/#tabs-2" data-toggle="tab">评审反馈</a></li>
+			<li class="nav-role">评审负责人</li>
+			<li class="func-option"><a href="/#tabs-3" data-toggle="tab">分配任务</a></li>
+			<li class="nav-role">决策会委员</li>
+			<li class="func-option"><a href="/#tabs-4" data-toggle="tab">意见表决</a></li>
+		</ul>
+		<div class="main-content">
+			<div class="tab-content">
+				<div class="tab-pane active" ng-include="'page/rcm/help/tabs-1.html'" id="tabs-1"></div>
+				<div class="tab-pane" ng-include="'page/rcm/help/tabs-2.html'" id="tabs-2"></div>
+				<div class="tab-pane" ng-include="'page/rcm/help/tabs-3.html'" id="tabs-3"></div>
+				<div class="tab-pane" ng-include="'page/rcm/help/tabs-4.html'" id="tabs-4"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	//屏幕适应分辨率
+	var winHeight=$(window).height();
+	var banHeight=$("#main-navbar").height();
+	var centHeight=winHeight-banHeight-10-10;
+	$(".nav-list,.main-content").css({"height":centHeight});
+	$(window).resize(function(){
+		var winHeight=$(window).height();
+		var banHeight=$("#main-navbar").height();
+		var centHeight=winHeight-banHeight-10-10;
+		$(".nav-list,.main-content").css({"height":centHeight});
+	});
+</script>

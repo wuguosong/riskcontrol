@@ -1,0 +1,38 @@
+<div class="modal-dialog">
+    <div class="modal-content" style="width: 900px; right: 30%;">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">历史附件</h4>
+        </div>
+        <div class="modal-body" style="top: 25px;">
+            <div class="row table-responsive">
+                <table class="table table-bordered table-hover datatable table-text-mid table-light">
+                    <thead>
+                    <tr>
+                        <th width="5%">序号</th>
+                        <th width="20%">附件内容</th>
+                        <th width="20%">变更原因</th>
+                        <th  width="12%">变更人</th>
+                        <th  width="15%">变更时间</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="item in attachHistoryList | orderBy: '-FILEID'" ng-init="outerIndex = $index">
+                    <tr>
+                        <td>{{outerIndex+1}}</td>
+                        <td>
+                            <a href="javascript:void(0);" ng-click="_download(item.DOWNLOAD3D, item)" ng-if="!item.newFile">{{item.fileName}}</a>
+                        </td>
+                        <td>
+                            <span>{{item.description}}</span>
+                        </td>
+                        <td>{{item.LAST_MEMBER_NAME}}</td>
+                        <td>{{item.create_date}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 65px;">
+            <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

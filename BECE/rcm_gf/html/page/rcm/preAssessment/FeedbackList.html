@@ -1,0 +1,139 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/4.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">投标结果反馈列表</span>
+	</div>
+	<form class="form-horizontal ng-pristing ng-valid ng-pristine">
+		<div id="report" class="panel-group">
+			<div class="panel">
+				<div class="panel-heading search-box">
+					<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#report" href="/#searchbox">查询</a>
+				</div>
+				<div id="searchbox" class="panel-collapse collapse">
+					<div class="panel-body search-body">
+							<div class="row nobottom-mar sm-row">
+							<label class="col-sm-2 col-md-1 control-label">项目名称</label>
+							<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="projectName" ng-model="paginationConf.queryObj.projectName" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							<label class="col-sm-2 col-md-1 control-label">开标时间</label>
+							<div class="col-sm-4 col-md-2 has-feedback sm-col">
+								<input type="text" id="projectOpentime" name="projectOpentime" ng-model="paginationConf.queryObj.projectOpentime" class="form-control"/>
+								<i class="fa fa-calendar form-control-feedback"></i>
+							</div>
+							<label class="col-sm-2 col-md-1 control-label">投标结果</label>
+							<div class="col-sm-4 col-md-2 sm-col">
+								<select name="tenderResults" id="tenderResults" ng-model="paginationConf.queryObj.tenderResults" class="form-control">
+									<option value="">请选择...</option>
+									<option value="中标">中标</option>
+									<option value="未中标">未中标</option>
+								</select>
+							</div>
+							<div class="col-sm-12 col-md-2 search">
+								<button class="btn btn-info" type="button" ng-click="ListAll()"><i class="glyphicon glyphicon-search"></i>查询</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-heading"><div class="panel-hd-cont"><span class="panel-title">项目列表<i class="i-triangle"></i></span></div></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="full-drop inline-div">
+						<!--<button type="button" data-toggle="modal" data-target="#addModal" ng-click="listProjectName()" id="compareBtn" class="btn btn-info" title=""><i class="glyphicon glyphicon-plus"></i>新增</button>-->
+						<div  id="addModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										<h4 class="modal-title" id="myModalLabel">已通过项目</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12" id="porjectName" >
+												<select class="form-control" ng-model="x.BUSINESS_ID">
+													<option ng-repeat="x in pprs" value="{{x.BUSINESS_ID}}">{{x.PROJECT_NAME}}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+										<a href="#/AuctionResultFeedback/Create/{{x.BUSINESS_ID}}" type="button" class="btn btn-primary btn-confirm" data-dismiss="modal">确定</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+<!-- 					<button  type="button" ng-click="create()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>新增</button> -->
+<!-- 					<button  type="button" ng-click="update()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button> -->
+<!-- 					<button  type="button" ng-click="Delete()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>删除</button> -->
+<!-- 					<button  type="button" ng-click="import()" class="btn btn-info"><i class="glyphicon glyphicon-export"></i>导出</button> -->
+				</div>
+				<div class="row nobottom-mar">
+					<div class="table-responsive table-list">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+							<thead>
+								<tr>
+									<!--<th>选择</th>-->
+									<th>序号</th>
+									<th>项目名称</th>
+									<th>投标结果</th>
+									<th>开标时间<!--<i class="icofunc fa fa-caret-up" id="orderasc" ng-click="order(1)"></i><i class="icofunc cur fa fa-caret-down" id="orderdesc" ng-click="order(-1)"></i>--></th>
+									<th>创建者</th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="p in ppr">
+								<!--<td>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="checkbox" ng-if="p.create_by==credentials.UUID" class="px" value="{{p._id}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>-->
+								<td>{{$index+1}}</td>
+								<td><a href="#/AuctionResultFeedback/View/{{p._id}}/{{'#/FeedbackList'|encodeURI}}" title="{{p.projectName}}">{{p.projectName|projectNameFilter:32}}</a></td>
+								<td>{{p.tenderResults}}</td>
+								<td>{{p.projectOpentime}}</td>
+								<td>{{p.create_name}}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="table-footer clearfix">
+				<tm-pagination conf="paginationConf"></tm-pagination>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script>
+	/*function submitMaterial(){
+		var chooseCount=0;
+		$("input[name='checkbox']").each(function(){
+			if($(this).attr("checked")){
+				chooseCount++;
+			}
+		});
+		if(chooseCount==0){
+			alert("请选择要提交材料的项目！");
+			return;
+		}else if(chooseCount>1){
+			alert("只能选择一条要提交材料的项目！");
+			return;
+		}else{
+			windows.location.href="#/BiddingInfo";
+		}
+	}*/
+
+	angular.element(document).ready(function() {
+		var options = {
+			todayBtn: "linked",
+			orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+		}
+		$('#projectOpentime').datepicker(options);
+	});
+</script>

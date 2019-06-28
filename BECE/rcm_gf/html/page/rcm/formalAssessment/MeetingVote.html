@@ -1,0 +1,192 @@
+<link href="../styles/style.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="../styles/fullscreen.css">
+<div class="container-fluid tp-container" style="position: fixed;top:62px;bottom: 0">
+    <a href="javascript:;" class="logo"></a>
+    <a href="" class="title">
+        <h1>{{ decision.huiYiQiCi }}</h1>
+        <h3>{{decision.project_name}}</h3>
+    </a>
+    <div class="prompt" ng-if="isLoad && decision == null && historyDecisions == null">
+        暂无表决项目
+        <div class="button-group">
+            <div class="row">
+                <div class="option txl">
+                    <a class="btn btn-info" href="#/DecisionOverview"><i class="fa fa-reply"></i>返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" ng-if="decision == null && historyDecisions != null">
+        <div class="panel-heading">
+            <div class="panel-hd-cont"><span class="panel-title">已决策项目<i class="i-triangle"></i></span></div>
+        </div>
+        <div class="panel-body">
+            <ul class="vote-project-list">
+                <li>
+                    <div class="row" style="font-weight: bold;">
+                        <div class="col-sm-8">项目名称</div>
+                        <div class="col-sm-2">最终结果</div>
+                        <div class="col-sm-2">我的意见</div>
+                    </div>
+                </li>
+                <li ng-repeat="d in historyDecisions">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <a style="color:blue;" href="#/MeetingVoteResult/{{d.ID}}/{{myCurrUrl|encodeURI}}">{{d.project_name}}</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <span ng-if="1 == d.DECISION_RESULT" style="color:green;">同意</span>
+                            <span ng-if="2 == d.DECISION_RESULT" style="color:red;">不同意</span>
+                            <span ng-if="3 == d.DECISION_RESULT" style="color:orange;">有条件同意</span>
+                            <span ng-if="4 == d.DECISION_RESULT" style="color:purple;">择期决议</span>
+                        </div>
+                        <div class="col-sm-2">
+                            <span ng-if="1 == d.aagreeOrDisagree" style="color:green;">同意</span>
+                            <span ng-if="2 == d.aagreeOrDisagree" style="color:red;">不同意</span>
+                            <span ng-if="3 == d.aagreeOrDisagree" style="color:orange;">有条件同意</span>
+                            <span ng-if="4 == d.aagreeOrDisagree" style="color:purple;">择期决议</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option txl">
+                    <a class="btn btn-info" href="#/DecisionOverview"><i class="fa fa-reply"></i>返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--卷轴start-->
+    <div class="reel row" ng-if="historyDecisions == null && decision != null">
+        <div class="content">
+            <!--四个按钮 start-->
+            <div class="items row">
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">同意</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="1"/>
+                </div>
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">不同意</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="2"/>
+                </div>
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">有条件同意</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="3"/>
+                </div>
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">择期决议</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="4"/>
+                </div>
+                <span class="items-line"></span>
+
+            </div>
+            <div  id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                <input type="hidden" name="aagreeOrDisagree">
+                <div class="tp-cover">
+                    <div class="tp-confirm-wrap">
+                        <div class="content">
+                            <div class='tit opinion-cont'>您的意见是: <span class="text"></span></div>
+                            <div>
+                                <button type="button" class="confirm-cancel" data-dismiss="modal">取消</button>
+                                <button type="button" class="confirm-ensure" data-dismiss="modal" ng-click="enterDecisionOpinion()">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--四个按钮 end-->
+            <div class="zhou-mid"></div>
+            <div class="zhou-left zhou"></div>
+            <div class="zhou-right zhou"></div>
+        </div>
+    </div>
+    <!--卷轴end-->
+    <div class="onevote" ng-show="isZhuXi == '1'">
+        <span class="mo"></span>
+        是否行使主席&lt;一票否决&gt;权
+        <a class="btn-vote chose-no" ng-click="changeZhuxi()">
+            <span class="cir"></span>
+            <span class="no">否</span>
+            <span class="yes">是</span>
+        </a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //用户设置意见
+    function decisionOpinion(thiz) {
+        var opinionText = $(thiz).find(".text").text();
+        var opinionValue = $(thiz).next().val();
+
+        $("#submitModal .opinion-cont .text").text(opinionText);
+        $("#submitModal input[name='aagreeOrDisagree']").val(opinionValue);
+    }
+
+    $(function () {
+        var winHeight = $(window).height();
+        var banHeight = $(".navbar-inner").height();
+        var centHeight = winHeight - banHeight;
+        $(".panel-body.prompt-container").css({"min-height": centHeight});
+        $(window).resize(function () {
+            var winHeight = $(window).height();
+            var banHeight = $(".navbar-inner").height();
+            var centHeight = winHeight - banHeight;
+            $(".panel-body.prompt-container").css({"min-height": centHeight});
+        });
+
+        //卷轴开场动画
+        function zhou_loadding() {
+            $('.zhou-left').addClass('zhou-left-animate');
+            $('.zhou-right').addClass('zhou-right-animate');
+            $('.zhou-mid').addClass('zhou-mid-animate');
+        }
+        setTimeout(zhou_loadding,1000)
+        setTimeout(function(){
+            $('.items').animate({'opacity': 1}, 500)
+        },3000)
+
+        // function zhou_loadding() {
+        //     $('.zhou-left').animate({'left': 0}, 2000)
+        //     $('.zhou-right').animate({'right': 0}, 2000)
+        //     $('.zhou-mid').animate({'left': '4.5%', 'right': '4.5%'}, 1900, function () {
+        //         $('.items').animate({'opacity': 1}, 500)
+        //     })
+        // }
+        //zhou_loadding()
+
+        //按钮点击
+        $('.btn-vote').click(function () {
+            if ($(this).hasClass('chose-no')) {
+                $(this).removeClass('chose-no')
+                $('.mo').removeClass('rotate')
+            } else {
+                $(this).addClass('chose-no')
+                $('.mo').addClass('rotate')
+            }
+        })
+    });
+</script>
+
+<style>
+    .modal-backdrop {
+        position: relative;
+    }
+</style>

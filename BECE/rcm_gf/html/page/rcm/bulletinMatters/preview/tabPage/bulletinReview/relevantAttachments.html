@@ -1,0 +1,39 @@
+
+<div class="mcontent content3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <div class="contentwrap">
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">相关附件</h3>
+        <div id='content3_table' class="mytable">
+            <directive-accachment-new id="BulletinMattersDetail" business-type="bulletin" page-location="BulletinMattersDetail" business-id="businessid"
+                                      wf-state="WF_STATE" file-list="newAttachment"
+                                      init-update="initUpdate(id)"
+                                      is-show-history-list="false"
+                                      is-show-preview-btn="true"></directive-accachment-new>
+        </div>
+        <div id="content3_cover" class="table-cover" ng-hide="hideFlagR">
+            <div class="more">
+                <div class="icon" ng-click="expandMore('content3_table', 'hideFlagR')"></div>
+                <h6 class="text-blue" ng-click="expandMore('content3_table', 'hideFlagR')">点击查看更多</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        setTimeout(function(){
+
+            if($('.content3 .contentwrap').height() < $('.content3').height() - 52){
+                $('.content3 .table-cover').hide()
+            }
+            // if($('#content3_table .table').height() < $('#content3_table .table').height()){
+            //
+            //     $('#content3_cover').hide()
+            // }
+            $('.table-cover .more').click(function(){
+                $(this).parent('.table-cover').hide()
+                $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+            })
+        },1000)
+
+    })
+</script>

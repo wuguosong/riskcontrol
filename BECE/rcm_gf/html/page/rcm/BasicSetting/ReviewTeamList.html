@@ -1,0 +1,150 @@
+<div class="panel-body">
+	<div class="header">
+		<img src="assets/images/icons/BasicSet.png" width="41" height="41" alt="" title="" />
+		<span class="hd-title">评审小组管理</span>
+	</div>
+	<form  ng-submit="queryList()" class="form-horizontal ng-pristine ng-valid">
+		<div id="reviewTeam" class="panel-group">
+			<div class="panel">
+				<input type="hidden" name="team_name"  ng-model="team.TEAM_NAME" value="{{team.TEAM_NAME}}">
+				<input type="hidden" name="team_id"  ng-model="team.TEAM_ID" value="{{team.TEAM_ID}}">
+				<div class="panel-heading search-box">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="reviewTeam" href="/#searchbox">查询</a>
+				</div>
+				<div id="searchbox" class="panel-collapse collapse">
+					<div class="panel-body search-body">
+						<div class="row nobottom-mar sm-row">
+							<label class="col-sm-2 col-md-1 control-label">评审小组</label>
+							<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="TEAM_NAME" name="TEAM_NAME" ng-model="TEAM_NAME" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							<label class="col-sm-2 col-md-1 control-label">组长</label>
+							<div class="col-sm-4 col-md-2 sm-col"><input type="text" id="TEAM_LEADER" name="TEAM_LEADER" ng-model="TEAM_LEADER" class="form-control ng-pristine ng-untouched ng-valid" /></div>
+							<div class="col-sm-12 col-md-2 search"><button  type="button" class="btn btn-info" ng-click="ListAll()"><i class="glyphicon glyphicon-search"></i>查询</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-heading">
+				<div class="panel-hd-cont"><span class="panel-title">评审小组管理<i class="i-triangle"></i></span></div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group row">
+					<div class="txl">
+						<button  type="button" class="btn btn-info" id="createbtn" ng-click="Create(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+						<button  type="button" ng-click="updateTeam()" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>修改</button>
+						<button  type="button" ng-click="deleteTeam()" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i>删除</button>
+					</div>
+				</div>
+				<div class="form-group row nobottom-mar">
+					<div class="table-responsive table-list">
+						<table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable fs-col-fixed">
+							<thead>
+							<tr>
+								<th>选择</th>
+								<th>序号</th>
+								<th>评审小组</th>
+								<th>类型</th>
+								<th>组长</th>
+								<!--<th>成员</th>-->
+								<th>查看成员</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="t in team" on-finish-render-filters>
+								<td>
+									<label class="checkbox-inline choose">
+										<input type="checkbox" name="checkbox" class="px ng-pristine ng-untouched ng-valid" value="{{t.UUID}}"/>
+										<span class="lbl">&nbsp;</span>
+									</label>
+								</td>
+								<td>{{$index+1}}</td>
+								<td>{{t.TEAM_NAME}}</td>
+								<td><div ng-if="'1'== t.TYPE"><span class="status-y">评审小组</span></div>
+									<div ng-if="'2'== t.TYPE"><span class="status-n">法律评审小组</span></div>
+								</td>
+								<td>{{t.TEAM_LEADER}}</td>
+								<td>
+									<button type="button" class="btn btn-info" ng-click="viewAll(t.UUID)"  placeholder="查看成员" data-toggle="modal" data-target="#myModal" >查看成员</button>
+									<div  id="myModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title">小组成员</h4>
+												</div>
+												<div class="modal-body">
+													<div class="row"><label class="col-sm-12">成员姓名：</label></div>
+													<div class="row">
+														<div class="col-sm-3" ng-repeat="up in teamUserList"  on-finish-render-filters>
+															<div>{{up.TEAM_MEMBER_NAME}}</div>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--<button type="button" class="sapmle-but" ng-click="viewAll()"  data-toggle="modal" data-target="#myModal" >查看成员</button>-->
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="table-footer clearfix">
+				<tm-pagination conf="paginationConf"></tm-pagination>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+	<!--
+	$(function(){
+		//查询关闭&展示
+		$(".panel-heading").find(".ico-dorp").click(function(){
+			$(this).toggleClass("fa-plus");
+			$(this).toggleClass("fa-minus");
+			$(this).parents(".panel-heading").siblings(".panel-body").stop().slideToggle(300);
+		});
+		//菜单关闭&展示
+		$(".wrap-info .menuico").toggle(function(){
+			$(this).addClass("glyphicon-menu-right").removeClass("glyphicon-menu-left");
+			$(this).parents(".wrapper").stop().animate({"margin-left":"-150px"},300);
+		},function(){
+			$(this).addClass("glyphicon-menu-left").removeClass("glyphicon-menu-right");
+			$(this).parents(".wrapper").stop().animate({"margin-left":"0"},300);
+		});
+		//二级菜单关闭&展示
+		$(".menu-bd .list").children("li").click(function(){
+			var dropDown = $(this).find(".sub-list");
+			var togClass=$(this).find(".ico");
+			$(".menu-bd .list li .sub-list").not(dropDown).slideUp(300);
+			$(".menu-bd .list li .ico").not(togClass).removeClass("fa-minus");
+			dropDown.slideToggle(300);
+			togClass.toggleClass("fa-minus");
+		});
+		//收藏
+		$(".ico-wrap .fa-star").click(function(){
+			$(this).toggleClass("red-star");
+		});
+		//分配角色弹层
+		$(".allot").click(function(){
+			Visa.NoticePopup.show();
+		});
+		$("#pub-notice .ico-x").click(function(){
+			$("#js-index-popup").hide(300);
+			$("#_Dialog_maskwrap").hide(100);
+		});
+	});
+	var name,value;
+	var str=location.href; //取得整个地址栏
+	var num=str.lastIndexOf("/");
+	str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+	$("#createbtn").attr('ng-click',"Create("+str+")");
+	//-->
+</script>

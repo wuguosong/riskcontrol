@@ -1,0 +1,34 @@
+<div class="modal-dialog">
+    <div class="modal-content" style="width: 600px; height: 150px">
+        <div class="modal-body" style="top: 25px;">
+            <div class="col-md-12 col-sm-12  col-xs-12">
+                <div class="row">
+                    <label class="col-sm-4 control-label">上传决策通知书附件：</label>
+                    <cloud-file
+                            file-id="pfrDecisionDraftDirect"
+                            file-type="FormalDecisionDraftInfo"
+                            file-code="{{businessid}}"
+                            file-location="pfrDecisionDraft"
+                            show-upload="false"
+                            show-preview="false"
+                            show-replace="false"
+                            show-download="false"
+                            show-delete="false"
+                            show-upload-or-replace="true"
+                            area-code="1"
+                            text-before="false"
+                            btn-class="btn btn-primary"
+                            text-class="col-md-5 slim"
+                            btn-area-class="col-md-3 slim"
+                            is-show-relace-name="true"
+                    >
+                    </cloud-file>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 65px;">
+            <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" ng-click="cancel()">取消</button>
+            <a href="javascript:void(0);" class="btn btn-primary btn-confirm" ng-click="submit()">确定</a>
+        </div>
+    </div>
+</div>

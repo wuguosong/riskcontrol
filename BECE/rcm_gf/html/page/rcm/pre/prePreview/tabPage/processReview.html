@@ -1,0 +1,101 @@
+<!--<div class="mcontent content1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">-->
+<div class="mcontent content1">
+    <h3 class='text-blue text-blue-out'>项目过程回顾</h3>
+    <div class="contentwrap" style="overflow-y: auto">
+        <div class="row normalline">
+            <div class="timeline col-md-11 col-sm-11 col-xs-11">
+                <siv class="line hidden-xs"></siv>
+                <div class="time start-time">
+                    提交申请时间
+                    <span>{{prePreview.applyDate}}</span>
+                </div>
+                <div class="time end-time" style="padding-left: 60px">
+                    评审报告出具时间
+                    <span>{{ formalReport.submit_date }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline">
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">业务单位</span>
+                    <span class="col-md-6 slim" ng-if="prePreview.apply.pertainArea.VALUE != null">
+                        {{ prePreview.apply.pertainArea.VALUE }}
+                    </span>
+                    <span class="col-md-6 slim" ng-if="prePreview.apply.pertainArea == null || prePreview.apply.pertainArea.VALUE == null"
+                          class="" width="30%">
+                        {{ prePreview.apply.reportingUnit.VALUE }}
+                    </span>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">投资经理</span>
+                    <span class="col-md-6 slim">
+                        {{ prePreview.apply.investmentManager.NAME }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline titline">
+            <div class="tit col-md-12">投资中心/水环境投资意见中心</div>
+            <div class="col-md-6 col-sm-6  col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">投资测算意见:</span>
+                    <span class="col-md-6 slim">{{prePreview.cesuanFileOpinion}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">投资协议意见:</span>
+                    <span class="col-md-6 slim">{{prePreview.tzProtocolOpinion}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row normalline titline">
+            <div class="tit col-md-12">风控中心审批意见</div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">风控中心审批次数:</span>
+                    <span class="col-md-6 slim">{{prePreview.approveAttachment.commentsList.length}}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <span class="col-md-6 noPadding">风控中心法律评审意见条数:</span>
+                    <span class="col-md-6 slim">{{prePreview.approveLegalAttachment.commentsList.length}}</span>
+                </div>
+            </div>
+        </div>
+        <!--<div class="table-cover" ng-hide="hideFlagS">
+            <div class="more">
+                <div class="icon"></div>
+                <h6 class="text-blue">点击查看更多</h6>
+            </div>
+        </div>-->
+    </div>
+</div>
+
+<!--
+<script>
+    $(function(){
+        var content1 = $('.content1').eq(1),
+            content1_wrap = content1.children('.contentwrap'),
+            content1_cover = content1_wrap.children('.table-cover');
+        setTimeout(function(){
+            //console.log(content1_wrap.height(),content1.height(),content1)
+            if(content1_wrap.height() < content1.height() - 52){
+                content1_cover.hide()
+            }
+        },1000)
+
+        $('.table-cover .more').click(function(){
+            $(this).parent('.table-cover').hide()
+            $(this).parent('.table-cover').parent('.contentwrap').addClass('hideOpen')
+        })
+    })
+</script>-->

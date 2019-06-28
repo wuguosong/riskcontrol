@@ -1,0 +1,430 @@
+<div class="visa-menu">
+    <div class="col-md-12">
+        <ol class="breadcrumb breadcrumb-menu">
+            <li>
+                <!-- <i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+                <a class="breadcrumb-text breadcrumb-text-menu">
+                    首页
+                </a>
+            </li>
+            <li>
+                <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                    项目看板
+                </a>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="panel-body">
+    <div style="margin: 25px 0;">
+        <div class="form-group row">
+            <div class="col-sm-2 col-md-1"></div>
+            <label class="col-sm-2 col-md-1 control-label">项目名称</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="params.projectName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">项目类型</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <select name="PROJECT_TYPE" id="PROJECT_TYPE" class="form-control"
+                        ng-model="params.projectType">
+                    <option value="">请选择...</option>
+                    <option value="pfr">正式评审</option>
+                    <option value="pre">投标评审</option>
+                    <option value="bulletin">其他评审</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 col-md-1"></div>
+            <label class="col-sm-2 col-md-1 control-label">业务单位</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="PERTAINAREA_NAME" id="PERTAINAREA_NAME" ng-model="params.pertainareaName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">投资经理</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="INVESTMENT_NAME" id="INVESTMENT_NAME" ng-model="params.investmentName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 col-md-1"></div>
+            <label class="col-sm-2 col-md-1 control-label">评审负责人</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="REVIEW_PERSON_NAME" id="REVIEW_PERSON_NAME" ng-model="params.reviewPersonName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">法律负责人</label>
+            <div class="col-sm-4 col-md-3 sm-col">
+                <input type="text" name="LEGAL_REVIEW_PERSON_NAME" id="LEGAL_REVIEW_PERSON_NAME" ng-model="params.legalReviewPersonName" class="form-control ng-pristine ng-untouched ng-valid" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 col-md-1"></div>
+            <label class="col-sm-2 col-md-1 control-label">申请时间（从）</label>
+            <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_START" name="APPLY_DATE_START" ng-model="params.applyDateStart" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+            <label class="col-sm-2 col-md-1 control-label">申请时间（至）</label>
+            <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_END" name="APPLY_DATE_END" ng-model="params.applyDateEnd" />
+                <i class="fa fa-calendar form-control-feedback"></i>
+            </div>
+            <div class="col-sm-12 col-md-2" style="right: -150px">
+                <button class="btn btn-info" ng-click="getProjectList(params)">查询</button>
+                <button class="btn btn-info" ng-click="cancel()">清除</button>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs bs-tabdrop-example">
+        <li class="{{tabIndex=='0'?'active':''}}">
+            <a href="/#bs-tabdrop-tab1" data-toggle="tab">分配前 <span class="uibadge ">{{paginationConf1.totalItems}}</span></a>
+        </li>
+        <li class="{{tabIndex=='1'?'active':''}}">
+            <a href="/#bs-tabdrop-tab2" data-toggle="tab">风控任务 <span class="uibadge ">{{paginationConf2.totalItems}}</span></a>
+        </li>
+        <li class="{{tabIndex=='2'?'active':''}}">
+            <a href="/#bs-tabdrop-tab3" data-toggle="tab">已完成 <span class="uibadge ">{{paginationConf3.totalItems}}</span></a>
+        </li>
+        <li class="{{tabIndex=='3'?'active':''}}">
+            <a href="/#bs-tabdrop-tab4" data-toggle="tab">已终止 <span class="uibadge ">{{paginationConf4.totalItems}}</span></a>
+        </li>
+        <li class="{{tabIndex=='4'?'active':''}}">
+            <a href="/#bs-tabdrop-tab5" data-toggle="tab" ng-if="paginationConf5.totalItems > 0">历史数据 <span class="uibadge ">{{paginationConf5.totalItems}}</span></a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane {{tabIndex=='0'?'active':''}}" id="bs-tabdrop-tab1">
+            <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="form-group row nobottom-mar table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目名称</th>
+                                    <th>评审类型</th>
+                                    <th>业务单位</th>
+                                    <th>投资经理</th>
+                                    <!--<th>评审负责人</th>
+                                    <th>法律负责人</th>-->
+                                    <th>申请时间</th>
+                                    <th>评审状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in projectList1" on-finish-render-filters>
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                    </td>
+                                    <td>
+                                        <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                        <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                        <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                    </td>
+                                    <td>{{p.PERTAINAREANAME}}</td>
+                                    <td>{{p.INVESTMENTNAME}}</td>
+                                    <!--<td>{{p.REVIEWPERSONNAME}}</td>
+                                    <td>{{p.LEGALREVIEWPERSONNAME}}</td>-->
+                                    <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
+                                    <td>
+                                        <div ng-if="'0'== p.WF_STATE">起草中</div>
+                                        <div ng-if="'1'== p.WF_STATE">审批中</div>
+                                        <div ng-if="'2'== p.WF_STATE">已审批</div>
+                                        <div ng-if="'3'== p.WF_STATE">已终止</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer clearfix">
+                        <tm-pagination conf="paginationConf1"></tm-pagination>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="tab-pane {{tabIndex=='1'?'active':''}}" id="bs-tabdrop-tab2">
+            <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="form-group row nobottom-mar table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目名称</th>
+                                    <th>评审类型</th>
+                                    <th>业务单位</th>
+                                    <th>投资经理</th>
+                                    <th>评审负责人</th>
+                                    <th>法律负责人</th>
+                                    <th>申请时间</th>
+                                    <th>评审状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in projectList2" on-finish-render-filters>
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                    </td>
+                                    <td>
+                                        <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                        <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                        <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                    </td>
+                                    <td>{{p.PERTAINAREANAME}}</td>
+                                    <td>{{p.INVESTMENTNAME}}</td>
+                                    <td>{{p.REVIEWPERSONNAME}}</td>
+                                    <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                    <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                    <td>
+                                        <div ng-if="'0'== p.WF_STATE">起草中</div>
+                                        <div ng-if="'1'== p.WF_STATE">审批中</div>
+                                        <div ng-if="'2'== p.WF_STATE">已审批</div>
+                                        <div ng-if="'3'== p.WF_STATE">已终止</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer clearfix">
+                        <tm-pagination conf="paginationConf2"></tm-pagination>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane {{tabIndex=='2'?'active':''}}" id="bs-tabdrop-tab3">
+            <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="form-group row nobottom-mar table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目名称</th>
+                                    <th>评审类型</th>
+                                    <th>业务单位</th>
+                                    <th>投资经理</th>
+                                    <th>评审负责人</th>
+                                    <th>法律负责人</th>
+                                    <th>申请时间</th>
+                                    <th>评审状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in projectList3" on-finish-render-filters>
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                    </td>
+                                    <td>
+                                        <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                        <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                        <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                    </td>
+                                    <td>{{p.PERTAINAREANAME}}</td>
+                                    <td>{{p.INVESTMENTNAME}}</td>
+                                    <td>{{p.REVIEWPERSONNAME}}</td>
+                                    <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                    <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                    <td>
+                                        <div ng-if="'0'== p.WF_STATE">起草中</div>
+                                        <div ng-if="'1'== p.WF_STATE">审批中</div>
+                                        <div ng-if="'2'== p.WF_STATE">已审批</div>
+                                        <div ng-if="'3'== p.WF_STATE">已终止</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer clearfix">
+                        <tm-pagination conf="paginationConf3"></tm-pagination>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane {{tabIndex=='3'?'active':''}}" id="bs-tabdrop-tab4">
+            <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="form-group row nobottom-mar table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目名称</th>
+                                    <th>评审类型</th>
+                                    <th>业务单位</th>
+                                    <th>投资经理</th>
+                                    <th>评审负责人</th>
+                                    <th>法律负责人</th>
+                                    <th>申请时间</th>
+                                    <th>评审状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in projectList4" on-finish-render-filters>
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                    </td>
+                                    <td>
+                                        <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                        <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                        <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                    </td>
+                                    <td>{{p.PERTAINAREANAME}}</td>
+                                    <td>{{p.INVESTMENTNAME}}</td>
+                                    <td>{{p.REVIEWPERSONNAME}}</td>
+                                    <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                    <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                    <td>
+                                        <div ng-if="'0'== p.WF_STATE">起草中</div>
+                                        <div ng-if="'1'== p.WF_STATE">审批中</div>
+                                        <div ng-if="'2'== p.WF_STATE">已审批</div>
+                                        <div ng-if="'3'== p.WF_STATE">已终止</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer clearfix">
+                        <tm-pagination conf="paginationConf4"></tm-pagination>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane {{tabIndex=='4'?'active':''}}" id="bs-tabdrop-tab5">
+            <form class="form-horizontal ng-pristing ng-valid ng-pristine">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="form-group row nobottom-mar table-responsive table-list">
+                            <table border="0" cellspacing="0" cellpadding="0" class="table table-hover datatable first-col-fixed">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目名称</th>
+                                    <th>评审类型</th>
+                                    <th>业务单位</th>
+                                    <th>投资经理</th>
+                                    <th>评审负责人</th>
+                                    <th>法律负责人</th>
+                                    <th>申请时间</th>
+                                    <th>评审状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="p in projectList5" on-finish-render-filters>
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' != p.WF_STATE"  href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'pre'==p.PROJECT_TYPE &&'5' == p.WF_STATE"  href="#/projectPreHistoryInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                        <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/projectBoardHighList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:40}}</a>
+                                    </td>
+                                    <td>
+                                        <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>
+                                        <div ng-if="'pre'==p.PROJECT_TYPE">投标评审</div>
+                                        <div ng-if="'bulletin'==p.PROJECT_TYPE">其他评审</div>
+                                    </td>
+                                    <td>{{p.PERTAINAREANAME}}</td>
+                                    <td>{{p.INVESTMENTNAME}}</td>
+                                    <td>{{p.REVIEWPERSONNAME}}</td>
+                                    <td>{{p.LEGALREVIEWPERSONNAME}}</td>
+                                    <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer clearfix">
+                        <tm-pagination conf="paginationConf5"></tm-pagination>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="button-group">
+            <div class="row">
+                <div class="option">
+                    <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /*===初始化查询开始时间和结束时间===*/
+    angular.element(document).ready(function () {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        };
+        $('#APPLY_DATE_START').datepicker();
+        $('#APPLY_DATE_END').datepicker(options);
+    });
+</script>

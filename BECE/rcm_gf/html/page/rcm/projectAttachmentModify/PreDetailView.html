@@ -1,0 +1,80 @@
+<div class="visa-menu">
+    <div class="col-md-12">
+        <ol class="breadcrumb breadcrumb-menu">
+            <li>
+                <!--<i class="icon-nav" style="font-size: 14px;">&#xe628;</i>-->
+                <a class="breadcrumb-text breadcrumb-text-menu">
+                    流程申请
+                </a>
+            </li>
+            <li>
+                <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                    投标评审申请
+                </a>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="panel-body">
+    <!--form表单开始-->
+    <form class="form-horizontal" name="myFormPre" id="myFormPre" novalidate>
+        <div class="">
+            <div class="panel">
+                <div class="panel-body">
+                    <div id="myTab" class="myTab">
+                        <ul class="nav nav-tabs bs-tabdrop-example">
+                            <li class="active">
+                                <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+                            </li>
+                            <!--<li>
+                                <a href="/#flow_chart" data-toggle="tab">流程图</a>
+                            </li>-->
+                            <li >
+                                <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane in active" id="contracts_file_info">
+                            <directive-project-pre-review-view></directive-project-pre-review-view>
+                            <div class="button-group">
+                                <div class="row">
+                                    <div class="option">
+                                        <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                                        <button ng-show="pre.oracle.WF_STATE=='0'" ng-click="vaildProject()" id="submitbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
+                                        <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
+                                            <pre-review-bpmn-pop-win approve="approve"></pre-review-bpmn-pop-win>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="flow_chart">
+                            <!--<directive-process-page></directive-process-page>-->
+                            <directive-process-page-new process-key="preReview"></directive-process-page-new>
+                        </div>
+                        <div class="tab-pane  clearfix row" id="contracts_resources">
+                            <!-- <directive-file-list></directive-file-list>-->
+                            <!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
+                            <directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo" business-id="businessId"
+                                                      wf-state="0" file-list="newAttachment"
+                                                      init-update="initUpdate(id)" service-type="serviceType" project-model="projectModel"></directive-accachment-new>
+                            <!--</div>
+                            <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                                <bbs-chat-new id="prePreviewBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script  type="text/javascript">
+    angular.element(document).ready(function() {
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+        }
+    });
+</script>

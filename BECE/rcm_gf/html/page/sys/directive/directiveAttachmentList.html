@@ -1,0 +1,80 @@
+<div>
+    <div class="row"  ng-if="isEdite || wfState =='0'">
+        <div class="full-drop button-right">
+            <button ng-if="!isAddDisable" type="button" ng-click="_addOneNewFile()" class="btn btn-info"
+                    title=""><i class="fa fa-cloud-download"></i>新增
+            </button>
+            <div id="compareModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="input-group">
+                                    <span class="input-group-addon">已选文件</span>
+                                    <input type="text" class="form-control" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row table-responsive">
+        <table class="table table-bordered table-hover datatable table-text-mid table-light padding0">
+            <thead>
+            <tr>
+                <th width="5%">序号</th>
+                <th width="15%" ng-if="_isShowType">资源类型</th>
+                <th width="20%">附件内容</th>
+                <th width="10%">提交人</th>
+                <th width="15%">提交时间</th>
+                <th width="30%" ng-if="isEdite || wfState =='0'">相关操作</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="item in fileList | orderBy: 'newFile + type.ITEM_CODE' : asc"
+                   ng-init="outerIndex = $index">
+            <tr>
+                <td>{{outerIndex+1}}</td>
+                <td ng-if="_isShowType">
+                    <span ng-if="item.newFile != '1'">{{item.type.ITEM_NAME}}</span>
+                    <div ng-if="item.newFile == '1'">
+                        <select ng-model="item.type"
+                                ng-options="y.ITEM_NAME for y in attachmentType track by y.ITEM_CODE"
+                                ng-change="_changeItemType(item)"
+                                style="width: 150px">
+                            <option value="">-- 请选择 --</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" ng-click="_download(item.download3d)" ng-if="item.newFile != '1'">{{item.rcmfilename}}</a>
+                    <div ng-if="item.newFile == '1' != undefined || item.rcmfilename != null">
+                        <span ng-if="item.newFile == '1'">{{item.rcmfilename}}</span>
+                    </div>
+                </td>
+                <td>{{item.last_member_name}}</td>
+                <td>{{item.last_date}}</td>
+                <td ng-if="isEdite || wfState =='0'">
+                    <button type="button" class="btn btn-danger" ng-click="_delete(item.fileid)"
+                            ng-if="item.preview3d != null && (isEdite || wfState =='0')">删除
+                    </button>
+                    <button ng-if="item.preview3d != null && (isEdite || wfState =='0')" type="button"
+                            class="btn btn-info" ng-click="_review(item.preview3d)">预览
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="_deleteBlank($index)"
+                            ng-if="item.newFile == '1' && (isEdite || wfState =='0')">删除
+                    </button>
+                    <button ng-if="item.newFile == '1' && (isEdite || wfState =='0')" type="button" class="btn btn-info"
+                            ngf-max-size="100MB" ngf-select="_uploadThat($file, $index, item)">添加
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

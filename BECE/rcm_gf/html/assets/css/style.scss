@@ -1,0 +1,476 @@
+@import "./standard.scss";
+
+/* 页面整体样式 */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+#content-wrapper {
+    padding: 10px 10px;
+    background-color: $bg-color;
+    .panel,
+    .panel-default {
+        box-shadow: none;
+        margin-bottom: 0;
+    }
+    // 首页版块样式
+    .panel-body.panel-index1 {
+        width: 84%;
+        &.panel-index2 {
+            width: 100%;
+        }
+    }
+    // 工作结果统计界面
+    .section2 {
+        margin: {
+            left: 0px;
+            right: 0px;
+        }
+        .panel-body {
+            width: calc(50% - 5px);
+        }
+        .section2-1 {
+            margin-right: 5px;
+        }
+        .section2-2 {
+            margin-left: 5px;
+        }
+    }
+}
+
+@media screen and (min-width: 992px) {}
+
+
+/* 下拉框颜色 */
+
+.select2-results .select2-highlighted {
+    color: #666;
+}
+
+
+/* 单选框颜色 */
+
+.gt-ie8 input[type=radio].px+.lbl:after {
+    background-color: #333;
+}
+
+.gt-ie8 input.px+.lbl:after,
+.gt-ie8 input.px+.lbl:before {
+    // margin: 13px 3px -3px -20px!important;
+}
+
+
+/* 页签部分 */
+
+a.tab {
+    margin: 5px 5px 5px 0!important;
+}
+
+.nav-tabs>li>a>.badge {
+    position: static;
+    margin: -1px 0 0 4px;
+}
+
+.nav-tabs {
+    border: none;
+}
+
+
+/* 表格部分 */
+
+.panel,
+.panel-default {
+    border: none;
+}
+
+.tab-content {
+    padding: 0;
+}
+
+.table-list>table {
+    border: 1px solid $dark-grey;
+}
+
+
+/* thead */
+
+.table>thead {
+    background-color: $dark-grey;
+}
+
+.table>thead>tr>th {
+    border: none;
+    border-top: 1px solid $dark-grey;
+    font-weight: normal;
+    height: 44px;
+    line-height: 44px;
+    color: #000;
+    font-size: 14px;
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>td {
+    padding: 0 16px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 14px;
+}
+
+.table>tbody>tr:hover {
+    color: $blue;
+    background-color: $grey;
+    td {
+        color: $blue;
+    }
+}
+
+.table>tbody>tr>td {
+    color: #333;
+}
+
+.table>tbody>tr>td>a {
+    color: $blue;
+    &:hover {
+        color: $dark-blue;
+    }
+}
+
+.tab-pane .more {
+    border-top: none;
+}
+
+
+/* 首页快捷菜单 */
+
+.short-menu {
+    position: fixed;
+    top: 72px;
+    right: 10px;
+    background-color: #fff;
+    width: 15%;
+    box-sizing: border-box;
+    padding: {
+        top: 20px;
+        bottom: 20px;
+    }
+    h1 {
+        font-size: 16px;
+        line-height: 2;
+        width: 140px;
+        margin: 0 auto;
+    }
+    a.shortcut-index {
+        margin: 20px auto;
+    }
+    a.more {
+        color: $blue;
+        p {
+            font-size: 14px;
+            width: 140px;
+            text-align: right;
+            margin: 0 auto;
+        }
+        &:hover {
+            color: $dark-blue;
+        }
+    }
+}
+
+
+/* 左右分布页面 */
+
+form {
+    .mcontent {
+        padding: 20px;
+    }
+    .left-content {
+        top: 100px;
+        right: 10px;
+    }
+}
+
+
+/* 标题样式 */
+
+.panel-hd-cont {
+    border-top: 2px solid $blue;
+}
+
+.panel-title {
+    background-color: $blue;
+}
+
+.panel-title .i-triangle,
+.accordion-toggle .i-triangle {
+    border-color: $blue transparent transparent $blue;
+}
+
+.accordion-toggle {
+    border-top: 2px solid $blue;
+}
+
+.accordion-toggle .text {
+    background-color: $blue;
+}
+
+
+/* 分页符 */
+
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+    background-color: $blue;
+    border-color: $blue;
+}
+
+
+/* 表格样式 */
+
+.table>thead>tr>th,
+.table>tbody>tr>td {
+    white-space: nowrap;
+    &>div>input {
+        background-color: #fff;
+        border: 1px solid #d6d6d6;
+        box-sizing: border-box;
+        height: 36px;
+        line-height: 44px;
+    }
+}
+
+
+/* 留言样式 */
+
+._message {
+    width: 100%;
+    // 留言部分
+    form#_message_form_first {
+        div.form-control {
+            min-height: 30px;
+            height: auto;
+        }
+    }
+    .select2-success {
+        div#select2-success {
+            div.form-control {
+                min-height: 30px;
+                height: auto;
+            }
+        }
+        // @框
+        ul.select2-choices {
+            padding: 0px;
+            min-height: 30px;
+            position: relative;
+            padding-left: 15px;
+            li>span {
+                line-height: 30px;
+                font-weight: 600;
+                text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+                font-size: 13px;
+            }
+            li.select2-search-choice {
+                margin: 5px;
+            }
+        }
+    }
+    // 评论部分
+    div {
+        // 头部
+        div[id^="_message_panel_head_"] {
+            a {
+                span[id^="_span_hide_content_"] {
+                    margin-left: 35px;
+                }
+            }
+        }
+        // 主体
+        div[id^="_message_panel_body_"] {
+            padding-top: 10px;
+            div {
+                div.form-control {
+                    min-height: 30px;
+                    height: auto;
+                }
+                // 左边
+                div[id^="_message_left_"] {
+                    // 姓名和时间
+                    div[id^="_message_left_top_"] {
+                        // 姓名
+                        span:first-child {
+                            // float: left;
+                            a {
+                                color: $blue;
+                            }
+                        }
+                        // 时间
+                        span:last-child {
+                            // display: none;
+                        }
+                    }
+                    // 评论内容框
+                    div[id^="_message_left_bottom_"] {
+                        // float: left;
+                        .form-control {
+                            border: none;
+                            background-color: #eff2f7;
+                            padding: 10px;
+                            border-radius: 4px;
+                            span {
+                                font-size: 16px;
+                                line-height: 1.5;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+                // 右边
+                div[id^="_message_right_"] {
+                    // 姓名和时间
+                    div[id^="_message_right_top_"] {
+                        // 姓名
+                        span:first-child {
+                            // float: left;
+                            a {
+                                color: $blue;
+                            }
+                        }
+                        // 时间
+                        span:last-child {
+                            // display: none;
+                        }
+                    }
+                    // 评论内容框
+                    div[id^="_message_right_bottom_"] {
+                        // float: left;
+                        .form-control {
+                            border: none;
+                            background-color: rgb(152, 225, 101);
+                            padding: 10px;
+                            border-radius: 4px;
+                            span {
+                                font-size: 16px;
+                                line-height: 1.5;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+            //回复内容
+            form {
+                div.form-control {
+                    height: auto;
+                    min-height: 50px;
+                }
+            }
+        }
+    }
+    // 弹出框
+    div#_submit_message_dialog {
+        .modal-content.panel {
+            // 头部
+            .modal-header.panel-heading {
+                position: relative;
+                button.close {
+                    // padding-right: 10px;
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    &:hover {
+                        background-color: $light-blue;
+                    }
+                }
+                h4.modal-title {
+                    line-height: 2;
+                    margin: 0 auto;
+                    font-weight: bold;
+                }
+            }
+            // 输入框
+            .modal-body.panel-body {
+                div.form-control {
+                    min-height: 50px;
+                    height: auto;
+                    padding: 10px;
+                }
+            }
+            // 按钮
+            .modal-footer {}
+        }
+    }
+    @media screen and(min-width: 768px) {
+        .modal-dialog {
+            margin: 100px auto;
+        }
+    }
+    // 分享弹出框
+    div#_share_message_dialog {
+        .modal-dialog .panel {
+            // 头部
+            .modal-header.panel-heading {
+                position: relative;
+                button.close {
+                    // padding-right: 10px;
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    &:hover {
+                        background-color: $light-blue;
+                    }
+                }
+                h4.modal-title {
+                    line-height: 2;
+                    margin: 0 auto;
+                    font-weight: bold;
+                }
+            }
+            // 输入框
+            .modal-body.panel-body {
+                ul {
+                    li {
+                        // &:first-child {
+                        //     position: static;
+                        //     transform: translateY(0);
+                        // }
+                        &:last-child {
+                            margin: 5px;
+                            span.addlabel {
+                                margin: 0;
+                                height: auto;
+                                line-height: 22px;
+                            }
+                        }
+                    }
+                }
+            }
+            // 按钮
+            .modal-footer {}
+        }
+    }
+    @media screen and(min-width: 768px) {
+        .modal-dialog {
+            margin: 100px auto;
+        }
+    }
+}
+
+// 单选
+// #approvalPart {
+//     .gt-ie8 input.px+span.lbl:after,
+//     .gt-ie8 input.px+span.lbl:before {
+//         margin: 2px 5px 0px -18px !important;
+//     }
+// }
+.modal.in {
+    .checkbox-inline>span.lbl:after,
+    .checkbox-inline>span.lbl:before {
+        margin: 15px 0px 0px -13px!important;
+    }
+}

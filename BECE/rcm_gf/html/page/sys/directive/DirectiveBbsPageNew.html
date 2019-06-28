@@ -1,0 +1,423 @@
+<div class="_message">
+    <style>
+        .share-img{
+            margin-left: 8px;
+            width: 28px;
+            height: 28px;
+        }
+    </style>
+    <a ng-if="_messages_array_.length  > 0" href="javascript:void(0);" id="_first_floor_{{_screen_type_}}"></a>
+    <div ng-if="_page_title_ != ''" style="text-align: center;font-size: larger;font-weight: bolder;">{{_page_title_}}</div><!--留言主题-->
+    <div ng-if="_is_show_publish_btn_">
+        <!--头部留言表单部分-->
+        <form id="_message_form_first" name="messageFormFirst" class="form-horizontal"
+              style="margin-bottom: 5px;">
+            <div>
+                <div style="font-weight: bolder;">主题：</div>
+                <div contenteditable="true" class="form-control" style="background: #fff;min-height: 30px;" id="_message_first_title_0{{_screen_type_}}"></div>
+            </div>
+            <!--下拉框-->
+            <div ng-if="_is_show_priority_ && _priority_type_ == 'select'">
+                <div style="font-weight: bolder;">优先级：</div>
+                <select class="form-control" ng-model="_message_first.messagePriority" ng-options="_message_priority_.key as _message_priority_.value for _message_priority_ in _message_priorities_"></select>
+            </div>
+            <!--单选框-->
+            <div ng-if="_is_show_priority_ && _priority_type_ == 'radio'">
+                <div style="font-weight: bolder;">优先级：</div>
+                <label class="radio radio-inline" ng-repeat="_message_priority_ in _message_priorities_">
+                    <input class="px" type="radio" ng-model="_message_first.messagePriority" value="{{_message_priority_.key}}"/>
+                    <span class="lbl">
+                        <div class="text">{{_message_priority_.value}}</div>
+                    </span>
+                </label>
+            </div>
+            <div><!--留言内容-->
+                <div style="font-weight: bolder;">内容：</div>
+                <div contenteditable="true" class="form-control" style="background: #fff;min-height: 80px;" id="_message_first_0{{_screen_type_}}"></div>
+                <input type="text" ng-model="_message_first.parentId" ng-hide="true">
+                <input type="text" ng-model="_message_first.originalId" ng-hide="true">
+                <input type="text" ng-model="_message_first.procInstId" ng-hide="true">
+                <input type="text" ng-model="_message_first.repliedBy" ng-hide="true">
+                <input type="text" ng-model="_message_first.repliedName" ng-hide="true">
+            </div>
+        </form>
+        <div class="select2-success" style="border: 0px;margin-bottom: 5px;"><!--@的用户-->
+            <div id="_via_Model{{_screen_type_}}"
+                 class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                <ul class="select2-choices" data-toggle="modal" data-target="#_via_users_mul_dialog{{_screen_type_}}">
+                    <li><span style="height:24px;font-size: 13px;font-weight: 600;text-shadow: 0 -1px 0 rgba(0,0,0,.2);">@</span></li>
+                    <li class="select2-search-choice" ng-repeat="_via in _via_users_TempCheckedUsers">
+                        <div>{{_via.NAME}}</div>
+                        <a class="select2-search-choice-close" tabindex="-1"
+                           ng-click="_via_users_removeUsers(_via)"></a>
+                        <div class="full-drop"><input type="hidden" value="{{_via.VALUE}}">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: left;font-size: small;">
+            <!--表单附件上传start-->
+            <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
+               ng-click="_show_message_attach_popup('Y', '', '', '', '', '')">
+                <span class="addlabel blue">选择附件</span>
+            </a>
+            <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_first.html'"></span>
+            <!--表单附件上传end-->
+            <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
+               ng-click="_submit_message_form_('Y', '', '', '', '', '', 'Y')">
+                <span class="addlabel blue">发表留言</span>
+            </a>
+        </div>
+    </div>
+    <!--锚点-顶部-->
+    <div ng-if="_messages_array_.length  > 0" style="text-align: right;font-size: small;color: blue;">
+        <a href="javascript:void(0);" ng-click="_jump_page_to_('_last_floor_' + _screen_type_)">跳到底部</a>
+    </div>
+    <!--留言分组迭代-->
+    <div ng-repeat="_messages_ in _messages_array_"
+         id="_messages_{{$index}}" style="border: 1px solid #d7d7d7;padding: 10px;margin-top: 5px;">
+        <div id="_message_panel_head_{{$index}}" ng-click="_check_collapse_event_(_messages_array_[$index][0], $index)">
+            <a class="accordion-toggle collapsed" href="/#_message_panel_body_{{_messages_array_[$index][0].messageId}}" data-toggle="collapse">
+                <!--<span class="text" ng-if="_is_pagination_">{{(_message_pagination_configuration_.currentPage - 1) * _message_pagination_configuration_.itemsPerPage + $index + 1}}楼
+                    <i class="i-triangle"></i>
+                </span>
+                <span class="text" ng-if="!_is_pagination_">{{$index + 1}}楼
+                    <i class="i-triangle"></i>
+                </span>-->
+                <span class="text" style="">{{_messages_[0].messageTitle}}
+                    <i class="i-triangle" style=""></i>
+                </span>
+                <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
+                    {{_messages_array_[$index][0].createdName}}&nbsp;
+                    {{_messages_array_[$index][0].messageDate}}&nbsp;
+                    {{_messages_array_[$index][0].messageContent|htmlToText|contentEllipsisFilter}}
+                </span>
+            </span>
+            </a>
+        </div>
+        <!--分组迭代-->
+        <div id="_message_panel_body_{{_messages_array_[$index][0].messageId}}" class="panel-collapse collapse">
+            <div ng-repeat="_message_ in _messages_" id="_message_{{$index}}_{{_message_.messageId}}">
+                <!--左边分组迭代-->
+                <div ng-if="_message_.position == 'left'" style="margin-right: 35%;margin-bottom: 10px;"
+                     id="_message_left_{{$index}}_{{_message_.messageId}}">
+                    <div id="_message_left_top_{{$index}}_{{_message_.messageId}}">
+                        <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
+                        <span>{{_message_.createdDept}}</span>
+                        <span>{{_message_.createdPosition}}</span><br>
+                        <span style="font-size: small;">{{_message_.messageDate}}</span>
+                        <a href="javascript:void(0);" style="font-size: small;color: blue; "
+                           ng-click="_delete_message_(_message_.messageId, _message_)"
+                           ng-if="_messages_.length > 1 && _message_.createdBy == _init_uuid_global_ && $index > 0 && _is_show_reply_btn_">撤回</a>
+                        <a href="javascript:void(0);" style="font-size: small;color: blue; "
+                           ng-click="_delete_message_(_message_.messageId, _message_)"
+                           ng-if="_messages_.length <= 1 && _message_.createdBy == _init_uuid_global_ && $index <= 0 && _is_show_reply_btn_">撤回</a>
+                    </div>
+                    <div id="_message_left_bottom_{{$index}}_{{_message_.messageId}}">
+                        <div style="min-height: 50px;" class="form-control" id="_message_left_textarea_{{$index}}_{{_message_.messageId}}"
+                             readonly><span style="color: black;word-break:break-all;">
+                            <div ng-bind-html='_message_.messageContent|textToHtml'></div>
+                            </span>&nbsp;<span
+                             style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
+                            <br><!--展示附件信息-->
+                            <span ng-include="'page/sys/common/file_info_mess.html'"></span>
+                        </div>
+                    </div><!--待阅已阅提示信息-->
+                    <span id="{{_message_.messageId}}" style="position: relative;top:0px;"></span>
+                </div>
+                <!--右边分组迭代-->
+                <div ng-if="_message_.position == 'right'" style="margin-left: 35%;margin-bottom: 10px;"
+                     id="_message_right_{{$index}}_{{_message_.messageId}}">
+                    <div id="_message_right_top_{{$index}}_{{_message_.messageId}}">
+                        <span style="color: blue;"><a href="javascript:void(0);" ng-click="_user_about_click_('floor', _message_.createdBy, _message_.createdName)">{{_message_.createdName}}</a></span>
+                        <span>{{_message_.createdDept}}</span>
+                        <span>{{_message_.createdPosition}}</span><br>
+                        <span style="font-size: small;">{{_message_.messageDate}}</span>
+                        <a href="javascript:void(0);" style="font-size: small;color: blue; "
+                           ng-click="_delete_message_(_message_.messageId, _message_)"
+                           ng-if="_message_.createdBy == _init_uuid_global_ && _is_show_reply_btn_">撤回</a>
+                    </div>
+                    <div id="_message_right_bottom_{{$index}}_{{_message_.messageId}}" class="row">
+                        <div class="form-control" style="min-height: 50px;" id="_message_right_textarea_{{$index}}_{{_message_.messageId}}" readonly>
+                            <span style="color: black;word-break:break-all;">
+                                <div ng-bind-html='_message_.messageContent|textToHtml'></div>
+                            </span>&nbsp;<span
+                             style="color: blue;font-size: small;" ng-repeat="_viaUser_ in _message_.viaArray"><a href="javascript:void(0);" ng-click="_user_about_click_('via', _viaUser_.viaId, _viaUser_.viaName)">@{{_viaUser_.viaName}}</a></span>
+                            <!--展示附件信息-->
+                            <span ng-include="'page/sys/common/file_info_mess.html'"></span>
+                        </div>
+                    </div><!--待阅已阅提示信息-->
+                    <span id="{{_message_.messageId}}" style="position: relative;"></span>
+                </div>
+            </div>
+            <!--每个主题的回复表单-->
+            <form ng-if="_is_show_reply_btn_" id="_message_form_bottom_{{$index}}{{_screen_type_}}" name="messageForm" class="form-horizontal" style="text-align: left;margin-bottom: 2px;">
+                <div style="font-weight: bolder;">回复：</div>
+                <div class="form-control" id="_message_textarea_bottom_{{$index}}{{_screen_type_}}" contenteditable="true"
+                               style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
+               <!-- <div class="select2-success" style="border: 0px;margin-bottom: 5px;">
+                    <div id="s2id_projectModel"
+                         class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                        <ul class="select2-choices" data-toggle="modal" data-target="#_via_users_mul_dialog">
+                            <li><span style="height:24px;font-size: 13px;font-weight: 600;text-shadow: 0 -1px 0 rgba(0,0,0,.2);">@</span></li>
+                            <li class="select2-search-choice" ng-repeat="_via in _via_users_TempCheckedUsers">
+                                <div>{{_via.NAME}}</div>
+                                <a class="select2-search-choice-close" tabindex="-1"
+                                   ng-click="_via_users_removeUsers(_via)"></a>
+                                <div class="full-drop"><input type="hidden" value="{{_via.VALUE}}">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>-->
+                <input type="text" ng-model="_message.parentId" ng-hide="true">
+                <input type="text" ng-model="_message.originalId" ng-hide="true">
+                <input type="text" ng-model="_message.procInstId" ng-hide="true">
+                <input type="text" ng-model="_message.repliedBy" ng-hide="true">
+                <input type="text" ng-model="_message.repliedName" ng-hide="true">
+                <input type="text" ng-model="_message.via" ng-hide="true">
+                <!--表单附件上传start-->
+                <a ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" href="javascript:void(0);" style="cursor:pointer;"
+                   ng-click="_show_message_attach_popup('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
+                    <span class="addlabel blue">选择附件</span>
+                </a>
+                <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_form.html'"></span>
+                <!--表单附件上传end-->
+                <a href="javascript:void(0);" style="cursor:pointer;"
+                   ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index, 'Y')">
+                    <span class="addlabel blue">回复</span>
+                </a>
+                <!--<a href="javascript:void(0);" style="cursor:pointer;"
+                   ng-click="_show_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, 0)">
+                    <span class="addlabel blue">回复</span>
+                </a>-->
+                <a ng-if="_is_show_share_" href="javascript:void(0);" style="cursor:pointer;"
+                   ng-click="_show_share_message_form_(_messages_array_[$index][0].messageId)">
+                    <span class="addlabel blue">分享</span>
+                </a>
+                <!--<a href="javascript:void(0);" style="cursor:pointer;" data-toggle="modal"
+                   data-target="#_via_users_mul_dialog">
+                    <span class="addlabel blue">@用户</span>
+                </a>-->
+            </form>
+        </div>
+    </div>
+    <!--锚点-底部-->
+    <div ng-if="_messages_array_.length  > 0" style="text-align: right;font-size: small;color: blue;">
+        <a href="javascript:void(0);" id="_last_floor_{{_screen_type_}}" ng-click="_jump_page_to_('_first_floor_' + _screen_type_)">回到顶部</a>
+    </div>
+    <!--分页部分-->
+    <div ng-if="_is_pagination_ && _messages_array_.length > 0">
+        <tm-pagination conf="_message_pagination_configuration_"></tm-pagination>
+    </div>
+    <!--@用户选择区域-->
+    <div id="_via_users_mul_dialog{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <direct-user-multi-dialog id="_via_users_mul_dialog{{_screen_type_}}" title="用户列表"
+                                  mapped-key-value="_via_users_MappedKeyValue"
+                                  url="{{_via_user_query_url_}}"
+                                  checked-users="_via_users_CheckedUsers"
+                                  parent-save-selected="_via_users_ParentSaveSelected()"></direct-user-multi-dialog>
+    </div>
+    <!--回复区域-->
+    <!--<div id="_submit_message_dialog" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content panel">
+                <div class="modal-header panel-heading" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="_my_submit_modal_label">回复</h4>
+                </div>
+                <div class="modal-body panel-body">
+                    <div contenteditable="true" class="form-control" id="_message_textarea_bottom_0"
+                              style="margin-bottom: 2px;background: #fff;min-height: 50px;"></div>
+                    <input type="text" ng-model="_message.parentId" ng-hide="true">
+                    <input type="text" ng-model="_message.originalId" ng-hide="true">
+                    <input type="text" ng-model="_message.procInstId" ng-hide="true">
+                    <input type="text" ng-model="_message.repliedBy" ng-hide="true">
+                    <input type="text" ng-model="_message.repliedName" ng-hide="true">
+                    <input type="text" ng-model="_message.via" ng-hide="true">
+                </div>
+                <div class="modal-footer">
+                    <div class="button-group">
+                        <div class="row">
+                            <div class="option">
+                                <a href="javascript:void(0);" ng-click="_save_message_dialog_form_();">
+                                    <span class="addlabel blue">确定</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--分享区域-->
+    <div id="_share_message_dialog{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content panel">
+                <div class="modal-header panel-heading" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="_my_share_modal_label">分享</h4>
+                </div>
+                <div class="modal-body panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="select2-success">
+                                <div id="_share_Model"
+                                     class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
+                                    <ul class="select2-choices">
+                                        <li class="select2-search-choice" ng-repeat="_share in _share_users_TempCheckedUsers">
+                                            <div>
+                                                {{_share.NAME}}
+                                            </div>
+                                            <a class="select2-search-choice-close" tabindex="-1"
+                                               ng-click="_share_users_removeUsers(_share)">
+                                            </a>
+                                            <div class="full-drop">
+                                                <input type="hidden" value="{{_share.VALUE}}">
+                                            </div>
+                                        </li>
+                                        <li style="height:29px;"></li>
+                                        <li>
+                                            <span class="addlabel blue" style="cursor:pointer;" href="#" data-toggle="modal" data-target="#_share_users_mul_dialog_{{_screen_type_}}">+分享人</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="_is_show_share_">
+                        <div class="col-sm-12" ng-if="_is_show_share_">
+                            <span ng-if="_is_show_dt_ || _is_show_wx_ || _is_show_sms_ || _is_show_email_">分享到：</span>
+                            <img ng-if="_is_show_dt_" src="page/sys/common/img/dt.png" title="钉钉" width="28px" height="28px" ng-click="_choice_share_type_('DT')"></img>
+                            <img ng-if="_is_show_wx_" class="share-img" src="page/sys/common/img/weixin.jpg" title="微信" ng-click="_choice_share_type_('WX')"></img>
+                            <img ng-if="_is_show_sms_" class="share-img" src="page/sys/common/img/sms.png" title="短信" ng-click="_choice_share_type_('SMS')"></img>
+                            <img ng-if="_is_show_email_" class="share-img" src="page/sys/common/img/email.jpg" title="邮箱" ng-click="_choice_share_type_('EMAIL')"></img>
+                            <span ng-if="_is_show_dt_ || _is_show_wx_ || _is_show_sms_ || _is_show_email_" id="_share_message_type_span_{{_screen_type_}}"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="_share_message_url{{_screen_type_}}">
+                                <a href="" id="_share_message_url_a{{_screen_type_}}"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="button-group">
+                        <div class="row">
+                            <div class="option">
+                                <a href="javascript:void(0);" ng-click="_share_message_dialog_form_();">
+                                    <span class="addlabel blue">确定</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--分享用户弹窗-->
+    <div id="_share_users_mul_dialog_{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <direct-user-multi-dialog id="_share_users_mul_dialog_{{_screen_type_}}" title="{{'用户列表'}}"
+                                  mapped-key-value="_share_users_MappedKeyValue"
+                                  checked-users="_share_users_CheckedUsers"
+                                  parent-save-selected="_share_users_ParentSaveSelected()"></direct-user-multi-dialog>
+    </div>
+    <!--用户信息弹窗-->
+    <div id="_message_user_dialog{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content panel">
+                <div class="modal-header panel-heading" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="_my_message_user_modal_label{{_screen_type_}}">用户信息</h4>
+                </div>
+                <div class="modal-body panel-body">
+                    <div class="row">
+                        <label class="col-sm-3 control-label">账号</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.USER_ACCOUNT" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">姓名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.USER_NAME" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">性别</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.SEX" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">组织</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.ORG_NAME" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">电话</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.CONTACT" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label">邮箱</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"  ng-model="_message_user.EMAIL" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="button-group">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--附件选择弹窗-->
+    <div id="_message_attach_dialog{{_screen_type_}}" class="modal" tabindex="-1" role="dialog" style="display: none;overflow:scroll">
+        <div class="modal-dialog">
+            <div class="modal-content panel">
+                <div class="modal-header panel-heading" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="_message_attach_dialog_close_()">×</button>
+                    <h4 class="modal-title" id="_my_message_attach_modal_label{{_screen_type_}}">附件上传</h4>
+                </div>
+                <div class="modal-body panel-body">
+                    <div class="td-checkbox txl noLeftPadMin">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" class="px" name="_is_show_upload_part_" ng-model="_is_show_upload_part_" ng-checked="_is_show_upload_part_" ng-click="_show_link_resources_popup()"/>
+                            <span class="lbl">更新相关资源</span>
+                            &nbsp;&nbsp;
+                            <span class="lbl">
+                                <a ng-if="_form_file_.fileid == null && _is_show_reply_btn_"
+                                   style="color: blue;"
+                                   ngf-max-size="1000MB" ngf-select="_message_upload_file_($file, _is_first_mess,_idx_mess)"
+                                   href="javascript:void(0);">选择附件
+                                </a>
+                            </span>
+                        </label>
+                    </div>
+                    <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_ && _is_first_mess == 'N'" ng-include="'page/sys/common/file_info_form.html'">
+                    </div>
+                    <span id="_popup_file_span{{_screen_type_}}"></span>
+                    <div style="margin-top: 10px;" ng-show="!_is_show_upload_part_ && _is_first_mess == 'Y'" ng-include="'page/sys/common/file_info_first.html'">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="button-group">
+                        <div class="row">
+                            <div class="option">
+                                <!--<a href="javascript:void(0);" ng-click="_save_mess_file_dialog(_is_first_mess,_original_id_mess, _parent_id_mess, _replied_by_mess, _replied_name_mess, _idx_mess);">
+                                    <span class="addlabel blue">确定</span></a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>同步在途附件</title>
+    <link rel="stylesheet" href="/html/assets/javascripts/wui-date/css/wui.min.css" type="text/css">
+    <script type="text/javascript" src="/html/assets/javascripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/html/assets/angularjs/angular-1.4.0/angular.js"></script>
+
+</head>
+<body>
+<div data-ng-app="myApp" ng-controller="myCtrl">
+    <form method="post" enctype="multipart/form-data">
+        业务类型
+        <select name="projectType" id="projectType" ng-model="projectType">
+            <option ng-repeat="d in ds" value="{{d.code}}">{{d.name}}</option>
+        </select>
+        附件位置
+        <select name="fileLocal" id="fileLocal" ng-model="fileLocal">
+            <option ng-repeat="f in fs" value="{{f.code}}">{{f.name}}</option>
+        </select>
+        <button class="btn btn-info" ng-click="queryPost()">确定</button>
+    </form>
+    <br>
+</div>
+<script type="text/javascript">
+    /************************************/
+    var myApp = angular.module("myApp", []);
+    myApp.controller("myCtrl", function ($scope, $http) {
+        $scope.ds = [{code: 'pfr', name: '正式评审'}, {code: 'pre', name: '投标评审'}, {code: 'bulletin', name: '其他评审'}];
+        $scope.fs = [{code: 'related', name: '相关资源'}, {code: 'report', name: '报告'}, {code: 'model', name: '提交决策会材料模板'}, {code: 'decision', name: '决策通知书'}];
+
+        $scope.queryPost = function (params, func) {
+            var params = JSON.stringify({"projectType":$scope.projectType, "fileLocal": $scope.fileLocal});
+            $.ajax({
+                url: 'http://localhost:8080/rcm-rest/attchmentSynchronization/saveOldAttachmentToCould',
+                type: "POST",
+                dataType: "json",
+                data: params,
+                async: false,
+                success: function (data) {
+                    func(data);
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
