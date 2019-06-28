@@ -1447,7 +1447,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
          $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
          for(var i in attachment){
              var file = attachment[i];
-             console.log(file);
              for (var j in $scope.newAttachment){
                  if (file.fileId == $scope.newAttachment[j].fileid){
                      $scope.newAttachment[j].fileName = file.fileName;
@@ -1473,7 +1472,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		    url:srvUrl+url,
 		    data: $.param({"id":id})
 		}).success(function(data){
-			debugger;
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
 			/*================开始===============*/
@@ -2032,7 +2030,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
          $("#userSinDialog").modal('show');
      };
      $scope.changeWork = function () {
-         console.log($scope.approve);
          //人员验证
          if ($scope.checkedUser.NAME == null || $scope.checkedUser.NAME == '') {
              $.alert("请选择目标人员！");
