@@ -1473,8 +1473,24 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		    url:srvUrl+url,
 		    data: $.param({"id":id})
 		}).success(function(data){
+			debugger;
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
+			/*================开始===============*/
+			/*
+			* 此处再根据当前任务节点和审批用户决定WF_STATE的值
+			* 如果当前审批节点是"投资经理"+当前用户是投资经理本人
+			* $scope.pfrOracle.WF_STATE = '0';
+			* Add By LiPan 2019-06-28
+			* */
+            if(!isEmpty($scope.curTask)){
+                if('usertask3' == $scope.curTask['TASK_DEF_KEY_']){
+                    if($scope.credentials.UUID == $scope.curTask['AUDITUSERID']){
+                        $scope.pfrOracle.WF_STATE = '0';
+                    }
+                }
+            }
+            /*================结束===============*/
             // 附件显示
             var time = $scope.pfr.create_date.substring(0,10);
             var thisTime = '2019-6-3';
@@ -1581,7 +1597,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
             if($scope.pfr.is_supplement_review == 1){
                 $scope.getNoticeOfDecstionByProjectFormalID($scope.pfr.apply.projectNo);
             };
-
 			hide_Mask();
 		});
         /*// 查询文件变更记录
@@ -2758,4 +2773,5 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	 } else {
          $scope.isShowEdit = true;
 	 }
+	 $scope.curTask = curTask;
 }]);
