@@ -175,18 +175,18 @@
     }
 
     function logout() {
-        var urlControl = srvUrl == "http://riskcontrol.bewg.net.cn/rcm-rest/";
+        var urlControl = srvUrl == "http://riskcontrol.bece.net.cn/rcm-rest_gf/";
         var userAccount = $.cookie('AuthUser_LoginId');
         if (userAccount == null) {
             // 			window.location.href="http://sso.bewg.net.cn";
             // 			window.location.href="signin.html";
             if (urlControl) {
-                window.location.href = "http://sso.bewg.net.cn";
+                window.location.href = "http://sso.bece.net.cn";
             } else {
                 window.location.href = "signin.html";
             }
         } else {
-            window.location.href = "http://sso.bewg.net.cn";
+            window.location.href = "http://sso.bece.net.cn";
         }
 
     }
