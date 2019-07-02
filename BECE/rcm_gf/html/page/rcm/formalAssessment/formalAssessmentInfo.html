@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="row" style="height: 40px;">
-                        <label class="col-sm-2 control-label">业务单位</label>
+                        <label class="col-sm-2 control-label">所属大区</label>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" data-toggle="modal"
                                    data-target="#myModal1" id="pertainAreaName" name="pertainAreaName"
@@ -89,7 +89,7 @@
                             <input type="text" class="form-control"
                                    value="{{pfr.apply.investmentManager.NAME}}" readonly/>
                         </div>
-                        <label class="col-sm-2 control-label"><span
+                        <!--<label class="col-sm-2 control-label"><span
                                 class="required-r">*</span>基层法务人员</label>
                         <div class="col-sm-4 has-feedback">
                             <div id="headergrassrootsLegalStaffName">
@@ -120,6 +120,11 @@
                                        name="grassrootsLegalStaffValue"
                                        ng-model="pfr.apply.grassrootsLegalStaff.VALUE"/>
                             </div>
+                        </div>-->
+                        <label class="col-sm-2 control-label">项目规模</label>
+                        <div class="col-sm-4">
+                                        <textarea class="form-control" id="projectSize" name="projectSize"
+                                                  ng-model="pfr.apply.projectSize" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="row" style="height: 40px;">
@@ -165,11 +170,11 @@
                             <span class="unit-n">万元</span>
                         </div>
                     </div>
-                    <div class="row">
+                    <!--<div class="row">
                         <label class="col-sm-2 control-label"><span
                                 class="required-r">*</span>市场投资中心项目负责人</label>
                         <div class="col-sm-4 has-feedback">
-                            <!--style="width: calc(50% - 2.5px);margin-right: 5px"-->
+                            &lt;!&ndash;style="width: calc(50% - 2.5px);margin-right: 5px"&ndash;&gt;
                             <div id="headerinvestmentPersonName" class="col-sm-12 noleft-pad noright-pad">
                                 <div ng-click="setDirectiveParam('investmentPerson',0)" data-toggle="modal"
                                      data-target="#roleUserRaido-modal-investmentPerson" class="select2-success">
@@ -194,7 +199,7 @@
                             <input type="hidden" id="investmentPersonValue" name="investmentPersonValue"
                                    ng-model="pfr.apply.investmentPerson.VALUE"/>
 
-                            <!--<div id="headerdirectPersonName" class="col-sm-6 noleft-pad noright-pad" style="width: calc(50% - 2.5px)">
+                            &lt;!&ndash;<div id="headerdirectPersonName" class="col-sm-6 noleft-pad noright-pad" style="width: calc(50% - 2.5px)">
                                 <div ng-click="setDirectiveParam('directPerson',0)"  data-toggle="modal" data-target="#userRaido-modal"  class="select2-success">
                                     <div  class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
                                         <ul class="select2-choices">
@@ -208,14 +213,14 @@
                                 </div>
                             </div>
                             <input type="hidden" id="directPersonName" name="directPersonName" ng-model="pfr.apply.directPerson.NAME" value="{{pfr.apply.directPerson.NAME}}" />
-                            <input type="hidden" id="directPersonValue" name="directPersonValue" ng-model="pfr.apply.directPerson.VALUE"  />-->
+                            <input type="hidden" id="directPersonValue" name="directPersonValue" ng-model="pfr.apply.directPerson.VALUE"  />&ndash;&gt;
                         </div>
                         <label class="col-sm-2 control-label">项目规模</label>
                         <div class="col-sm-4">
                                         <textarea class="form-control" id="projectSize" name="projectSize"
                                                   ng-model="pfr.apply.projectSize" placeholder=""></textarea>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row" style="height: 40px;">
                         <label class="col-sm-2 control-label">单体项目数</label>
                         <div class="col-sm-4 has-feedback">
