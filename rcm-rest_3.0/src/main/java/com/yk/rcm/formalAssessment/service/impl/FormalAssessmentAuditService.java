@@ -255,8 +255,11 @@ public class FormalAssessmentAuditService implements IFormalAssessmentAuditServi
 		
 		//基层法务人员
 		Map<String, Object> grassrootsLegalStaff = (Map<String, Object>) apply.get("grassrootsLegalStaff");
-		String grassrootsLegalStaffValue = (String) grassrootsLegalStaff.get("VALUE");
-		
+		String grassrootsLegalStaffValue = null;
+		if(grassrootsLegalStaff != null){
+			grassrootsLegalStaffValue = (String) grassrootsLegalStaff.get("VALUE");
+		}
+
 		//流程变量赋值
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("investmentManager", investmentManagerValue);
