@@ -91,6 +91,7 @@
 													<th class="txc">序号</th>
 													<th>项目名称</th>
 													<th>项目状态</th>
+													<th>决策时间</th>
 												</tr>
 												</thead>
 												<tbody class="valign-middle">
@@ -104,7 +105,11 @@
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span>
+													</td>
+													<td>
+														{{p.DECISION_DATE}}
+													</td>
 												</tr>
 												</tbody>
 											</table>
@@ -139,7 +144,8 @@
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span>
+													</td>
 												</tr>
 												</tbody>
 											</table>
@@ -160,6 +166,7 @@
 													<th class="txc">序号</th>
 													<th>项目名称</th>
 													<th>项目状态</th>
+													<th>决策时间</th>
 												</tr>
 												</thead>
 												<tbody class="valign-middle">
@@ -173,7 +180,11 @@
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span>
+													</td>
+													<td>
+														{{p.DECISION_DATE}}
+													</td>
 												</tr>
 												</tbody>
 											</table>
@@ -227,6 +238,7 @@
 													<th class="txc">序号</th>
 													<th>项目名称</th>
 													<th>项目状态</th>
+													<th>决策时间</th>
 												</tr>
 												</thead>
 												<tbody class="valign-middle">
@@ -239,7 +251,11 @@
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span>
+													</td>
+													<td>
+														{{p.DECISION_DATE}}
+													</td>
 												</tr>
 												</tbody>
 											</table>

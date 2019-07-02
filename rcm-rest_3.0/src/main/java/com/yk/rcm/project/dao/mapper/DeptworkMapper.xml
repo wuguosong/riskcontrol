@@ -138,7 +138,8 @@
 		select *  from rcm_v_deptreport_0922 where userid  = #{userId} and person_type = '1'
 	</select>
 	<select id="queryProjects" resultType="hashmap" parameterType="hashmap">
-		select * from rcm_v_deptlist  d
+		select d.*,v.decision_date from rcm_v_deptlist  d
+		left join rcm_v_project_info v on v.business_id = d.businessid
 		where d.wf_state != 3 
 		<if test="stage != null and stage != '' "> and d.stage in ( ${stage} ) </if>
 		<if test="pType != null and pType != '' "> and d.type = #{pType} </if>
