@@ -2157,6 +2157,25 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
                     $scope.showLegalToConfirm = true;
                 }
             }
+            /*============对流程操作选项做处理start lipan 2019-07-03==========*/
+			var proOpts = [];
+            for(var i = 0; i < $scope.approve.processOptions.length; i++){
+				var proOpt = $scope.approve.processOptions[i];
+				if(proOpt.flowId == 'flow74'){
+					// 基层法务确认操作，有条件添加
+					if(!isEmpty($scope.pfr.apply.grassrootsLegalStaff)){
+                        if(!isEmpty($scope.pfr.apply.grassrootsLegalStaff.VALUE)){
+                            proOpts.push(proOpt);
+                        }
+					}
+				}else if(proOpt.flowId == 'flow21'){
+					// 退回双投中心操作
+                }else{
+                    proOpts.push(proOpt);
+				}
+			}
+			$scope.approve.processOptions = proOpts;
+			/*============对流程操作选项做处理end lipan 2019-07-03==========*/
 		 }else{
 		 	// TODO 是否需要其它操作？
 		 }

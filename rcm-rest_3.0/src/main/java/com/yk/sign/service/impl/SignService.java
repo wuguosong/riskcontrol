@@ -150,7 +150,14 @@ public class SignService implements ISignService {
 
     private List<Map<String, Object>> dealDate(List<Map<String, Object>> logs) {
         if (CollectionUtils.isNotEmpty(logs)) {
-            logs.get(logs.size() - 1).put("AUDITTIME", "");
+            // logs.get(logs.size() - 1).put("AUDITTIME", "");
+            // 遍历
+            for (Map<String, Object> log : logs) {
+                String isWaiting = String.valueOf(log.get("ISWAITING"));
+                if ("1".equals(isWaiting)) {
+                    log.put("AUDITTIME", "");
+                }
+            }
         }
         return logs;
     }
@@ -927,15 +934,15 @@ public class SignService implements ISignService {
             _reviewApproval.get_legalDistribution().put("_backgroundTask", _backgroundTask);
             // 设置评审负责人审批时竖线样式
             String _backgroundReviewChargeApproval = "";
-            if(_reviewApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
-                    && _reviewApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+            if (_reviewApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _reviewApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0) {
                 _backgroundReviewChargeApproval = "background: #999!important;";
             }
             _reviewApproval.get_reviewChargeApproval().put("_backgroundReviewChargeApproval", _backgroundReviewChargeApproval);
             // 设置法律负责人审批时竖线样式
             String _backgroundLawChargeApproval = "";
-            if(_reviewApproval.get_lawChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
-                    && _reviewApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+            if (_reviewApproval.get_lawChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _reviewApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0) {
                 _backgroundLawChargeApproval = "background: #999!important;";
             }
             _reviewApproval.get_lawChargeApproval().put("_backgroundLawChargeApproval", _backgroundLawChargeApproval);
@@ -978,15 +985,15 @@ public class SignService implements ISignService {
             _formalApproval.get_legalDistribution().put("_backgroundTask", _backgroundTask);
             // 设置评审负责人审批时竖线样式
             String _backgroundReviewChargeApproval = "";
-            if(_formalApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
-                    && _formalApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+            if (_formalApproval.get_reviewChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _formalApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0) {
                 _backgroundReviewChargeApproval = "background: #999!important;";
             }
             _formalApproval.get_reviewChargeApproval().put("_backgroundReviewChargeApproval", _backgroundReviewChargeApproval);
             // 设置法律负责人审批时竖线样式
             String _backgroundLawChargeApproval = "";
-            if(_formalApproval.get_lawChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
-                    && _formalApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0){
+            if (_formalApproval.get_lawChargeApproval().getInteger(_ApprovalNode._approvalStateCode) == 1
+                    && _formalApproval.get_reviewChargeConfirm().getInteger(_ApprovalNode._approvalStateCode) == 0) {
                 _backgroundLawChargeApproval = "background: #999!important;";
             }
             _formalApproval.get_lawChargeApproval().put("_backgroundLawChargeApproval", _backgroundLawChargeApproval);
@@ -1217,11 +1224,11 @@ public class SignService implements ISignService {
      */
     private void updateApprovalLogs(Map<String, Object> updateParams, List<Map<String, Object>> breakBeforeLogs, String taskId) {
         for (Map<String, Object> breakBefore : breakBeforeLogs) {
-            if("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))){
+            if ("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))) {
                 updateParams.put("logId", String.valueOf(breakBefore.get("ID")));
                 updateParams.put("taskId", String.valueOf(breakBefore.get("TASKID")));
                 updateParams.put("auditTime", DateUtil.getCurrentDate());
-                if(!taskId.equals(String.valueOf(breakBefore.get("TASKID")))){
+                if (!taskId.equals(String.valueOf(breakBefore.get("TASKID")))) {
                     updateParams.put("comments", "系统驳回");
                 }
                 signMapper.updateLogsStatus(updateParams);
@@ -1231,9 +1238,10 @@ public class SignService implements ISignService {
 
     /**
      * 代办转已办
-     * @param processKey 流程Key
+     *
+     * @param processKey  流程Key
      * @param businessKey 业务Key
-     * @param owners 目标处理人
+     * @param owners      目标处理人
      */
     private void todoTurnDone(String processKey, String businessKey, List<String> owners) {
         TodoClient todoClient = TodoClient.getInstance();
@@ -1257,15 +1265,16 @@ public class SignService implements ISignService {
 
     /**
      * 获取未驳回前的审批日志处理人
+     *
      * @param breakBeforeLogs 未驳回前的审批日志列表
      * @return 处理人列表
      */
-    private List<String> getApprovalLogAuditUsers(List<Map<String, Object>> breakBeforeLogs){
+    private List<String> getApprovalLogAuditUsers(List<Map<String, Object>> breakBeforeLogs) {
         List<String> list = new ArrayList<String>();
         for (Map<String, Object> breakBefore : breakBeforeLogs) {
-            if("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))){
+            if ("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))) {
                 String user = String.valueOf(breakBefore.get("AUDITUSERID"));
-                if(!list.contains(user)){
+                if (!list.contains(user)) {
                     list.add(user);
                 }
             }
@@ -1275,17 +1284,18 @@ public class SignService implements ISignService {
 
     /**
      * 更新审批日志序列号
-     * @param processKey 流程Key
+     *
+     * @param processKey  流程Key
      * @param businessKey 业务Key
-     * @param tasks 任务实例Id
-     * @param taskId 当前任务Id
+     * @param tasks       任务实例Id
+     * @param taskId      当前任务Id
      */
-    private void updateApprovalLogsOrderBy(String processKey, String businessKey, List<String> tasks, String taskId){
+    private void updateApprovalLogsOrderBy(String processKey, String businessKey, List<String> tasks, String taskId) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("processKey", processKey);
         params.put("businessKey", businessKey);
-        for(String task : tasks){
-            if(!taskId.equals(task)){
+        for (String task : tasks) {
+            if (!taskId.equals(task)) {
                 params.put("taskId", task);
                 signMapper.updateLogsOrder(params);
             }
@@ -1294,12 +1304,13 @@ public class SignService implements ISignService {
 
     /**
      * 结束并行任务中的其它任务
+     *
      * @param hisTasks 并行任务为跳转之前的任务Id列表
-     * @param task 当前任务
+     * @param task     当前任务
      */
-    private void completedOtherTask(List<String> hisTasks, String task){
-        for(String his : hisTasks){
-            if(!his.equals(task)){
+    private void completedOtherTask(List<String> hisTasks, String task) {
+        for (String his : hisTasks) {
+            if (!his.equals(task)) {
                 taskService.complete(his);
             }
         }
@@ -1307,13 +1318,14 @@ public class SignService implements ISignService {
 
     /**
      * 获取未跳转之前的并行任务列表
+     *
      * @param breakBeforeLogs 审批记录
      * @return List<String>
      */
-    private List<String> getHisTasks(List<Map<String, Object>> breakBeforeLogs){
+    private List<String> getHisTasks(List<Map<String, Object>> breakBeforeLogs) {
         List<String> hisTasks = new ArrayList<String>();
         for (Map<String, Object> breakBefore : breakBeforeLogs) {
-            if("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))){
+            if ("1".equalsIgnoreCase(String.valueOf(breakBefore.get("ISWAITING")))) {
                 String task = String.valueOf(breakBefore.get("TASKID"));
                 hisTasks.add(task);
             }
@@ -1323,18 +1335,19 @@ public class SignService implements ISignService {
 
     /**
      * 删除不在运行中任务的审批记录
-     * @param processKey 流程Key
+     *
+     * @param processKey  流程Key
      * @param businessKey 业务Key
      */
-    private void deleteLogsNotInRunTask(String processKey, String businessKey, List<Map<String, Object>> logs){
+    private void deleteLogsNotInRunTask(String processKey, String businessKey, List<Map<String, Object>> logs) {
         Map<String, Object> deleteParams = new HashMap<String, Object>();
         deleteParams.put("processKey", processKey);
         deleteParams.put("businessKey", businessKey);
-        for(Map<String, Object> log : logs){
-            if("1".equalsIgnoreCase(String.valueOf(log.get("ISWAITING")))){
+        for (Map<String, Object> log : logs) {
+            if ("1".equalsIgnoreCase(String.valueOf(log.get("ISWAITING")))) {
                 String taskId = String.valueOf(log.get("TASKID"));
                 List<Task> tasks = taskService.createTaskQuery().taskId(taskId).list();
-                if(CollectionUtils.isEmpty(tasks)){
+                if (CollectionUtils.isEmpty(tasks)) {
                     deleteParams.put("taskId", taskId);
                     signMapper.deleteLogsNotInRunTask(deleteParams);
                 }
@@ -1344,15 +1357,16 @@ public class SignService implements ISignService {
 
     /**
      * 处理流程任务节点的中动态处理人情况
+     *
      * @param logs
      */
-    private void dealRunTaskAssignee(List<Map<String, Object>> logs){
-        for(Map<String, Object> log : logs){
-            if("1".equalsIgnoreCase(String.valueOf(log.get("ISWAITING")))){
+    private void dealRunTaskAssignee(List<Map<String, Object>> logs) {
+        for (Map<String, Object> log : logs) {
+            if ("1".equalsIgnoreCase(String.valueOf(log.get("ISWAITING")))) {
                 String taskId = String.valueOf(log.get("TASKID"));
                 Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-                if(task != null){
-                    if(StringUtils.isBlank(task.getAssignee())){
+                if (task != null) {
+                    if (StringUtils.isBlank(task.getAssignee())) {
                         taskService.setAssignee(taskId, String.valueOf(log.get("AUDITUSERID")));
                     }
                 }

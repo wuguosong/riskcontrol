@@ -99,8 +99,7 @@
                                     <input type="text" class="form-control" id="projectName" name="projectName"
                                            ng-model="pre.apply.projectName" value="{{pre.apply.projectName}}"/>
                                 </div>
-                                <label class="col-sm-2 control-label"><span
-                                        class="required-r">*</span>基层法务人员</label>
+                                <label class="col-sm-2 control-label">基层法务人员</label>
                                 <div class="col-sm-4 has-feedback">
                                     <div id="headergrassrootsLegalStaffName">
                                         <div ng-click="setDirectiveParam('grassrootsLegalStaff',0)"
@@ -204,7 +203,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 control-label"><span
+                                <!--<label class="col-sm-2 control-label"><span
                                         class="required-r">*</span>市场投资中心项目负责人</label>
                                 <div class="col-sm-4 has-feedback">
                                     <div id="headerinvestmentPersonName" class="col-sm-12 noleft-pad noright-pad">
@@ -232,7 +231,7 @@
                                            ng-model="pre.apply.investmentPerson.VALUE"/>
 
 
-                                </div>
+                                </div>-->
                                 <label class="col-sm-2 control-label">申请填写日期</label>
                                 <div class="col-sm-4 has-feedback">
                                     <input type="text" readonly class="form-control" id="showCreateDate"
@@ -297,20 +296,20 @@
             rules: {
                 //	personLiable:"required",
                 companyHeaderName: "required",
-                grassrootsLegalStaffName: "required",
+                //grassrootsLegalStaffName: "required",
                 projectName: "required",
                 projectNameTZ: "required",
-                investmentPersonName: "required",
+                // investmentPersonName: "required",
                 directPersonName: "required",
                 projectmodeboxName: "required"
             },
             messages: {
                 //	personLiable:"此项必填",
                 companyHeaderName: "此项必填",
-                grassrootsLegalStaffName: "此项必填",
+                //grassrootsLegalStaffName: "此项必填",
                 projectName: "此项必填",
                 projectNameTZ: "此项必填",
-                investmentPersonName: "此项必填",
+                // investmentPersonName: "此项必填",
                 directPersonName: "此项必填",
                 projectmodeboxName: "此项必填"
             }

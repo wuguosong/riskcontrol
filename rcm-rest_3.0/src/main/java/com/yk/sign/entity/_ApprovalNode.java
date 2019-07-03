@@ -86,7 +86,7 @@ public class _ApprovalNode {
             if(_businessAreaApproval == null){
                 _businessAreaApproval = new JSONObject();
             }
-            _businessAreaApproval.put(_ApprovalNode._approvalKey, "大区审批,大区领导审批");
+            _businessAreaApproval.put(_ApprovalNode._approvalKey, "大区审批,大区领导审批,大区领导");
             return _businessAreaApproval;
         }
 
@@ -339,7 +339,7 @@ public class _ApprovalNode {
             if(_businessAreaApproval == null){
                 _businessAreaApproval = new JSONObject();
             }
-            _businessAreaApproval.put(_ApprovalNode._approvalKey, "大区审批,大区领导审批");
+            _businessAreaApproval.put(_ApprovalNode._approvalKey, "大区审批,大区领导审批,大区领导");
             return _businessAreaApproval;
         }
 

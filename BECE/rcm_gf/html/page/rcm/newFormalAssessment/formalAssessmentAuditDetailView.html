@@ -403,7 +403,7 @@
 									<label class="col-sm-3 control-label">下一环节：</label>
 									<div class="col-sm-8">
 										<div ng-repeat="x in approve.processOptions">
-											<label class="radio radio-inline" ng-if="x.flowId != 'flow21'&& x.flowId != 'flow74'">
+											<label class="radio radio-inline">
 												<input id="showAttr" class="px" type="radio"
 													   init-bind="a=x.documentation" aaa="{{x.documentation}}"
 													   ng-click="showMarkMethod(x.documentation)"
