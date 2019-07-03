@@ -85,7 +85,7 @@
                                             </div>
                                         </div>
                                         <!--知会人-->
-                                        <div class="row" ng-include="'page/sys/common/notify-user.html'">
+                                        <div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
                                         </div>
                                         <!--快捷意见-->
                                         <div class="row">
@@ -129,7 +129,7 @@
                                             </div>
                                         </div>
                                         <!--知会人-->
-                                        <div class="row" ng-include="'page/sys/common/notify-user.html'">
+                                        <div ng-if="showNotifyPopup" class="row" ng-include="'page/sys/common/notify-user.html'">
                                         </div>
                                         <!--快捷意见-->
                                         <div class="row">

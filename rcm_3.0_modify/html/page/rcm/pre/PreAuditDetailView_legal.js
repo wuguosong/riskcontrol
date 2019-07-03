@@ -1874,6 +1874,6 @@ ctmApp.register.controller('PreAuditDetailLegalView', ['$routeParams','$http','$
     ////////////审批阶段对留言编辑权限的控制
     //var curTask = wf_getCurrentTask('preReview', $routeParams.id);
     //$scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask8';
-    var curTask = wf_getCurrentProject('preReview', $routeParams.id);
-    $scope._message_publish_reply_ = !isEmpty(curTask) && (curTask.WF_STATE == 0 || curTask.WF_STATE == 1);
+    $scope._message_publish_reply_ = validateMessageOpenAuthority('preReview', $routeParams.id);
+    $scope.showNotifyPopup = validateNotifyShowAuthority('preReview', $routeParams.id);
 }]);
