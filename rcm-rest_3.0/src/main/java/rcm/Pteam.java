@@ -1,19 +1,16 @@
 package rcm;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import common.BaseService;
+import common.BusinessException;
+import common.PageAssistant;
+import org.bson.Document;
+import util.DbUtil;
+import util.Util;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import org.bson.Document;
-
-import common.BaseService;
-import common.BusinessException;
-import common.PageAssistant;
-import util.DbUtil;
-import util.Util;
 
 public class Pteam extends BaseService{
 	public PageAssistant getAll(String json){
@@ -36,8 +33,11 @@ public class Pteam extends BaseService{
 		String teamName=bjson.get("TEAM_NAME").toString();
 		paramMap.put("team_name", teamName);
 		paramMap.put("type", bjson.get("TYPE"));
-		paramMap.put("team_leader", bjson.get("TEAM_LEADER"));
-		paramMap.put("team_leaderID", bjson.get("TEAM_LEADER_ID"));
+		Map<String,Object> leader = (Map<String,Object>)bjson.get("leader");
+		if(leader != null){
+			paramMap.put("team_leader", leader.get("NAME"));
+			paramMap.put("team_leaderID", leader.get("VALUE"));
+		}
 		paramMap.put("orderNum", bjson.get("ORDERNUM"));
 		String count = DbUtil.openSession().selectOne("team.selectCountName", paramMap);
 		DbUtil.close();
@@ -76,8 +76,11 @@ public class Pteam extends BaseService{
 		String teamName=bjson.get("TEAM_NAME").toString();
 		paramMap.put("team_name", teamName);
 		paramMap.put("type", bjson.get("TYPE"));
-		paramMap.put("team_leader", bjson.get("TEAM_LEADER"));
-		paramMap.put("team_leaderID", bjson.get("TEAM_LEADER_ID"));
+		Map<String,Object> leader = (Map<String,Object>)bjson.get("leader");
+		if(leader != null){
+			paramMap.put("team_leader", leader.get("NAME"));
+			paramMap.put("team_leaderID", leader.get("VALUE"));
+		}
 		paramMap.put("orderNum", bjson.get("ORDERNUM"));
 		String count = DbUtil.openSession().selectOne("team.selectCountName", paramMap);
 		DbUtil.close();

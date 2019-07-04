@@ -7,7 +7,6 @@
 
 ctmApp.register.controller('ReviewTeamAdd', ['$http','$scope','$location','$routeParams',
     function ($http,$scope,$location,$routeParams) {
-	
 	$scope.teamLeaderMapped={"nameField":"TEAM_LEADER","valueField":"TEAM_LEADER_ID"};
 	$scope.teamMemberMapped={"nameField":"TEAM_MEMBER_NAME","valueField":"TEAM_MEMBER_ID"};
         var uid=0;
@@ -64,10 +63,13 @@ ctmApp.register.controller('ReviewTeamAdd', ['$http','$scope','$location','$rout
             var aMethed = 'rcm/Pteam/getTeamByID';
             $scope.httpData(aMethed,uuid).success(
                 function (data, status, headers, config) {
+                    debugger;
                     $scope.team = data.result_data.team;
-                    $scope.team.leader={};
+                    $scope.team.leader = {};
                     $scope.team.leader.TEAM_LEADER = data.result_data.team.TEAM_LEADER;
                     $scope.team.leader.TEAM_LEADER_ID = data.result_data.team.TEAM_LEADER_ID;
+                    $scope.team.leader.NAME = data.result_data.team.TEAM_LEADER;
+                    $scope.team.leader.VALUE = data.result_data.team.TEAM_LEADER_ID;
                     var arrlead=data.result_data.team;
                     var arrIdname=data.result_data.teamItem;
                     $scope.teamMemberArr=data.result_data.teamItem;
