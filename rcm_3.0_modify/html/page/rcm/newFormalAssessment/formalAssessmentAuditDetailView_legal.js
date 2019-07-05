@@ -2220,6 +2220,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailLegalView',['$http','$sco
      $scope.submitInfo = {};
      $scope.submitInfo.currentTaskVar = {};
      $scope.submitNext = function () {
+     	debugger;
          /********Add By LiPan
           * 此处发现选择了"加签"单选以后,
           * $scope.showReviewToConfirm的值依然是true
@@ -2420,6 +2421,12 @@ ctmApp.register.controller('FormalAssessmentAuditDetailLegalView',['$http','$sco
                  }
              });
          }
+
+         // 校验基层法务意见
+         if(!$scope.checkGrassrootsLegalStaffOpinion($scope.myCurTask)){
+             $.alert('请填写基层法务意见！');
+             return;
+         };
 
          if ($scope.flowVariables == null || $scope.flowVariables == 'undefined' || $scope.flowVariables.opinion == undefined || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
              $.alert("审批意见不能为空！");
@@ -2697,6 +2704,49 @@ ctmApp.register.controller('FormalAssessmentAuditDetailLegalView',['$http','$sco
      //////// 审批阶段，对留言编辑权限的控制
 	 //var curTask = wf_getCurrentTask('formalReview', $routeParams.id);
 	 //$scope._message_publish_reply_ = !isEmpty(curTask);//&& curTask.TASK_DEF_KEY_ != 'usertask17';
-     var curTask = wf_getCurrentProject('formalReview', $routeParams.id);
-     $scope._message_publish_reply_ = !isEmpty(curTask) && (curTask.WF_STATE == 0 || curTask.WF_STATE == 1);
+     // var curTask = wf_getCurrentProject('formalReview', $routeParams.id);
+     $scope._message_publish_reply_ = validateMessageOpenAuthority('formalReview', $routeParams.id);
+     $scope.showNotifyPopup = validateNotifyShowAuthority('formalReview', $routeParams.id);
+     /*===处理基层法务意见start add by lipan 2019-07-03==*/
+     $scope.showGrassrootsLegalStaffOpinion = false;
+     $scope.editGrassrootsLegalStaffOpinion = false;
+     $scope.myCurTask = wf_getCurrentTask('formalReview', $routeParams.id);
+     $scope.setGrassrootsLegalStaffOpinion = function(){
+         if(!isEmpty($scope.myCurTask)){
+             if($scope.myCurTask.TASK_DEF_KEY_ == 'usertask21'){
+                 $scope.showGrassrootsLegalStaffOpinion = true;
+                 $scope.editGrassrootsLegalStaffOpinion = true;
+                 window.setTimeout(function(){
+                     $('#grassrootsLegalStaffOpinion').show();
+                 }, 1000);
+             }else{
+                 $scope.showGrassrootsLegalStaffOpinion = true;
+                 $scope.editGrassrootsLegalStaffOpinion = false;
+             }
+         }else{
+             $scope.showGrassrootsLegalStaffOpinion = true;
+             $scope.editGrassrootsLegalStaffOpinion = false;
+         }
+	 };
+     $scope.setGrassrootsLegalStaffOpinion();
+     // 校验保存基层法务意见
+     $scope.checkGrassrootsLegalStaffOpinion = function(curTask){
+         $scope.setGrassrootsLegalStaffOpinion();
+         if(!isEmpty(curTask)){
+             if(curTask['TASK_DEF_KEY_'] == 'usertask21'){
+                 if(isEmpty($scope.pfr.apply.grassrootsLegalStaff.OPINION)){
+                     return false;
+                 }else{
+                     // 保存基层法务意见
+                     saveGrassrootsLegalStaffOpinionMongo('formalReview', $routeParams.id, $scope.pfr);
+                     return true;
+                 }
+             }else{
+                 return true;
+             }
+         }else{
+             return true;
+         }
+     };
+	 /*===处理基层法务意见end add by lipan 2019-07-03==*/
 }]);

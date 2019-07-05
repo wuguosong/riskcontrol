@@ -1900,3 +1900,26 @@ function cloudPreview(fullPath) {
         }
     });
 };
+
+/**
+ * 保存基层法务意见到Mongo中
+ * @param processKey
+ * @param businessKey
+ * @param mongoData Mongo中的数据
+ */
+function saveGrassrootsLegalStaffOpinionMongo(processKey, businessKey, mongoData){
+    $.ajax({
+        url: srvUrl + 'sign/saveGrassrootsLegalStaffOpinionMongo.do',
+        type: 'post',
+        data: {
+            'processKey': processKey,
+            'businessKey': businessKey,
+            'mongoData':JSON.stringify(mongoData)
+        },
+        success: function (_res) {
+        },
+        error: function () {
+        },
+        async: true
+    });
+}

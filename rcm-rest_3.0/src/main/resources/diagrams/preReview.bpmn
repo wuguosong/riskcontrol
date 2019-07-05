@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1559115810347" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="preReview" isClosed="false" isExecutable="true" name="preReview" processType="None">
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="preReview" name="preReview" isExecutable="true">
     <extensionElements>
-      <activiti:executionListener delegateExpression="${preAuditStartListener}" event="start"/>
-      <activiti:executionListener delegateExpression="${preAuditEndListener}" event="end"/>
+      <activiti:executionListener event="start" delegateExpression="${preAuditStartListener}"></activiti:executionListener>
+      <activiti:executionListener event="end" delegateExpression="${preAuditEndListener}"></activiti:executionListener>
     </extensionElements>
-    <startEvent id="startevent1" name="Start"/>
-    <userTask activiti:assignee="${reviewLeader}" activiti:exclusive="true" id="usertask5" name="风控评审负责人审批">
-      <documentation id="usertask5_D_1"><![CDATA[{"isReviewLeader":"1","deptCode":"risk","dutyCode":"fkReviewDuty","taskcode":"reviewLeaderTask"}]]></documentation>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="usertask5" name="风控评审负责人审批" activiti:assignee="${reviewLeader}">
+      <documentation>{"isReviewLeader":"1","deptCode":"risk","dutyCode":"fkReviewDuty","taskcode":"reviewLeaderTask"}</documentation>
       <extensionElements>
-        <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -17,7 +17,7 @@
             <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+        <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -25,9 +25,9 @@
             <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${preDiseditAllLIstener}" event="create"/>
-        <activiti:taskListener delegateExpression="${preReviewLeaderDiseditListener}" event="complete"/>
-        <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${preDiseditAllLIstener}"></activiti:taskListener>
+        <activiti:taskListener event="complete" delegateExpression="${preReviewLeaderDiseditListener}"></activiti:taskListener>
+        <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -35,13 +35,13 @@
             <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
+        <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <userTask activiti:assignee="${reviewLeader}" activiti:exclusive="true" id="usertask8" name="风控评审负责人确认">
-      <documentation id="usertask8_D_1"><![CDATA[{"isReviewLeaderConfirm":"1","deptCode":"risk","dutyCode":"fkReviewDuty","taskcode":"reviewConfirmTask"}]]></documentation>
+    <userTask id="usertask8" name="风控评审负责人确认" activiti:assignee="${reviewLeader}">
+      <documentation>{"isReviewLeaderConfirm":"1","deptCode":"risk","dutyCode":"fkReviewDuty","taskcode":"reviewConfirmTask"}</documentation>
       <extensionElements>
-        <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -49,7 +49,7 @@
             <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+        <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -57,7 +57,7 @@
             <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -65,12 +65,12 @@
             <activiti:expression>${reviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
+        <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="subprocess2">
       <extensionElements>
-        <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
           <activiti:field name="status">
             <activiti:string><![CDATA[A]]></activiti:string>
           </activiti:field>
@@ -78,7 +78,7 @@
             <activiti:string><![CDATA[创建人提交]]></activiti:string>
           </activiti:field>
         </activiti:executionListener>
-        <activiti:executionListener delegateExpression="${preUpdateStageListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preUpdateStageListener}">
           <activiti:field name="stage">
             <activiti:string><![CDATA[1]]></activiti:string>
           </activiti:field>
@@ -86,9 +86,9 @@
       </extensionElements>
     </sequenceFlow>
     <sequenceFlow id="flow20" name="评审负责人确认（通过）" sourceRef="usertask5" targetRef="parallelgateway2">
-      <documentation id="flow20_D_1"><![CDATA[{"mark":"reviewPassMark"}]]></documentation>
+      <documentation>{"mark":"reviewPassMark"}</documentation>
       <extensionElements>
-        <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
           <activiti:field name="status">
             <activiti:string><![CDATA[B]]></activiti:string>
           </activiti:field>
@@ -101,7 +101,7 @@
     </sequenceFlow>
     <sequenceFlow id="flow17" name="确认提交" sourceRef="usertask8" targetRef="terminateendevent1">
       <extensionElements>
-        <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
           <activiti:field name="status">
             <activiti:string><![CDATA[B]]></activiti:string>
           </activiti:field>
@@ -109,20 +109,20 @@
             <activiti:string><![CDATA[评审负责人确认]]></activiti:string>
           </activiti:field>
         </activiti:executionListener>
-        <activiti:executionListener delegateExpression="${addVariablesListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${addVariablesListener}">
           <activiti:field name="variablesJson">
             <activiti:string><![CDATA[{"isAgree":"1"}]]></activiti:string>
           </activiti:field>
         </activiti:executionListener>
-        <activiti:executionListener delegateExpression="${preTzClientListener}" event="take"/>
+        <activiti:executionListener event="take" delegateExpression="${preTzClientListener}"></activiti:executionListener>
       </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow17'}]]></conditionExpression>
     </sequenceFlow>
-    <subProcess activiti:exclusive="true" id="subprocess2" name="subProcess" triggeredByEvent="false">
-      <userTask activiti:assignee="${investmentManager}" activiti:exclusive="true" id="usertask1" name="投资经理起草">
-        <documentation id="usertask1_D_1"><![CDATA[{"isInvestmentManager":"1","deptCode":"area","dutyCode":"managerDuty","taskcode":"managerTask"}]]></documentation>
+    <subProcess id="subprocess2" name="subProcess">
+      <userTask id="usertask1" name="投资经理起草" activiti:assignee="${investmentManager}">
+        <documentation>{"isInvestmentManager":"1","deptCode":"area","dutyCode":"managerDuty","taskcode":"managerTask"}</documentation>
         <extensionElements>
-          <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -130,7 +130,7 @@
               <activiti:expression>${investmentManager}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+          <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -138,7 +138,7 @@
               <activiti:expression>${investmentManager}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -146,12 +146,12 @@
               <activiti:expression>${investmentManager}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
+          <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
         </extensionElements>
       </userTask>
-      <sequenceFlow id="flow8" name="提交" sourceRef="usertask1" targetRef="usertask2">
+      <sequenceFlow id="flow8" name="提交" sourceRef="usertask1" targetRef="usertask13">
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[B]]></activiti:string>
             </activiti:field>
@@ -159,13 +159,14 @@
               <activiti:string><![CDATA[投资经理起草]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
+          <activiti:executionListener event="take" delegateExpression="${preQueryTaskPersonListener}"></activiti:executionListener>
         </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow8'}]]></conditionExpression>
       </sequenceFlow>
-      <userTask activiti:assignee="${largeArea}" activiti:exclusive="true" id="usertask2" name="大区领导审批">
-        <documentation id="usertask2_D_1"><![CDATA[{"isLargeArea":"1","deptCode":"area","dutyCode":"areaFzrDuty","taskcode":"largeAreaTask"}]]></documentation>
+      <userTask id="usertask2" name="大区领导审批" activiti:assignee="${largeArea}">
+        <documentation>{"isLargeArea":"1","deptCode":"area","dutyCode":"areaFzrDuty","taskcode":"largeAreaTask"}</documentation>
         <extensionElements>
-          <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -173,7 +174,7 @@
               <activiti:expression>${largeArea}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+          <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -181,7 +182,7 @@
               <activiti:expression>${largeArea}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -189,17 +190,17 @@
               <activiti:expression>${largeArea}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
+          <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
         </extensionElements>
       </userTask>
       <sequenceFlow id="flow2" name="审批通过" sourceRef="usertask2" targetRef="exclusivegateway1">
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[B]]></activiti:string>
             </activiti:field>
             <activiti:field name="taskdesc">
-              <activiti:string><![CDATA[大区审批]]></activiti:string>
+              <activiti:string><![CDATA[大区领导审批]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
         </extensionElements>
@@ -207,21 +208,21 @@
       </sequenceFlow>
       <sequenceFlow id="flow4" name="审批不通过" sourceRef="usertask2" targetRef="usertask1">
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[C]]></activiti:string>
             </activiti:field>
             <activiti:field name="taskdesc">
-              <activiti:string><![CDATA[大区审批]]></activiti:string>
+              <activiti:string><![CDATA[大区领导审批]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
         </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow4'}]]></conditionExpression>
       </sequenceFlow>
-      <userTask activiti:assignee="${serviceType}" activiti:exclusive="true" id="usertask3" name="投资中心/水环境审批">
-        <documentation id="usertask3_D_1"><![CDATA[{"isServiewType":"1","deptCode":"center","dutyCode":"serviceTypeDuty","taskcode":"serviceTypeTask"}]]></documentation>
+      <userTask id="usertask3" name="投资中心/水环境审批" activiti:assignee="${serviceType}">
+        <documentation>{"isServiewType":"1","deptCode":"center","dutyCode":"serviceTypeDuty","taskcode":"serviceTypeTask"}</documentation>
         <extensionElements>
-          <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -229,7 +230,7 @@
               <activiti:expression>${serviceType}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+          <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -237,7 +238,7 @@
               <activiti:expression>${serviceType}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[userId]]></activiti:string>
             </activiti:field>
@@ -245,13 +246,13 @@
               <activiti:expression>${serviceType}</activiti:expression>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
+          <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
         </extensionElements>
       </userTask>
       <sequenceFlow id="flow3" name="审批通过" sourceRef="usertask3" targetRef="usertask4">
-        <documentation id="flow3_D_1"><![CDATA[{"preAction":[{"callback":"validOpinions"}]}]]></documentation>
+        <documentation>{"preAction":[{"callback":"validOpinions"}]}</documentation>
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[B]]></activiti:string>
             </activiti:field>
@@ -264,7 +265,7 @@
       </sequenceFlow>
       <sequenceFlow id="flow5" name="审批不通过" sourceRef="usertask3" targetRef="usertask1">
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[C]]></activiti:string>
             </activiti:field>
@@ -275,10 +276,10 @@
         </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow5'}]]></conditionExpression>
       </sequenceFlow>
-      <userTask activiti:candidateGroups="68294107-3015-486e-ad0f-9abd76685b44" activiti:exclusive="true" id="usertask4" name="风控负责人分配任务">
-        <documentation id="usertask4_D_1"><![CDATA[{"isTask":"1","deptCode":"risk","dutyCode":"fkLeaderDuty","taskcode":"missionTask","isSignLegal":"1"}]]></documentation>
+      <userTask id="usertask4" name="风控负责人分配任务" activiti:candidateGroups="68294107-3015-486e-ad0f-9abd76685b44">
+        <documentation>{"isTask":"1","deptCode":"risk","dutyCode":"fkLeaderDuty","taskcode":"missionTask","isSignLegal":"1"}</documentation>
         <extensionElements>
-          <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[roleConstant]]></activiti:string>
             </activiti:field>
@@ -286,7 +287,7 @@
               <activiti:string><![CDATA[68294107-3015-486e-ad0f-9abd76685b44]]></activiti:string>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+          <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[roleConstant]]></activiti:string>
             </activiti:field>
@@ -294,17 +295,17 @@
               <activiti:string><![CDATA[68294107-3015-486e-ad0f-9abd76685b44]]></activiti:string>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${preUpdateStageListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${preUpdateStageListener}">
             <activiti:field name="stage">
               <activiti:string><![CDATA[2]]></activiti:string>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${preUpdateStageListener}" event="complete">
+          <activiti:taskListener event="complete" delegateExpression="${preUpdateStageListener}">
             <activiti:field name="stage">
               <activiti:string><![CDATA[1]]></activiti:string>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+          <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
             <activiti:field name="assignType">
               <activiti:string><![CDATA[roleConstant]]></activiti:string>
             </activiti:field>
@@ -312,12 +313,12 @@
               <activiti:string><![CDATA[68294107-3015-486e-ad0f-9abd76685b44]]></activiti:string>
             </activiti:field>
           </activiti:taskListener>
-          <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
+          <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
         </extensionElements>
       </userTask>
       <sequenceFlow id="flow23" name="退回投资经理" sourceRef="usertask4" targetRef="usertask1">
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[C]]></activiti:string>
             </activiti:field>
@@ -328,12 +329,12 @@
         </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow23'}]]></conditionExpression>
       </sequenceFlow>
-      <startEvent id="startevent3" name="Start"/>
-      <sequenceFlow id="flow22" sourceRef="startevent3" targetRef="usertask1"/>
-      <endEvent id="endevent2" name="End"/>
+      <startEvent id="startevent3" name="Start"></startEvent>
+      <sequenceFlow id="flow22" sourceRef="startevent3" targetRef="usertask1"></sequenceFlow>
+      <endEvent id="endevent2" name="End"></endEvent>
       <sequenceFlow id="flow45" name="终止项目" sourceRef="usertask4" targetRef="endevent2">
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[C]]></activiti:string>
             </activiti:field>
@@ -341,7 +342,7 @@
               <activiti:string><![CDATA[分配任务]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
-          <activiti:executionListener delegateExpression="${addVariablesListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${addVariablesListener}">
             <activiti:field name="variablesJson">
               <activiti:string><![CDATA[{"isTerminate":"1"}]]></activiti:string>
             </activiti:field>
@@ -349,11 +350,11 @@
         </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow45'}]]></conditionExpression>
       </sequenceFlow>
-      <endEvent id="endevent3" name="End"/>
+      <endEvent id="endevent3" name="End"></endEvent>
       <sequenceFlow id="flow6" name="分配任务" sourceRef="usertask4" targetRef="endevent3">
-        <documentation id="flow6_D_1"><![CDATA[{"preAction":[{"callback":"validCheckedFzr"}]}]]></documentation>
+        <documentation>{"preAction":[{"callback":"validCheckedFzr"}]}</documentation>
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[F]]></activiti:string>
             </activiti:field>
@@ -361,12 +362,12 @@
               <activiti:string><![CDATA[分配任务]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
-          <activiti:executionListener delegateExpression="${addVariablesListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${addVariablesListener}">
             <activiti:field name="variablesJson">
               <activiti:string><![CDATA[{"isTerminate":"0"}]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
-          <activiti:executionListener delegateExpression="${preUpdateStageListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preUpdateStageListener}">
             <activiti:field name="stage">
               <activiti:string><![CDATA[3]]></activiti:string>
             </activiti:field>
@@ -376,7 +377,7 @@
       </sequenceFlow>
       <sequenceFlow id="flow26" name="终止项目" sourceRef="usertask1" targetRef="endevent2">
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[C]]></activiti:string>
             </activiti:field>
@@ -384,7 +385,7 @@
               <activiti:string><![CDATA[投资经理起草]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
-          <activiti:executionListener delegateExpression="${addVariablesListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${addVariablesListener}">
             <activiti:field name="variablesJson">
               <activiti:string><![CDATA[{"isTerminate":"1"}]]></activiti:string>
             </activiti:field>
@@ -392,7 +393,7 @@
         </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow26'}]]></conditionExpression>
       </sequenceFlow>
-      <exclusiveGateway gatewayDirection="Unspecified" id="exclusivegateway1" name="Exclusive Gateway"/>
+      <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
       <sequenceFlow id="flow27" sourceRef="exclusivegateway1" targetRef="usertask3">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSkipServiceTypeAudit=='0'}]]></conditionExpression>
       </sequenceFlow>
@@ -400,9 +401,9 @@
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSkipServiceTypeAudit=='1'}]]></conditionExpression>
       </sequenceFlow>
       <sequenceFlow id="flow24" name="退回双投中心" sourceRef="usertask4" targetRef="usertask3">
-        <documentation id="flow24_D_1"><![CDATA[{"preAction":[{"callback":"validServiceType"}]}]]></documentation>
+        <documentation>{"preAction":[{"callback":"validServiceType"}]}</documentation>
         <extensionElements>
-          <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
             <activiti:field name="status">
               <activiti:string><![CDATA[C]]></activiti:string>
             </activiti:field>
@@ -413,10 +414,65 @@
         </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow24'}]]></conditionExpression>
       </sequenceFlow>
+      <userTask id="usertask13" name="基层法务" activiti:assignee="${grassrootsLegalStaff}">
+        <extensionElements>
+          <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
+            <activiti:field name="assignType">
+              <activiti:string><![CDATA[userId]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="assignId">
+              <activiti:expression>${grassrootsLegalStaff}</activiti:expression>
+            </activiti:field>
+          </activiti:taskListener>
+          <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
+            <activiti:field name="assignType">
+              <activiti:string><![CDATA[userId]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="assignId">
+              <activiti:expression>${grassrootsLegalStaff}</activiti:expression>
+            </activiti:field>
+          </activiti:taskListener>
+          <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
+            <activiti:field name="assignType">
+              <activiti:string><![CDATA[userId]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="assignId">
+              <activiti:expression>${grassrootsLegalStaff}</activiti:expression>
+            </activiti:field>
+          </activiti:taskListener>
+          <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
+        </extensionElements>
+      </userTask>
+      <sequenceFlow id="flow56" name="审批通过" sourceRef="usertask13" targetRef="usertask2">
+        <extensionElements>
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
+            <activiti:field name="status">
+              <activiti:string><![CDATA[B]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="taskdesc">
+              <activiti:string><![CDATA[基层法务]]></activiti:string>
+            </activiti:field>
+          </activiti:executionListener>
+        </extensionElements>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow56'}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow57" name="审批不通过" sourceRef="usertask13" targetRef="usertask1">
+        <extensionElements>
+          <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
+            <activiti:field name="status">
+              <activiti:string><![CDATA[C]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="taskdesc">
+              <activiti:string><![CDATA[基层法务]]></activiti:string>
+            </activiti:field>
+          </activiti:executionListener>
+        </extensionElements>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow57'}]]></conditionExpression>
+      </sequenceFlow>
     </subProcess>
     <sequenceFlow id="flow7" sourceRef="subprocess2" targetRef="terminateendevent1">
       <extensionElements>
-        <activiti:executionListener delegateExpression="${addVariablesListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${addVariablesListener}">
           <activiti:field name="variablesJson">
             <activiti:string><![CDATA[{"isAgree":"0"}]]></activiti:string>
           </activiti:field>
@@ -426,19 +482,19 @@
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="subprocess2" targetRef="parallelgateway1">
       <extensionElements>
-        <activiti:executionListener delegateExpression="${preQueryTaskPersonListener}" event="take"/>
+        <activiti:executionListener event="take" delegateExpression="${preQueryTaskPersonListener}"></activiti:executionListener>
       </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isTerminate=='0'}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow25" name="终止项目（废弃）" sourceRef="usertask5" targetRef="terminateendevent1">
-      <documentation id="flow25_D_1"><![CDATA[{"mark":"toEnd"}]]></documentation>
+      <documentation>{"mark":"toEnd"}</documentation>
       <extensionElements>
-        <activiti:executionListener delegateExpression="${addVariablesListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${addVariablesListener}">
           <activiti:field name="variablesJson">
             <activiti:string><![CDATA[{"isAgree":"0"}]]></activiti:string>
           </activiti:field>
         </activiti:executionListener>
-        <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
           <activiti:field name="status">
             <activiti:string><![CDATA[C]]></activiti:string>
           </activiti:field>
@@ -449,11 +505,11 @@
       </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow25'}]]></conditionExpression>
     </sequenceFlow>
-    <parallelGateway gatewayDirection="Unspecified" id="parallelgateway1" name="Parallel Gateway"/>
-    <userTask activiti:candidateGroups="5B2340FFAC0F6B1DE05327140A0AD5E9" activiti:exclusive="true" id="usertask9" name="法律分配">
-      <documentation id="usertask9_D_1"><![CDATA[{"isSelectLegalLeader":"1","deptCode":"risk","dutyCode":"fkLegalDuty","taskcode":"selectLegalLeaderTask"}]]></documentation>
+    <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
+    <userTask id="usertask9" name="法律分配" activiti:candidateGroups="5B2340FFAC0F6B1DE05327140A0AD5E9">
+      <documentation>{"isSelectLegalLeader":"1","deptCode":"risk","dutyCode":"fkLegalDuty","taskcode":"selectLegalLeaderTask"}</documentation>
       <extensionElements>
-        <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
           <activiti:field name="assignId">
             <activiti:string><![CDATA[5B2340FFAC0F6B1DE05327140A0AD5E9]]></activiti:string>
           </activiti:field>
@@ -461,8 +517,8 @@
             <activiti:string><![CDATA[roleConstant]]></activiti:string>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
-        <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+        <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
+        <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
           <activiti:field name="assignId">
             <activiti:string><![CDATA[5B2340FFAC0F6B1DE05327140A0AD5E9]]></activiti:string>
           </activiti:field>
@@ -470,7 +526,7 @@
             <activiti:string><![CDATA[roleConstant]]></activiti:string>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+        <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[roleConstant]]></activiti:string>
           </activiti:field>
@@ -480,11 +536,11 @@
         </activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow46" sourceRef="parallelgateway1" targetRef="usertask9"/>
-    <userTask activiti:assignee="${legalReviewLeader}" activiti:exclusive="true" id="usertask10" name="法律负责人审批">
-      <documentation id="usertask10_D_1"><![CDATA[{"isLegalReviewLeader":"1","deptCode":"risk","dutyCode":"fkLegalDuty","taskcode":"legalLeaderTask"}]]></documentation>
+    <sequenceFlow id="flow46" sourceRef="parallelgateway1" targetRef="usertask9"></sequenceFlow>
+    <userTask id="usertask10" name="法律负责人审批" activiti:assignee="${legalReviewLeader}">
+      <documentation>{"isLegalReviewLeader":"1","deptCode":"risk","dutyCode":"fkLegalDuty","taskcode":"legalLeaderTask"}</documentation>
       <extensionElements>
-        <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
           <activiti:field name="assignId">
             <activiti:expression>${legalReviewLeader}</activiti:expression>
           </activiti:field>
@@ -492,8 +548,8 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
-        <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+        <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
+        <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
           <activiti:field name="assignId">
             <activiti:expression>${legalReviewLeader}</activiti:expression>
           </activiti:field>
@@ -501,7 +557,7 @@
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+        <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -509,14 +565,14 @@
             <activiti:expression>${legalReviewLeader}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${preAuditLegalReviewLeaderEditListener}" event="create"/>
-        <activiti:taskListener delegateExpression="${preAuditLegalReviewLeaderDiseditListener}" event="complete"/>
+        <activiti:taskListener event="create" delegateExpression="${preAuditLegalReviewLeaderEditListener}"></activiti:taskListener>
+        <activiti:taskListener event="complete" delegateExpression="${preAuditLegalReviewLeaderDiseditListener}"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow48" sourceRef="parallelgateway1" targetRef="usertask5"/>
-    <parallelGateway gatewayDirection="Unspecified" id="parallelgateway2" name="Parallel Gateway"/>
+    <sequenceFlow id="flow48" sourceRef="parallelgateway1" targetRef="usertask5"></sequenceFlow>
+    <parallelGateway id="parallelgateway2" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow49" name="评审负责人确认" sourceRef="usertask10" targetRef="parallelgateway2">
-      <documentation id="flow49_D_1"><![CDATA[{"mark":"legalPassMark"}]]></documentation>
+      <documentation>{"mark":"legalPassMark"}</documentation>
       <extensionElements>
         <activiti:executionListener event="take" expression="${preAuditLogListener}">
           <activiti:field name="status">
@@ -533,12 +589,12 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow50'}]]></conditionExpression>
     </sequenceFlow>
     <endEvent id="terminateendevent1" name="TerminateEndEvent">
-      <terminateEventDefinition id="terminateendevent1_ED_1"/>
+      <terminateEventDefinition></terminateEventDefinition>
     </endEvent>
-    <userTask activiti:assignee="${grassrootsLegalStaff}" activiti:exclusive="true" id="usertask12" name="基层法务">
-      <documentation id="usertask12_D_1"><![CDATA[{"taskcode":"grassrootsLegalStaff"}]]></documentation>
+    <userTask id="usertask12" name="基层法务" activiti:assignee="${grassrootsLegalStaff}">
+      <documentation>{"taskcode":"grassrootsLegalStaff"}</documentation>
       <extensionElements>
-        <activiti:taskListener delegateExpression="${preInsertWaitingLogListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${preInsertWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -546,7 +602,7 @@
             <activiti:expression>${grassrootsLegalStaff}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${preDeleteWaitingLogListener}" event="complete">
+        <activiti:taskListener event="complete" delegateExpression="${preDeleteWaitingLogListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -554,7 +610,7 @@
             <activiti:expression>${grassrootsLegalStaff}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${projectWaitListener}" event="create">
+        <activiti:taskListener event="create" delegateExpression="${projectWaitListener}">
           <activiti:field name="assignType">
             <activiti:string><![CDATA[userId]]></activiti:string>
           </activiti:field>
@@ -562,12 +618,12 @@
             <activiti:expression>${grassrootsLegalStaff}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener delegateExpression="${projectDealedListener}" event="complete"/>
+        <activiti:taskListener event="complete" delegateExpression="${projectDealedListener}"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow53" name="确认通过" sourceRef="usertask12" targetRef="usertask9">
       <extensionElements>
-        <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
           <activiti:field name="status">
             <activiti:string><![CDATA[B]]></activiti:string>
           </activiti:field>
@@ -575,14 +631,14 @@
             <activiti:string><![CDATA[确认通过]]></activiti:string>
           </activiti:field>
         </activiti:executionListener>
-        <activiti:executionListener delegateExpression="${preQueryTaskPersonListener}" event="take"/>
+        <activiti:executionListener event="take" delegateExpression="${preQueryTaskPersonListener}"></activiti:executionListener>
       </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow53'}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow54" name="法律负责人审批" sourceRef="usertask9" targetRef="usertask10">
-      <documentation id="flow54_D_1"><![CDATA[{"preAction":[{"callback":"validCheckedFLFzr"}]}]]></documentation>
+      <documentation>{"preAction":[{"callback":"validCheckedFLFzr"}]}</documentation>
       <extensionElements>
-        <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
           <activiti:field name="status">
             <activiti:string><![CDATA[B]]></activiti:string>
           </activiti:field>
@@ -590,13 +646,13 @@
             <activiti:string><![CDATA[法律分配]]></activiti:string>
           </activiti:field>
         </activiti:executionListener>
-        <activiti:executionListener delegateExpression="${preQueryTaskPersonListener}" event="take"/>
+        <activiti:executionListener event="take" delegateExpression="${preQueryTaskPersonListener}"></activiti:executionListener>
       </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow54'}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow55" name="基层法务确认" sourceRef="usertask9" targetRef="usertask12">
       <extensionElements>
-        <activiti:executionListener delegateExpression="${preAuditLogListener}" event="take">
+        <activiti:executionListener event="take" delegateExpression="${preAuditLogListener}">
           <activiti:field name="status">
             <activiti:string><![CDATA[B]]></activiti:string>
           </activiti:field>
@@ -604,328 +660,268 @@
             <activiti:string><![CDATA[基层法务确认]]></activiti:string>
           </activiti:field>
         </activiti:executionListener>
-        <activiti:executionListener delegateExpression="${preQueryTaskPersonListener}" event="take"/>
+        <activiti:executionListener event="take" delegateExpression="${preQueryTaskPersonListener}"></activiti:executionListener>
       </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow=='flow55'}]]></conditionExpression>
     </sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
-    <bpmndi:BPMNPlane bpmnElement="preReview">
-      <bpmndi:BPMNShape bpmnElement="startevent1" id="Shape-startevent1">
-        <omgdc:Bounds height="32.0" width="32.0" x="11.0" y="252.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_preReview">
+    <bpmndi:BPMNPlane bpmnElement="preReview" id="BPMNPlane_preReview">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="11.0" y="252.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask5" id="Shape-usertask5">
-        <omgdc:Bounds height="55.0" width="159.0" x="186.0" y="559.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="159.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
+        <omgdc:Bounds height="55.0" width="159.0" x="186.0" y="559.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask8" id="Shape-usertask8">
-        <omgdc:Bounds height="55.0" width="151.0" x="630.0" y="559.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="151.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask8" id="BPMNShape_usertask8">
+        <omgdc:Bounds height="55.0" width="151.0" x="630.0" y="559.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="subprocess2" id="Shape-subprocess2" isExpanded="true">
-        <omgdc:Bounds height="400.0" width="931.0" x="69.0" y="1.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="400.0" width="931.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="subprocess2" id="BPMNShape_subprocess2">
+        <omgdc:Bounds height="400.0" width="931.0" x="69.0" y="1.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallelgateway1" id="Shape-parallelgateway1">
-        <omgdc:Bounds height="32.0" width="32.0" x="110.0" y="499.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="125.0" x="230.0" y="195.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask9" id="Shape-usertask9">
-        <omgdc:Bounds height="55.0" width="151.0" x="190.0" y="428.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="151.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="55.0" width="125.0" x="230.0" y="316.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask10" id="Shape-usertask10">
-        <omgdc:Bounds height="55.0" width="142.0" x="494.0" y="428.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="142.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
+        <omgdc:Bounds height="55.0" width="161.0" x="520.0" y="256.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallelgateway2" id="Shape-parallelgateway2">
-        <omgdc:Bounds height="32.0" width="32.0" x="544.0" y="566.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+        <omgdc:Bounds height="55.0" width="161.0" x="750.0" y="256.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="terminateendevent1" id="Shape-terminateendevent1">
-        <omgdc:Bounds height="32.0" width="32.0" x="993.0" y="569.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="startevent3" id="BPMNShape_startevent3">
+        <omgdc:Bounds height="35.0" width="35.0" x="275.0" y="276.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask12" id="Shape-usertask12">
-        <omgdc:Bounds height="55.0" width="105.0" x="370.0" y="505.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="105.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="960.0" y="205.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask1" id="Shape-usertask1">
-        <omgdc:Bounds height="55.0" width="125.0" x="230.0" y="195.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="125.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="endevent3" id="BPMNShape_endevent3">
+        <omgdc:Bounds height="35.0" width="35.0" x="960.0" y="300.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask2" id="Shape-usertask2">
-        <omgdc:Bounds height="55.0" width="125.0" x="230.0" y="316.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="125.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="450.0" y="323.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask3" id="Shape-usertask3">
-        <omgdc:Bounds height="55.0" width="161.0" x="520.0" y="256.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="161.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask13" id="BPMNShape_usertask13">
+        <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="100.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask4" id="Shape-usertask4">
-        <omgdc:Bounds height="55.0" width="161.0" x="750.0" y="256.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="161.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway1" id="BPMNShape_parallelgateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="110.0" y="499.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="startevent3" id="Shape-startevent3">
-        <omgdc:Bounds height="32.0" width="32.0" x="80.0" y="205.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask9" id="BPMNShape_usertask9">
+        <omgdc:Bounds height="55.0" width="151.0" x="190.0" y="428.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="endevent2" id="Shape-endevent2">
-        <omgdc:Bounds height="32.0" width="32.0" x="960.0" y="205.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="usertask10" id="BPMNShape_usertask10">
+        <omgdc:Bounds height="55.0" width="142.0" x="494.0" y="428.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="endevent3" id="Shape-endevent3">
-        <omgdc:Bounds height="32.0" width="32.0" x="960.0" y="300.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway2" id="BPMNShape_parallelgateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="544.0" y="566.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="Shape-exclusivegateway1" isMarkerVisible="false">
-        <omgdc:Bounds height="32.0" width="32.0" x="450.0" y="323.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape bpmnElement="terminateendevent1" id="BPMNShape_terminateendevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="993.0" y="569.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28" sourceElement="exclusivegateway1" targetElement="usertask4">
-        <omgdi:waypoint x="469.0" y="352.0"/>
-        <omgdi:waypoint x="469.0" y="383.0"/>
-        <omgdi:waypoint x="832.0" y="383.0"/>
-        <omgdi:waypoint x="830.5" y="311.0"/>
+      <bpmndi:BPMNShape bpmnElement="usertask12" id="BPMNShape_usertask12">
+        <omgdc:Bounds height="55.0" width="105.0" x="370.0" y="505.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="46.0" y="269.0"></omgdi:waypoint>
+        <omgdi:waypoint x="69.0" y="201.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="345.0" y="586.0"></omgdi:waypoint>
+        <omgdi:waypoint x="544.0" y="586.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="42.0" width="100.0" x="355.0" y="566.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24" sourceElement="usertask4" targetElement="usertask3">
-        <omgdi:waypoint x="800.0" y="256.0"/>
-        <omgdi:waypoint x="800.0" y="223.0"/>
-        <omgdi:waypoint x="691.0" y="223.0"/>
-        <omgdi:waypoint x="600.5" y="256.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="781.0" y="586.0"></omgdi:waypoint>
+        <omgdi:waypoint x="993.0" y="586.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="72.0" x="750.0" y="201.0"/>
+          <omgdc:Bounds height="14.0" width="48.0" x="869.0" y="569.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46" sourceElement="parallelgateway1" targetElement="usertask9">
-        <omgdi:waypoint x="130.0" y="503.0"/>
-        <omgdi:waypoint x="130.0" y="454.0"/>
-        <omgdi:waypoint x="190.0" y="454.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="292.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="292.0" y="127.0"></omgdi:waypoint>
+        <omgdi:waypoint x="215.0" y="127.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="14.0" width="24.0" x="328.0" y="156.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25" sourceElement="usertask5" targetElement="terminateendevent1">
-        <omgdi:waypoint x="265.5" y="614.0"/>
-        <omgdi:waypoint x="357.0" y="653.0"/>
-        <omgdi:waypoint x="1010.0" y="653.0"/>
-        <omgdi:waypoint x="1009.0" y="601.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="355.0" y="343.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="343.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="96.0" x="516.0" y="625.0"/>
+          <omgdc:Bounds height="14.0" width="48.0" x="448.0" y="351.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26" sourceElement="usertask1" targetElement="endevent2">
-        <omgdi:waypoint x="292.5" y="195.0"/>
-        <omgdi:waypoint x="419.0" y="116.0"/>
-        <omgdi:waypoint x="854.0" y="116.0"/>
-        <omgdi:waypoint x="976.0" y="205.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="230.0" y="343.0"></omgdi:waypoint>
+        <omgdi:waypoint x="171.0" y="343.0"></omgdi:waypoint>
+        <omgdi:waypoint x="171.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="292.0" y="250.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="558.0" y="90.0"/>
+          <omgdc:Bounds height="14.0" width="60.0" x="209.0" y="300.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48" sourceElement="parallelgateway1" targetElement="usertask5">
-        <omgdi:waypoint x="130.0" y="527.0"/>
-        <omgdi:waypoint x="130.0" y="585.0"/>
-        <omgdi:waypoint x="186.0" y="585.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="681.0" y="283.0"></omgdi:waypoint>
+        <omgdi:waypoint x="750.0" y="283.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="14.0" width="48.0" x="758.0" y="271.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27" sourceElement="exclusivegateway1" targetElement="usertask3">
-        <omgdi:waypoint x="470.0" y="327.0"/>
-        <omgdi:waypoint x="470.0" y="283.0"/>
-        <omgdi:waypoint x="520.0" y="283.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="600.0" y="256.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="222.0"></omgdi:waypoint>
+        <omgdi:waypoint x="355.0" y="222.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="14.0" width="60.0" x="478.0" y="201.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49" sourceElement="usertask10" targetElement="parallelgateway2">
-        <omgdi:waypoint x="560.0" y="483.0"/>
-        <omgdi:waypoint x="560.0" y="566.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
+        <omgdi:waypoint x="830.0" y="256.0"></omgdi:waypoint>
+        <omgdi:waypoint x="830.0" y="153.0"></omgdi:waypoint>
+        <omgdi:waypoint x="492.0" y="153.0"></omgdi:waypoint>
+        <omgdi:waypoint x="292.0" y="195.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="84.0" x="524.0" y="529.0"/>
+          <omgdc:Bounds height="14.0" width="72.0" x="585.0" y="131.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1" sourceElement="startevent1" targetElement="subprocess2">
-        <omgdi:waypoint x="43.0" y="268.0"/>
-        <omgdi:waypoint x="69.0" y="201.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
+        <omgdi:waypoint x="292.0" y="276.0"></omgdi:waypoint>
+        <omgdi:waypoint x="292.0" y="250.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
+        <omgdi:waypoint x="830.0" y="256.0"></omgdi:waypoint>
+        <omgdi:waypoint x="977.0" y="240.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="14.0" width="48.0" x="829.0" y="234.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2" sourceElement="usertask2" targetElement="exclusivegateway1">
-        <omgdi:waypoint x="355.0" y="343.5"/>
-        <omgdi:waypoint x="450.0" y="339.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="911.0" y="283.0"></omgdi:waypoint>
+        <omgdi:waypoint x="977.0" y="300.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="448.0" y="351.0"/>
+          <omgdc:Bounds height="14.0" width="48.0" x="989.0" y="275.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3" sourceElement="usertask3" targetElement="usertask4">
-        <omgdi:waypoint x="681.0" y="283.5"/>
-        <omgdi:waypoint x="750.0" y="283.5"/>
+      <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
+        <omgdi:waypoint x="292.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="419.0" y="116.0"></omgdi:waypoint>
+        <omgdi:waypoint x="854.0" y="116.0"></omgdi:waypoint>
+        <omgdi:waypoint x="977.0" y="205.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="758.0" y="271.0"/>
+          <omgdc:Bounds height="14.0" width="48.0" x="558.0" y="90.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4" sourceElement="usertask2" targetElement="usertask1">
-        <omgdi:waypoint x="230.0" y="343.0"/>
-        <omgdi:waypoint x="192.0" y="343.0"/>
-        <omgdi:waypoint x="192.0" y="241.0"/>
-        <omgdi:waypoint x="230.0" y="222.5"/>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="470.0" y="323.0"></omgdi:waypoint>
+        <omgdi:waypoint x="470.0" y="283.0"></omgdi:waypoint>
+        <omgdi:waypoint x="520.0" y="283.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
+        <omgdi:waypoint x="470.0" y="363.0"></omgdi:waypoint>
+        <omgdi:waypoint x="469.0" y="383.0"></omgdi:waypoint>
+        <omgdi:waypoint x="832.0" y="383.0"></omgdi:waypoint>
+        <omgdi:waypoint x="830.0" y="311.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
+        <omgdi:waypoint x="830.0" y="256.0"></omgdi:waypoint>
+        <omgdi:waypoint x="800.0" y="223.0"></omgdi:waypoint>
+        <omgdi:waypoint x="691.0" y="223.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="256.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="60.0" x="152.0" y="273.0"/>
+          <omgdc:Bounds height="14.0" width="72.0" x="750.0" y="201.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5" sourceElement="usertask3" targetElement="usertask1">
-        <omgdi:waypoint x="600.0" y="256.0"/>
-        <omgdi:waypoint x="600.0" y="222.0"/>
-        <omgdi:waypoint x="355.0" y="222.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
+        <omgdi:waypoint x="110.0" y="127.0"></omgdi:waypoint>
+        <omgdi:waypoint x="89.0" y="131.0"></omgdi:waypoint>
+        <omgdi:waypoint x="89.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="291.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="292.0" y="371.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="60.0" x="478.0" y="201.0"/>
+          <omgdc:Bounds height="14.0" width="48.0" x="109.0" y="212.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6" sourceElement="usertask4" targetElement="endevent3">
-        <omgdi:waypoint x="911.0" y="283.5"/>
-        <omgdi:waypoint x="960.0" y="316.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
+        <omgdi:waypoint x="162.0" y="155.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="222.0"></omgdi:waypoint>
+        <omgdi:waypoint x="230.0" y="222.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="989.0" y="275.0"/>
+          <omgdc:Bounds height="14.0" width="60.0" x="180.0" y="183.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20" sourceElement="usertask5" targetElement="parallelgateway2">
-        <omgdi:waypoint x="345.0" y="586.5"/>
-        <omgdi:waypoint x="544.0" y="582.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="1000.0" y="201.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="569.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="69.0" y="201.0"></omgdi:waypoint>
+        <omgdi:waypoint x="40.0" y="336.0"></omgdi:waypoint>
+        <omgdi:waypoint x="40.0" y="518.0"></omgdi:waypoint>
+        <omgdi:waypoint x="110.0" y="519.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="265.0" y="614.0"></omgdi:waypoint>
+        <omgdi:waypoint x="357.0" y="653.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="653.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="604.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="355.0" y="566.0"/>
+          <omgdc:Bounds height="14.0" width="96.0" x="516.0" y="625.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7" sourceElement="subprocess2" targetElement="terminateendevent1">
-        <omgdi:waypoint x="1000.0" y="257.0"/>
-        <omgdi:waypoint x="1010.0" y="257.0"/>
-        <omgdi:waypoint x="1010.0" y="569.0312805773287"/>
+      <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
+        <omgdi:waypoint x="130.0" y="499.0"></omgdi:waypoint>
+        <omgdi:waypoint x="130.0" y="454.0"></omgdi:waypoint>
+        <omgdi:waypoint x="190.0" y="455.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
+        <omgdi:waypoint x="130.0" y="539.0"></omgdi:waypoint>
+        <omgdi:waypoint x="130.0" y="585.0"></omgdi:waypoint>
+        <omgdi:waypoint x="186.0" y="586.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
+        <omgdi:waypoint x="565.0" y="483.0"></omgdi:waypoint>
+        <omgdi:waypoint x="564.0" y="566.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="14.0" width="84.0" x="524.0" y="529.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8" sourceElement="usertask1" targetElement="usertask2">
-        <omgdi:waypoint x="292.0" y="250.0"/>
-        <omgdi:waypoint x="292.0" y="300.0"/>
-        <omgdi:waypoint x="292.0" y="316.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50">
+        <omgdi:waypoint x="584.0" y="586.0"></omgdi:waypoint>
+        <omgdi:waypoint x="630.0" y="586.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow53" id="BPMNEdge_flow53">
+        <omgdi:waypoint x="370.0" y="532.0"></omgdi:waypoint>
+        <omgdi:waypoint x="265.0" y="532.0"></omgdi:waypoint>
+        <omgdi:waypoint x="265.0" y="483.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="24.0" x="195.0" y="206.0"/>
+          <omgdc:Bounds height="14.0" width="100.0" x="299.0" y="518.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22" sourceElement="startevent3" targetElement="usertask1">
-        <omgdi:waypoint x="112.0" y="221.0"/>
-        <omgdi:waypoint x="230.0" y="222.5"/>
+      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
+        <omgdi:waypoint x="265.0" y="428.0"></omgdi:waypoint>
+        <omgdi:waypoint x="266.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="302.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="414.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="564.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="565.0" y="428.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="14.0" width="84.0" x="359.0" y="401.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23" sourceElement="usertask4" targetElement="usertask1">
-        <omgdi:waypoint x="830.0" y="256.0"/>
-        <omgdi:waypoint x="830.0" y="153.0"/>
-        <omgdi:waypoint x="492.0" y="153.0"/>
-        <omgdi:waypoint x="292.5" y="195.0"/>
+      <bpmndi:BPMNEdge bpmnElement="flow55" id="BPMNEdge_flow55">
+        <omgdi:waypoint x="341.0" y="455.0"></omgdi:waypoint>
+        <omgdi:waypoint x="422.0" y="455.0"></omgdi:waypoint>
+        <omgdi:waypoint x="422.0" y="505.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="72.0" x="585.0" y="131.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45" sourceElement="usertask4" targetElement="endevent2">
-        <omgdi:waypoint x="911.0" y="283.5"/>
-        <omgdi:waypoint x="960.0" y="221.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="829.0" y="234.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9" sourceElement="subprocess2" targetElement="parallelgateway1">
-        <omgdi:waypoint x="69.0" y="336.0"/>
-        <omgdi:waypoint x="40.0" y="336.0"/>
-        <omgdi:waypoint x="40.0" y="518.0"/>
-        <omgdi:waypoint x="110.0" y="515.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17" sourceElement="usertask8" targetElement="terminateendevent1">
-        <omgdi:waypoint x="781.0" y="586.5"/>
-        <omgdi:waypoint x="993.0" y="585.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="869.0" y="569.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow53" id="BPMNEdge_flow53" sourceElement="usertask12" targetElement="usertask9">
-        <omgdi:waypoint x="370.0" y="532.0"/>
-        <omgdi:waypoint x="265.0" y="532.0"/>
-        <omgdi:waypoint x="265.0" y="483.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="299.0" y="518.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54" sourceElement="usertask9" targetElement="usertask10">
-        <omgdi:waypoint x="266.0" y="428.0"/>
-        <omgdi:waypoint x="266.0" y="417.0"/>
-        <omgdi:waypoint x="302.0" y="417.0"/>
-        <omgdi:waypoint x="340.0" y="417.0"/>
-        <omgdi:waypoint x="414.0" y="417.0"/>
-        <omgdi:waypoint x="564.0" y="417.0"/>
-        <omgdi:waypoint x="565.0" y="428.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="84.0" x="359.0" y="401.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow55" id="BPMNEdge_flow55" sourceElement="usertask9" targetElement="usertask12">
-        <omgdi:waypoint x="341.0" y="455.0"/>
-        <omgdi:waypoint x="422.0" y="455.0"/>
-        <omgdi:waypoint x="422.0" y="505.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="72.0" x="343.0" y="462.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50" sourceElement="parallelgateway2" targetElement="usertask8">
-        <omgdi:waypoint x="576.0" y="582.0"/>
-        <omgdi:waypoint x="630.0" y="586.5"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="14.0" width="72.0" x="343.0" y="462.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

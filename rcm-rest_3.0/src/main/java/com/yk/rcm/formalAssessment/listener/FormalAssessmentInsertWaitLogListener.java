@@ -1,24 +1,21 @@
 package com.yk.rcm.formalAssessment.listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.yk.exception.BusinessException;
+import com.yk.flow.util.JsonUtil;
+import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
+import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.TaskListener;
 import org.springframework.stereotype.Component;
-
 import util.ThreadLocalUtil;
 import util.Util;
 
-import com.yk.exception.BusinessException;
-import com.yk.flow.util.JsonUtil;
-import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
-import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -146,8 +143,10 @@ public class FormalAssessmentInsertWaitLogListener  implements TaskListener {
 		
 		String description = delegateTask.getDescription();
 		Map jsonObj = JsonUtil.fromJson(description, Map.class);
-		String taskcode = (String) jsonObj.get("taskcode");
-		data.put("taskMark", taskcode);
+		if(jsonObj != null){
+			String taskcode = (String) jsonObj.get("taskcode");
+			data.put("taskMark", taskcode);
+		}
 		this.formalAssessmentAuditLogService.save(data);
 	}
 	

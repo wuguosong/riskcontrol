@@ -1,10 +1,8 @@
 package com.yk.sign.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 import com.yk.sign.entity._ApprovalNode;
 import common.PageAssistant;
-import org.activiti.bpmn.model.UserTask;
 import org.activiti.engine.impl.task.TaskDefinition;
 
 import java.util.HashMap;
@@ -116,4 +114,12 @@ public interface ISignService {
      * @param businessKey
      */
     void deleteLogsNotInRunTask(String processKey, String businessKey);
+
+    /**
+     * 保存基层法务意见到Mongo中
+     * @param processKey 流程Key
+     * @param businessKey 业务Id
+     * @param mongoData 要保存的Mongo数据
+     */
+    void saveGrassrootsLegalStaffOpinionMongo(String processKey, String businessKey, String mongoData);
 }

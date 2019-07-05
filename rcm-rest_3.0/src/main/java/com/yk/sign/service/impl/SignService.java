@@ -1380,4 +1380,41 @@ public class SignService implements ISignService {
         this.deleteLogsNotInRunTask(processKey, businessKey, logs);
         this.dealRunTaskAssignee(logs);
     }
+
+    @Override
+    public void saveGrassrootsLegalStaffOpinionMongo(String processKey, String businessKey, String mongoData) {
+        if (StringUtils.isNotBlank(mongoData)) {
+            JSONObject jsonObject = JSON.parseObject(mongoData, JSONObject.class);
+            String collectionName = null;
+            if (Constants.PROCESS_KEY_FormalAssessment.equalsIgnoreCase(processKey)) {
+                collectionName = Constants.RCM_FORMALASSESSMENT_INFO;
+            } else if (Constants.PROCESS_KEY_PREREVIEW.equalsIgnoreCase(processKey)) {
+                collectionName = Constants.RCM_PRE_INFO;
+            } else if (Constants.PROCESS_KEY_BULLETIN.equalsIgnoreCase(processKey)) {
+                collectionName = Constants.RCM_BULLETIN_INFO;
+            }
+            if (StringUtils.isNotBlank(collectionName)) {
+                JSONObject apply = jsonObject.getJSONObject("apply");
+                if(apply != null){
+                    JSONObject grassrootsLegalStaff = apply.getJSONObject("grassrootsLegalStaff");
+                    if(grassrootsLegalStaff != null){
+                        String opinion = grassrootsLegalStaff.getString("OPINION");
+                        Map<String, Object> orgMongo =  baseMongo.queryById(businessKey, collectionName);
+                        if(orgMongo != null){
+                            if(orgMongo.get("apply") != null){
+                                Map<String, Object> orgApply = (Map<String, Object>)orgMongo.get("apply");
+                                if(orgApply.get("grassrootsLegalStaff") != null){
+                                    Map<String, Object> orgGrassrootsLegalStaff = (Map<String, Object>)orgApply.get("grassrootsLegalStaff");
+                                    if(orgGrassrootsLegalStaff != null){
+                                        orgGrassrootsLegalStaff.put("OPINION", opinion);
+                                        baseMongo.updateSetByObjectId(businessKey, orgMongo, collectionName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

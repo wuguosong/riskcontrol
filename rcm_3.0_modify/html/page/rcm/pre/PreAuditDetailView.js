@@ -1929,4 +1929,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$sco
     } else {
         $scope.isShowEdit = true;
     }
+    $scope.showGrassrootsLegalStaffOpinion = true;
+    $scope.editGrassrootsLegalStaffOpinion = false;
 }]);

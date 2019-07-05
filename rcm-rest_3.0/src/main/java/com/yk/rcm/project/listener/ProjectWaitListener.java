@@ -3,26 +3,6 @@
  */
 package com.yk.rcm.project.listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.delegate.DelegateExecution;
-import org.activiti.engine.delegate.DelegateTask;
-import org.activiti.engine.delegate.Expression;
-import org.activiti.engine.delegate.TaskListener;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.bson.Document;
-import org.springframework.stereotype.Component;
-
-import util.ThreadLocalUtil;
-import util.Util;
-import ws.client.Portal2Client;
-import ws.client.portal.dto.PortalClientModel;
-
 import com.yk.common.IBaseMongo;
 import com.yk.common.SpringUtil;
 import com.yk.exception.BusinessException;
@@ -34,12 +14,27 @@ import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 import com.yk.rcm.noticeofdecision.service.INoticeDecisionInfoService;
 import com.yk.rcm.noticeofdecision.service.INoticeOfDecisionService;
-import com.yk.rcm.pre.service.IPreAuditLogService;
 import com.yk.rcm.pre.service.IPreAuditService;
 import com.yk.rcm.pre.service.IPreInfoService;
 import com.yk.rcm.project.service.IFormalAssesmentService;
-
 import common.Constants;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.delegate.DelegateExecution;
+import org.activiti.engine.delegate.DelegateTask;
+import org.activiti.engine.delegate.Expression;
+import org.activiti.engine.delegate.TaskListener;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.bson.Document;
+import org.springframework.stereotype.Component;
+import util.ThreadLocalUtil;
+import util.Util;
+import ws.client.Portal2Client;
+import ws.client.portal.dto.PortalClientModel;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 发送待办的流程监听，挂在任务节点上，触发时机：assign
@@ -208,7 +203,10 @@ public class ProjectWaitListener implements TaskListener {
 			
 			String description = delegateTask.getDescription();
 			Map jsonObj = JsonUtil.fromJson(description, Map.class);
-			String taskcode = (String) jsonObj.get("taskcode");
+			String taskcode = "";
+			if(jsonObj != null){
+				taskcode = (String) jsonObj.get("taskcode");
+			}
 			url =  "/FormalAssessmentAuditDetailView/" + businessId + "/"+ taskcode + "/" + ntUrl;
 			
 			Map<String, Object> formalAssessmentByID = this.FormalAssessmentInfoService.getFormalAssessmentByID(businessId);

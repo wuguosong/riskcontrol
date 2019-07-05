@@ -232,4 +232,27 @@ public class SignController {
         }
         return jsonObject;
     }
+
+    /**
+     * 保存基层法务意见到Mongo中
+     * @param processKey 流程Key
+     * @param businessKey 业务Id
+     * @param mongoData 要保存的Mongo数据
+     * @return
+     */
+    @RequestMapping(value = "saveGrassrootsLegalStaffOpinionMongo", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject saveGrassrootsLegalStaffOpinionMongo(String processKey, String businessKey, String mongoData){
+        JSONObject jsonObject = new JSONObject();
+        try{
+            signService.saveGrassrootsLegalStaffOpinionMongo(processKey,businessKey, mongoData);
+            jsonObject.put("message", "保存成功!");
+            jsonObject.put("success", true);
+        }catch(Exception e){
+            jsonObject.put("message", e.getMessage());
+            logger.error("保存失败！" + e.getMessage());
+            jsonObject.put("success", false);
+        }
+        return jsonObject;
+    }
 }

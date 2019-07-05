@@ -1,27 +1,23 @@
 package com.yk.rcm.formalAssessment.listener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.yk.common.IBaseMongo;
+import com.yk.power.service.IRoleService;
+import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
+import common.Constants;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.ExecutionListener;
 import org.bson.Document;
 import org.springframework.stereotype.Component;
-
 import util.Util;
 import ws.client.HpgClient;
 
-import com.yk.common.IBaseMongo;
-import com.yk.power.service.IRoleService;
-import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
-
-import common.Constants;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 @Component
 public class QueryTaskPersionListener implements ExecutionListener{
 
@@ -80,10 +76,11 @@ public class QueryTaskPersionListener implements ExecutionListener{
 			variables.put("groupMembers", groupMembersList);
 		}
 		execution.setVariables(variables);
-		
-		HpgClient hpgClient = new HpgClient(businessKey,reviewLeader.getString("VALUE"));
-		Thread thread = new Thread(hpgClient);
-		thread.start();
+		if(reviewLeader != null){
+			HpgClient hpgClient = new HpgClient(businessKey,reviewLeader.getString("VALUE"));
+			Thread thread = new Thread(hpgClient);
+			thread.start();
+		}
 	}
 
 }

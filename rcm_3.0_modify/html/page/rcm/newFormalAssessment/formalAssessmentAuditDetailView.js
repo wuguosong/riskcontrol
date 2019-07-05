@@ -2771,4 +2771,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
          $scope.isShowEdit = true;
 	 }
 	 $scope.curTask = curTask;
+     $scope.showGrassrootsLegalStaffOpinion = true;
+     $scope.editGrassrootsLegalStaffOpinion = false;
 }]);

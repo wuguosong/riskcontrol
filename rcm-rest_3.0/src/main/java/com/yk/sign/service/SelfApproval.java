@@ -53,6 +53,7 @@ public class SelfApproval{
                 }
             }
         }catch(Exception ex){
+            ex.printStackTrace();
             logger.error("系统自动审批失败：" + ex.getMessage());
         }
         /*=====成功以后才进行自审批，且自审批状态不能影响提交状态=====*/

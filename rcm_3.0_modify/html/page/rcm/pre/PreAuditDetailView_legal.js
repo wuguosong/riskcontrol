@@ -1629,6 +1629,11 @@ ctmApp.register.controller('PreAuditDetailLegalView', ['$routeParams','$http','$
                 }
             });
         }
+		// 校验基层法务意见
+        if(!$scope.checkGrassrootsLegalStaffOpinion($scope.myCurTask)){
+            $.alert('请填写基层法务意见！');
+        	return;
+		};
 
         if ($scope.flowVariables == null || $scope.flowVariables == 'undefined' || $scope.flowVariables.opinion == undefined || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
             $.alert("审批意见不能为空！");
@@ -1876,4 +1881,46 @@ ctmApp.register.controller('PreAuditDetailLegalView', ['$routeParams','$http','$
     //$scope._message_publish_reply_ = !isEmpty(curTask) ;//&& curTask.TASK_DEF_KEY_ != 'usertask8';
     $scope._message_publish_reply_ = validateMessageOpenAuthority('preReview', $routeParams.id);
     $scope.showNotifyPopup = validateNotifyShowAuthority('preReview', $routeParams.id);
+	/*===处理基层法务意见start add by lipan 2019-07-03==*/
+    $scope.showGrassrootsLegalStaffOpinion = false;
+    $scope.editGrassrootsLegalStaffOpinion = false;
+    $scope.myCurTask = wf_getCurrentTask('preReview', $routeParams.id);
+    $scope.setGrassrootsLegalStaffOpinion = function(){
+        if(!isEmpty($scope.myCurTask)){
+            if($scope.myCurTask.TASK_DEF_KEY_ == 'usertask13'){
+                $scope.showGrassrootsLegalStaffOpinion = true;
+                $scope.editGrassrootsLegalStaffOpinion = true;
+                window.setTimeout(function(){
+                    $('#grassrootsLegalStaffOpinion').show();
+                }, 1000);
+            }else{
+                $scope.showGrassrootsLegalStaffOpinion = true;
+                $scope.editGrassrootsLegalStaffOpinion = false;
+			}
+        }else{
+            $scope.showGrassrootsLegalStaffOpinion = true;
+            $scope.editGrassrootsLegalStaffOpinion = false;
+        }
+    };
+    $scope.setGrassrootsLegalStaffOpinion();
+    // 校验保存基层法务意见
+    $scope.checkGrassrootsLegalStaffOpinion = function(curTask){
+        $scope.setGrassrootsLegalStaffOpinion();
+        if(!isEmpty(curTask)){
+            if(curTask['TASK_DEF_KEY_'] == 'usertask13'){
+				if(isEmpty($scope.pre.apply.grassrootsLegalStaff.OPINION)){
+                    return false;
+				}else{
+					// 保存基层法务意见
+                    saveGrassrootsLegalStaffOpinionMongo('preReview', $routeParams.id, $scope.pre);
+					return true;
+				}
+            }else{
+                return true;
+			}
+        }else{
+            return true;
+		}
+	};
+	/*===处理基层法务意见end add by lipan 2019-07-03==*/
 }]);
