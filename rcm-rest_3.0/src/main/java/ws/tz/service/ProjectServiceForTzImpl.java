@@ -179,12 +179,12 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
         Document apply = (Document) doc.get("apply");
         //验证附件不能为空
 
-        List<Document> attachment = (List<Document>) doc.get("attachment");
-        if (attachment != null && attachment.size() == 0) {
-            return result.setSuccess(false)
-                    .setResult_name("附件不能空！")
-                    .setResult_code("attachment");
-        }
+//        List<Document> attachment = (List<Document>) doc.get("attachment");
+//        if (attachment != null && attachment.size() == 0) {
+//            return result.setSuccess(false)
+//                    .setResult_name("附件不能空！")
+//                    .setResult_code("attachment");
+//        }
         //验证一级业务类型
         List<Document> serviceType = (List<Document>) apply.get("serviceType");
         if (serviceType != null && serviceType.size() == 0) {
