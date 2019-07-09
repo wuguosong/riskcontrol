@@ -1934,6 +1934,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._message.messageContent = '';
                 $scope._message.messageTitle = '';
                 $scope._message.messageFileType = -1;
+                $scope._message.messageFile = '';
                 $scope._message_first.originalId = '';
                 $scope._message_first.parentId = '';
                 $scope._message_first.repliedBy = '';
@@ -1941,6 +1942,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._message_first.messageContent = '';
                 $scope._message_first.messageTitle = '';
                 $scope._message_first.messagePriority = 0;
+                $scope._message_first.messageFile = '';
                 $scope._clear_via_users_();
                 $scope._clear_share_users_();
             };
@@ -6369,7 +6371,6 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     url: srvUrl + "formalReport/findFormalAndReport.do",
                     data: $.param({"projectFormalId": id})
                 }).success(function (data) {
-                    debugger
                     $scope.projectSummary = data.result_data.summary;
                     $scope.stage = data.result_data.stage;
                     $scope.type = data.result_data.biddingType;
