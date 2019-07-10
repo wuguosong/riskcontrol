@@ -828,7 +828,7 @@ public class SignService implements ISignService {
     public Map<String, Map<String, Object>> list2Map(List<Map<String, Object>> list) {
         Map<String, Map<String, Object>> map = new LinkedHashMap<String, Map<String, Object>>();
         for (Map<String, Object> hashMap : list) {
-            System.out.println(hashMap.get("TASKDESC") + " " + hashMap.get("AUDITUSERNAME") + " " + hashMap.get("AUDITTIME"));
+            // System.out.println(hashMap.get("TASKDESC") + " " + hashMap.get("AUDITUSERNAME") + " " + hashMap.get("AUDITTIME"));
             map.put(String.valueOf(hashMap.get("TASKDESC")), hashMap);
         }
         return map;
@@ -1123,27 +1123,27 @@ public class SignService implements ISignService {
      */
     private Map<String, Map<String, Object>> judgeTaskMap(Map<String, Map<String, Object>> map, List<Task> tasks) {
         List<Integer> idx = new ArrayList<Integer>();// 存储当前任务出现的索引位置
-        System.out.println("+++++++++++++++++++++++有序map开始++++++++++++++++++++++");
+        // System.out.println("+++++++++++++++++++++++有序map开始++++++++++++++++++++++");
         for (Iterator<Map.Entry<String, Map<String, Object>>> iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
             Map.Entry<String, Map<String, Object>> entry = iterator.next();
             String key = entry.getKey();
             Map<String, Object> value = entry.getValue();
-            System.out.println(key + " " + JSON.toJSONString(value));
+            // System.out.println(key + " " + JSON.toJSONString(value));
         }
-        System.out.println("++++++++++++++++++++++有序map结束+++++++++++++++++++++++");
+        // System.out.println("++++++++++++++++++++++有序map结束+++++++++++++++++++++++");
         List<Map<String, Object>> list = this.map2List(map);
-        System.out.println("移除前：" + list.size() + " " + map.size());
+        // System.out.println("移除前：" + list.size() + " " + map.size());
         for (Task task : tasks) {
             String name = task.getName();
             for (Map<String, Object> obj : list) {
                 if (obj.get("TASKDESC").equals(name)) {
                     idx.add(list.indexOf(obj));
-                    System.out.println("name:" + name + " desc:" + obj.get("TASKDESC"));
+                    // System.out.println("name:" + name + " desc:" + obj.get("TASKDESC"));
                 }
             }
         }
         Collections.sort(idx);// 排序
-        System.out.println(JSON.toJSONString(idx));
+        // System.out.println(JSON.toJSONString(idx));
         List<Map<String, Object>> subList = new ArrayList<Map<String, Object>>();
         if (CollectionUtils.isNotEmpty(idx)) {
             subList = list.subList(0, idx.get(0));// List.subList后不要试图操作父List，该方法返回的是一个视图
@@ -1151,7 +1151,7 @@ public class SignService implements ISignService {
             subList = list;
         }
         Map<String, Map<String, Object>> subMap = this.list2Map(subList);
-        System.out.println("移除后：" + subList.size() + " " + subMap.size());
+        // System.out.println("移除后：" + subList.size() + " " + subMap.size());
         return map;
     }
 

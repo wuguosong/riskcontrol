@@ -29,6 +29,14 @@ public interface INotifyService {
     Notify get(String notify_id);
 
     /**
+     * 根据知会id查询知会信息
+     *
+     * @param notify_id 知会id
+     * @return 知会信息
+     */
+    JSONObject getNotifyJSONObject(String notify_id);
+
+    /**
      * 更新知会信息
      *
      * @param notify 知会信息

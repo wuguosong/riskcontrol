@@ -480,8 +480,14 @@ public class MessageController {
      * @param checkUsers
      */
     private void executeBusinessMessageAndPortal(Message message, String checkUsers) {
+        String curUserId = UserUtil.getCurrentUserUuid();
         if (StringUtils.isBlank(checkUsers)) {
-            checkUsers = "";
+            checkUsers = curUserId;
+        }else{
+            StringBuffer sb = new StringBuffer(checkUsers);
+            sb.append(",");
+            sb.append(curUserId);
+            checkUsers = sb.toString();
         }
         boolean open = messageService.getOpenBusinessExecute();
         if (open) {
@@ -651,7 +657,7 @@ public class MessageController {
             notifyService.save(message.getMessageType(), message.getProcInstId(), user, Notify.TYPE_MESSAGE, String.valueOf(message.getMessageId()), message.getMessageContent(),
                     false);
             // 向统一代办平台发送待阅（根据类型个业务id查询多个知会记录，获取其知会人，进行一次性同步）
-            notifyService.sendToPortal(message.getMessageType(), message.getProcInstId(), false, true, Notify.TYPE_MESSAGE);
+            notifyService.sendToPortal(message.getMessageType(), message.getProcInstId(), true, false, Notify.TYPE_MESSAGE);
         }
     }
 

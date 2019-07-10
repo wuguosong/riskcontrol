@@ -2585,12 +2585,16 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             };
             // 打开隐藏的内容和设置提示信息
             $scope._pri_setTips = function(targetId, subjectId){
+                var content = '新回复';
+                if(targetId == subjectId){
+                    content = '新留言';
+                }
                 $('#_message_panel_body_' + subjectId).addClass('in');
                 var _span = $('#' + targetId);
                 _span.removeClass('uibadge');
                 _span.html('');
                 _span.addClass('uibadge');
-                _span.html('新回复');
+                _span.html(content);
             };/**/
             // 监听流程变量,控制留言编辑权限
             $scope.$parent.$watch('refreshImg', function(){

@@ -3,23 +3,20 @@
  */
 package com.yk.rcm.bulletin.listener;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
+import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
 import common.Constants;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.ExecutionListener;
 import org.activiti.engine.delegate.Expression;
 import org.springframework.stereotype.Component;
-
 import util.ThreadLocalUtil;
 import util.Util;
 
-import com.yk.rcm.bulletin.service.IBulletinAuditLogService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 审核日志监听器
@@ -63,7 +60,7 @@ public class BulletinAuditLogListener implements ExecutionListener {
 		this.bulletinAuditLogService.save(log);
 
 		// 同步待阅
-		notifyService.sendToPortal(Constants.PROCESS_KEY_BULLETIN, businessId, false, true, Notify.TYPE_NOTIFY);
+		notifyService.sendToPortal(Constants.PROCESS_KEY_BULLETIN, businessId, true, false, Notify.TYPE_NOTIFY);
 	}
 
 }

@@ -1,4 +1,4 @@
-ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$scope', '$location', 'Upload', '$filter', function ($routeParams, $http, $scope, $location, Upload, $filter) {
+ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$scope', '$location', 'Upload', '$filter',function ($routeParams, $http, $scope, $location, Upload, $filter) {
 
     $scope.isShowOld = false;
 
@@ -1931,4 +1931,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$sco
     }
     $scope.showGrassrootsLegalStaffOpinion = true;
     $scope.editGrassrootsLegalStaffOpinion = false;
+    /*******************留言知会代办锚点定位***********************/
+    executeMessageOrNotifyTodoPageForPortal($routeParams['notifyId']);
 }]);

@@ -1,23 +1,16 @@
 package com.yk.rcm.pre.listener;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
+import com.yk.rcm.pre.service.IPreAuditLogService;
 import common.Constants;
-import org.activiti.engine.delegate.DelegateExecution;
-import org.activiti.engine.delegate.DelegateTask;
-import org.activiti.engine.delegate.ExecutionListener;
-import org.activiti.engine.delegate.Expression;
-import org.activiti.engine.delegate.TaskListener;
+import org.activiti.engine.delegate.*;
 import org.springframework.stereotype.Component;
-
 import util.ThreadLocalUtil;
 import util.Util;
 
-import com.yk.rcm.pre.service.IPreAuditLogService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 审核日志监听器
@@ -57,7 +50,7 @@ public class PreAuditLogListener implements ExecutionListener,TaskListener {
 		log.put("executionId", execution.getId());
 		this.preAuditLogService.save(log);
 		// 同步待阅
-		notifyService.sendToPortal(Constants.PROCESS_KEY_PREREVIEW, businessId, false, true, Notify.TYPE_NOTIFY);
+		notifyService.sendToPortal(Constants.PROCESS_KEY_PREREVIEW, businessId, true, false, Notify.TYPE_NOTIFY);
 	}
 
 	@Override

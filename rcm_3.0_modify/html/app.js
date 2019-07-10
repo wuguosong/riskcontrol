@@ -990,7 +990,6 @@ function attach_delete(fileId) {
  * @returns {*}
  */
 function attach_list(docType, docCode, pageLocation) {
-    console.log(docCode);
     var url = srvUrl + "cloud/list.do";
     var result = null;
     $.ajax({
@@ -1158,7 +1157,6 @@ function wf_getCurrentTask(processKey, businessKey) {
             task = data;
         }
     });
-    console.log(task);
     return task;
 }
 function wf_getCurrentProject(processKey, businessKey) {
@@ -1248,7 +1246,6 @@ function notify_listNotifies(business_module, business_id) {
             notifies = data;
         }
     });
-    console.log(notifies);
     return notifies;
 }
 /**
@@ -1271,7 +1268,6 @@ function notify_saveNotifies(business_module, business_id, notifies_user) {
             notifies = data;
         }
     });
-    console.log(notifies);
     return notifies;
 }
 
@@ -1448,7 +1444,6 @@ function isEmptyJson(_json) {
     if (typeof _json == "object") {
         var _i = 0;
         for (var _attr in _json) {
-            console.log(_attr);
             _i++;
         }
         return _i == 0;
@@ -1539,7 +1534,6 @@ function _executeAnchorPoint(_target_ele_id_) {
         }, {duration: 500, easing: "swing"});
         return false;
     } catch (e) {
-        console.log(e);
         return false;
     }
 }
@@ -1922,4 +1916,74 @@ function saveGrassrootsLegalStaffOpinionMongo(processKey, businessKey, mongoData
         },
         async: true
     });
+}
+
+/**
+ * 知会改变当用户从代办点击后，
+ * 1.对知会类型为"MESSAGE"的进行页面锚点定位
+ * 2.对知会类型为"NOTIFY"不进行处理
+ * 3.同时对两者进行代办或者待阅状态的更新
+ * @param notifyId
+ * @param callBack
+ */
+function getNotifyJSONObject(notifyId, callBack){
+    $.ajax({
+        url: srvUrl + 'notify/getNotifyJSONObject.do',
+        type: "POST",
+        dataType: "json",
+        data: {"notifyId": notifyId},
+        async: true,
+        success: function (data) {
+            if(!isEmpty(callBack) && typeof callBack === 'function'){
+                callBack(data);
+            }
+        }
+    });
+}
+
+/**
+ * 消息提示设置
+ * @param targetId
+ * @param subjectId
+ * @param content
+ */
+function setMessageTip(targetId, subjectId, content){
+    $('#_message_panel_body_' + subjectId).addClass('in');
+    var _span = $('#' + targetId);
+    _span.removeClass('uibadge');
+    _span.html('');
+    _span.addClass('uibadge');
+    _span.html(content);
+}
+
+/**
+ * 从Portal中点击进入执行的方法
+ * @param notifyId
+ */
+function executeMessageOrNotifyTodoPageForPortal(notifyId){
+    if(!isEmpty(notifyId)){
+        notify_UpdateStatus(notifyId, 2);
+        getNotifyJSONObject(notifyId, function(notify){
+            if(!isEmpty(notify)){
+                if('MESSAGE' == notify['notifyType']){
+                    _initAnchorPoint(notify);
+                    if(!isEmpty(notify) && !isEmptyJson(notify)){
+                        var targetId = notify['AnchorPointMessageId'];
+                        if(!isEmpty(targetId)){
+                            var subjectId = notify['AnchorPointMessageSubject'];
+                            // 3s后锚点定位
+                            window.setTimeout(function(){
+                                var content = '新回复';
+                                if(targetId == subjectId){
+                                    content = '新留言';
+                                }
+                                setMessageTip(targetId, subjectId, content);
+                                _executeAnchorPoint(targetId);
+                            }, 3000);
+                        }
+                    }
+                }
+            }
+        });
+    }
 }

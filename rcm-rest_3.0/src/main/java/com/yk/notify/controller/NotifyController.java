@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import util.ThreadLocalUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -74,6 +73,26 @@ public class NotifyController {
             logger.error("保存知会列表失败!" + e.getMessage());
         }
         return notifies;
+    }
+
+    /**
+     * 通过Id获取知会信息
+     * @param notifyId 知会Id
+     * @return
+     */
+    @RequestMapping("getNotifyJSONObject")
+    @ResponseBody
+    @SysLog(module = LogConstant.MODULE_SYS, operation = LogConstant.QUERY, description = "获取单个知会信息")
+    public JSONObject getNotifyJSONObject(String notifyId) {
+        JSONObject notify = null;
+        try {
+            notify = notifyService.getNotifyJSONObject(notifyId);
+            logger.info("获取单个知会信息成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("获取单个知会信息失败!" + e.getMessage());
+        }
+        return notify;
     }
 
     /**

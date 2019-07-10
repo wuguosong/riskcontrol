@@ -2773,4 +2773,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	 $scope.curTask = curTask;
      $scope.showGrassrootsLegalStaffOpinion = true;
      $scope.editGrassrootsLegalStaffOpinion = false;
+     /*******************留言知会代办锚点定位***********************/
+     executeMessageOrNotifyTodoPageForPortal($routeParams['notifyId']);
 }]);

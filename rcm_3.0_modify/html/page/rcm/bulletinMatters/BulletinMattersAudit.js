@@ -1071,4 +1071,6 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
         } else {
             $scope.isShowEdit = true;
         }
+        /*******************留言知会代办锚点定位***********************/
+        executeMessageOrNotifyTodoPageForPortal($routeParams['notifyId']);
 }]);

@@ -1,25 +1,18 @@
 package com.yk.rcm.formalAssessment.listener;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import com.yk.notify.entity.Notify;
 import com.yk.notify.service.INotifyService;
+import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
+import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
 import common.Constants;
-import org.activiti.engine.delegate.DelegateExecution;
-import org.activiti.engine.delegate.DelegateTask;
-import org.activiti.engine.delegate.ExecutionListener;
-import org.activiti.engine.delegate.Expression;
-import org.activiti.engine.delegate.TaskListener;
+import org.activiti.engine.delegate.*;
 import org.springframework.stereotype.Component;
-
 import util.ThreadLocalUtil;
 import util.Util;
 
-import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditLogService;
-import com.yk.rcm.formalAssessment.service.IFormalAssessmentAuditService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -70,7 +63,7 @@ public class FormalAssessmentAuditLogListener implements ExecutionListener,TaskL
 		log.put("executionId", execution.getId());
 		this.formalAssessmentAuditLogService.save(log);
 		// 同步待阅
-		notifyService.sendToPortal(Constants.PROCESS_KEY_FormalAssessment, businessId, false, true, Notify.TYPE_NOTIFY);
+		notifyService.sendToPortal(Constants.PROCESS_KEY_FormalAssessment, businessId, true, false, Notify.TYPE_NOTIFY);
 	}
 
 	

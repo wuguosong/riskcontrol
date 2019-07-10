@@ -4,7 +4,7 @@
 <mapper namespace="com.yk.notify.dao.INotifyMapper">
     <resultMap id="notifyMap" type="com.yk.notify.entity.Notify">
         <id column="notify_id" property="notifyId" javaType="java.lang.Long"/>
-        <id column="notify_type" property="notifyType" javaType="java.lang.String"/>
+        <result column="notify_type" property="notifyType" javaType="java.lang.String"/>
         <result column="business_module" property="businessModule" javaType="java.lang.String"/>
         <result column="business_id" property="businessId" javaType="java.lang.String"/>
         <result column="associate_id" property="associateId" javaType="java.lang.String"/>
@@ -15,6 +15,7 @@
         <result column="portal_status" property="portalStatus" javaType="java.lang.String"/>
         <result column="message_status" property="messageStatus" javaType="java.lang.String"/>
         <result column="notify_url" property="notifyUrl" javaType="java.lang.String"/>
+        <result column="notify_status" property="notifyStatus" javaType="java.lang.String"/>
         <result column="notify_created" property="notifyCreated" javaType="java.lang.String"/>
         <result column="notify_created_name" property="notifyCreatedName" javaType="java.lang.String"/>
     </resultMap>
@@ -31,6 +32,7 @@
        portal_status,
        message_status,
        notify_url,
+       notify_status,
        notify_created,
        notify_created_name
 	</sql>
