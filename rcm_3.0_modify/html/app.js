@@ -1808,18 +1808,64 @@ function htmlTagReg(text) {
     }
     // console.log("转换前：==================\n" + text);
     // html
-    text = text.replace(/(h1|h2|h3|h4|h5|h6|strong|pre|font)(.*?)/gi, 'span');
+    // text = text.replace(/(h1|h2|h3|h4|h5|h6|strong|pre|font)(.*?)/gi, 'span');
+    // h1
+    text = text.replace(/<h1>/gi, '<span>');
+    text = text.replace(/<\/h1>/gi, '</span>');
+    // h2
+    text = text.replace(/<h2>/gi, '<span>');
+    text = text.replace(/<\/h2>/gi, '</span>');
+    // h3
+    text = text.replace(/<h3>/gi, '<span>');
+    text = text.replace(/<\/h3>/gi, '</span>');
+    // h4
+    text = text.replace(/<h4>/gi, '<span>');
+    text = text.replace(/<\/h4>/gi, '</span>');
+    // h5
+    text = text.replace(/<h5>/gi, '<span>');
+    text = text.replace(/<\/h5>/gi, '</span>');
+    // h6
+    text = text.replace(/<h6>/gi, '<span>');
+    text = text.replace(/<\/h6>/gi, '</span>');
+    // strong
+    text = text.replace(/<strong>/gi, '<span>');
+    text = text.replace(/<\/strong>/gi, '</span>');
+    // pre
+    text = text.replace(/<pre>/gi, '<span>');
+    text = text.replace(/<\/pre>/gi, '</span>');
+    // 特殊情况
+    text = text.replace(/<pre style/gi, '<span style');
+    text = text.replace(/<\/pre>/gi, '</span>');
+    // font
+    text = text.replace(/<font>/gi, '<span>');
+    text = text.replace(/<\/font>/gi, '</span>');
+    // code
+    text = text.replace(/<code>/gi, '<span>');
+    text = text.replace(/<\/code>/gi, '</span>');
+    // 颜色
+    var colorReg = /color="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
+    text = text.replace(colorReg, 'color="color:black;" $1');
+    colorReg = /color='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
+    text = text.replace(colorReg, 'color="color:black;" $1');
     // 样式
-    var styleReg = /style="[^=>]*"([(\s+\w+=)|>])/g;
+    var styleReg = /style="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
+    text = text.replace(styleReg, 'style="color:black;font-size:16px;" $1');
+    styleReg = /style='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
     text = text.replace(styleReg, 'style="color:black;font-size:16px;" $1');
     // 类
-    var classReg = /class="[^=>]*"([(\s+\w+=)|>])/g;
+    var classReg = /class="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
+    text = text.replace(classReg, '$1');
+    classReg = /class='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
     text = text.replace(classReg, '$1');
     // 超链接
-    var hrefReg = /href="[^=>]*"([(\s+\w+=)|>])/g;
+    var hrefReg = /href="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
+    text = text.replace(hrefReg, '$1');
+    hrefReg = /href='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
     text = text.replace(hrefReg, '$1');
     // word
-    var faceReg = /face="[^=>]*"([(\s+\w+=)|>])/g;
+    var faceReg = /face="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
+    text = text.replace(faceReg, 'style="color:black;font-size:16px;" $1');
+    faceReg = /face='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
     text = text.replace(faceReg, 'style="color:black;font-size:16px;" $1');
     // 加粗
     text = text.replace(/<b>/gi, '<span style="color:black;font-size:16px;">');
