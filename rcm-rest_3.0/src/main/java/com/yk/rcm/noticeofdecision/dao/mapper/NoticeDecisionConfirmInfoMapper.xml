@@ -11,7 +11,6 @@
        		(select u.NAME from sys_user u where u.uuid=i.legalreviewpersonid) legalreviewpersonName, 
     		(select d.decision_date from rcm_decision_resolution d where d.formal_id = i.businessid) decisionDate    
 		from rcm_formalassessment_info i where stage='6' 
-			and exists (select 1 from rcm_noticedecision_info n where n.projectformalid=i.businessid) 
 		<if test="createby != null and createby != ''"> and	i.createby = #{createBy}</if>
     	<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
     	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>

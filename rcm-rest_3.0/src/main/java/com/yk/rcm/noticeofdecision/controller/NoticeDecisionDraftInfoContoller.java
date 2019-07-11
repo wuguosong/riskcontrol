@@ -84,7 +84,8 @@ public class NoticeDecisionDraftInfoContoller {
 	public Result update(HttpServletRequest request){
 		Result result = new Result();
 		String json = request.getParameter("nod");
-		this.noticeDecisionDraftService.update(json);
+		String _id = this.noticeDecisionDraftService.update(json);
+		result.setResult_data(_id);
 		return result;
 	}
 	/**

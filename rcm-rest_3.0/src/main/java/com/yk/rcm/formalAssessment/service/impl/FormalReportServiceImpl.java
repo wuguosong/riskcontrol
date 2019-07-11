@@ -236,12 +236,9 @@ public class FormalReportServiceImpl implements IFormalReportService {
 
 		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(projectFormalId);
 		if (Util.isNotEmpty(Object)) {
-			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))
-					&& Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-				if (Object.get("IS_SUBMIT_BIDDING").equals("1")
-						&& Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+			if (Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))) {
+				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")) {
 					map.put("stage", "4");
-
 					// 调用报表同步报表数据方法
 					Map<String, Object> params = new HashMap<String, Object>();
 					params.put("projectType", "pfr");
@@ -564,10 +561,8 @@ public class FormalReportServiceImpl implements IFormalReportService {
 				Map<String, Object> map = new HashMap<String, Object>();
 				Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
 				if (Util.isNotEmpty(Object)) {
-					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT"))
-							&& Util.isNotEmpty(Object.get("IS_SUBMIT_DECISION_NOTICE"))) {
-						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")
-								&& Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
+					if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT"))) {
+						if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")) {
 							map.put("stage", "4");
 
 							// 调用报表同步报表数据方法
