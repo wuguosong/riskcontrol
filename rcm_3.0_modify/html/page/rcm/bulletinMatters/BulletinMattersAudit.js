@@ -87,7 +87,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 	function ($http,$scope,$location, $routeParams, $filter,Upload) {
 
 	$scope.isShowOld = false;
-
+    $scope.editAuth = 'false';
 	$scope.businessId = $routeParams.id;
 	$scope.queryParamId = $routeParams.id;
 	$scope.oldUrl = $routeParams.url;
@@ -151,6 +151,7 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 				//评审负责人
 				else if (document.isReviewLeader != undefined && document.isReviewLeader != null && document.isReviewLeader != ""){
 					$scope.showController.isReviewLeader = true;
+					$scope.editAuth = 'true';
 				}
 				//风控负责人
 				else if (document.isRiskLeader != undefined && document.isRiskLeader != null && document.isRiskLeader != ""){
@@ -160,6 +161,18 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
 		});
 	}
 
+    $scope.saveReviewLeaderAttachment = function(){
+        $http({
+            method:'post',
+            url: srvUrl + "bulletinInfo/saveReviewLeaderAttachment.do",
+            data:$.param({
+                "businessId":$scope.queryParamId,
+                "attachment":JSON.stringify($scope.bulletin.reviewLeaderAttachment),
+                "opinion":$scope.bulletin.reviewLeaderOpinion
+            })
+        }).success(function(data){
+        });
+	};
 	//保存方法
 	$scope.save = function(callback){
 		if($scope.showController.isLegalLeader){
@@ -733,7 +746,6 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
                 $.alert("审批意见不能超过650字！");
                 return;
             }
-
             //执行办结操作
             show_Mask();
             $http({
@@ -837,23 +849,9 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
                 }
             });
         };
-        $scope.auditSingle = function () {
-            if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
-                $.alert("审批意见不能为空！");
-                return;
-            }
-            /*if ($scope.flowVariables.opinion.length < 20) {
-                $.alert("审批意见不能少于20字！");
-                return;
-            }*/
-            if ($scope.flowVariables.opinion.length > 650) {
-                $.alert("审批意见不能超过650字！");
-                return;
-            }
-
+        $scope.auditSingle2 = function(){
             var url = srvUrl + "bulletinAudit/auditSingle.do";
             var documentation = $("input[name='bpmnProcessOption']:checked").attr("aaa");
-
             if (documentation != null && documentation != "") {
                 var docObj = JSON.parse(documentation);
                 if (docObj.preAction) {
@@ -910,7 +908,6 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
                     }
                 }
             }
-
             show_Mask();
             $http({
                 method: 'post',
@@ -931,6 +928,33 @@ ctmApp.register.controller('BulletinMattersAuditView', ['$http','$scope','$locat
                     $.alert(result.result_name);
                 }
             });
+		};
+        $scope.auditSingle = function () {
+        	debugger;
+            if ($scope.flowVariables == null || $scope.flowVariables.opinion == null || $scope.flowVariables.opinion == "") {
+                $.alert("审批意见不能为空！");
+                return;
+            }
+            /*if ($scope.flowVariables.opinion.length < 20) {
+                $.alert("审批意见不能少于20字！");
+                return;
+            }*/
+            if ($scope.flowVariables.opinion.length > 650) {
+                $.alert("审批意见不能超过650字！");
+                return;
+            }
+            if($scope.showController.isReviewLeader){
+                if($scope.bulletin.reviewLeaderOpinion == null || $scope.bulletin.reviewLeaderOpinion == ""){
+                    $.alert("风控意见不能为空！");
+                    return;
+                }
+                $scope.saveReviewLeaderAttachment();
+                $.confirm("若没有上传任何附件，提交后将不能再更改！<br/>是否确认提交？",function(){
+                    $scope.auditSingle2();
+                });
+            }else{
+                $scope.auditSingle2();
+			}
         };
         $scope.showSubmitModal();
         /***************************业务流程方法结束***********************************/

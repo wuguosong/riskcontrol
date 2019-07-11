@@ -1197,6 +1197,22 @@ function attach_delete(fileId) {
     });
     return result;
 }
+
+function attach_delete_async(fileId, callBack) {
+    var url = srvUrl + "cloud/delete.do";
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"fileId": fileId},
+        async: true,
+        success: function (data) {
+            if(!isEmpty(callBack) && typeof callBack === 'function'){
+                callBack(data);
+            }
+        }
+    });
+}
 /**
  * 查询附件
  * @param docType
@@ -1218,6 +1234,22 @@ function attach_list(docType, docCode, pageLocation) {
         }
     });
     return result;
+}
+
+function attach_list_async(docType, docCode, pageLocation, callBack) {
+    var url = srvUrl + "cloud/list.do";
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        data: {"docType": docType, 'docCode': docCode, 'pageLocation': pageLocation},
+        async: true,
+        success: function (data) {
+            if(!isEmpty(callBack) && typeof callBack === 'function'){
+                callBack(data);
+            }
+        }
+    });
 }
 /**附件相关的一些公共方法结束**/
 function isEmpty(s) {
