@@ -176,4 +176,6 @@
 	<!--<import resource="classpath:config/redis-conf.xml"/>-->
 	<jaxws:endpoint id="getService" implementor="ws.msg.service.GetServiceImpl"
 					address="/getService" />
+	<jaxws:endpoint id="wsForTz" implementor="ws.tz.service.ProjectServiceForTzImpl"
+					address="/wsForTz" />
 </beans>
