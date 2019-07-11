@@ -126,27 +126,6 @@
                 </a>
                 <!--正式评审-决策会材料 End-->
 
-                <!--正式评审-决策通知书草拟 Start-->
-                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 0 && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 1 && noSubmit.SERVICETYPE != 1404 && noSubmit.SERVICETYPE != 1406"
-                   href="#/NoticeDecisionDraftDetail/Create/{{ noSubmit.BUSINESSID }}"
-                   class="btn btn-sm btn-grey btn-right"
-                   title="">
-                    决策通知书草拟
-                </a>
-                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE == 0  && noSubmit.SERVICETYPE != 1404 && noSubmit.SERVICETYPE != 1406"
-                   href="#/NoticeDecisionDraftDetail/Update/{{noSubmit.BUSINESSID}}"
-                   class="btn btn-sm btn-grey btn-right"
-                   title="">
-                    决策通知书草拟
-                </a>
-                <a ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE == 1 && noSubmit.SERVICETYPE != 1404 && noSubmit.SERVICETYPE != 1406"
-                   href="#/NoticeDecisionDraftDetailView/submitted/{{noSubmit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
-                   class="btn btn-sm btn-success btn-right"
-                   title="">
-                    决策通知书草拟
-                </a>
-                <!--正式评审-决策通知书草拟 Ends-->
-
                 <!--正式评审-环卫、危废-会议纪要 Start-->
                 <button ng-if="noSubmit.PROJECT_TYPE == 'pfr' && noSubmit.RFI_IS_SUBMIT_DECISION_NOTICE != 1 && (noSubmit.SERVICETYPE == 1404 || noSubmit.SERVICETYPE == 1406)"
                         ng-click="openRBIMeeting(noSubmit)"
