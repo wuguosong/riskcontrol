@@ -322,7 +322,7 @@ ctmApp.register.controller('MeetingManager', ['$http', '$scope', '$location', '$
     // 其他评审上传会议纪要模式
     $scope.b = {};
     $scope.openRBIMeeting = function (noSubmit) {
-        $scope.b.pmodel = "file";
+        $scope.b.pmodel = "normal";
         $scope.businessId = noSubmit.BUSINESSID;
         $scope.projectType = noSubmit.PROJECT_TYPE;
         $scope.projectName = noSubmit.PROJECTNAME;
