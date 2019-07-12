@@ -7,7 +7,7 @@
     </extensionElements>
     <startEvent id="startevent1" name="Start"></startEvent>
     <subProcess id="subprocess1" name="subProcess">
-      <userTask id="usertask1" name="大区领导审批" activiti:assignee="${largeArea}">
+      <userTask id="usertask1" name="业务单位领导审批" activiti:assignee="${largeArea}">
         <documentation>{"isLargeArea":"1","deptCode":"area","dutyCode":"areaFzrDuty","taskcode":"largeAreaTask"}</documentation>
         <extensionElements>
           <activiti:taskListener event="create" delegateExpression="${formalAssessmentInsertWaitLogListener}">
@@ -141,7 +141,7 @@
               <activiti:string><![CDATA[C]]></activiti:string>
             </activiti:field>
             <activiti:field name="taskdesc">
-              <activiti:string><![CDATA[大区领导审批]]></activiti:string>
+              <activiti:string><![CDATA[业务单位领导审批]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
         </extensionElements>
@@ -155,7 +155,7 @@
               <activiti:string><![CDATA[B]]></activiti:string>
             </activiti:field>
             <activiti:field name="taskdesc">
-              <activiti:string><![CDATA[大区领导审批]]></activiti:string>
+              <activiti:string><![CDATA[业务单位领导审批]]></activiti:string>
             </activiti:field>
           </activiti:executionListener>
         </extensionElements>
@@ -747,14 +747,14 @@
         <omgdi:waypoint x="333.0" y="113.0"></omgdi:waypoint>
         <omgdi:waypoint x="332.0" y="187.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="60.0" x="338.0" y="127.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="338.0" y="127.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
         <omgdi:waypoint x="385.0" y="65.0"></omgdi:waypoint>
         <omgdi:waypoint x="472.0" y="65.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="481.0" y="46.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="481.0" y="46.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
@@ -839,7 +839,7 @@
         <omgdi:waypoint x="162.0" y="65.0"></omgdi:waypoint>
         <omgdi:waypoint x="280.0" y="65.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="198.0" y="95.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="198.0" y="95.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow77" id="BPMNEdge_flow77">
