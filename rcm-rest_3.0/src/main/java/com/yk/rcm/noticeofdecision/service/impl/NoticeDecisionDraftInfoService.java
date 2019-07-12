@@ -589,30 +589,6 @@ public class NoticeDecisionDraftInfoService implements INoticeDecisionDraftInfoS
 		statusMap.put("status", "1");
 		statusMap.put("BUSINESSID", businessId);
 		this.fillMaterialsService.updateProjectStaus(statusMap);
-
-		Map<String, Object> Object = this.fillMaterialsService.getRFIStatus(businessId);
-		if (Util.isNotEmpty(Object)) {
-			if (Util.isNotEmpty(Object.get("IS_SUBMIT_REPORT")) && Util.isNotEmpty(Object.get("IS_SUBMIT_BIDDING"))) {
-				if (Object.get("IS_SUBMIT_REPORT").equals("1") && Object.get("IS_SUBMIT_BIDDING").equals("1")
-						&& Object.get("IS_SUBMIT_DECISION_NOTICE").equals("1")) {
-					map.put("stage", "4");
-
-					// 调用报表同步报表数据方法
-					Map<String, Object> params1 = new HashMap<String, Object>();
-					params1.put("projectType", "pfr");
-					params1.put("businessId", businessId);
-					String Json = JSON.toJSONString(params1);
-					try {
-						reportDataService.saveOrUpdateReportData(Json);
-						logger.info("同步报表数据成功：[" + params1.get("projectType") + "," + businessId + "]");
-					} catch (Exception e) {
-						logger.info("同步报表数据出错：[" + params1.get("projectType") + "," + businessId + "],错误详情："
-								+ e.getMessage());
-					}
-				}
-			}
-		}
-
 		this.noticeDecisionDraftInfoMapper.updateStageByBusinessId(map);
 	}
 
