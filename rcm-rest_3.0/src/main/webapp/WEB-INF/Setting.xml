@@ -81,7 +81,7 @@
     <!-- 8 -->
     <!--免除单点登录验证的文件-->
     <IncludeFileExtension 
-        ext_value=".*(\.jsx$|\.axd|/sys/webservice/.*|/resource/.*|/bpm/WorkFlow/deploy|/WebService/.*)"
+        ext_value=".*(\.jsx$|\.axd|/sys/webservice/.*|/resource/.*|/bpm/WorkFlow/deploy|/WebService/.*|/webservice/.*)"
         content_value=".*(/wd_sso_logout$)"
         for_value=".*(/VerifyCodeAndRememberPwd$|/cfld_sso_localmodel_login|/ssoLoginServlet$|/cfld_sso_localmodel_exit.axd|/cfld_sso_Quartz_KeyUpdate.axd|/cfld_sso_Quartz_FileUpdate.axd|/updateIsForbidden.axd|/wd_sso_logout$|/error_sso.jsp$|/clientGetCookiesServlet$|/LocalModelPage/html/login.html/cfld_sso_client_exit.axd)"/>
 
