@@ -184,28 +184,7 @@ ctmApp.register.controller('MeetingManager', ['$http', '$scope', '$location', '$
     $scope.openRBIMeeting = function (noSubmit) {
         $scope.businessId = noSubmit.BUSINESSID;
     }
-    $scope.mettingSummary = "";
-    /*$scope.mettingSubmit = function () {
-        if ($scope.mettingSummary == null || $scope.mettingSummary == "") {
-            $.alert("会议纪要不得为空！");
-            return false;
-        }
-        //show_Mask();
-        //保存附件到mongo
-        $http({
-            method: 'post',
-            url: srvUrl + "bulletinInfo/saveMettingSummary.do",
-            data: $.param({
-                "businessId": $scope.businessId,
-                "mettingSummaryInfo": $scope.mettingSummary
-            })
-        }).success(function (result) {
-            $('#addModal3').modal('hide');
-            $.alert(result.result_name);
-            $scope.mettingSummary = "";
-            $scope.initData();
-        });
-    };*/
+
     $scope.cancel = function () {
         $scope.mettingSummary = "";
         $scope.mettingSummarys = "";
@@ -347,12 +326,15 @@ ctmApp.register.controller('MeetingManager', ['$http', '$scope', '$location', '$
         $scope.businessId = noSubmit.BUSINESSID;
         $scope.projectType = noSubmit.PROJECT_TYPE;
         $scope.projectName = noSubmit.PROJECTNAME;
+        $scope.b.mettingSummary = "";
     }
 
     $scope.mettingSummary = "";
     $scope.mettingSubmit = function () {
         debugger;
         console.log($scope.b);
+        console.log($scope.b.mettingSummary)
+        $scope.mettingSummary = $scope.b.mettingSummary;
         if ($scope.b.pmodel == "file") {
             if (!cloudFileIsUpload("rbiSummary", "rbiSummary", "1")) {
                 $.alert("请上传会议纪要附件！");
@@ -388,10 +370,6 @@ ctmApp.register.controller('MeetingManager', ['$http', '$scope', '$location', '$
             $scope.initData();
         });
     };
-
-    $scope.cancel = function () {
-        // $scope.mettingSummary = "";
-    }
 
     $scope.queryRBIMeeting = function (submit) {
         console.log(submit);
