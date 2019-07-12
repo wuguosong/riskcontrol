@@ -98,7 +98,7 @@ SELECT COUNT(1)
            AND t.proc_def_id_ LIKE 'formalReview%'
            AND g.auditstatus = '9'
            AND g.audituserid = '${userId}'
-        UNION
+        /*UNION
         SELECT '' taskmark,
                Translate('0' USING NCHAR_CS) id_,
                Translate('0' USING NCHAR_CS) proc_def_id_,
@@ -135,7 +135,8 @@ SELECT COUNT(1)
            AND RPI.WF_STATE = '2'
            AND RPI.NEED_MEETING = '1'
            AND RPI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
-           AND RPI.CREATEBY = '${userId}') ta
+           AND RPI.CREATEBY = '${userId}'*/
+           ) ta
  WHERE 1 = 1
 	</select>
 	
@@ -234,7 +235,7 @@ SELECT *
            AND t.proc_def_id_ LIKE 'formalReview%'
            AND g.auditstatus = '9'
            AND g.audituserid = '${userId}'
-        UNION
+        /*UNION
         SELECT '' taskmark,
                Translate('1' USING NCHAR_CS) id_,
                Translate('1' USING NCHAR_CS) proc_def_id_,
@@ -271,7 +272,8 @@ SELECT *
            AND RPI.WF_STATE = '2'
            AND RPI.NEED_MEETING = '1'
            AND RPI.IS_INVESTMENTMANAGER_SUBMIT IS NULL
-           AND RPI.CREATEBY = '${userId}') ta
+           AND RPI.CREATEBY = '${userId}'*/
+        ) ta
  WHERE 1 = 1
 		<if test="createTime != null and createTime !=''"> and to_char(ta.create_time_,'yyyy-mm-dd')='${createTime}'</if>
 		<if test="processKey != null and processKey != ''">
@@ -401,7 +403,7 @@ SELECT count(1)
                   FROM rcm_pre_log fg
                  WHERE fg.iswaiting = '0'
                    AND fg.audituserid = '${userId}')
-                   UNION
+                   /*UNION
         SELECT RFI.BUSINESSID business_key_,
                to_char(RFI.CREATE_DATE, 'yyyy-mm-dd hh24:mi:ss') start_time_,
                to_char(RFI.Meeting_Date, 'yyyy-mm-dd hh24:mi:ss') end_time_,
@@ -432,7 +434,8 @@ SELECT count(1)
          WHERE (RPI.STAGE IN ('5','6','7') OR RPI.IS_INVESTMENTMANAGER_SUBMIT = 1)
            AND RPI.WF_STATE = '2'
            AND RPI.NEED_MEETING = '1'
-           AND RPI.CREATEBY = '${userId}') ta
+           AND RPI.CREATEBY = '${userId}'*/
+        ) ta
  WHERE 1 = 1
 
 <!-- 	    <choose>  -->
@@ -558,7 +561,7 @@ SELECT ta.*, nvl(tmp.projectname, ta.subject) as subject_
                   FROM rcm_pre_log fg
                  WHERE fg.iswaiting = '0'
                    AND fg.audituserid = '${userId}')
-                   UNION
+                   /*UNION
         SELECT RFI.BUSINESSID business_key_,
                to_char(RFI.CREATE_DATE, 'yyyy-mm-dd hh24:mi:ss') start_time_,
                to_char(RFI.Meeting_Date, 'yyyy-mm-dd hh24:mi:ss') end_time_,
@@ -589,7 +592,8 @@ SELECT ta.*, nvl(tmp.projectname, ta.subject) as subject_
          WHERE (RPI.STAGE IN ('5','6','7') OR RPI.IS_INVESTMENTMANAGER_SUBMIT = 1)
            AND RPI.WF_STATE = '2'
            AND RPI.NEED_MEETING = '1'
-           AND RPI.CREATEBY = '${userId}') ta
+           AND RPI.CREATEBY = '${userId}'*/
+        ) ta
             <!--同一个项目，名称不一致问题 Add By LiPan 2019-06-05-->
             left join
             (
