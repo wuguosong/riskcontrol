@@ -3808,6 +3808,25 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }]
             }
         })
+        /*==================投标、正式、其它-代办页面end=====================*/
+        /*=====================会议纪要管理start=======================*/
+        .when('/MeetingManager/:tabIndex/:url',{
+            controller:'MeetingManager',
+            templateUrl:'page/rcm/meeting/MeetingManager.html',
+            controllerAs:'model',
+            resolve:{
+                resolver:['$q','$rootScope',function($q,$rootScope){
+                    var deferred = $q.defer();
+                    require(['page/rcm/meeting/MeetingManager.js?_v='+_version],function(){
+                        $rootScope.$apply(function(){
+                            deferred.resolve();
+                        });
+                    });
+                    return deferred.promise;
+                }]
+            }
+        })
+        /*=====================会议纪要管理end=======================*/
     }
 ]);
 
