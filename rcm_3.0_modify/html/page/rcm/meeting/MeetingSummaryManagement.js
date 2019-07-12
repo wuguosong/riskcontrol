@@ -1,4 +1,4 @@
-ctmApp.register.controller('MeetingManager', ['$http', '$scope', '$location', '$routeParams','$window', function ($http, $scope, $location, $routeParams,$window) {
+ctmApp.register.controller('MeetingSummaryManagement', ['$http', '$scope', '$location', '$routeParams','$window', function ($http, $scope, $location, $routeParams,$window) {
     $scope.paginationConf1 = {
         currentPage: 1,
         totalItems: 0,
@@ -331,7 +331,6 @@ ctmApp.register.controller('MeetingManager', ['$http', '$scope', '$location', '$
 
     $scope.mettingSummary = "";
     $scope.mettingSubmit = function () {
-        debugger;
         console.log($scope.b);
         console.log($scope.b.mettingSummary)
         $scope.mettingSummary = $scope.b.mettingSummary;
