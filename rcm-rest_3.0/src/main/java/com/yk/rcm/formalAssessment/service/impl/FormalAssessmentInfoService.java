@@ -1223,6 +1223,80 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 	}
 	
 	@Override
+	public Result saveOrUpdateForTz_V01(Document doc,Result result) {
+		String businessid = null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		//判断新增或修改
+		doc.append("create_date", Util.format(Util.now()));
+		doc.append("currentTimeStamp", Util.format(Util.now(), "yyyyMMddHHmmssSSS"));
+		if(!doc.containsKey("businessid") || Util.isEmpty(doc.get("businessid"))){
+			//组织数据
+			doc.append("state", "1");
+			doc.put("_id", new ObjectId());
+			Map<String, Object> dataForOracle = packageDataForOracle(doc);
+			//插入oracle
+			formalAssessmentInfoMapper.createForTz(dataForOracle);
+			String is_supplement_review = (String) doc.get("is_supplement_review");
+			if("1".equals(is_supplement_review)){
+				String projectNum = (String) dataForOracle.get("projectNum");
+				List<Map<String, Object>> decisionList = formalAssessmentInfoMapper.getDecisionByProjectNum(projectNum);
+				if(Util.isNotEmpty(decisionList)){
+					Map<String, Object> decision = decisionList.get(0);
+					String dbusinessid = (String) decision.get("BUSINESSID");
+					Map<String, Object> decisionMongo = this.baseMongo.queryById(dbusinessid, Constants.RCM_NOTICEDECISION_INFO);
+					//执行要求
+					String implementationRequirements = (String) decisionMongo.get("implementationRequirements");
+					//项目投资前须落实事项	
+					String implementationMatters = (String) decisionMongo.get("implementationMatters");
+					
+					Map<String, Object> apply = (Map<String, Object>) doc.get("apply");
+					Map<String, Object> supplement = (Map<String, Object>) apply.get("supplement");
+					if(Util.isEmpty(supplement)){
+						supplement = new HashMap<String, Object>();
+						supplement.put("preDecisionDate", Util.format((Date)decision.get("DATEOFMEETING")));
+						supplement.put("preDecisionResult", (String)decision.get("CONSENTTOINVESTMENT"));
+						supplement.put("executiveRequirements", implementationRequirements);
+						supplement.put("implementationItems", implementationMatters);
+						apply.put("supplement", supplement);
+					}else{
+						supplement.put("preDecisionDate", Util.format((Date)decision.get("DATEOFMEETING")));
+						supplement.put("preDecisionResult", (String)decision.get("CONSENTTOINVESTMENT"));
+						supplement.put("executiveRequirements", implementationRequirements);
+						supplement.put("implementationItems", implementationMatters);
+					}
+				}
+			}
+			
+			//插入mongdb
+			baseMongo.save(doc, Constants.RCM_FORMALASSESSMENT_INFO);
+			businessid = doc.get("_id").toString();
+		}else{
+			//删除oracle
+			businessid = doc.getString("businessid");
+			formalAssessmentInfoMapper.deleteByBusinessId(businessid);
+			//组织数据
+			doc.append("update_date", Util.format(Util.now()));
+			doc.put("_id", businessid);
+			Map<String, Object> dataForOracle = packageDataForOracle(doc);
+			//插入oracle
+			formalAssessmentInfoMapper.createForTz(dataForOracle);
+			//修改mongo
+			doc.remove("_id");
+			this.baseMongo.updateSetByObjectId(businessid, doc, Constants.RCM_FORMALASSESSMENT_INFO);
+		}
+		this.updateStageById(businessid, "1");
+		map.put("result_wf_state", "0");
+		map.put("result_status", "true");
+		map.put("id", businessid);
+		String prefix = PropertiesUtil.getProperty("domain.allow");
+		map.put("URL", prefix+"/html/index.html#/formalAssessmentInfo/"+businessid+"/2");
+		map.put("URL", prefix+"/html/index.html#/projectInfoAllBoardView/"+businessid+"/#"+Util.encodeUrl("/JTI1MjMlMkY="));
+		String json = JsonUtil.toJson(map);
+		result.setResult_data(json);
+		return result;
+	}
+	
+	@Override
 	public PageAssistant queryAllInfoByPage(PageAssistant page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("page", page);

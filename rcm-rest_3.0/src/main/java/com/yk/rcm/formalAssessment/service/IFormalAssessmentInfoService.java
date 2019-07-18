@@ -338,5 +338,6 @@ public interface IFormalAssessmentInfoService {
 	public List<Map<String, Object>> queryAllByDaxt();
 	public PageAssistant queryEnvirByPage(PageAssistant page);
 	public PageAssistant queryEnvirSubmitedByPage(PageAssistant page);
+	Result saveOrUpdateForTz_V01(Document doc, Result result);
 	
 }

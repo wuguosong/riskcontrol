@@ -140,7 +140,7 @@
 <!-- 				大区处理 -->
 				<bean class="com.yk.rcm.project.filter.PfrTzDealPertainAreaFilter"></bean>
 <!-- 				附件处理 -->
-				<bean class="com.yk.rcm.project.filter.PfrTzDownloadFileFilter"></bean>
+<!--				<bean class="com.yk.rcm.project.filter.PfrTzDownloadFileFilter"></bean> -->
 <!-- 				数据转换(示例:name to KEY,value to VALUE,) -->
 				<bean class="com.yk.rcm.project.filter.PfrTzDataConversionFilter"></bean>
 <!-- 				执行保存或更新 -->

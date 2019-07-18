@@ -32,8 +32,76 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		chain.doFilter(data, result, chain);
 	}
 	
+	//处理投资系统推送的数据的结构-高鹤修改最新
+		public Map<String, Object> formatData(Map<String, Object> doc){
+			Document apply = (Document) doc.get("apply");
+			
+			//investmentManager
+			Document investmentManager = (Document) apply.get("investmentManager");
+			Document newInvestmentManager = new Document();
+			newInvestmentManager.put("NAME", investmentManager.getString("name"));
+			newInvestmentManager.put("VALUE", investmentManager.getString("value"));
+			apply.put("investmentManager", newInvestmentManager);
+			
+			//处理大区reportingUnit
+			Document reportingUnit = (Document) apply.get("reportingUnit");
+			Document newReportingUnit = new Document();
+			newReportingUnit.put("VALUE", reportingUnit.getString("name"));
+			newReportingUnit.put("KEY", reportingUnit.getString("value"));
+			apply.put("reportingUnit", newReportingUnit);
+			
+			//companyHeader
+			Document companyHeader = (Document) apply.get("companyHeader");
+			Document newCompanyHeader = new Document();
+			newCompanyHeader.put("VALUE", companyHeader.getString("value"));
+			newCompanyHeader.put("NAME", companyHeader.getString("name"));
+			apply.put("companyHeader", newCompanyHeader);
+			
+			Document createBy = new Document();
+			createBy.put("VALUE", apply.getString("create_by"));
+			createBy.put("NAME", apply.getString("create_name"));
+			
+			//grassrootsLegalStaff
+			Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
+			Document newGrassrootsLegalStaff = null;
+			if(null != grassrootsLegalStaff){
+				newGrassrootsLegalStaff = new Document();
+				newGrassrootsLegalStaff.put("VALUE", grassrootsLegalStaff.getString("value"));
+				newGrassrootsLegalStaff.put("NAME", grassrootsLegalStaff.getString("name"));
+			}else{
+				//如果基层法务评审人ID为空，则 默认为  创建人（投资经理）
+				newGrassrootsLegalStaff = createBy;
+			}
+			apply.put("grassrootsLegalStaff", newGrassrootsLegalStaff);
+			
+			//directPerson
+			Document directPerson = (Document) apply.get("directPerson");
+			if(Util.isNotEmpty(directPerson) && Util.isNotEmpty(directPerson.getString("value"))){
+				Document newDirectPerson = new Document();
+				newDirectPerson.put("VALUE", directPerson.getString("value"));
+				newDirectPerson.put("NAME", directPerson.getString("name"));
+				apply.put("directPerson", newDirectPerson);
+			}
+			
+			//投资经理(区域经理)
+			Document investmentPerson = (Document) apply.get("investmentPerson");
+			if(Util.isNotEmpty(investmentPerson) && Util.isNotEmpty(investmentPerson.getString("value"))){
+				Document newInvestmentPerson = new Document();
+				newInvestmentPerson.put("VALUE", investmentPerson.getString("value"));
+				newInvestmentPerson.put("NAME", investmentPerson.getString("name"));
+				apply.put("investmentPerson", newInvestmentPerson);
+			}
+			
+			//起草人(创建人)
+			apply.put("createBy", createBy);
+			apply.remove("create_by");
+			apply.remove("create_name");
+			
+			return doc;
+		}
+	
 	//处理投资系统推送的数据的结构
-	public Map<String, Object> formatData(Map<String, Object> doc){
+	public Map<String, Object> formatData_V01(Map<String, Object> doc){
 		Document apply = (Document) doc.get("apply");
 		
 		//investmentManager

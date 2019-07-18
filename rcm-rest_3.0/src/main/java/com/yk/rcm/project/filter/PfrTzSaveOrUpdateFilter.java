@@ -24,7 +24,8 @@ public class PfrTzSaveOrUpdateFilter implements IProjectTzFilter {
 	public void doFilter(Map<String, Object> data, Result result,
 			ProjectTzFilterChain chain) {
 		Document doc = (Document)data;
-		formalAssessmentInfoService.saveOrUpdateForTz(doc,result);
+//		formalAssessmentInfoService.saveOrUpdateForTz(doc,result);
+		formalAssessmentInfoService.saveOrUpdateForTz_V01(doc,result);
 		return;
 	}
 }
