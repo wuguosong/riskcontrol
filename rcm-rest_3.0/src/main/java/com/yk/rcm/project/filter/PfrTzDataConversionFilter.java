@@ -14,10 +14,10 @@ import org.bson.Document;
 
 import util.Util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yk.ext.filter.IProjectTzFilter;
 import com.yk.ext.filter.ProjectTzFilterChain;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
-import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 
 import common.Result;
 
@@ -66,15 +66,17 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 
 		// 所属大区
 		Document pertainArea = new Document();
-		pertainArea.put("VALUE", list.get(0).get("ORGCODE"));
-		pertainArea.put("KEY", list.get(0).get("SERVICETYPE"));
+		pertainArea.put("KEY", list.get(0).get("ORGCODE"));
+		pertainArea.put("VALUE", list.get(0).get("ORGNAME"));
 		apply.put("pertainArea", pertainArea);
 
 		// 业务类型
-		Document serviceType = new Document();
+		List<JSONObject> serviceTypeList = new ArrayList<JSONObject>();
+		JSONObject serviceType = new JSONObject();
 		serviceType.put("VALUE", list.get(0).get("ITEM_NAME"));
-		serviceType.put("KEY", list.get(0).get("ORGNAME"));
-		apply.put("serviceType", serviceType);
+		serviceType.put("KEY", list.get(0).get("SERVICETYPE"));
+		serviceTypeList.add(serviceType);
+		apply.put("serviceType", serviceTypeList);
 
 		// 处理大区reportingUnit
 		Document reportingUnit = new Document();
@@ -98,30 +100,30 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		apply.put("projectAddress", list.get(0).get("ADDRESS"));
 
 		// projectName
-		apply.put("projectName", list.get(0).get("projectName"));
-		apply.put("projectNameTZ", list.get(0).get("projectName"));
+		apply.put("projectName", list.get(0).get("PROJECTNAME"));
+		apply.put("projectNameTZ", list.get(0).get("PROJECTNAME"));
 
 		// projectModel
-		Document projectModel = (Document) apply.get("projectModel");
-		apply.put("projectModel", projectModel);
+//		Document projectModel = (Document) apply.get("projectModel");
+		apply.put("projectModel", apply.get("projectModel"));
 
 		// 投资经理(区域经理)investmentPerson(疑问)
-		Document investmentPerson = (Document) apply.get("investmentPerson");
-		if (Util.isNotEmpty(investmentPerson) && Util.isNotEmpty(investmentPerson.getString("value"))) {
-			Document newInvestmentPerson = new Document();
-			newInvestmentPerson.put("VALUE", investmentPerson.getString("value"));
-			newInvestmentPerson.put("NAME", investmentPerson.getString("name"));
-			apply.put("investmentPerson", newInvestmentPerson);
-		}
+//		Document investmentPerson = (Document) apply.get("investmentPerson");
+//		if (Util.isNotEmpty(investmentPerson) && Util.isNotEmpty(investmentPerson.getString("value"))) {
+//			Document newInvestmentPerson = new Document();
+//			newInvestmentPerson.put("VALUE", investmentPerson.getString("value"));
+//			newInvestmentPerson.put("NAME", investmentPerson.getString("name"));
+//			apply.put("investmentPerson", newInvestmentPerson);
+//		}
 
-		// directPerson(疑问)
-		Document directPerson = (Document) apply.get("directPerson");
-		if (Util.isNotEmpty(directPerson) && Util.isNotEmpty(directPerson.getString("value"))) {
-			Document newDirectPerson = new Document();
-			newDirectPerson.put("VALUE", directPerson.getString("value"));
-			newDirectPerson.put("NAME", directPerson.getString("name"));
-			apply.put("directPerson", newDirectPerson);
-		}
+//		// directPerson(疑问)
+//		Document directPerson = (Document) apply.get("directPerson");
+//		if (Util.isNotEmpty(directPerson) && Util.isNotEmpty(directPerson.getString("value"))) {
+//			Document newDirectPerson = new Document();
+//			newDirectPerson.put("VALUE", directPerson.getString("value"));
+//			newDirectPerson.put("NAME", directPerson.getString("name"));
+//			apply.put("directPerson", newDirectPerson);
+//		}
 
 		// projectNum
 		String projectNum = (String) apply.get("projectNum");
@@ -131,29 +133,24 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		String projectSize = (String) apply.get("projectSize");
 		apply.put("projectSize", projectSize);
 
-		Document createBy = new Document();
-		createBy.put("VALUE", apply.getString("create_by"));
-		createBy.put("NAME", apply.getString("create_name"));
-
-		// grassrootsLegalStaff(疑问)
-		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
-		Document newGrassrootsLegalStaff = null;
-		if (null != grassrootsLegalStaff) {
-			newGrassrootsLegalStaff = new Document();
-			newGrassrootsLegalStaff.put("VALUE", grassrootsLegalStaff.getString("value"));
-			newGrassrootsLegalStaff.put("NAME", grassrootsLegalStaff.getString("name"));
-		} else {
-			// 如果基层法务评审人ID为空，则 默认为 创建人（投资经理）
-			newGrassrootsLegalStaff = createBy;
-		}
-		apply.put("grassrootsLegalStaff", newGrassrootsLegalStaff);
+		// createBy
+		apply.put("createby", list.get(0).get("RESPONSIBLEUSERID"));
+		
+//		// grassrootsLegalStaff(疑问)
+//		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
+//		Document newGrassrootsLegalStaff = null;
+//		if (null != grassrootsLegalStaff) {
+//			newGrassrootsLegalStaff = new Document();
+//			newGrassrootsLegalStaff.put("VALUE", grassrootsLegalStaff.getString("value"));
+//			newGrassrootsLegalStaff.put("NAME", grassrootsLegalStaff.getString("name"));
+//		} else {
+//			// 如果基层法务评审人ID为空，则 默认为 创建人（投资经理）
+//			newGrassrootsLegalStaff = createBy;
+//		}
+//		apply.put("grassrootsLegalStaff", newGrassrootsLegalStaff);
 
 		// 是否补充评审
 		apply.put("supplementReview", true);
-		if (true) {
-			String supplementaryItem = (String) apply.get("supplementaryItem");
-			apply.put("supplementaryItem", supplementaryItem);
-		}
 
 		// is_supplement_review
 		String is_supplement_review = (String) apply.get("is_supplement_review");
@@ -162,7 +159,6 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		doc.put("taskallocation", taskallocation);
 		
 		// 起草人(创建人)
-		apply.put("createBy", createBy);
 		apply.remove("create_by");
 		apply.remove("create_name");
 

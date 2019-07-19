@@ -34,16 +34,18 @@ public class TzTest {
 		investmentManager.put("value", "0001N610000000001DRM");
 		apply.put("investmentManager", investmentManager);
 		
-		apply.put("projectNo", "CTSW201512031");
+		apply.put("projectNo", "CTSW20160321188");
 		apply.put("investmentModel", true);
 		
-		List<Document> projectModelList = new ArrayList<Document>();
+		List<JSONObject> projectModelList = new ArrayList<JSONObject>();
 		JSONObject projectModel1 = new JSONObject();
 		projectModel1.put("VALUE", "BOT");
 		projectModel1.put("KEY", "1");
 		JSONObject projectModel2 = new JSONObject();
 		projectModel2.put("VALUE", "TOT");
 		projectModel2.put("KEY", "2");
+		projectModelList.add(projectModel1);
+		projectModelList.add(projectModel2);
 		apply.put("projectModel", projectModelList);
 		
 		apply.put("projectSize", "43吨/日");
