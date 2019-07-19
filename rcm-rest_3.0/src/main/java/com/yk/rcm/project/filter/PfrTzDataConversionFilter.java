@@ -28,11 +28,10 @@ import common.Result;
  *
  */
 public class PfrTzDataConversionFilter implements IProjectTzFilter {
-	
+
 	@Resource
 	private IFormalAssessmentInfoMapper formalAssessmentInfoMapper;
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -48,6 +47,10 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 	// 处理投资系统推送的数据的结构-高鹤修改最新
 	public Map<String, Object> formatData(Map<String, Object> doc) {
 		Document apply = (Document) doc.get("apply");
+		Document taskallocation = new Document();
+		// 添加任务节点
+		taskallocation.put("fixedGroup", null);
+		taskallocation.put("reviewLeader", null);
 
 		// 获得投资模式
 		Boolean investmentModel = (Boolean) apply.get("investmentModel");
@@ -57,57 +60,52 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		String projectNo = (String) apply.get("projectNo");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("PROJECTCODE", projectNo);
-		List<Map<String,Object>> list = this.formalAssessmentInfoMapper.queryAproData(params);
+		List<Map<String, Object>> list = this.formalAssessmentInfoMapper.queryAproData(params);
 		apply.put("projectNo", projectNo);
 		apply.put("projectNoNew", list.get(0).get("PROJECTCODENEW"));
 
-		// 获得项目名称
-		String projectNameTZ = (String) apply.get("projectName");
-		apply.put("projectNameTZ", projectNameTZ);
+		// 所属大区
+		Document pertainArea = new Document();
+		pertainArea.put("VALUE", list.get(0).get("ORGCODE"));
+		pertainArea.put("KEY", list.get(0).get("SERVICETYPE"));
+		apply.put("pertainArea", pertainArea);
+
+		// 业务类型
+		Document serviceType = new Document();
+		serviceType.put("VALUE", list.get(0).get("ITEM_NAME"));
+		serviceType.put("KEY", list.get(0).get("ORGNAME"));
+		apply.put("serviceType", serviceType);
 
 		// 处理大区reportingUnit
-		Document reportingUnit = (Document) apply.get("reportingUnit");
-		Document newReportingUnit = new Document();
-		newReportingUnit.put("VALUE", reportingUnit.getString("name"));
-		newReportingUnit.put("KEY", reportingUnit.getString("value"));
-		apply.put("reportingUnit", newReportingUnit);
+		Document reportingUnit = new Document();
+		reportingUnit.put("VALUE", list.get(0).get("REPORTINGUNITNAME"));
+		reportingUnit.put("KEY", list.get(0).get("REPORTINGUNITCODE"));
+		apply.put("reportingUnit", reportingUnit);
 
 		// investmentManager
-		Document investmentManager = (Document) apply.get("investmentManager");
-		Document newInvestmentManager = new Document();
-		newInvestmentManager.put("NAME", investmentManager.getString("name"));
-		newInvestmentManager.put("VALUE", investmentManager.getString("value"));
-		apply.put("investmentManager", newInvestmentManager);
+		Document investmentManager = new Document();
+		investmentManager.put("NAME", list.get(0).get("RESPONSIBLEUSER"));
+		investmentManager.put("VALUE", list.get(0).get("RESPONSIBLEUSERID"));
+		apply.put("investmentManager", investmentManager);
 
 		// companyHeader
-		Document companyHeader = (Document) apply.get("companyHeader");
-		Document newCompanyHeader = new Document();
-		newCompanyHeader.put("VALUE", companyHeader.getString("value"));
-		newCompanyHeader.put("NAME", companyHeader.getString("name"));
-		apply.put("companyHeader", newCompanyHeader);
-
-		// serviceType
-		Document serviceType = (Document) apply.get("serviceType");
-		Document newServiceType = new Document();
-		newServiceType.put("VALUE", serviceType.getString("value"));
-		newServiceType.put("KEY", serviceType.getString("key"));
-		apply.put("serviceType", newServiceType);
+		Document companyHeader = new Document();
+		companyHeader.put("NAME", list.get(0).get("ORGHEADERNAME"));
+		companyHeader.put("VALUE", list.get(0).get("ORGHEADERID"));
+		apply.put("companyHeader", companyHeader);
 
 		// projectAddress
-		String projectAddress = (String) apply.get("projectAddress");
-		apply.put("projectAddress", projectAddress);
+		apply.put("projectAddress", list.get(0).get("ADDRESS"));
 
 		// projectName
-		apply.put("projectName", projectNameTZ);
+		apply.put("projectName", list.get(0).get("projectName"));
+		apply.put("projectNameTZ", list.get(0).get("projectName"));
 
 		// projectModel
 		Document projectModel = (Document) apply.get("projectModel");
-		Document newProjectModel = new Document();
-		newProjectModel.put("VALUE", projectModel.getString("value"));
-		newProjectModel.put("KEY", projectModel.getString("key"));
-		apply.put("projectModel", newProjectModel);
+		apply.put("projectModel", projectModel);
 
-		// 投资经理(区域经理)
+		// 投资经理(区域经理)investmentPerson(疑问)
 		Document investmentPerson = (Document) apply.get("investmentPerson");
 		if (Util.isNotEmpty(investmentPerson) && Util.isNotEmpty(investmentPerson.getString("value"))) {
 			Document newInvestmentPerson = new Document();
@@ -116,7 +114,7 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 			apply.put("investmentPerson", newInvestmentPerson);
 		}
 
-		// directPerson
+		// directPerson(疑问)
 		Document directPerson = (Document) apply.get("directPerson");
 		if (Util.isNotEmpty(directPerson) && Util.isNotEmpty(directPerson.getString("value"))) {
 			Document newDirectPerson = new Document();
@@ -128,12 +126,16 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		// projectNum
 		String projectNum = (String) apply.get("projectNum");
 		apply.put("projectNum", projectNum);
+		
+		// projectNum
+		String projectSize = (String) apply.get("projectSize");
+		apply.put("projectSize", projectSize);
 
 		Document createBy = new Document();
 		createBy.put("VALUE", apply.getString("create_by"));
 		createBy.put("NAME", apply.getString("create_name"));
 
-		// grassrootsLegalStaff
+		// grassrootsLegalStaff(疑问)
 		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
 		Document newGrassrootsLegalStaff = null;
 		if (null != grassrootsLegalStaff) {
@@ -146,10 +148,19 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		}
 		apply.put("grassrootsLegalStaff", newGrassrootsLegalStaff);
 
+		// 是否补充评审
+		apply.put("supplementReview", true);
+		if (true) {
+			String supplementaryItem = (String) apply.get("supplementaryItem");
+			apply.put("supplementaryItem", supplementaryItem);
+		}
+
 		// is_supplement_review
 		String is_supplement_review = (String) apply.get("is_supplement_review");
 		doc.put("is_supplement_review", is_supplement_review);
-
+		
+		doc.put("taskallocation", taskallocation);
+		
 		// 起草人(创建人)
 		apply.put("createBy", createBy);
 		apply.remove("create_by");

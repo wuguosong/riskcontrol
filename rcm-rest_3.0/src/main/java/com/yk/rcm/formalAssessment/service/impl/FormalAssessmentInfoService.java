@@ -194,22 +194,19 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		params.put("projectName", apply.getString("projectName"));
 		params.put("projectNum", apply.getString("projectNo"));
 		
+		// reportingUnit
 		Document reportingUnit = (Document) apply.get("reportingUnit");
 		params.put("reportingUnit_id", reportingUnit.getString("KEY"));
-		List<Document> serviceType = (List<Document>) apply.get("serviceType");
-		if(Util.isNotEmpty(serviceType) && serviceType.size()>0){
-			String serviceType_id="";
-			for (Document st : serviceType) {
-				serviceType_id+=","+st.getString("KEY");
-			}
-			serviceType_id = serviceType_id.substring(1);
-			params.put("serviceType_id", serviceType_id);
-		}
 		
+		// serviceType
+		Document serviceType = (Document) apply.get("serviceType");
+		params.put("serviceType_id", serviceType.getString("KEY"));
+		
+		// investment_model
 		params.put("investment_model", apply.get("investmentModel").toString());
 		
+		// project_model_ids
 		List<Document> projectModel = (List<Document>) apply.get("projectModel");
-		
 		if(Util.isNotEmpty(projectModel) && projectModel.size()>0){
 			String projectModel_ids="";
 			for (Document pm : projectModel) {
@@ -223,12 +220,14 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		
 		params.put("meeting_date", null);
 		
+		// IS_SUPPLEMENT_REVIEW
 		params.put("is_supplement_review", doc.get("is_supplement_review"));
 		
 		params.put("emergencyLevel", null);
 		
 		params.put("isUrgent", null);
 		
+		// pertainArea
 		Document pertainArea = (Document) apply.get("pertainArea");
 		if(pertainArea != null){
 			params.put("pertainAreaId", pertainArea.getString("KEY"));
@@ -238,20 +237,6 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		
 		params.put("wf_state", "0");
 		
-		params.put("apply_date", null);
-		
-		params.put("complete_date", null);
-		
-		params.put("report_create_date", null);
-		
-		params.put("projectSize", apply.getString("projectSize"));
-		
-		params.put("investMoney", apply.getString("investMoney"));
-		
-		params.put("rateOfReturn", null);
-		
-		params.put("auditStage", null);
-		
 		params.put("oldData", "0");
 		
 		//基层法务评审人ID
@@ -259,12 +244,12 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		if(grassrootsLegalStaff != null){
 			params.put("grassrootslegalpersonId", grassrootsLegalStaff.getString("VALUE"));
 		}
-		//大区companyHeader
+		// 大区companyHeader
 		Map<String, Object> companyHeader = (Map<String, Object>) apply.get("companyHeader");
 		String companyHeaderValue = (String)companyHeader.get("VALUE");
 		params.put("largeAreaPersonId", companyHeaderValue);
 		
-		//区域负责人——投资中心/水环境
+		//区域负责人——投资中心/水环境（疑问）
 		Map<String, Object> investmentPerson = (Map<String, Object>) apply.get("investmentPerson");
 		if(investmentPerson != null){
 			String serviceTypeValue = (String) investmentPerson.get("VALUE");
@@ -1294,7 +1279,7 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		map.put("id", businessid);
 		String prefix = PropertiesUtil.getProperty("domain.allow");
 		map.put("URL", prefix+"/html/index.html#/formalAssessmentInfo/"+businessid+"/2");
-		map.put("URL", prefix+"/html/index.html#/projectInfoAllBoardView/"+businessid+"/#"+Util.encodeUrl("/JTI1MjMlMkY="));
+		map.put("URL_PRO", prefix+"/html/index.html#/projectInfoAllBoardView/"+businessid+"/#"+Util.encodeUrl("/JTI1MjMlMkY="));
 		String json = JsonUtil.toJson(map);
 		result.setResult_data(json);
 		return result;
