@@ -612,7 +612,7 @@ public class PreInfoService implements IPreInfoService {
 
         params.put("oldData", "0");
 
-        params.put("investmentModel", apply.getString("investmentModel"));
+        params.put("investment_model", apply.getString("investmentModel"));
 
         //大区ID
         Document grassrootsLegalStaff = (Document) apply.get("companyHeader");

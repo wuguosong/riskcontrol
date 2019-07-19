@@ -170,4 +170,6 @@ public interface IFormalAssessmentInfoMapper extends BaseMapper {
 	 * @param map
 	 */
 	public void updateStageByProjectType(Map<String, Object> map);
+	
+	List<Map<String, Object>> queryAproData(Map<String, Object> params);
 }

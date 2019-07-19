@@ -93,6 +93,11 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 			this.roleMapper.insertProRole(params);
 		}
 	}
+	
+	@Override
+	public void saveDefaultProRoleForTz(Document doc) {
+		this.saveDefaultProRole(doc);
+	}
 
 	@Override
 	public void updateProject(String json) {
@@ -608,4 +613,5 @@ public class FormalAssessmentInfoCreateServiceImpl implements IFormalAssessmentI
 		result.setResult_data(mettingSummary);
 		return result;
 	}
+
 }

@@ -3,6 +3,8 @@ package com.yk.rcm.newFormalAssessment.service;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.Document;
+
 import common.PageAssistant;
 import common.Result;
 
@@ -17,6 +19,10 @@ public interface IFormalAssessmentInfoCreateService {
 	 * 新增项目
 	 * */
 	public String createProject(String json);
+	
+	
+	
+	
 	
 	/**
 	 * 修改项目
@@ -85,4 +91,6 @@ public interface IFormalAssessmentInfoCreateService {
 	public void saveEnvirMettingSummary(String businessId, String mettingSummaryInfo, String projectName, String pmodel);
 
 	public Result queryEnvirMettingSummarys(String businessId);
+
+	public void saveDefaultProRoleForTz(Document doc);
 }

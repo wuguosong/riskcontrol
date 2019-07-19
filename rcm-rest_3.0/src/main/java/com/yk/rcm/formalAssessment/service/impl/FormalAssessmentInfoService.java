@@ -37,6 +37,7 @@ import com.yk.power.service.IOrgService;
 import com.yk.power.service.IRoleService;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
+import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
 
 import common.Constants;
 import common.PageAssistant;
@@ -62,6 +63,8 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 	private IBpmnAuditService bpmnAuditService;
 	@Resource
 	private IDaxtService daxtService;
+	@Resource
+	private IFormalAssessmentInfoCreateService formalAssessmentInfoCreateService;
 	
 	public DownloadFileForTZ downloadFileForTZ=new DownloadFileForTZ();
 	
@@ -1284,6 +1287,7 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 			doc.remove("_id");
 			this.baseMongo.updateSetByObjectId(businessid, doc, Constants.RCM_FORMALASSESSMENT_INFO);
 		}
+		this.formalAssessmentInfoCreateService.saveDefaultProRoleForTz(doc);
 		this.updateStageById(businessid, "1");
 		map.put("result_wf_state", "0");
 		map.put("result_status", "true");
