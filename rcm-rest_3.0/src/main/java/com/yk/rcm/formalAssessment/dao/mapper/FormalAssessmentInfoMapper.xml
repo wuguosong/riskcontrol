@@ -677,7 +677,7 @@
 		where BUSINESSID = '${businessId}'
 	</update>
 	
-	<select id="queryAproData" resultType="map" parameterType="parameterType">
+	<select id="queryAproData" resultType="map" parameterType="hashmap">
 		SELECT
 			SDI.ITEM_NAME,
 			tmp.* 
@@ -752,7 +752,7 @@
 			AND MA.PROJECTTYPEENUMCODE = '10' 
 			AND MP.PROJECTSTAGEENUMCODE = '10' 
 			AND MA.PROJECTCODE = '${PROJECTCODE}'
-		) tmp ON tmp.SERVICETYPE = sdi.ITEM_CODE;
+		) tmp ON tmp.SERVICETYPE = sdi.ITEM_CODE
 	</select>
 	
 </mapper>
