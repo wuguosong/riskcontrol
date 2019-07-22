@@ -1360,7 +1360,7 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		String prefix = PropertiesUtil.getProperty("domain.allow");
 		map.put("URL", prefix + "/html/index.html#/formalAssessmentInfo/" + businessid + "/2");
 		map.put("URL_PRO", prefix + "/html/index.html#/projectInfoAllBoardView/" + businessid + "/"
-				+ Util.encodeUrl("/JTI1MjMlMkY="));
+				+ Util.encodeUrl("#/projectBoardList/JTI1MjMlMkY="));
 		String json = JsonUtil.toJson(map);
 		result.setResult_data(json);
 		return result;
