@@ -35,6 +35,7 @@ import com.yk.bpmn.service.IBpmnService;
 import com.yk.common.IBaseMongo;
 import com.yk.flow.util.JsonUtil;
 import com.yk.power.service.IOrgService;
+import com.yk.rcm.newPre.dao.IPreInfoCreateMapper;
 import com.yk.rcm.project.dao.IProjectMapper;
 import com.yk.rcm.project.service.IPreAssementService;
 import com.yk.rcm.project.service.IProjectRelationService;
@@ -62,20 +63,24 @@ public class PreAssementService implements IPreAssementService {
 	@Resource
 	private IOrgService orgService;
 	@Resource
+	private IPreInfoCreateMapper preInfoCreateMapper;
+	@Resource
 	private TzClient tzClient;
 	
 	DownloadFileForTZ downloadFileForTZ=new DownloadFileForTZ();
 	
 	@Override
 	public void deleteById(String businessId) {
-		//删除mongo数据
-		this.baseMongo.deleteById(businessId, Constants.PREASSESSMENT);
-		//删除oracle数据
-		this.projectMapper.deleteByBusinessId(businessId);
-		//删除人员关系
-		this.projectRelationService.deleteByBusinessId(businessId);
-		//删除流程数据
-		this.bpmnService.stopProcess(Constants.PRE_ASSESSMENT, businessId);
+//		//删除mongo数据
+//		this.baseMongo.deleteById(businessId, Constants.PREASSESSMENT);
+//		//删除oracle数据
+//		this.projectMapper.deleteByBusinessId(businessId);
+//		//删除人员关系
+//		this.projectRelationService.deleteByBusinessId(businessId);
+//		//删除流程数据
+//		this.bpmnService.stopProcess(Constants.PRE_ASSESSMENT, businessId);
+		baseMongo.deleteById(businessId, Constants.RCM_PRE_INFO);
+		this.preInfoCreateMapper.delete(businessId);
 	}
 	
 	@Override

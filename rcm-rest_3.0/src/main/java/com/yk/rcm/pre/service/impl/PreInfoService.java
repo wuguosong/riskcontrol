@@ -522,6 +522,7 @@ public class PreInfoService implements IPreInfoService {
 			// 插入mongdb
 			baseMongo.save(doc, Constants.RCM_PRE_INFO);
 			businessid = doc.get("_id").toString();
+			this.formalAssessmentInfoCreateService.saveDefaultProRoleForTz(doc);
 		} else {
 			// 删除oracle
 			businessid = doc.getString("businessid");
@@ -530,13 +531,12 @@ public class PreInfoService implements IPreInfoService {
 			doc.append("update_date", Util.format(Util.now()));
 			doc.put("_id", businessid);
 			// 插入oracle
-			Map<String, Object> dataForOracle = packageDataForOracle(doc);
+			Map<String, Object> dataForOracle = packageDataForOracle_V01(doc);
 			preInfoMapper.createForTz(dataForOracle);
 			// 修改mongo
 			doc.remove("_id");
 			baseMongo.updateSetByObjectId(businessid, doc, Constants.RCM_PRE_INFO);
 		}
-		this.formalAssessmentInfoCreateService.saveDefaultProRoleForTz(doc);
 		this.updateAuditStageByBusinessId(businessid, "1");
 		map.put("result_wf_state", "0");
 		map.put("result_status", "true");
@@ -549,6 +549,7 @@ public class PreInfoService implements IPreInfoService {
 		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 		String json = gson.toJson(map);
 		System.out.println(json);
+		result.setResult_name("执行成功!");
 		result.setResult_data(json);
 	}
 

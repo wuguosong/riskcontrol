@@ -33,10 +33,10 @@ public class TzTest {
 		investmentManager.put("name", "梁晶晶");
 		investmentManager.put("value", "0001N61000000000O93V");
 		apply.put("investmentManager", investmentManager);
-		
-		apply.put("projectNo", "CTSW201512031");
+
+		apply.put("projectNo", "CTSW20160321188");
 		apply.put("investmentModel", true);
-		
+
 		List<JSONObject> projectModelList = new ArrayList<JSONObject>();
 		JSONObject projectModel1 = new JSONObject();
 		projectModel1.put("VALUE", "BT");
@@ -47,17 +47,17 @@ public class TzTest {
 		projectModelList.add(projectModel1);
 //		projectModelList.add(projectModel2);
 		apply.put("projectModel", projectModelList);
-		
+
 		apply.put("projectSize", "22.0000万吨");
 		apply.put("projectNum", "1");
 		apply.put("investMoney", "6.0000");
-		
-		
+
 		json.put("apply", apply);
 		json.put("is_supplement_review", "0");
 		json.put("create_by", "0001N61000000000O93V");
 		json.put("create_name", "梁晶晶");
 		
+
 		String pfrResult = projectServiceForTz.createPfr(JSON.toJSONString(json));
 		System.out.println(pfrResult);
 	}
@@ -83,8 +83,8 @@ public class TzTest {
 		apply.put("projectNo", "CTSW20160321188");
 
 		// investmentModel
-		apply.put("investmentModel", true);
-		
+		apply.put("investmentModel", false);
+
 		List<JSONObject> projectModelList = new ArrayList<JSONObject>();
 		JSONObject projectModel1 = new JSONObject();
 		projectModel1.put("VALUE", "BOT");
@@ -96,13 +96,37 @@ public class TzTest {
 //		projectModelList.add(projectModel2);
 		apply.put("projectModel", projectModelList);
 
+		
+		apply.put("projectSize", "1000");
+		
+		
 		json.put("apply", apply);
 		// create_by
 		json.put("create_by", "0001N610000000001DRM");
 		// create_name
 		json.put("create_name", "唐春江");
+		json.put("businessid", "5d36d024bdbe58353462c88f");
 
 		String preResult = projectServiceForTz.createPre(JSON.toJSONString(json));
 		System.out.println(preResult);
 	}
+	
+	@Test
+	public void deletePfrTest() {
+		ProjectServiceForTz projectServiceForTz = new ProjectServiceForTzSoap().getProjectServiceForTzImplPort();
+		JSONObject json = new JSONObject();
+		json.put("businessid", "5d36d750ddd03454c9a257d6");
+		String pfrResult = projectServiceForTz.deletePfr(JSON.toJSONString(json));
+		System.out.println(pfrResult);
+	}
+	
+	@Test
+	public void deletePreTest() {
+		ProjectServiceForTz projectServiceForTz = new ProjectServiceForTzSoap().getProjectServiceForTzImplPort();
+		JSONObject json = new JSONObject();
+		json.put("businessid", "5d36cf2dddd0346444c9a02f");
+		String pfrResult = projectServiceForTz.deletePre(JSON.toJSONString(json));
+		System.out.println(pfrResult);
+	}
+	
 }

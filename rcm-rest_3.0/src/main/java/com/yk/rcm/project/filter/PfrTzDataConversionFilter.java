@@ -104,65 +104,43 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		apply.put("projectNameTZ", list.get(0).get("PROJECTNAME"));
 
 		// projectModel
-//		Document projectModel = (Document) apply.get("projectModel");
 		apply.put("projectModel", apply.get("projectModel"));
-
-		// 投资经理(区域经理)investmentPerson(疑问)
-//		Document investmentPerson = (Document) apply.get("investmentPerson");
-//		if (Util.isNotEmpty(investmentPerson) && Util.isNotEmpty(investmentPerson.getString("value"))) {
-//			Document newInvestmentPerson = new Document();
-//			newInvestmentPerson.put("VALUE", investmentPerson.getString("value"));
-//			newInvestmentPerson.put("NAME", investmentPerson.getString("name"));
-//			apply.put("investmentPerson", newInvestmentPerson);
-//		}
-
-//		// directPerson(疑问)
-//		Document directPerson = (Document) apply.get("directPerson");
-//		if (Util.isNotEmpty(directPerson) && Util.isNotEmpty(directPerson.getString("value"))) {
-//			Document newDirectPerson = new Document();
-//			newDirectPerson.put("VALUE", directPerson.getString("value"));
-//			newDirectPerson.put("NAME", directPerson.getString("name"));
-//			apply.put("directPerson", newDirectPerson);
-//		}
 
 		// projectNum
 		String projectNum = (String) apply.get("projectNum");
-		apply.put("projectNum", projectNum);
+		if (Util.isNotEmpty(projectNum)) {
+			apply.put("projectNum", projectNum);
+		}
 
-		// projectNum
+		// projectSize
 		String projectSize = (String) apply.get("projectSize");
-		apply.put("projectSize", projectSize);
+		if (Util.isNotEmpty(projectSize)) {
+			apply.put("projectSize", projectSize);
+		}
 
-		// projectNum
+		// investMoney
 		String investMoney = (String) apply.get("investMoney");
-		apply.put("investMoney", investMoney);
+		if (Util.isNotEmpty(investMoney)) {
+			apply.put("investMoney", investMoney);
+		}
 
 		// createBy
 		apply.put("createby", list.get(0).get("RESPONSIBLEUSERID"));
 
-//		// grassrootsLegalStaff(疑问)
-//		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
-//		Document newGrassrootsLegalStaff = null;
-//		if (null != grassrootsLegalStaff) {
-//			newGrassrootsLegalStaff = new Document();
-//			newGrassrootsLegalStaff.put("VALUE", grassrootsLegalStaff.getString("value"));
-//			newGrassrootsLegalStaff.put("NAME", grassrootsLegalStaff.getString("name"));
-//		} else {
-//			// 如果基层法务评审人ID为空，则 默认为 创建人（投资经理）
-//			newGrassrootsLegalStaff = createBy;
-//		}
-//		apply.put("grassrootsLegalStaff", newGrassrootsLegalStaff);
-
 		// 是否补充评审
-//		String supplementReview = (String) apply.get("supplementReview");
-//		apply.put("supplementReview", supplementReview);
-
-		// is_supplement_review
 		String is_supplement_review = (String) apply.get("is_supplement_review");
-		doc.put("is_supplement_review", is_supplement_review);
+		if (Util.isNotEmpty(is_supplement_review)) {
+			doc.put("is_supplement_review", is_supplement_review);
+		}
+
+		// supplementaryItem
+		String supplementaryItem = (String) apply.get("supplementaryItem");
+		if (Util.isNotEmpty(supplementaryItem)) {
+			apply.put("supplementaryItem", supplementaryItem);
+		}
 
 		doc.put("taskallocation", taskallocation);
-		
+
 		doc.put("istz", "1");
 
 		// 起草人(创建人)

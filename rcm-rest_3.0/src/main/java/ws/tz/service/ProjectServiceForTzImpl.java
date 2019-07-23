@@ -63,10 +63,10 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 		try {
 			Map<String, Object> doc = Document.parse(json);
 			formatData_V01(doc, result);
-			if(!result.isSuccess()) {
+			if (!result.isSuccess()) {
 				return JsonUtil.toJson(result);
 			}
-			preInfoService.saveOrUpdateForTz((Document)doc, result);
+			preInfoService.saveOrUpdateForTz((Document) doc, result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			StringBuffer sb = new StringBuffer();
@@ -112,23 +112,29 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 			return JsonUtil.toJson(map);
 		}
 		Map<String, Object> queryOracleById = this.preAssessmentService.queryOracleById(businessid);
-		if (queryOracleById.size() == 0 || queryOracleById == null) {
+		if (Util.isNotEmpty(queryOracleById)) {
+			if (queryOracleById.size() == 0 || queryOracleById == null) {
+				map.put("result_status", "false");
+				map.put("error_info", "根据参数businessid[" + businessid + "]没有找到数据！");
+				map.put("error_code", "1002");
+				return JsonUtil.toJson(map);
+			}
+			String wf_state = queryOracleById.get("WF_STATE").toString();
+			if ("1".equals(wf_state) || "2".equals(wf_state)) {
+				map.put("result_status", "false");
+				map.put("error_info", "业务businessid[" + businessid + "]的状态不是起草中，不允许删除！");
+				map.put("error_code", "1003");
+				return JsonUtil.toJson(map);
+			}
+			this.preAssessmentService.deleteById(businessid);
+			map.put("result_status", "true");
+			map.put("error_info", "执行成功！");
+			map.put("error_code", null);
+		} else {
 			map.put("result_status", "false");
-			map.put("error_info", "根据参数businessid[" + businessid + "]没有找到数据！");
-			map.put("error_code", "1002");
-			return JsonUtil.toJson(map);
+			map.put("error_info", "执行成功！");
+			map.put("error_code", null);
 		}
-		String wf_state = queryOracleById.get("WF_STATE").toString();
-		if ("1".equals(wf_state) || "2".equals(wf_state)) {
-			map.put("result_status", "false");
-			map.put("error_info", "业务businessid[" + businessid + "]的状态不是起草中，不允许删除！");
-			map.put("error_code", "1003");
-			return JsonUtil.toJson(map);
-		}
-		this.preAssessmentService.deleteById(businessid);
-		map.put("result_status", "true");
-		map.put("error_info", "执行成功！");
-		map.put("error_code", null);
 		return JsonUtil.toJson(map);
 	}
 
@@ -154,23 +160,29 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 		}
 		// 查询当前信息状态
 		Map<String, Object> queryOracleById = this.formalAssessmentService.queryOracleById(businessid);
-		if (queryOracleById.size() == 0 || queryOracleById == null) {
+		if (Util.isNotEmpty(queryOracleById)) {
+			if (queryOracleById.size() == 0 || queryOracleById == null) {
+				map.put("result_status", "false");
+				map.put("error_info", "根据参数businessid[" + businessid + "]没有找到数据！");
+				map.put("error_code", "1002");
+				return JsonUtil.toJson(map);
+			}
+			String wf_state = queryOracleById.get("WF_STATE").toString();
+			if ("1".equals(wf_state) || "2".equals(wf_state)) {
+				map.put("result_status", "false");
+				map.put("error_info", "业务businessid[" + businessid + "]的状态不是起草中，不允许删除！");
+				map.put("error_code", "1003");
+				return JsonUtil.toJson(map);
+			}
+			this.formalAssessmentService.deleteById(businessid);
+			map.put("result_status", "true");
+			map.put("error_info", "执行成功！");
+			map.put("error_code", null);
+		} else {
 			map.put("result_status", "false");
-			map.put("error_info", "根据参数businessid[" + businessid + "]没有找到数据！");
-			map.put("error_code", "1002");
-			return JsonUtil.toJson(map);
+			map.put("error_info", "执行成功！");
+			map.put("error_code", null);
 		}
-		String wf_state = queryOracleById.get("WF_STATE").toString();
-		if ("1".equals(wf_state) || "2".equals(wf_state)) {
-			map.put("result_status", "false");
-			map.put("error_info", "业务businessid[" + businessid + "]的状态不是起草中，不允许删除！");
-			map.put("error_code", "1003");
-			return JsonUtil.toJson(map);
-		}
-		this.formalAssessmentService.deleteById(businessid);
-		map.put("result_status", "true");
-		map.put("error_info", "执行成功！");
-		map.put("error_code", null);
 		return JsonUtil.toJson(map);
 	}
 
@@ -299,7 +311,7 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("PROJECTCODE", projectNo);
 		List<Map<String, Object>> list = this.formalAssessmentInfoMapper.queryAproData(params);
-		if(list.size() == 0) {
+		if (list.size() == 0) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("result_status", false);
 			map.put("error_info", "该项目编号主数据不存在！");
@@ -309,7 +321,7 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 			result.setSuccess(false);
 			return;
 		}
-		
+
 		apply.put("projectNo", projectNo);
 		apply.put("projectNoNew", list.get(0).get("PROJECTCODENEW"));
 
@@ -358,6 +370,24 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 
 		// createBy
 		apply.put("createby", list.get(0).get("RESPONSIBLEUSERID"));
+
+		// projectNum
+		String projectNum = (String) apply.get("projectNum");
+		if (Util.isNotEmpty(projectNum)) {
+			apply.put("projectNum", projectNum);
+		}
+
+		// projectSize
+		String projectSize = (String) apply.get("projectSize");
+		if (Util.isNotEmpty(projectSize)) {
+			apply.put("projectSize", projectSize);
+		}
+
+		// investMoney
+		String investMoney = (String) apply.get("investMoney");
+		if (Util.isNotEmpty(investMoney)) {
+			apply.put("investMoney", investMoney);
+		}
 
 		doc.put("taskallocation", taskallocation);
 

@@ -185,107 +185,112 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 	}
 
 	@SuppressWarnings("unchecked")
-	private Map<String, Object> packageDataForOracle(Document doc){
-		HashMap<String, Object> params = new HashMap<String,Object>();
-		
-		params.put("businessid", doc.get("_id").toString());
-		Document apply = (Document) doc.get("apply");
-		params.put("projectName", apply.getString("projectName"));
-		params.put("projectNum", apply.getString("projectNo"));
-		
-		Document reportingUnit = (Document) apply.get("reportingUnit");
-		params.put("reportingUnit_id", reportingUnit.getString("KEY"));
-		List<Document> serviceType = (List<Document>) apply.get("serviceType");
-		if(Util.isNotEmpty(serviceType) && serviceType.size()>0){
-			String serviceType_id="";
-			for (Document st : serviceType) {
-				serviceType_id+=","+st.getString("KEY");
-			}
-			serviceType_id = serviceType_id.substring(1);
-			params.put("serviceType_id", serviceType_id);
-		}
-		
-		params.put("investment_model", apply.get("investmentModel").toString());
-		
-		List<Document> projectModel = (List<Document>) apply.get("projectModel");
-		
-		if(Util.isNotEmpty(projectModel) && projectModel.size()>0){
-			String projectModel_ids="";
-			for (Document pm : projectModel) {
-				projectModel_ids+=","+pm.getString("KEY");
-			}
-			projectModel_ids = projectModel_ids.substring(1);
-			params.put("project_model_ids", projectModel_ids);
-		}
-		
-		params.put("need_meeting", null);
-		
-		params.put("meeting_date", null);
-		
-		params.put("is_supplement_review", doc.get("is_supplement_review"));
-		
-		params.put("emergencyLevel", null);
-		
-		params.put("isUrgent", null);
-		
-		Document pertainArea = (Document) apply.get("pertainArea");
-		if(pertainArea != null){
-			params.put("pertainAreaId", pertainArea.getString("KEY"));
-		}
-		
-		params.put("isTZ", doc.getString("istz"));
-		
-		params.put("wf_state", "0");
-		
-		params.put("apply_date", null);
-		
-		params.put("complete_date", null);
-		
-		params.put("report_create_date", null);
-		
-		params.put("projectSize", apply.getString("projectSize"));
-		
-		params.put("investMoney", apply.getString("investMoney"));
-		
-		params.put("rateOfReturn", null);
-		
-		params.put("auditStage", null);
-		
-		params.put("oldData", "0");
-		
-		//基层法务评审人ID
-		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
-		if(grassrootsLegalStaff != null){
-			params.put("grassrootslegalpersonId", grassrootsLegalStaff.getString("VALUE"));
-		}
-		//大区companyHeader
-		Map<String, Object> companyHeader = (Map<String, Object>) apply.get("companyHeader");
-		String companyHeaderValue = (String)companyHeader.get("VALUE");
-		params.put("largeAreaPersonId", companyHeaderValue);
-		
-		//区域负责人——投资中心/水环境
-		Map<String, Object> investmentPerson = (Map<String, Object>) apply.get("investmentPerson");
-		if(investmentPerson != null){
-			String serviceTypeValue = (String) investmentPerson.get("VALUE");
-			params.put("serviceTypePersonId",serviceTypeValue);
-		}
-		
-		Document createby = (Document) apply.get("investmentManager");
-		params.put("createBy", createby.getString("VALUE"));
-		
-		//创建时间与mongDB 一致
-		params.put("create_date", doc.get("create_date"));
-		return params;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Map<String, Object> packageDataForOracle_V01(Document doc) {
+	private Map<String, Object> packageDataForOracle(Document doc) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 
 		params.put("businessid", doc.get("_id").toString());
 		Document apply = (Document) doc.get("apply");
 		params.put("projectName", apply.getString("projectName"));
 		params.put("projectNum", apply.getString("projectNo"));
+
+		Document reportingUnit = (Document) apply.get("reportingUnit");
+		params.put("reportingUnit_id", reportingUnit.getString("KEY"));
+		List<Document> serviceType = (List<Document>) apply.get("serviceType");
+		if (Util.isNotEmpty(serviceType) && serviceType.size() > 0) {
+			String serviceType_id = "";
+			for (Document st : serviceType) {
+				serviceType_id += "," + st.getString("KEY");
+			}
+			serviceType_id = serviceType_id.substring(1);
+			params.put("serviceType_id", serviceType_id);
+		}
+
+		params.put("investment_model", apply.get("investmentModel").toString());
+
+		List<Document> projectModel = (List<Document>) apply.get("projectModel");
+
+		if (Util.isNotEmpty(projectModel) && projectModel.size() > 0) {
+			String projectModel_ids = "";
+			for (Document pm : projectModel) {
+				projectModel_ids += "," + pm.getString("KEY");
+			}
+			projectModel_ids = projectModel_ids.substring(1);
+			params.put("project_model_ids", projectModel_ids);
+		}
+
+		params.put("need_meeting", null);
+
+		params.put("meeting_date", null);
+
+		params.put("is_supplement_review", doc.get("is_supplement_review"));
+
+		params.put("emergencyLevel", null);
+
+		params.put("isUrgent", null);
+
+		Document pertainArea = (Document) apply.get("pertainArea");
+		if (pertainArea != null) {
+			params.put("pertainAreaId", pertainArea.getString("KEY"));
+		}
+
+		params.put("isTZ", doc.getString("istz"));
+
+		params.put("wf_state", "0");
+
+		params.put("apply_date", null);
+
+		params.put("complete_date", null);
+
+		params.put("report_create_date", null);
+
+		params.put("projectSize", apply.getString("projectSize"));
+
+		params.put("investMoney", apply.getString("investMoney"));
+
+		params.put("rateOfReturn", null);
+
+		params.put("auditStage", null);
+
+		params.put("oldData", "0");
+
+		// 基层法务评审人ID
+		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
+		if (grassrootsLegalStaff != null) {
+			params.put("grassrootslegalpersonId", grassrootsLegalStaff.getString("VALUE"));
+		}
+		// 大区companyHeader
+		Map<String, Object> companyHeader = (Map<String, Object>) apply.get("companyHeader");
+		String companyHeaderValue = (String) companyHeader.get("VALUE");
+		params.put("largeAreaPersonId", companyHeaderValue);
+
+		// 区域负责人——投资中心/水环境
+		Map<String, Object> investmentPerson = (Map<String, Object>) apply.get("investmentPerson");
+		if (investmentPerson != null) {
+			String serviceTypeValue = (String) investmentPerson.get("VALUE");
+			params.put("serviceTypePersonId", serviceTypeValue);
+		}
+
+		Document createby = (Document) apply.get("investmentManager");
+		params.put("createBy", createby.getString("VALUE"));
+
+		// 创建时间与mongDB 一致
+		params.put("create_date", doc.get("create_date"));
+		return params;
+	}
+
+	@SuppressWarnings("unchecked")
+	private Map<String, Object> packageDataForOracle_V01(Document doc) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+
+		params.put("businessid", doc.get("_id").toString());
+		Document apply = (Document) doc.get("apply");
+
+		params.put("projectName", apply.getString("projectName"));
+
+		// projectNum
+		if (Util.isNotEmpty(apply.getString("projectNo"))) {
+			params.put("projectNum", apply.getString("projectNo"));
+		}
 
 		// reportingUnit
 		Document reportingUnit = (Document) apply.get("reportingUnit");
@@ -316,7 +321,9 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		params.put("meeting_date", null);
 
 		// IS_SUPPLEMENT_REVIEW
-		params.put("is_supplement_review", doc.get("is_supplement_review"));
+		if (Util.isNotEmpty(doc.get("is_supplement_review"))) {
+			params.put("is_supplement_review", doc.get("is_supplement_review"));
+		}
 
 		params.put("emergencyLevel", null);
 
@@ -1303,40 +1310,9 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 			Map<String, Object> dataForOracle = packageDataForOracle_V01(doc);
 			// 插入oracle
 			formalAssessmentInfoMapper.createForTz(dataForOracle);
-			String is_supplement_review = (String) doc.get("is_supplement_review");
-			if ("1".equals(is_supplement_review)) {
-				String projectNum = (String) dataForOracle.get("projectNum");
-				List<Map<String, Object>> decisionList = formalAssessmentInfoMapper.getDecisionByProjectNum(projectNum);
-				if (Util.isNotEmpty(decisionList)) {
-					Map<String, Object> decision = decisionList.get(0);
-					String dbusinessid = (String) decision.get("BUSINESSID");
-					Map<String, Object> decisionMongo = this.baseMongo.queryById(dbusinessid,
-							Constants.RCM_NOTICEDECISION_INFO);
-					// 执行要求
-					String implementationRequirements = (String) decisionMongo.get("implementationRequirements");
-					// 项目投资前须落实事项
-					String implementationMatters = (String) decisionMongo.get("implementationMatters");
-
-					Map<String, Object> apply = (Map<String, Object>) doc.get("apply");
-					Map<String, Object> supplement = (Map<String, Object>) apply.get("supplement");
-					if (Util.isEmpty(supplement)) {
-						supplement = new HashMap<String, Object>();
-						supplement.put("preDecisionDate", Util.format((Date) decision.get("DATEOFMEETING")));
-						supplement.put("preDecisionResult", (String) decision.get("CONSENTTOINVESTMENT"));
-						supplement.put("executiveRequirements", implementationRequirements);
-						supplement.put("implementationItems", implementationMatters);
-						apply.put("supplement", supplement);
-					} else {
-						supplement.put("preDecisionDate", Util.format((Date) decision.get("DATEOFMEETING")));
-						supplement.put("preDecisionResult", (String) decision.get("CONSENTTOINVESTMENT"));
-						supplement.put("executiveRequirements", implementationRequirements);
-						supplement.put("implementationItems", implementationMatters);
-					}
-				}
-			}
-
 			// 插入mongdb
 			baseMongo.save(doc, Constants.RCM_FORMALASSESSMENT_INFO);
+			this.formalAssessmentInfoCreateService.saveDefaultProRoleForTz(doc);
 			businessid = doc.get("_id").toString();
 		} else {
 			// 删除oracle
@@ -1345,14 +1321,13 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 			// 组织数据
 			doc.append("update_date", Util.format(Util.now()));
 			doc.put("_id", businessid);
-			Map<String, Object> dataForOracle = packageDataForOracle(doc);
+			Map<String, Object> dataForOracle = packageDataForOracle_V01(doc);
 			// 插入oracle
 			formalAssessmentInfoMapper.createForTz(dataForOracle);
 			// 修改mongo
 			doc.remove("_id");
 			this.baseMongo.updateSetByObjectId(businessid, doc, Constants.RCM_FORMALASSESSMENT_INFO);
 		}
-		this.formalAssessmentInfoCreateService.saveDefaultProRoleForTz(doc);
 		this.updateStageById(businessid, "1");
 		map.put("result_wf_state", "0");
 		map.put("result_status", "true");
@@ -1362,6 +1337,7 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		map.put("URL_PRO", prefix + "/html/index.html#/projectInfoAllBoardView/" + businessid + "/"
 				+ Util.encodeUrl("#/projectBoardList/JTI1MjMlMkY="));
 		String json = JsonUtil.toJson(map);
+		result.setResult_name("执行成功!");
 		result.setResult_data(json);
 		return result;
 	}

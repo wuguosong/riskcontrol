@@ -22,6 +22,7 @@ import com.mongodb.BasicDBObject;
 import com.yk.bpmn.service.IBpmnService;
 import com.yk.common.IBaseMongo;
 import com.yk.power.service.IOrgService;
+import com.yk.rcm.newFormalAssessment.dao.IFormalAssessmentInfoCreateMapper;
 import com.yk.rcm.project.dao.IProjectMapper;
 import com.yk.rcm.project.service.IFormalAssesmentService;
 import com.yk.rcm.project.service.IPreAssementService;
@@ -49,17 +50,21 @@ public class FormalAssesmentService implements IFormalAssesmentService {
 	private IOrgService orgService;
 	@Resource
 	private TzClient tzClient;
+	@Resource
+	private IFormalAssessmentInfoCreateMapper formalAssessmentInfoCreateMapper;
 	
 	@Override
 	public void deleteById(String businessId) {
-		//删除mongo数据
-		this.baseMongo.deleteById(businessId, Constants.RCM_PROJECTFORMALREVIEW_INFO);
-		//删除oracle数据
-		this.projectMapper.deleteByBusinessId(businessId);
-		//删除人员关系
-		this.projectRelationService.deleteByBusinessId(businessId);
-		//删除流程数据
-		this.bpmnService.stopProcess(Constants.FORMAL_ASSESSMENT, businessId);
+//		//删除mongo数据
+//		this.baseMongo.deleteById(businessId, Constants.RCM_PROJECTFORMALREVIEW_INFO);
+//		//删除oracle数据
+//		this.projectMapper.deleteByBusinessId(businessId);
+//		//删除人员关系
+//		this.projectRelationService.deleteByBusinessId(businessId);
+//		//删除流程数据
+//		this.bpmnService.stopProcess(Constants.FORMAL_ASSESSMENT, businessId);
+		baseMongo.deleteById(businessId, Constants.RCM_FORMALASSESSMENT_INFO);
+		this.formalAssessmentInfoCreateMapper.delete(businessId);
 	}
 	
 	@Override
