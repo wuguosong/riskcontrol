@@ -40,12 +40,12 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 	 */
 	@Override
 	public void doFilter(Map<String, Object> data, Result result, ProjectTzFilterChain chain) {
-		formatData(data);
+		formatData_V01(data);
 		chain.doFilter(data, result, chain);
 	}
 
 	// 处理投资系统推送的数据的结构-高鹤修改最新
-	public Map<String, Object> formatData(Map<String, Object> doc) {
+	public Map<String, Object> formatData_V01(Map<String, Object> doc) {
 		Document apply = (Document) doc.get("apply");
 		Document taskallocation = new Document();
 		// 添加任务节点
@@ -128,14 +128,18 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		// projectNum
 		String projectNum = (String) apply.get("projectNum");
 		apply.put("projectNum", projectNum);
-		
+
 		// projectNum
 		String projectSize = (String) apply.get("projectSize");
 		apply.put("projectSize", projectSize);
 
+		// projectNum
+		String investMoney = (String) apply.get("investMoney");
+		apply.put("investMoney", investMoney);
+
 		// createBy
 		apply.put("createby", list.get(0).get("RESPONSIBLEUSERID"));
-		
+
 //		// grassrootsLegalStaff(疑问)
 //		Document grassrootsLegalStaff = (Document) apply.get("grassrootsLegalStaff");
 //		Document newGrassrootsLegalStaff = null;
@@ -150,14 +154,17 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 //		apply.put("grassrootsLegalStaff", newGrassrootsLegalStaff);
 
 		// 是否补充评审
-		apply.put("supplementReview", true);
+//		String supplementReview = (String) apply.get("supplementReview");
+//		apply.put("supplementReview", supplementReview);
 
 		// is_supplement_review
 		String is_supplement_review = (String) apply.get("is_supplement_review");
 		doc.put("is_supplement_review", is_supplement_review);
-		
+
 		doc.put("taskallocation", taskallocation);
 		
+		doc.put("istz", "1");
+
 		// 起草人(创建人)
 		apply.remove("create_by");
 		apply.remove("create_name");
@@ -166,7 +173,7 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 	}
 
 	// 处理投资系统推送的数据的结构
-	public Map<String, Object> formatData_V01(Map<String, Object> doc) {
+	public Map<String, Object> formatData(Map<String, Object> doc) {
 		Document apply = (Document) doc.get("apply");
 
 		// investmentManager

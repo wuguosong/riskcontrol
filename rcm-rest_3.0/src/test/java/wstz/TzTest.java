@@ -30,31 +30,33 @@ public class TzTest {
 		JSONObject apply = new JSONObject();
 		// 投资经理
 		JSONObject investmentManager = new JSONObject();
-		investmentManager.put("name", "唐春江");
-		investmentManager.put("value", "0001N610000000001DRM");
+		investmentManager.put("name", "梁晶晶");
+		investmentManager.put("value", "0001N61000000000O93V");
 		apply.put("investmentManager", investmentManager);
 		
-		apply.put("projectNo", "CTSW20160321188");
+		apply.put("projectNo", "CTSW201512031");
 		apply.put("investmentModel", true);
 		
 		List<JSONObject> projectModelList = new ArrayList<JSONObject>();
 		JSONObject projectModel1 = new JSONObject();
-		projectModel1.put("VALUE", "BOT");
-		projectModel1.put("KEY", "1");
-		JSONObject projectModel2 = new JSONObject();
-		projectModel2.put("VALUE", "TOT");
-		projectModel2.put("KEY", "2");
+		projectModel1.put("VALUE", "BT");
+		projectModel1.put("KEY", "3");
+//		JSONObject projectModel2 = new JSONObject();
+//		projectModel2.put("VALUE", "TOT");
+//		projectModel2.put("KEY", "2");
 		projectModelList.add(projectModel1);
-		projectModelList.add(projectModel2);
+//		projectModelList.add(projectModel2);
 		apply.put("projectModel", projectModelList);
 		
-		apply.put("projectSize", "43吨/日");
-		apply.put("projectNum", "2");
+		apply.put("projectSize", "22.0000万吨");
+		apply.put("projectNum", "1");
+		apply.put("investMoney", "6.0000");
+		
 		
 		json.put("apply", apply);
 		json.put("is_supplement_review", "0");
-		json.put("create_by", "c4943b9e-e491-457a-b804-579da173d017");
-		json.put("create_name", "test001");
+		json.put("create_by", "0001N61000000000O93V");
+		json.put("create_name", "梁晶晶");
 		
 		String pfrResult = projectServiceForTz.createPfr(JSON.toJSONString(json));
 		System.out.println(pfrResult);
@@ -78,27 +80,27 @@ public class TzTest {
 		apply.put("create_by", "0001N610000000001DRM");
 
 		// 创建projectNo
-		apply.put("projectNo", "CTSW201512031");
+		apply.put("projectNo", "CTSW20160321188");
 
 		// investmentModel
 		apply.put("investmentModel", true);
-
-		// projectSize
-		apply.put("projectSize", "43吨/日");
-
-		// projectNum
-		apply.put("projectNum", "2");
+		
+		List<JSONObject> projectModelList = new ArrayList<JSONObject>();
+		JSONObject projectModel1 = new JSONObject();
+		projectModel1.put("VALUE", "BOT");
+		projectModel1.put("KEY", "1");
+//		JSONObject projectModel2 = new JSONObject();
+//		projectModel2.put("VALUE", "TOT");
+//		projectModel2.put("KEY", "2");
+		projectModelList.add(projectModel1);
+//		projectModelList.add(projectModel2);
+		apply.put("projectModel", projectModelList);
 
 		json.put("apply", apply);
-
-		// is_supplement_review
-		json.put("is_supplement_review", "0");
-
 		// create_by
-		json.put("create_by", "c4943b9e-e491-457a-b804-579da173d017");
-
+		json.put("create_by", "0001N610000000001DRM");
 		// create_name
-		json.put("create_name", "test001");
+		json.put("create_name", "唐春江");
 
 		String preResult = projectServiceForTz.createPre(JSON.toJSONString(json));
 		System.out.println(preResult);

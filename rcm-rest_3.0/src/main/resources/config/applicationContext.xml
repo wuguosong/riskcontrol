@@ -162,15 +162,13 @@
 				<!-- 接口日志记录 -->
 				<bean class="com.yk.rcm.project.filter.PfrTzLogFilter"></bean>
 				<!-- 判断是否可以做处理 -->
-				<!-- <bean class="com.yk.rcm.project.filter.PfrTzAllowDealFilter"></bean> -->
+				<bean class="com.yk.rcm.project.filter.PfrTzAllowDealFilter"></bean>
 				<!-- 执行验证 -->
 				<!--<bean class="com.yk.rcm.project.filter.PfrTzValidFilter"></bean> -->
 				<!-- 业务类型转换 -->
-				<!-- <bean
-					class="com.yk.rcm.project.filter.PfrTzDealServiceTypeFilter"></bean> -->
+				<!-- <bean class="com.yk.rcm.project.filter.PfrTzDealServiceTypeFilter"></bean> -->
 				<!-- 大区处理 -->
-				<!-- <bean
-					class="com.yk.rcm.project.filter.PfrTzDealPertainAreaFilter"></bean> -->
+				<!-- <bean class="com.yk.rcm.project.filter.PfrTzDealPertainAreaFilter"></bean> -->
 				<!-- 附件处理 -->
 				<!-- <bean class="com.yk.rcm.project.filter.PfrTzDownloadFileFilter"></bean> -->
 				<!-- 数据转换(示例:name to KEY,value to VALUE,) -->
@@ -189,17 +187,15 @@
 				<!-- 接口日志记录 -->
 				<bean class="com.yk.rcm.project.filter.PreTzLogFilter"></bean>
 				<!-- 判断是否可以做处理 -->
-				<bean class="com.yk.rcm.project.filter.PreTzAllowDealFilter"></bean>
+				<!-- <bean class="com.yk.rcm.project.filter.PreTzAllowDealFilter"></bean> -->
 				<!-- 执行验证 -->
-				<bean class="com.yk.rcm.project.filter.PreTzValidFilter"></bean>
+				<!-- <bean class="com.yk.rcm.project.filter.PreTzValidFilter"></bean> -->
 				<!-- 业务类型转换 -->
-				<bean
-					class="com.yk.rcm.project.filter.PreTzDealServiceTypeFilter"></bean>
+				<!-- <bean class="com.yk.rcm.project.filter.PreTzDealServiceTypeFilter"></bean> -->
 				<!-- 大区处理 -->
-				<bean
-					class="com.yk.rcm.project.filter.PreTzDealPertainAreaFilter"></bean>
+				<!-- <bean class="com.yk.rcm.project.filter.PreTzDealPertainAreaFilter"></bean> -->
 				<!-- 附件处理 -->
-				<bean class="com.yk.rcm.project.filter.PreTzDownloadFileFilter"></bean>
+				<!-- <bean class="com.yk.rcm.project.filter.PreTzDownloadFileFilter"></bean> -->
 				<!-- 数据转换(示例:name to KEY,value to VALUE,) -->
 				<bean
 					class="com.yk.rcm.project.filter.PreTzDataConversionFilter"></bean>
