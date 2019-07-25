@@ -31,10 +31,10 @@
                     <div class="panel-body">
                         <div class="form-group row">
                             <div class="txl col-md-4 padding0">
-                                <button class="btn btn-info" ng-click="createProject(0)">新增</button>
-                                <button class="btn btn-info" ng-click="updateProject()">修改</button>
-                                <button class="btn btn-info" ng-click="deleteProject()">删除</button>
-                                <button class="btn btn-info" ng-click="getForamlAssessmentList()">查询</button>
+                                <button class="btn btn-info" ng-click="createProject(0)"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                <button class="btn btn-info" ng-click="updateProject()"><i class="glyphicon glyphicon-edit"></i>修改</button>
+                                <button class="btn btn-info" ng-click="deleteProject()"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                                <button class="btn btn-info" ng-click="getForamlAssessmentList()"><i class="glyphicon glyphicon-search"></i>查询</button>
                             </div>
                             <div class="txl col-md-8">
                                 <div class="panel-body search-body" style="padding-top: 3px;">
@@ -81,10 +81,11 @@
                                     <th>项目名称</th>
                                     <th>所属大区</th>
                                     <th>项目类型</th>
-                                    <th>申请状态
+                                    <th>申请状态</th>
                                     <th>投资经理</th>
                                     <th>投资模式</th>
-                                    <th>创建时间
+                                    <th>申请单位</th>
+                                    <th>创建时间</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -115,6 +116,7 @@
                                     </td>
                                     <td>{{p.INVESTMENTNAME}}</td>  <!--投资经理  -->
                                     <td>{{p.mongoDate.apply.projectModel[0].VALUE}}</td> <!-- 投资模式 -->
+                                    <td>{{p.mongoDate.apply.reportingUnit.VALUE}}</td>
                                     <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td> <!-- 创建时间 -->
                                 </tr>
                                 </tbody>
@@ -160,7 +162,7 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-12 col-md-1" style="right: -150px">
-                                            <button class="btn btn-info" ng-click="getForamlAssessmentSubmitedList()">查询</button>
+                                            <button class="btn btn-info" ng-click="getForamlAssessmentSubmitedList()"><i class="glyphicon glyphicon-search"></i>查询</button>
                                         </div>
                                     </div>
                                 </div>

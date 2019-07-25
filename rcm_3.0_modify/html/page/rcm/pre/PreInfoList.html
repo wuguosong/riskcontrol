@@ -92,9 +92,11 @@
                                     <th>项目类型</th>
                                     <th>申请状态</th>
                                     <th>投资经理</th>
+                                    <th>投资模式</th>
                                     <!-- 										<th>评审负责人</th> -->
                                     <!-- 										<th>投资模式</th> -->
                                     <th>申请单位</th>
+                                    <th>创建时间</th>
                                     <!-- 										<th>申请时间<i class="icofunc fa fa-caret-up" id="orderasc" ng-click="order('time','asc')"></i><i class="icofunc cur fa fa-caret-down" id="orderdesc" ng-click="order('time','desc')"></i></th> -->
                                 </tr>
                                 </thead>
@@ -119,10 +121,12 @@
                                         <div ng-if="'3'== p.WF_STATE">已终止</div>
                                     </td>
                                     <td>{{p.INVESTMENTNAME}}</td>
+                                    <td>{{p.mongoDate.apply.projectModel[0].VALUE}}</td>
                                     <!-- 										<td>{{p.REVIEWPERSONNAME}}</td> -->
                                     <!-- 										<td>{{p.PROJECT_MODEL_IDS}}</td> -->
                                     <td>{{p.REPORTINGUNITNAME}}</td>
                                     <!-- 										<td>{{p.APPLY_DATE}}</td> -->
+                                    <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -168,7 +172,7 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-12 col-md-1" style="right: -150px">
-                                            <button class="btn btn-info" ng-click="getPreSubmitedList()">查询</button>
+                                            <button class="btn btn-info" ng-click="getPreSubmitedList()"><i class="glyphicon glyphicon-search"></i>查询</button>
                                         </div>
                                     </div>
                                 </div>
