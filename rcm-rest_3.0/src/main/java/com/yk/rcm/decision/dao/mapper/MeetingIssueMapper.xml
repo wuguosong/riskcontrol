@@ -51,11 +51,15 @@
 	</select>
 	
 	<select id="queryListByPage" resultType="hashmap" parameterType="map">
-		select mi.*,(select count(1) from rcm_decision_resolution dr where dr.meeting_issue_id = mi.id) PROJECT_COUNT,DECODE(sign(mi.meeting_time - #{todayDate,jdbcType=DATE}),-1,1,0) usedTag 
+		select DISTINCT mi.*,(select count(1) from rcm_decision_resolution dr where dr.meeting_issue_id = mi.id) PROJECT_COUNT,DECODE(sign(mi.meeting_time - #{todayDate,jdbcType=DATE}),-1,1,0) usedTag 
 		from rcm_meeting_issue mi 
+		LEFT JOIN rcm_v_project_info p on p.meeting_issue_id = mi.id
 		where mi.status = '1'
 		<if test="meetingIssue != null and meetingIssue != ''">
 			and to_char(mi.meeting_issue_number) = '${meetingIssue}' 
+		</if> 
+		<if test="projectName != null and projectName != ''">
+			and p.PROJECT_NAME like '%${projectName}%' 
 		</if> 
 		<if test="meetingTime != null and meetingTime != ''">
 			and mi.meeting_time = to_date('${meetingTime}', 'YYYY-MM-DD')
