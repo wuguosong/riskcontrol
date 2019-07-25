@@ -1,5 +1,6 @@
 package com.yk.rcm.project.filter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -24,7 +25,7 @@ public class PreTzSaveOrUpdateFilter implements IProjectTzFilter {
 	public void doFilter(Map<String, Object> data, Result result,
 			ProjectTzFilterChain chain) {
 		Document doc = (Document)data;
-		preInfoService.saveOrUpdateForTz(doc,result);
+		preInfoService.saveOrUpdateForTz(doc, new HashMap<String, Object>());
 		return;
 	}
 }

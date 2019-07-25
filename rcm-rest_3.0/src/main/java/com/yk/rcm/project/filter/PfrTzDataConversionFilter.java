@@ -128,15 +128,15 @@ public class PfrTzDataConversionFilter implements IProjectTzFilter {
 		apply.put("createby", list.get(0).get("RESPONSIBLEUSERID"));
 
 		// 是否补充评审
-		String is_supplement_review = (String) apply.get("is_supplement_review");
+		String is_supplement_review = (String) doc.get("is_supplement_review");
 		if (Util.isNotEmpty(is_supplement_review)) {
 			doc.put("is_supplement_review", is_supplement_review);
-		}
-
-		// supplementaryItem
-		String supplementaryItem = (String) apply.get("supplementaryItem");
-		if (Util.isNotEmpty(supplementaryItem)) {
-			apply.put("supplementaryItem", supplementaryItem);
+			apply.put("supplementReview", is_supplement_review.equals("1") ? true : false);
+			// supplementaryItem
+			String supplementaryItem = (String) apply.get("supplementaryItem");
+			if (Util.isNotEmpty(supplementaryItem)) {
+				apply.put("supplementaryItem", supplementaryItem);
+			}
 		}
 
 		doc.put("taskallocation", taskallocation);

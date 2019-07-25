@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.yk.ext.filter.ProjectTzFilterChain;
 import com.yk.flow.util.JsonUtil;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
+import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 import com.yk.rcm.pre.service.IPreInfoService;
 import com.yk.rcm.project.service.IFormalAssesmentService;
 import com.yk.rcm.project.service.IPreAssementService;
@@ -48,6 +49,8 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 	private IFormalAssessmentInfoMapper formalAssessmentInfoMapper;
 	@Resource
 	private IPreInfoService preInfoService;
+	@Resource
+	private IFormalAssessmentInfoService formalAssessmentInfoService;
 	static Date nowdate = new Date();
 	static SimpleDateFormat dateFormatforfile = new SimpleDateFormat("yyyyMM");
 	private final String DocumentNamePreFeedBack = Constants.RCM_FEEDBACK_INFO;
@@ -57,16 +60,14 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String createPre(String json) {
-
-		Result result = new Result();
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Map<String, Object> doc = Document.parse(json);
-			formatData_V01(doc, result);
-			if (!result.isSuccess()) {
-				return JsonUtil.toJson(result);
+			formatData_V01(doc, map);
+			if (!(boolean) map.get("result_status")) {
+				return JsonUtil.toJson(map);
 			}
-			preInfoService.saveOrUpdateForTz((Document) doc, result);
+			preInfoService.saveOrUpdateForTz((Document) doc, map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			StringBuffer sb = new StringBuffer();
@@ -78,14 +79,14 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 			map.put("result_status", false);
 			map.put("error_info", error);
 		}
-		return JsonUtil.toJson(result);
-
+		return JsonUtil.toJson(map);
 	}
 
 	@Override
 	public String createPfr(String json) {
 		Result result = new Result();
 		Document doc = Document.parse(json);
+		projectTzFilterChain.reset();
 		this.projectTzFilterChain.doFilter(doc, result, this.projectTzFilterChain);
 		return result.getResult_data().toString();
 	}
@@ -132,7 +133,7 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 			map.put("error_code", null);
 		} else {
 			map.put("result_status", "false");
-			map.put("error_info", "执行成功！");
+			map.put("error_info", "无法找到该项目！");
 			map.put("error_code", null);
 		}
 		return JsonUtil.toJson(map);
@@ -180,7 +181,7 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 			map.put("error_code", null);
 		} else {
 			map.put("result_status", "false");
-			map.put("error_info", "执行成功！");
+			map.put("error_info", "无法找到该项目！");
 			map.put("error_code", null);
 		}
 		return JsonUtil.toJson(map);
@@ -294,8 +295,7 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 		return jsonMap.toString();
 	}
 
-	public void formatData_V01(Map<String, Object> doc, Result result) throws JSONException {
-		result.setSuccess(true);
+	public void formatData_V01(Map<String, Object> doc, Map<String, Object> result) throws JSONException {
 		Document apply = (Document) doc.get("apply");
 		Document taskallocation = new Document();
 		// 添加任务节点
@@ -312,13 +312,9 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 		params.put("PROJECTCODE", projectNo);
 		List<Map<String, Object>> list = this.formalAssessmentInfoMapper.queryAproData(params);
 		if (list.size() == 0) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("result_status", false);
-			map.put("error_info", "该项目编号主数据不存在！");
-			map.put("error_code", "");
-			String resultStr = JsonUtil.toJson(map);
-			result.setResult_data(resultStr);
-			result.setSuccess(false);
+			result.put("result_status", false);
+			result.put("error_info", "该项目编号主数据不存在！");
+			result.put("error_code", "");
 			return;
 		}
 
@@ -396,8 +392,8 @@ public class ProjectServiceForTzImpl implements ProjectServiceForTz {
 		// 起草人(创建人)
 		apply.remove("create_by");
 		apply.remove("create_name");
-
+		result.put("result_status", true);
 		return;
 	}
-
+	
 }

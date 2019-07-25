@@ -42,4 +42,32 @@ public interface RiskServiceSoap {
         @WebParam(name = "AuditReport", targetNamespace = "http://tempuri.org/")
         java.lang.String auditReport
     );
+    
+    /**
+     * 
+     * @param riskJsonStr
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod(operationName = "GetPreDecisionInfo", action = "http://tempuri.org/GetPreDecisionInfo")
+    @WebResult(name = "GetPreDecisionInfoResult", targetNamespace = "http://tempuri.org/")
+    @RequestWrapper(localName = "GetPreDecisionInfo", targetNamespace = "http://tempuri.org/", className = "ws.client.tz.GetPreDecisionInfo")
+    @ResponseWrapper(localName = "GetPreDecisionInfoResponse", targetNamespace = "http://tempuri.org/", className = "ws.client.tz.GetPreDecisionInfoResponse")
+    public String getPreDecisionInfo(
+        @WebParam(name = "RiskJsonStr", targetNamespace = "http://tempuri.org/")
+        String riskJsonStr);
+
+    /**
+     * 
+     * @param riskJsonStr
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod(operationName = "GetPfrDecisionInfo", action = "http://tempuri.org/GetPfrDecisionInfo")
+    @WebResult(name = "GetPfrDecisionInfoResult", targetNamespace = "http://tempuri.org/")
+    @RequestWrapper(localName = "GetPfrDecisionInfo", targetNamespace = "http://tempuri.org/", className = "ws.client.tz.GetPfrDecisionInfo")
+    @ResponseWrapper(localName = "GetPfrDecisionInfoResponse", targetNamespace = "http://tempuri.org/", className = "ws.client.tz.GetPfrDecisionInfoResponse")
+    public String getPfrDecisionInfo(
+        @WebParam(name = "RiskJsonStr", targetNamespace = "http://tempuri.org/")
+        String riskJsonStr);
 }

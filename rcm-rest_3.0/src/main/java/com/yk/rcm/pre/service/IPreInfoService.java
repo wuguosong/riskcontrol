@@ -130,7 +130,7 @@ public interface IPreInfoService {
 	 * @param oldDoc
 	 * @return
 	 */
-	public void saveOrUpdateForTz(Document doc, Result result);
+	public void saveOrUpdateForTz(Document doc, Map<String, Object> result);
 	/**
 	 * 删除附件
 	 * @param json

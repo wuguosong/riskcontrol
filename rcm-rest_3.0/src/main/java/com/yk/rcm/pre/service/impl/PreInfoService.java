@@ -505,9 +505,8 @@ public class PreInfoService implements IPreInfoService {
 	}
 
 	@Override
-	public void saveOrUpdateForTz(Document doc, Result result) {
+	public void saveOrUpdateForTz(Document doc, Map<String, Object> map) {
 		String businessid = null;
-		Map<String, Object> map = new HashMap<String, Object>();
 		doc.put("create_date", Util.format(Util.now()));
 		doc.put("currentTimeStamp", Util.format(Util.now(), "yyyyMMddHHmmssSSS"));
 		doc.put("state", "1");
@@ -549,8 +548,6 @@ public class PreInfoService implements IPreInfoService {
 		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 		String json = gson.toJson(map);
 		System.out.println(json);
-		result.setResult_name("执行成功!");
-		result.setResult_data(json);
 	}
 
 	@SuppressWarnings("unchecked")
