@@ -3683,10 +3683,10 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function (DirPipeSrv) 
                         }
                         /* _item.fileId = _fileList[_fileList.length-1].fileid + "";*/
                         _item.fileId = _fileList[0].fileid + "";
-                        _item.lastUpdateBy = {
-                            NAME: $scope.$parent.credentials.userName,
-                            VALUE: $scope.$parent.credentials.UUID
-                        };
+                        // _item.lastUpdateBy = {
+                        //     NAME: $scope.$parent.credentials.userName,
+                        //     VALUE: $scope.$parent.credentials.UUID
+                        // };用户替换文件时，不更换提交人信息
                         _item.lastUpdateData = $scope.getDate();
                         _item.fileName = _file.name;
 
