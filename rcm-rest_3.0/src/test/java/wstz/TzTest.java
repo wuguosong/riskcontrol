@@ -133,8 +133,8 @@ public class TzTest {
 	@Test
 	public void updatePfrRiskAuditInfo() {
 		RiskServiceSoap rs = new RiskService().getRiskServiceSoap();
-		String customerId = "5d381af2ddd034596f5abcda";
-		String riskStatus = "1";
+		String customerId = "5d397572ddd034596f5abcde";
+		String riskStatus = "2";
 		String auditReport = "";
 		String result = rs.updateRiskAuditInfo(customerId, riskStatus, auditReport);
 		System.out.println(result);
@@ -161,7 +161,7 @@ public class TzTest {
 		JSONObject json = new JSONObject();
 		json.put("CusTomerId", "5d381af2ddd034596f5abcda");
 		json.put("IsHaveMeeting", true);// true : false
-		json.put("DecisionOpinion", "1");
+		json.put("DecisionOpinion", "3");
 		json.put("AuditCompleteDate", "2019-07-24");
 		String result = rs.getPfrDecisionInfo(JSON.toJSONString(json));
 		System.out.println(result);

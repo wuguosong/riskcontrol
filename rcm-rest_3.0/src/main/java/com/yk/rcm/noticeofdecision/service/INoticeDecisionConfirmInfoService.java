@@ -7,6 +7,11 @@ import java.util.Map;
 
 import org.bson.Document;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.yk.rcm.ws.client.tz.RiskService;
+import com.yk.rcm.ws.client.tz.RiskServiceSoap;
+
 import common.PageAssistant;
 
 /**
@@ -30,5 +35,7 @@ public interface INoticeDecisionConfirmInfoService {
 	 * @param formalId
 	 */
 	public void confirm(Map<String, Object> data);
-
+	
+	public void getYesPfrDecisionInfo(String CusTomerId, Boolean IsHaveMeeting, String DecisionOpinion, String AuditCompleteDate);
+	
 }

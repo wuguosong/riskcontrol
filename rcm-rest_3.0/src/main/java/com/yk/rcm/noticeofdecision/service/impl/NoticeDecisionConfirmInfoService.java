@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.daxt.service.IDaxtService;
 import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
@@ -26,6 +27,8 @@ import com.yk.rcm.formalAssessment.service.IFormalReportService;
 import com.yk.rcm.noticeofdecision.dao.INoticeDecisionConfirmInfoMapper;
 import com.yk.rcm.noticeofdecision.service.INoticeDecisionConfirmInfoService;
 import com.yk.rcm.noticeofdecision.service.INoticeDecisionDraftInfoService;
+import com.yk.rcm.ws.client.tz.RiskService;
+import com.yk.rcm.ws.client.tz.RiskServiceSoap;
 import com.yk.reportData.service.IReportDataService;
 
 import common.Constants;
@@ -66,8 +69,7 @@ public class NoticeDecisionConfirmInfoService implements INoticeDecisionConfirmI
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.yk.rcm.noticeofdecision.service.INoticeDecisionConfirmInfoService#
+	 * @see com.yk.rcm.noticeofdecision.service.INoticeDecisionConfirmInfoService#
 	 * queryWaitConfirm(common.PageAssistant)
 	 */
 	@Override
@@ -93,8 +95,7 @@ public class NoticeDecisionConfirmInfoService implements INoticeDecisionConfirmI
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.yk.rcm.noticeofdecision.service.INoticeDecisionConfirmInfoService#
+	 * @see com.yk.rcm.noticeofdecision.service.INoticeDecisionConfirmInfoService#
 	 * queryConfirmed(common.PageAssistant)
 	 */
 	@Override
@@ -152,8 +153,10 @@ public class NoticeDecisionConfirmInfoService implements INoticeDecisionConfirmI
 		BasicDBObject filter = new BasicDBObject();
 		filter.put("projectFormalId", formalId);
 		this.baseMongo.updateSetByFilter(filter, data, Constants.RCM_NOTICEDECISION_INFO);
-		// 3、如果是同意投资或有条件同意投资，需要向合同系统推送数据
 		String decisionResult = (String) noticeInfo.get("consentToInvestment");
+		// 3、给投资系统推送数据
+		getYesPfrDecisionInfo(formalId, true, decisionResult,(String) noticeInfo.get("dateOfMeeting"));
+		// 4、如果是同意投资或有条件同意投资，需要向合同系统推送数据
 		if ("1".equals(decisionResult) || "3".equals(decisionResult)) {
 			String businessId = noticeInfo.get("_id").toString();
 			SendProjectThread sendProject = new SendProjectThread(businessId);
@@ -176,12 +179,26 @@ public class NoticeDecisionConfirmInfoService implements INoticeDecisionConfirmI
 		String serverPath = PropertiesUtil.getProperty("domain.allow") + PropertiesUtil.getProperty("contextPath");
 		serverPath = serverPath + "/common/RcmFile/downLoad?filePath=" + filepath + "&fileName=" + fileName;
 
-		TzAfterNoticeClient tzAfterNoticeClient = new TzAfterNoticeClient(formalId, decisionResult, serverPath);
-		Thread t = new Thread(tzAfterNoticeClient);
-		t.start();
+//		TzAfterNoticeClient tzAfterNoticeClient = new TzAfterNoticeClient(formalId, decisionResult, serverPath);
+//		Thread t = new Thread(tzAfterNoticeClient);
+//		t.start();
 
 		/*this.daxtService.prfStart(formalId);*/
 
+	}
+
+	@Override
+	public void getYesPfrDecisionInfo(String CusTomerId, Boolean IsHaveMeeting, String DecisionOpinion,
+			String AuditCompleteDate) {
+		RiskServiceSoap rs = new RiskService().getRiskServiceSoap();
+		JSONObject json = new JSONObject();
+		json.put("CusTomerId", CusTomerId);
+		json.put("IsHaveMeeting", IsHaveMeeting);// true : false
+		json.put("DecisionOpinion", DecisionOpinion);
+		json.put("AuditCompleteDate", AuditCompleteDate);
+		logger.info("调用投资接口返回数据评审结果" + "####################" + JSON.toJSONString(json));
+		String result = rs.getPfrDecisionInfo(JSON.toJSONString(json));
+		logger.info("调用投资接口返回数据评审结果" + "####################" + result);
 	}
 
 }
