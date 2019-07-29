@@ -24,7 +24,7 @@
 			<a href="/#flow_chart" data-toggle="tab">流程图</a>
 		</li>
 		<li>
-			<a href="/#contracts_resources" data-toggle="tab">附件留言</a>
+			<a href="/#contracts_resources" data-toggle="tab">相关资源</a>
 		</li>
 	</ul>
 	<form class="form-horizontal" name="myFormPfR" id="myFormPfR" novalidate>
@@ -33,25 +33,6 @@
 				<div class="tab-pane in active special-form" id="contracts_file_info">
 					<!--                                     <directive-project-formal-review></directive-project-formal-review> -->
 					<directive-project-formal-assessment-info></directive-project-formal-assessment-info>
-					<!--基层法务意见开始-->
-					<div class="panel" ng-if="showGrassrootsLegalStaffOpinion">
-						<div class="panel-heading">
-							<a class="accordion-toggle collapsed" href="/#grassrootsLegalStaffOpinion" data-parent="#grassrootsLegalStaffOpinion"
-							   data-toggle="collapse"><span class="text">基层法务意见<i class="i-triangle"></i></span></a>
-						</div>
-						<div id="grassrootsLegalStaffOpinion" class="panel-collapse collapse">
-							<div class="panel-body">
-								<label class="col-sm-2 control-label">基层法务意见</label>
-								<div class="col-sm-10 " style="margin-bottom: 5px">
-									<div class="reason">
-										<textarea class="form-control" ng-model="pfr.apply.grassrootsLegalStaff.OPINION" ng-if="editGrassrootsLegalStaffOpinion">{{pre.apply.grassrootsLegalStaff.OPINION}}</textarea>
-										<textarea class="form-control" ng-model="pfr.apply.grassrootsLegalStaff.OPINION" readonly ng-if="!editGrassrootsLegalStaffOpinion">{{pre.apply.grassrootsLegalStaff.OPINION}}</textarea>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!--基层法务意见结束-->
 					<div class="panel" ng-if="(pfr.cesuanFileOpinion != null &&pfr.cesuanFileOpinion != '') && (pfr.tzProtocolOpinion != null &&pfr.tzProtocolOpinion != '')">
 						<directive-formal-opinion-new></directive-formal-opinion-new>
 					</div>

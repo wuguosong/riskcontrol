@@ -333,12 +333,6 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                         $scope.firstLevelOpinion = data.result_data.firstLevelOpinion;
                         //3、风控意见
                         $scope.fengkongOpinion = data.result_data.fengkongOpinion;
-                        if(!isEmpty($scope.fengkongOpinion)){
-                            console.log($scope.fengkongOpinion.approveAttachment.commentsList[0].commentConent)
-                            if($scope.fengkongOpinion.approveAttachment.commentsList[0].commentConent == '') {
-                                $scope.fengkongOpinion = null
-                            }
-                        }
                         $scope.fileName=[];
                         var filenames=$scope.pfr.attachment;
                         if(!isEmpty(filenames)){
@@ -347,7 +341,6 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                                 $scope.fileName.push(arr);
                             }
                         }
-
                         //4、投资评审报告
                         var file = attach_list('FormalReportInfo', $scope.businessId, 'pfrReport').result_data;
                         if (!isEmpty(file) && !isEmpty(data.result_data.report)){

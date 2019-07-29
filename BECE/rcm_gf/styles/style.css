@@ -1290,7 +1290,7 @@ td btn-scale:first-child {
 
 .tp-container .reel .content {
     width: 80%;
-    padding-bottom: 25%;
+    padding-bottom: 31.74%;
     height: 0;
     position: relative;
     margin: 0 auto;
@@ -1980,7 +1980,7 @@ td btn-scale:first-child {
 }
 
 .lltable {
-    width: 83%;
+    width: 73%;
     overflow-x: auto;
     float: left;
 }
@@ -1993,7 +1993,7 @@ td btn-scale:first-child {
 }
 
 .fixtable .lefttable {
-    width: 17%;
+    width: 27%;
     float: left;
     position: absolute;
     top: -1px;

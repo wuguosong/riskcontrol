@@ -62,12 +62,12 @@
                ng-click="_show_message_attach_popup('Y', '', '', '', '', '')">
                 <span class="addlabel blue">选择附件</span>
             </a>
+            <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_first.html'"></span>
             <!--表单附件上传end-->
             <a href="javascript:void(0);" style="margin-top: 10px;cursor:pointer;"
                ng-click="_submit_message_form_('Y', '', '', '', '', '', 'Y')">
                 <span class="addlabel blue">发表留言</span>
             </a>
-            <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_first.html'"></span>
         </div>
     </div>
     <!--锚点-顶部-->
@@ -182,12 +182,12 @@
                    ng-click="_show_message_attach_popup('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index)">
                     <span class="addlabel blue">选择附件</span>
                 </a>
+                <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_form.html'"></span>
                 <!--表单附件上传end-->
                 <a href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, $index, 'Y')">
                     <span class="addlabel blue">回复</span>
                 </a>
-                <span ng-if="_attach_file_is_popup_ && _is_show_reply_btn_" ng-include="'page/sys/common/file_info_form.html'"></span>
                 <!--<a href="javascript:void(0);" style="cursor:pointer;"
                    ng-click="_show_submit_message_form_('N', _messages_array_[$index][0].messageId, _messages_array_[$index][0].messageId, _messages_array_[$index][0].createdBy,_messages_array_[$index][0].createdName, 0)">
                     <span class="addlabel blue">回复</span>

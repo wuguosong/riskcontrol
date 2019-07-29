@@ -70,11 +70,7 @@ ctmApp.register.controller('OtherBidding', ['$http', '$scope', '$location', '$ro
                 url: srvUrl + "formalReport/findFormalAndReport.do",
                 data: $.param({"projectFormalId": projectFormalId})
             }).success(function (data) {
-                if(data.result_data.Report) {
-                    $scope.formalReport = data.result_data.Report;
-                } else {
-                    $scope.formalReport = {};
-                }
+                $scope.formalReport = data.result_data.Report;
                 $scope.pfr = data.result_data.Formal;
                 if (isEmpty(data.result_data.MeetInfo)){
                     $scope.meetInfo = {};

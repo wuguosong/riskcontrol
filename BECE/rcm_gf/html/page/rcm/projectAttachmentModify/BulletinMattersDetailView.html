@@ -136,17 +136,9 @@
 				</div>
 				<div class="tab-pane clearfix row" id="other_file">
 					<!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
-					<common-attachments
-							id="reviewLeaderAttachment"
-							doc-type="bulletin"
-							doc-code="{{queryParamId}}"
-							page-location="reviewLeaderAttachment"
-							show-upload="true"
-							show-review="false"
-							show-download="false"
-							show-delete="true",
-							edit-auth="true"
-					></common-attachments>
+					<directive-accachment-new id="BulletinMattersDetail_FK" business-type="bulletin" page-location="BulletinMattersDetail_FK" business-id="queryParamId"
+											  wf-state="0" file-list="newAttachment_FK"
+											  init-update="initUpdate(id)"></directive-accachment-new>
 				</div>
 			</div>
 		</div>

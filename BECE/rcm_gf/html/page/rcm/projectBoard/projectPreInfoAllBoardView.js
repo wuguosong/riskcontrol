@@ -305,11 +305,9 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                         $scope.fengkongOpinion = data.result_data.fengkongOpinion;
                         $scope.fileName=[];
                         var filenames=$scope.pre.attachment;
-                        if (filenames != null && filenames != [] && filenames != undefined) {
-                            for(var i=0;i<filenames.length;i++){
-                                var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
-                                $scope.fileName.push(arr);
-                            }
+                        for(var i=0;i<filenames.length;i++){
+                            var arr={UUID:filenames[i].UUID,ITEM_NAME:filenames[i].ITEM_NAME};
+                            $scope.fileName.push(arr);
                         }
                         //4、投资评审报告
                         var file = attach_list('preReportInfo', $scope.businessId, 'preReport').result_data;

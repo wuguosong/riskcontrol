@@ -55,7 +55,6 @@
 												<tr>
 													<th class="txc">序号</th>
 													<th>项目名称</th>
-													<th>创建时间</th>
 													<th>项目状态</th>
 												</tr>
 												</thead>
@@ -68,7 +67,6 @@
 														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/0' | encodeURI}}" >{{p.NAME}}</a>-->
 														<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
-													<td>{{p.CREATETIME}}</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
@@ -92,9 +90,7 @@
 												<tr>
 													<th class="txc">序号</th>
 													<th>项目名称</th>
-													<th>创建时间</th>
 													<th>项目状态</th>
-													<th>决策时间</th>
 												</tr>
 												</thead>
 												<tbody class="valign-middle">
@@ -105,15 +101,10 @@
 														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectInfoAllView/{{p.BUSINESSID}}@formalAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/1' | encodeURI}}" >{{p.NAME}}</a>-->
 														<a href="#/projectInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
-													<td>{{p.CREATETIME}}</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span>
-													</td>
-													<td>
-														{{p.DECISION_DATE}}
-													</td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
 												</tr>
 												</tbody>
 											</table>
@@ -134,7 +125,6 @@
 												<tr>
 													<th class="txc">序号</th>
 													<th>项目名称</th>
-													<th>创建时间</th>
 													<th>项目状态</th>
 												</tr>
 												</thead>
@@ -146,12 +136,10 @@
 														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/2' | encodeURI}}" >{{p.NAME}}</a>-->
 														<a href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
-													<td>{{p.CREATETIME}}</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span>
-													</td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
 												</tr>
 												</tbody>
 											</table>
@@ -171,9 +159,7 @@
 												<tr>
 													<th class="txc">序号</th>
 													<th>项目名称</th>
-													<th>创建时间</th>
 													<th>项目状态</th>
-													<th>决策时间</th>
 												</tr>
 												</thead>
 												<tbody class="valign-middle">
@@ -184,15 +170,10 @@
 														<!--<a ng-if="p.OLDDATA == '1'" href="#/projectPreInfoAllView/{{p.BUSINESSID}}@preAssessment/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/3' | encodeURI}}" >{{p.NAME}}</a>-->
 														<a href="#/projectPreInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
-													<td>{{p.CREATETIME}}</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span>
-													</td>
-													<td>
-														{{p.DECISION_DATE}}
-													</td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
 												</tr>
 												</tbody>
 											</table>
@@ -212,7 +193,6 @@
 												<tr>
 													<th class="txc">序号</th>
 													<th>项目名称</th>
-													<th>创建时间</th>
 													<th>项目状态</th>
 												</tr>
 												</thead>
@@ -223,7 +203,6 @@
 														<!--<a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/4' | encodeURI}}" >{{p.NAME}}</a>-->
 														<a href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
-													<td>{{p.CREATETIME}}</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
@@ -247,9 +226,7 @@
 												<tr>
 													<th class="txc">序号</th>
 													<th>项目名称</th>
-													<th>创建时间</th>
 													<th>项目状态</th>
-													<th>决策时间</th>
 												</tr>
 												</thead>
 												<tbody class="valign-middle">
@@ -259,15 +236,10 @@
 														<!--<a href="#/BulletinMattersAuditView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+'/5' | encodeURI}}" >{{p.NAME}}</a>-->
 														<a href="#/projectBulletinInfoAllBoardView/{{p.BUSINESSID}}/{{'#/PersonnelWork/'+type+'/'+id+'/'+lx+ '/' + tabIndex + '/0' | encodeURI}}">{{p.NAME}}</a>
 													</td>
-													<td>{{p.CREATETIME}}</td>
 													<td><span ng-if="'0'== p.WF_STATE">起草中</span>
 														<span ng-if="'1'== p.WF_STATE">审批中</span>
 														<span ng-if="'2'== p.WF_STATE">已审批</span>
-														<span ng-if="'3'== p.WF_STATE">已终止</span>
-													</td>
-													<td>
-														{{p.DECISION_DATE}}
-													</td>
+														<span ng-if="'3'== p.WF_STATE">已终止</span></td>
 												</tr>
 												</tbody>
 											</table>

@@ -1,18 +1,17 @@
 <div class="mcontent content2 content_2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
     <h3 class='text-blue text-blue-out'>风控意见及附件</h3>
     <div class="contentwrap hideOpen">
-        <div class="row">
-        <!--<div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''
+        <div class="row" ng-if="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''
 						|| bulletin.legalLeaderOpinion != null && bulletin.legalLeaderOpinion !=''
 						|| bulletin.riskLeaderOpinion != null && bulletin.riskLeaderOpinion !=''
 						|| bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment != ''
 						|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment != ''
-						|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment != ''">-->
+						|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment != ''">
             <div class="mytable">
                 <table  class="table table-bordered">
                     <tbody>
                     <tr  ng-show="bulletin.reviewLeaderOpinion != null && bulletin.reviewLeaderOpinion !=''">
-                        <th style="width: 20%">风控意见<!--评审负责人意见--></th><!--该意见由评审负责人在确认时填写-->
+                        <th style="width: 20%">评审负责人意见</th>
                         <td>
                             <div class="has-feedback">
                                 {{bulletin.reviewLeaderOpinion}}
@@ -61,7 +60,7 @@
                     {{bulletin.riskLeaderOpinion}}
                 </div>
             </div>-->
-            <!--<div class="row normalline titline">
+            <div class="row normalline titline">
                 <div class="mytable" style="margin: 20px" ng-if="bulletin.legalLeaderAttachment != null && bulletin.legalLeaderAttachment.length > 0
 								|| bulletin.reviewLeaderAttachment != null && bulletin.reviewLeaderAttachment.length > 0
 								|| bulletin.riskLeaderAttachment != null && bulletin.riskLeaderAttachment.length > 0 ">
@@ -96,31 +95,18 @@
                         </tr>
                     </table>
                 </div>
-            </div>-->
+            </div>
 
         </div>
-        <div class="row">
-            <common-attachments
-                    id="reviewLeaderAttachment"
-                    doc-type="bulletin"
-                    doc-code="{{businessid}}"
-                    page-location="reviewLeaderAttachment"
-                    show-upload="true"
-                    show-review="true"
-                    show-download="false"
-                    show-delete="true",
-                    edit-auth="false"
-                    show-check="false"
-            ></common-attachments>
-        </div>
+
         <div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')
 						&& (bulletin.legalLeaderOpinion == null || bulletin.legalLeaderOpinion =='')
 						&& (bulletin.riskLeaderOpinion == null || bulletin.riskLeaderOpinion =='')">
-            <!--<directive-accachment-new id="BulletinMattersDetail_FK" business-type="bulletin" page-location="BulletinMattersDetail_FK" business-id="businessid"
+            <directive-accachment-new id="BulletinMattersDetail_FK" business-type="bulletin" page-location="BulletinMattersDetail_FK" business-id="businessid"
                                       wf-state="WF_STATE" file-list="newAttachment_FK"
                                       init-update="initUpdate(id)"
                                       is-show-history-list="false"
-                                      is-show-preview-btn="true"></directive-accachment-new>-->
+                                      is-show-preview-btn="true"></directive-accachment-new>
         </div>
 
         <!--<div class="row" ng-if="(bulletin.reviewLeaderOpinion == null || bulletin.reviewLeaderOpinion =='')

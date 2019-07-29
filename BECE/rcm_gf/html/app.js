@@ -1199,22 +1199,6 @@ function attach_delete(fileId) {
     });
     return result;
 }
-
-function attach_delete_async(fileId, callBack) {
-    var url = srvUrl + "cloud/delete.do";
-    $.ajax({
-        url: url,
-        type: "POST",
-        dataType: "json",
-        data: {"fileId": fileId},
-        async: true,
-        success: function (data) {
-            if(!isEmpty(callBack) && typeof callBack === 'function'){
-                callBack(data);
-            }
-        }
-    });
-}
 /**
  * 查询附件
  * @param docType
@@ -1236,22 +1220,6 @@ function attach_list(docType, docCode, pageLocation) {
         }
     });
     return result;
-}
-
-function attach_list_async(docType, docCode, pageLocation, callBack) {
-    var url = srvUrl + "cloud/list.do";
-    $.ajax({
-        url: url,
-        type: "POST",
-        dataType: "json",
-        data: {"docType": docType, 'docCode': docCode, 'pageLocation': pageLocation},
-        async: true,
-        success: function (data) {
-            if(!isEmpty(callBack) && typeof callBack === 'function'){
-                callBack(data);
-            }
-        }
-    });
 }
 /**附件相关的一些公共方法结束**/
 function isEmpty(s) {
@@ -1280,6 +1248,7 @@ function notify_listNotifies(business_module, business_id) {
             notifies = data;
         }
     });
+    console.log(notifies);
     return notifies;
 }
 /**
@@ -1845,64 +1814,18 @@ function htmlTagReg(text) {
     }
     // console.log("转换前：==================\n" + text);
     // html
-    // text = text.replace(/(h1|h2|h3|h4|h5|h6|strong|pre|font)(.*?)/gi, 'span');
-    // h1
-    text = text.replace(/<h1>/gi, '<span>');
-    text = text.replace(/<\/h1>/gi, '</span>');
-    // h2
-    text = text.replace(/<h2>/gi, '<span>');
-    text = text.replace(/<\/h2>/gi, '</span>');
-    // h3
-    text = text.replace(/<h3>/gi, '<span>');
-    text = text.replace(/<\/h3>/gi, '</span>');
-    // h4
-    text = text.replace(/<h4>/gi, '<span>');
-    text = text.replace(/<\/h4>/gi, '</span>');
-    // h5
-    text = text.replace(/<h5>/gi, '<span>');
-    text = text.replace(/<\/h5>/gi, '</span>');
-    // h6
-    text = text.replace(/<h6>/gi, '<span>');
-    text = text.replace(/<\/h6>/gi, '</span>');
-    // strong
-    text = text.replace(/<strong>/gi, '<span>');
-    text = text.replace(/<\/strong>/gi, '</span>');
-    // pre
-    text = text.replace(/<pre>/gi, '<span>');
-    text = text.replace(/<\/pre>/gi, '</span>');
-    // 特殊情况
-    text = text.replace(/<pre style/gi, '<span style');
-    text = text.replace(/<\/pre>/gi, '</span>');
-    // font
-    text = text.replace(/<font>/gi, '<span>');
-    text = text.replace(/<\/font>/gi, '</span>');
-    // code
-    text = text.replace(/<code>/gi, '<span>');
-    text = text.replace(/<\/code>/gi, '</span>');
-    // 颜色
-    var colorReg = /color="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
-    text = text.replace(colorReg, 'color="color:black;" $1');
-    colorReg = /color='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
-    text = text.replace(colorReg, 'color="color:black;" $1');
+    text = text.replace(/(h1|h2|h3|h4|h5|h6|strong|pre|font)(.*?)/gi, 'span');
     // 样式
-    var styleReg = /style="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
-    text = text.replace(styleReg, 'style="color:black;font-size:16px;" $1');
-    styleReg = /style='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
+    var styleReg = /style="[^=>]*"([(\s+\w+=)|>])/g;
     text = text.replace(styleReg, 'style="color:black;font-size:16px;" $1');
     // 类
-    var classReg = /class="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
-    text = text.replace(classReg, '$1');
-    classReg = /class='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
+    var classReg = /class="[^=>]*"([(\s+\w+=)|>])/g;
     text = text.replace(classReg, '$1');
     // 超链接
-    var hrefReg = /href="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
-    text = text.replace(hrefReg, '$1');
-    hrefReg = /href='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
+    var hrefReg = /href="[^=>]*"([(\s+\w+=)|>])/g;
     text = text.replace(hrefReg, '$1');
     // word
-    var faceReg = /face="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
-    text = text.replace(faceReg, 'style="color:black;font-size:16px;" $1');
-    faceReg = /face='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
+    var faceReg = /face="[^=>]*"([(\s+\w+=)|>])/g;
     text = text.replace(faceReg, 'style="color:black;font-size:16px;" $1');
     // 加粗
     text = text.replace(/<b>/gi, '<span style="color:black;font-size:16px;">');
@@ -1977,96 +1900,3 @@ function cloudPreview(fullPath) {
         }
     });
 };
-
-/**
- * 保存基层法务意见到Mongo中
- * @param processKey
- * @param businessKey
- * @param mongoData Mongo中的数据
- */
-function saveGrassrootsLegalStaffOpinionMongo(processKey, businessKey, mongoData){
-    $.ajax({
-        url: srvUrl + 'sign/saveGrassrootsLegalStaffOpinionMongo.do',
-        type: 'post',
-        data: {
-            'processKey': processKey,
-            'businessKey': businessKey,
-            'mongoData':JSON.stringify(mongoData)
-        },
-        success: function (_res) {
-        },
-        error: function () {
-        },
-        async: true
-    });
-}
-
-/**
- * 知会改变当用户从代办点击后，
- * 1.对知会类型为"MESSAGE"的进行页面锚点定位
- * 2.对知会类型为"NOTIFY"不进行处理
- * 3.同时对两者进行代办或者待阅状态的更新
- * @param notifyId
- * @param callBack
- */
-function getNotifyJSONObject(notifyId, callBack){
-    $.ajax({
-        url: srvUrl + 'notify/getNotifyJSONObject.do',
-        type: "POST",
-        dataType: "json",
-        data: {"notifyId": notifyId},
-        async: true,
-        success: function (data) {
-            if(!isEmpty(callBack) && typeof callBack === 'function'){
-                callBack(data);
-            }
-        }
-    });
-}
-
-/**
- * 消息提示设置
- * @param targetId
- * @param subjectId
- * @param content
- */
-function setMessageTip(targetId, subjectId, content){
-    $('#_message_panel_body_' + subjectId).addClass('in');
-    var _span = $('#' + targetId);
-    _span.removeClass('uibadge');
-    _span.html('');
-    _span.addClass('uibadge');
-    _span.html(content);
-}
-
-/**
- * 从Portal中点击进入执行的方法
- * @param notifyId
- */
-function executeMessageOrNotifyTodoPageForPortal(notifyId){
-    if(!isEmpty(notifyId)){
-        notify_UpdateStatus(notifyId, 2);
-        getNotifyJSONObject(notifyId, function(notify){
-            if(!isEmpty(notify)){
-                if('MESSAGE' == notify['notifyType']){
-                    _initAnchorPoint(notify);
-                    if(!isEmpty(notify) && !isEmptyJson(notify)){
-                        var targetId = notify['AnchorPointMessageId'];
-                        if(!isEmpty(targetId)){
-                            var subjectId = notify['AnchorPointMessageSubject'];
-                            // 3s后锚点定位
-                            window.setTimeout(function(){
-                                var content = '新回复';
-                                if(targetId == subjectId){
-                                    content = '新留言';
-                                }
-                                setMessageTip(targetId, subjectId, content);
-                                _executeAnchorPoint(targetId);
-                            }, 3000);
-                        }
-                    }
-                }
-            }
-        });
-    }
-}

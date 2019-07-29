@@ -24,7 +24,7 @@
 			<a href="/#flow_chart" data-toggle="tab" ng-if="queryParamId != '0'">流程图</a>
 		</li>
 		<li >
-			<a href="/#contracts_resources" data-toggle="tab" ng-if="queryParamId != '0'">附件留言</a>
+			<a href="/#contracts_resources" data-toggle="tab" ng-if="queryParamId != '0'">相关资源</a>
 		</li>
 	</ul>
 	<form class="form-horizontal" name="myFormPfR" id="myFormPfR" novalidate>
@@ -160,33 +160,19 @@
 						</div>
 					</div>
 					<!-- 评审负责人意见 -->
-					<div  class="panel" ng-show="(( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader )">
+					<div  class="panel" ng-show="(( null != bulletin.reviewLeaderAttachment  && '' != bulletin.reviewLeaderAttachment) || ( null != bulletin.reviewLeaderOpinion  && '' != bulletin.reviewLeaderOpinion) ||showController.isReviewLeader ) && isShowOld">
 						<div class="panel-heading">
-							<a class="accordion-toggle collapsed" href="/#reviewLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">风控意见<i class="i-triangle"></i></span></a>
+							<a class="accordion-toggle collapsed" href="/#reviewLeaderOption" data-parent="#reviewLeader" data-toggle="collapse"><span class="text">评审负责人意见<i class="i-triangle"></i></span></a>
 						</div>
 						<div id="reviewLeaderOption" class="panel-collapse collapse in">
 							<div class="panel-body">
 								<div class="row">
-									<label class="col-sm-2 control-label">风控意见：</label>
+									<label class="col-sm-2 control-label"><span class="required">*</span>评审负责人意见：</label>
 									<div class="col-sm-10">
 										<textarea class="form-control" ng-readonly="!showController.isReviewLeader"  rows="" cols="" ng-model="bulletin.reviewLeaderOpinion" auto-height></textarea>
 									</div>
 								</div>
 								<div class="row">
-									<common-attachments
-											id="reviewLeaderAttachment"
-											doc-type="bulletin"
-											doc-code="{{businessId}}"
-											page-location="reviewLeaderAttachment"
-											show-upload="true"
-											show-review="{{editAuth}}"
-											show-download="{{editAuth}}"
-											show-delete="true",
-											edit-auth="{{editAuth}}"
-											show-check="{{editAuth}}"
-									></common-attachments>
-								</div>
-								<!--<div class="row">
 									<div class="row-tit">附件列表</div>
 									<button ng-show="showController.isReviewLeader" type="button" class="btn btn-info" ng-click="addReviewLeaderAttachment()"><i class="glyphicon glyphicon-plus"></i>新增</button>
 									<button ng-show="showController.isReviewLeader" type="button" class="btn btn-info" ng-click="deleteReviewLeaderAttachment()"><i class="glyphicon glyphicon-trash"></i>删除</button>
@@ -223,7 +209,7 @@
 											</tbody>
 										</table>
 									</div>
-								</div>-->
+								</div>
 							</div>
 						</div>
 					</div>

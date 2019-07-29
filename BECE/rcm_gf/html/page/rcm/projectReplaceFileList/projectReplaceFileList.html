@@ -117,7 +117,19 @@
                             <tr ng-repeat="p in projectList1" on-finish-render-filters>
                                 <td>{{$index+1}}</td>
                                 <td>
-                                    <a ng-if="'pfr'==p.PROJECT_TYPE"  href="#/FormalAssessmentDetailViewModify/{{p.BUSINESSID}}/{{'#/projectReplaceFileList/JTI1MjMlMkY='|encodeURI}}" title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <!--<a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA !='1'"  href="#/projectPreInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && p.OLDDATA =='1'"  href="#/projectPreInfoAllBoardView{{p.OLDURL}}12/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"  href="#/projectBulletinInfoAllView/{{p.BUSINESSID}}/{{'#/projectBoardList'|encodeURI}}">{{p.PROJECTNAME}}</a>-->
+
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' != p.WF_STATE"    title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pfr'==p.PROJECT_TYPE && '5' == p.WF_STATE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' != p.WF_STATE"  title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'pre'==p.PROJECT_TYPE && '5' == p.WF_STATE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
+                                    <a ng-if="'bulletin'==p.PROJECT_TYPE"   title="{{p.PROJECTNAME}}">{{p.PROJECTNAME|projectNameFilter:32}}</a>
                                 </td>
                                 <td>
                                     <div ng-if="'pfr'==p.PROJECT_TYPE">正式评审</div>

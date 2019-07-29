@@ -93,14 +93,20 @@
                    title="">
                     决策会材料
                 </a>
-                <!--<button ng-if="submit.PROJECT_TYPE == 'pfr' && (submit.SERVICETYPE == 1404 || submit.SERVICETYPE == 1406)"-->
-                        <!--ng-click="queryRBIMeeting(submit)"-->
-                        <!--class="btn btn-sm btn-success btn-right"-->
-                        <!--data-toggle="modal"-->
-                        <!--data-target="#addModal5"-->
-                        <!--title="">-->
-                    <!--会议纪要-->
-                <!--</button>-->
+                <a ng-if="submit.PROJECT_TYPE == 'pfr' && submit.SERVICETYPE != 1404 && submit.SERVICETYPE != 1406"
+                   href="#/NoticeDecisionDraftDetailView/submitted/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
+                   class="btn btn-sm btn-success btn-right"
+                   title="">
+                    决策通知书草拟
+                </a>
+                <button ng-if="submit.PROJECT_TYPE == 'pfr' && (submit.SERVICETYPE == 1404 || submit.SERVICETYPE == 1406)"
+                        ng-click="queryRBIMeeting(submit)"
+                        class="btn btn-sm btn-success btn-right"
+                        data-toggle="modal"
+                        data-target="#addModal5"
+                        title="">
+                    会议纪要
+                </button>
                 <a ng-if="submit.PROJECT_TYPE == 'pre'"
                    href="#/{{submit.RPE_CONTROLLER_VAL}}/0/View/{{submit.BUSINESSID}}/{{'#/IndividualTable'|encodeURI}}"
                    class="btn btn-sm btn-success btn-right"

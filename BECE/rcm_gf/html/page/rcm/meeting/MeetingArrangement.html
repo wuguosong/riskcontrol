@@ -183,16 +183,12 @@
 							<div class="txl col-md-8">
 								<div class="panel-body search-body" style="padding-top: 3px;">
 									<label class="col-sm-2 col-md-2 control-label">会议期次</label>
-									<div class="col-sm-2 col-md-2 sm-col">
+									<div class="col-sm-4 col-md-4 sm-col">
 										<input type="text" class="form-control" maxlength="5" ng-model="paginationConfes.queryObj.meetingIssue" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
 											   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
 									</div>
-									<label class="col-sm-2 col-md-2 control-label">项目名称</label>
-									<div class="col-sm-2 col-md-2 sm-col">
-										<input type="text" id="projectName" name="projectName" ng-model="paginationConfes.queryObj.projectName" class="form-control"/>
-									</div>
 									<label class="col-sm-2 col-md-2 control-label">上会日期</label>
-									<div class="col-sm-2 col-md-2 sm-col">
+									<div class="col-sm-4 col-md-4 sm-col">
 										<input type="text" id="meetingTime" name="meetingTime" ng-model="paginationConfes.queryObj.meetingTime" class="form-control"/>
 										<i class="fa fa-calendar form-control-feedback"></i>
 									</div>

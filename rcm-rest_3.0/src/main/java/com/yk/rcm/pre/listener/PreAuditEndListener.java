@@ -5,8 +5,6 @@ package com.yk.rcm.pre.listener;
 
 import com.daxt.service.IDaxtService;
 import com.yk.exception.BusinessException;
-import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
-import com.yk.rcm.noticeofdecision.service.INoticeDecisionConfirmInfoService;
 import com.yk.rcm.pre.service.IPreAuditLogService;
 import com.yk.rcm.pre.service.IPreAuditService;
 import com.yk.rcm.pre.service.IPreInfoService;
@@ -38,10 +36,6 @@ public class PreAuditEndListener implements ExecutionListener {
 	@Resource
 	private IPreAuditLogService preAuditLogService;
 	@Resource
-	private IFormalAssessmentInfoService formalAssessmentInfoService;
-	@Resource
-	private INoticeDecisionConfirmInfoService noticeDecisionConfirmInfoService;
-	@Resource
 	private IDaxtService daxtService;
 	
 	@SuppressWarnings("unchecked")
@@ -54,23 +48,18 @@ public class PreAuditEndListener implements ExecutionListener {
 		if("1".equals(isAgree)){
 			this.preInfoService.updateAuditStatusByBusinessId(businessId, "2");
 			taskdesc = "通过结束";
-//			this.updateStatusAndUrlForTZ(businessId,"2",execution);
-			this.formalAssessmentInfoService.updateRiskAuditInfo(businessId, "2", "");
+			this.updateStatusAndUrlForTZ(businessId,"2",execution);
 			Map<String, Object> oracleByBusinessId = preInfoService.getOracleByBusinessId(businessId);
 			
 			//归档
 			if(Util.isNotEmpty(oracleByBusinessId.get("NEED_MEETING")) && "0".equals(oracleByBusinessId.get("NEED_MEETING"))){
-				noticeDecisionConfirmInfoService.getYesPfrDecisionInfo(businessId, false, "", "");
 				this.daxtService.preStart(businessId);
-			} else if(Util.isNotEmpty(oracleByBusinessId.get("NEED_MEETING")) && "1".equals(oracleByBusinessId.get("NEED_MEETING"))){
-				noticeDecisionConfirmInfoService.getYesPfrDecisionInfo(businessId, true, "", "");
 			}
 		}else if("0".equals(isAgree)){
 			this.preInfoService.updateAuditStatusByBusinessId(businessId, "3");
 			this.preInfoService.updateAuditStageByBusinessId(businessId,"1");
 			taskdesc = "不通过结束";
-//			this.updateStatusAndUrlForTZ(businessId,"3",execution);
-			this.formalAssessmentInfoService.updateRiskAuditInfo(businessId, "2", "");
+			this.updateStatusAndUrlForTZ(businessId,"3",execution);
 			//归档
 			this.daxtService.preStart(businessId);
 		}else if(isAgree == null){
@@ -78,8 +67,7 @@ public class PreAuditEndListener implements ExecutionListener {
 			this.preInfoService.updateAuditStageByBusinessId(businessId,"1");
 			auditUserId = ThreadLocalUtil.getUserId();
 			taskdesc = "管理员终止终止";
-//			this.updateStatusAndUrlForTZ(businessId,"3",execution);
-			this.formalAssessmentInfoService.updateRiskAuditInfo(businessId, "2", "");
+			this.updateStatusAndUrlForTZ(businessId,"3",execution);
 			//归档
 			this.daxtService.preStart(businessId);
 		}else {

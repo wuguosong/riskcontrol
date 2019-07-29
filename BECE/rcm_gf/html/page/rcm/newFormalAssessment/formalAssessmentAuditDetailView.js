@@ -1447,6 +1447,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
          $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
          for(var i in attachment){
              var file = attachment[i];
+             console.log(file);
              for (var j in $scope.newAttachment){
                  if (file.fileId == $scope.newAttachment[j].fileid){
                      $scope.newAttachment[j].fileName = file.fileName;
@@ -1474,21 +1475,6 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 		}).success(function(data){
 			$scope.pfr  = data.result_data.formalAssessmentMongo;
 			$scope.pfrOracle  = data.result_data.formalAssessmentOracle;
-			/*================开始===============*/
-			/*
-			* 此处再根据当前任务节点和审批用户决定WF_STATE的值
-			* 如果当前审批节点是"投资经理"+当前用户是投资经理本人
-			* $scope.pfrOracle.WF_STATE = '0';
-			* Add By LiPan 2019-06-28
-			* */
-            if(!isEmpty($scope.curTask)){
-                if('usertask3' == $scope.curTask['TASK_DEF_KEY_']){
-                    if($scope.credentials.UUID == $scope.curTask['AUDITUSERID']){
-                        $scope.pfrOracle.WF_STATE = '0';
-                    }
-                }
-            }
-            /*================结束===============*/
             // 附件显示
             var time = $scope.pfr.create_date.substring(0,10);
             var thisTime = '2019-6-3';
@@ -1595,6 +1581,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
             if($scope.pfr.is_supplement_review == 1){
                 $scope.getNoticeOfDecstionByProjectFormalID($scope.pfr.apply.projectNo);
             };
+
 			hide_Mask();
 		});
         /*// 查询文件变更记录
@@ -2030,6 +2017,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
          $("#userSinDialog").modal('show');
      };
      $scope.changeWork = function () {
+         console.log($scope.approve);
          //人员验证
          if ($scope.checkedUser.NAME == null || $scope.checkedUser.NAME == '') {
              $.alert("请选择目标人员！");
@@ -2169,6 +2157,25 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
                     $scope.showLegalToConfirm = true;
                 }
             }
+            /*============对流程操作选项做处理start lipan 2019-07-03==========*/
+			var proOpts = [];
+            for(var i = 0; i < $scope.approve.processOptions.length; i++){
+				var proOpt = $scope.approve.processOptions[i];
+				if(proOpt.flowId == 'flow74'){
+					// 基层法务确认操作，有条件添加
+					if(!isEmpty($scope.pfr.apply.grassrootsLegalStaff)){
+                        if(!isEmpty($scope.pfr.apply.grassrootsLegalStaff.VALUE)){
+                            proOpts.push(proOpt);
+                        }
+					}
+				}else if(proOpt.flowId == 'flow21'){
+					// 退回双投中心操作
+                }else{
+                    proOpts.push(proOpt);
+				}
+			}
+			$scope.approve.processOptions = proOpts;
+			/*============对流程操作选项做处理end lipan 2019-07-03==========*/
 		 }else{
 		 	// TODO 是否需要其它操作？
 		 }
@@ -2770,9 +2777,4 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
 	 } else {
          $scope.isShowEdit = true;
 	 }
-	 $scope.curTask = curTask;
-     $scope.showGrassrootsLegalStaffOpinion = true;
-     $scope.editGrassrootsLegalStaffOpinion = false;
-     /*******************留言知会代办锚点定位***********************/
-     executeMessageOrNotifyTodoPageForPortal($routeParams['notifyId']);
 }]);

@@ -54,14 +54,14 @@ public class FormalAssessmentAuditEndListener implements ExecutionListener{
 		if("1".equals(isAgree)){
 			this.formalAssessmentAuditService.updateAuditStatusByBusinessId(businessId, "2");
 			taskdesc = "通过结束";
-//			this.updateStatusAndUrlForTZ(businessId,"2");
+			this.updateStatusAndUrlForTZ(businessId,"2");
 			this.formalAssessmentInfoService.updateRiskAuditInfo(businessId, "2", "");
 			
 		}else if("0".equals(isAgree)){
 			this.formalAssessmentAuditService.updateAuditStatusByBusinessId(businessId, "3");
 			this.formalAssessmentAuditService.updateAuditStageByBusinessId(businessId,"1");
 			taskdesc = "不通过结束";
-//			this.updateStatusAndUrlForTZ(businessId,"3");
+			this.updateStatusAndUrlForTZ(businessId,"3");
 			this.formalAssessmentInfoService.updateRiskAuditInfo(businessId, "3", "");
 			//给投资推项目信息数据
 //			TzAfterNoticeClient tzAfterPreReviewClient = new TzAfterNoticeClient(businessId, "2",null);
@@ -74,7 +74,7 @@ public class FormalAssessmentAuditEndListener implements ExecutionListener{
 			this.formalAssessmentAuditService.updateAuditStageByBusinessId(businessId,"1");
 			taskdesc = "管理员终止";
 			auditUserId = ThreadLocalUtil.getUserId();
-//			this.updateStatusAndUrlForTZ(businessId,"3");
+			this.updateStatusAndUrlForTZ(businessId,"3");
 			this.formalAssessmentInfoService.updateRiskAuditInfo(businessId, "3", "");
 			
 			this.daxtService.prfStart(businessId);
