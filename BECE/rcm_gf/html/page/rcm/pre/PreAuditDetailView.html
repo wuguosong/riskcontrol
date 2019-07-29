@@ -30,14 +30,32 @@
                                 <a href="/#flow_chart" data-toggle="tab">流程图</a>
                             </li>
                             <li>
-                                <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+                                <a href="/#contracts_resources" data-toggle="tab">附件留言</a>
                             </li>
                         </ul>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane in active" id="contracts_file_info">
                             <directive-project-pre-review-view></directive-project-pre-review-view>
-
+                            <!--基层法务意见开始-->
+                            <div class="panel" ng-if="showGrassrootsLegalStaffOpinion">
+                                <div class="panel-heading">
+                                    <a class="accordion-toggle collapsed" href="/#grassrootsLegalStaffOpinion" data-parent="#grassrootsLegalStaffOpinion"
+                                       data-toggle="collapse"><span class="text">基层法务意见<i class="i-triangle"></i></span></a>
+                                </div>
+                                <div id="grassrootsLegalStaffOpinion" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <label class="col-sm-2 control-label">基层法务意见</label>
+                                        <div class="col-sm-10 " style="margin-bottom: 5px">
+                                            <div class="reason">
+                                                <textarea class="form-control" ng-model="pre.apply.grassrootsLegalStaff.OPINION" ng-if="editGrassrootsLegalStaffOpinion">{{pre.apply.grassrootsLegalStaff.OPINION}}</textarea>
+                                                <textarea class="form-control" ng-model="pre.apply.grassrootsLegalStaff.OPINION" readonly ng-if="!editGrassrootsLegalStaffOpinion">{{pre.apply.grassrootsLegalStaff.OPINION}}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--基层法务意见结束-->
                             <div class="panel" ng-if="(pre.cesuanFileOpinion != null && pre.cesuanFileOpinion != '') && (pre.tzProtocolOpinion != null &&pre.tzProtocolOpinion != '')">
                                 <div class="panel-heading">
                                     <a class="accordion-toggle collapsed" href="/#cesuanyijian" data-parent="#reviewLeader"

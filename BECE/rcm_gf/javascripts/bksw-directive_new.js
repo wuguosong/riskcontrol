@@ -1,45 +1,45 @@
 /*******************************************************公共指令开始***************************************************/
-ctmApp.directive('directiveReturnBtn', function() {
+ctmApp.directive('directiveReturnBtn', function () {
     return {
         restrict: 'E',
         //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
         template: '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
         /*template: '<button class="btn btn-primary" ng-href="{{url|decodeURI}}" ng-click="callback()">返回</button>',*/
         replace: true,
-        scope:{url:'@',callback:"&"},
-        link:function(scope,element,attr){
+        scope: {url: '@', callback: "&"},
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
-ctmApp.directive('directiveReturnBtnMenu', function() {
+ctmApp.directive('directiveReturnBtnMenu', function () {
     return {
         restrict: 'E',
         //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
         template: '<a class="btn btn-info menu-button" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>',
         replace: true,
-        scope:{url:'@',callback:"&"},
-        link:function(scope,element,attr){
+        scope: {url: '@', callback: "&"},
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 人员多选
-ctmApp.directive('directUserMultiSelect', function() {
+ctmApp.directive('directUserMultiSelect', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directUserMultiSelect.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
             title: "@",
             //查询参数
             queryParams: "=",
-            isEditable:"=?bind",
+            isEditable: "=?bind",
             //默认选中的用户,数组类型，[{NAME:'张三',VALUE:'user.uuid'},{NAME:'李四',VALUE:'user.uuid'}]
             checkedUsers: "=",
             //映射的key，value，{nameField:'username',valueField:'uuid'}，
@@ -47,25 +47,25 @@ ctmApp.directive('directUserMultiSelect', function() {
             mappedKeyValue: "=",
             callback: "="
         },
-        controller:function($scope,$http,$element){
-            if($scope.mappedKeyValue == null){
-                $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+        controller: function ($scope, $http, $element) {
+            if ($scope.mappedKeyValue == null) {
+                $scope.mappedKeyValue = {nameField: 'NAME', valueField: 'VALUE'};
             }
-            if($scope.checkedUsers == null){
+            if ($scope.checkedUsers == null) {
                 $scope.checkedUsers = [];
             }
-            $scope.initDefaultData = function(){
-                if($scope.title==null){
+            $scope.initDefaultData = function () {
+                if ($scope.title == null) {
                     $scope.title = "人员选择";
                 }
-                if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                if ($scope.isEditable == null || ($scope.isEditable != "true" && $scope.isEditable != "false")) {
                     $scope.isEditable = "true";
                 }
             };
             $scope.initDefaultData();
-            $scope.removeSelectedUser = function(user){
-                for(var i = 0; i < $scope.checkedUsers.length; i++){
-                    if(user[$scope.mappedKeyValue.valueField] == $scope.checkedUsers[i][$scope.mappedKeyValue.valueField]){
+            $scope.removeSelectedUser = function (user) {
+                for (var i = 0; i < $scope.checkedUsers.length; i++) {
+                    if (user[$scope.mappedKeyValue.valueField] == $scope.checkedUsers[i][$scope.mappedKeyValue.valueField]) {
                         $scope.checkedUsers.splice(i, 1);
                         break;
                     }
@@ -95,7 +95,7 @@ ctmApp.directive('directUserMultiDialog', function () {
             callback: "=",
             //移除选中的人员，调用父scope中的同名方法
 //        	removeSelectedUser: "&"
-            parentSaveSelected:"&"
+            parentSaveSelected: "&"
         },
         controller: function ($scope, $http, $element) {
             ;
@@ -184,12 +184,12 @@ ctmApp.directive('directUserMultiDialog', function () {
                     $scope.callback();
                 }
                 /***父页面进行添加 Add By LiPan****/
-                if(!isEmpty($scope.parentSaveSelected) && (typeof $scope.parentSaveSelected === 'function')){
+                if (!isEmpty($scope.parentSaveSelected) && (typeof $scope.parentSaveSelected === 'function')) {
                     var executeEval = $scope.parentSaveSelected();
-                    if(!isEmpty(executeEval)){
-                        try{
+                    if (!isEmpty(executeEval)) {
+                        try {
                             eval(executeEval);
-                        }catch(e){
+                        } catch (e) {
                             console.log(e);
                         }
                     }
@@ -214,12 +214,12 @@ ctmApp.directive('directUserMultiDialog', function () {
     };
 });
 // 人员单选
-ctmApp.directive('directUserSingleSelect', function() {
+ctmApp.directive('directUserSingleSelect', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directUserSingleSelect.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -227,7 +227,7 @@ ctmApp.directive('directUserSingleSelect', function() {
             //查询参数
             queryParams: "=",
             //是否可编辑
-            isEditable:"=?bind",
+            isEditable: "=?bind",
             //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
             checkedUser: "=",
             //映射的key，value，{nameField:'username',valueField:'uuid'}，
@@ -235,34 +235,34 @@ ctmApp.directive('directUserSingleSelect', function() {
             mappedKeyValue: "=?bind",
             callback: "="
         },
-        controller:function($scope,$http,$element){
-            if($scope.mappedKeyValue == null){
-                $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+        controller: function ($scope, $http, $element) {
+            if ($scope.mappedKeyValue == null) {
+                $scope.mappedKeyValue = {nameField: 'NAME', valueField: 'VALUE'};
             }
-            if($scope.checkedUser == null){
+            if ($scope.checkedUser == null) {
                 $scope.checkedUser = {};
             }
-            $scope.initDefaultData = function(){
-                if($scope.title==null){
+            $scope.initDefaultData = function () {
+                if ($scope.title == null) {
                     $scope.title = "人员选择";
                 }
-                if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                if ($scope.isEditable == null || ($scope.isEditable != "true" && $scope.isEditable != "false")) {
                     $scope.isEditable = "true";
                 }
             };
-            $scope.removeSelectedUser = function(){
+            $scope.removeSelectedUser = function () {
                 $scope.checkedUser = {};
             };
             $scope.initDefaultData();
         }
     };
 });
-ctmApp.directive('directUserSingleDialog', function() {
+ctmApp.directive('directUserSingleDialog', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directUserSingleDialog.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -277,92 +277,92 @@ ctmApp.directive('directUserSingleDialog', function() {
             callback: "=",
             //移除选中的人员，调用父scope中的同名方法
 //        	removeSelectedUser: "&"
-            parentSaveSelected:"&"
+            parentSaveSelected: "&"
         },
-        controller:function($scope,$http,$element){
-            if($scope.mappedKeyValue == null){
-                $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+        controller: function ($scope, $http, $element) {
+            if ($scope.mappedKeyValue == null) {
+                $scope.mappedKeyValue = {nameField: 'NAME', valueField: 'VALUE'};
             }
-            $scope.initData = function(){
+            $scope.initData = function () {
                 var cus = $.parseJSON(JSON.stringify($scope.checkedUser));
                 $scope.tempCheckedUser = {};
                 $scope.tempCheckedUser.NAME = cus[$scope.mappedKeyValue.nameField];
                 $scope.tempCheckedUser.VALUE = cus[$scope.mappedKeyValue.valueField];
             }
             $scope.paginationConf = {
-                lastCurrentTimeStamp:'',
+                lastCurrentTimeStamp: '',
                 currentPage: 1,
                 totalItems: 0,
                 itemsPerPage: 10,
                 pagesLength: 10,
-                queryObj:{},
+                queryObj: {},
                 perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function(){
+                onChange: function () {
                 }
             };
-            $scope.queryUser = function(){
+            $scope.queryUser = function () {
                 $http({
-                    method:'post',
-                    url:srvUrl+"user/queryUserForSelected.do",
-                    data: $.param({"page":JSON.stringify($scope.paginationConf)})
-                }).success(function(data){
+                    method: 'post',
+                    url: srvUrl + "user/queryUserForSelected.do",
+                    data: $.param({"page": JSON.stringify($scope.paginationConf)})
+                }).success(function (data) {
                     hide_Mask();
-                    if(data.success){
+                    if (data.success) {
                         $scope.users = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
             }
-            $scope.removeSelectedUser = function(){
+            $scope.removeSelectedUser = function () {
                 $scope.tempCheckedUser = {};
             };
-            $scope.isChecked = function(user){
-                if(user.UUID == $scope.tempCheckedUser.VALUE){
+            $scope.isChecked = function (user) {
+                if (user.UUID == $scope.tempCheckedUser.VALUE) {
                     return true;
                 }
                 return false;
             };
-            $scope.toggleChecked = function(user){
+            $scope.toggleChecked = function (user) {
                 //是否选中
-                var isChecked = $("#chk_"+$scope.id+"_"+user.UUID).prop("checked");
+                var isChecked = $("#chk_" + $scope.id + "_" + user.UUID).prop("checked");
                 //是否已经存在
                 var flag = false;
-                if(user.UUID == $scope.tempCheckedUser.VALUE){
+                if (user.UUID == $scope.tempCheckedUser.VALUE) {
                     flag = true;
-                    if(!isChecked){
+                    if (!isChecked) {
                         $scope.tempCheckedUser = {};
                     }
                 }
-                if(isChecked && !flag){
+                if (isChecked && !flag) {
                     //如果已经选中，但是不存在，添加
-                    $scope.tempCheckedUser = {"VALUE":user.UUID,"NAME":user.NAME};
+                    $scope.tempCheckedUser = {"VALUE": user.UUID, "NAME": user.NAME};
                 }
             };
 
-            $scope.cancelSelected = function(){
+            $scope.cancelSelected = function () {
                 $scope.initData();
             }
-            $scope.saveSelected = function(){
+            $scope.saveSelected = function () {
                 var cus = $scope.tempCheckedUser;
-                if(cus.VALUE==null||cus.VALUE==""){
+                if (cus.VALUE == null || cus.VALUE == "") {
                     delete $scope.checkedUser[$scope.mappedKeyValue.nameField];
                     delete $scope.checkedUser[$scope.mappedKeyValue.valueField];
-                }else{
+                } else {
                     $scope.checkedUser[$scope.mappedKeyValue.nameField] = cus.NAME;
                     $scope.checkedUser[$scope.mappedKeyValue.valueField] = cus.VALUE;
                 }
-                if($scope.callback != null){
+                if ($scope.callback != null) {
                     $scope.callback();
                 }
                 /***父页面进行添加 Add By LiPan****/
-                if(!isEmpty($scope.parentSaveSelected) && (typeof $scope.parentSaveSelected === 'function')){
+                if (!isEmpty($scope.parentSaveSelected) && (typeof $scope.parentSaveSelected === 'function')) {
                     var executeEval = $scope.parentSaveSelected();
-                    if(!isEmpty(executeEval)){
-                        try{
+                    if (!isEmpty(executeEval)) {
+                        try {
                             eval(executeEval);
-                        }catch(e){
+                        } catch (e) {
                             console.log(e);
                         }
                     }
@@ -375,12 +375,12 @@ ctmApp.directive('directUserSingleDialog', function() {
     };
 });
 // 项目名称选择
-ctmApp.directive('directReportOrgSelect', function() {
+ctmApp.directive('directReportOrgSelect', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directReportOrgSelect.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“单位选择”
@@ -388,9 +388,9 @@ ctmApp.directive('directReportOrgSelect', function() {
             //必填，查询的url
             url: "@",
             //是否可编辑，默认为true
-            isEditable:"=",
+            isEditable: "=",
             //是否分页，默认为false
-            isPage:"@",
+            isPage: "@",
             //查询参数，非必填
             queryParams: "=",
             //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
@@ -399,31 +399,31 @@ ctmApp.directive('directReportOrgSelect', function() {
             //默认键应为{nameField:'NAME',valueField:'VALUE'}
             mappedKeyValue: "=",
             //其它附加字段的key组成的数组，非必填，例：["orgFzr","orgParent","orgPertainArea"]
-            otherFields:"=",
+            otherFields: "=",
             //必填，表格的列
-            columns:"=",
+            columns: "=",
             //确定按钮的回调方法，非必填
             callback: "="
         },
-        controller:function($scope,$http,$element){
-            if($scope.mappedKeyValue == null){
-                $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+        controller: function ($scope, $http, $element) {
+            if ($scope.mappedKeyValue == null) {
+                $scope.mappedKeyValue = {nameField: 'NAME', valueField: 'VALUE'};
             }
-            if($scope.isPage == null){
+            if ($scope.isPage == null) {
                 $scope.isPage = "false";
             }
-            if($scope.checkedOrg == null){
+            if ($scope.checkedOrg == null) {
                 $scope.checkedOrg = {};
             }
-            $scope.initDefaultData = function(){
-                if($scope.title==null){
+            $scope.initDefaultData = function () {
+                if ($scope.title == null) {
                     $scope.title = "单位选择";
                 }
-                if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                if ($scope.isEditable == null || ($scope.isEditable != "true" && $scope.isEditable != "false")) {
                     $scope.isEditable = "true";
                 }
             };
-            $scope.removeSelectedOrg = function(){
+            $scope.removeSelectedOrg = function () {
 //        		delete $scope.checkedOrg[$scope.mappedKeyValue.nameField];
 //    			delete $scope.checkedOrg[$scope.mappedKeyValue.valueField];
 //    			for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
@@ -435,12 +435,12 @@ ctmApp.directive('directReportOrgSelect', function() {
         }
     };
 });
-ctmApp.directive('directReportOrgDialog', function() {
+ctmApp.directive('directReportOrgDialog', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directReportOrgDialog.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -448,135 +448,138 @@ ctmApp.directive('directReportOrgDialog', function() {
             url: "@",
             //查询参数
             queryParams: "=",
-            isPage:"=",
+            isPage: "=",
             //默认选中的单位，必填,必须有键和值,可以附带其它字段,例：{"NAME":"北控中国","VALUE":"单位uuid","其它字段1":"v1",...}
             checkedOrg: "=",
             //映射的key，value，如果checkedOrg的键不是默认的，该字段需给出，{nameField:'orgname',valueField:'uuid'}，
             //默认键应为{nameField:'NAME',valueField:'VALUE'}
             mappedKeyValue: "=",
             //其它附加字段的key组成的数组，非必填，例：["orgFzr","orgParent","orgPertainArea"]
-            otherFields:"=",
+            otherFields: "=",
             //必填，表格的列
-            columns:"=",
+            columns: "=",
             callback: "="
         },
-        controller:function($scope,$http,$element){
-            $scope.initData = function(){
+        controller: function ($scope, $http, $element) {
+            $scope.initData = function () {
                 var cus = $.parseJSON(JSON.stringify($scope.checkedOrg));
                 $scope.tempCheckedOrg = {};
                 $scope.tempCheckedOrg.NAME = cus[$scope.mappedKeyValue.nameField];
                 $scope.tempCheckedOrg.VALUE = cus[$scope.mappedKeyValue.valueField];
-                for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                for (var i = 0; $scope.otherFields != null && i < $scope.otherFields.length; i++) {
                     $scope.tempCheckedOrg[$scope.otherFields[i]] = cus[$scope.otherFields[i]];
                 }
                 $scope.queryOrg();
             }
             $scope.paginationConf = {
-                lastCurrentTimeStamp:'',
+                lastCurrentTimeStamp: '',
                 currentPage: 1,
                 totalItems: 0,
                 itemsPerPage: 10,
                 pagesLength: 10,
-                queryObj:{},
+                queryObj: {},
                 perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function(){
+                onChange: function () {
                 }
             };
             /*$scope.queryOrg = function(){
-                $http({
-                    method:'post',
-                    url:srvUrl+"user/queryUserForSelected.do",
-                    data: $.param({"page":JSON.stringify($scope.paginationConf)})
-                }).success(function(data){
-                    if(data.success){
-                        $scope.users = data.result_data.list;
-                        $scope.paginationConf.totalItems = data.result_data.totalItems;
-                    }else{
-                        $.alert(data.result_name);
-                    }
-                });
-            }*/
-            $scope.queryOrg = function(){
+             $http({
+             method:'post',
+             url:srvUrl+"user/queryUserForSelected.do",
+             data: $.param({"page":JSON.stringify($scope.paginationConf)})
+             }).success(function(data){
+             if(data.success){
+             $scope.users = data.result_data.list;
+             $scope.paginationConf.totalItems = data.result_data.totalItems;
+             }else{
+             $.alert(data.result_name);
+             }
+             });
+             }*/
+            $scope.queryOrg = function () {
                 var config = {
-                    method:'post',
-                    url:srvUrl + $scope.url
+                    method: 'post',
+                    url: srvUrl + $scope.url
                 };
-                if("true" == $scope.isPage){
+                if ("true" == $scope.isPage) {
                     //分页
-                    if($scope.queryParams != null){
+                    if ($scope.queryParams != null) {
                         $scope.paginationConf.queryObj = $scope.queryParams;
                     }
-                    config.data = $.param({"page":JSON.stringify($scope.paginationConf)})
-                }else{
+                    config.data = $.param({"page": JSON.stringify($scope.paginationConf)})
+                } else {
                     //不分页
-                    if($scope.queryParams != null){
+                    if ($scope.queryParams != null) {
                         config.data = $.param($scope.queryParams)
                     }
                 }
-                $http(config).success(function(data){
-                    if(data.success){
-                        if("true" == $scope.isPage){
+                $http(config).success(function (data) {
+                    if (data.success) {
+                        if ("true" == $scope.isPage) {
                             $scope.orgs = data.result_data.list;
                             $scope.paginationConf.totalItems = data.result_data.totalItems;
-                        }else{
+                        } else {
                             $scope.orgs = data.result_data;
                         }
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
             }
-            $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage',  $scope.queryOrg);
-            $scope.removeSelectedOrg = function(){
+            $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryOrg);
+            $scope.removeSelectedOrg = function () {
                 $scope.tempCheckedOrg = {};
             };
-            $scope.isChecked = function(org){
-                if($scope.tempCheckedOrg != null && $scope.tempCheckedOrg.VALUE != null
-                    && org[$scope.mappedKeyValue.valueField] == $scope.tempCheckedOrg.VALUE){
+            $scope.isChecked = function (org) {
+                if ($scope.tempCheckedOrg != null && $scope.tempCheckedOrg.VALUE != null
+                    && org[$scope.mappedKeyValue.valueField] == $scope.tempCheckedOrg.VALUE) {
                     return true;
                 }
                 return false;
             };
-            $scope.toggleChecked = function(org){
+            $scope.toggleChecked = function (org) {
                 //是否选中
-                var isChecked = $("#chk_"+$scope.id+"_"+org[$scope.mappedKeyValue.valueField]).prop("checked");
+                var isChecked = $("#chk_" + $scope.id + "_" + org[$scope.mappedKeyValue.valueField]).prop("checked");
                 //是否已经存在
                 var flag = false;
-                if($scope.tempCheckedOrg != null && $scope.tempCheckedOrg.VALUE != null &&
-                    org[$scope.mappedKeyValue.valueField] == $scope.tempCheckedOrg.VALUE){
+                if ($scope.tempCheckedOrg != null && $scope.tempCheckedOrg.VALUE != null &&
+                    org[$scope.mappedKeyValue.valueField] == $scope.tempCheckedOrg.VALUE) {
                     flag = true;
-                    if(!isChecked){
+                    if (!isChecked) {
                         $scope.tempCheckedOrg = {};
                     }
                 }
-                if(isChecked && !flag){
+                if (isChecked && !flag) {
                     //如果已经选中，但是不存在，添加
-                    $scope.tempCheckedOrg = {"VALUE":org[$scope.mappedKeyValue.valueField],"NAME":org[$scope.mappedKeyValue.nameField]};
-                    for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                    $scope.tempCheckedOrg = {
+                        "VALUE": org[$scope.mappedKeyValue.valueField],
+                        "NAME": org[$scope.mappedKeyValue.nameField]
+                    };
+                    for (var i = 0; $scope.otherFields != null && i < $scope.otherFields.length; i++) {
                         $scope.tempCheckedOrg[$scope.otherFields[i]] = org[$scope.otherFields[i]];
                     }
                 }
             };
 
-            $scope.cancelSelected = function(){
+            $scope.cancelSelected = function () {
                 $scope.initData();
             }
-            $scope.saveSelected = function(){
+            $scope.saveSelected = function () {
                 var cus = $scope.tempCheckedOrg;
-                if(cus.VALUE==null||cus.VALUE==""){
+                if (cus.VALUE == null || cus.VALUE == "") {
                     delete $scope.checkedOrg[$scope.mappedKeyValue.nameField];
                     delete $scope.checkedOrg[$scope.mappedKeyValue.valueField];
-                    for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                    for (var i = 0; $scope.otherFields != null && i < $scope.otherFields.length; i++) {
                         delete $scope.checkedOrg[$scope.otherFields[i]];
                     }
-                }else{
+                } else {
                     $scope.checkedOrg[$scope.mappedKeyValue.nameField] = cus.NAME;
                     $scope.checkedOrg[$scope.mappedKeyValue.valueField] = cus.VALUE;
-                    for(var i = 0; $scope.otherFields!=null && i < $scope.otherFields.length; i++){
+                    for (var i = 0; $scope.otherFields != null && i < $scope.otherFields.length; i++) {
                         $scope.checkedOrg[$scope.otherFields[i]] = cus[$scope.otherFields[i]];
                     }
                 }
-                if($scope.callback != null){
+                if ($scope.callback != null) {
                     $scope.callback($scope.checkedOrg);
                 }
             }
@@ -585,12 +588,12 @@ ctmApp.directive('directReportOrgDialog', function() {
     };
 });
 // 评审负责人单选框
-ctmApp.directive('directFzrSingleSelect', function() {
+ctmApp.directive('directFzrSingleSelect', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directFzrSingleSelect.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -598,11 +601,11 @@ ctmApp.directive('directFzrSingleSelect', function() {
             //必填，查询用户的url
             url: "@",
             //是否可编辑
-            isEditable:"=?bind",
+            isEditable: "=?bind",
             //是否分组
-            isGroup:"@",
+            isGroup: "@",
             //是否可以多选，'true':可以多选，'false':不可以多选，默认为'false'
-            isMultiSelect:"@",
+            isMultiSelect: "@",
             //查询参数
             queryParams: "=",
             //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
@@ -614,44 +617,44 @@ ctmApp.directive('directFzrSingleSelect', function() {
             //字符串，'true','false',是否默认选中全部，默认为'false'
             isCheckedAll: "@"
         },
-        controller:function($scope,$http,$element){
-            if($scope.mappedKeyValue == null){
-                $scope.mappedKeyValue = {nameField:'NAME',valueField:'VALUE'};
+        controller: function ($scope, $http, $element) {
+            if ($scope.mappedKeyValue == null) {
+                $scope.mappedKeyValue = {nameField: 'NAME', valueField: 'VALUE'};
             }
-            $scope.initDefaultData = function(){
-                if($scope.title==null){
+            $scope.initDefaultData = function () {
+                if ($scope.title == null) {
                     $scope.title = "人员选择";
                 }
-                if($scope.isGroup==null){
+                if ($scope.isGroup == null) {
                     $scope.isGroup = "false";
                 }
-                if($scope.isEditable==null|| ($scope.isEditable!="true" && $scope.isEditable!="false")){
+                if ($scope.isEditable == null || ($scope.isEditable != "true" && $scope.isEditable != "false")) {
                     $scope.isEditable = "true";
                 }
-                if($scope.isMultiSelect==null|| ($scope.isMultiSelect!="true" && $scope.isMultiSelect!="false")){
+                if ($scope.isMultiSelect == null || ($scope.isMultiSelect != "true" && $scope.isMultiSelect != "false")) {
                     $scope.isMultiSelect = "false";
                 }
-                if($scope.checkedUser == null && $scope.isMultiSelect == "false"){
+                if ($scope.checkedUser == null && $scope.isMultiSelect == "false") {
                     $scope.checkedUser = {};
-                }else if($scope.checkedUser == null && $scope.isMultiSelect == "true"){
+                } else if ($scope.checkedUser == null && $scope.isMultiSelect == "true") {
                     $scope.checkedUser = [];
-                }else if($scope.checkedUser != null && $.isArray($scope.checkedUser)){
+                } else if ($scope.checkedUser != null && $.isArray($scope.checkedUser)) {
                     //$scope.checkedUser = [];
                     $scope.isMultiSelect == "true";
-                }else if($scope.checkedUser != null && !$.isArray($scope.checkedUser)){
+                } else if ($scope.checkedUser != null && !$.isArray($scope.checkedUser)) {
                     $scope.checkedUser = {};
                     $scope.isMultiSelect == "false";
                 }
-                if($scope.isCheckedAll==null|| ($scope.isCheckedAll!="true" && $scope.isCheckedAll!="false")){
+                if ($scope.isCheckedAll == null || ($scope.isCheckedAll != "true" && $scope.isCheckedAll != "false")) {
                     $scope.isCheckedAll = "false";
                 }
             };
-            $scope.removeSelectedUser = function(user){
-                if($scope.isMultiSelect == "false"){
+            $scope.removeSelectedUser = function (user) {
+                if ($scope.isMultiSelect == "false") {
                     $scope.checkedUser = {};
-                }else if($scope.isMultiSelect == "true"){
-                    for(var i = 0; i < $scope.checkedUser.length; i++){
-                        if(user[$scope.mappedKeyValue.valueField] == $scope.checkedUser[i][$scope.mappedKeyValue.valueField]){
+                } else if ($scope.isMultiSelect == "true") {
+                    for (var i = 0; i < $scope.checkedUser.length; i++) {
+                        if (user[$scope.mappedKeyValue.valueField] == $scope.checkedUser[i][$scope.mappedKeyValue.valueField]) {
                             $scope.checkedUser.splice(i, 1);
                             break;
                         }
@@ -662,12 +665,12 @@ ctmApp.directive('directFzrSingleSelect', function() {
         }
     };
 });
-ctmApp.directive('directFzrSingleDialog', function() {
+ctmApp.directive('directFzrSingleDialog', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directFzrSingleDialog.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -682,25 +685,25 @@ ctmApp.directive('directFzrSingleDialog', function() {
             mappedKeyValue: "=",
             callback: "=",
             //是否分组
-            isGroup:"@",
+            isGroup: "@",
             //是否可以多选，'true':可以多选，'false':不可以多选，默认为'false'
-            isMultiSelect:"@",
+            isMultiSelect: "@",
             //字符串，'true','false',是否默认选中全部，默认为'false'
             isCheckedAll: "@"
         },
-        controller:function($scope,$http,$element){
-            $scope.initData = function(){
-                if(null == $scope.checkedUser){
+        controller: function ($scope, $http, $element) {
+            $scope.initData = function () {
+                if (null == $scope.checkedUser) {
                     return;
                 }
                 var cus = $.parseJSON(JSON.stringify($scope.checkedUser));
-                if($scope.isMultiSelect == "false"){
+                if ($scope.isMultiSelect == "false") {
                     $scope.tempCheckedUser = {};
                     $scope.tempCheckedUser.NAME = cus[$scope.mappedKeyValue.nameField];
                     $scope.tempCheckedUser.VALUE = cus[$scope.mappedKeyValue.valueField];
-                }else if($scope.isMultiSelect == "true"){
+                } else if ($scope.isMultiSelect == "true") {
                     $scope.tempCheckedUser = [];
-                    for(var i = 0; i < cus.length; i++){
+                    for (var i = 0; i < cus.length; i++) {
                         var tmpUser = {};
                         tmpUser.NAME = cus[i][$scope.mappedKeyValue.nameField];
                         tmpUser.VALUE = cus[i][$scope.mappedKeyValue.valueField];
@@ -709,159 +712,168 @@ ctmApp.directive('directFzrSingleDialog', function() {
                 }
                 $scope.queryUser();
             }
-            $scope.queryUser = function(){
+            $scope.queryUser = function () {
                 var config = {
-                    method:'post',
-                    url:srvUrl + $scope.url
+                    method: 'post',
+                    url: srvUrl + $scope.url
                 };
-                if($scope.queryParams != null){
+                if ($scope.queryParams != null) {
                     config.data = $.param($scope.queryParams)
                 }
-                $http(config).success(function(data){
-                    if(data.success){
+                $http(config).success(function (data) {
+                    if (data.success) {
                         $scope.users = data.result_data;
-                        if($scope.isCheckedAll == "true" && $scope.users != null){
-                            for(var k = 0; k < $scope.users.length; k++){
+                        if ($scope.isCheckedAll == "true" && $scope.users != null) {
+                            for (var k = 0; k < $scope.users.length; k++) {
                                 //是否已经存在
                                 var flag = false;
-                                for(var i = 0; i < $scope.tempCheckedUser.length; i++){
-                                    if($scope.users[k][$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE){
+                                for (var i = 0; i < $scope.tempCheckedUser.length; i++) {
+                                    if ($scope.users[k][$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE) {
                                         flag = true;
                                     }
                                 }
-                                if(!flag){
+                                if (!flag) {
                                     //如果已经选中，但是不存在，添加
-                                    $scope.tempCheckedUser.push({"VALUE":$scope.users[k][$scope.mappedKeyValue.valueField],"NAME":$scope.users[k][$scope.mappedKeyValue.nameField]});
+                                    $scope.tempCheckedUser.push({
+                                        "VALUE": $scope.users[k][$scope.mappedKeyValue.valueField],
+                                        "NAME": $scope.users[k][$scope.mappedKeyValue.nameField]
+                                    });
                                 }
                             }
                         }
                         $scope._setDefaultUser();
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
             }
             // 设定默认选中的人相关方法开始 add by LiPan 2019-04-29
-            $scope._jsonIsEmpty = function(_json){
+            $scope._jsonIsEmpty = function (_json) {
                 var _length = 0;
-                for (var i in _json){
-                    _length ++;
+                for (var i in _json) {
+                    _length++;
                 }
                 return _length == 0;
             };
-            $scope._setDefaultUser = function(){
+            $scope._setDefaultUser = function () {
                 var _users = [];
-                for(var _i = 0; _i < $scope.users.length; _i ++){
+                for (var _i = 0; _i < $scope.users.length; _i++) {
                     var _user = $scope.users[_i];
-                    if(_user.ISGROUP == 0){
+                    if (_user.ISGROUP == 0) {
                         _users.push(_user);
                     }
                 }
-                _users.sort(function(o1_, o2_){
+                _users.sort(function (o1_, o2_) {
                     return o1_.ORDERNUM - o2_.ORDERNUM;
                 });
-                _users.sort(function(o1_, o2_){
+                _users.sort(function (o1_, o2_) {
                     return o1_.CPN_ - o2_.CPN_;
                 });
-                if($scope.isMultiSelect == "false"){
-                    if($scope._jsonIsEmpty($scope.tempCheckedUser) || $scope._jsonIsEmpty($scope.checkedUser)){
-                        try{
-                            $scope.tempCheckedUser = {'VALUE':_users[0].VALUE,'NAME':_users[0].NAME};
-                        }catch (e){
+                if ($scope.isMultiSelect == "false") {
+                    if ($scope._jsonIsEmpty($scope.tempCheckedUser) || $scope._jsonIsEmpty($scope.checkedUser)) {
+                        try {
+                            $scope.tempCheckedUser = {'VALUE': _users[0].VALUE, 'NAME': _users[0].NAME};
+                        } catch (e) {
                             $scope.tempCheckedUser = {};
                         }
                     }
-                }else if($scope.isMultiSelect == "true"){
-                    if($scope.tempCheckedUser.length < 0 || $scope.checkedUser.length < 0){
-                        $scope.tempCheckedUser.push({'VALUE':_users[0].VALUE,'NAME':_users[0].NAME});
+                } else if ($scope.isMultiSelect == "true") {
+                    if ($scope.tempCheckedUser.length < 0 || $scope.checkedUser.length < 0) {
+                        $scope.tempCheckedUser.push({'VALUE': _users[0].VALUE, 'NAME': _users[0].NAME});
                     }
                 }
             };
             // 设定默认选中的人相关方法结束 add by LiPan 2019-04-29
-            $scope.removeSelectedUser = function(user){
-                if($scope.isMultiSelect == "false"){
+            $scope.removeSelectedUser = function (user) {
+                if ($scope.isMultiSelect == "false") {
                     $scope.tempCheckedUser = {};
-                }else if($scope.isMultiSelect == "true"){
-                    for(var i = 0; i < $scope.tempCheckedUser.length; i++){
-                        if(user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE){
+                } else if ($scope.isMultiSelect == "true") {
+                    for (var i = 0; i < $scope.tempCheckedUser.length; i++) {
+                        if (user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE) {
                             $scope.tempCheckedUser.splice(i, 1);
                             break;
                         }
                     }
                 }
             };
-            $scope.isChecked = function(user){
-                if($scope.isMultiSelect == "false"){
-                    if($scope.tempCheckedUser != null && $scope.tempCheckedUser.VALUE != null && user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser.VALUE){
+            $scope.isChecked = function (user) {
+                if ($scope.isMultiSelect == "false") {
+                    if ($scope.tempCheckedUser != null && $scope.tempCheckedUser.VALUE != null && user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser.VALUE) {
                         return true;
                     }
                     return false;
-                }else if($scope.isMultiSelect == "true"){
-                    for(var i = 0; i < $scope.tempCheckedUser.length; i++){
-                        if(user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE){
+                } else if ($scope.isMultiSelect == "true") {
+                    for (var i = 0; i < $scope.tempCheckedUser.length; i++) {
+                        if (user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE) {
                             return true;
                         }
                     }
                     return false;
                 }
             };
-            $scope.toggleChecked = function(user){
+            $scope.toggleChecked = function (user) {
                 //是否选中
-                var isChecked = $("#chk_"+$scope.id+"_"+user[$scope.mappedKeyValue.valueField]).prop("checked");
+                var isChecked = $("#chk_" + $scope.id + "_" + user[$scope.mappedKeyValue.valueField]).prop("checked");
                 //是否已经存在
                 var flag = false;
-                if($scope.isMultiSelect == "false"){
-                    if($scope.tempCheckedUser != null && $scope.tempCheckedUser.VALUE != null && user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser.VALUE){
+                if ($scope.isMultiSelect == "false") {
+                    if ($scope.tempCheckedUser != null && $scope.tempCheckedUser.VALUE != null && user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser.VALUE) {
                         flag = true;
-                        if(!isChecked){
+                        if (!isChecked) {
                             $scope.tempCheckedUser = {};
                         }
                     }
-                    if(isChecked && !flag){
+                    if (isChecked && !flag) {
                         //如果已经选中，但是不存在，添加
-                        $scope.tempCheckedUser = {"VALUE":user[$scope.mappedKeyValue.valueField],"NAME":user[$scope.mappedKeyValue.nameField]};
+                        $scope.tempCheckedUser = {
+                            "VALUE": user[$scope.mappedKeyValue.valueField],
+                            "NAME": user[$scope.mappedKeyValue.nameField]
+                        };
                     }
-                }else if($scope.isMultiSelect == "true"){
-                    for(var i = 0; i < $scope.tempCheckedUser.length; i++){
-                        if(user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE){
+                } else if ($scope.isMultiSelect == "true") {
+                    for (var i = 0; i < $scope.tempCheckedUser.length; i++) {
+                        if (user[$scope.mappedKeyValue.valueField] == $scope.tempCheckedUser[i].VALUE) {
                             flag = true;
-                            if(!isChecked){
+                            if (!isChecked) {
                                 $scope.tempCheckedUser.splice(i, 1);
                                 break;
                             }
                         }
                     }
-                    if(isChecked && !flag){
+                    if (isChecked && !flag) {
                         //如果已经选中，但是不存在，添加
-                        $scope.tempCheckedUser.push({"VALUE":user[$scope.mappedKeyValue.valueField],"NAME":user[$scope.mappedKeyValue.nameField]});
+                        $scope.tempCheckedUser.push({
+                            "VALUE": user[$scope.mappedKeyValue.valueField],
+                            "NAME": user[$scope.mappedKeyValue.nameField]
+                        });
                     }
                 }
             };
 
-            $scope.cancelSelected = function(){
+            $scope.cancelSelected = function () {
                 $scope.initData();
             }
-            $scope.saveSelected = function(){
+            $scope.saveSelected = function () {
                 var cus = $scope.tempCheckedUser;
-                if($scope.isMultiSelect == "false"){
-                    if(cus.VALUE==null||cus.VALUE==""){
+                if ($scope.isMultiSelect == "false") {
+                    if (cus.VALUE == null || cus.VALUE == "") {
                         delete $scope.checkedUser[$scope.mappedKeyValue.nameField];
                         delete $scope.checkedUser[$scope.mappedKeyValue.valueField];
-                    }else{
+                    } else {
                         $scope.checkedUser[$scope.mappedKeyValue.nameField] = cus.NAME;
                         $scope.checkedUser[$scope.mappedKeyValue.valueField] = cus.VALUE;
                     }
-                }else if($scope.isMultiSelect == "true"){
+                } else if ($scope.isMultiSelect == "true") {
                     var cus = $scope.tempCheckedUser;
-                    $scope.checkedUser.splice(0,$scope.checkedUser.length)
-                    for(var i = 0; i < cus.length; i++){
+                    $scope.checkedUser.splice(0, $scope.checkedUser.length)
+                    for (var i = 0; i < cus.length; i++) {
                         var user = {};
                         user[$scope.mappedKeyValue.nameField] = cus[i].NAME;
                         user[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
                         $scope.checkedUser.push(user);
                     }
                 }
-                if($scope.callback != null){
+                if ($scope.callback != null) {
                     $scope.callback($scope.checkedUser);
                 }
             }
@@ -870,82 +882,83 @@ ctmApp.directive('directFzrSingleDialog', function() {
     };
 });
 // 带组织的人员单选框
-ctmApp.directive('directiveUserList', function() {
+ctmApp.directive('directiveUserList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directiveUserList.html',
         replace: true,
-        scope:{},
-        controller:function($scope,$http,$element){
+        scope: {},
+        controller: function ($scope, $http, $element) {
             //获取父作用域
             var carouselScope = $element.parent().scope();
             $scope.selected = [];
             $scope.selectedTags = [];
             $scope.selectedNameValue = [];
             $("#arrUserName").val("");
-            var updateSelected = function(action,id,name){
-                if(action == 'add' && $scope.selected.indexOf(id) == -1){
-                    var objs={name:name,value:id};    /*封装成Object对象*/
+            var updateSelected = function (action, id, name) {
+                if (action == 'add' && $scope.selected.indexOf(id) == -1) {
+                    var objs = {name: name, value: id};
+                    /*封装成Object对象*/
                     $scope.selected.push(id);
                     $scope.selectedTags.push(name);
                     $scope.selectedNameValue.push(objs);
                 }
-                if(action == 'remove' && $scope.selected.indexOf(id)!=-1){
-                    var objs={name:name,value:id};
+                if (action == 'remove' && $scope.selected.indexOf(id) != -1) {
+                    var objs = {name: name, value: id};
                     var idx = $scope.selected.indexOf(id);
-                    $scope.selected.splice(idx,1);
-                    $scope.selectedTags.splice(idx,1);
-                    $scope.selectedNameValue.splice(objs,1);
+                    $scope.selected.splice(idx, 1);
+                    $scope.selectedTags.splice(idx, 1);
+                    $scope.selectedNameValue.splice(objs, 1);
                 }
-                var  arrName=$scope.selectedTags;
-                var arrNameToString=arrName.join(",");                 //将数组 [] 转为 String
+                var arrName = $scope.selectedTags;
+                var arrNameToString = arrName.join(",");                 //将数组 [] 转为 String
                 $("#arrUserName").val(arrNameToString);
-                var arrIDD= $scope.selected;
-                arrIDD=arrIDD.join(",");
+                var arrIDD = $scope.selected;
+                arrIDD = arrIDD.join(",");
 
                 $("#selectedName").find(".select2-choices").html("<li class=\"select2-search-field\"><input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\"> </li>");
                 var selectedName = [];
-                var selectedId=[];
-                selectedName =arrNameToString.split(",");
+                var selectedId = [];
+                selectedName = arrNameToString.split(",");
                 selectedId = arrIDD.split(",");
-                var leftstr="<li class=\"select2-search-choice\"><div>";
-                var centerstr="</div><a class=\"select2-search-choice-close\" tabindex=\"-1\" onclick=\"delDom(this)\" href=\"javascript:delCommonname('";
-                var addID="');\"></a><input type=\"hidden\" id=\"\"  value=\"";
-                var rightstr="\"></li>";
-                for(var i=0;i<selectedName.length;i++){
-                    $("#selectedName").find(".select2-search-field").before(leftstr+selectedName[i]+centerstr+selectedId[i]+addID+selectedId[i]+rightstr);
+                var leftstr = "<li class=\"select2-search-choice\"><div>";
+                var centerstr = "</div><a class=\"select2-search-choice-close\" tabindex=\"-1\" onclick=\"delDom(this)\" href=\"javascript:delCommonname('";
+                var addID = "');\"></a><input type=\"hidden\" id=\"\"  value=\"";
+                var rightstr = "\"></li>";
+                for (var i = 0; i < selectedName.length; i++) {
+                    $("#selectedName").find(".select2-search-field").before(leftstr + selectedName[i] + centerstr + selectedId[i] + addID + selectedId[i] + rightstr);
                 }
             }
 
-            $scope.updateSelection = function($event, id){
+            $scope.updateSelection = function ($event, id) {
                 var checkbox = $event.target;
-                var action = (checkbox.checked?'add':'remove');
-                updateSelected(action,id,checkbox.name);
+                var action = (checkbox.checked ? 'add' : 'remove');
+                updateSelected(action, id, checkbox.name);
             }
 
-            $scope.isSelected = function(id){
-                return $scope.selected.indexOf(id)>=0;
+            $scope.isSelected = function (id) {
+                return $scope.selected.indexOf(id) >= 0;
             }
             $scope.paginationConf = {
                 currentPage: 1,
                 itemsPerPage: 10,
-                queryObj:{},
+                queryObj: {},
                 perPageOptions: [10]
             };
-            $scope.queryUserList = function(){
+            $scope.queryUserList = function () {
                 var cp = $scope.paginationConf.currentPage;
-                if(cp == 1){
+                if (cp == 1) {
                     $scope.queryUser();
-                }else{
+                } else {
                     $scope.paginationConf.currentPage = 1;
                 }
             }
-            $scope.queryUser=function(){
+            $scope.queryUser = function () {
                 $scope.paginationConf.queryObj = $scope.queryObj;
-                var  url = 'fnd/user/getAll';
-                $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
+                var url = 'fnd/user/getAll';
+                $scope.$parent.httpData(url, $scope.paginationConf).success(function (data) {
                     // 变更分页的总数
-                    if(data.result_code == "S") {
+                    if (data.result_code == "S") {
                         $scope.sysUserList = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
                     }
@@ -954,84 +967,84 @@ ctmApp.directive('directiveUserList', function() {
             $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage + queryObj.ORGID', $scope.queryUser);
             //获取组织结构角色
             var ztree, setting = {
-                callback:{
-                    onClick:function(event, treeId, treeNode){
-                        accessScope("#ORGID",function(scope){
+                callback: {
+                    onClick: function (event, treeId, treeNode) {
+                        accessScope("#ORGID", function (scope) {
                             scope.queryObj = {};
                             scope.queryObj.ORGID = treeNode.id;
                             scope.queryObj.categoryCode = treeNode.cat;
                         });
                     },
-                    beforeExpand:function(treeId, treeNode){
-                        if(typeof(treeNode.children)=='undefined'){
+                    beforeExpand: function (treeId, treeNode) {
+                        if (typeof(treeNode.children) == 'undefined') {
                             $scope.addTreeNode(treeNode);
                         }
                     }
                 }
             };
-            $scope.addTreeNode = function (parentNode){
+            $scope.addTreeNode = function (parentNode) {
                 var pid = '';
-                if(parentNode && parentNode.id) pid = parentNode.id;
-                $scope.$parent.httpData('fnd/Group/getOrg', {parentId:pid}).success(function(data){
+                if (parentNode && parentNode.id) pid = parentNode.id;
+                $scope.$parent.httpData('fnd/Group/getOrg', {parentId: pid}).success(function (data) {
                     if (!data || data.result_code != 'S') return null;
                     var nodeArray = data.result_data;
-                    if(nodeArray<1) return null;
-                    for(var i=0;i<nodeArray.length;i++){
+                    if (nodeArray < 1) return null;
+                    for (var i = 0; i < nodeArray.length; i++) {
                         curNode = nodeArray[i];
                         var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
-                        if(curNode.cat && curNode.cat=='Org'){
+                        if (curNode.cat && curNode.cat == 'Org') {
                             iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
                         }
                         curNode.icon = iconUrl;
                     }
-                    if(pid == ''){//当前加载的是根节点
+                    if (pid == '') {//当前加载的是根节点
                         ztree.addNodes(null, nodeArray);
                         var rootNode = ztree.getNodes()[0];
                         $scope.addTreeNode(rootNode);
                         rootNode.open = true;
                         ztree.refresh();
-                    }else{
+                    } else {
                         ztree.addNodes(parentNode, nodeArray, true);
                     }
                 });
             }
 
-            $scope.resetUserList=function(){
+            $scope.resetUserList = function () {
                 $scope.selected = [];
                 $scope.selectedTags = [];
                 $scope.selectedNameValue = [];
                 $("#arrUserName").val("");
-                var d=" <div class=\"select2-success\">";
-                d+="<div id=\"s2id_projectModel\" class=\"select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse\">";
-                d+="<ul class=\"select2-choices\"> <li class=\"select2-search-field\">";
-                d+="<input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\">";
-                d+=" </li></ul></div></div>";
+                var d = " <div class=\"select2-success\">";
+                d += "<div id=\"s2id_projectModel\" class=\"select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse\">";
+                d += "<ul class=\"select2-choices\"> <li class=\"select2-search-field\">";
+                d += "<input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\">";
+                d += " </li></ul></div></div>";
                 $("#selectedName").html(d);
                 $scope.queryObj = {};
                 $scope.queryObj.ORGID = null;
                 $scope.queryObj.categoryCode = null;
             }
-            $scope.saveUserListforDiretive=function(){
-                var  arrUserIDs=$scope.selected;
-                var arrUserNames= $scope.selectedTags;
-                var arrUserNamesValue= $scope.selectedNameValue;
-                carouselScope.setDirectiveUserList(arrUserIDs,arrUserNames,arrUserNamesValue);
+            $scope.saveUserListforDiretive = function () {
+                var arrUserIDs = $scope.selected;
+                var arrUserNames = $scope.selectedTags;
+                var arrUserNamesValue = $scope.selectedNameValue;
+                carouselScope.setDirectiveUserList(arrUserIDs, arrUserNames, arrUserNamesValue);
                 $scope.selected = [];
                 $scope.selectedTags = [];
                 $scope.selectedNameValue = [];
                 $("#arrUserName").val("");
-                var d=" <div class=\"select2-success\">";
-                d+="<div id=\"s2id_projectModel\" class=\"select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse\">";
-                d+="<ul class=\"select2-choices\"> <li class=\"select2-search-field\">";
-                d+="<input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\">";
-                d+=" </li></ul></div></div>";
+                var d = " <div class=\"select2-success\">";
+                d += "<div id=\"s2id_projectModel\" class=\"select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse\">";
+                d += "<ul class=\"select2-choices\"> <li class=\"select2-search-field\">";
+                d += "<input id=\"s2id_autogen2\" class=\"select2-input\" type=\"text\" spellcheck=\"false\" autocapitalize=\"off\" autocorrect=\"off\" autocomplete=\"off\" style=\"width: 16px;\">";
+                d += " </li></ul></div></div>";
                 $("#selectedName").html(d);
                 $scope.queryObj = {};
                 $scope.queryObj.ORGID = null;
                 $scope.queryObj.categoryCode = null;
             }
 
-            angular.element(document).ready(function() {
+            angular.element(document).ready(function () {
                 ztree = $.fn.zTree.init($("#treeID5"), setting);
                 $scope.addTreeNode('');
 
@@ -1046,61 +1059,61 @@ ctmApp.directive('directiveUserList', function() {
         }
     };
 });
-function  delCommonname(id){
-    accessScope("#ORGID", function(scope){
-        if(scope.selected.indexOf(id)!=-1){
+function delCommonname(id) {
+    accessScope("#ORGID", function (scope) {
+        if (scope.selected.indexOf(id) != -1) {
             var idx = scope.selected.indexOf(id);
-            scope.selected.splice(idx,1);
-            scope.selectedTags.splice(idx,1);
-            scope.selectedNameValue.splice(idx,1);
+            scope.selected.splice(idx, 1);
+            scope.selectedTags.splice(idx, 1);
+            scope.selectedNameValue.splice(idx, 1);
         }
     });
 }
-function delDom(dom){
+function delDom(dom) {
     $(dom).parent("li").remove();
 }
-ctmApp.directive('directiveUserRadioList', function() {
+ctmApp.directive('directiveUserRadioList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveUserRadioList.html',
         replace: true,
-        scope:{},
-        controller:function($scope,$http,$element){
+        scope: {},
+        controller: function ($scope, $http, $element) {
             //获取父作用域
             var carouselUserScope = $element.parent().scope();
-            $scope.selectUserCode =null;
+            $scope.selectUserCode = null;
             $scope.selectUserName = null;
-            $scope.setSelection = function(code,name){
-                $scope.selectUserCode=code;
-                $scope.selectUserName=name;
+            $scope.setSelection = function (code, name) {
+                $scope.selectUserCode = code;
+                $scope.selectUserName = name;
             }
             $scope.paginationConfes = {
                 currentPage: 1,
-                queryObj:{},
+                queryObj: {},
                 itemsPerPage: 10,
                 perPageOptions: [10]
             };
-            $scope.queryuserradioList = function(){
+            $scope.queryuserradioList = function () {
                 var cp = $scope.paginationConfes.currentPage;
-                if(cp == 1){
+                if (cp == 1) {
                     $scope.queryuserradio();
-                }else{
+                } else {
                     $scope.paginationConfes.currentPage = 1;
                 }
             }
-            $scope.queryuserradio=function(){
+            $scope.queryuserradio = function () {
                 $scope.paginationConfes.queryObj = $scope.queryObj;
 
                 $http({
-                    method:'post',
+                    method: 'post',
                     url: srvUrl + "user/getDirectiveUserAll.do",
-                    data:$.param({"page":JSON.stringify($scope.paginationConfes)})
-                }).success(function(data){
+                    data: $.param({"page": JSON.stringify($scope.paginationConfes)})
+                }).success(function (data) {
                     // 变更分页的总数
-                    if(data.success) {
+                    if (data.success) {
                         $scope.sysUserradio = data.result_data.list;
                         $scope.paginationConfes.totalItems = data.result_data.totalItems;
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
@@ -1109,50 +1122,50 @@ ctmApp.directive('directiveUserRadioList', function() {
             $scope.$watch('paginationConfes.currentPage + paginationConfes.itemsPerPage + queryObj.ORGIDRADIO', $scope.queryuserradio);
             //获取组织结构角色
             var ztree3, setting3 = {
-                callback:{
-                    onClick:function(event, treeId, treeNode){
-                        accessScope("#ORGIDRADIO",function(scope){
+                callback: {
+                    onClick: function (event, treeId, treeNode) {
+                        accessScope("#ORGIDRADIO", function (scope) {
                             scope.queryObj = {};
                             scope.queryObj.ORGIDRADIO = treeNode.id;
                             scope.queryObj.categoryCode = treeNode.cat;
                         });
                     },
-                    beforeExpand:function(treeId, treeNode){
-                        if(typeof(treeNode.children)=='undefined'){
+                    beforeExpand: function (treeId, treeNode) {
+                        if (typeof(treeNode.children) == 'undefined') {
                             $scope.addTreeNode3(treeNode);
                         }
                     }
                 }
             };
-            $scope.addTreeNode3 = function (parentNode){
+            $scope.addTreeNode3 = function (parentNode) {
                 var pid = '';
-                if(parentNode && parentNode.id) pid = parentNode.id;
-                $scope.$parent.httpData('fnd/Group/getOrg', {parentId:pid}).success(function(data){
+                if (parentNode && parentNode.id) pid = parentNode.id;
+                $scope.$parent.httpData('fnd/Group/getOrg', {parentId: pid}).success(function (data) {
                     if (!data || data.result_code != 'S') return null;
                     var nodeArray = data.result_data;
-                    if(nodeArray<1) return null;
-                    for(var i=0;i<nodeArray.length;i++){
+                    if (nodeArray < 1) return null;
+                    for (var i = 0; i < nodeArray.length; i++) {
                         curNode = nodeArray[i];
                         var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
-                        if(curNode.cat && curNode.cat=='Org'){
+                        if (curNode.cat && curNode.cat == 'Org') {
                             iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
                         }
                         curNode.icon = iconUrl;
                     }
-                    if(pid == ''){//当前加载的是根节点
+                    if (pid == '') {//当前加载的是根节点
                         ztree3.addNodes(null, nodeArray);
                         var rootNode = ztree3.getNodes()[0];
                         $scope.addTreeNode3(rootNode);
                         rootNode.open = true;
                         ztree3.refresh();
-                    }else{
+                    } else {
                         ztree3.addNodes(parentNode, nodeArray, true);
                     }
                 });
             }
 
-            $scope.resetRadioUserList=function(){
-                $scope.selectUserCode =null;
+            $scope.resetRadioUserList = function () {
+                $scope.selectUserCode = null;
                 $scope.selectUserName = null
                 $("input[name='RaidoNAME']").removeAttr("checked");
 
@@ -1161,19 +1174,19 @@ ctmApp.directive('directiveUserRadioList', function() {
                 $scope.queryObj.categoryCode = null;
 
             }
-            $scope.saveUserRadioListforDiretive=function(){
-                carouselUserScope.setDirectiveRadioUserList($scope.selectUserCode,$scope.selectUserName);
-                $scope.selectUserCode =null;
+            $scope.saveUserRadioListforDiretive = function () {
+                carouselUserScope.setDirectiveRadioUserList($scope.selectUserCode, $scope.selectUserName);
+                $scope.selectUserCode = null;
                 $scope.selectUserName = null;
                 $("input[name='RaidoNAME']").removeAttr("checked");
                 $scope.queryObj = {};
                 $scope.queryObj.ORGIDRADIO = null;
                 $scope.queryObj.categoryCode = null;
             }
-            angular.element(document).ready(function() {
+            angular.element(document).ready(function () {
                 ztree3 = $.fn.zTree.init($("#treeIDuser5"), setting3);
                 $scope.addTreeNode3('');
-                $scope.selectUserCode =null;
+                $scope.selectUserCode = null;
                 $scope.selectUserName = null;
                 $scope.queryObj = {};
                 $scope.queryObj.ORGIDRADIO = null;
@@ -1183,42 +1196,42 @@ ctmApp.directive('directiveUserRadioList', function() {
     };
 });
 // 项目列表弹出框
-ctmApp.directive('directiveCompanyList', function() {
+ctmApp.directive('directiveCompanyList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveCompanyList.html',
         replace: true,
-        scope:{},
-        controller:function($scope,$http,$element){
+        scope: {},
+        controller: function ($scope, $http, $element) {
             //获取父作用域
             var carouselScope = $element.parent().scope();
-            $scope.selectProjejct =null;
-            $scope.getSelection = function(selectProjejct){
+            $scope.selectProjejct = null;
+            $scope.getSelection = function (selectProjejct) {
                 $scope.selectProjejct = angular.copy(selectProjejct);
             }
             $scope.paginationConf = {
                 currentPage: 1,
                 itemsPerPage: 10,
-                queryObj:{},
+                queryObj: {},
                 perPageOptions: [10]
             };
-            $scope.queryCompanyList = function(){
+            $scope.queryCompanyList = function () {
                 var cp = $scope.paginationConf.currentPage;
-                if(cp == 1){
+                if (cp == 1) {
                     $scope.queryCompany();
-                }else{
+                } else {
                     $scope.paginationConf.currentPage = 1;
                 }
             }
-            $scope.queryCompany=function(){
-                if (!isEmpty($scope.queryObj)){
+            $scope.queryCompany = function () {
+                if (!isEmpty($scope.queryObj)) {
                     $scope.paginationConf.queryObj = $scope.queryObj;
                 }
                 $scope.paginationConf.queryObj.USERID = $scope.$parent.credentials.UUID;
-                var  url = 'common/commonMethod/getDirectiveCompanyList';
-                $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
+                var url = 'common/commonMethod/getDirectiveCompanyList';
+                $scope.$parent.httpData(url, $scope.paginationConf).success(function (data) {
                     // 变更分页的总数
-                    if(data.result_code == "S") {
+                    if (data.result_code == "S") {
                         $scope.sysCompany = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
                     }
@@ -1226,16 +1239,16 @@ ctmApp.directive('directiveCompanyList', function() {
             };
 
             $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryCompany);
-            $scope.resetCompanyList=function(){
-                $scope.selectProjejct =null;
+            $scope.resetCompanyList = function () {
+                $scope.selectProjejct = null;
             }
-            $scope.saveCompanyListforDiretive=function(){
+            $scope.saveCompanyListforDiretive = function () {
                 var ORGCODE = $scope.selectProjejct.ORGCODE;
-                var  url = 'common/commonMethod/gePertainArea';
-                $scope.$parent.httpData(url, ORGCODE).success(function(data){
+                var url = 'common/commonMethod/gePertainArea';
+                $scope.$parent.httpData(url, ORGCODE).success(function (data) {
                     // 变更分页的总数
-                    if(data.result_code == "S") {
-                        if(!isEmpty(data.result_data)){
+                    if (data.result_code == "S") {
+                        if (!isEmpty(data.result_data)) {
                             var org = data.result_data[0];
                             $scope.selectProjejct.ORGCODE = org.ORGPKVALUE;
                             $scope.selectProjejct.ORGNAME = org.NAME;
@@ -1244,54 +1257,54 @@ ctmApp.directive('directiveCompanyList', function() {
                         }
                     }
                     carouselScope.setDirectiveCompanyList($scope.selectProjejct);
-                    $scope.selectProjejct =null;
+                    $scope.selectProjejct = null;
                 });
             }
-            angular.element(document).ready(function() {
-                $scope.selectProjejct =null;
+            angular.element(document).ready(function () {
+                $scope.selectProjejct = null;
             });
         }
     };
 });
 
 // 项目列表弹出框
-ctmApp.directive('directiveEnvirProjectList', function() {
+ctmApp.directive('directiveEnvirProjectList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveCompanyList.html',
         replace: true,
-        scope:{},
-        controller:function($scope,$http,$element){
+        scope: {},
+        controller: function ($scope, $http, $element) {
             //获取父作用域
             var carouselScope = $element.parent().scope();
-            $scope.selectProjejct =null;
-            $scope.getSelection = function(selectProjejct){
+            $scope.selectProjejct = null;
+            $scope.getSelection = function (selectProjejct) {
                 $scope.selectProjejct = angular.copy(selectProjejct);
             }
             $scope.paginationConf = {
                 currentPage: 1,
                 itemsPerPage: 10,
-                queryObj:{},
+                queryObj: {},
                 perPageOptions: [10]
             };
-            $scope.queryCompanyList = function(){
+            $scope.queryCompanyList = function () {
                 var cp = $scope.paginationConf.currentPage;
-                if(cp == 1){
+                if (cp == 1) {
                     $scope.queryCompany();
-                }else{
+                } else {
                     $scope.paginationConf.currentPage = 1;
                 }
             }
-            $scope.queryCompany=function(){
-                if (!isEmpty($scope.queryObj)){
+            $scope.queryCompany = function () {
+                if (!isEmpty($scope.queryObj)) {
                     $scope.paginationConf.queryObj = $scope.queryObj;
                 }
                 $scope.paginationConf.queryObj.USERID = $scope.$parent.credentials.UUID;
                 $scope.paginationConf.queryObj.serviceTypeId = "'1404', '1406'";
-                var  url = 'common/commonMethod/getDirectiveCompanyList';
-                $scope.$parent.httpData(url,$scope.paginationConf).success(function(data){
+                var url = 'common/commonMethod/getDirectiveCompanyList';
+                $scope.$parent.httpData(url, $scope.paginationConf).success(function (data) {
                     // 变更分页的总数
-                    if(data.result_code == "S") {
+                    if (data.result_code == "S") {
                         $scope.sysCompany = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
                     }
@@ -1299,16 +1312,16 @@ ctmApp.directive('directiveEnvirProjectList', function() {
             };
 
             $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', $scope.queryCompany);
-            $scope.resetCompanyList=function(){
-                $scope.selectProjejct =null;
+            $scope.resetCompanyList = function () {
+                $scope.selectProjejct = null;
             }
-            $scope.saveCompanyListforDiretive=function(){
+            $scope.saveCompanyListforDiretive = function () {
                 var ORGCODE = $scope.selectProjejct.ORGCODE;
-                var  url = 'common/commonMethod/gePertainArea';
-                $scope.$parent.httpData(url, ORGCODE).success(function(data){
+                var url = 'common/commonMethod/gePertainArea';
+                $scope.$parent.httpData(url, ORGCODE).success(function (data) {
                     // 变更分页的总数
-                    if(data.result_code == "S") {
-                        if(!isEmpty(data.result_data)){
+                    if (data.result_code == "S") {
+                        if (!isEmpty(data.result_data)) {
                             var org = data.result_data[0];
                             $scope.selectProjejct.ORGCODE = org.ORGPKVALUE;
                             $scope.selectProjejct.ORGNAME = org.NAME;
@@ -1317,48 +1330,48 @@ ctmApp.directive('directiveEnvirProjectList', function() {
                         }
                     }
                     carouselScope.setDirectiveCompanyList($scope.selectProjejct);
-                    $scope.selectProjejct =null;
+                    $scope.selectProjejct = null;
                 });
             }
-            angular.element(document).ready(function() {
-                $scope.selectProjejct =null;
+            angular.element(document).ready(function () {
+                $scope.selectProjejct = null;
             });
         }
     };
 });
 
 // 会议纪要新增弹出框
-ctmApp.directive('mettingSummaryBpmnPopWin', function(){
+ctmApp.directive('mettingSummaryBpmnPopWin', function () {
     return {
-        restrict:'AE',
-        templateUrl:'page/sys/directive/mettingSummaryBpmnPopWin.html',
-        replace:'true',
-        scope:{businessId:'='},
-        controller:function($scope,$location,$http){
+        restrict: 'AE',
+        templateUrl: 'page/sys/directive/mettingSummaryBpmnPopWin.html',
+        replace: 'true',
+        scope: {businessId: '='},
+        controller: function ($scope, $location, $http) {
             $scope.mettingSummary = "";
-            $scope.submit = function(){
-                if($scope.mettingSummary==null || $scope.mettingSummary==""){
+            $scope.submit = function () {
+                if ($scope.mettingSummary == null || $scope.mettingSummary == "") {
                     $.alert("会议纪要不得为空！");
                     return false;
                 }
                 //show_Mask();
                 //保存附件到mongo
                 $http({
-                    method:'post',
+                    method: 'post',
                     url: srvUrl + "bulletinInfo/saveMettingSummary.do",
                     data: $.param({
                         "businessId": $scope.businessId,
                         "mettingSummaryInfo": $scope.mettingSummary
                     })
-                }).success(function(result){
+                }).success(function (result) {
                     $('#submitModal').modal('hide');
                     $.alert(result.result_name);
                     $scope.$parent.initDefaultData();
                     $scope.mettingSummary = "";
                 });
             };
-            $scope.cancel = function(){
-                $scope.mettingSummary="";
+            $scope.cancel = function () {
+                $scope.mettingSummary = "";
             }
         }
     }
@@ -1373,20 +1386,33 @@ ctmApp.directive('commonAttachments', function () {
         scope: {
             id: "@",// 组件ID,确保唯一性
             docType: "@",// 业务类型
-            docCode: "=",// 业务单据编号或者UUID
+            docCode: "@",// 业务单据编号或者UUID
             pageLocation: "@",// 组件在页面的位置,保证唯一性,可以与组件ID保持及一致
-            showUpload:"@",// 是否展示浏览按钮
-            showReview:"@",// 是否展示预览按钮
-            showDownload:"@",// 是否展示下载按钮
-            showDelete:"@"// 是否展示删除按钮
+            showUpload: "@",// 是否展示浏览按钮,默认true
+            showReview: "@",// 是否展示预览按钮，默认false
+            showDownload: "@",// 是否展示下载按钮，默认false
+            showDelete: "@",// 是否展示删除按钮，默认false
+            editAuth: "@",// 是否可编辑，默认true
+            showCheck:"@"// 是否展示复选框，默认true
         },
         link: function (scope, element, attr) {
         },
-        controller: function ($scope, Upload) {
+        controller: function ($scope, Upload, $window) {
+            $scope.showUpload = isEmpty($scope.showUpload) ? 'true' : $scope.showUpload;
+            $scope.showReview = isEmpty($scope.showReview) ? 'false' : $scope.showReview;
+            $scope.showDownload = isEmpty($scope.showDownload) ? 'false' : $scope.showDownload;
+            $scope.showDelete = isEmpty($scope.showDelete) ? 'false' : $scope.showDelete;
+            $scope.editAuth = isEmpty($scope.editAuth) ? 'true' : $scope.editAuth;
+            $scope.showCheck = isEmpty($scope.showCheck) ? 'true' : $scope.showCheck;
             // 初始化
             $scope._init = function () {
-                console.log($scope.docCode);
-                $scope._files = attach_list($scope.docType, $scope.docCode, $scope.pageLocation).result_data;
+                console.log("commonAttachments:" + $scope.docType + "," + $scope.docCode + "," + $scope.pageLocation);
+                $scope._files = attach_list($scope.docType, $scope.docCode, $scope.pageLocation)['result_data'];
+                if (!isEmpty($scope._files) && $scope._files.length > 0) {
+                    $scope._files.sort(function (f1, f2) {
+                        return f1.fileid - f2.fileid;// 根据原始上传顺序进行排序
+                    });
+                }
             };
             $scope._init();
             // 新增
@@ -1403,7 +1429,7 @@ ctmApp.directive('commonAttachments', function () {
                     _array[size] = blankRow;
                 }
 
-                if (undefined == $scope._files) {
+                if (isEmpty($scope._files)) {
                     $scope._files = [];
                 }
                 _addBlankRow($scope._files);
@@ -1423,11 +1449,14 @@ ctmApp.directive('commonAttachments', function () {
                         }
                     }
                     $scope._init();
+                    $scope.$emit('_files');
                 }
             };
 
             // 上传
             $scope._uploadThat = function (_file, _idx) {
+                var progressId = $scope.id + _idx;
+                $('#a' + progressId).text(_file.name);
                 Upload.upload({
                     url: srvUrl + 'cloud/upload.do',
                     data: {
@@ -1437,44 +1466,72 @@ ctmApp.directive('commonAttachments', function () {
                         'pageLocation': $scope.pageLocation
                     }
                 }).then(function (resp) {
-                    var retData = resp.data.result_data[0];
-                    $scope._files[_idx] = retData;
+                    console.log(resp);
+                    $scope._init();
+                    $scope.$emit('_files');
+                    $('#' + progressId).text('');
                 }, function (resp) {
                     $.alert(resp.status);
                 }, function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope["_progress_" + _idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
+                    var progressPercentage = parseInt(100.0 * (evt.loaded / evt.total));
+                    var progressText = progressPercentage + "%";
+                    $('#' + progressId).text(progressText);
                 });
-                $scope._init();
             };
 
             // 预览
-            $scope._review = function (uri) {
-                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            $scope._review = function (fullPath) {
+                $.ajax({
+                    url: srvUrl + 'cloud/getUrl.do',
+                    type: "POST",
+                    dataType: "json",
+                    data: {"type": 'preview', 'path': fullPath},
+                    async: true,
+                    success: function (data) {
+                        if (!isEmpty(data)) {
+                            $window.open(data);
+                        }
+                    }
+                });
             };
 
             // 下载
-            $scope._download = function (uri) {
-                window.open(uri, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
+            $scope._download = function (fullPath) {
+                $.ajax({
+                    url: srvUrl + 'cloud/getUrl.do',
+                    type: "POST",
+                    dataType: "json",
+                    data: {"type": 'download', 'path': fullPath},
+                    async: true,
+                    success: function (data) {
+                        if (!isEmpty(data)) {
+                            $window.open(data);
+                        }
+                    }
+                });
             };
 
-            $scope._delete = function(file_id){
+            // 删除
+            $scope._delete = function (file_id) {
+                _showLoading("删除中请稍等...");
                 attach_delete(file_id);
                 $scope._init();
+                $scope.$emit('_files');
+                _hideLoading();
             }
         }
     };
 });
 
 // BBS 谈话框
-ctmApp.directive('bbsChat', function() {
+ctmApp.directive('bbsChat', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveBbsPage.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
 
             $scope.conf = [];
 
@@ -1715,102 +1772,102 @@ ctmApp.directive('bbsChat', function() {
         }
     };
 });
-ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
+ctmApp.directive('bbsChatNew', ['DirPipeSrv', function (DirPipeSrv) {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveBbsPageNew.html',
         replace: true,
-        scope:{
+        scope: {
             id: "@",// 组件ID
-            viaUserQueryUrl:"@",// 查询访问的url
-            messageType:"@",// 消息类型
-            businessId:"@",// 业务ID
-            initMessagesArray:"=",// 初始化
-            initUuid:"=",// 当前登录用户
-            isPagination:'@',//是否开启分页，默认为false
-            isAlertUser:'@',//是否弹出用户信息，默认为false
-            isShowShare:'@',//是否显示分享，默认为false
-            isShowDt:'@',// 显示分享到钉钉，默认为false
-            isShowWx:'@',// 显示分享到微信，默认为false
-            isShowEmail:'@',//显示分享到邮箱，默认为false
-            isShowSms:'@',// 显示分享到短信，默认为false
-            isShowPublishBtn:'@',// 是否显示发表留言按钮，默认为true
-            isShowReplyBtn:'@',// 是否显示回复按钮，默认为true
-            isShowPriority:'@',// 是否展示优先级设置，默认false
-            priorityType:'@',// 优先级展示方式：select或者radio方式，默认为radio
-            priorityDescription:'@',// 优先级别文字描述,如：特急,一般,紧急
-            screenType:'@',//分屏类型
-            pageTitle:'@',// 留言页面描述,多tab情况下用来进行tab区分
-            isValidateAttachType:'@',// 是否进行附件类型的校验， 默认为true
-            isShowAttachType:'@',// 是否展示附件类型选项，默认为true
-            attachFileIsPopup:'@',// 附件上传是否选择弹窗方式，默认true
-            relationSourcesPopup:'@',// 业务附件弹窗ID
+            viaUserQueryUrl: "@",// 查询访问的url
+            messageType: "@",// 消息类型
+            businessId: "@",// 业务ID
+            initMessagesArray: "=",// 初始化
+            initUuid: "=",// 当前登录用户
+            isPagination: '@',//是否开启分页，默认为false
+            isAlertUser: '@',//是否弹出用户信息，默认为false
+            isShowShare: '@',//是否显示分享，默认为false
+            isShowDt: '@',// 显示分享到钉钉，默认为false
+            isShowWx: '@',// 显示分享到微信，默认为false
+            isShowEmail: '@',//显示分享到邮箱，默认为false
+            isShowSms: '@',// 显示分享到短信，默认为false
+            isShowPublishBtn: '@',// 是否显示发表留言按钮，默认为true
+            isShowReplyBtn: '@',// 是否显示回复按钮，默认为true
+            isShowPriority: '@',// 是否展示优先级设置，默认false
+            priorityType: '@',// 优先级展示方式：select或者radio方式，默认为radio
+            priorityDescription: '@',// 优先级别文字描述,如：特急,一般,紧急
+            screenType: '@',//分屏类型
+            pageTitle: '@',// 留言页面描述,多tab情况下用来进行tab区分
+            isValidateAttachType: '@',// 是否进行附件类型的校验， 默认为true
+            isShowAttachType: '@',// 是否展示附件类型选项，默认为true
+            attachFileIsPopup: '@',// 附件上传是否选择弹窗方式，默认true
+            relationSourcesPopup: '@',// 业务附件弹窗ID
         },
-        link:function(scope, element, attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope, $http, Upload, $window,$compile){
+        controller: function ($scope, $http, Upload, $window, $compile) {
             // 初始化页面标题
-            if(isEmpty($scope.pageTitle)){
+            if (isEmpty($scope.pageTitle)) {
                 $scope._page_title_ = '';
-            }else{
+            } else {
                 $scope._page_title_ = $scope.pageTitle;
             }
             // 附件上传是否选择弹窗方式
-            if(isEmpty($scope.attachFileIsPopup)){
+            if (isEmpty($scope.attachFileIsPopup)) {
                 $scope._attach_file_is_popup_ = true;
-            }else{
+            } else {
                 $scope._attach_file_is_popup_ = $scope.attachFileIsPopup == 'true';
             }
             // 是否显示附加类型下拉框
-            if(isEmpty($scope.isShowAttachType)){
+            if (isEmpty($scope.isShowAttachType)) {
                 $scope._is_show_attach_type_ = true;
-            }else{
+            } else {
                 $scope._is_show_attach_type_ = $scope.isShowAttachType == 'true';
             }
             // 是否进行附件类型检测
-            if(isEmpty($scope.isValidateAttachType)){
+            if (isEmpty($scope.isValidateAttachType)) {
                 $scope._is_validate_attach_type_ = true;
-            }else{
+            } else {
                 $scope._is_validate_attach_type_ = $scope.isValidateAttachType == 'true';
             }
             // 再次判断
-            if(!$scope._is_show_attach_type_){
+            if (!$scope._is_show_attach_type_) {
                 $scope._is_validate_attach_type_ = false;
             }
             // 定义附件类型
             $scope._attach_types_ = [];
             // 定义查询参数
             $scope._query_params_ = {};
-            if(!isEmpty($scope.screenType)){
+            if (!isEmpty($scope.screenType)) {
                 $scope._query_params_.messageScreenType = $scope.screenType;
-            }else{
+            } else {
                 $scope.screenType = '';
             }
             $scope._screen_type_ = $scope.screenType;
             // 任何关于查询的参数，将在此处进行添加延申...
-            if(isEmpty($scope.isShowPriority)){
+            if (isEmpty($scope.isShowPriority)) {
                 $scope._is_show_priority_ = false;
-            }else{
+            } else {
                 $scope._is_show_priority_ = $scope.isShowPriority == 'true';
             }
-            if(isEmpty($scope.priorityType)){
+            if (isEmpty($scope.priorityType)) {
                 $scope._priority_type_ = 'radio';
-            }else{
-                if($scope.priorityType == 'select'){
+            } else {
+                if ($scope.priorityType == 'select') {
                     $scope._priority_type_ = 'select';
-                }else{
+                } else {
                     $scope._priority_type_ = 'radio';
                 }
             }
             // 初始化留言优先级
             var _priorities_desc_ = [];
-            if(isEmpty($scope.priorityDescription)){
-                _priorities_desc_ = ['一般','紧急','特急'];
-            }else{
+            if (isEmpty($scope.priorityDescription)) {
+                _priorities_desc_ = ['一般', '紧急', '特急'];
+            } else {
                 _priorities_desc_ = $scope.priorityDescription.split(",");
             }
             $scope._message_priorities_ = [];
-            for(var _ix = 0; _ix < _priorities_desc_.length; _ix ++){
+            for (var _ix = 0; _ix < _priorities_desc_.length; _ix++) {
                 var _js = {};
                 _js.key = _ix;
                 _js.value = _priorities_desc_[_ix];
@@ -1818,53 +1875,53 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             }
             $scope._message_type_ = $scope.messageType;
             $scope._message_business_id_ = $scope.businessId;
-            if(isEmpty($scope.viaUserQueryUrl)){
+            if (isEmpty($scope.viaUserQueryUrl)) {
                 $scope._via_user_query_url_ = 'message/queryViaUsers.do?message_business_id=' + $scope.businessId + '&message_type=' + $scope.messageType;
             }
             // 初始化是否分页、是否弹出用户设置、是否显示分享按钮等
-            if(isEmpty($scope.isPagination)){
+            if (isEmpty($scope.isPagination)) {
                 $scope._is_pagination_ = false;
-            }else{
+            } else {
                 $scope._is_pagination_ = false;//$scope.isPagination == 'true';
             }
-            if(isEmpty($scope.isAlertUser)){
+            if (isEmpty($scope.isAlertUser)) {
                 $scope._is_alert_user_ = false;
-            }else{
+            } else {
                 $scope._is_alert_user_ = $scope.isAlertUser == 'true';
             }
-            if(isEmpty($scope.isShowPublishBtn)){
+            if (isEmpty($scope.isShowPublishBtn)) {
                 $scope._is_show_publish_btn_ = true;
-            }else{
+            } else {
                 $scope._is_show_publish_btn_ = $scope.isShowPublishBtn == 'true';
             }
-            if(isEmpty($scope.isShowReplyBtn)){
+            if (isEmpty($scope.isShowReplyBtn)) {
                 $scope._is_show_reply_btn_ = true;
-            }else{
+            } else {
                 $scope._is_show_reply_btn_ = $scope.isShowReplyBtn == 'true';
             }
-            if(isEmpty($scope.isShowShare)){
+            if (isEmpty($scope.isShowShare)) {
                 $scope._is_show_share_ = false;
-            }else{
+            } else {
                 $scope._is_show_share_ = $scope.isShowShare == 'true';
             }
-            if(isEmpty($scope.isShowDt)){
+            if (isEmpty($scope.isShowDt)) {
                 $scope._is_show_dt_ = false;
-            }else{
+            } else {
                 $scope._is_show_dt_ = $scope.isShowDt == 'true';
             }
-            if(isEmpty($scope.isShowWx)){
+            if (isEmpty($scope.isShowWx)) {
                 $scope._is_show_wx_ = false;
-            }else{
+            } else {
                 $scope._is_show_wx_ = $scope.isShowWx == 'true';
             }
-            if(isEmpty($scope.isShowSms)){
+            if (isEmpty($scope.isShowSms)) {
                 $scope._is_show_sms_ = false;
-            }else{
+            } else {
                 $scope._is_show_sms_ = $scope.isShowSms == 'true';
             }
-            if(isEmpty($scope.isShowEmail)){
+            if (isEmpty($scope.isShowEmail)) {
                 $scope._is_show_email_ = false;
-            }else{
+            } else {
                 $scope._is_show_email_ = $scope.isShowEmail == 'true';
             }
             // 初始化留言表单内容
@@ -1885,7 +1942,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             $scope._message_first.repliedBy = '';
             $scope._message_first.repliedName = '';
             // 查询附件类型
-            $scope._query_attach_types_ = function(){
+            $scope._query_attach_types_ = function () {
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/getAttachmentType.do',
@@ -1896,9 +1953,9 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
                     $scope._attach_types_ = data;
-                    if(!isEmpty(data)){
-                        for(var _ak = 0; _ak < $scope._attach_types_.length; _ak ++){
-                            if($scope._attach_types_[_ak].ITEM_CODE == '-1'){
+                    if (!isEmpty(data)) {
+                        for (var _ak = 0; _ak < $scope._attach_types_.length; _ak++) {
+                            if ($scope._attach_types_[_ak].ITEM_CODE == '-1') {
                                 $scope._attach_types_[_ak].ITEM_NAME = '---请选择---';
                                 break;
                             }
@@ -1915,10 +1972,12 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     data: $.param({
                         'procInstId': $scope.businessId,
                         'parentId': _parent_id_,
-                        'queryParams':JSON.stringify($scope._query_params_)
+                        'queryParams': JSON.stringify($scope._query_params_)
                     }),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded',
-                        async:false}
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        async: false
+                    }
                 }).success(function (data) {
                     $scope._messages_array_ = data;
                     // $scope._init_collapse($scope._messages_array_);
@@ -1926,7 +1985,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 });
             };
             // 清空留言表单
-            $scope._clear_message_from = function(){
+            $scope._clear_message_from = function () {
                 $scope._message.originalId = '';
                 $scope._message.parentId = '';
                 $scope._message.repliedBy = '';
@@ -1934,6 +1993,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._message.messageContent = '';
                 $scope._message.messageTitle = '';
                 $scope._message.messageFileType = -1;
+                $scope._message.messageFile = '';
                 $scope._message_first.originalId = '';
                 $scope._message_first.parentId = '';
                 $scope._message_first.repliedBy = '';
@@ -1941,15 +2001,16 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._message_first.messageContent = '';
                 $scope._message_first.messageTitle = '';
                 $scope._message_first.messagePriority = 0;
+                $scope._message_first.messageFile = '';
                 $scope._clear_via_users_();
                 $scope._clear_share_users_();
             };
             // 创建留言信息
-            $scope._createFormData = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
+            $scope._createFormData = function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 var formData = null;
-                if(_is_first_ == 'Y'){// 如果是主题留言提交
+                if (_is_first_ == 'Y') {// 如果是主题留言提交
                     formData = $scope._message_first;
-                    if(!isEmptyJson($scope._form_first_)){// 如果上传了附件信息，则进行保存
+                    if (!isEmptyJson($scope._form_first_)) {// 如果上传了附件信息，则进行保存
                         formData.messageFile = $scope._form_first_.fileid;
                     }
                     formData.originalId = 0;
@@ -1959,9 +2020,9 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     formData.messageContent = $('#_message_first_0' + $scope._screen_type_).html();
                     formData.messageTitle = $('#_message_first_title_0' + $scope._screen_type_).html();
                     formData.viaUsers = notify_mergeTempCheckedUsers($scope._via_users_TempCheckedUsers);
-                }else{// 如果是主题留言回复
+                } else {// 如果是主题留言回复
                     formData = $scope._message;
-                    if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){// 如果上传了附件信息，则进行保存
+                    if (!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())) {// 如果上传了附件信息，则进行保存
                         formData.messageFile = $('#_form_file_ipt' + _idx_ + $scope._screen_type_).val();
                     }
                     formData.originalId = _original_id_;
@@ -1977,56 +2038,57 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 return formData;
             };
             // 校验留言
-            $scope._checkFormData = function(formData, _is_first_, _isMessageUse){
+            $scope._checkFormData = function (formData, _is_first_, _isMessageUse) {
                 // 去html标签
                 var title = htmlToText(formData.messageTitle);
                 var content = htmlToText(formData.messageContent);
                 if (isEmpty(title)) {
-                    if(_is_first_ == 'Y'){
-                        if(_isMessageUse == 'Y'){
+                    if (_is_first_ == 'Y') {
+                        if (_isMessageUse == 'Y') {
                             $.alert('留言主题不能为空!');
-                        }else{
+                        } else {
                             $.alert('选择附件前请先输入留言主题！');
                         }
                         return false;
                     }
                 }
                 if (isEmpty(content)) {
-                    if(_is_first_ == 'Y'){
-                        if(_isMessageUse == 'Y'){
+                    if (_is_first_ == 'Y') {
+                        if (_isMessageUse == 'Y') {
                             $.alert('留言内容不能为空!');
-                        }else{
+                        } else {
                             $.alert('选择附件前请先输入留言内容！');
                         }
 
-                    }else{
-                        if(_isMessageUse == 'Y'){
+                    } else {
+                        if (_isMessageUse == 'Y') {
                             $.alert('回复内容不能为空!');
-                        }else{
+                        } else {
                             $.alert('选择附件前请先输入回复内容！');
                         }
                     }
                     return false;
                 }
-                if(_is_first_ == 'Y'){
-                    if(_common_get_string_byte_length(title) > 128){
+                if (_is_first_ == 'Y') {
+                    if (_common_get_string_byte_length(title) > 128) {
                         $.alert('标题不能超过128个字符!');
                         return false;
                     }
                 }
-                if(_common_get_string_byte_length(content) > 2500){
+                if (_common_get_string_byte_length(content) > 2500) {
                     //$.alert('内容不能超过2500个字符!');
                     //return false;
                 }
                 return true;
             };
             // 保存留言表单信息
-            $scope._submit_message_form_ = function (_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, _is_show_alert) {
+            $scope._submit_message_form_ = function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, _is_show_alert) {
                 var _flag = true;
-                var formData = $scope._createFormData(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_);
-                if(!$scope._checkFormData(formData, _is_first_, 'Y')){
+                var formData = $scope._createFormData(_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_);
+                if (!$scope._checkFormData(formData, _is_first_, 'Y')) {
                     return;
-                };
+                }
+                ;
                 _showLoading("留言保存中，请稍等......")
                 $http({
                     method: 'post',
@@ -2034,51 +2096,51 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     data: $.param(formData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    if(!isEmpty(data)){
-                        if(data.success){
+                    if (!isEmpty(data)) {
+                        if (data.success) {
                             _flag = true;
                             _hideLoading();
-                            if(_is_first_ == 'Y'){// 主题留言保存成功，清空附件信息
-                                if(!isEmptyJson($scope._form_first_)){
+                            if (_is_first_ == 'Y') {// 主题留言保存成功，清空附件信息
+                                if (!isEmptyJson($scope._form_first_)) {
                                     $scope._form_first_ = {};
                                 }
-                            }else{// 主题回复保存成功，清空附件信息
-                                if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){
+                            } else {// 主题回复保存成功，清空附件信息
+                                if (!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())) {
                                     $scope._clearFormFile_info(_idx_);
                                 }
                             }
-                            if($scope._is_pagination_){
+                            if ($scope._is_pagination_) {
                                 $scope._query_messages_list_page_();
-                            }else{
+                            } else {
                                 $scope._query_messages_list_(0);
                             }
                             $scope._clear_message_from();
-                            if(_is_first_ == 'Y'){
+                            if (_is_first_ == 'Y') {
                                 $('#_message_first_0' + $scope._screen_type_).text('');
                                 $('#_message_first_title_0' + $scope._screen_type_).text('');
-                                if(_is_show_alert == 'Y'){
+                                if (_is_show_alert == 'Y') {
                                     $.alert('发表留言成功!');
                                 }
-                            }else{
-                                if(_is_show_alert == 'Y'){
+                            } else {
+                                if (_is_show_alert == 'Y') {
                                     $.alert('回复留言成功!');
                                 }
                             }
-                            window.setTimeout(function(){
+                            window.setTimeout(function () {
                                 // 打开留言主题
                                 var ms = data['result_data'];
                                 var subject = ms.messageId;
-                                if(ms.parentId != 0){
+                                if (ms.parentId != 0) {
                                     subject = ms.parentId;
                                 }
                                 $('#_message_panel_body_' + subject).addClass('in');// 先展开
                                 $scope._jump_page_to_(ms.messageId);// 再锚点
-                            },3000);// 3s
-                        }else{
+                            }, 3000);// 3s
+                        } else {
                             _flag = false;
                             _hideLoading();
                         }
-                    }else{
+                    } else {
                         _flag = false;
                         _hideLoading();
                     }
@@ -2089,16 +2151,16 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             $scope._delete_message_ = function (_message_id_, _message_) {
                 // 有无附件
                 var messageFile = _message_.messageFile;
-                if(!isEmpty(messageFile)){
+                if (!isEmpty(messageFile)) {
                     $.alert('该留言存在附件，不能撤回！');
                     return;
                 }
                 var _message_date_ = _message_['messageDate'];
-                if(_common_get_ttl(new Date(_message_date_), 3) < 0){
+                if (_common_get_ttl(new Date(_message_date_), 3) < 0) {
                     $.alert('只能撤回3分钟以内的留言！');
                     return;
                 }
-                $.confirm('确定撤回该留言吗?', function(){
+                $.confirm('确定撤回该留言吗?', function () {
                     $http({
                         method: 'post',
                         url: srvUrl + 'message/delete.do',
@@ -2107,17 +2169,17 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                         }),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     }).success(function (data) {
-                        if($scope._is_pagination_){
+                        if ($scope._is_pagination_) {
                             $scope._query_messages_list_page_();
-                        }else{
+                        } else {
                             $scope._query_messages_list_(0);
                         }
-                        if(isEmpty(data)){
+                        if (isEmpty(data)) {
                             $.alert('服务器错误！撤回留言失败!');
-                        }else{
-                            if(data.success){
+                        } else {
+                            if (data.success) {
                                 $.alert('撤回留言成功!');
-                            }else{
+                            } else {
                                 $.alert("撤回留言失败!" + data.result_name);
                             }
                         }
@@ -2127,9 +2189,9 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             // 用户的其他操作
             $scope._message_user = {};
             // 弹出用户信息
-            $scope._user_about_click_ = function(_source_, _user_id_, _user_name_){
+            $scope._user_about_click_ = function (_source_, _user_id_, _user_name_) {
                 console.log("查看用户：" + _source_ + " " + _user_id_ + " " + _user_name_);
-                if(!$scope._is_alert_user_){
+                if (!$scope._is_alert_user_) {
                     return;
                 }
                 $http({
@@ -2140,14 +2202,14 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    if(!isEmpty(data)){
+                    if (!isEmpty(data)) {
                         $scope._message_user = data;
                         $('#_message_user_dialog' + $scope._screen_type_).modal('show');
                     }
                 });
             };
             // 展示留言弹窗
-            $scope._show_submit_message_form_ = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
+            $scope._show_submit_message_form_ = function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 $('#_submit_message_dialog').modal('show');
                 $('#_message_textarea_bottom_' + _idx_ + $scope._screen_type_).text('');
                 $scope._message.originalId = _original_id_;
@@ -2156,8 +2218,8 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._message.repliedName = _replied_name_;
             };
             // 保存留言弹窗内容
-            $scope._save_message_dialog_form_ = function(){
-                if(isEmpty($('#_message_textarea_bottom_0').text())){
+            $scope._save_message_dialog_form_ = function () {
+                if (isEmpty($('#_message_textarea_bottom_0').text())) {
                     $.alert('回复内容不能为空!');
                     return;
                 }
@@ -2165,25 +2227,25 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $('#_submit_message_dialog').modal('hide');
             };
             // 初始化
-            $scope._init_collapse = function(_subjectArray){
-                if(!isEmpty(_subjectArray) && _subjectArray.length > 0){
-                    for(var _idx = 0; _idx < _subjectArray.length; _idx ++){
+            $scope._init_collapse = function (_subjectArray) {
+                if (!isEmpty(_subjectArray) && _subjectArray.length > 0) {
+                    for (var _idx = 0; _idx < _subjectArray.length; _idx++) {
                         $scope._check_collapse_event_(_subjectArray[_idx], _idx);
                     }
                 }
             };
             // 内容太多时，只展示前10个字。
-            $scope._check_collapse_event_ = function(_obj_, _idx_){
+            $scope._check_collapse_event_ = function (_obj_, _idx_) {
                 var _class = $('#_message_panel_body_' + _obj_.messageId).attr("class");
                 var _span = '';
-                if("panel-collapse collapse in" == _class){
+                if ("panel-collapse collapse in" == _class) {
                     _span += _obj_['createdName'] + '&nbsp;';
                     _span += _obj_['messageDate'] + '&nbsp;';
                     var _c = htmlToText(_obj_.messageContent);
-                    if(!isEmpty(_c)){
-                        if(_c.length >= 18){
+                    if (!isEmpty(_c)) {
+                        if (_c.length >= 18) {
                             _span += _c.substr(0, 19) + '......';
-                        }else{
+                        } else {
                             _span += _c;
                         }
                     }
@@ -2195,7 +2257,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             $scope._via_users_CheckedUsers = [];
             $scope._via_users_TempCheckedUsers = [];
             // 当用户被选择时调用
-            $scope._via_users_ParentSaveSelected = function(){
+            $scope._via_users_ParentSaveSelected = function () {
                 var _via_users_ExecuteEval = '';
                 _via_users_ExecuteEval += '$scope.$parent._via_users_CheckedUsers = $scope.checkedUsers;';
                 _via_users_ExecuteEval += '$scope.$parent._via_users_TempCheckedUsers = $scope.tempCheckedUsers;';
@@ -2212,7 +2274,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._via_users_CheckedUsers = $scope._via_users_TempCheckedUsers;
             };
             // 清空@人
-            $scope._clear_via_users_ = function(){
+            $scope._clear_via_users_ = function () {
                 $scope._via_users_CheckedUsers = [];
                 $scope._via_users_TempCheckedUsers = [];
             };
@@ -2220,21 +2282,21 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             $scope._share_message_id_ = '';
             $scope._share_type_ = 'DT';
             // 展示分享弹窗
-            $scope._show_share_message_form_ = function(_message_id_){
+            $scope._show_share_message_form_ = function (_message_id_) {
                 $('#_share_message_type_span_' + $scope._screen_type_).text('');
                 $scope._share_type_ = 'DT';
                 $('#_share_message_dialog' + $scope._screen_type_).modal('show');
                 $scope._share_message_id_ = _message_id_;
             };
             // 测试方法
-            $scope._share_message_result_test_ = function(_url_){
+            $scope._share_message_result_test_ = function (_url_) {
                 window.open(_url_, '_blank', 'menubar=no,toolbar=no, status=no,scrollbars=yes');
             };
             // 执行分享操作
-            $scope._share_message_dialog_form_ = function(){
+            $scope._share_message_dialog_form_ = function () {
                 // 获取分享用户
                 var _share_users_ = notify_mergeTempCheckedUsers($scope._share_users_TempCheckedUsers);
-                if(isEmpty(_share_users_)){
+                if (isEmpty(_share_users_)) {
                     $.alert('请选择要分享的用户！');
                     return;
                 }
@@ -2244,20 +2306,20 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     data: $.param({
                         'messageId': $scope._share_message_id_,
                         'shareUsers': _share_users_,
-                        'type':$scope._share_type_
+                        'type': $scope._share_type_
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data) {
-                    if(isEmpty(data)){
+                    if (isEmpty(data)) {
                         $.alert('分享留言失败!');
-                    }else{
-                        if(data['result_code'] == 'S'){
+                    } else {
+                        if (data['result_code'] == 'S') {
                             $scope._share_message_id_ = '';
                             $scope._clear_share_users_();
                             $('#_share_message_dialog' + $scope._screen_type_).modal('hide');
                             $.alert(data['result_name']);
                             // $scope._share_message_result_test_(data['result_data']);
-                        }else{
+                        } else {
                             $.alert(data['result_name']);
                         }
                     }
@@ -2267,7 +2329,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
             $scope._share_users_MappedKeyValue = {"nameField": "NAME", "valueField": "VALUE"};
             $scope._share_users_CheckedUsers = [];
             $scope._share_users_TempCheckedUsers = [];
-            $scope._share_users_ParentSaveSelected = function(){
+            $scope._share_users_ParentSaveSelected = function () {
                 var _share_users_ExecuteEval = '';
                 _share_users_ExecuteEval += '$scope.$parent._share_users_CheckedUsers = $scope.checkedUsers;';
                 _share_users_ExecuteEval += '$scope.$parent._share_users_TempCheckedUsers = $scope.tempCheckedUsers;';
@@ -2283,23 +2345,27 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._share_users_CheckedUsers = $scope._share_users_TempCheckedUsers;
             };
             // 清空分享人
-            $scope._clear_share_users_ = function(){
+            $scope._clear_share_users_ = function () {
                 $scope._share_users_CheckedUsers = [];
                 $scope._share_users_TempCheckedUsers = [];
             };
             // 页面锚点定位
-            $scope._jump_page_to_ = function(_target_ele_id_){
+            $scope._jump_page_to_ = function (_target_ele_id_) {
                 return _executeAnchorPoint(_target_ele_id_);
             };
             // 分页查询
-            $scope._query_messages_list_page_ = function(){
+            $scope._query_messages_list_page_ = function () {
                 $scope._message_pagination_configuration_.queryObj.procInstId = $scope.businessId;
                 $scope._message_pagination_configuration_.queryObj.parentId = 0;
                 $http({
                     method: 'post',
                     url: srvUrl + "message/queryMessagesListPage.do",
-                    data: $.param({"page": JSON.stringify($scope._message_pagination_configuration_),'queryParams':JSON.stringify($scope._query_params_)})
-                    ,async:false}).success(function(data){
+                    data: $.param({
+                        "page": JSON.stringify($scope._message_pagination_configuration_),
+                        'queryParams': JSON.stringify($scope._query_params_)
+                    })
+                    , async: false
+                }).success(function (data) {
                     $scope._message_pagination_configuration_.totalItems = data['result_data'].totalItems;
                     $scope._messages_array_ = data['result_data'].list;
                     $scope._init_collapse($scope._messages_array_);
@@ -2307,7 +2373,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 });
             };
             // 分页参数初始化
-            if($scope._is_pagination_){
+            if ($scope._is_pagination_) {
                 $scope._message_pagination_configuration_ = {};
                 $scope._message_pagination_configuration_.queryObj = {};
                 $scope._message_pagination_configuration_.itemsPerPage = 5;
@@ -2315,43 +2381,43 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope.$watch('_message_pagination_configuration_.currentPage + _message_pagination_configuration_.itemsPerPage', $scope._query_messages_list_page_);
             }
             // 查询初始化
-            if(!$scope._is_pagination_){
+            if (!$scope._is_pagination_) {
                 $scope._query_messages_list_(0);
-            }else{
+            } else {
                 $scope._query_messages_list_page_();
             }
-            if(!isEmpty($scope.initUuid)){
+            if (!isEmpty($scope.initUuid)) {
                 $scope._init_uuid_global_ = $scope.initUuid;
             }
-            if(isEmpty($scope._messages_array_)){
-                if(!isEmpty($scope.initMessagesArray)){
+            if (isEmpty($scope._messages_array_)) {
+                if (!isEmpty($scope.initMessagesArray)) {
                     $scope._messages_array_ = $scope.initMessagesArray;
                 }
             }
-            $scope._choice_share_type_ = function(_share_type_){
-                if(_share_type_ == 'DT'){
+            $scope._choice_share_type_ = function (_share_type_) {
+                if (_share_type_ == 'DT') {
                     $('#_share_message_type_span_' + $scope._screen_type_).text('钉钉');
                 }
-                if(_share_type_ == 'WX'){
+                if (_share_type_ == 'WX') {
                     $('#_share_message_type_span_' + $scope._screen_type_).text('微信');
                 }
-                if(_share_type_ == 'SMS'){
+                if (_share_type_ == 'SMS') {
                     $('#_share_message_type_span_' + $scope._screen_type_).text('短信');
                 }
-                if(_share_type_ == 'EMAIL'){
+                if (_share_type_ == 'EMAIL') {
                     $('#_share_message_type_span_' + $scope._screen_type_).text('邮箱');
                 }
-                if(!isEmpty(_share_type_)){
+                if (!isEmpty(_share_type_)) {
                     $scope._share_type_ = _share_type_;
                 }
             };
             // 留言中的过程附件
-            $scope._message_upload_file_ = function(_file_,_is_first_mess,_idx_mess){
+            $scope._message_upload_file_ = function (_file_, _is_first_mess, _idx_mess) {
                 _showLoading("附件正在保存中...");
                 var _pageLocationSequenceNumber = get_pageLocation_sequence_number('sys_message_' + $scope.messageType, $scope.businessId, $scope._init_uuid_global_);
-                if(_is_first_mess == 'Y'){
+                if (_is_first_mess == 'Y') {
                     $scope._form_first_ = {};
-                }else{
+                } else {
                     // 针对迭代的表单附件部分进行清空操作
                     $scope._clearFormFile_info(_idx_mess);
                 }
@@ -2359,28 +2425,28 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     url: srvUrl + 'cloud/upload.do',
                     data: {
                         file: _file_,
-                        'docType':'sys_message_' + $scope.messageType,
-                        'docCode':$scope.businessId,
-                        'pageLocation':$scope._init_uuid_global_ + '_' + _pageLocationSequenceNumber
+                        'docType': 'sys_message_' + $scope.messageType,
+                        'docCode': $scope.businessId,
+                        'pageLocation': $scope._init_uuid_global_ + '_' + _pageLocationSequenceNumber
                     }
                 }).then(function (_resp_) {
                     var _result = _resp_.data;
-                    if(!isEmpty(_result)){
-                        if(_result.success){
+                    if (!isEmpty(_result)) {
+                        if (_result.success) {
                             var _cloud_file_dto_ = _result['result_data'];
-                            if(!isEmpty(_cloud_file_dto_)){
-                                if(_is_first_mess == 'Y'){
+                            if (!isEmpty(_cloud_file_dto_)) {
+                                if (_is_first_mess == 'Y') {
                                     $scope._form_first_ = _cloud_file_dto_;
-                                }else{
+                                } else {
                                     // 针对迭代的表单附件部分进行渲染操作
                                     $scope._createFormFile_info(_idx_mess, _cloud_file_dto_);
                                 }
                             }
                             _hideLoading();
-                        }else{
+                        } else {
                             _hideLoading();
                         }
-                    }else{
+                    } else {
                         _hideLoading();
                     }
                 }, function (_resp_) {
@@ -2388,33 +2454,33 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 });
             };
             // 删除留言
-            $scope._message_delete_file_ = function(_obj_, _from_type_, _idx_){
-                if(_from_type_ == 'FIR'){// 表单附件删除-主题部分
+            $scope._message_delete_file_ = function (_obj_, _from_type_, _idx_) {
+                if (_from_type_ == 'FIR') {// 表单附件删除-主题部分
                     attach_delete(_obj_.fileid);
                     $scope._form_first_ = {};
                 }
-                if(_from_type_ == 'MES'){// 表单附件删除-迭代的留言详情部分
+                if (_from_type_ == 'MES') {// 表单附件删除-迭代的留言详情部分
                     _obj_.messageFile = null;
                     _obj_.messageFileType = -1;
                     $scope._message_update_(_obj_);
-                    if($scope._is_pagination_){
+                    if ($scope._is_pagination_) {
                         $scope._query_messages_list_page_();
-                    }else{
+                    } else {
                         $scope._query_messages_list_(0);
                     }
                     $scope._clearFormFile_info(_idx_);
                 }
-                if(_from_type_ == 'FOR'){// 表单附件删除-迭代的表单部分
+                if (_from_type_ == 'FOR') {// 表单附件删除-迭代的表单部分
                     attach_delete(_obj_);
                     // 针对迭代的表单附件部分进行清空操作
                     $scope._clearFormFile_info(_idx_);
                 }
             };
             // 渲染迭代的表单附件
-            $scope._createFormFile_info = function(_idx_mess, _file_dto_){
+            $scope._createFormFile_info = function (_idx_mess, _file_dto_) {
                 $('#_form_file_ipt' + _idx_mess + $scope._screen_type_).val(_file_dto_.fileid);
                 $('#_file_ipt' + _idx_mess + $scope._screen_type_).val(JSON.stringify(_file_dto_));
-                var fileSize =  _file_dto_.filesize;
+                var fileSize = _file_dto_.filesize;
                 var isKb = fileSize < 1048576;
                 var kbSize = (fileSize / 1024).toFixed(2);
                 var mbSize = (fileSize / 1024 / 1024).toFixed(2);
@@ -2425,20 +2491,20 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 append += ' style="font-size: small;color: blue;"';
                 append += ' href="javascript:void(0);"';
                 //append += ' ng-click="_message_preview_file_(\'' +_file_dto_.preview3d + '\')"';
-                append += ' ng-click="_message_preview_file_(\'' +_file_dto_.preview3d + '\',\'' + _file_dto_.fullpath + '\')"';
+                append += ' ng-click="_message_preview_file_(\'' + _file_dto_.preview3d + '\',\'' + _file_dto_.fullpath + '\')"';
                 append += '>';
                 append += _file_dto_.rcmfilename;
                 append += '&nbsp;';
-                if(isKb){
+                if (isKb) {
                     append += kbSize + 'KB';
-                }else{
+                } else {
                     append + mbSize + 'MB';
                 }
                 append += ' </a>';
-                if($scope._is_show_reply_btn_){
+                if ($scope._is_show_reply_btn_) {
                     append += '<a';
                     append += ' style="font-size: small;color: blue;"';
-                    append += ' ng-click="_message_delete_file_('+_file_dto_.fileid+', \'FOR\', '+_idx_mess+');"';
+                    append += ' ng-click="_message_delete_file_(' + _file_dto_.fileid + ', \'FOR\', ' + _idx_mess + ');"';
                     append += ' href="javascript:void(0);"';
                     append += '>';
                     append += '移除';
@@ -2453,7 +2519,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $compile(popup)($scope);
             };
             // 清空迭代的表单附件
-            $scope._clearFormFile_info = function(_idx_mess){
+            $scope._clearFormFile_info = function (_idx_mess) {
                 var span = $('#_form_file_span' + _idx_mess + $scope._screen_type_);
                 span.empty();// 清空主题留言回复表单旁边的附件显示信息
                 $('#_form_file_ipt' + _idx_mess + $scope._screen_type_).val('');// 清空隐藏的附件id
@@ -2462,30 +2528,30 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 popup.empty();// 清空附件弹窗上的附件信息部分
             };
             // 更新留言
-            $scope._message_update_ = function(_message_){
+            $scope._message_update_ = function (_message_) {
                 $http({
                     method: 'post',
                     url: srvUrl + 'message/update.do',
                     data: $.param(_message_),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (_resp) {
-                    if(_resp.success){
-                        if($scope._is_pagination_){
+                    if (_resp.success) {
+                        if ($scope._is_pagination_) {
                             $scope._query_messages_list_page_();
-                        }else{
+                        } else {
                             $scope._query_messages_list_(0);
                         }
-                        if($scope._attach_file_is_popup_){
+                        if ($scope._attach_file_is_popup_) {
                             $scope._message_ = _resp.result_data;
                         }
                     }
                 });
             };
             // 附件预览
-            $scope._message_preview_file_ = function(_url_, fullpath){
+            $scope._message_preview_file_ = function (_url_, fullpath) {
                 /*if(!isEmpty(_url_)){
-                    $window.open(_url_);
-                }*/
+                 $window.open(_url_);
+                 }*/
                 console.log(fullpath);
                 $.ajax({
                     url: srvUrl + 'cloud/getUrl.do',
@@ -2494,55 +2560,55 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                     data: {"type": 'preview', 'path': fullpath},
                     async: true,
                     success: function (data) {
-                        if(!isEmpty(data)){
+                        if (!isEmpty(data)) {
                             $window.open(data);
                         }
                     }
                 });
             };
             // 展示上传附件弹窗
-            $scope._show_message_attach_popup = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
-                if(!$scope._checkFormData($scope._createFormData(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_), _is_first_, 'N')){
+            $scope._show_message_attach_popup = function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
+                if (!$scope._checkFormData($scope._createFormData(_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_), _is_first_, 'N')) {
                     return;
                 }
-                $scope._setMessFileParam(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_);
+                $scope._setMessFileParam(_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_);
                 $scope._is_show_upload_part_ = false;// 是否展示弹窗上的“上传附件”链接
                 $('#_message_attach_dialog' + $scope._screen_type_).modal('show');
-                if(_is_first_ == 'N'){
-                    if(isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){// 如果隐藏域附件id为空，再次执行清空
+                if (_is_first_ == 'N') {
+                    if (isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())) {// 如果隐藏域附件id为空，再次执行清空
                         $scope._clearFormFile_info(_idx_);
-                    }else{
+                    } else {
                         var fileJsonString = $('#_file_ipt' + _idx_ + $scope._screen_type_).val();
-                        if(!isEmpty(fileJsonString)){
+                        if (!isEmpty(fileJsonString)) {
                             $scope._createFormFile_info(_idx_, JSON.parse(fileJsonString));
                         }
                     }
                 }
-                DirPipeSrv._setCallInfo(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, $scope);
+                DirPipeSrv._setCallInfo(_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, $scope);
             };
             // 展示相关资源弹窗
-            $scope._show_link_resources_popup = function(){
-                if(!isEmpty($scope.relationSourcesPopup)){
-                    if($scope._is_show_upload_part_){
+            $scope._show_link_resources_popup = function () {
+                if (!isEmpty($scope.relationSourcesPopup)) {
+                    if ($scope._is_show_upload_part_) {
                         $('#' + $scope.relationSourcesPopup).modal('show');
-                    }else{
+                    } else {
                         $('#' + $scope.relationSourcesPopup).modal('hide');
                     }
                 }
             };
             // 弹窗保存
-            $scope._save_mess_file_dialog = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
-                var ret = $scope._submit_message_form_(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, 'Y');
-                if(ret){
+            $scope._save_mess_file_dialog = function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
+                var ret = $scope._submit_message_form_(_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_, 'Y');
+                if (ret) {
                     $('#_message_attach_dialog' + $scope._screen_type_).modal('hide');
                     $scope._message_attach_dialog_close_();
-                    if(!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())){// 如果隐藏域附件id不为空，且通过了保存留言校验，再次执行清空
+                    if (!isEmpty($('#_form_file_ipt' + _idx_ + $scope._screen_type_).val())) {// 如果隐藏域附件id不为空，且通过了保存留言校验，再次执行清空
                         $scope._clearFormFile_info(_idx_);
                     }
                 }
             };
             // 弹窗保存必需值设置
-            $scope._setMessFileParam = function(_is_first_,_original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_){
+            $scope._setMessFileParam = function (_is_first_, _original_id_, _parent_id_, _replied_by_, _replied_name_, _idx_) {
                 $scope._is_first_mess = _is_first_;
                 $scope._original_id_mess = _original_id_;
                 $scope._parent_id_mess = _parent_id_;
@@ -2551,7 +2617,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._idx_mess = _idx_;
             };
             // 弹窗保存必需值清空
-            $scope._clearMessFileParam = function(){
+            $scope._clearMessFileParam = function () {
                 $scope._is_first_mess = '';
                 $scope._original_id_mess = '';
                 $scope._parent_id_mess = '';
@@ -2560,21 +2626,21 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 $scope._idx_mess = '';
             };
             // 附件上传弹窗关闭事件
-            $scope._message_attach_dialog_close_ = function(){
+            $scope._message_attach_dialog_close_ = function () {
                 $scope._is_show_upload_part_ = false;
                 $scope._clearMessFileParam();
             };
             // 自动锚点定位
             // 需求：从待阅或者已阅点击进入查看
-            $scope._notifySetting = function(){
+            $scope._notifySetting = function () {
                 var _notify = DirPipeSrv._getNotifyIno();
                 _initAnchorPoint(_notify);// 初始化页面
-                if(!isEmpty(_notify) && !isEmptyJson(_notify)){
+                if (!isEmpty(_notify) && !isEmptyJson(_notify)) {
                     var targetId = _notify['AnchorPointMessageId'];
-                    if(!isEmpty(targetId)){
+                    if (!isEmpty(targetId)) {
                         var subjectId = _notify['AnchorPointMessageSubject'];
                         // 3s后锚点定位
-                        window.setTimeout(function(){
+                        window.setTimeout(function () {
                             $scope._pri_setTips(targetId, subjectId);
                             $scope._jump_page_to_(targetId);
                         }, 3000);
@@ -2582,16 +2648,21 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv',function(DirPipeSrv) {
                 }
             };
             // 打开隐藏的内容和设置提示信息
-            $scope._pri_setTips = function(targetId, subjectId){
+            $scope._pri_setTips = function (targetId, subjectId) {
+                var content = '新回复';
+                if (targetId == subjectId) {
+                    content = '新留言';
+                }
                 $('#_message_panel_body_' + subjectId).addClass('in');
                 var _span = $('#' + targetId);
                 _span.removeClass('uibadge');
                 _span.html('');
                 _span.addClass('uibadge');
-                _span.html('新回复');
-            };/**/
+                _span.html(content);
+            };
+            /**/
             // 监听流程变量,控制留言编辑权限
-            $scope.$parent.$watch('refreshImg', function(){
+            $scope.$parent.$watch('refreshImg', function () {
                 $scope._is_show_publish_btn_ = validateMessageOpenAuthority($scope.messageType, $scope.businessId);
             });
         }
@@ -2766,9 +2837,9 @@ ctmApp.directive('uploadFile', function () {
             $scope.addWebuploadCurrent = function (id) {
                 console.log(id);
                 /*angular.element(".webuploader-container").removeClass('webuploader-container');
-                angular.element("#"+id).addClass('webuploader-container');*/
+                 angular.element("#"+id).addClass('webuploader-container');*/
                 /*angular.element(".webUpload_current").removeClass('webUpload_current');
-                angular.element("#"+id).addClass('webUpload_current');*/
+                 angular.element("#"+id).addClass('webUpload_current');*/
                 $(".webupload_current").removeClass("webupload_current");
                 $("#" + id).addClass("webupload_current");
             }
@@ -2777,12 +2848,12 @@ ctmApp.directive('uploadFile', function () {
 });
 
 // 投资部门文件
-ctmApp.directive('directUploadFileTouzi', function() {
+ctmApp.directive('directUploadFileTouzi', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directUploadFileTouzi.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -2790,7 +2861,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
             //查询参数
             queryParams: "=",
             //是否可编辑
-            isEditable:"=",
+            isEditable: "=",
             //默认选中的用户,数组类型，{NAME:'张三',VALUE:'user.uuid'}
             checkedUser: "=",
             //映射的key，value，{nameField:'username',valueField:'uuid'}，
@@ -2804,7 +2875,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
             // 确定按钮是否可用
             isUse: "=?bind"
         },
-        controller: function($scope, $http, $element, Upload){
+        controller: function ($scope, $http, $element, Upload) {
             $scope.item = {};// 选项
             $scope.item.newItem = null;
             $scope.isUse = true;// 确定按钮是否禁用
@@ -2827,7 +2898,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
                 return now;
             }
 
-            $scope.initFileType = function() {
+            $scope.initFileType = function () {
                 $scope.item = {};
                 $scope.item.newItem = null;
                 $scope.isUse = true;
@@ -2837,7 +2908,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
 
             $scope.changeAttach = function (name) {
                 console.log(name);
-                if(name.newItem == null) {
+                if (name.newItem == null) {
                     $scope.isUpload = true;
                 } else {
                     $scope.isUpload = false;
@@ -2845,9 +2916,9 @@ ctmApp.directive('directUploadFileTouzi', function() {
                 $scope.item = name;
             };
 
-            $scope.submit = function() {
+            $scope.submit = function () {
                 console.log($scope.latestAttachmentS);
-                if($scope.fileList == undefined || $scope.fileList == null){
+                if ($scope.fileList == undefined || $scope.fileList == null) {
                     $scope.fileList = [];
                 }
                 angular.forEach($scope.latestAttachmentS, function (data, index) {
@@ -2866,7 +2937,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
 
             $scope.upload = function (file, errorFile, idx) {
                 console.log(file);
-                if(file == null) {
+                if (file == null) {
                     return;
                 }
                 $scope.status = false;
@@ -2880,16 +2951,16 @@ ctmApp.directive('directUploadFileTouzi', function() {
                         $scope.status = true;
                     }
                 });
-                if($scope.status) {
+                if ($scope.status) {
                     alert("您上传的文件已存在，请重新选择！");
                     return;
                 }
 
                 var fileSuffixArr = file.name.split('.');
-                var fileSuffix = fileSuffixArr[fileSuffixArr.length-1];
+                var fileSuffix = fileSuffixArr[fileSuffixArr.length - 1];
                 if (fileSuffix != "docx" && fileSuffix != "xlsx" && fileSuffix != "pptx" && fileSuffix != "pdf" &&
                     fileSuffix != "jpg" && fileSuffix != "png" && fileSuffix != "gif" && fileSuffix != "tif" &&
-                    fileSuffix != "psd" && fileSuffix != "ppts"){
+                    fileSuffix != "psd" && fileSuffix != "ppts") {
                     alert("您上传的文档格式不正确，请重新选择！");
                     return;
                 }
@@ -2914,7 +2985,7 @@ ctmApp.directive('directUploadFileTouzi', function() {
                     $scope.newAttachment.fileName = retData.fileName;
                     $scope.newAttachment.filePath = retData.filePath;
                     $scope.newAttachment.upload_date = retData.upload_date;
-                    $scope.newAttachment.upload_date.replace(/-/g,"/");
+                    $scope.newAttachment.upload_date.replace(/-/g, "/");
                     $scope.newAttachment.type = "invest";
                     $scope.newAttachment.typeValue = "投资部门提供";
                     $scope.newAttachment.ITEM_NAME = $scope.item.newItem.ITEM_NAME;
@@ -2929,10 +3000,10 @@ ctmApp.directive('directUploadFileTouzi', function() {
                 });
             };
 
-            $scope.deleteFile = function(index) {
+            $scope.deleteFile = function (index) {
                 $scope.latestAttachmentS.splice(index, 1);
                 console.log($scope.latestAttachmentS.length);
-                if($scope.latestAttachmentS.length == 0) {
+                if ($scope.latestAttachmentS.length == 0) {
                     $scope.isUse = true;
                     console.log($scope.isUse);
                 }
@@ -2942,12 +3013,12 @@ ctmApp.directive('directUploadFileTouzi', function() {
     };
 });
 // 项目多选
-ctmApp.directive('directProjectMultiDialog', function() {
+ctmApp.directive('directProjectMultiDialog', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directProjectMultiDialog.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -2964,81 +3035,85 @@ ctmApp.directive('directProjectMultiDialog', function() {
             //移除选中的人员，调用父scope中的同名方法
 //        	removeSelectedUser: "&"
         },
-        controller:function($scope,$http,$element){
-           /* if($scope.url == null || '' == $scope.url){
-                $scope.url = "user/queryProjectForSelected.do";
-            }*/
+        controller: function ($scope, $http, $element) {
+            /* if($scope.url == null || '' == $scope.url){
+             $scope.url = "user/queryProjectForSelected.do";
+             }*/
             $scope.paginationConf = {
-                lastCurrentTimeStamp:'',
+                lastCurrentTimeStamp: '',
                 currentPage: 1,
                 totalItems: 0,
                 itemsPerPage: 10,
                 pagesLength: 10,
-                queryObj:{},
+                queryObj: {},
                 perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function(){
+                onChange: function () {
                 }
             };
-            if(null != $scope.queryParams){
+            if (null != $scope.queryParams) {
                 $scope.paginationConf.queryObj = $scope.queryParams;
             }
-            $scope.queryProject = function(){
+            $scope.queryProject = function () {
                 $http({
-                    method:'post',
-                    url:srvUrl+$scope.url,
-                    data: $.param({"page":JSON.stringify($scope.paginationConf)})
-                }).success(function(data){
-                    if(data.success){
+                    method: 'post',
+                    url: srvUrl + $scope.url,
+                    data: $.param({"page": JSON.stringify($scope.paginationConf)})
+                }).success(function (data) {
+                    if (data.success) {
                         $scope.projects = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
             }
-            $scope.removeSelectedProject = function(project){
-                for(var i = 0; i < $scope.tempCheckedProjects.length; i++){
-                    if(project.VALUE == $scope.tempCheckedProjects[i].VALUE){
+            $scope.removeSelectedProject = function (project) {
+                for (var i = 0; i < $scope.tempCheckedProjects.length; i++) {
+                    if (project.VALUE == $scope.tempCheckedProjects[i].VALUE) {
                         $scope.tempCheckedProjects.splice(i, 1);
                         break;
                     }
                 }
             };
-            $scope.isChecked = function(project){
-                for(var i = 0; i < $scope.tempCheckedProjects.length; i++){
-                    if(project.ID    == $scope.tempCheckedProjects[i].VALUE){
+            $scope.isChecked = function (project) {
+                for (var i = 0; i < $scope.tempCheckedProjects.length; i++) {
+                    if (project.ID == $scope.tempCheckedProjects[i].VALUE) {
                         return true;
                     }
                 }
                 return false;
             };
-            $scope.toggleChecked = function(project){
+            $scope.toggleChecked = function (project) {
                 //是否选中
-                var isChecked = $("#chk_"+$scope.id+"_"+project.ID).prop("checked");
+                var isChecked = $("#chk_" + $scope.id + "_" + project.ID).prop("checked");
                 //是否已经存在
                 var flag = false;
-                for(var i = 0; i < $scope.tempCheckedProjects.length; i++){
-                    if(project.ID == $scope.tempCheckedProjects[i].VALUE){
+                for (var i = 0; i < $scope.tempCheckedProjects.length; i++) {
+                    if (project.ID == $scope.tempCheckedProjects[i].VALUE) {
                         flag = true;
-                        if(!isChecked){
+                        if (!isChecked) {
                             $scope.tempCheckedProjects.splice(i, 1);
                             break;
                         }
                     }
                 }
-                if(isChecked && !flag){
+                if (isChecked && !flag) {
                     //如果已经选中，但是不存在，添加
-                    $scope.tempCheckedProjects.push({"VALUE":project.BUSINESSID,"NAME":project.PROJECTNAME,"PROJECT_TYPE":project.PROJECT_TYPE});
+                    $scope.tempCheckedProjects.push({
+                        "VALUE": project.BUSINESSID,
+                        "NAME": project.PROJECTNAME,
+                        "PROJECT_TYPE": project.PROJECT_TYPE
+                    });
                 }
             };
 
-            $scope.cancelSelected = function(){
+            $scope.cancelSelected = function () {
                 $scope.initData();
             }
-            $scope.saveSelected = function(){
+            $scope.saveSelected = function () {
                 var cus = $scope.tempCheckedProjects;
-                $scope.checkedProjects.splice(0,$scope.checkedProjects.length)
-                for(var i = 0; i < cus.length; i++){
+                $scope.checkedProjects.splice(0, $scope.checkedProjects.length)
+                for (var i = 0; i < cus.length; i++) {
                     var project = {};
                     project[$scope.mappedKeyValue.nameField] = cus[i].NAME;
                     project[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
@@ -3047,14 +3122,14 @@ ctmApp.directive('directProjectMultiDialog', function() {
                     $scope.checkedProjects.push(project);
                     delete project.$$hashKey;
                 }
-                if($scope.callback != null){
+                if ($scope.callback != null) {
                     $scope.callback();
                 }
             }
-            $scope.initData = function(){
+            $scope.initData = function () {
                 var cus = $.parseJSON(JSON.stringify($scope.checkedProjects));
                 $scope.tempCheckedProjects = [];
-                for(var i = 0; i < cus.length; i++){
+                for (var i = 0; i < cus.length; i++) {
                     var project = {};
                     project.NAME = cus[i][$scope.mappedKeyValue.nameField];
                     project.VALUE = cus[i][$scope.mappedKeyValue.valueField];
@@ -3071,12 +3146,12 @@ ctmApp.directive('directProjectMultiDialog', function() {
 });
 
 // 组织多选
-ctmApp.directive('directOrgMultiDialog', function() {
+ctmApp.directive('directOrgMultiDialog', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directOrgMultiDialog.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -3093,81 +3168,81 @@ ctmApp.directive('directOrgMultiDialog', function() {
             //移除选中的人员，调用父scope中的同名方法
 //        	removeSelectedUser: "&"
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
             /* if($scope.url == null || '' == $scope.url){
-                 $scope.url = "user/queryProjectForSelected.do";
+             $scope.url = "user/queryProjectForSelected.do";
              }*/
             $scope.paginationConf = {
-                lastCurrentTimeStamp:'',
+                lastCurrentTimeStamp: '',
                 currentPage: 1,
                 totalItems: 0,
                 itemsPerPage: 10,
                 pagesLength: 10,
-                queryObj:{},
+                queryObj: {},
                 perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function(){
+                onChange: function () {
                 }
             };
-            if(null != $scope.queryParams){
+            if (null != $scope.queryParams) {
                 $scope.paginationConf.queryObj = $scope.queryParams;
             }
-            $scope.queryOrg = function(){
+            $scope.queryOrg = function () {
                 $http({
-                    method:'post',
-                    url:srvUrl+$scope.url,
-                    data: $.param({"page":JSON.stringify($scope.paginationConf)})
-                }).success(function(data){
-                    if(data.success){
+                    method: 'post',
+                    url: srvUrl + $scope.url,
+                    data: $.param({"page": JSON.stringify($scope.paginationConf)})
+                }).success(function (data) {
+                    if (data.success) {
                         $scope.orgs = data.result_data.list;
                         $scope.paginationConf.totalItems = data.result_data.totalItems;
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
             }
-            $scope.removeSelectedOrg = function(org){
-                for(var i = 0; i < $scope.tempCheckedOrgs.length; i++){
-                    if(org.VALUE == $scope.tempCheckedOrgs[i].VALUE){
+            $scope.removeSelectedOrg = function (org) {
+                for (var i = 0; i < $scope.tempCheckedOrgs.length; i++) {
+                    if (org.VALUE == $scope.tempCheckedOrgs[i].VALUE) {
                         $scope.tempCheckedOrgs.splice(i, 1);
                         break;
                     }
                 }
             };
-            $scope.isChecked = function(org){
-                for(var i = 0; i < $scope.tempCheckedOrgs.length; i++){
-                    if(org.ID    == $scope.tempCheckedOrgs[i].VALUE){
+            $scope.isChecked = function (org) {
+                for (var i = 0; i < $scope.tempCheckedOrgs.length; i++) {
+                    if (org.ID == $scope.tempCheckedOrgs[i].VALUE) {
                         return true;
                     }
                 }
                 return false;
             };
-            $scope.toggleChecked = function(org){
+            $scope.toggleChecked = function (org) {
                 //是否选中
-                var isChecked = $("#chk_"+$scope.id+"_"+org.ID).prop("checked");
+                var isChecked = $("#chk_" + $scope.id + "_" + org.ID).prop("checked");
                 //是否已经存在
                 var flag = false;
-                for(var i = 0; i < $scope.tempCheckedOrgs.length; i++){
-                    if(org.ID == $scope.tempCheckedOrgs[i].VALUE){
+                for (var i = 0; i < $scope.tempCheckedOrgs.length; i++) {
+                    if (org.ID == $scope.tempCheckedOrgs[i].VALUE) {
                         flag = true;
-                        if(!isChecked){
+                        if (!isChecked) {
                             $scope.tempCheckedOrgs.splice(i, 1);
                             break;
                         }
                     }
                 }
-                if(isChecked && !flag){
+                if (isChecked && !flag) {
                     //如果已经选中，但是不存在，添加
-                    $scope.tempCheckedOrgs.push({"VALUE":org.ORGPKVALUE,"NAME":org.NAME});
+                    $scope.tempCheckedOrgs.push({"VALUE": org.ORGPKVALUE, "NAME": org.NAME});
                 }
             };
 
-            $scope.cancelSelected = function(){
+            $scope.cancelSelected = function () {
                 $scope.initData();
             }
-            $scope.saveSelected = function(){
+            $scope.saveSelected = function () {
                 var cus = $scope.tempCheckedOrgs;
-                $scope.checkedOrgs.splice(0,$scope.checkedOrgs.length)
-                for(var i = 0; i < cus.length; i++){
+                $scope.checkedOrgs.splice(0, $scope.checkedOrgs.length)
+                for (var i = 0; i < cus.length; i++) {
                     var org = {};
                     org[$scope.mappedKeyValue.nameField] = cus[i].NAME;
                     org[$scope.mappedKeyValue.valueField] = cus[i].VALUE;
@@ -3175,14 +3250,14 @@ ctmApp.directive('directOrgMultiDialog', function() {
                     $scope.checkedOrgs.push(org);
                     delete org.$$hashKey;
                 }
-                if($scope.callback != null){
+                if ($scope.callback != null) {
                     $scope.callback();
                 }
             }
-            $scope.initData = function(){
+            $scope.initData = function () {
                 var cus = $.parseJSON(JSON.stringify($scope.checkedOrgs));
                 $scope.tempCheckedOrgs = [];
-                for(var i = 0; i < cus.length; i++){
+                for (var i = 0; i < cus.length; i++) {
                     var org = {};
                     org.NAME = cus[i][$scope.mappedKeyValue.nameField];
                     org.VALUE = cus[i][$scope.mappedKeyValue.valueField];
@@ -3198,68 +3273,68 @@ ctmApp.directive('directOrgMultiDialog', function() {
 });
 
 // 组织单选 ZTree
-ctmApp.directive('directiveOrgList', function() {
+ctmApp.directive('directiveOrgList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveOrgList.html',
         replace: true,
-        scope:{},
-        controller:function($scope,$http,$element){
+        scope: {},
+        controller: function ($scope, $http, $element) {
             //获取父作用域
             var carouselScope = $element.parent().scope();
-            var paramId=null;
-            var categoryCode=null;
+            var paramId = null;
+            var categoryCode = null;
             //获取组织结构角色
             var ztree, setting = {
-                callback:{
-                    onClick:function(event, treeId, treeNode){
+                callback: {
+                    onClick: function (event, treeId, treeNode) {
                         paramId = treeNode.id;
                         categoryCode = treeNode.name;
                     },
-                    beforeExpand:function(treeId, treeNode){
-                        if(typeof(treeNode.children)=='undefined'){
+                    beforeExpand: function (treeId, treeNode) {
+                        if (typeof(treeNode.children) == 'undefined') {
                             $scope.addTreeNode(treeNode);
                         }
                     }
                 }
             };
-            $scope.addTreeNode = function (parentNode){
+            $scope.addTreeNode = function (parentNode) {
                 var pid = '';
-                if(parentNode && parentNode.id) pid = parentNode.id;
-                $scope.$parent.httpData('fnd/Group/getCommonOrg', {parentId:pid}).success(function(data){
+                if (parentNode && parentNode.id) pid = parentNode.id;
+                $scope.$parent.httpData('fnd/Group/getCommonOrg', {parentId: pid}).success(function (data) {
                     if (!data || data.result_code != 'S') return null;
                     var nodeArray = data.result_data;
-                    if(nodeArray<1) return null;
-                    for(var i=0;i<nodeArray.length;i++){
+                    if (nodeArray < 1) return null;
+                    for (var i = 0; i < nodeArray.length; i++) {
                         curNode = nodeArray[i];
                         var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
-                        if(curNode.cat && curNode.cat=='Org'){
+                        if (curNode.cat && curNode.cat == 'Org') {
                             iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
                         }
                         curNode.icon = iconUrl;
                     }
-                    if(pid == ''){//当前加载的是根节点
+                    if (pid == '') {//当前加载的是根节点
                         ztree.addNodes(null, nodeArray);
                         var rootNode = ztree.getNodes()[0];
                         $scope.addTreeNode(rootNode);
                         rootNode.open = true;
                         ztree.refresh();
-                    }else{
+                    } else {
                         ztree.addNodes(parentNode, nodeArray, true);
                     }
                 });
             }
-            $scope.cancelBtn=function(){
-                paramId=null;
-                categoryCode=null;
+            $scope.cancelBtn = function () {
+                paramId = null;
+                categoryCode = null;
             }
-            $scope.saveOrgListforDiretive=function(){
-                carouselScope.setDirectiveOrgList(paramId,categoryCode);
-                paramId=null;
-                categoryCode=null;
+            $scope.saveOrgListforDiretive = function () {
+                carouselScope.setDirectiveOrgList(paramId, categoryCode);
+                paramId = null;
+                categoryCode = null;
             }
 
-            angular.element(document).ready(function() {
+            angular.element(document).ready(function () {
                 ztree = $.fn.zTree.init($("#treeIDpor1"), setting);
                 $scope.addTreeNode('');
             });
@@ -3268,7 +3343,7 @@ ctmApp.directive('directiveOrgList', function() {
 });
 
 // 相关资源（新）
-ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
+ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function (DirPipeSrv) {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directiveAccachmentNew.html',
@@ -3298,27 +3373,27 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             isDisabled: "@",
             // 调用父组件操作
             initUpdate: "&initUpdate",
-            ignoreReplaceReason:'@',// 忽略替换原因，直接替换，默认为false
-            isShowHistoryList:'@',// 是否显示查看历史按钮，默认为true
-            isShowPreviewBtn:'@',// 是否仅仅显示预览按钮，默认为false
+            ignoreReplaceReason: '@',// 忽略替换原因，直接替换，默认为false
+            isShowHistoryList: '@',// 是否显示查看历史按钮，默认为true
+            isShowPreviewBtn: '@',// 是否仅仅显示预览按钮，默认为false
         },
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element,Upload,$window){
+        controller: function ($scope, $http, $element, Upload, $window) {
             // 初始化默认替换原因属性
-            if(isEmpty($scope.ignoreReplaceReason)){
+            if (isEmpty($scope.ignoreReplaceReason)) {
                 $scope._ignoreReplaceReason = false;
-            }else{
+            } else {
                 $scope._ignoreReplaceReason = $scope.ignoreReplaceReason == 'true';
             }
-            if(isEmpty($scope.isShowHistoryList)){
+            if (isEmpty($scope.isShowHistoryList)) {
                 $scope._isShowHistoryList = true;
-            }else{
+            } else {
                 $scope._isShowHistoryList = $scope.isShowHistoryList == 'true';
             }
-            if(isEmpty($scope.isShowPreviewBtn)){
+            if (isEmpty($scope.isShowPreviewBtn)) {
                 $scope._isShowPreviewBtn = false;
-            }else{
+            } else {
                 $scope._isShowPreviewBtn = $scope.isShowPreviewBtn == 'true';
             }
             $scope.getDate = function () {
@@ -3338,22 +3413,22 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 初始化数据
             $scope._initData = function () {
-                if($scope.isEdite == "true"){
+                if ($scope.isEdite == "true") {
                     $scope.isEdite = true;
                 } else {
                     $scope.isEdite = false;
                 }
-                if($scope.isChoose == "true"){
+                if ($scope.isChoose == "true") {
                     $scope.isChoose = true;
                 } else {
                     $scope.isChoose = false;
                 }
-                if($scope.isShowMeetingAttachment == "true"){
+                if ($scope.isShowMeetingAttachment == "true") {
                     $scope.isShowMeetingAttachment = true;
                 } else {
                     $scope.isShowMeetingAttachment = false;
                 }
-                if($scope.isDisabled == "true"){
+                if ($scope.isDisabled == "true") {
                     $scope.isDisabled = true;
                 } else {
                     $scope.isDisabled = false;
@@ -3366,50 +3441,54 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                 return selectDocItem(docCode);
             };
             // 获取附件类型
-            $scope.getAttachmentType = function(){
-                if (isEmpty($scope.serviceType)){
+            $scope.getAttachmentType = function () {
+                if (isEmpty($scope.serviceType)) {
                     return false;
                 }
                 var serviceCode = $scope.serviceType[0].KEY;
                 var projectModelName = '';
-                if(isEmpty($scope.projectModel[0])) {
+                if (isEmpty($scope.projectModel[0])) {
                     projectModelName = $scope.projectModel.VALUE;
                 } else {
                     projectModelName = $scope.projectModel[0].VALUE;
                 }
                 var functionType = '';
-                if ($scope.businessType == 'formalReview'){
+                if ($scope.businessType == 'formalReview') {
                     functionType = '正式评审';
                 } else {
                     functionType = '预评审';
                 }
 
-                var url= "common/commonMethod/getAttachmentType";
-                $scope.$parent.httpData(url,{"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType}).success(function(data){
-                    if(data.result_code === 'S'){
-                        $scope.attachmentType=data.result_data;
-                    }else{
+                var url = "common/commonMethod/getAttachmentType";
+                $scope.$parent.httpData(url, {
+                    "serviceCode": serviceCode,
+                    "projectModelName": projectModelName,
+                    "functionType": functionType
+                }).success(function (data) {
+                    if (data.result_code === 'S') {
+                        $scope.attachmentType = data.result_data;
+                    } else {
                         alert(data.result_name);
                     }
                 });
             };
             $scope._initData();
             /*// 全选
-            $scope._selectAll = function(){
-                if($("#all").attr("checked")){
-                    $(":checkbox[name='choose']").attr("checked",1);
-                }else{
-                    $(":checkbox[name='choose']").attr("checked",false);
-                }
-            };*/
+             $scope._selectAll = function(){
+             if($("#all").attr("checked")){
+             $(":checkbox[name='choose']").attr("checked",1);
+             }else{
+             $(":checkbox[name='choose']").attr("checked",false);
+             }
+             };*/
 
             // 新增文件
             $scope._addOneNewFile = function () {
-                if (!$scope._vaildNew()){
+                if (!$scope._vaildNew()) {
                     alert("已有新增条目，请上传完再新增！");
                     return;
                 }
-                if (isEmpty($scope.attachmentType)){
+                if (isEmpty($scope.attachmentType)) {
                     $scope.getAttachmentType();
                 }
                 function _addBlankRow(_array) {
@@ -3432,36 +3511,36 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             };
 
             $scope._deleteBlank = function (index) {
-                $scope.fileList.splice(index,1);
+                $scope.fileList.splice(index, 1);
             };
 
             // 添加校验新增
-            $scope._vaildNew = function (){
+            $scope._vaildNew = function () {
                 var count = 0;
                 angular.forEach($scope.fileList, function (data, index) {
-                    if (data.newFile == '1'){
+                    if (data.newFile == '1') {
                         count = 1;
                     }
                 });
-                if (count == 1){
+                if (count == 1) {
                     return false;
                 }
                 return true;
             };
 
             // 删除文件
-            $scope._deleteFile = function(){
+            $scope._deleteFile = function () {
                 var chkObjs = $("input[type=checkbox][name=fileChoose]:checked");
-                if(chkObjs.length == 0){
+                if (chkObjs.length == 0) {
                     $.alert("请选择要删除的数据！");
                     return false;
                 }
-                if(chkObjs.length > 1){
+                if (chkObjs.length > 1) {
                     $.alert("请只选择一条数据进行删除!");
                     return false;
                 }
                 var idsStr = "";
-                for(var i = 0; i < chkObjs.length; i++){
+                for (var i = 0; i < chkObjs.length; i++) {
                     idsStr = idsStr + chkObjs[i].value + ",";
                 }
                 idsStr = idsStr.substring(0, idsStr.length - 1);
@@ -3476,14 +3555,14 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                     url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
                 }
                 $http({
-                    method:'post',
-                    url:srvUrl + url,
-                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":idsStr})})
-                }).success(function(data){
-                    if(data.success){
+                    method: 'post',
+                    url: srvUrl + url,
+                    data: $.param({"json": JSON.stringify({"businessId": $scope.businessId, "fileId": idsStr})})
+                }).success(function (data) {
+                    if (data.success) {
                         $.alert(data.result_name);
                         $scope.initUpdate({'id': $scope.businessId});
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
@@ -3504,10 +3583,10 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
 
             // 上传
             $scope._uploadThat = function (_file, _idx, _item) {
-                if($scope.businessType != 'bulletin' && isEmpty(_item.type)){
+                if ($scope.businessType != 'bulletin' && isEmpty(_item.type)) {
                     alert("资源类型不能为空，请先选择资源类型再上传！");
                 } else {
-                    if (!isEmpty(_file)){
+                    if (!isEmpty(_file)) {
                         show_Mask();
                         Upload.upload({
                             url: srvUrl + 'cloud/upload.do',
@@ -3518,7 +3597,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                                 'pageLocation': $scope.pageLocation
                             }
                         }).then(function (resp) {
-                            if (resp.data.result_code == 'S'){
+                            if (resp.data.result_code == 'S') {
                                 var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
 
                                 var url = '';
@@ -3533,19 +3612,28 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                                 }
                                 /*_item.fileId = _fileList[_fileList.length-1].fileid + "";*/
                                 _item.fileId = _fileList[0].fileid + "";
-                                _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
+                                _item.lastUpdateBy = {
+                                    NAME: $scope.$parent.credentials.userName,
+                                    VALUE: $scope.$parent.credentials.UUID
+                                };
                                 _item.lastUpdateData = $scope.getDate();
                                 _item.fileName = _file.name;
 
                                 $http({
-                                    method:'post',
-                                    url:srvUrl + url,
-                                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                                }).success(function(data){
-                                    if(data.success){
+                                    method: 'post',
+                                    url: srvUrl + url,
+                                    data: $.param({
+                                        "json": JSON.stringify({
+                                            "businessId": $scope.businessId,
+                                            "item": _item,
+                                            "oldFileName": _file.name
+                                        })
+                                    })
+                                }).success(function (data) {
+                                    if (data.success) {
                                         $scope.initUpdate({'id': $scope.businessId});
                                         $.alert(data.result_name);
-                                    }else{
+                                    } else {
                                         $.alert(data.result_name);
                                     }
                                 });
@@ -3581,7 +3669,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                 }).then(function (resp) {
 
                     /* var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;*/
-                    if (resp.data.result_code == 'S'){
+                    if (resp.data.result_code == 'S') {
                         var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
 
                         var addUrl = '';
@@ -3595,20 +3683,29 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                         }
                         /* _item.fileId = _fileList[_fileList.length-1].fileid + "";*/
                         _item.fileId = _fileList[0].fileid + "";
-                        _item.lastUpdateBy = {NAME:$scope.$parent.credentials.userName,VALUE:$scope.$parent.credentials.UUID};
+                        // _item.lastUpdateBy = {
+                        //     NAME: $scope.$parent.credentials.userName,
+                        //     VALUE: $scope.$parent.credentials.UUID
+                        // };用户替换文件时，不更换提交人信息
                         _item.lastUpdateData = $scope.getDate();
                         _item.fileName = _file.name;
 
                         $http({
-                            method:'post',
-                            url:srvUrl + addUrl,
-                            data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                        }).success(function(data){
+                            method: 'post',
+                            url: srvUrl + addUrl,
+                            data: $.param({
+                                "json": JSON.stringify({
+                                    "businessId": $scope.businessId,
+                                    "item": _item,
+                                    "oldFileName": _file.name
+                                })
+                            })
+                        }).success(function (data) {
                             hide_Mask();
                             alert(data.result_name);
                             $scope.initUpdate({'id': $scope.businessId});
-                            if(data.success){
-                                if (!isEmpty($scope.toSend)){
+                            if (data.success) {
+                                if (!isEmpty($scope.toSend)) {
                                     var message = $scope.projectName + "中类型为" + _item.type.ITEM_NAME + "的附件,由于" + _item.reason + "原因被替换了，请查看！";
                                     $http({
                                         method: 'post',
@@ -3616,28 +3713,28 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                                         data: $.param({
                                             'message': message,
                                             'shareUsers': $scope.toSend.VALUE,
-                                            'type':'DT'
+                                            'type': 'DT'
                                         }),
                                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                                     }).success(function (data) {
-                                        if(isEmpty(data)){
+                                        if (isEmpty(data)) {
                                             $.alert('推送消息失败!');
-                                        }else{
+                                        } else {
                                             /*if(data['result_code'] == 'S'){
-                                                $.alert(data['result_name']);
-                                                // $scope._share_message_result_test_(data['result_data']);
-                                            }else{
-                                                $.alert(data['result_name']);
-                                            }*/
+                                             $.alert(data['result_name']);
+                                             // $scope._share_message_result_test_(data['result_data']);
+                                             }else{
+                                             $.alert(data['result_name']);
+                                             }*/
                                         }
                                     });
                                 }
 
-                            }else{
+                            } else {
                                 $.alert(data.result_name);
                             }
                         });
-                        if($scope._ignoreReplaceReason){
+                        if ($scope._ignoreReplaceReason) {
                             var _callInfo = DirPipeSrv._getCallInfo();
                             _callInfo.message.messageFile = _item.fileId;
                             DirPipeSrv._saveMessage(_callInfo);
@@ -3660,12 +3757,13 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             };
 
             // 弹出查看历史附件弹框
-            $scope.showHistory = function (item){
+            $scope.showHistory = function (item) {
                 show_Mask();
                 var fileType = '';
                 if (item.type != null && item.type != undefined) {
                     fileType = item.type.ITEM_CODE;
-                };
+                }
+                ;
                 var url = '';
                 if ($scope.businessType == 'preReview') {
                     url = "preInfoCreate/getHistoryList.do";
@@ -3676,17 +3774,25 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                     fileType = item.uuid;
                 }
                 $http({
-                    method:'post',
-                    url:srvUrl+url,
-                    data: $.param({"json":JSON.stringify({"id":$scope.businessId, "fileType": fileType, "businessType": $scope.businessType, "pageLocation": $scope.pageLocation, "fileName": item.filename})})
-                }).success(function(result){
-                    if (result.result_code == 'S'){
-                        if (isEmpty(result.result_data)){
+                    method: 'post',
+                    url: srvUrl + url,
+                    data: $.param({
+                        "json": JSON.stringify({
+                            "id": $scope.businessId,
+                            "fileType": fileType,
+                            "businessType": $scope.businessType,
+                            "pageLocation": $scope.pageLocation,
+                            "fileName": item.filename
+                        })
+                    })
+                }).success(function (result) {
+                    if (result.result_code == 'S') {
+                        if (isEmpty(result.result_data)) {
                             alert("此类型文档暂无历史附件");
                             hide_Mask();
                         } else {
                             $scope.attachHistoryList = result.result_data;
-                            $('#showHistoryList_'+ $scope.id).modal('show');
+                            $('#showHistoryList_' + $scope.id).modal('show');
                             hide_Mask();
                         }
                     } else {
@@ -3714,7 +3820,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                     data: {"type": 'preview', 'path': file.fullpath},
                     async: true,
                     success: function (data) {
-                        if(!isEmpty(data)){
+                        if (!isEmpty(data)) {
                             $window.open(data);
                         }
                     }
@@ -3726,7 +3832,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             // 下载
             $scope._download = function (uri, file) {
                 var fullPath = file.fullpath;
-                if(isEmpty(fullPath)){
+                if (isEmpty(fullPath)) {
                     fullPath = file.FULLPATH;
                 }
                 $.ajax({
@@ -3736,7 +3842,7 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                     data: {"type": 'download', 'path': fullPath},
                     async: true,
                     success: function (data) {
-                        if(!isEmpty(data)){
+                        if (!isEmpty(data)) {
                             $window.open(data);
                         }
                     }
@@ -3746,8 +3852,8 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
             };
 
             // 删除
-            $scope._delete = function(file_id){
-                $.confirm('确定删除该资源文件吗?', function(){
+            $scope._delete = function (file_id) {
+                $.confirm('确定删除该资源文件吗?', function () {
                     attach_delete(file_id);
                     var url = '';
                     // 判断文件路径
@@ -3759,14 +3865,14 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                         url = "bulletinInfo/deleteAttachmengInfoInMongo.do";
                     }
                     $http({
-                        method:'post',
-                        url:srvUrl + url,
-                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
-                    }).success(function(data){
-                        if(data.success){
+                        method: 'post',
+                        url: srvUrl + url,
+                        data: $.param({"json": JSON.stringify({"businessId": $scope.businessId, "fileId": file_id})})
+                    }).success(function (data) {
+                        if (data.success) {
                             $.alert(data.result_name);
                             $scope.initUpdate({'id': $scope.businessId});
-                        }else{
+                        } else {
                             $.alert(data.result_name);
                         }
                     });
@@ -3783,22 +3889,22 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
                     url = "bulletinInfo/changeMeetingAttach.do";
                 }
                 $http({
-                    method:'post',
-                    url:srvUrl + url,
-                    data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":fileId})})
-                }).success(function(data){
-                    if(data.success){
+                    method: 'post',
+                    url: srvUrl + url,
+                    data: $.param({"json": JSON.stringify({"businessId": $scope.businessId, "fileId": fileId})})
+                }).success(function (data) {
+                    if (data.success) {
                         angular.forEach($scope.fileList, function (data, index) {
-                            if (data.fileid == fileId){
+                            if (data.fileid == fileId) {
                                 $scope.fileList[index].isMettingAttachment = '1';
                             }
                         });
-                        if (data.result_data == '0'){
+                        if (data.result_data == '0') {
                             $.alert("删除上会附件成功");
                         } else {
                             $.alert("添加上会附件成功");
                         }
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
@@ -3807,14 +3913,14 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function(DirPipeSrv) {
     };
 }]);
 // 历史附件
-ctmApp.directive('directiveAttachHistoryList', function() {
+ctmApp.directive('directiveAttachHistoryList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directiveAttachHistoryList.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
@@ -3824,41 +3930,41 @@ ctmApp.directive('directiveAttachHistoryList', function() {
 /*******************************************************业务指令开始***************************************************/
 /************************************投标评审开始*****************************/
 // 项目详情
-ctmApp.directive('directiveProjectPreReviewView', function() {
+ctmApp.directive('directiveProjectPreReviewView', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/ProjectPre/DirectiveProjectPreReviewView.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 相关资源
-ctmApp.directive('directiveFileList', function() {
+ctmApp.directive('directiveFileList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/ProjectPre/DirectiveFileList.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element,Upload){
-            $scope.selectAll = function(){
-                if($("#all").attr("checked")){
-                    $(":checkbox[name='choose']").attr("checked",1);
-                }else{
-                    $(":checkbox[name='choose']").attr("checked",false);
+        controller: function ($scope, $http, $element, Upload) {
+            $scope.selectAll = function () {
+                if ($("#all").attr("checked")) {
+                    $(":checkbox[name='choose']").attr("checked", 1);
+                } else {
+                    $(":checkbox[name='choose']").attr("checked", false);
                 }
             }
-            $scope.batchDownload = function(){
+            $scope.batchDownload = function () {
                 var filenames = "";
                 var filepaths = "";
-                $("input[type=checkbox][name=choose]:checked").each(function(){
-                    filenames+=$(this).attr("filename")+",";
-                    filepaths+=$(this).attr("filepath")+",";
+                $("input[type=checkbox][name=choose]:checked").each(function () {
+                    filenames += $(this).attr("filename") + ",";
+                    filepaths += $(this).attr("filepath") + ",";
                 });
-                if(filenames.length == 0 || filepaths.length == 0){
+                if (filenames.length == 0 || filepaths.length == 0) {
                     $.alert("请选择要打包下载的文件！");
                     return false;
                 }
@@ -3868,19 +3974,25 @@ ctmApp.directive('directiveFileList', function() {
             }
 
             //删除数组
-            $scope.deleteFile = function(item){
-                $.confirm("您确认要删除该文件吗？",function(){
+            $scope.deleteFile = function (item) {
+                $.confirm("您确认要删除该文件吗？", function () {
                     //根据UUID和版本号定位删除
                     $http({
-                        method:'post',
-                        url:srvUrl+"preInfo/deleteAttachment.do",
-                        data: $.param({"json":JSON.stringify({"UUID":item.UUID,"version":item.version,"businessId":$scope.pre.id})})
-                    }).success(function(data){
-                        if(data.success){
-                            $scope.newAttachment.splice(jQuery.inArray(item,$scope.newAttachment),1);
+                        method: 'post',
+                        url: srvUrl + "preInfo/deleteAttachment.do",
+                        data: $.param({
+                            "json": JSON.stringify({
+                                "UUID": item.UUID,
+                                "version": item.version,
+                                "businessId": $scope.pre.id
+                            })
+                        })
+                    }).success(function (data) {
+                        if (data.success) {
+                            $scope.newAttachment.splice(jQuery.inArray(item, $scope.newAttachment), 1);
                             $scope.getPreById($scope.pre.id);
                             $.alert("文件删除成功！");
-                        }else{
+                        } else {
                             $.alert(data.result_name);
                         }
                     });
@@ -3888,71 +4000,73 @@ ctmApp.directive('directiveFileList', function() {
             }
 
             //新增数组
-            $scope.addOneNewFile = function(){
-                function addBlankRow1(array){
+            $scope.addOneNewFile = function () {
+                function addBlankRow1(array) {
                     var blankRow = {
-                        newFile:true
+                        newFile: true
                     }
                     var size = array.length;
-                    array[size]=blankRow;
+                    array[size] = blankRow;
                 }
-                if(undefined==$scope.newAttachment){
-                    $scope.newAttachment={files:[]};
+
+                if (undefined == $scope.newAttachment) {
+                    $scope.newAttachment = {files: []};
                 }
                 addBlankRow1($scope.newAttachment);
             }
 
-            $scope.upload = function (file,errorFile, outId,item) {
-                if(errorFile && errorFile.length>0){
-                    if(errorFile[0].$error=='maxSize'){
+            $scope.upload = function (file, errorFile, outId, item) {
+                if (errorFile && errorFile.length > 0) {
+                    if (errorFile[0].$error == 'maxSize') {
                         var errorMsg = fileErrorMsg(errorFile);
                         $.alert(errorMsg);
-                    }else{
+                    } else {
                         $.alert("文件错误！");
                     }
-                }else if(file){
+                } else if (file) {
 
-                    if(item.approved == null || item.approved == "" || item.approved.NAME == null|| item.approved.NAME == ""){
+                    if (item.approved == null || item.approved == "" || item.approved.NAME == null || item.approved.NAME == "") {
                         $.alert("请选择审核人！");
                         return;
                     }
-                    if(item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == ""){
+                    if (item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == "") {
                         $.alert("请选择编制人！");
                         return;
                     }
 
-                    $.confirm("是否确认替换？",function(){
+                    $.confirm("是否确认替换？", function () {
                         Upload.upload({
-                            url:srvUrl+'common/RcmFile/upload',
-                            data: {file: file, folder:'',typeKey:'preAssessmentPath'}
+                            url: srvUrl + 'common/RcmFile/upload',
+                            data: {file: file, folder: '', typeKey: 'preAssessmentPath'}
                         }).then(function (resp) {
                             var retData = resp.data.result_data[0];
 
                             //根据UUID和版本号定位修改
                             $http({
-                                method:'post',
-                                url:srvUrl+"preInfo/updateAttachment.do",
-                                data: $.param({"json":JSON.stringify({
-                                        "UUID":item.UUID,
-                                        "version":item.version,
-                                        "businessId":$scope.pre.id,
-                                        "fileName":retData.fileName,
-                                        "filePath":retData.filePath,
-                                        "programmed":item.programmed,
-                                        "approved":item.approved
+                                method: 'post',
+                                url: srvUrl + "preInfo/updateAttachment.do",
+                                data: $.param({
+                                    "json": JSON.stringify({
+                                        "UUID": item.UUID,
+                                        "version": item.version,
+                                        "businessId": $scope.pre.id,
+                                        "fileName": retData.fileName,
+                                        "filePath": retData.filePath,
+                                        "programmed": item.programmed,
+                                        "approved": item.approved
                                     })
                                 })
-                            }).success(function(data){
-                                if(data.success){
+                            }).success(function (data) {
+                                if (data.success) {
                                     $scope.getPreById($scope.pre.id);
                                     $.alert("文件替换成功！");
-                                }else{
+                                } else {
                                     $.alert(data.result_name);
                                 }
                             });
 
-                            $scope.newAttachment[outId].fileName=retData.fileName;
-                            $scope.newAttachment[outId].filePath=retData.filePath;
+                            $scope.newAttachment[outId].fileName = retData.fileName;
+                            $scope.newAttachment[outId].filePath = retData.filePath;
                         }, function (resp) {
                             console.log('Error status: ' + resp.status);
                         }, function (evt) {
@@ -3962,50 +4076,50 @@ ctmApp.directive('directiveFileList', function() {
                 }
             };
 
-            $scope.uploadNew = function (file,errorFile, outId,item) {
-                if(errorFile && errorFile.length>0){
-                    if(errorFile[0].$error=='maxSize'){
+            $scope.uploadNew = function (file, errorFile, outId, item) {
+                if (errorFile && errorFile.length > 0) {
+                    if (errorFile[0].$error == 'maxSize') {
                         var errorMsg = fileErrorMsg(errorFile);
                         $.alert(errorMsg);
-                    }else{
+                    } else {
                         $.alert("文件错误！");
                     }
-                }else if(file){
-                    if(item.newItem == null || item.newItem.UUID == null || item.newItem.UUID == ""){
+                } else if (file) {
+                    if (item.newItem == null || item.newItem.UUID == null || item.newItem.UUID == "") {
                         $.alert("请选择资源类型！");
                         return;
                     }
-                    if(item.approved == null || item.approved == "" || item.approved.NAME == null|| item.approved.NAME == ""){
+                    if (item.approved == null || item.approved == "" || item.approved.NAME == null || item.approved.NAME == "") {
                         $.alert("请选择审核人！");
                         return;
                     }
-                    if(item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == ""){
+                    if (item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == "") {
                         $.alert("请选择编制人！");
                         return;
                     }
                     Upload.upload({
-                        url:srvUrl+'common/RcmFile/upload',
-                        data: {file: file, folder:'',typeKey:'preAssessmentPath'}
+                        url: srvUrl + 'common/RcmFile/upload',
+                        data: {file: file, folder: '', typeKey: 'preAssessmentPath'}
                     }).then(function (resp) {
                         var retData = resp.data.result_data[0];
 
                         //根据UUID处理版本号
                         var v = 0;
-                        for(var i in $scope.newAttachment){
+                        for (var i in $scope.newAttachment) {
 
-                            if($scope.newAttachment[i].newFile){
+                            if ($scope.newAttachment[i].newFile) {
                                 $scope.newAttachment[i] = $scope.newAttachment[i].newItem;
                             }
-                            if($scope.newAttachment[i].UUID == item.newItem.UUID){
-                                if($scope.newAttachment[i].version != undefined && $scope.newAttachment[i].version != null && $scope.newAttachment[i].version !=""){
-                                    if($scope.newAttachment[i].version > v){
+                            if ($scope.newAttachment[i].UUID == item.newItem.UUID) {
+                                if ($scope.newAttachment[i].version != undefined && $scope.newAttachment[i].version != null && $scope.newAttachment[i].version != "") {
+                                    if ($scope.newAttachment[i].version > v) {
                                         v = $scope.newAttachment[i].version;
                                     }
                                 }
 
                             }
                         }
-                        v++ ;
+                        v++;
                         item.fileName = retData.fileName;
                         item.filePath = retData.filePath;
 //            				item.programmed={"NAME":$scope.credentials.userName,"VALUE":$scope.credentials.UUID}
@@ -4013,18 +4127,25 @@ ctmApp.directive('directiveFileList', function() {
 
                         //根据UUID判断文件所属类别
                         $http({
-                            method:'post',
-                            url:srvUrl+"preInfo/addNewAttachment.do",
-                            data: $.param({"json":JSON.stringify({"UUID":item.newItem.UUID,"version":v,"businessId":$scope.pre.id,"item":item})})
-                        }).success(function(data){
-                            if(data.success){
+                            method: 'post',
+                            url: srvUrl + "preInfo/addNewAttachment.do",
+                            data: $.param({
+                                "json": JSON.stringify({
+                                    "UUID": item.newItem.UUID,
+                                    "version": v,
+                                    "businessId": $scope.pre.id,
+                                    "item": item
+                                })
+                            })
+                        }).success(function (data) {
+                            if (data.success) {
                                 $scope.getPreById($scope.pre.id);
-                            }else{
+                            } else {
                                 $.alert(data.result_name);
                             }
                         });
-                        $scope.newAttachment[outId].fileName=retData.fileName;
-                        $scope.newAttachment[outId].filePath=retData.filePath;
+                        $scope.newAttachment[outId].fileName = retData.fileName;
+                        $scope.newAttachment[outId].filePath = retData.filePath;
                     }, function (resp) {
                         console.log('Error status: ' + resp.status);
                     }, function (evt) {
@@ -4036,75 +4157,78 @@ ctmApp.directive('directiveFileList', function() {
     };
 });
 // 投标评审决策委员会第一部分
-ctmApp.directive('directivePreJcwyh', function() {
+ctmApp.directive('directivePreJcwyh', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectPre/DirectivePreJcwyh.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         }
 
     };
 });
 // 投标评审决策委员会第一部分（新）
-ctmApp.directive('directivePreJcwyhNew', function() {
+ctmApp.directive('directivePreJcwyhNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/ProjectPre/DirectivePreJcwyhNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         }
 
     };
 });
 
 //起草预评审报告弹窗
-ctmApp.directive('directivePreCreateReport', ['$location','$filter', function($location,$filter) {
+ctmApp.directive('directivePreCreateReport', ['$location', '$filter', function ($location, $filter) {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/ProjectPre/DirectivePreCreateReport.html',
         replace: true,
-        scope:{btnText:"@btnText",textValue:"@textValue"},
-        link:function(scope,element,attr){
+        scope: {btnText: "@btnText", textValue: "@textValue"},
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
-            $scope.x={};
+        controller: function ($scope, $http, $element) {
+            $scope.x = {};
             $scope.listProjectName = function () {
-                if($scope.$parent.pre && $scope.$parent.pre._id){//如果已经明确知道预评审项目
-                    $scope.pprs = [{BUSINESS_ID:$scope.$parent.pre._id,PROJECT_NAME:$scope.$parent.pre.apply.projectName}];
+                if ($scope.$parent.pre && $scope.$parent.pre._id) {//如果已经明确知道预评审项目
+                    $scope.pprs = [{
+                        BUSINESS_ID: $scope.$parent.pre._id,
+                        PROJECT_NAME: $scope.$parent.pre.apply.projectName
+                    }];
                     $scope.x.UUID = $scope.$parent.pre._id;
-                }else{
+                } else {
                     $http({
-                        method:'post',
-                        url:srvUrl+'preAuditReport/queryNotNewlyPreAuditProject.do'
-                    }).success(function(data){
-                        if(data.success){
+                        method: 'post',
+                        url: srvUrl + 'preAuditReport/queryNotNewlyPreAuditProject.do'
+                    }).success(function (data) {
+                        if (data.success) {
                             $scope.pprs = data.result_data;
                         }
-                    }).error(function(data,status,headers, config){
+                    }).error(function (data, status, headers, config) {
                         $.alert(status);
                     });
                 }
                 $scope.x.pmodel = "normal";
             };
-            $scope.forReport=function(model,uuid,comId){
-                if(model==null || model==""){
+            $scope.forReport = function (model, uuid, comId) {
+                if (model == null || model == "") {
                     $.alert("请选择项目模式!");
                     return false;
-                }else if(uuid==null || uuid=="") {
+                } else if (uuid == null || uuid == "") {
                     $.alert("请选择项目!");
                     return false;
-                }else{
+                } else {
                     $("#addModal").modal('hide');
                     var routePath = "";
-                    if(model == "normal"){
+                    if (model == "normal") {
                         routePath = "PreNormalReport";
                     }
 
-                    if(model == "other"){
+                    if (model == "other") {
                         routePath = "PreOtherReport";
                     }
-                    $location.path("/"+routePath+"/"+model+"/Create/"+uuid+"/"+$filter('encodeURI')('#/PreAuditReportList/0'));
+                    $location.path("/" + routePath + "/" + model + "/Create/" + uuid + "/" + $filter('encodeURI')('#/PreAuditReportList/0'));
                 }
             }
         }
@@ -4115,34 +4239,34 @@ ctmApp.directive('directivePreCreateReport', ['$location','$filter', function($l
 
 /************************************正式评审开始*****************************/
 // 项目详情
-ctmApp.directive('directiveProjectFormalAssessmentInfo', function() {
+ctmApp.directive('directiveProjectFormalAssessmentInfo', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalAssessmentInfo.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 相关资源
-ctmApp.directive('directiveProjectFormalFileList', function() {
+ctmApp.directive('directiveProjectFormalFileList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalFileList.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element,Upload){
-            $scope.batchDownload = function(){
+        controller: function ($scope, $http, $element, Upload) {
+            $scope.batchDownload = function () {
                 var filenames = "";
                 var filepaths = "";
-                $("input[type=checkbox][name=choose]:checked").each(function(){
-                    filenames+=$(this).attr("filename")+",";
-                    filepaths+=$(this).attr("filepath")+",";
+                $("input[type=checkbox][name=choose]:checked").each(function () {
+                    filenames += $(this).attr("filename") + ",";
+                    filepaths += $(this).attr("filepath") + ",";
                 });
-                if(filenames.length == 0 || filepaths.length == 0){
+                if (filenames.length == 0 || filepaths.length == 0) {
                     $.alert("请选择要打包下载的文件！");
                     return false;
                 }
@@ -4151,28 +4275,34 @@ ctmApp.directive('directiveProjectFormalFileList', function() {
                 downloadBatch(filenames, filepaths);
             }
 
-            $scope.selectAll = function(){
-                if($("#all").attr("checked")){
-                    $(":checkbox[name='choose']").attr("checked",1);
-                }else{
-                    $(":checkbox[name='choose']").attr("checked",false);
+            $scope.selectAll = function () {
+                if ($("#all").attr("checked")) {
+                    $(":checkbox[name='choose']").attr("checked", 1);
+                } else {
+                    $(":checkbox[name='choose']").attr("checked", false);
                 }
             }
 
             //删除数组
-            $scope.deleteFile = function(item){
-                $.confirm("您确认要删除该文件吗？",function(){
+            $scope.deleteFile = function (item) {
+                $.confirm("您确认要删除该文件吗？", function () {
                     //根据UUID和版本号定位删除
                     $http({
-                        method:'post',
-                        url:srvUrl+"formalAssessmentAudit/deleteAttachment.do",
-                        data: $.param({"json":JSON.stringify({"UUID":item.UUID,"version":item.version,"businessId":$scope.pfr.id})})
-                    }).success(function(data){
-                        if(data.success){
-                            $scope.newAttachment.splice(jQuery.inArray(item,$scope.newAttachment),1);
+                        method: 'post',
+                        url: srvUrl + "formalAssessmentAudit/deleteAttachment.do",
+                        data: $.param({
+                            "json": JSON.stringify({
+                                "UUID": item.UUID,
+                                "version": item.version,
+                                "businessId": $scope.pfr.id
+                            })
+                        })
+                    }).success(function (data) {
+                        if (data.success) {
+                            $scope.newAttachment.splice(jQuery.inArray(item, $scope.newAttachment), 1);
                             $scope.getFormalAssessmentByID($scope.pfr.id);
                             $.alert("文件删除成功！");
-                        }else{
+                        } else {
                             $.alert(data.result_name);
                         }
                     });
@@ -4180,71 +4310,73 @@ ctmApp.directive('directiveProjectFormalFileList', function() {
             }
 
             //新增数组
-            $scope.addOneNewFile = function(){
-                function addBlankRow1(array){
+            $scope.addOneNewFile = function () {
+                function addBlankRow1(array) {
                     var blankRow = {
-                        newFile:true
+                        newFile: true
                     }
                     var size = array.length;
-                    array[size]=blankRow;
+                    array[size] = blankRow;
                 }
-                if(undefined==$scope.newAttachment){
-                    $scope.newAttachment={files:[]};
+
+                if (undefined == $scope.newAttachment) {
+                    $scope.newAttachment = {files: []};
                 }
                 addBlankRow1($scope.newAttachment);
             }
 
-            $scope.upload = function (file,errorFile, outId,item) {
-                if(errorFile && errorFile.length>0){
-                    if(errorFile[0].$error=='maxSize'){
+            $scope.upload = function (file, errorFile, outId, item) {
+                if (errorFile && errorFile.length > 0) {
+                    if (errorFile[0].$error == 'maxSize') {
                         var errorMsg = fileErrorMsg(errorFile);
                         $.alert(errorMsg);
-                    }else{
+                    } else {
                         $.alert("文件错误！");
                     }
-                }else if(file){
+                } else if (file) {
 
-                    if(item.approved == null || item.approved == "" || item.approved.NAME == null|| item.approved.NAME == ""){
+                    if (item.approved == null || item.approved == "" || item.approved.NAME == null || item.approved.NAME == "") {
                         $.alert("请选择审核人！");
                         return;
                     }
-                    if(item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == ""){
+                    if (item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == "") {
                         $.alert("请选择编制人！");
                         return;
                     }
 
-                    $.confirm("是否确认替换？",function(){
+                    $.confirm("是否确认替换？", function () {
                         Upload.upload({
-                            url:srvUrl+'common/RcmFile/upload',
-                            data: {file: file,typeKey:'formalAssessmentPath'}
+                            url: srvUrl + 'common/RcmFile/upload',
+                            data: {file: file, typeKey: 'formalAssessmentPath'}
                         }).then(function (resp) {
                             var retData = resp.data.result_data[0];
 
                             //根据UUID和版本号定位修改
                             $http({
-                                method:'post',
-                                url:srvUrl+"formalAssessmentAudit/updateAttachment.do",
-                                data: $.param({"json":JSON.stringify({
-                                        "UUID":item.UUID,
-                                        "version":item.version,
-                                        "businessId":$scope.pfr.id,
-                                        "fileName":retData.fileName,
-                                        "filePath":retData.filePath,
-                                        "programmed":item.programmed,
-                                        "approved":item.approved
+                                method: 'post',
+                                url: srvUrl + "formalAssessmentAudit/updateAttachment.do",
+                                data: $.param({
+                                    "json": JSON.stringify({
+                                        "UUID": item.UUID,
+                                        "version": item.version,
+                                        "businessId": $scope.pfr.id,
+                                        "fileName": retData.fileName,
+                                        "filePath": retData.filePath,
+                                        "programmed": item.programmed,
+                                        "approved": item.approved
                                     })
                                 })
-                            }).success(function(data){
-                                if(data.success){
+                            }).success(function (data) {
+                                if (data.success) {
                                     $scope.getFormalAssessmentByID($scope.pfr.id);
                                     $.alert("文件替换成功！");
-                                }else{
+                                } else {
                                     $.alert(data.result_name);
                                 }
                             });
 
-                            $scope.newAttachment[outId].fileName=retData.fileName;
-                            $scope.newAttachment[outId].filePath=retData.filePath;
+                            $scope.newAttachment[outId].fileName = retData.fileName;
+                            $scope.newAttachment[outId].filePath = retData.filePath;
                         }, function (resp) {
                             console.log('Error status: ' + resp.status);
                         }, function (evt) {
@@ -4254,66 +4386,73 @@ ctmApp.directive('directiveProjectFormalFileList', function() {
                 }
             };
 
-            $scope.uploadNew = function (file,errorFile, outId,item) {
-                if(errorFile && errorFile.length>0){
-                    if(errorFile[0].$error=='maxSize'){
+            $scope.uploadNew = function (file, errorFile, outId, item) {
+                if (errorFile && errorFile.length > 0) {
+                    if (errorFile[0].$error == 'maxSize') {
                         var errorMsg = fileErrorMsg(errorFile);
                         $.alert(errorMsg);
-                    }else{
+                    } else {
                         $.alert("文件错误！");
                     }
-                }else if(file){
-                    if(item.newItem == null || item.newItem.UUID == null || item.newItem.UUID == ""){
+                } else if (file) {
+                    if (item.newItem == null || item.newItem.UUID == null || item.newItem.UUID == "") {
                         $.alert("请选择资源类型！");
                         return;
                     }
-                    if(item.approved == null || item.approved == "" || item.approved.NAME == null|| item.approved.NAME == ""){
+                    if (item.approved == null || item.approved == "" || item.approved.NAME == null || item.approved.NAME == "") {
                         $.alert("请选择审核人！");
                         return;
                     }
-                    if(item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == ""){
+                    if (item.programmed == null || item.programmed == "" || item.programmed.NAME == null || item.programmed.NAME == "") {
                         $.alert("请选择编制人！");
                         return;
                     }
                     Upload.upload({
-                        url:srvUrl+'common/RcmFile/upload',
-                        data: {file: file, folder:'',typeKey:'formalAssessmentPath'}
+                        url: srvUrl + 'common/RcmFile/upload',
+                        data: {file: file, folder: '', typeKey: 'formalAssessmentPath'}
                     }).then(function (resp) {
                         var retData = resp.data.result_data[0];
 
                         //根据UUID处理版本号
                         var v = 0;
-                        for(var i in $scope.newAttachment){
+                        for (var i in $scope.newAttachment) {
 
-                            if($scope.newAttachment[i].newFile){
+                            if ($scope.newAttachment[i].newFile) {
                                 $scope.newAttachment[i] = $scope.newAttachment[i].newItem;
                             }
-                            if($scope.newAttachment[i].UUID == item.newItem.UUID){
-                                if($scope.newAttachment[i].version != undefined && $scope.newAttachment[i].version != null && $scope.newAttachment[i].version !=""){
-                                    if($scope.newAttachment[i].version > v){
+                            if ($scope.newAttachment[i].UUID == item.newItem.UUID) {
+                                if ($scope.newAttachment[i].version != undefined && $scope.newAttachment[i].version != null && $scope.newAttachment[i].version != "") {
+                                    if ($scope.newAttachment[i].version > v) {
                                         v = $scope.newAttachment[i].version;
                                     }
                                 }
 
                             }
                         }
-                        v++ ;
+                        v++;
                         item.fileName = retData.fileName;
                         item.filePath = retData.filePath;
                         //根据UUID判断文件所属类别
                         $http({
-                            method:'post',
-                            url:srvUrl+"formalAssessmentAudit/addNewAttachment.do",
-                            data: $.param({"json":JSON.stringify({"UUID":item.newItem.UUID,"version":v,"businessId":$scope.pfr.id,"item":item})})
-                        }).success(function(data){
-                            if(data.success){
+                            method: 'post',
+                            url: srvUrl + "formalAssessmentAudit/addNewAttachment.do",
+                            data: $.param({
+                                "json": JSON.stringify({
+                                    "UUID": item.newItem.UUID,
+                                    "version": v,
+                                    "businessId": $scope.pfr.id,
+                                    "item": item
+                                })
+                            })
+                        }).success(function (data) {
+                            if (data.success) {
                                 $scope.getFormalAssessmentByID($scope.pfr.id);
-                            }else{
+                            } else {
                                 $.alert(data.result_name);
                             }
                         });
-                        $scope.newAttachment[outId].fileName=retData.fileName;
-                        $scope.newAttachment[outId].filePath=retData.filePath;
+                        $scope.newAttachment[outId].fileName = retData.fileName;
+                        $scope.newAttachment[outId].filePath = retData.filePath;
                     }, function (resp) {
                         console.log('Error status: ' + resp.status);
                     }, function (evt) {
@@ -4326,178 +4465,181 @@ ctmApp.directive('directiveProjectFormalFileList', function() {
     };
 });
 //测算意见
-ctmApp.directive('directiveFormalCesuanOpinion', function() {
+ctmApp.directive('directiveFormalCesuanOpinion', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalCesuanOpinion.html',
         replace: true,
-        controller:function($scope,$http,$element,$location,$routeParams) {
+        controller: function ($scope, $http, $element, $location, $routeParams) {
 
         }
     };
 });
 //协议意见
-ctmApp.directive('directiveFormalProtocolOpinion', function() {
+ctmApp.directive('directiveFormalProtocolOpinion', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalProtocolOpinion.html',
         replace: true,
-        controller:function($scope,$http,$element,$location,$routeParams) {
+        controller: function ($scope, $http, $element, $location, $routeParams) {
 
         }
     };
 });
 
 // 意见（NEW）
-ctmApp.directive('directiveFormalOpinionNew', function() {
+ctmApp.directive('directiveFormalOpinionNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalOpinionNew.html',
         replace: true,
-        controller:function($scope,$http,$element,$location,$routeParams) {
+        controller: function ($scope, $http, $element, $location, $routeParams) {
 
         }
     };
 });
 
 // 评审用成本及费用
-ctmApp.directive('directiveFormalReportCbfy', function() {
+ctmApp.directive('directiveFormalReportCbfy', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportCbfy.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 风险及问题总结
-ctmApp.directive('directiveFormalReportFxjwtzj', function() {
+ctmApp.directive('directiveFormalReportFxjwtzj', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportFxjwtzj.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 结论与建议
-ctmApp.directive('directiveFormalReportJlyjy', function() {
+ctmApp.directive('directiveFormalReportJlyjy', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportJlyjy.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 评审用成本及费用(新)
-ctmApp.directive('directiveFormalReportCbfyNew', function() {
+ctmApp.directive('directiveFormalReportCbfyNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportCbfyNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 风险及问题总结(新)
-ctmApp.directive('directiveFormalReportFxjwtzjNew', function() {
+ctmApp.directive('directiveFormalReportFxjwtzjNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportFxjwtzjNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 结论与建议(新)
-ctmApp.directive('directiveFormalReportJlyjyNew', function() {
+ctmApp.directive('directiveFormalReportJlyjyNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportJlyjyNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 后续执行要求(新)
-ctmApp.directive('directiveFormalReportHxzxyqNew', function() {
+ctmApp.directive('directiveFormalReportHxzxyqNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportHxzxyqNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 专业评审意见(新)
-ctmApp.directive('directiveFormalReportZypsyjNew', function() {
+ctmApp.directive('directiveFormalReportZypsyjNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportZypsyjNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 后续执行要求
-ctmApp.directive('directiveFormalReportHxzxyq', function() {
+ctmApp.directive('directiveFormalReportHxzxyq', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportHxzxyq.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 专业评审意见
-ctmApp.directive('directiveFormalReportZypsyj', function() {
+ctmApp.directive('directiveFormalReportZypsyj', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalReportZypsyj.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 是否需要上会
-ctmApp.directive('directiveNeedMeeting', function() {
+ctmApp.directive('directiveNeedMeeting', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveNeedMeeting.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
-            $scope.saveNeetMeetingState = function(state,businessId){
+        controller: function ($scope, $http, $element) {
+            $scope.saveNeetMeetingState = function (state, businessId) {
                 $scope.confirmMeetingUrl = $scope.confirmMeetingUrl.replace("{{formalReport._id}}", $scope.formalReport._id);
                 $scope.confirmMeetingUrl = $scope.confirmMeetingUrl.replace("{{pageFlag}}", $scope.pageFlag);
-                $scope.$parent.httpData("rcm/ProjectInfo/updateProjectInfo",{needMeeting:state,businessId:businessId}).success(function(data){
+                $scope.$parent.httpData("rcm/ProjectInfo/updateProjectInfo", {
+                    needMeeting: state,
+                    businessId: businessId
+                }).success(function (data) {
                     window.location.href = $scope.confirmMeetingUrl;
                 })
             }
-            $scope.confirmMeeting = function(url){
-                $.confirm("确认后将不可更改，确认不上会？", function(){
+            $scope.confirmMeeting = function (url) {
+                $.confirm("确认后将不可更改，确认不上会？", function () {
                     $scope.confirmMeetingUrl = url;
                     $scope.saveNeetMeetingState(1, $scope.formalReport.projectFormalId)
                 });
@@ -4506,40 +4648,40 @@ ctmApp.directive('directiveNeedMeeting', function() {
     };
 });
 // 正式评审决策委员会第一部分(旧)
-ctmApp.directive('directiveFormalJcwyh', function() {
+ctmApp.directive('directiveFormalJcwyh', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalJcwyh.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         }
 
     };
 });
 // 正式评审决策委员会第一部分(新)
-ctmApp.directive('directiveFormalJcwyhNew', function() {
+ctmApp.directive('directiveFormalJcwyhNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveFormalJcwyhNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         }
 
     };
 });
 // 切换模板提示
-ctmApp.directive('directPromptBoxFormal', function() {
+ctmApp.directive('directPromptBoxFormal', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/directPromptBoxFormal.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
             title: "@",
             //是否显示
-            isShow:"=?bind",
+            isShow: "=?bind",
             // select框数据
             summaryTemplate: "=",
             // select框留存初始化数据
@@ -4549,26 +4691,26 @@ ctmApp.directive('directPromptBoxFormal', function() {
             // 调用的父页面的方法
             summaryTemplateChange: "&summaryTemplateChange"
         },
-        link:function($scope,$element,$attrs){
-            $scope.change = function(){
-                if($scope.template.ITEM_CODE != $scope.templateBak.ITEM_CODE){
+        link: function ($scope, $element, $attrs) {
+            $scope.change = function () {
+                if ($scope.template.ITEM_CODE != $scope.templateBak.ITEM_CODE) {
                     $scope.isShow = true;
                 }
             };
             $scope.submit = function () {
                 $scope.templateBak = angular.copy($scope.template);
-                $scope.summaryTemplateChange({type:$scope.template});
+                $scope.summaryTemplateChange({type: $scope.template});
                 $scope.isShow = false;
                 $('.modal-backdrop').remove();
                 $('#main-body').removeClass("modal-open");
             }
         },
-        controller: function($scope, $http, $element, Upload){
-            $scope.initDefaultData = function(){
-                if($scope.title==null){
+        controller: function ($scope, $http, $element, Upload) {
+            $scope.initDefaultData = function () {
+                if ($scope.title == null) {
                     $scope.title = "提示信息";
                 }
-                if($scope.isShow==null|| ($scope.isShow!="true" && $scope.isShow!="false")){
+                if ($scope.isShow == null || ($scope.isShow != "true" && $scope.isShow != "false")) {
                     $scope.isShow = false;
                 }
 
@@ -4584,53 +4726,53 @@ ctmApp.directive('directPromptBoxFormal', function() {
     };
 });
 // 提交决策会材料返回
-ctmApp.directive('directiveFormalReturnBtn', function() {
+ctmApp.directive('directiveFormalReturnBtn', function () {
     return {
         restrict: 'E',
         //templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
         // '<a class="btn btn-info" ng-href="{{url|decodeURI}}" ng-click="callback()"><i class="fa fa-reply"></i>返回</a>'
         template: '<a ng-href="{{url|decodeURI}}" ng-click="callback()">返回</a>',
         replace: true,
-        scope:{url:'@',callback:"&"},
-        link:function(scope,element,attr){
+        scope: {url: '@', callback: "&"},
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 正式评审评审申请单详情
-ctmApp.directive('directiveProjectFormalReview', function() {
+ctmApp.directive('directiveProjectFormalReview', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalReview.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 //
-ctmApp.directive('directiveProjectFormalBusinessUnitCommit', function() {
+ctmApp.directive('directiveProjectFormalBusinessUnitCommit', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/DirectiveProjectFormalBusinessUnitCommit.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
 // 提交决策会材料模板内容查看
-ctmApp.directive('directiveProjectFormalTempData', function() {
+ctmApp.directive('directiveProjectFormalTempData', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/projectFormal/directiveProjectFormalTempData.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
         }
     };
 });
@@ -4643,48 +4785,49 @@ ctmApp.directive('directiveProjectFormalTempData', function() {
 
 /*******************************************************流程指令开始***************************************************/
 // 旧流程图
-ctmApp.directive('directiveProcessList', function() {
+ctmApp.directive('directiveProcessList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveProcessList.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
             $scope.wf = {};
 
-            $scope.$watch("pre + pfr", function(){
-                if($scope.pre == null){
+            $scope.$watch("pre + pfr", function () {
+                if ($scope.pre == null) {
                     $scope.proj = $scope.pfr;
-                }else{
+                } else {
                     $scope.proj = $scope.pre;
                 }
             });
-            if($scope.wfInfo.processInstanceId == null || $scope.wfInfo.processInstanceId == ''){
+            if ($scope.wfInfo.processInstanceId == null || $scope.wfInfo.processInstanceId == '') {
                 $.ajax({
-                    type:'post',
+                    type: 'post',
                     url: srvUrl + "bpmn/getProcessInstanceId.do",
-                    data: $.param({"businessId":$scope.wfInfo.businessId}),
+                    data: $.param({"businessId": $scope.wfInfo.businessId}),
                     dataType: "json",
                     async: false,
-                    success:function(result){
-                        if(result.success && result.result_data != null &&result.result_data != ''){
+                    success: function (result) {
+                        if (result.success && result.result_data != null && result.result_data != '') {
                             $scope.wfInfo.processInstanceId = result.result_data.PROC_INST_ID_;
                             $scope.wfInfo.processDefinitionId = result.result_data.PROC_DEF_ID_;
-                        }else{
+                        } else {
                             return false;
                         }
                     }
                 });
             }
             //获取审批历史
-            if($scope.wfInfo && $scope.wfInfo.processInstanceId){
+            if ($scope.wfInfo && $scope.wfInfo.processInstanceId) {
                 //如果有流程实例ID
                 //获取审批历史
-                $scope.$parent.httpData('bpm/WorkFlow/getProcessInstanceApproveHistory',$scope.wfInfo).success(
-                    function(data){
-                        if(data.result_code == 'S'){
-                            $scope.wf.historyList = data.result_data;;
+                $scope.$parent.httpData('bpm/WorkFlow/getProcessInstanceApproveHistory', $scope.wfInfo).success(
+                    function (data) {
+                        if (data.result_code == 'S') {
+                            $scope.wf.historyList = data.result_data;
+                            ;
                         }
                     }
                 );
@@ -4692,12 +4835,12 @@ ctmApp.directive('directiveProcessList', function() {
                 //获取流程图
                 $scope.wf.processDefinitionId = $scope.wfInfo.processDefinitionId;
                 //获取当前节点位置
-                $scope.$parent.httpData('bpm/WorkFlow/getActiveActivityIds',$scope.wfInfo).success(function(data){
+                $scope.$parent.httpData('bpm/WorkFlow/getActiveActivityIds', $scope.wfInfo).success(function (data) {
                     $scope.wf.currentNodes = data.result_data;
                 });
-            }else{
+            } else {
                 //起草阶段
-                $scope.$parent.httpData('bpm/WorkFlow/getProcessDefinitionId',$scope.wfInfo).success(function(data){
+                $scope.$parent.httpData('bpm/WorkFlow/getProcessDefinitionId', $scope.wfInfo).success(function (data) {
                     $scope.wf.processDefinitionId = data.result_data.processDefinitionId;
                 });
             }
@@ -4705,26 +4848,26 @@ ctmApp.directive('directiveProcessList', function() {
     };
 });
 // 新流程图
-ctmApp.directive('directiveProcessPage', function() {
+ctmApp.directive('directiveProcessPage', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveProcessPage.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
             $scope.wf = {};
             $scope.processType = $scope.$parent.progressType || $scope.progressType;
             console.log($scope);
             //获取流程图
-            $scope.$watch("refreshImg", function(){
-                if($scope.wfInfo!=null && $scope.wfInfo.businessId != null){
+            $scope.$watch("refreshImg", function () {
+                if ($scope.wfInfo != null && $scope.wfInfo.businessId != null) {
                     //如果businessId不为空，说明流程已经提交，要获取当前节点位置
-                    $scope.$parent.httpData('bpm/WorkFlow/getActiveActivityIds',$scope.wfInfo).success(function(data){
+                    $scope.$parent.httpData('bpm/WorkFlow/getActiveActivityIds', $scope.wfInfo).success(function (data) {
                         $scope.wf.currentNodes = data.result_data;
                     });
                 }
-                $scope.$parent.httpData('bpm/WorkFlow/getProcessDefinitionId',$scope.wfInfo).success(function(data){
+                $scope.$parent.httpData('bpm/WorkFlow/getProcessDefinitionId', $scope.wfInfo).success(function (data) {
                     $scope.wf.processDefinitionId = data.result_data.processDefinitionId;
                 });
             });
@@ -4732,38 +4875,38 @@ ctmApp.directive('directiveProcessPage', function() {
     };
 });
 // 旧流程提交框
-ctmApp.directive('approvePopWin', function(){
+ctmApp.directive('approvePopWin', function () {
     return {
-        restrict:'AE',
-        templateUrl:'page/sys/directive/approvePopWin.html',
-        replace:'true',
-        scope:{approve:'=',approvearr:'='},
-        controller:function($scope,$location){
+        restrict: 'AE',
+        templateUrl: 'page/sys/directive/approvePopWin.html',
+        replace: 'true',
+        scope: {approve: '=', approvearr: '='},
+        controller: function ($scope, $location) {
 //        	$scope.approve = {};
-            $scope.changeData = function(idx){
+            $scope.changeData = function (idx) {
                 $scope.submitInfo = $scope.approve[idx].submitInfo;
                 $scope.toNodeType = $scope.approve[idx].toNodeType;
                 $scope.redirectUrl = $scope.approve[idx].redirectUrl;
             }
 
-            $scope.$watch("approvearr+approve", function(){
+            $scope.$watch("approvearr+approve", function () {
                 var str = JSON.stringify($scope.approvearr);
-                if(str!=null){
-                    $scope.approve=JSON.parse(str);
+                if (str != null) {
+                    $scope.approve = JSON.parse(str);
                 }
 
-                if($scope.approve!=null && !Array.isArray($scope.approve)){
+                if ($scope.approve != null && !Array.isArray($scope.approve)) {
                     $scope.isAllocateTask = false;
                     $scope.approve = $scope.approve.approve;
                     $scope.emergencyLevel = "一般";
                 }
-                if(typeof ($scope.approve)!='undefined'){
-                    for(var i=0;i<$scope.approve.length;i++){//添加默认的newTaskVar属性
+                if (typeof ($scope.approve) != 'undefined') {
+                    for (var i = 0; i < $scope.approve.length; i++) {//添加默认的newTaskVar属性
                         var si = $scope.approve[i].submitInfo;
-                        if(typeof (si.newTaskVar)=='undefined'){
-                            $scope.approve[i].submitInfo.newTaskVar = {submitBy:$scope.$parent.credentials.userName};
-                        }else{
-                            if(typeof (si.newTaskVar.submitBy)=='undefined'){
+                        if (typeof (si.newTaskVar) == 'undefined') {
+                            $scope.approve[i].submitInfo.newTaskVar = {submitBy: $scope.$parent.credentials.userName};
+                        } else {
+                            if (typeof (si.newTaskVar.submitBy) == 'undefined') {
                                 $scope.approve[i].submitInfo.newTaskVar.submitBy = $scope.$parent.credentials.userName;
                             }
                         }
@@ -4771,60 +4914,60 @@ ctmApp.directive('approvePopWin', function(){
                     $scope.toNodeIndex = 0;
                     $scope.changeData($scope.toNodeIndex);
                 }
-            },true);
+            }, true);
 
-            $scope.changeToNodeIndex = function(){
+            $scope.changeToNodeIndex = function () {
                 var idx = $scope.toNodeIndex;
-                if($scope.approve[idx].submitInfo.currentTaskVar == null || $scope.approve[idx].submitInfo.currentTaskVar.cesuanFileOpinion==null){
+                if ($scope.approve[idx].submitInfo.currentTaskVar == null || $scope.approve[idx].submitInfo.currentTaskVar.cesuanFileOpinion == null) {
                     $("#cesuanFileOpinionDiv").hide();
                     $("#tzProtocolOpinionDiv").hide();
-                }else{
+                } else {
                     $("#cesuanFileOpinionDiv").show();
                     $("#tzProtocolOpinionDiv").show();
                 }
                 $scope.changeData(idx);
             }
-            $scope.submitNext = function(){
-                if(typeof($scope.submitInfo)=='undefined'){
+            $scope.submitNext = function () {
+                if (typeof($scope.submitInfo) == 'undefined') {
                     $.alert("请选择下一环节！");
                     return;
                 }
-                if($scope.submitInfo.runtimeVar!=null && $scope.submitInfo.runtimeVar.inputUser==""){
+                if ($scope.submitInfo.runtimeVar != null && $scope.submitInfo.runtimeVar.inputUser == "") {
                     $('#submitModal').modal('hide');
                     $.alert("请先分配任务！");
                     return;
                 }
-                if($scope.submitInfo.runtimeVar!=null && $scope.submitInfo.runtimeVar.legalReviewLeader==""){
+                if ($scope.submitInfo.runtimeVar != null && $scope.submitInfo.runtimeVar.legalReviewLeader == "") {
                     $('#submitModal').modal('hide');
                     $.alert("请先分配任务！");
                     return;
                 }
-                if($scope.$parent.$parent.showController!=null && $scope.$parent.$parent.showController.isTask!=null){
+                if ($scope.$parent.$parent.showController != null && $scope.$parent.$parent.showController.isTask != null) {
                     //保存任务分配信息
                     $scope.$parent.$parent.myTaskallocation.businessId = $scope.submitInfo.businessId;
-                    if($scope.$parent.$parent.wfInfo.processKey == 'preAssessment'){
+                    if ($scope.$parent.$parent.wfInfo.processKey == 'preAssessment') {
                         $.ajax({
-                            type:'post',
+                            type: 'post',
                             url: srvUrl + "preInfo/saveTaskPerson.do",
-                            data: $.param({"task":JSON.stringify($scope.$parent.$parent.myTaskallocation)}),
+                            data: $.param({"task": JSON.stringify($scope.$parent.$parent.myTaskallocation)}),
                             dataType: "json",
                             async: false,
-                            success:function(result){
-                                if(!result.success){
+                            success: function (result) {
+                                if (!result.success) {
                                     alert(result.result_name);
                                     return false;
                                 }
                             }
                         });
-                    }else if($scope.$parent.$parent.wfInfo.processKey == 'formalAssessment'){
+                    } else if ($scope.$parent.$parent.wfInfo.processKey == 'formalAssessment') {
                         $.ajax({
-                            type:'post',
+                            type: 'post',
                             url: srvUrl + "formalAssessmentAudit/saveTaskToMongo.do",
-                            data: $.param({"task":JSON.stringify($scope.$parent.$parent.myTaskallocation)}),
+                            data: $.param({"task": JSON.stringify($scope.$parent.$parent.myTaskallocation)}),
                             dataType: "json",
                             async: false,
-                            success:function(result){
-                                if(!result.success){
+                            success: function (result) {
+                                if (!result.success) {
                                     alert(result.result_name);
                                     return false;
                                 }
@@ -4834,45 +4977,45 @@ ctmApp.directive('approvePopWin', function(){
                 }
                 var taskId = $scope.submitInfo.taskId;
                 var url = "bpm/WorkFlow/startProcess";
-                if(taskId && taskId!=""){
+                if (taskId && taskId != "") {
                     url = "bpm/WorkFlow/approve";
                 }
                 var cesuan = null;
                 var tz = null;
-                if($scope.submitInfo.currentTaskVar!=null && $scope.submitInfo.currentTaskVar.cesuanFileOpinion!=null ){
+                if ($scope.submitInfo.currentTaskVar != null && $scope.submitInfo.currentTaskVar.cesuanFileOpinion != null) {
                     cesuan = $scope.submitInfo.currentTaskVar.cesuanFileOpinion;
                     tz = $scope.submitInfo.currentTaskVar.tzProtocolOpinion;
                 }
-                if(cesuan!=null && (cesuan==""||tz=="")){
+                if (cesuan != null && (cesuan == "" || tz == "")) {
                     $.alert("测算文件和投资协议的意见必须填写！");
                     return;
                 }
-                if($scope.emergencyLevel!=null){
+                if ($scope.emergencyLevel != null) {
                     $scope.submitInfo.emergencyLevel = $scope.emergencyLevel;
                 }
                 var auditUrl = $location.absUrl();
                 var preUrl = "";
 
-                if(auditUrl.indexOf("preAssessment") > 0){
+                if (auditUrl.indexOf("preAssessment") > 0) {
                     preUrl = "ProjectPreReviewView"
-                }else if(auditUrl.indexOf("formalAssessment") > 0){
+                } else if (auditUrl.indexOf("formalAssessment") > 0) {
                     preUrl = "ProjectFormalReviewDetailView/View";
-                }else if(auditUrl.indexOf("NoticeOfDecision") > 0){
+                } else if (auditUrl.indexOf("NoticeOfDecision") > 0) {
                     preUrl = "NoticeOfDecision/view";
                 }
                 var redirectUrl = null;
-                if(preUrl!=""){
-                    redirectUrl = preUrl+auditUrl.substring(auditUrl.lastIndexOf("/"));
+                if (preUrl != "") {
+                    redirectUrl = preUrl + auditUrl.substring(auditUrl.lastIndexOf("/"));
                     redirectUrl = redirectUrl.replace(taskId, "");
                 }
                 $scope.redirectUrl = null;
-                if($scope.submitInfo.currentTaskVar!=null && $scope.submitInfo.currentTaskVar.opinion!=null){
+                if ($scope.submitInfo.currentTaskVar != null && $scope.submitInfo.currentTaskVar.opinion != null) {
                     $scope.submitInfo.runtimeVar.opinion = $scope.submitInfo.currentTaskVar.opinion;
                 }
                 show_Mask();
-                $scope.$parent.httpData(url, $scope.submitInfo).success(function(data){
+                $scope.$parent.httpData(url, $scope.submitInfo).success(function (data) {
                     hide_Mask();
-                    if(data.success){
+                    if (data.success) {
                         $scope.submitAllReady = true;
                         $('#submitModal').modal('hide');
                         $('#submitModalOld').modal('hide');
@@ -4882,22 +5025,22 @@ ctmApp.directive('approvePopWin', function(){
 //                        	$location.path($location.url());
 //                        }
 
-                        if(typeof $scope.redirectUrl == 'string'){//如果配置的有跳转链接
+                        if (typeof $scope.redirectUrl == 'string') {//如果配置的有跳转链接
                             $location.path($scope.redirectUrl);
-                        }else{
+                        } else {
                             $.alert(data.result_name);
-                            if(redirectUrl!=null){
+                            if (redirectUrl != null) {
                                 $location.path(redirectUrl);
                             }
                         }
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
 
             }
             //设置常用意见
-            $scope.setOpinion = function(opinion){
+            $scope.setOpinion = function (opinion) {
                 $scope.submitInfo.currentTaskVar.opinion = opinion;
             }
         }
@@ -4975,9 +5118,9 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     return;
                 }
                 /*if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5020,9 +5163,9 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     return;
                 }
                 /*if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5294,10 +5437,10 @@ ctmApp.directive('preReviewBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-               /* if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                /* if ($scope.flowVariables.opinion.length < 20) {
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5483,9 +5626,9 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     return;
                 }
                 /*if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5527,10 +5670,10 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $.alert("审批意见不能为空！");
                     return;
                 }
-               /* if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                /* if ($scope.flowVariables.opinion.length < 20) {
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -5727,7 +5870,7 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     $scope.showReviewToConfirm = false;
                     $scope.showLegalToConfirm = false;
                 }
-                
+
                 if ("submit" == $scope.approve.operateType) {
                     $scope.submit();
                 } else if ("audit" == $scope.approve.operateType) {
@@ -5905,9 +6048,9 @@ ctmApp.directive('formalAssessmentBpmnPopWin', function () {
                     return;
                 }
                 /*if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -6121,9 +6264,9 @@ ctmApp.directive('bpmnPopWin', function () {
                     return;
                 }
                 /*if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -6171,9 +6314,9 @@ ctmApp.directive('bpmnPopWin', function () {
                     return;
                 }
                 /*if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -6238,9 +6381,9 @@ ctmApp.directive('bpmnPopWin', function () {
                     return;
                 }
                 /*if ($scope.flowVariables.opinion.length < 20) {
-                    $.alert("审批意见不能少于20字！");
-                    return;
-                }*/
+                 $.alert("审批意见不能少于20字！");
+                 return;
+                 }*/
                 if ($scope.flowVariables.opinion.length > 650) {
                     $.alert("审批意见不能超过650字！");
                     return;
@@ -6343,19 +6486,19 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
             // $scope.paginationConf
 
             $scope.initData = function () {
-                if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
+                if ($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == '') {
                     $scope.paginationConf.queryObj = {};
                 }
                 $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
                 $scope.paginationConf.itemsPerPage = 5;
                 $http({
-                    method:'post',
+                    method: 'post',
                     url: srvUrl + "fillMaterials/querySubmitList.do",
                     data: $.param({
-                        "page":JSON.stringify($scope.paginationConf),
-                        "json":JSON.stringify($scope.paginationConf.queryObj)
+                        "page": JSON.stringify($scope.paginationConf),
+                        "json": JSON.stringify($scope.paginationConf.queryObj)
                     })
-                }).success(function(result){
+                }).success(function (result) {
                     $scope.submitList = result.result_data.list;
                 });
             };
@@ -6369,7 +6512,6 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     url: srvUrl + "formalReport/findFormalAndReport.do",
                     data: $.param({"projectFormalId": id})
                 }).success(function (data) {
-                    debugger
                     $scope.projectSummary = data.result_data.summary;
                     $scope.stage = data.result_data.stage;
                     $scope.type = data.result_data.biddingType;
@@ -6377,24 +6519,24 @@ ctmApp.directive('fillMaterial', ['$filter', function ($filter) {
                     console.log($scope.type)
                     var path = $filter('encodeURI')('#/IndividualTable');
                     /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
-                        $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
-                    } else {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
-                    }*/
+                     $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+                     } else {
+                     $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                     }*/
                     // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
-                    if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
-                        $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/2");
+                    if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT') {
+                        $location.path("/FormalBiddingInfoPreviewOld/" + id + "/" + path + "/2");
                     } else if ($scope.stage == 7) {
-                        if($scope.type == 'PPT') {
-                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
+                        if ($scope.type == 'PPT') {
+                            $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/2");
                         } else {
-                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
+                            $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/2");
                         }
                     } else {
-                        if($scope.type == 'PPT') {
-                            $location.path("/OtherBidding/0/View/"+ id + "/" + path);
+                        if ($scope.type == 'PPT') {
+                            $location.path("/OtherBidding/0/View/" + id + "/" + path);
                         } else {
-                            $location.path("/FormalBiddingInfo/"+ id + "/" + path + "/3");
+                            $location.path("/FormalBiddingInfo/" + id + "/" + path + "/3");
                         }
                     }
                 }).error(function (data, status, header, config) {
@@ -6421,64 +6563,64 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
         controller: function ($scope, $location, $http) {
 
             $scope.initDataFill = function () {
-                if($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == ''){
+                if ($scope.paginationConf.queryObj == null || $scope.paginationConf.queryObj == '') {
                     $scope.paginationConf.queryObj = {};
                 }
                 $scope.paginationConf.queryObj.userId = $scope.credentials.UUID;
                 $scope.paginationConf.itemsPerPage = 5;
                 $http({
-                    method:'post',
+                    method: 'post',
                     url: srvUrl + "fillMaterials/queryNoSubmitList.do",
                     data: $.param({
-                        "page":JSON.stringify($scope.paginationConf),
-                        "json":JSON.stringify($scope.paginationConf.queryObj)
+                        "page": JSON.stringify($scope.paginationConf),
+                        "json": JSON.stringify($scope.paginationConf.queryObj)
                     })
-                }).success(function(result){
+                }).success(function (result) {
                     $scope.noSubmitList = result.result_data.list;
                 });
             };
             $scope.initDataFill();
-            $scope.r={};
+            $scope.r = {};
             //新建评审报告
             $scope.openRFIReport = function (noSubmit) {
                 $scope.toCreateReport = noSubmit;
-                $scope.r.pmodel="FormalReviewReport/Create";
+                $scope.r.pmodel = "FormalReviewReport/Create";
             };
             $scope.y = {};
             $scope.openRFIBiddingInfo = function (noSubmit) {
                 $scope.toCreateBiddingInfo = noSubmit;
-                $scope.y.pmodel="OtherBidding/0/Create/";
+                $scope.y.pmodel = "OtherBidding/0/Create/";
             };
 
             //编辑评审报告
-            $scope.createRFIReport = function(model,uuid){
+            $scope.createRFIReport = function (model, uuid) {
                 var ind = model.lastIndexOf("/");
-                var modelAction = model.substring(ind + 1,model.length);
-                if(modelAction == 'Update'){
+                var modelAction = model.substring(ind + 1, model.length);
+                if (modelAction == 'Update') {
                     $.alert("请选择项目模式!");
                     return false;
-                }else if(uuid == null || uuid == ""){
+                } else if (uuid == null || uuid == "") {
                     $.alert("请选择一个项目!");
                     return false;
-                }else{
-                    var routePath = model.substring(0,ind);
+                } else {
+                    var routePath = model.substring(0, ind);
                     $('#addModal').modal('hide');
-                    $location.path("/"+routePath+"/0/Create/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+                    $location.path("/" + routePath + "/0/Create/" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable'));
                 }
             }
 
             //编辑正是评审提交决策会材料
-            $scope.createRFIBiddingInfo = function(model,uuid){
+            $scope.createRFIBiddingInfo = function (model, uuid) {
                 console.log(model);
                 console.log(uuid);
                 var ind = model.lastIndexOf("/");
-                var modelAction = model.substring(ind + 1,model.length);
-                var routePath = model.substring(0,ind);
+                var modelAction = model.substring(ind + 1, model.length);
+                var routePath = model.substring(0, ind);
                 $('#addModal4').modal('hide');
                 if (model == 'normal') {
-                    $location.path("/FormalBiddingInfo/"+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable') + '/0');
+                    $location.path("/FormalBiddingInfo/" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable') + '/0');
                 } else {
-                    $location.path("/"+model+""+uuid+"@2/"+$filter('encodeURI')('#/IndividualTable'));
+                    $location.path("/" + model + "" + uuid + "@2/" + $filter('encodeURI')('#/IndividualTable'));
                 }
             }
 
@@ -6498,24 +6640,24 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
                     console.log($scope.type)
                     var path = $filter('encodeURI')('#/IndividualTable');
                     /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
-                        $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
-                    } else {
-                        $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
-                    }*/
+                     $location.path("/FormalBiddingInfo_view/"+ id + "/" + path);
+                     } else {
+                     $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/3");
+                     }*/
                     // #/FormalBiddingInfo/5afcc2e6ddd03412cebef6e5@2/JTI1MjMlMkZGb3JtYWxCaWRkaW5nSW5mb0xpc3QlMkYw/0
-                    if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT'){
-                        $location.path("/FormalBiddingInfoPreviewOld/"+ id + "/" + path + "/2");
+                    if (($scope.projectSummary == null || $scope.projectSummary == undefined) && $scope.type != 'PPT') {
+                        $location.path("/FormalBiddingInfoPreviewOld/" + id + "/" + path + "/2");
                     } else if ($scope.stage == 7) {
-                        if($scope.type == 'PPT') {
-                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
+                        if ($scope.type == 'PPT') {
+                            $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/2");
                         } else {
-                            $location.path("/FormalBiddingInfoPreview/"+ id + "/" + path + "/2");
+                            $location.path("/FormalBiddingInfoPreview/" + id + "/" + path + "/2");
                         }
                     } else {
-                        if($scope.type == 'PPT') {
-                            $location.path("/OtherBidding/0/View/"+ id + "/" + path);
+                        if ($scope.type == 'PPT') {
+                            $location.path("/OtherBidding/0/View/" + id + "/" + path);
                         } else {
-                            $location.path("/FormalBiddingInfo/"+ id + "/" + path + "/3");
+                            $location.path("/FormalBiddingInfo/" + id + "/" + path + "/3");
                         }
                     }
                 }).error(function (data, status, header, config) {
@@ -6526,7 +6668,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
             $scope.x = {};
             $scope.openPREReport = function (noSubmit) {
                 $scope.preProjectName = noSubmit;
-                $scope.x.pmodel="normal";
+                $scope.x.pmodel = "normal";
             };
 
             //新建投资评审报告
@@ -6638,177 +6780,177 @@ ctmApp.directive('cloudFile', function () {
         restrict: 'AE',
         templateUrl: 'page/sys/common/cloud-file.html',
         replace: 'true',
-        scope:{
+        scope: {
             fileId: "@",// 组件ID
-            fileType:"@",// 文件类别
-            fileCode:"@",// 文件Code
-            fileLocation:"@",// 文件位置
-            showUpload:"@",// 是否展示上传按钮，默认为true
-            showPreview:'@',// 是否展示预览按钮，默认为false
-            showReplace:'@',// 是否展示替换按钮，默认为false
-            showDownload:'@',// 是否展示下载按钮，默认为true
-            showDelete:'@',// 是否展示删除按钮，默认true
+            fileType: "@",// 文件类别
+            fileCode: "@",// 文件Code
+            fileLocation: "@",// 文件位置
+            showUpload: "@",// 是否展示上传按钮，默认为true
+            showPreview: '@',// 是否展示预览按钮，默认为false
+            showReplace: '@',// 是否展示替换按钮，默认为false
+            showDownload: '@',// 是否展示下载按钮，默认为true
+            showDelete: '@',// 是否展示删除按钮，默认true
             showUploadOrReplace: '@', // 是否展示浏览按钮，默认false
-            uploadText:'@',// 上传按钮本本，默认：选择
-            downloadText:'@',//下载按钮文本，默认：下载
-            previewText:'@',// 预览按钮文本，默认：预览
-            deleteText:'@',// 删除按钮文本，默认：删除
-            replaceText:'@',// 替换按钮文本，默认：替换
-            uploadOrReplaceText:'@', // 上传或替换按钮文本，默认：浏览
-            fileCheck:'@',// 是否进行文件名校验，默认false
-            areaCode:'@', // 附件操作区域选择
-            textBefore:'@',// 是否将文件名置于前面，其它操作按钮置于后面，默认true。false：操作按钮在前，文件名在后
-            btnClass:'@',// 按钮类
-            btnStyle:'@',// 按钮样式
-            textStyle:'@',// 文本类
-            textClass:'@',// 文本样式
-            btnAreaStyle:'@',// 按钮域类
-            btnAreaClass:'@',// 按钮域样式
+            uploadText: '@',// 上传按钮本本，默认：选择
+            downloadText: '@',//下载按钮文本，默认：下载
+            previewText: '@',// 预览按钮文本，默认：预览
+            deleteText: '@',// 删除按钮文本，默认：删除
+            replaceText: '@',// 替换按钮文本，默认：替换
+            uploadOrReplaceText: '@', // 上传或替换按钮文本，默认：浏览
+            fileCheck: '@',// 是否进行文件名校验，默认false
+            areaCode: '@', // 附件操作区域选择
+            textBefore: '@',// 是否将文件名置于前面，其它操作按钮置于后面，默认true。false：操作按钮在前，文件名在后
+            btnClass: '@',// 按钮类
+            btnStyle: '@',// 按钮样式
+            textStyle: '@',// 文本类
+            textClass: '@',// 文本样式
+            btnAreaStyle: '@',// 按钮域类
+            btnAreaClass: '@',// 按钮域样式
             isShowRelaceName: '@' // 判断是否开启页面相同ID同步文件名方法，默认为false
         },
         controller: function ($scope, $location, $http, Upload, $window, $element) {
             // jQuery选择器
             var _eleArray = $('div[name="cloud-file"]');
             var _eleArrayAll = [];
-            for(var _idx = 0; _idx < _eleArray.length; _idx ++){
+            for (var _idx = 0; _idx < _eleArray.length; _idx++) {
                 var _eleX = $(_eleArray[_idx]);
-                for(var _idy = 0; _idy < _eleArray.length; _idy ++){
+                for (var _idy = 0; _idy < _eleArray.length; _idy++) {
                     var _eleY = $(_eleArray[_idy]);
-                    if(_eleX.attr("file-type") == _eleY.attr("file-type")
+                    if (_eleX.attr("file-type") == _eleY.attr("file-type")
                         && _eleX.attr("file-code") == _eleY.attr("file-code")
-                        && _eleX.attr("file-location") == _eleY.attr("file-location")){
+                        && _eleX.attr("file-location") == _eleY.attr("file-location")) {
                         _eleArrayAll.push(_eleX);
                     }
                 }
             }
-            $scope._omg_crazy_fun_ = function(_cloud_file_dto_){
-                if(!isEmpty(_eleArrayAll) && _eleArrayAll.length > 1){
-                    for(var _ide = 0; _ide < _eleArrayAll.length; _ide ++){
+            $scope._omg_crazy_fun_ = function (_cloud_file_dto_) {
+                if (!isEmpty(_eleArrayAll) && _eleArrayAll.length > 1) {
+                    for (var _ide = 0; _ide < _eleArrayAll.length; _ide++) {
                         var _ele = $(_eleArray[_ide]);
-                        var _fc =  _ele.attr("file-code");
+                        var _fc = _ele.attr("file-code");
                         var _fl = _ele.attr("file-location");
                         var _fi = _ele.attr("file-id");
                         var _fac = _ele.attr("area-code");
                         var _c = _fi + '_' + _fl + '_' + _fac;
                         $('#_cloud_file_ipt_' + _fac + '_' + _c).val(JSON.stringify(_cloud_file_dto_));
-                        $('#_cloud_file_a_' + _fac + '_'  + _c).text(_cloud_file_dto_.filename);
+                        $('#_cloud_file_a_' + _fac + '_' + _c).text(_cloud_file_dto_.rcmfilename);
                     }
                 }
             };
             // 样式与类初始化
-            if(isEmpty($scope.btnClass)){
+            if (isEmpty($scope.btnClass)) {
                 $scope._cloud_btn_class_ = 'btn-add btn-scale';
-            }else{
+            } else {
                 $scope._cloud_btn_class_ = $scope.btnClass;
             }
-            if(isEmpty($scope.btnStyle)){
+            if (isEmpty($scope.btnStyle)) {
                 $scope._cloud_btn_style_ = ';';
-            }else{
+            } else {
                 $scope._cloud_btn_style_ = $scope.btnStyle;
             }
-            if(isEmpty($scope.textStyle)){
+            if (isEmpty($scope.textStyle)) {
                 $scope._cloud_text_style_ = 'color: blue;';
-            }else{
+            } else {
                 $scope._cloud_text_style_ = $scope.textStyle;
             }
-            if(isEmpty($scope.textClass)){
+            if (isEmpty($scope.textClass)) {
                 $scope._cloud_text_class_ = '';
-            }else{
+            } else {
                 $scope._cloud_text_class_ = $scope.textClass;
             }
-            if(isEmpty($scope.btnAreaStyle)){
+            if (isEmpty($scope.btnAreaStyle)) {
                 $scope._cloud_btn_area_style_ = '';
-            }else{
+            } else {
                 $scope._cloud_btn_area_style_ = $scope.btnAreaStyle;
             }
-            if(isEmpty($scope.btnAreaClass)){
+            if (isEmpty($scope.btnAreaClass)) {
                 $scope._cloud_btn_area_class_ = '';
-            }else{
+            } else {
                 $scope._cloud_btn_area_class_ = $scope.btnAreaClass;
             }
 
             // 其他初始化
-            if(isEmpty($scope.textBefore)){
+            if (isEmpty($scope.textBefore)) {
                 $scope._cloud_text_before_ = true;
-            }else{
+            } else {
                 $scope._cloud_text_before_ = $scope.textBefore == 'true';
             }
-            if(isEmpty($scope.areaCode)){
+            if (isEmpty($scope.areaCode)) {
                 $scope._cloud_area_code_ = '1';
-            }else{
+            } else {
                 $scope._cloud_area_code_ = $scope.areaCode;
             }
-            if($scope.isShowRelaceName == 'true'){
+            if ($scope.isShowRelaceName == 'true') {
                 $scope.isShowRelaceName = true;
-            }else{
+            } else {
                 $scope.isShowRelaceName = false;
             }
             // 文件校验初始化
-            if(isEmpty($scope.fileCheck)){
+            if (isEmpty($scope.fileCheck)) {
                 $scope._let_file_check_ = false;
-            }else{
+            } else {
                 $scope._let_file_check_ = $scope.fileCheck == 'true';
             }
             // 按钮名称初始化
-            if(isEmpty($scope.uploadText)){
+            if (isEmpty($scope.uploadText)) {
                 $scope._cloud_upload_text_ = '选择';
-            }else{
+            } else {
                 $scope._cloud_upload_text_ = $scope.uploadText;
             }
-            if(isEmpty($scope.downloadText)){
+            if (isEmpty($scope.downloadText)) {
                 $scope._cloud_download_text_ = '下载';
-            }else{
+            } else {
                 $scope._cloud_download_text_ = $scope.downloadText;
             }
-            if(isEmpty($scope.deleteText)){
+            if (isEmpty($scope.deleteText)) {
                 $scope._cloud_delete_text_ = '删除';
-            }else{
+            } else {
                 $scope._cloud_delete_text_ = $scope.deleteText;
             }
-            if(isEmpty($scope.previewText)){
+            if (isEmpty($scope.previewText)) {
                 $scope._cloud_preview_text_ = '预览';
-            }else{
+            } else {
                 $scope._cloud_preview_text_ = $scope.previewText;
             }
-            if(isEmpty($scope.replaceText)){
+            if (isEmpty($scope.replaceText)) {
                 $scope._cloud_replace_text_ = '替换';
-            }else{
+            } else {
                 $scope._cloud_replace_text_ = $scope.replaceText;
             }
-            if(isEmpty($scope.uploadOrReplaceText)){
+            if (isEmpty($scope.uploadOrReplaceText)) {
                 $scope._cloud_upload_or_replace_text_ = '浏览';
-            }else{
+            } else {
                 $scope._cloud_upload_or_replace_text_ = $scope.replaceText;
             }
             // 按钮显示与否初始化
-            if(isEmpty($scope.showUpload)){
+            if (isEmpty($scope.showUpload)) {
                 $scope._cloud_show_upload_ = true;
-            }else{
+            } else {
                 $scope._cloud_show_upload_ = $scope.showUpload == 'true';
             }
-            if(isEmpty($scope.showDownload)){
+            if (isEmpty($scope.showDownload)) {
                 $scope._cloud_show_download_ = true;
-            }else{
+            } else {
                 $scope._cloud_show_download_ = $scope.showDownload == 'true';
             }
-            if(isEmpty($scope.showPreview)){
+            if (isEmpty($scope.showPreview)) {
                 $scope._cloud_show_preview_ = false;
-            }else{
+            } else {
                 $scope._cloud_show_preview_ = $scope.showPreview == 'true';
             }
-            if(isEmpty($scope.showReplace)){
+            if (isEmpty($scope.showReplace)) {
                 $scope._cloud_show_replace_ = false;
-            }else{
+            } else {
                 $scope._cloud_show_replace_ = $scope.showReplace == 'true';
             }
-            if(isEmpty($scope.showDelete)){
+            if (isEmpty($scope.showDelete)) {
                 $scope._cloud_show_delete_ = true;
-            }else{
+            } else {
                 $scope._cloud_show_delete_ = $scope.showDelete == 'true';
             }
-            if(isEmpty($scope.showUploadOrReplace)){
+            if (isEmpty($scope.showUploadOrReplace)) {
                 $scope._cloud_show_upload_or_replace_ = false;
-            }else{
+            } else {
                 $scope._cloud_show_upload_or_replace_ = $scope.showUploadOrReplace == 'true';
             }
 
@@ -6818,25 +6960,25 @@ ctmApp.directive('cloudFile', function () {
             // 云组件root初始化
             $scope._cloud_ = $scope.fileId + '_' + $scope.fileLocation + '_' + $scope._cloud_area_code_;
             // 显示初始化
-            $scope._cloud_init_ = function(){
+            $scope._cloud_init_ = function () {
                 console.log("组件初始化:" + $scope.fileType + "," + $scope.fileCode + "," + $scope.fileLocation);
                 $http({
                     method: 'post',
                     url: srvUrl + 'cloud/list.do',
                     data: $.param({
-                        "docType":$scope.fileType,
-                        "docCode":$scope.fileCode,
-                        "pageLocation":$scope.fileLocation
+                        "docType": $scope.fileType,
+                        "docCode": $scope.fileCode,
+                        "pageLocation": $scope.fileLocation
                     }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (_result) {
-                    if(!isEmpty(_result)){
-                        if(_result.success){
+                    if (!isEmpty(_result)) {
+                        if (_result.success) {
                             var _list_ = _result['result_data'];
-                            if(!isEmpty(_list_) && _list_.length > 0){
+                            if (!isEmpty(_list_) && _list_.length > 0) {
                                 var _cloud_file_dto_ = _list_[0];
                                 $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + $scope._cloud_).val(JSON.stringify(_cloud_file_dto_));
-                                $('#_cloud_file_a_' + $scope._cloud_area_code_+ '_' + $scope._cloud_).text(_cloud_file_dto_.filename);
+                                $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_' + $scope._cloud_).text(_cloud_file_dto_.rcmfilename);
                                 console.log(_cloud_file_dto_);
                             }
                         }
@@ -6844,25 +6986,25 @@ ctmApp.directive('cloudFile', function () {
                 });
             };
             // 将input中的附件数据转换为json，传递进来一个附件综合ID，页面唯一
-            $scope._cloud_ipt_to_json_ = function(_cloud_){
-                console.log($scope._cloud_area_code_ );
-                var _ipt_val_ = $('#_cloud_file_ipt_'+ $scope._cloud_area_code_ + '_' + _cloud_).val();
-                if(isEmpty(_ipt_val_)){
+            $scope._cloud_ipt_to_json_ = function (_cloud_) {
+                console.log($scope._cloud_area_code_);
+                var _ipt_val_ = $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + _cloud_).val();
+                if (isEmpty(_ipt_val_)) {
                     return null;
-                }else{
+                } else {
                     return JSON.parse(_ipt_val_);
                 }
             };
             // 上传和替换共同调用的方法
-            $scope._private_cloud_backend_call = function(_file_, _opt_, _data_,_cloud_){
+            $scope._private_cloud_backend_call = function (_file_, _opt_, _data_, _cloud_) {
                 if (_file_) {
                     // 是否进行文件校验，默认不开启
-                    if($scope._let_file_check_){
+                    if ($scope._let_file_check_) {
                         var _file_suffix_arr_ = _file_.name.split('.');
                         var _file_suffix_ = _file_suffix_arr_[_file_suffix_arr_.length - 1];
                         if (_file_suffix_ != "docx" && _file_suffix_ != "xlsx" && _file_suffix_ != "pptx" && _file_suffix_ != "pdf" &&
                             _file_suffix_ != "jpg" && _file_suffix_ != "png" && _file_suffix_ != "gif" && _file_suffix_ != "tif" &&
-                            _file_suffix_ != "psd" && _file_suffix_ != "ppts"){
+                            _file_suffix_ != "psd" && _file_suffix_ != "ppts") {
                             $.alert("您上传的文档格式不正确，请重新选择！");
                             return;
                         }
@@ -6872,15 +7014,15 @@ ctmApp.directive('cloudFile', function () {
                         data: _data_
                     }).then(function (_resp_) {
                         var _result = _resp_.data;
-                        if(!isEmpty(_result)){
-                            if(_result.success){
+                        if (!isEmpty(_result)) {
+                            if (_result.success) {
                                 var _cloud_file_dto_ = _result['result_data'];
                                 $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + _cloud_).val(JSON.stringify(_cloud_file_dto_));
-                                $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_'  + _cloud_).text(_cloud_file_dto_.filename);
+                                $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_' + _cloud_).text(_cloud_file_dto_.rcmfilename);
                                 if (!isEmpty(carouselScope.showAttachment)) {
                                     carouselScope.showAttachment();
                                 }
-                                if ($scope.isShowRelaceName){
+                                if ($scope.isShowRelaceName) {
                                     $scope._omg_crazy_fun_(_cloud_file_dto_);
                                 }
                             }
@@ -6894,18 +7036,23 @@ ctmApp.directive('cloudFile', function () {
                 }
             };
             // 上传
-            $scope._cloud_upload_ = function(_file_,_cloud_){
-                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
-                if(!isEmpty(_cloud_file_dto_)){
+            $scope._cloud_upload_ = function (_file_, _cloud_) {
+                var _cloud_file_dto_ = $scope._cloud_ipt_to_json_(_cloud_);
+                if (!isEmpty(_cloud_file_dto_)) {
                     return;
                 }
-                var _data = {file: _file_,"docType":$scope.fileType, "docCode":$scope.fileCode,"pageLocation":$scope.fileLocation};
-                $scope._private_cloud_backend_call(_file_,'upload',_data,_cloud_);
+                var _data = {
+                    file: _file_,
+                    "docType": $scope.fileType,
+                    "docCode": $scope.fileCode,
+                    "pageLocation": $scope.fileLocation
+                };
+                $scope._private_cloud_backend_call(_file_, 'upload', _data, _cloud_);
             };
             // 下载
-            $scope._cloud_download_ = function(_cloud_){
-                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
-                if(isEmpty(_cloud_file_dto_)){
+            $scope._cloud_download_ = function (_cloud_) {
+                var _cloud_file_dto_ = $scope._cloud_ipt_to_json_(_cloud_);
+                if (isEmpty(_cloud_file_dto_)) {
                     return;
                 }
                 $.ajax({
@@ -6915,7 +7062,7 @@ ctmApp.directive('cloudFile', function () {
                     data: {"type": 'download', 'path': _cloud_file_dto_.fullpath},
                     async: true,
                     success: function (data) {
-                        if(!isEmpty(data)){
+                        if (!isEmpty(data)) {
                             $window.open(data);
                         }
                     }
@@ -6923,31 +7070,38 @@ ctmApp.directive('cloudFile', function () {
                 // $window.open(_cloud_file_dto_.download3d);
             };
             // 删除
-            $scope._cloud_delete_ = function(_cloud_){
-                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
-                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)){
+            $scope._cloud_delete_ = function (_cloud_) {
+                var _cloud_file_dto_ = $scope._cloud_ipt_to_json_(_cloud_);
+                if (isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)) {
                     return;
                 }
-                $.confirm('删除该文件吗?', function(){
+                $.confirm('删除该文件吗?', function () {
                     attach_delete(_cloud_file_dto_.fileid);
                     $('#_cloud_file_ipt_' + $scope._cloud_area_code_ + '_' + _cloud_).val('');
-                    $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_'  + _cloud_).text('');
+                    $('#_cloud_file_a_' + $scope._cloud_area_code_ + '_' + _cloud_).text('');
                 });
             };
             // 替换
-            $scope._cloud_replace_ = function(_file_, _cloud_){
+            $scope._cloud_replace_ = function (_file_, _cloud_) {
 
-                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
-                if(isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)){
+                var _cloud_file_dto_ = $scope._cloud_ipt_to_json_(_cloud_);
+                if (isEmpty(_cloud_file_dto_) || isEmpty(_cloud_file_dto_.fileid)) {
                     return;
                 }
-                var _data = {file: _file_,"docType":$scope.fileType, "docCode":$scope.fileCode,"pageLocation":$scope.fileLocation,"oldFileId":_cloud_file_dto_.fileid,"reason":"replace"};
-                $scope._private_cloud_backend_call(_file_,'replace',_data,_cloud_);
+                var _data = {
+                    file: _file_,
+                    "docType": $scope.fileType,
+                    "docCode": $scope.fileCode,
+                    "pageLocation": $scope.fileLocation,
+                    "oldFileId": _cloud_file_dto_.fileid,
+                    "reason": "replace"
+                };
+                $scope._private_cloud_backend_call(_file_, 'replace', _data, _cloud_);
             };
             // 预览
-            $scope._cloud_preview_ = function(_cloud_){
-                var _cloud_file_dto_ =  $scope._cloud_ipt_to_json_(_cloud_);
-                if(isEmpty(_cloud_file_dto_)){
+            $scope._cloud_preview_ = function (_cloud_) {
+                var _cloud_file_dto_ = $scope._cloud_ipt_to_json_(_cloud_);
+                if (isEmpty(_cloud_file_dto_)) {
                     return;
                 }
                 $.ajax({
@@ -6957,7 +7111,7 @@ ctmApp.directive('cloudFile', function () {
                     data: {"type": 'preview', 'path': _cloud_file_dto_.fullpath},
                     async: true,
                     success: function (data) {
-                        if(!isEmpty(data)){
+                        if (!isEmpty(data)) {
                             $window.open(data);
                         }
                     }
@@ -6993,12 +7147,12 @@ ctmApp.directive('cloudFile', function () {
     }
 });
 
-ctmApp.directive('directLeaderDialog', function() {
+ctmApp.directive('directLeaderDialog', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directLeaderDialog.html',
         replace: true,
-        scope:{
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -7013,76 +7167,80 @@ ctmApp.directive('directLeaderDialog', function() {
             mappedKeyValue: "=",
             callback: "="
         },
-        controller:function($scope,$http,$element){
-            $scope.initData = function(){
-                if($scope.queryParams == null){
+        controller: function ($scope, $http, $element) {
+            $scope.initData = function () {
+                if ($scope.queryParams == null) {
                     return;
                 }
                 $scope.queryUser();
             }
-            $scope.queryUser = function(){
+            $scope.queryUser = function () {
                 var config = {
-                    method:'post',
-                    url:srvUrl + $scope.url,
-                    data:$.param($scope.queryParams)
+                    method: 'post',
+                    url: srvUrl + $scope.url,
+                    data: $.param($scope.queryParams)
                 };
-                $http(config).success(function(data){
-                    if(data.success){
+                $http(config).success(function (data) {
+                    if (data.success) {
                         var users = data.result_data;
                         $scope.users = [];
-                        for(var k = 0; k < users.length; k++){
-                            $scope.users.push({"VALUE":users[k][$scope.mappedKeyValue.valueField],"NAME":users[k][$scope.mappedKeyValue.nameField]});
+                        for (var k = 0; k < users.length; k++) {
+                            $scope.users.push({
+                                "VALUE": users[k][$scope.mappedKeyValue.valueField],
+                                "NAME": users[k][$scope.mappedKeyValue.nameField]
+                            });
                         }
                         //加载候选委员
                         $scope.queryLeaderUser();
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
             }
-            $scope.queryLeaderUser = function(){
+            $scope.queryLeaderUser = function () {
                 var config = {
-                    method:'post',
-                    url:srvUrl + 'role/queryRoleuserByCode.do',
-                    data:$.param({"code":"DECISION_LEADERS"})
+                    method: 'post',
+                    url: srvUrl + 'role/queryRoleuserByCode.do',
+                    data: $.param({"code": "DECISION_LEADERS"})
                 };
-                $http(config).success(function(data){
-                    if(data.success){
+                $http(config).success(function (data) {
+                    if (data.success) {
                         var leaders = data.result_data;
-                        for(var k = 0; k < leaders.length; k++){
+                        for (var k = 0; k < leaders.length; k++) {
                             //是否已经存在
                             var flag = false;
-                            for(var i = 0; i < $scope.users.length; i++){
-                                if(leaders[k]['VALUE'] == $scope.users[i].VALUE){
-                                    flag = true;break;
+                            for (var i = 0; i < $scope.users.length; i++) {
+                                if (leaders[k]['VALUE'] == $scope.users[i].VALUE) {
+                                    flag = true;
+                                    break;
                                 }
                             }
-                            if(flag){
+                            if (flag) {
                                 leaders.splice(k, 1);
                                 k--;
                             }
                         }
                         $scope.leaders = leaders;
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
             }
-            $scope.cancelSelected = function(){
+            $scope.cancelSelected = function () {
                 $scope.initData();
             }
-            $scope.saveSelected = function(){
+            $scope.saveSelected = function () {
                 var checkboxs = $(".checkbox-inline :checkbox");
                 var checkedUser = [];
-                $(checkboxs).each(function(i,box){
-                    if(box.checked){
+                $(checkboxs).each(function (i, box) {
+                    if (box.checked) {
                         var user = {};
                         user[$scope.mappedKeyValue.nameField] = box.name;
                         user[$scope.mappedKeyValue.valueField] = box.value;
                         checkedUser.push(user);
                     }
                 });
-                if($scope.callback != null){
+                if ($scope.callback != null) {
                     $scope.callback(checkedUser);
                 }
             }
@@ -7093,12 +7251,12 @@ ctmApp.directive('directLeaderDialog', function() {
 
 
 //决策通知书提交弹出框
-ctmApp.directive('directCommonUpload', function(){
+ctmApp.directive('directCommonUpload', function () {
     return {
-        restrrict:'AE',
-        templateUrl:'page/sys/directive/directCommonUpload.html',
-        replace:'true',
-        scope:{
+        restrrict: 'AE',
+        templateUrl: 'page/sys/directive/directCommonUpload.html',
+        replace: 'true',
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             //id: "@",
             //对话框的标题，如果没设置，默认为“人员选择”
@@ -7107,24 +7265,24 @@ ctmApp.directive('directCommonUpload', function(){
             callback: "=",
             businessid: "="
         },
-        controller:function($scope,$location,$http,Upload,$element){
-            $scope.errorAttach=[];
-            $scope.upload = function (file,errorFile, idx) {
-                if(errorFile && errorFile.length>0){
+        controller: function ($scope, $location, $http, Upload, $element) {
+            $scope.errorAttach = [];
+            $scope.upload = function (file, errorFile, idx) {
+                if (errorFile && errorFile.length > 0) {
                     var errorMsg = fileErrorMsg(errorFile);
-                    $scope.errorAttach[idx]={msg:errorMsg};
-                }else if(file){
-                    $scope.errorAttach[idx]={msg:''};
+                    $scope.errorAttach[idx] = {msg: errorMsg};
+                } else if (file) {
+                    $scope.errorAttach[idx] = {msg: ''};
                     Upload.upload({
-                        url:srvUrl+'common/RcmFile/upload',
-                        data: {file: file, typeKey:"noticeDecisionFinalPath"}
+                        url: srvUrl + 'common/RcmFile/upload',
+                        data: {file: file, typeKey: "noticeDecisionFinalPath"}
                     }).then(function (resp) {
                         var retData = resp.data.result_data[0];
-                        $scope.attachment=retData;
+                        $scope.attachment = retData;
                     }, function (resp) {
                     }, function (evt) {
                         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        $scope["progress"+idx]=progressPercentage == 100 ? "":progressPercentage+"%";
+                        $scope["progress" + idx] = progressPercentage == 100 ? "" : progressPercentage + "%";
                     });
                 }
             };
@@ -7132,48 +7290,48 @@ ctmApp.directive('directCommonUpload', function(){
             //获取父作用域
             var carouselScope = $element.parent().scope();
 
-            $scope.showAttachment = function (){
+            $scope.showAttachment = function () {
                 carouselScope.initAttachment();
             };
 
-            $scope.submit = function(){
+            $scope.submit = function () {
                 /*if(isEmptyObject($scope.attachment)){
-                    $.alert("附件不能为空！");
-                    return false;
-                }*/
-                if($scope.callback!=null){
+                 $.alert("附件不能为空！");
+                 return false;
+                 }*/
+                if ($scope.callback != null) {
                     $scope.callback($scope.attachment);
                 }
             };
-            $scope.cancel = function(){
-                $scope.attachment={};
+            $scope.cancel = function () {
+                $scope.attachment = {};
             }
-           /* //jquery判断是否对象非空
-            function isEmptyObject(e) {
-                var t;
-                for (t in e)
-                    return !1;
-                return !0
-            }*/
+            /* //jquery判断是否对象非空
+             function isEmptyObject(e) {
+             var t;
+             for (t in e)
+             return !1;
+             return !0
+             }*/
         }
     }
 });
 // 新流程图
-ctmApp.directive('directiveProcessPageNew', function() {
+ctmApp.directive('directiveProcessPageNew', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/DirectiveProcessPageNew.html',
         replace: true,
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        scope:{
-            processKey:'@'// 流程Key
+        scope: {
+            processKey: '@'// 流程Key
         },
-        controller:function($scope, $routeParams){
+        controller: function ($scope, $routeParams) {
             $scope._process_key_ = $scope.processKey;
             $scope._process_id_ = $routeParams.id;
             // 监听流程变化
-            $scope.$parent.$watch("refreshImg", function(){
+            $scope.$parent.$watch("refreshImg", function () {
                 // 获取流程审批记录
                 $scope._process_logs_ = wf_listTaskLog($scope._process_key_, $scope._process_id_);
                 // 获取流程审批进度
@@ -7185,60 +7343,60 @@ ctmApp.directive('directiveProcessPageNew', function() {
 });
 
 // 人员单选（按角色查找）
-ctmApp.directive('directiveRoleUserRadioList', function() {
+ctmApp.directive('directiveRoleUserRadioList', function () {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directiveRoleUserRadioList.html',
         replace: true,
-        scope:{
+        scope: {
             // 必填,该指令所在modal的id，在当前页面唯一
             directiveRoleUserRadioListId: "@",
             // 角色参数, 默认为空，多个角色用，隔开
             roleCodes: "@"
         },
-        controller:function($scope,$http,$element){
+        controller: function ($scope, $http, $element) {
             //获取父作用域
             var carouselUserScope = $element.parent().scope();
-            $scope.selectUserCode =null;
+            $scope.selectUserCode = null;
             $scope.selectUserName = null;
-            $scope.setSelection = function(code,name){
-                $scope.selectUserCode=code;
-                $scope.selectUserName=name;
+            $scope.setSelection = function (code, name) {
+                $scope.selectUserCode = code;
+                $scope.selectUserName = name;
             }
             $scope.paginationConfes = {
                 currentPage: 1,
-                queryObj:{},
+                queryObj: {},
                 itemsPerPage: 10,
                 perPageOptions: [10]
             };
-            $scope.queryRoleUserRadioList = function(){
+            $scope.queryRoleUserRadioList = function () {
                 var cp = $scope.paginationConfes.currentPage;
-                if(cp == 1){
+                if (cp == 1) {
                     $scope.queryRoleUserRadio();
-                }else{
+                } else {
                     $scope.paginationConfes.currentPage = 1;
                 }
             }
-            $scope.queryRoleUserRadio=function(){
+            $scope.queryRoleUserRadio = function () {
                 $scope.paginationConfes.queryObj = $scope.queryObj;
-                if (!isEmpty($scope.roleCodes)){
+                if (!isEmpty($scope.roleCodes)) {
                     var roles = $scope.roleCodes.split(",");
-                    if (isEmpty($scope.paginationConfes.queryObj)){
+                    if (isEmpty($scope.paginationConfes.queryObj)) {
                         $scope.paginationConfes.queryObj = {};
                     }
                     $scope.paginationConfes.queryObj.roleCodeList = roles;
                 }
 
                 $http({
-                    method:'post',
+                    method: 'post',
                     url: srvUrl + "user/getDirectiveRoleUserList.do",
-                    data:$.param({"page":JSON.stringify($scope.paginationConfes)})
-                }).success(function(data){
+                    data: $.param({"page": JSON.stringify($scope.paginationConfes)})
+                }).success(function (data) {
                     // 变更分页的总数
-                    if(data.success) {
+                    if (data.success) {
                         $scope.sysRoleUserRadio = data.result_data.list;
                         $scope.paginationConfes.totalItems = data.result_data.totalItems;
-                    }else{
+                    } else {
                         $.alert(data.result_name);
                     }
                 });
@@ -7247,50 +7405,50 @@ ctmApp.directive('directiveRoleUserRadioList', function() {
             $scope.$watch('paginationConfes.currentPage + paginationConfes.itemsPerPage + queryObj.ORGIDRADIO', $scope.queryRoleUserRadio);
             //获取组织结构角色
             /* var ztree4, setting4 = {
-                 callback:{
-                     onClick:function(event, treeId, treeNode){
-                         accessScope("#ORGIDRADIO1",function(scope){
-                             scope.queryObj = {};
-                             scope.queryObj.ORGIDRADIO = treeNode.id;
-                             scope.queryObj.categoryCode = treeNode.cat;
-                         });
-                     },
-                     beforeExpand:function(treeId, treeNode){
-                         if(typeof(treeNode.children)=='undefined'){
-                             $scope.addTreeNode4(treeNode);
-                         }
-                     }
-                 }
+             callback:{
+             onClick:function(event, treeId, treeNode){
+             accessScope("#ORGIDRADIO1",function(scope){
+             scope.queryObj = {};
+             scope.queryObj.ORGIDRADIO = treeNode.id;
+             scope.queryObj.categoryCode = treeNode.cat;
+             });
+             },
+             beforeExpand:function(treeId, treeNode){
+             if(typeof(treeNode.children)=='undefined'){
+             $scope.addTreeNode4(treeNode);
+             }
+             }
+             }
              };
              $scope.addTreeNode4 = function (parentNode){
-                 var pid = '';
-                 if(parentNode && parentNode.id) pid = parentNode.id;
-                 $scope.$parent.httpData('fnd/Group/getOrg', {parentId:pid}).success(function(data){
-                     if (!data || data.result_code != 'S') return null;
-                     var nodeArray = data.result_data;
-                     if(nodeArray<1) return null;
-                     for(var i=0;i<nodeArray.length;i++){
-                         curNode = nodeArray[i];
-                         var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
-                         if(curNode.cat && curNode.cat=='Org'){
-                             iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
-                         }
-                         curNode.icon = iconUrl;
-                     }
-                     if(pid == ''){//当前加载的是根节点
-                         ztree4.addNodes(null, nodeArray);
-                         var rootNode = ztree4.getNodes()[0];
-                         $scope.addTreeNode4(rootNode);
-                         rootNode.open = true;
-                         ztree4.refresh();
-                     }else{
-                         ztree4.addNodes(parentNode, nodeArray, true);
-                     }
-                 });
+             var pid = '';
+             if(parentNode && parentNode.id) pid = parentNode.id;
+             $scope.$parent.httpData('fnd/Group/getOrg', {parentId:pid}).success(function(data){
+             if (!data || data.result_code != 'S') return null;
+             var nodeArray = data.result_data;
+             if(nodeArray<1) return null;
+             for(var i=0;i<nodeArray.length;i++){
+             curNode = nodeArray[i];
+             var iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/department.png';
+             if(curNode.cat && curNode.cat=='Org'){
+             iconUrl = 'assets/javascripts/zTree/css/zTreeStyle/img/org.png';
+             }
+             curNode.icon = iconUrl;
+             }
+             if(pid == ''){//当前加载的是根节点
+             ztree4.addNodes(null, nodeArray);
+             var rootNode = ztree4.getNodes()[0];
+             $scope.addTreeNode4(rootNode);
+             rootNode.open = true;
+             ztree4.refresh();
+             }else{
+             ztree4.addNodes(parentNode, nodeArray, true);
+             }
+             });
              }*/
 
-            $scope.resetRadioRoleUserList=function(){
-                $scope.selectUserCode =null;
+            $scope.resetRadioRoleUserList = function () {
+                $scope.selectUserCode = null;
                 $scope.selectUserName = null
                 $("input[name='RaidoNAME']").removeAttr("checked");
 
@@ -7299,9 +7457,9 @@ ctmApp.directive('directiveRoleUserRadioList', function() {
                 $scope.queryObj.categoryCode = null;
 
             }
-            $scope.saveRoleUserRadioListforDiretive=function(){
-                carouselUserScope.setDirectiveRadioUserList($scope.selectUserCode,$scope.selectUserName);
-                $scope.selectUserCode =null;
+            $scope.saveRoleUserRadioListforDiretive = function () {
+                carouselUserScope.setDirectiveRadioUserList($scope.selectUserCode, $scope.selectUserName);
+                $scope.selectUserCode = null;
                 $scope.selectUserName = null;
                 $("input[name='RaidoNAME']").removeAttr("checked");
                 $scope.queryObj = {};
@@ -7309,25 +7467,25 @@ ctmApp.directive('directiveRoleUserRadioList', function() {
                 $scope.queryObj.categoryCode = null;
             }
             /* angular.element(document).ready(function() {
-                 ztree4 = $.fn.zTree.init($("#treeIDRoleUser5_" + $scope.directiveRoleUserRadioListId), setting4);
-                 $scope.addTreeNode4('');
-                 $scope.selectUserCode =null;
-                 $scope.selectUserName = null;
-                 $scope.queryObj = {};
-                 $scope.queryObj.ORGIDRADIO = null;
-                 $scope.queryObj.categoryCode = null;
+             ztree4 = $.fn.zTree.init($("#treeIDRoleUser5_" + $scope.directiveRoleUserRadioListId), setting4);
+             $scope.addTreeNode4('');
+             $scope.selectUserCode =null;
+             $scope.selectUserName = null;
+             $scope.queryObj = {};
+             $scope.queryObj.ORGIDRADIO = null;
+             $scope.queryObj.categoryCode = null;
              })*/;
         }
     };
 });
 
 // 投票结果详情弹出框
-ctmApp.directive('directMeetingVoteResultInfo', function(){
+ctmApp.directive('directMeetingVoteResultInfo', function () {
     return {
-        restrrict:'AE',
-        templateUrl:'page/sys/directive/directMeetingVoteResultInfo.html',
-        replace:'true',
-        scope:{
+        restrrict: 'AE',
+        templateUrl: 'page/sys/directive/directMeetingVoteResultInfo.html',
+        replace: 'true',
+        scope: {
             //必填,该指令所在modal的id，在当前页面唯一
             id: "@",
             // 查询数据ID
@@ -7335,16 +7493,16 @@ ctmApp.directive('directMeetingVoteResultInfo', function(){
             // 主席是否行使一票否决权
             isYiPiaoFouJue: "="
         },
-        controller:function($scope,$location,$http,Upload,$element){
+        controller: function ($scope, $location, $http, Upload, $element) {
 
             $scope.title = '投票详情';
 
             $scope._initData = function () {
                 $http({
-                    method:'post',
-                    url:srvUrl+"decision/getDecisionResultInfo.do",
-                    data:$.param({"id":$scope.searchId})
-                }).success(function(data) {
+                    method: 'post',
+                    url: srvUrl + "decision/getDecisionResultInfo.do",
+                    data: $.param({"id": $scope.searchId})
+                }).success(function (data) {
                     if (data.success) {
                         console.log(data.result_data);
                         $scope.decisionOpinionList = data.result_data.decisionOpinionList;
@@ -7360,7 +7518,7 @@ ctmApp.directive('directMeetingVoteResultInfo', function(){
 });
 
 // 列表附件
-ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) {
+ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function (DirPipeSrv) {
     return {
         restrict: 'E',
         templateUrl: 'page/sys/directive/directiveAttachmentList.html',
@@ -7387,18 +7545,18 @@ ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) 
             // 调用父组件操作
             initUpdate: "&initUpdate"
         },
-        link:function(scope,element,attr){
+        link: function (scope, element, attr) {
         },
-        controller:function($scope,$http,$element,Upload,$window){
+        controller: function ($scope, $http, $element, Upload, $window) {
 
             // 初始化数据
             $scope._initData = function () {
-                if($scope.isEdite == "true"){
+                if ($scope.isEdite == "true") {
                     $scope.isEdite = true;
                 } else {
                     $scope.isEdite = false;
                 }
-                if($scope.isShowType == "true"){
+                if ($scope.isShowType == "true") {
                     $scope._isShowType = true;
                 } else {
                     $scope._isShowType = false;
@@ -7410,7 +7568,7 @@ ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) 
 
             // 新增文件
             $scope._addOneNewFile = function () {
-                if (!$scope._vaildNew()){
+                if (!$scope._vaildNew()) {
                     alert("已有新增条目，请上传完再新增！");
                     return;
                 }
@@ -7434,18 +7592,18 @@ ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) 
             };
 
             $scope._deleteBlank = function (index) {
-                $scope.fileList.splice(index,1);
+                $scope.fileList.splice(index, 1);
             };
 
             // 添加校验新增
-            $scope._vaildNew = function (){
+            $scope._vaildNew = function () {
                 var count = 0;
                 angular.forEach($scope.fileList, function (data, index) {
-                    if (data.newFile == '1'){
+                    if (data.newFile == '1') {
                         count = 1;
                     }
                 });
-                if (count == 1){
+                if (count == 1) {
                     return false;
                 }
                 return true;
@@ -7453,10 +7611,10 @@ ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) 
 
             // 上传
             $scope._uploadThat = function (_file, _idx, _item) {
-                if(($scope.pageLocation == 'pfrHistoryInfo' || $scope.pageLocation == 'preHistoryInfo') && isEmpty(_item.type)){
+                if (($scope.pageLocation == 'pfrHistoryInfo' || $scope.pageLocation == 'preHistoryInfo') && isEmpty(_item.type)) {
                     alert("资源类型不能为空，请先选择资源类型再上传！");
                 } else {
-                    if (!isEmpty(_file)){
+                    if (!isEmpty(_file)) {
                         show_Mask();
                         Upload.upload({
                             url: srvUrl + 'cloud/upload.do',
@@ -7467,7 +7625,7 @@ ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) 
                                 'pageLocation': $scope.pageLocation
                             }
                         }).then(function (resp) {
-                            if (resp.data.result_code == 'S'){
+                            if (resp.data.result_code == 'S') {
                                 var _fileList = attach_list($scope.businessType, $scope.businessId, $scope.pageLocation).result_data;
 
                                 if ($scope._isShowType) {
@@ -7477,14 +7635,20 @@ ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) 
                                     _item.fileName = _file.name;
 
                                     $http({
-                                        method:'post',
-                                        url:srvUrl + url,
-                                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "item":_item, "oldFileName": _file.name})})
-                                    }).success(function(data){
-                                        if(data.success){
+                                        method: 'post',
+                                        url: srvUrl + url,
+                                        data: $.param({
+                                            "json": JSON.stringify({
+                                                "businessId": $scope.businessId,
+                                                "item": _item,
+                                                "oldFileName": _file.name
+                                            })
+                                        })
+                                    }).success(function (data) {
+                                        if (data.success) {
                                             $scope.initUpdate({'id': $scope.businessId});
                                             $.alert(data.result_name);
-                                        }else{
+                                        } else {
                                             $.alert(data.result_name);
                                         }
                                     });
@@ -7520,19 +7684,19 @@ ctmApp.directive('directiveAttachmentList', ['DirPipeSrv', function(DirPipeSrv) 
             };
 
             // 删除
-            $scope._delete = function(file_id){
+            $scope._delete = function (file_id) {
                 attach_delete(file_id);
                 if ($scope.isShowType) {
                     var url = 'historyData/deleteAttachmengInfoInMongo.do';
                     $http({
-                        method:'post',
-                        url:srvUrl + url,
-                        data: $.param({"json":JSON.stringify({"businessId":$scope.businessId, "fileId":file_id})})
-                    }).success(function(data){
-                        if(data.success){
+                        method: 'post',
+                        url: srvUrl + url,
+                        data: $.param({"json": JSON.stringify({"businessId": $scope.businessId, "fileId": file_id})})
+                    }).success(function (data) {
+                        if (data.success) {
                             $.alert(data.result_name);
                             $scope.initUpdate({'id': $scope.businessId});
-                        }else{
+                        } else {
                             $.alert(data.result_name);
                         }
                     });
