@@ -340,4 +340,7 @@ public interface IFormalAssessmentInfoService {
 	public PageAssistant queryEnvirSubmitedByPage(PageAssistant page);
 	Result saveOrUpdateForTz_V01(Document doc, Result result);
 	
+	// 调用投资接口修改数据
+	public void updateRiskAuditInfo(String businessId, String wf_state, String mark);
+	
 }

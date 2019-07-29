@@ -39,6 +39,8 @@ import com.yk.power.service.IRoleService;
 import com.yk.rcm.formalAssessment.dao.IFormalAssessmentInfoMapper;
 import com.yk.rcm.formalAssessment.service.IFormalAssessmentInfoService;
 import com.yk.rcm.newFormalAssessment.service.IFormalAssessmentInfoCreateService;
+import com.yk.rcm.ws.client.tz.RiskService;
+import com.yk.rcm.ws.client.tz.RiskServiceSoap;
 
 import common.Constants;
 import common.PageAssistant;
@@ -795,6 +797,7 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		map.put("apply_date", Util.now());
 		map.put("wf_state", "1");
 		this.formalAssessmentInfoMapper.updateAfterStartflow(map);
+		this.updateRiskAuditInfo(businessId, "1", "");
 	}
 
 	@Override
@@ -2368,5 +2371,12 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 		}
 		page.setList(list);
 		return page;
+	}
+
+	@Override
+	public void updateRiskAuditInfo(String businessId, String wf_state, String mark) {
+		RiskServiceSoap rs = new RiskService().getRiskServiceSoap();
+		String result = rs.updateRiskAuditInfo(businessId, wf_state, "");
+		log.info("调用投资系统接口####" + businessId + "####" + result);
 	}
 }
