@@ -600,9 +600,12 @@
                      FI.WF_STATE,
                      FI.OLDDATA,
                      FI.APPLY_DATE,
+                     RMI.MEETING_TIME,
                      FI.STAGE
                 FROM RCM_FORMALASSESSMENT_INFO FI
-                
+	            left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
                 UNION ALL
         
                SELECT to_char(RHD.ID) ID,
@@ -617,6 +620,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 NULL MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pfr') T
@@ -635,6 +639,12 @@
                </if>
                <if test="applyDateEnd != null and applyDateEnd != ''">
                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
+               </if>
+                <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
                </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
@@ -657,9 +667,12 @@
                      FI.WF_STATE,
                      FI.OLDDATA,
                      FI.APPLY_DATE,
+                     RMI.MEETING_TIME,
                      FI.STAGE
                 FROM RCM_FORMALASSESSMENT_INFO FI
-                
+                left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
                 UNION ALL
         
                SELECT to_char(RHD.ID) ID,
@@ -674,6 +687,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 NULL MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pfr') T
@@ -693,6 +707,12 @@
                 <if test="applyDateEnd != null and applyDateEnd != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                 </if>
+                 <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
         ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
@@ -712,8 +732,13 @@
                      PI.WF_STATE,
                      PI.OLDDATA,
                      PI.APPLY_DATE,
+                     RMI.MEETING_TIME,
                      PI.STAGE
                 FROM RCM_PRE_INFO PI
+	            left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
+				WHERE 1=1
                 
                 UNION ALL
         
@@ -729,6 +754,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 NULL MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pre') T
@@ -747,6 +773,12 @@
                </if>
                <if test="applyDateEnd != null and applyDateEnd != ''">
                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
                </if>
         ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
@@ -767,8 +799,13 @@
                      PI.WF_STATE,
                      PI.OLDDATA,
                      PI.APPLY_DATE,
+                     RMI.MEETING_TIME,
                      PI.STAGE
-                FROM RCM_PRE_INFO PI
+                FROM RCM_PRE_INFO PI,
+                left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
+				WHERE 1=1
                 
                 UNION ALL
                 
@@ -784,6 +821,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 NULL MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pre') T
@@ -803,6 +841,12 @@
                 <if test="applyDateEnd != null and applyDateEnd != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                 </if>
+                <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
         ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
@@ -822,8 +866,12 @@
                      BI.AUDITSTATUS WF_STATE,
                      '0' OLDDATA,
                      BI.APPLYTIME APPLY_DATE,
+                     RMI.MEETING_TIME,
                      DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-                FROM RCM_BULLETIN_INFO BI) T
+                FROM RCM_BULLETIN_INFO BI
+                left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID) T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -839,6 +887,12 @@
                </if>
                <if test="applyDateEnd != null and applyDateEnd != ''">
                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
                </if>
         ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
@@ -859,8 +913,12 @@
                      BI.AUDITSTATUS WF_STATE,
                      '0' OLDDATA,
                      BI.APPLYTIME APPLY_DATE,
+                     RMI.MEETING_TIME,
                      DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-                FROM RCM_BULLETIN_INFO BI) T
+                FROM RCM_BULLETIN_INFO BI
+                left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID) T
              WHERE 1 = 1
                AND T.WF_STATE <![CDATA[ <> ]]> '0'
                <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
@@ -877,6 +935,12 @@
                 <if test="applyDateEnd != null and applyDateEnd != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
                 </if>
+                <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
         ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
@@ -898,8 +962,12 @@
                      FI.WF_STATE,
                      FI.OLDDATA,
                      FI.APPLY_DATE,
+                     RMI.MEETING_TIME,
                      FI.STAGE
                 FROM RCM_FORMALASSESSMENT_INFO FI
+                left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
                WHERE FI.BUSINESSID IN
                     (SELECT DISTINCT (BUSINESS_ID)
                        FROM (SELECT PR.BUSINESS_ID
@@ -930,6 +998,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 NULL MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pfr'
@@ -952,6 +1021,12 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
@@ -973,8 +1048,12 @@
                      FI.WF_STATE,
                      FI.OLDDATA,
                      FI.APPLY_DATE,
+                     RMI.MEETING_TIME,
                      FI.STAGE
                 FROM RCM_FORMALASSESSMENT_INFO FI
+                left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
+	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
                WHERE FI.BUSINESSID IN
                     (SELECT DISTINCT (BUSINESS_ID)
                        FROM (SELECT PR.BUSINESS_ID
@@ -1005,6 +1084,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 NULL MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pfr'
@@ -1027,12 +1107,18 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
 	<!-- 查询投标项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
 	<select id="getRolePreProjectList" resultType="map"  parameterType="map">
-	       SELECT *
+	        SELECT *
 	         FROM
 	          (SELECT PI.ID,
                PI.BUSINESSID,
@@ -1046,9 +1132,13 @@
                PI.WF_STATE,
                PI.OLDDATA,
                PI.APPLY_DATE,
+               RMI.MEETING_TIME,
                PI.STAGE
-          FROM RCM_PRE_INFO PI
-         WHERE PI.BUSINESSID IN
+            FROM RCM_PRE_INFO PI
+            left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
+            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
+			WHERE  PI.BUSINESSID IN
                   (SELECT DISTINCT (BUSINESS_ID)
                      FROM (SELECT PR.BUSINESS_ID
                              FROM SYS_PROJECT_ROLE PR
@@ -1078,6 +1168,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 NULL MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pfr'
@@ -1100,6 +1191,12 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
@@ -1119,8 +1216,12 @@
                PI.WF_STATE,
                PI.OLDDATA,
                PI.APPLY_DATE,
+               RMI.MEETING_TIME,
                PI.STAGE
-          FROM RCM_PRE_INFO PI
+            FROM RCM_PRE_INFO PI
+            left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
+            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
          WHERE PI.BUSINESSID IN
                   (SELECT DISTINCT (BUSINESS_ID)
                      FROM (SELECT PR.BUSINESS_ID
@@ -1151,6 +1252,7 @@
 	                 '5' WF_STATE,
 	                 '' OLDDATA,
 	                 NULL APPLY_DATE,
+	                 null MEETING_TIME,
 	                 '' STAGE 
                 FROM RCM_HISTORY_DATA RHD
                WHERE RHD.PROJECT_TYPE = 'pfr'
@@ -1173,6 +1275,12 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
@@ -1192,8 +1300,12 @@
                BI.AUDITSTATUS WF_STATE,
                '0' OLDDATA,
                BI.APPLYTIME APPLY_DATE,
+               RMI.MEETING_TIME,
                DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-          FROM RCM_BULLETIN_INFO BI
+            FROM RCM_BULLETIN_INFO BI
+            left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
+            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
          WHERE BI.BUSINESSID IN
               (SELECT DISTINCT (BUSINESS_ID)
                  FROM (SELECT PR.BUSINESS_ID
@@ -1219,6 +1331,12 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 	
@@ -1238,8 +1356,12 @@
                BI.AUDITSTATUS WF_STATE,
                '0' OLDDATA,
                BI.APPLYTIME APPLY_DATE,
-               DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6', '5' ,'7') STAGE
-          FROM RCM_BULLETIN_INFO BI
+               RMI.MEETING_TIME,
+               DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
+            FROM RCM_BULLETIN_INFO BI
+            left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
+            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
          WHERE BI.BUSINESSID IN
               (SELECT DISTINCT (BUSINESS_ID)
                  FROM (SELECT PR.BUSINESS_ID
@@ -1265,6 +1387,12 @@
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
     	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
+               </if>
+               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
+               </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
 	</select>
 </mapper>

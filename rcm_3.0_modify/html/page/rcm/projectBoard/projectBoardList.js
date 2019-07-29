@@ -56,6 +56,8 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf1.queryObj.stage = $scope.params.stage;
             $scope.paginationConf1.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf1.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+            $scope.paginationConf1.queryObj.meetingTimeEnd = $scope.params.meetingTimeEnd;
+            $scope.paginationConf1.queryObj.meetingTimeStart = $scope.params.meetingTimeStart;
         }
         $http({
             method:'post',
@@ -82,6 +84,8 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf2.queryObj.stage = $scope.params.stage;
             $scope.paginationConf2.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf2.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+            $scope.paginationConf2.queryObj.meetingTimeEnd = $scope.params.meetingTimeEnd;
+            $scope.paginationConf2.queryObj.meetingTimeStart = $scope.params.meetingTimeStart;
         }
         $http({
             method:'post',
@@ -108,6 +112,8 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf3.queryObj.stage = $scope.params.stage;
             $scope.paginationConf3.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf3.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+            $scope.paginationConf3.queryObj.meetingTimeEnd = $scope.params.meetingTimeEnd;
+            $scope.paginationConf3.queryObj.meetingTimeStart = $scope.params.meetingTimeStart;
         }
         $http({
             method:'post',
