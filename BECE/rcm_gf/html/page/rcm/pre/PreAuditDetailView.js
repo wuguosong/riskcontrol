@@ -1,4 +1,4 @@
-ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$scope', '$location', 'Upload', '$filter', function ($routeParams, $http, $scope, $location, Upload, $filter) {
+ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$scope', '$location', 'Upload', '$filter',function ($routeParams, $http, $scope, $location, Upload, $filter) {
 
     $scope.isShowOld = false;
 
@@ -1437,25 +1437,6 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$sco
                 $scope.showLegalToConfirm = true;
             }
         }
-        /*============对流程操作选项做处理start lipan 2019-07-03==========*/
-        var proOpts = [];
-        for(var i = 0; i < $scope.approve.processOptions.length; i++){
-            var proOpt = $scope.approve.processOptions[i];
-            if(proOpt.flowId == 'flow55'){
-                // 基层法务确认操作，有条件添加
-                if(!isEmpty($scope.pre.apply.grassrootsLegalStaff)){
-                    if(!isEmpty($scope.pre.apply.grassrootsLegalStaff.VALUE)){
-                        proOpts.push(proOpt);
-                    }
-                }
-            }else if(proOpt.flowId == 'flow24'){
-                // 退回双投中心操作
-            }else{
-                proOpts.push(proOpt);
-            }
-        }
-        $scope.approve.processOptions = proOpts;
-        /*============对流程操作选项做处理end lipan 2019-07-03==========*/
 
         //流程选项
         for (var i in processOptions) {
@@ -1948,4 +1929,8 @@ ctmApp.register.controller('PreAuditDetailView', ['$routeParams', '$http', '$sco
     } else {
         $scope.isShowEdit = true;
     }
+    $scope.showGrassrootsLegalStaffOpinion = true;
+    $scope.editGrassrootsLegalStaffOpinion = false;
+    /*******************留言知会代办锚点定位***********************/
+    executeMessageOrNotifyTodoPageForPortal($routeParams['notifyId']);
 }]);
