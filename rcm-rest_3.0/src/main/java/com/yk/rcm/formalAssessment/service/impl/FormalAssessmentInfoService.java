@@ -2375,8 +2375,9 @@ public class FormalAssessmentInfoService<V> implements IFormalAssessmentInfoServ
 
 	@Override
 	public void updateRiskAuditInfo(String businessId, String wf_state, String mark) {
+		log.info("调用投资系统接口####businessId:" + businessId + "####wf_state:" + wf_state);
 		RiskServiceSoap rs = new RiskService().getRiskServiceSoap();
-		String result = rs.updateRiskAuditInfo(businessId, wf_state, "");
+		String result = rs.updateRiskAuditInfo(businessId, wf_state, "ssss");
 		log.info("调用投资系统接口####" + businessId + "####" + result);
 	}
 }

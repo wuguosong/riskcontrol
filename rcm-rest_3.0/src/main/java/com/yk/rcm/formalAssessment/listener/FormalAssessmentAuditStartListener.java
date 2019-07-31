@@ -24,12 +24,12 @@ public class FormalAssessmentAuditStartListener implements ExecutionListener{
 		String ntUrl = Util.encodeUrl(oldurl);
 		url.append("/"+ntUrl);
 		//调用投资接口，通知他们更新项目状态
-		TzClient client = new TzClient();
-		client.setBusinessId(businessId);
-		client.setStatus("1");
-		client.setLocation(url.toString());
-		Thread t = new Thread(client);
-		t.start();
+//		TzClient client = new TzClient();
+//		client.setBusinessId(businessId);
+//		client.setStatus("1");
+//		client.setLocation(url.toString());
+//		Thread t = new Thread(client);
+//		t.start();
 	}
 	
 }
