@@ -801,7 +801,7 @@
                      PI.APPLY_DATE,
                      RMI.MEETING_TIME,
                      PI.STAGE
-                FROM RCM_PRE_INFO PI,
+                FROM RCM_PRE_INFO PI 
                 left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
 	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
 	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
