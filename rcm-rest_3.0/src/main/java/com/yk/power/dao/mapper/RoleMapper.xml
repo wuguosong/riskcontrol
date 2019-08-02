@@ -323,21 +323,13 @@
 	</select>
 	
 	<select id="queryRoleAddUserByPage" resultType="map" useCache="false">
-		select u.*,
-		(CASE
-         when (#{orgCodeRoot} = (select o.CODE
-                             from sys_org o
-                            where o.ORGPKVALUE = u.ORGPKVALUE)) then
-          (select o.name
-                             from sys_org o
-                            where o.ORGPKVALUE = u.DEPTPKVALUE)
-         else
-         (select o.name
-                             from sys_org o
-                            where o.ORGPKVALUE = u.ORGPKVALUE)
-       end) orgname  
-	    from sys_user u where u.state = '2' 
-	    and u.UUID not in(select ur.user_id from sys_user_role ur where ur.role_id = #{roleId})
+		select u.*,decode(u.ORGPKVALUE, #{orgCodeRoot}, d.name, o.name) orgname
+		from RCM.sys_user u, RCM.sys_org o, RCM.sys_org d
+		where u.state = '2'
+		and u.UUID not in(select ur.user_id from sys_user_role ur where ur.role_id = #{roleId})
+		and u.ORGPKVALUE = o.ORGPKVALUE(+)
+		and u.DEPTPKVALUE = d.ORGPKVALUE(+)
+		order by account
 		<if test="username!=null and username!=''"> and u.name like '%${username}%' </if>
 		<if test="account!=null and account!=''"> and u.account like '%${account}%' </if>
 	</select>
