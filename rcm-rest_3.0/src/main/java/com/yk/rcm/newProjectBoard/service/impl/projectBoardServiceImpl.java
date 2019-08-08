@@ -178,5 +178,41 @@ public class projectBoardServiceImpl implements IProjectBoardService {
 		
 		return count;
 	}
+	
+	/**大区负责人首页查询项目方法
+	 * */
+	@Override
+	public PageAssistant getProjectListForCompanyHead(PageAssistant page, String json) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params1 = new HashMap<String, Object>();
+		Map<String, Object> retMap = JsonUtil.fromJson(json, Map.class);
+		String userId = retMap.get("userId").toString();
+		Map<String, Object> params3 = new HashMap<String, Object>();
+		params3.put("id", userId);
+		List<Map<String, Object>> companyList = this.projectBoardMapper.queryByCompanyHeaderId(params3);
+		String[] pertainareaNameList = null;
+		if(companyList!=null&&companyList.size()>0){
+			pertainareaNameList = new String[companyList.size()];
+			for(int i=0;i<companyList.size();i++){
+				pertainareaNameList[i] = (String)companyList.get(i).get("REPORTINGUNIT_NAME");
+			}
+		}
+		params.put("page", page);
+		if (page.getParamMap() != null) {
+			params.putAll(page.getParamMap());
+			params1.putAll(page.getParamMap());
+		}
+		params.put("pertainareaNameList", pertainareaNameList);
+		params1.put("pertainareaNameList", pertainareaNameList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		int totalCount = 0;
+		list = this.projectBoardMapper.getALLProjectList(params);
+		totalCount = this.projectBoardMapper.getALLProjectListCount(params1);
+		
+
+		page.setTotalItems(totalCount);
+		page.setList(list);
+		return page;
+	}
 
 }

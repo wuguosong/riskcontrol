@@ -8,6 +8,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
         $scope.getTodayProject();
         $scope.getProjectReport();
         $scope.showFlag = 'NATURAL';
+        $scope.pertainareaName = '';
         // 判断首页快捷菜单栏显示
         var currentUserRoles = $scope.credentials.roles;
         for (var i=0;i<currentUserRoles.length;i++)
@@ -234,7 +235,6 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
         $($event.target).hide();
         $('#'+uuid+'zk').show();
     };
-
     $scope.initData();
 
     //新增
@@ -309,14 +309,14 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf1.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf1.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
-            $scope.paginationConf1.queryObj.pertainareaName = $scope.params.pertainareaName;
+            //$scope.paginationConf1.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf1.queryObj.projectType = $scope.params.projectType;
             $scope.paginationConf1.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf1.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getProjectList.do",
+            url: srvUrl + "projectBoard/getProjectListForCompanyHead.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf1),
                 "json":JSON.stringify($scope.paginationConf1.queryObj)
@@ -336,14 +336,14 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf2.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf2.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf2.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
-            $scope.paginationConf2.queryObj.pertainareaName = $scope.params.pertainareaName;
+            //$scope.paginationConf2.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf2.queryObj.projectType = $scope.params.projectType;
             $scope.paginationConf2.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf2.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getProjectList.do",
+            url: srvUrl + "projectBoard/getProjectListForCompanyHead.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf2),
                 "json":JSON.stringify($scope.paginationConf2.queryObj)
@@ -363,14 +363,14 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf3.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf3.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf3.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
-            $scope.paginationConf3.queryObj.pertainareaName = $scope.params.pertainareaName;
+            //$scope.paginationConf3.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf3.queryObj.projectType = $scope.params.projectType;
             $scope.paginationConf3.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf3.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getProjectList.do",
+            url: srvUrl + "projectBoard/getProjectListForCompanyHead.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf3),
                 "json":JSON.stringify($scope.paginationConf3.queryObj)
@@ -390,14 +390,14 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf4.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf4.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf4.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
-            $scope.paginationConf4.queryObj.pertainareaName = $scope.params.pertainareaName;
+            //$scope.paginationConf4.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf4.queryObj.projectType = $scope.params.projectType;
             $scope.paginationConf4.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf4.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getProjectList.do",
+            url: srvUrl + "projectBoard/getProjectListForCompanyHead.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf4),
                 "json":JSON.stringify($scope.paginationConf4.queryObj)
@@ -417,14 +417,14 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf5.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf5.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf5.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
-            $scope.paginationConf5.queryObj.pertainareaName = $scope.params.pertainareaName;
+            //$scope.paginationConf5.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf5.queryObj.projectType = $scope.params.projectType;
             $scope.paginationConf5.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf5.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
         $http({
             method:'post',
-            url: srvUrl + "projectBoard/getProjectList.do",
+            url: srvUrl + "projectBoard/getProjectListForCompanyHead.do",
             data: $.param({
                 "page":JSON.stringify($scope.paginationConf5),
                 "json":JSON.stringify($scope.paginationConf5.queryObj)

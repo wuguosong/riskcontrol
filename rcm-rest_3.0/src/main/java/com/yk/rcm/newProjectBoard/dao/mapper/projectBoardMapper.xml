@@ -451,6 +451,11 @@
     	<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
+    	<if test="pertainareaNameList != null"> and T.PERTAINAREANAME in
+	       <foreach collection="pertainareaNameList" item="pertainareaName" open="(" close=")" separator=",">
+			 　#{pertainareaName}
+		   </foreach>
+		</if>
     	<if test="stageList != null"> and T.STAGE in
 	       <foreach collection="stageList" item="stage" open="(" close=")" separator=",">
 			 　#{stage}
@@ -570,7 +575,11 @@
 			 　#{stage}
 		   </foreach>
 		</if>
-
+		<if test="pertainareaNameList != null"> and T.PERTAINAREANAME in
+	       <foreach collection="pertainareaNameList" item="pertainareaName" open="(" close=")" separator=",">
+			 　#{pertainareaName}
+		   </foreach>
+		</if>
         <if test="applyDateStart != null and applyDateStart != ''">
             and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
         </if>
@@ -1394,5 +1403,8 @@
                    and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
                </if>
           ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+	</select>
+	<select id="queryByCompanyHeaderId" resultType="map" parameterType="map">
+		 select * from SYS_GROUP_USER_REPORTINGUNIT where COMPANYHEADER_ID = #{id}
 	</select>
 </mapper>

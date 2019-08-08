@@ -27,4 +27,9 @@ public interface IProjectBoardService {
 	 * 查询其他评审项目
 	 */
 	public PageAssistant getBulletinProjectList(PageAssistant page, String json);
+
+	/**
+	 * 大区负责人首页查询项目方法
+	 * */
+	public PageAssistant getProjectListForCompanyHead(PageAssistant page, String json);
 }

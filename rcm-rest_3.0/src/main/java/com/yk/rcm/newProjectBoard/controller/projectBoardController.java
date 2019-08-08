@@ -72,4 +72,16 @@ public class projectBoardController {
 		result.setResult_data(page);
 		return result;
 	}
+	
+	@RequestMapping("/getProjectListForCompanyHead")
+	@ResponseBody
+	public Result getProjectListForCompanyHead(HttpServletRequest request){
+		Result result = new Result();
+		PageAssistant page = new PageAssistant(request.getParameter("page"));
+		String json = request.getParameter("json");
+		this.projectBoardService.getProjectListForCompanyHead(page, json);
+		page.setParamMap(null);
+		result.setResult_data(page);
+		return result;
+	}
 }

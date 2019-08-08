@@ -94,4 +94,9 @@ public interface IProjectBoardMapper extends BaseMapper {
 	 * 查询其他项目列表数量, 查询角色绑定的项目以及本人参与审批的项目
 	 * */
 	public int getRoleBulletinProjectListCount(Map<String, Object> params);
+	
+	/**
+	 * 根据单位负责人id获取所在大区
+	 * */
+	public List<Map<String, Object>> queryByCompanyHeaderId(Map<String, Object> params);
 }
