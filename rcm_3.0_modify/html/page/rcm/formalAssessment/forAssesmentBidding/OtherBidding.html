@@ -147,15 +147,18 @@
                           class="form-control ng-pristine ng-valid ng-touched" disabled></textarea>
                         <div class="radioline">
                             <label class="checkbox-inline local">
-                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType1" name="projectType"/>
+                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType1"
+                                       name="projectType"/>
                                 <span class="lbl">项目简单</span>
                             </label>
                             <label class="checkbox-inline local">
-                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType2" name="projectType"/>
+                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType2"
+                                       name="projectType"/>
                                 <span class="lbl">风险较低</span>
                             </label>
                             <label class="checkbox-inline local">
-                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType3" name="projectType"/>
+                                <input type="checkbox" disabled class="px" ng-model="meetInfo.projectType3"
+                                       name="projectType"/>
                                 <span class="lbl">收益较好</span>
                             </label>
                         </div>
@@ -165,8 +168,39 @@
                 </div>
             </div>
 
-            <!--业务单位上报评审文件 Start-->
+            <!--正式评审报告 Start-->
             <div class="mcontent content1" id="flag3-c">
+                <h3 class="text-blue">正式评审报告</h3>
+                <div class="innertable">
+                    <h5>风控部门提供</h5>
+                    <div class="filework" style="height: 40px">
+                        <cloud-file
+                                file-id="pfrReport"
+                                file-type="FormalReportInfo"
+                                file-code="{{paramBusinessId}}"
+                                file-location="pfrReport"
+                                show-upload="true"
+                                show-preview="false"
+                                show-replace="true"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                                text-before="true"
+                                text-class="col-md-9"
+                                text-style="padding-left: 0"
+                                btn-area-class="col-md-3"
+                                btn-class="btn-replace-out"
+                                btn-style="float: right; top: 3px"
+                        >
+                        </cloud-file>
+                    </div>
+                </div>
+            </div>
+
+            <!--正式评审报告 End-->
+
+            <!--业务单位上报评审文件 Start-->
+            <div class="mcontent content1" id="flag4-c">
                 <h3 class="text-blue">业务单位上报评审文件</h3>
                 <div class="innertable">
                     <div class="col-md-9" style="padding-left: 0px;">
@@ -200,7 +234,7 @@
                 <directive-formal-return-btn url="{{oldUrl}}"></directive-formal-return-btn>
             </div>
             <div class="linkline mcontent">
-                <div class="line" style="height: 188px"></div>
+                <div class="line" style="height: 240px"></div>
                 <a id="flag1" class="catalog-list catalog-list-formal chose" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
@@ -214,6 +248,12 @@
                     项目评级
                 </a>
                 <a id="flag3" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    正式评审报告
+                </a>
+                <a id="flag4" class="catalog-list catalog-list-formal" href="javascript:void(0);">
 							<span class="fcir">
 								<span class="scir"></span>
 							</span>
@@ -441,7 +481,7 @@
 </script>
 
 <style>
-    .mcontent .innertable td button:first-child{
+    .mcontent .innertable td button:first-child {
         margin-right: 0px;
     }
 </style>

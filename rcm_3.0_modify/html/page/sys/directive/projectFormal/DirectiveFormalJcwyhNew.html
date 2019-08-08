@@ -3,78 +3,78 @@
         {{ pfr.apply.projectName }}
     </h3>
 
-    <div class="mcontent content1" id="flag1-c">
-        <h3 class='text-blue'>项目过程回顾</h3>
-        <div class="row normalline">
-            <div class="timeline col-md-11 col-sm-11 col-xs-11">
-                <siv class="line hidden-xs"></siv>
-                <div class="time start-time">
-                    提交申请时间
-                    <span>{{applyDate}}</span>
-                </div>
-                <div class="time end-time" style="padding-left: 60px">
-                    评审报告出具时间
-                    <span>{{ formalReport.submit_date }}</span>
-                </div>
-            </div>
-        </div>
+    <!--<div class="mcontent content1" id="flag1-c">-->
+        <!--<h3 class='text-blue'>项目过程回顾</h3>-->
+        <!--<div class="row normalline">-->
+            <!--<div class="timeline col-md-11 col-sm-11 col-xs-11">-->
+                <!--<siv class="line hidden-xs"></siv>-->
+                <!--<div class="time start-time">-->
+                    <!--提交申请时间-->
+                    <!--<span>{{applyDate}}</span>-->
+                <!--</div>-->
+                <!--<div class="time end-time" style="padding-left: 60px">-->
+                    <!--评审报告出具时间-->
+                    <!--<span>{{ formalReport.submit_date }}</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="row normalline">
-            <div class="col-md-6 col-sm-6  col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">所属大区</span>
-                    <span class="col-md-6 slim" ng-if="pfr.apply.pertainArea.VALUE != null">
-                        {{ pfr.apply.pertainArea.VALUE }}
-                    </span>
-                    <span class="col-md-6 slim" ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"
-                          class="" width="30%">
-                        {{ pfr.apply.reportingUnit.VALUE }}
-                    </span>
-                </div>
+        <!--<div class="row normalline">-->
+            <!--<div class="col-md-6 col-sm-6  col-xs-12">-->
+                <!--<div class="row">-->
+                    <!--<span class="col-md-6 noPadding">所属大区</span>-->
+                    <!--<span class="col-md-6 slim" ng-if="pfr.apply.pertainArea.VALUE != null">-->
+                        <!--{{ pfr.apply.pertainArea.VALUE }}-->
+                    <!--</span>-->
+                    <!--<span class="col-md-6 slim" ng-if="pfr.apply.pertainArea == null || pfr.apply.pertainArea.VALUE == null"-->
+                          <!--class="" width="30%">-->
+                        <!--{{ pfr.apply.reportingUnit.VALUE }}-->
+                    <!--</span>-->
+                <!--</div>-->
 
-            </div>
-            <div class="col-md-6 col-sm-6  col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">投资经理</span>
-                    <span class="col-md-6 slim">
-                        {{ pfr.apply.investmentManager.NAME }}
-                    </span>
-                </div>
-            </div>
-        </div>
+            <!--</div>-->
+            <!--<div class="col-md-6 col-sm-6  col-xs-12">-->
+                <!--<div class="row">-->
+                    <!--<span class="col-md-6 noPadding">投资经理</span>-->
+                    <!--<span class="col-md-6 slim">-->
+                        <!--{{ pfr.apply.investmentManager.NAME }}-->
+                    <!--</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="row normalline titline">
-            <div class="tit col-md-12">投资中心/水环境投资意见中心</div>
-            <div class="col-md-6 col-sm-6  col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">投资测算意见:</span>
-                    <span class="col-md-6 slim">{{pfr.cesuanFileOpinion}}</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">投资协议意见:</span>
-                    <span class="col-md-6 slim">{{pfr.tzProtocolOpinion}}</span>
-                </div>
-            </div>
-        </div>
+        <!--<div class="row normalline titline">-->
+            <!--<div class="tit col-md-12">投资中心/水环境投资意见中心</div>-->
+            <!--<div class="col-md-6 col-sm-6  col-xs-12">-->
+                <!--<div class="row">-->
+                    <!--<span class="col-md-6 noPadding">投资测算意见:</span>-->
+                    <!--<span class="col-md-6 slim">{{pfr.cesuanFileOpinion}}</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                <!--<div class="row">-->
+                    <!--<span class="col-md-6 noPadding">投资协议意见:</span>-->
+                    <!--<span class="col-md-6 slim">{{pfr.tzProtocolOpinion}}</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="row normalline titline">
-            <div class="tit col-md-12">风控中心审批意见</div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">风控中心审批次数:</span>
-                    <span class="col-md-6 slim">{{pfr.approveAttachment.commentsList.length}}</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="row">
-                    <span class="col-md-6 noPadding">风控中心法律评审意见条数:</span>
-                    <span class="col-md-6 slim">{{pfr.approveLegalAttachment.commentsList.length}}</span>
-                </div>
-            </div>
-        </div>
-    </div>
+        <!--<div class="row normalline titline">-->
+            <!--<div class="tit col-md-12">风控中心审批意见</div>-->
+            <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                <!--<div class="row">-->
+                    <!--<span class="col-md-6 noPadding">风控中心审批次数:</span>-->
+                    <!--<span class="col-md-6 slim">{{pfr.approveAttachment.commentsList.length}}</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                <!--<div class="row">-->
+                    <!--<span class="col-md-6 noPadding">风控中心法律评审意见条数:</span>-->
+                    <!--<span class="col-md-6 slim">{{pfr.approveLegalAttachment.commentsList.length}}</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <!--过程项目回顾-->
 
     <div class="mcontent content1" id="flag2-c" ng-if="isReadOnly != 'true'">

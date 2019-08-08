@@ -21,65 +21,99 @@
     </div>
 </div>
 <div class="panel-body">
-    <!--form表单开始-->
-    <form class="form-horizontal" name="myFormPre" id="myFormPre" novalidate>
-        <div class="">
-            <div class="panel">
-                <div class="panel-body">
-                    <div id="myTab" class="myTab">
-                        <ul class="nav nav-tabs bs-tabdrop-example">
-                            <li class="active">
-                                <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
-                            </li>
-                            <!--<li>
-                                <a href="/#flow_chart" data-toggle="tab">流程图</a>
-                            </li>-->
-                            <li >
-                                <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-content">
-                        <div class="tab-pane in active" id="contracts_file_info">
-                            <directive-project-pre-review-view></directive-project-pre-review-view>
-                            <div class="button-group">
-                                <div class="row">
-                                    <div class="option">
-                                        <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
-                                        <button ng-show="pre.oracle.WF_STATE=='0'" ng-click="vaildProject()" id="submitbtn" class="btn btn-info" title=""><i class="fa fa-cloud-upload"></i>提交</button>
-                                        <div id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
-                                            <pre-review-bpmn-pop-win approve="approve"></pre-review-bpmn-pop-win>
-                                        </div>
-                                    </div>
-                                </div>
+    <ul class="nav nav-tabs bs-tabdrop-example" id="_myTopTab">
+        <li class="active">
+            <a href="/#contracts_file_info" data-toggle="tab">流程表单</a>
+        </li>
+        <!--<li>
+            <a href="/#flow_chart" data-toggle="tab">流程图</a>
+        </li>-->
+        <li>
+            <a href="/#contracts_resources" data-toggle="tab">相关资源</a>
+        </li>
+        <li>
+            <a href="/#bs-tabdrop-tab6" data-toggle="tab">评审报告</a>
+        </li>
+    </ul>
+    <div class="panel">
+        <div class="tab-content">
+            <div class="tab-pane in active" id="contracts_file_info">
+                <directive-project-pre-review-view></directive-project-pre-review-view>
+                <div class="button-group">
+                    <div class="row">
+                        <div class="option">
+                            <directive-return-btn url="{{oldUrl}}"></directive-return-btn>
+                            <button ng-show="pre.oracle.WF_STATE=='0'" ng-click="vaildProject()"
+                                    id="submitbtn" class="btn btn-info" title=""><i
+                                    class="fa fa-cloud-upload"></i>提交
+                            </button>
+                            <div id="submitModal" class="modal" tabindex="-1" role="dialog"
+                                 style="display: none;">
+                                <pre-review-bpmn-pop-win approve="approve"></pre-review-bpmn-pop-win>
                             </div>
-                        </div>
-                        <div class="tab-pane" id="flow_chart">
-                            <!--<directive-process-page></directive-process-page>-->
-                            <directive-process-page-new process-key="preReview"></directive-process-page-new>
-                        </div>
-                        <div class="tab-pane  clearfix row" id="contracts_resources">
-                            <!-- <directive-file-list></directive-file-list>-->
-                            <!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
-                            <directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo" business-id="businessId"
-                                                      wf-state="0" file-list="newAttachment"
-                                                      init-update="initUpdate(id)" service-type="serviceType" project-model="projectModel"></directive-accachment-new>
-                            <!--</div>
-                            <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
-                                <bbs-chat-new id="prePreviewBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
-                            </div>-->
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="tab-pane" id="flow_chart">
+                <!--<directive-process-page></directive-process-page>-->
+                <directive-process-page-new process-key="preReview"></directive-process-page-new>
+            </div>
+            <div class="tab-pane" id="contracts_resources">
+                <!-- <directive-file-list></directive-file-list>-->
+                <!--<div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">-->
+                <directive-accachment-new id="preInfo" business-type="preReview" page-location="preInfo"
+                                          business-id="businessId"
+                                          wf-state="0" file-list="newAttachment"
+                                          init-update="initUpdate(id)" service-type="serviceType"
+                                          project-model="projectModel"></directive-accachment-new>
+                <!--</div>
+                <div class="col-md-6 lg-md-6 col-sm-12 col-xs-12">
+                    <bbs-chat-new id="prePreviewBbs" business-id="{{businessId}}" init-messages-array="_init_messages_array_" init-uuid="_init_uuid_" is-pagination="true" is-alert-user="false" message-type="preReview"  is-show-publish-btn="{{_message_publish_reply_}}" is-show-reply-btn="{{_message_publish_reply_}}"></bbs-chat-new>
+                </div>-->
+            </div>
+            <div class="tab-pane" id="bs-tabdrop-tab6">
+                <div class="row">
+                    <label class="col-sm-2 control-label">项目名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly ng-model="pre.oracle.PROJECTNAME" class="form-control"
+                               id="projectName"
+                               name="projectName"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 control-label">评审报告</label>
+                    <div class="col-sm-10">
+                        <cloud-file
+                                file-id="preReport"
+                                file-type="preReportInfo"
+                                file-code="{{businessId}}"
+                                file-location="preReport"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="true"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                                text-before="true"
+                                text-class="col-md-9"
+                                text-style="padding-left: 0"
+                                btn-area-class="col-md-3"
+                                btn-class="btn-replace-out"
+                                btn-style="float: right; top: 3px"
+                        >
+                        </cloud-file>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
-<script  type="text/javascript">
-    angular.element(document).ready(function() {
-        var options = {
-            todayBtn: "linked",
-            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-        }
-    });
-</script>
+    <script type="text/javascript">
+        angular.element(document).ready(function () {
+            var options = {
+                todayBtn: "linked",
+                orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+            }
+        });
+    </script>

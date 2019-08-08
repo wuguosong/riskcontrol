@@ -32,6 +32,9 @@
         <li>
             <a href="/#contracts_resources" data-toggle="tab" ng-if="flag != '1'">相关资源</a>
         </li>
+        <li>
+            <a  href="/#bs-tabdrop-tab6" data-toggle="tab">评审报告</a>
+        </li>
     </ul>
     <div class="panel">
         <div class="tab-content">
@@ -163,6 +166,39 @@
                         </div>
                     </div>
                 </div>-->
+            </div>
+            <div class="tab-pane" id="bs-tabdrop-tab6">
+                <div class="row">
+                    <label class="col-sm-2 control-label">项目名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly ng-model="pfrOracle.PROJECTNAME" class="form-control" id="projectName"
+                               name="projectName"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 control-label">评审报告</label>
+                    <div class="col-sm-10">
+                        <cloud-file
+                                file-id="pfrReport"
+                                file-type="FormalReportInfo"
+                                file-code="{{pfrOracle.BUSINESSID}}"
+                                file-location="pfrReport"
+                                show-upload="false"
+                                show-preview="false"
+                                show-replace="true"
+                                show-download="false"
+                                show-delete="false"
+                                area-code="1"
+                                text-before="true"
+                                text-class="col-md-9"
+                                text-style="padding-left: 0"
+                                btn-area-class="col-md-3"
+                                btn-class="btn-replace-out"
+                                btn-style="float: right; top: 3px"
+                        >
+                        </cloud-file>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

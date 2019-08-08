@@ -1,5 +1,5 @@
-ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$location','$routeParams','Upload','$filter',
-    function ($http,$scope,$location,$routeParams,Upload,$filter) {
+ctmApp.register.controller('FormalBiddingInfoPreview', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$filter',
+    function ($http, $scope, $location, $routeParams, Upload, $filter) {
         // 预览传来的参数
         $scope.formalPreview = $routeParams.formalPreview;
         $scope.changeValue = 1;   // 标识切换的页面
@@ -13,12 +13,12 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         $scope.flag = $routeParams.flag;
 
         $scope.isWaitDecisionReviewList = function () {
-            if ($scope.flag != undefined){
+            if ($scope.flag != undefined) {
                 $scope.initUpdate($scope.waitId);
             } else {
                 $scope.newAttachment = $scope.formalPreview.newAttachment;
             }
-            if ($scope.waitId == null){
+            if ($scope.waitId == null) {
                 $scope.businessId = $scope.formalPreview.projectFormalId;
             } else {
                 $scope.businessId = $scope.waitId;
@@ -27,12 +27,12 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         };
 
         //处理附件列表
-        $scope.reduceAttachment = function(attachment, id){
+        $scope.reduceAttachment = function (attachment, id) {
             $scope.newAttachment = attach_list("formalReview", id, "formalAssessmentInfo").result_data;
-            for(var i in attachment){
+            for (var i in attachment) {
                 var file = attachment[i];
-                for (var j in $scope.newAttachment){
-                    if (file.fileId == $scope.newAttachment[j].fileid){
+                for (var j in $scope.newAttachment) {
+                    if (file.fileId == $scope.newAttachment[j].fileid) {
                         $scope.newAttachment[j].fileName = file.fileName;
                         $scope.newAttachment[j].type = file.type;
                         $scope.newAttachment[j].itemType = file.itemType;
@@ -63,16 +63,6 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
 
                 // 处理附件
                 $scope.reduceAttachment(data.result_data.Formal.attachmentList, id);
-                /*if ($scope.projectSummary == null || $scope.projectSummary == undefined){
-                    if ($scope.flag == 3){
-                        $location.path("/FormalBiddingInfo_view/"+ $scope.waitId +"@view/" + $scope.waitUrl);
-                    }
-                    if ($scope.flag == 7){
-                        $location.path("/FormalBiddingInfo_view/"+ $scope.waitId + "/" + $scope.waitUrl);
-                    }
-
-                    return;
-                }*/
 
                 /*//处理附件列表
                 $scope.reduceAttachment(data.result_data.Formal.attachment);*/
@@ -93,7 +83,7 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
                 // 获取分数数据
                 $scope.getMarks();
                 // 获取决策通知书数据
-                if ($scope.flag == 7){
+                if ($scope.flag == 7) {
                     $scope.getNoticeDecstionByBusinessId($scope.formalID);
                 }
 
@@ -108,34 +98,34 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
         }
 
         // 获取决策通知书
-        $scope.getNoticeDecstionByBusinessId = function(businessId){
+        $scope.getNoticeDecstionByBusinessId = function (businessId) {
             $http({
-                method:'post',
-                url:srvUrl+"noticeDecisionInfo/getNoticeDecstionByBusinessId.do",
-                data: $.param({"businessId":businessId})
-            }).success(function(data){
+                method: 'post',
+                url: srvUrl + "noticeDecisionInfo/getNoticeDecstionByBusinessId.do",
+                data: $.param({"businessId": businessId})
+            }).success(function (data) {
                 $scope.noticeDecision = data.result_data;
-            }).error(function(data,status,header,config){
+            }).error(function (data, status, header, config) {
                 $.alert(status);
             });
         }
 
-       /* //处理附件列表
-        $scope.reduceAttachment = function (attachment) {
-            $scope.newAttachment = [];
-            for (var i in attachment) {
-                var files = attachment[i].files;
-                if (files != null) {
-                    var item_name = attachment[i].ITEM_NAME;
-                    var uuid = attachment[i].UUID;
-                    for (var j in files) {
-                        files[j].ITEM_NAME = item_name;
-                        files[j].UUID = uuid;
-                        $scope.newAttachment.push(files[j]);
-                    }
-                }
-            }
-        }*/
+        /* //处理附件列表
+         $scope.reduceAttachment = function (attachment) {
+             $scope.newAttachment = [];
+             for (var i in attachment) {
+                 var files = attachment[i].files;
+                 if (files != null) {
+                     var item_name = attachment[i].ITEM_NAME;
+                     var uuid = attachment[i].UUID;
+                     for (var j in files) {
+                         files[j].ITEM_NAME = item_name;
+                         files[j].UUID = uuid;
+                         $scope.newAttachment.push(files[j]);
+                     }
+                 }
+             }
+         }*/
 
         // 获取分数
         $scope.getMarks = function () {
@@ -274,22 +264,22 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             $(a).remove();
         }
 
-        $scope.downLoadFormalBiddingInfoFile = function (filePath, filename,flag) {
+        $scope.downLoadFormalBiddingInfoFile = function (filePath, filename, flag) {
             var isExists = validFileExists(filePath);
             if (!isExists) {
                 $.alert("要下载的文件已经不存在了！");
                 return false;
             }
-            if(filename!=null && filename.length>12){
-                filename = filename.substring(0, 12)+"...";
+            if (filename != null && filename.length > 12) {
+                filename = filename.substring(0, 12) + "...";
             }
             if (undefined != filePath && null != filePath) {
                 var index = filePath.lastIndexOf(".");
                 var str = filePath.substring(index + 1, filePath.length);
-                if (flag == 1){
-                    var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename ));
+                if (flag == 1) {
+                    var url = srvUrl + "file/downloadFile.do?filepaths=" + encodeURI(filePath) + "&filenames=" + encodeURI(encodeURI(filename));
                 } else {
-                    var url = srvUrl+"file/downloadFile.do?filepaths="+encodeURI(filePath)+"&filenames="+encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
+                    var url = srvUrl + "file/downloadFile.do?filepaths=" + encodeURI(filePath) + "&filenames=" + encodeURI(encodeURI(filename + "-正式评审报告.")) + str;
                 }
 
                 var a = document.createElement('a');
@@ -348,16 +338,16 @@ ctmApp.register.controller('FormalBiddingInfoPreview', ['$http','$scope','$locat
             var tabId = ['processReview', 'template', 'formalReport', 'score'];
             angular.forEach(tabId, function (data, index, array) {
                 if (index != num) {
-                    angular.element("#"+data).removeClass('chose');
+                    angular.element("#" + data).removeClass('chose');
                 } else {
-                    angular.element("#"+data).addClass('chose');
+                    angular.element("#" + data).addClass('chose');
                 }
             });
         }
 
         // 展开展示信息
         $scope.expandMore = function (parentId, val) {
-            angular.element("#"+parentId).addClass('hideOpen');
+            angular.element("#" + parentId).addClass('hideOpen');
             $scope[val] = true;
             angular.element("")
         }

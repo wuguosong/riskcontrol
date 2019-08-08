@@ -1,0 +1,63 @@
+<div class="mcontent content3 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+    <div class="contentwrap hideOpen">
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">电子版正式评审决策会材料</h3>
+        <h5 class='file-download'>
+            <cloud-file
+                    file-id="pfrOtherBidding"
+                    file-type="FormalBiddingInfo"
+                    file-code="{{waitId}}"
+                    file-location="pfrOtherBidding"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-upload-or-replace="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+                    btn-class="btn btn-primary"
+                    text-class="col-md-8 slim"
+                    btn-area-class="col-md-1 slim"
+                    upload-text="浏览"
+            >
+            </cloud-file>
+        </h5>
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">正式评审报告</h3>
+        <h5 class='file-download'>
+            <cloud-file
+                    file-id="pfrReport"
+                    file-type="FormalReportInfo"
+                    file-code="{{waitId}}"
+                    file-location="pfrReport"
+                    show-upload="false"
+                    show-preview="false"
+                    show-replace="false"
+                    show-download="false"
+                    show-delete="false"
+                    area-code="1"
+                    text-before="false"
+            >
+            </cloud-file>
+        </h5>
+        <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
+        <div id='content3_table' class="mytable">
+            <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
+                                      page-location="formalAssessmentInfo" business-id="pfr.id"
+                                      wf-state="wfState" file-list="newAttachment"
+                                      init-update="initUpdate(id)"
+                                      is-show-meeting-attachment="true"></directive-accachment-new>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        setTimeout(function () {
+
+            if ($('.content3 .contentwrap').height() < $('.content3').height() - 52) {
+                $('.content3 .table-cover').hide()
+            }
+        }, 1000)
+
+    })
+</script>

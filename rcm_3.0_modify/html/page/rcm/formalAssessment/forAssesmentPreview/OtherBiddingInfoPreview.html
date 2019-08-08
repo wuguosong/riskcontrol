@@ -1,12 +1,12 @@
 <link rel="stylesheet" href="../styles/style_preview.css">
-<style type="text/css">
-    .mtab2 a {
-        text-align: left!important;
-        color: #2b679d;
-        font-size: 14px;
-        text-decoration:underline
-    }
-</style>
+<!--<style type="text/css">-->
+<!--.font a {-->
+<!--text-align: left!important;-->
+<!--color: #2b679d;-->
+<!--font-size: 14px;-->
+<!--text-decoration:underline-->
+<!--}-->
+<!--</style>-->
 <div class="preview-contanier" ng-controller="OtherBiddingInfoPreview">
     <div class="mheader row text-blue-name">
         {{ formalPreview.apply.projectName }}
@@ -37,57 +37,55 @@
         </a>
     </div>
     <div class="row mtab2 text-gray">
-        <h3 class='text-blue text-blue-out' style="padding-left: 0;">电子版正式评审决策会材料</h3>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="">
-            <cloud-file
-                    file-id="pfrOtherBidding"
-                    file-type="FormalBiddingInfo"
-                    file-code="{{waitId}}"
-                    file-location="pfrOtherBidding"
-                    show-upload="false"
-                    show-preview="false"
-                    show-replace="false"
-                    show-download="false"
-                    show-upload-or-replace="false"
-                    show-delete="false"
-                    area-code="1"
-                    text-before="false"
-                    btn-class="btn btn-primary"
-                    text-class="col-md-8 slim"
-                    btn-area-class="col-md-1 slim"
-                    upload-text="浏览"
-            >
-            </cloud-file>
-        </div>
-
-        <h3 class='text-blue text-blue-out' style="padding-left: 0;">正式评审报告</h3>
-        <h5 class='file-download'>
-            <cloud-file
-                    file-id="pfrReport"
-                    file-type="FormalReportInfo"
-                    file-code="{{waitId}}"
-                    file-location="pfrReport"
-                    show-upload="false"
-                    show-preview="false"
-                    show-replace="false"
-                    show-download="false"
-                    show-delete="false"
-                    area-code="1"
-                    text-before="false"
-            >
-            </cloud-file>
-            <!--<a ng-click="downLoadFormalBiddingInfoFile(formalPreview.filePath,formalPreview.projectName)">
-                {{formalPreview.projectName}}-正式评审报告.docx</a>-->
-        </h5>
-
-        <h3 class='text-blue text-blue-out' style="padding-left: 0;">业务单位上报评审文件</h3>
-        <div id='content3_table' class="mytable">
-            <directive-accachment-new id="formalAssessmentInfo" business-type="formalReview"
-                                      page-location="formalAssessmentInfo" business-id="pfr.id"
-                                      wf-state="wfState" file-list="newAttachment"
-                                      init-update="initUpdate(id)"
-                                      is-show-meeting-attachment="true"></directive-accachment-new>
-
+        <a id="processReview" class="chose col-md-4 col-sm-6 col-xs-12">
+            项目过程回顾
+            <div class="line">
+						<span class="fcir">
+							<span></span>
+						</span>
+            </div>
+        </a>
+        <a id="otherReport" class="col-md-4 col-sm-6 col-xs-12">
+            评审决策会资料
+            <div class="line">
+						<span class="fcir">
+							<span></span>
+						</span>
+            </div>
+        </a>
+        <a id="score" class="col-md-4 col-sm-6 col-xs-12">
+            项目整体评分
+            <div class="line">
+						<span class="fcir">
+							<span></span>
+						</span>
+            </div>
+        </a>
+    </div>
+    <div class="mperson">
+        <div>评审负责人<em>{{formalPreview.taskallocation.reviewLeader.NAME}}</em></div>
+        <div>法律负责人<em>{{formalPreview.taskallocation.legalReviewLeader.NAME}}</em></div>
+        <div>投资建议<em>{{formalPreview.investmentType.ITEM_NAME}}</em></div>
+        <div>评审难度评级<em>{{ formalPreview.projectRating.name }}</em></div>
+    </div>
+    <div class="row rowsection out-rowsection">
+        <div class="outside-swiper swiper-container">
+            <div class="btn-fullscreen"></div>
+            <div class="swiper-button-prev out-swiper-button-prev"></div>
+            <div class="swiper-button-next out-swiper-button-next"></div>
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div ng-include
+                         src="'page/rcm/formalAssessment/forAssesmentPreview/tabPage/processReview.html'"></div>
+                </div>
+                <div class="swiper-slide">
+                    <div ng-include
+                         src="'page/rcm/formalAssessment/forAssesmentPreview/tabPage/otherReport.html'"></div>
+                </div>
+                <div class="swiper-slide">
+                    <div ng-include src="'page/rcm/formalAssessment/forAssesmentPreview/tabPage/score.html'"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -163,6 +161,7 @@
 </script>
 <script>
     $(function () {
+
         setTimeout(function () {
             var outsideSwiper = new Swiper('.outside-swiper', {
                 observer: true,
@@ -192,8 +191,8 @@
                         }
                     },
                     transitionStart: function () {
-                        var formalBiddingInfoPreview = document.querySelector('[ng-controller = FormalBiddingInfoPreview]');
-                        var $scope = angular.element(formalBiddingInfoPreview).scope();
+                        var OtherBiddingInfoPreview = document.querySelector('[ng-controller = OtherBiddingInfoPreview]');
+                        var $scope = angular.element(OtherBiddingInfoPreview).scope();
                         $scope.changeStyle(this.activeIndex)
                     }
                 }
@@ -201,29 +200,19 @@
             $('#processReview').click(function () {
                 outsideSwiper.slideTo(0, 1000, true);//切换到第一个slide，速度为1秒
                 $('#processReview').addClass('chose');
-                $('#template').removeClass('chose');
-                $('#formalReport').removeClass('chose');
+                $('#otherReport').removeClass('chose');
                 $('#score').removeClass('chose');
             });
-            $('#template').click(function () {
-                outsideSwiper.slideTo(1, 1000, true);//切换到第二个slide，速度为1秒
-                $('#template').addClass('chose');
-                $('#processReview').removeClass('chose');
-                $('#formalReport').removeClass('chose');
-                $('#score').removeClass('chose');
-            });
-            $('#formalReport').click(function () {
-                outsideSwiper.slideTo(2, 1000, true);//切换到第三个slide，速度为1秒
-                $('#formalReport').addClass('chose');
-                $('#template').removeClass('chose');
+            $('#otherReport').click(function () {
+                outsideSwiper.slideTo(1, 1000, true);//切换到第三个slide，速度为1秒
+                $('#otherReport').addClass('chose');
                 $('#processReview').removeClass('chose');
                 $('#score').removeClass('chose');
             });
             $('#score').click(function () {
-                outsideSwiper.slideTo(3, 1000, true);//切换到第四个slide，速度为1秒
+                outsideSwiper.slideTo(2, 1000, true);//切换到第四个slide，速度为1秒
                 $('#score').addClass('chose');
-                $('#template').removeClass('chose');
-                $('#formalReport').removeClass('chose');
+                $('#otherReport').removeClass('chose');
                 $('#processReview').removeClass('chose');
             });
             $('.btn-fullscreen').click(function (e) {
@@ -254,6 +243,7 @@
                                 $(this).find('.table-cover').show()
                             }
                         }
+
                     })
                 } else {
                     $(this).addClass('btn-outscreen')
@@ -267,10 +257,6 @@
                     $('.left-swiper').hide()
                     $('.right-swiper').hide()
                     $('.swiper-pagination').addClass('widthAll')
-
-                    /*if ($("#demo-settings-toggler")) {
-                        $("#demo-settings-toggler").hide();
-                    }*/
 
                     $('.swiper-slide').each(function () {
                         $(this).width(toeven($(this).width()))
@@ -297,5 +283,6 @@
         function toeven(num) {
             return num % 2 == 0 ? num : num + 1
         }
+
     })
 </script>
