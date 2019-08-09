@@ -384,15 +384,23 @@
                     <label class="col-sm-2 col-md-1 control-label"
                            style="padding-right: 0px;padding-left: 0px;">申请时间（从）</label>
                     <div class="col-sm-4 col-md-3 sm-col has-feedback">
-                        <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_START"
-                               name="APPLY_DATE_START" ng-model="params.applyDateStart"/>
+                        <wui-date
+                                format="yyyy-mm-dd"
+                                id="APPLY_DATE_START"
+                                width="100%"
+                                ng-model="params.applyDateStart"
+                                btns="{'now':'今天'}"></wui-date>
                         <i class="fa fa-calendar form-control-feedback"></i>
                     </div>
                     <label class="col-sm-2 col-md-1 control-label"
                            style="padding-right: 0px;padding-left: 0px;">申请时间（至）</label>
                     <div class="col-sm-4 col-md-3 sm-col has-feedback">
-                        <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="APPLY_DATE_END"
-                               name="APPLY_DATE_END" ng-model="params.applyDateEnd"/>
+                        <wui-date
+                                format="yyyy-mm-dd"
+                                id="APPLY_DATE_END"
+                                width="100%"
+                                ng-model="params.applyDateEnd"
+                                btns="{'now':'今天'}"></wui-date>
                         <i class="fa fa-calendar form-control-feedback"></i>
                     </div>
                     <div class="col-sm-4 col-md-4 sm-col has-feedback" style="text-align: right">
