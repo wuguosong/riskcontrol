@@ -329,9 +329,9 @@
 		and u.UUID not in(select ur.user_id from sys_user_role ur where ur.role_id = #{roleId})
 		and u.ORGPKVALUE = o.ORGPKVALUE(+)
 		and u.DEPTPKVALUE = d.ORGPKVALUE(+)
-		order by account
 		<if test="username!=null and username!=''"> and u.name like '%${username}%' </if>
 		<if test="account!=null and account!=''"> and u.account like '%${account}%' </if>
+		order by account
 	</select>
 	
 	<insert id="addRoleUser" parameterType="map">

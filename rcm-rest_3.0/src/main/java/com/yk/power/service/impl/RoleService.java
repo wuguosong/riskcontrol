@@ -297,8 +297,7 @@ public class RoleService implements IRoleService {
 			params.putAll(page.getParamMap());
 		}
 		params.put("orgCodeRoot", Constants.SYS_ORG_CODE_ROOT);
-		List<Map<String, Object>> list = roleMapper
-				.queryRoleAddUserByPage(params);
+		List<Map<String, Object>> list = roleMapper.queryRoleAddUserByPage(params);
 		page.setList(list);
 	}
 
