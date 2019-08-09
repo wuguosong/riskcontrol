@@ -492,7 +492,16 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
         $scope.getProjectList4();
         $scope.getProjectList5();
     };
-
+    $scope.cancel = function(){
+        $scope.params.projectName=null;
+        $scope.params.investmentName=null;
+        $scope.params.reviewPersonName=null;
+        $scope.params.legalReviewPersonName=null;
+        $scope.params.projectType=null;
+        $scope.params.applyDateStart=null;
+        $scope.params.applyDateEnd=null;
+        $scope.getProjectList();
+    };
     // 查询项目看 - 分配前
     $scope.getProjectHighList6 = function(){
         $scope.paginationConf6.queryObj.userId = $scope.credentials.UUID;
@@ -516,6 +525,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
                 "json":JSON.stringify($scope.paginationConf6.queryObj)
             })
         }).success(function(result){
+            debugger;
             $scope.projectList6 = result.result_data.list;
             $scope.paginationConf6.totalItems = result.result_data.totalItems;
         });
@@ -574,16 +584,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf8.totalItems = result.result_data.totalItems;
         });
     };
-    $scope.cancel = function(){
-        $scope.params.projectName=null;
-        $scope.params.investmentName=null;
-        $scope.params.reviewPersonName=null;
-        $scope.params.legalReviewPersonName=null;
-        $scope.params.pertainareaName=null;
-        $scope.params.projectType=null;
-        $scope.params.applyDateStart=null;
-        $scope.params.applyDateEnd=null;
-    };
+
     // 查询项目看板 - 已终止
     $scope.getProjectHighList9 = function(){
         $scope.paginationConf9.queryObj.userId = $scope.credentials.UUID;
@@ -645,7 +646,17 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
         $scope.getProjectHighList9();
         $scope.getProjectHighList10();
     };
-
+    $scope.cancelHighList = function (){
+        $scope.params.projectName=null;
+        $scope.params.investmentName=null;
+        $scope.params.reviewPersonName=null;
+        $scope.params.legalReviewPersonName=null;
+        $scope.params.pertainareaName=null;
+        $scope.params.projectType=null;
+        $scope.params.applyDateStart=null;
+        $scope.params.applyDateEnd=null;
+        $scope.getProjectHighList();
+    };
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
     $scope.$watch('paginationConf1.currentPage + paginationConf1.itemsPerPage', $scope.getProjectList1);
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目

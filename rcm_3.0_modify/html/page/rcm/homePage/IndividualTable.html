@@ -396,8 +396,8 @@
                         <i class="fa fa-calendar form-control-feedback"></i>
                     </div>
                     <div class="col-sm-4 col-md-4 sm-col has-feedback" style="text-align: right">
-                        <button class="btn btn-info" ng-click="getProjectList(params)">查询</button>
-                        <button class="btn btn-info" ng-click="cancel()">清除</button>
+                        <button class="btn btn-info" ng-click="getProjectHighList(params)">查询</button>
+                        <button class="btn btn-info" ng-click="cancelHighList()">清除</button>
                     </div>
                 </div>
             </div>
@@ -407,23 +407,23 @@
         <ul class="nav nav-tabs bs-tabdrop-example">
             <li class="{{tabIndex=='0'?'active':''}}">
                 <a href="/#bs-tabdrop-tab1" data-toggle="tab">分配前 <span
-                        class="uibadge ">{{paginationConf1.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf6.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='1'?'active':''}}">
                 <a href="/#bs-tabdrop-tab2" data-toggle="tab">风控任务 <span
-                        class="uibadge ">{{paginationConf2.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf7.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='2'?'active':''}}">
                 <a href="/#bs-tabdrop-tab3" data-toggle="tab">已完成 <span
-                        class="uibadge ">{{paginationConf3.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf8.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='3'?'active':''}}">
                 <a href="/#bs-tabdrop-tab4" data-toggle="tab">已终止 <span
-                        class="uibadge ">{{paginationConf4.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf9.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='4'?'active':''}}">
-                <a href="/#bs-tabdrop-tab5" data-toggle="tab" ng-if="paginationConf5.totalItems > 0">历史数据 <span
-                        class="uibadge ">{{paginationConf5.totalItems}}</span></a>
+                <a href="/#bs-tabdrop-tab5" data-toggle="tab" ng-if="paginationConf10.totalItems > 0">历史数据 <span
+                        class="uibadge ">{{paginationConf10.totalItems}}</span></a>
             </li>
         </ul>
         <div class="tab-content">
