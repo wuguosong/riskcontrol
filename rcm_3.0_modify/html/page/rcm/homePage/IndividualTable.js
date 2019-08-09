@@ -574,7 +574,16 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf8.totalItems = result.result_data.totalItems;
         });
     };
-
+    $scope.cancel = function(){
+        $scope.params.projectName=null;
+        $scope.params.investmentName=null;
+        $scope.params.reviewPersonName=null;
+        $scope.params.legalReviewPersonName=null;
+        $scope.params.pertainareaName=null;
+        $scope.params.projectType=null;
+        $scope.params.applyDateStart=null;
+        $scope.params.applyDateEnd=null;
+    };
     // 查询项目看板 - 已终止
     $scope.getProjectHighList9 = function(){
         $scope.paginationConf9.queryObj.userId = $scope.credentials.UUID;

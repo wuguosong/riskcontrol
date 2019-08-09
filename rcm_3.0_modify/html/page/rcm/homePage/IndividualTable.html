@@ -2047,78 +2047,74 @@
         <!--</div>-->
         <!--</div>-->
         <div style="margin: 25px 0;">
-            <div class="form-group row">
-                <div class="col-sm-2 col-md-1"></div>
-                <label class="col-sm-2 col-md-1 control-label">项目名称</label>
-                <div class="col-sm-4 col-md-3 sm-col">
-                    <input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="params.projectName"
-                           class="form-control ng-pristine ng-untouched ng-valid"/>
-                </div>
-                <label class="col-sm-2 col-md-1 control-label">项目类型</label>
-                <div class="col-sm-4 col-md-3 sm-col">
-                    <select name="PROJECT_TYPE" id="PROJECT_TYPE" class="form-control"
-                            ng-model="params.projectType">
-                        <option value="">请选择...</option>
-                        <option value="pfr">正式评审</option>
-                        <option value="pre">投标评审</option>
-                        <option value="bulletin">其他评审</option>
-                    </select>
-                </div>
+            <div class="panel-heading">
+                <a class="accordion-toggle collapsed" href="/#highSearchTwo" data-parent="#highSearchTwo"
+                   data-toggle="collapse"><span class="text">高级查询<i class="i-triangle"></i></span></a>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-2 col-md-1"></div>
-                <!--<label class="col-sm-2 col-md-1 control-label">所属大区</label>-->
-                <!--<div class="col-sm-4 col-md-3 sm-col">-->
-                <!--<input type="text" name="PERTAINAREA_NAME" id="PERTAINAREA_NAME" ng-model="params.pertainareaName" class="form-control ng-pristine ng-untouched ng-valid" />-->
-                <!--</div>-->
-                <label class="col-sm-2 col-md-1 control-label">投资经理</label>
-                <div class="col-sm-4 col-md-3 sm-col">
-                    <input type="text" name="INVESTMENT_NAME" id="INVESTMENT_NAME" ng-model="params.investmentName"
-                           class="form-control ng-pristine ng-untouched ng-valid"/>
+            <div id="highSearchTwo" class="panel-collapse collapse">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-1 control-label">项目名称</label>
+                    <div class="col-sm-4 col-md-3 sm-col">
+                        <input type="text" name="PROJECT_NAME" id="PROJECT_NAME" ng-model="params.projectName"
+                               class="form-control ng-pristine ng-untouched ng-valid"/>
+                    </div>
+                    <label class="col-sm-2 col-md-1 control-label">项目类型</label>
+                    <div class="col-sm-4 col-md-3 sm-col">
+                        <select name="PROJECT_TYPE" id="PROJECT_TYPE" class="form-control"
+                                ng-model="params.projectType">
+                            <option value="">请选择...</option>
+                            <option value="pfr">正式评审</option>
+                            <option value="pre">投标评审</option>
+                            <option value="bulletin">其他评审</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 col-md-1 control-label">投资经理</label>
+                    <div class="col-sm-4 col-md-3 sm-col">
+                        <input type="text" name="INVESTMENT_NAME" id="INVESTMENT_NAME" ng-model="params.investmentName"
+                               class="form-control ng-pristine ng-untouched ng-valid"/>
+                    </div>
                 </div>
-                <label class="col-sm-2 col-md-1 control-label">评审负责人</label>
-                <div class="col-sm-4 col-md-3 sm-col">
-                    <input type="text" name="REVIEW_PERSON_NAME" id="REVIEW_PERSON_NAME"
-                           ng-model="params.reviewPersonName" class="form-control ng-pristine ng-untouched ng-valid"/>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-1 control-label">评审负责人</label>
+                    <div class="col-sm-4 col-md-3 sm-col">
+                        <input type="text" name="REVIEW_PERSON_NAME" id="REVIEW_PERSON_NAME"
+                               ng-model="params.reviewPersonName" class="form-control ng-pristine ng-untouched ng-valid"/>
+                    </div>
+                    <label class="col-sm-2 col-md-1 control-label">法律负责人</label>
+                    <div class="col-sm-4 col-md-3 sm-col">
+                        <input type="text" name="LEGAL_REVIEW_PERSON_NAME" id="LEGAL_REVIEW_PERSON_NAME"
+                               ng-model="params.legalReviewPersonName"
+                               class="form-control ng-pristine ng-untouched ng-valid"/>
+                    </div>
+                    <label class="col-sm-2 col-md-1 control-label">申请时间（从）</label>
+                    <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                        <wui-date
+                                format="yyyy-mm-dd"
+                                id="APPLY_DATE_START"
+                                width="100%"
+                                ng-model="params.applyDateStart"
+                                btns="{'now':'今天'}"></wui-date>
+                        <i class="fa fa-calendar form-control-feedback"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-2 col-md-1"></div>
-                <label class="col-sm-2 col-md-1 control-label">法律负责人</label>
-                <div class="col-sm-4 col-md-3 sm-col">
-                    <input type="text" name="LEGAL_REVIEW_PERSON_NAME" id="LEGAL_REVIEW_PERSON_NAME"
-                           ng-model="params.legalReviewPersonName"
-                           class="form-control ng-pristine ng-untouched ng-valid"/>
-                </div>
-                <label class="col-sm-2 col-md-1 control-label">申请时间（从）</label>
-                <div class="col-sm-4 col-md-3 sm-col has-feedback">
-                    <wui-date
-                            format="yyyy-mm-dd"
-                            id="APPLY_DATE_START"
-                            width="100%"
-                            ng-model="params.applyDateStart"
-                            btns="{'now':'今天'}"></wui-date>
-                    <i class="fa fa-calendar form-control-feedback"></i>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-2 col-md-1"></div>
-                <label class="col-sm-2 col-md-1 control-label">申请时间（至）</label>
-                <div class="col-sm-4 col-md-3 sm-col has-feedback">
-                    <wui-date
-                            format="yyyy-mm-dd"
-                            id="APPLY_DATE_END"
-                            width="100%"
-                            ng-model="params.applyDateEnd"
-                            btns="{'now':'今天'}"></wui-date>
-                    <i class="fa fa-calendar form-control-feedback"></i>
-                </div>
-                <label class="col-sm-2 col-md-1 control-label"></label>
-                <div class="col-sm-4 col-md-3 sm-col has-feedback">
-                </div>
-                <div class="col-sm-12 col-md-2" style="right: -150px">
-                    <button class="btn btn-info" ng-click="getProjectList(params)">查询</button>
-                    <button class="btn btn-info" ng-click="cancel()">清除</button>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-1 control-label">申请时间（至）</label>
+                    <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                        <wui-date
+                                format="yyyy-mm-dd"
+                                id="APPLY_DATE_END"
+                                width="100%"
+                                ng-model="params.applyDateEnd"
+                                btns="{'now':'今天'}"></wui-date>
+                        <i class="fa fa-calendar form-control-feedback"></i>
+                    </div>
+                    <label class="col-sm-2 col-md-1 control-label"></label>
+                    <div class="col-sm-4 col-md-3 sm-col has-feedback">
+                    </div>
+                    <div class="col-sm-12 col-md-2" style="right: -150px">
+                        <button class="btn btn-info" ng-click="getProjectList(params)">查询</button>
+                        <button class="btn btn-info" ng-click="cancel()">清除</button>
+                    </div>
                 </div>
             </div>
         </div>
