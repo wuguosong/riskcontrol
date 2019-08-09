@@ -246,17 +246,17 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.paginationConf1 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 10,
+        itemsPerPage: 5,
         pagesLength: 10,
-        perPageOptions: [10, 20, 30, 40, 50],
+        perPageOptions: [5, 10, 20, 50],
         queryObj: {}
     };
     $scope.paginationConf2 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 10,
+        itemsPerPage: 5,
         pagesLength: 10,
-        perPageOptions: [10, 20, 30, 40, 50],
+        perPageOptions: [5, 10, 20, 50],
         queryObj: {},
         onChange: function () {
         }
@@ -264,9 +264,9 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.paginationConf3 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 10,
+        itemsPerPage: 5,
         pagesLength: 10,
-        perPageOptions: [10, 20, 30, 40, 50],
+        perPageOptions: [5, 10, 20, 50],
         queryObj: {},
         onChange: function () {
         }
@@ -274,9 +274,9 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.paginationConf4 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 10,
+        itemsPerPage: 5,
         pagesLength: 10,
-        perPageOptions: [10, 20, 30, 40, 50],
+        perPageOptions: [5, 10, 20, 50],
         queryObj: {},
         onChange: function () {
         }
@@ -284,9 +284,59 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.paginationConf5 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 10,
+        itemsPerPage: 5,
         pagesLength: 10,
-        perPageOptions: [10, 20, 30, 40, 50],
+        perPageOptions: [5, 10, 20, 50],
+        queryObj: {},
+        onChange: function () {
+        }
+    };
+
+    // 初始化分页组件
+    $scope.paginationConf6 = {
+        currentPage: 1,
+        totalItems: 0,
+        itemsPerPage: 5,
+        pagesLength: 10,
+        perPageOptions: [5, 10, 20, 50],
+        queryObj: {}
+    };
+    $scope.paginationConf7 = {
+        currentPage: 1,
+        totalItems: 0,
+        itemsPerPage: 5,
+        pagesLength: 10,
+        perPageOptions: [5, 10, 20, 50],
+        queryObj: {},
+        onChange: function () {
+        }
+    };
+    $scope.paginationConf8 = {
+        currentPage: 1,
+        totalItems: 0,
+        itemsPerPage: 5,
+        pagesLength: 10,
+        perPageOptions: [5, 10, 20, 50],
+        queryObj: {},
+        onChange: function () {
+        }
+    };
+    $scope.paginationConf9 = {
+        currentPage: 1,
+        totalItems: 0,
+        itemsPerPage: 5,
+        pagesLength: 10,
+        perPageOptions: [5, 10, 20, 50],
+        queryObj: {},
+        onChange: function () {
+        }
+    };
+    $scope.paginationConf10 = {
+        currentPage: 1,
+        totalItems: 0,
+        itemsPerPage: 5,
+        pagesLength: 10,
+        perPageOptions: [5, 10, 20, 50],
         queryObj: {},
         onChange: function () {
         }
@@ -441,21 +491,150 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
         $scope.getProjectList3();
         $scope.getProjectList4();
         $scope.getProjectList5();
-        $("#publicProjectName").val('');
     };
 
-    $scope.cancel = function () {
+    // 查询项目看 - 分配前
+    $scope.getProjectHighList6 = function(){
+        $scope.paginationConf6.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf6.queryObj.stageList = ['1', '2'];
+        $scope.paginationConf6.queryObj.wf_state_n = '3';
         if (!isEmpty($scope.params)) {
-            $scope.params.projectName = '';
-            $scope.params.investmentName = '';
-            $scope.params.reviewPersonName = '';
-            $scope.params.legalReviewPersonName = '';
-            $scope.params.pertainareaName = '';
-            $scope.params.projectType = '';
-            $scope.params.applyDateEnd = '';
-            $scope.params.applyDateStart = '';
-            $scope.getProjectList();
+            $scope.paginationConf6.queryObj.projectName = $scope.params.projectName;
+            $scope.paginationConf6.queryObj.investmentName = $scope.params.investmentName;
+            $scope.paginationConf6.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf6.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
+            $scope.paginationConf6.queryObj.pertainareaName = $scope.params.pertainareaName;
+            $scope.paginationConf6.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf6.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf6.queryObj.applyDateEnd = $scope.params.applyDateEnd;
         }
+        $http({
+            method:'post',
+            url: srvUrl + "projectBoard/getProjectList.do",
+            data: $.param({
+                "page":JSON.stringify($scope.paginationConf6),
+                "json":JSON.stringify($scope.paginationConf6.queryObj)
+            })
+        }).success(function(result){
+            $scope.projectList6 = result.result_data.list;
+            $scope.paginationConf6.totalItems = result.result_data.totalItems;
+        });
+    };
+    // 查询项目看板 - 风控任务
+    $scope.getProjectHighList7 = function(){
+        $scope.paginationConf7.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf7.queryObj.stageList = ['3','4','5'];
+        $scope.paginationConf7.queryObj.wf_state_n = '3';
+        if (!isEmpty($scope.params)) {
+            $scope.paginationConf7.queryObj.projectName = $scope.params.projectName;
+            $scope.paginationConf7.queryObj.investmentName = $scope.params.investmentName;
+            $scope.paginationConf7.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf7.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
+            $scope.paginationConf7.queryObj.pertainareaName = $scope.params.pertainareaName;
+            $scope.paginationConf7.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf7.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf7.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+        }
+        $http({
+            method:'post',
+            url: srvUrl + "projectBoard/getProjectList.do",
+            data: $.param({
+                "page":JSON.stringify($scope.paginationConf7),
+                "json":JSON.stringify($scope.paginationConf7.queryObj)
+            })
+        }).success(function(result){
+            $scope.projectList7 = result.result_data.list;
+            $scope.paginationConf7.totalItems = result.result_data.totalItems;
+        });
+    };
+    // 查询项目看板 - 已完成
+    $scope.getProjectHighList8 = function(){
+        $scope.paginationConf8.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf8.queryObj.stageList = ['6','7','9'];
+        $scope.paginationConf8.queryObj.wf_state_n = '3';
+        if (!isEmpty($scope.params)) {
+            $scope.paginationConf8.queryObj.projectName = $scope.params.projectName;
+            $scope.paginationConf8.queryObj.investmentName = $scope.params.investmentName;
+            $scope.paginationConf8.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf8.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
+            $scope.paginationConf8.queryObj.pertainareaName = $scope.params.pertainareaName;
+            $scope.paginationConf8.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf8.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf8.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+        }
+        $http({
+            method:'post',
+            url: srvUrl + "projectBoard/getProjectList.do",
+            data: $.param({
+                "page":JSON.stringify($scope.paginationConf8),
+                "json":JSON.stringify($scope.paginationConf8.queryObj)
+            })
+        }).success(function(result){
+            $scope.projectList8 = result.result_data.list;
+            $scope.paginationConf8.totalItems = result.result_data.totalItems;
+        });
+    };
+
+    // 查询项目看板 - 已终止
+    $scope.getProjectHighList9 = function(){
+        $scope.paginationConf9.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf9.queryObj.wf_state = '3';
+        if (!isEmpty($scope.params)) {
+            $scope.paginationConf9.queryObj.projectName = $scope.params.projectName;
+            $scope.paginationConf9.queryObj.investmentName = $scope.params.investmentName;
+            $scope.paginationConf9.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf9.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
+            $scope.paginationConf9.queryObj.pertainareaName = $scope.params.pertainareaName;
+            $scope.paginationConf9.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf9.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf9.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+        }
+        $http({
+            method:'post',
+            url: srvUrl + "projectBoard/getProjectList.do",
+            data: $.param({
+                "page":JSON.stringify($scope.paginationConf9),
+                "json":JSON.stringify($scope.paginationConf9.queryObj)
+            })
+        }).success(function(result){
+            $scope.projectList9 = result.result_data.list;
+            $scope.paginationConf9.totalItems = result.result_data.totalItems;
+        });
+    };
+
+    // 查询项目看板 - 历史数据
+    $scope.getProjectHighList10 = function(){
+        $scope.paginationConf10.queryObj.userId = $scope.credentials.UUID;
+        $scope.paginationConf10.queryObj.wf_state = '5';
+        if (!isEmpty($scope.params)) {
+            $scope.paginationConf10.queryObj.projectName = $scope.params.projectName;
+            $scope.paginationConf10.queryObj.investmentName = $scope.params.investmentName;
+            $scope.paginationConf10.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf10.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
+            $scope.paginationConf10.queryObj.pertainareaName = $scope.params.pertainareaName;
+            $scope.paginationConf10.queryObj.projectType = $scope.params.projectType;
+            $scope.paginationConf10.queryObj.applyDateStart = $scope.params.applyDateStart;
+            $scope.paginationConf10.queryObj.applyDateEnd = $scope.params.applyDateEnd;
+        }
+        $http({
+            method:'post',
+            url: srvUrl + "projectBoard/getProjectList.do",
+            data: $.param({
+                "page":JSON.stringify($scope.paginationConf10),
+                "json":JSON.stringify($scope.paginationConf10.queryObj)
+            })
+        }).success(function(result){
+            $scope.projectList10 = result.result_data.list;
+            $scope.paginationConf10.totalItems = result.result_data.totalItems;
+        });
+    };
+
+    $scope.getProjectHighList = function (){
+        $scope.getProjectHighList6();
+        $scope.getProjectHighList7();
+        $scope.getProjectHighList8();
+        $scope.getProjectHighList9();
+        $scope.getProjectHighList10();
     };
 
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
@@ -468,5 +647,15 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.$watch('paginationConf4.currentPage + paginationConf4.itemsPerPage', $scope.getProjectList4);
     // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
     $scope.$watch('paginationConf5.currentPage + paginationConf5.itemsPerPage', $scope.getProjectList5);
+    // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
+    $scope.$watch('paginationConf6.currentPage + paginationConf6.itemsPerPage', $scope.getProjectHighList6);
+    // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
+    $scope.$watch('paginationConf7.currentPage + paginationConf7.itemsPerPage', $scope.getProjectHighList7);
+    // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
+    $scope.$watch('paginationConf8.currentPage + paginationConf8.itemsPerPage', $scope.getProjectHighList8);
+    // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
+    $scope.$watch('paginationConf9.currentPage + paginationConf9.itemsPerPage', $scope.getProjectHighList9);
+    // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
+    $scope.$watch('paginationConf10.currentPage + paginationConf10.itemsPerPage', $scope.getProjectHighList10);
 
 }]);
