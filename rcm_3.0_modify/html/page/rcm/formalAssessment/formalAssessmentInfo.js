@@ -399,20 +399,42 @@ ctmApp.register.controller('formalAssessmentInfo', ['$http','$scope','$location'
 
     // 验证项目是否在流程或者评审中
     $scope.vaildProject = function(){
-        var type = "formalReview";
+        // 先执行保存方法
+        if (!$("#myFormPfR").valid()){
+            alert("请填写必填项数据！");
+            return;
+        }
+        $scope.pfr.last_update_date = $scope.getDate();
         $http({
             method:'post',
-            url: srvUrl + 'common/validateProject.do',
-            data: $.param({"type":type, "id": $scope.id})
+            url: srvUrl + 'formalAssessmentInfoCreate/updateProject.do',
+            data: $.param({"projectInfo":JSON.stringify($scope.pfr)})
         }).success(function(result){
-            if (!result.approval.success){
-                alert(result.approval.message);
-                return;
-            } else if (!result.review.success){
-                alert(result.review.message);
-                return;
+            if (result.result_code === 'S') {
+                if(typeof(showPopWin)=='function'){
+                    showPopWin();
+                }else{
+                    // 保存成功后执行
+                    var type = "formalReview";
+                    $http({
+                        method:'post',
+                        url: srvUrl + 'common/validateProject.do',
+                        data: $.param({"type":type, "id": $scope.id})
+                    }).success(function(result){
+                        if (!result.approval.success){
+                            alert(result.approval.message);
+                            return;
+                        } else if (!result.review.success){
+                            alert(result.review.message);
+                            return;
+                        } else {
+                            $scope.beforeSubmit();
+                        }
+                    });
+                }
             } else {
-                $scope.beforeSubmit();
+                $.alert(result.result_name);
+                $scope.initUpdate($scope.id);
             }
         });
     };
