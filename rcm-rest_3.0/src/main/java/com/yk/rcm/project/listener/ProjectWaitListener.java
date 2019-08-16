@@ -331,7 +331,11 @@ public class ProjectWaitListener implements TaskListener {
 			String assignIdStr = (String) assignId.getValue(delegateTask);
 			//查询待处理人
 			if("userId".equals(assignTypeStr)){
-				userId = assignIdStr;
+				if("${legalLeader}".equals(assignIdStr)) {
+					userId = delegateTask.getAssignee();
+				} else {
+					userId = assignIdStr;
+				}
 			}else if("roleId".equals(assignTypeStr)){
 				List<Map<String, Object>> users = this.roleService.queryUserById(assignIdStr);
 				if(users.size() > 0){
