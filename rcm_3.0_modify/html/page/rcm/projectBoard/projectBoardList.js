@@ -47,20 +47,44 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.getPfrProjectList = function(){
         $scope.paginationConf1.queryObj.userId = $scope.credentials.UUID;
         if (!isEmpty($scope.params)) {
+            $scope.paginationConf1.queryObj.vote_status = null;
+            $scope.paginationConf1.queryObj.decision_result = null;
+            $scope.paginationConf1.queryObj.wf_state = null;
             $scope.paginationConf1.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf1.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf1.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf1.queryObj.pertainareaName = $scope.params.pertainareaName;
-            $scope.paginationConf1.queryObj.stage = $scope.params.stage;
+            // 1:查询正在申请阶段的项目
             if($scope.params.stage == "1") {
+                $scope.paginationConf1.queryObj.stage = "1";
                 $scope.paginationConf1.queryObj.wf_state = "1";
-            } else if($scope.params.stage == "'2', '3'"){
-                $scope.paginationConf1.queryObj.wf_state = "('1', '2')";
-            } else if($scope.params.stage == "'6', '7'"){
+                // 2 :查询正在风控部门的项目
+            } else if($scope.params.stage == "2"){
+                $scope.paginationConf1.queryObj.stage = "'2', '3'";
+                $scope.paginationConf1.queryObj.wf_state = "'1', '2'";
+                // 3 :查询正在处于上会阶段的项目
+            } else if($scope.params.stage == "3"){
+                $scope.paginationConf1.queryObj.stage = "4";
                 $scope.paginationConf1.queryObj.wf_state = "2";
-            } else if($scope.params.stage == "9"){
+                // 4 :查询已上会，已表决的项目
+            } else if($scope.params.stage == "4"){
+                $scope.paginationConf1.queryObj.stage = "'6', '7'";
                 $scope.paginationConf1.queryObj.wf_state = "2";
+                // 5 :查询已上会，未表决的项目
+            } else if($scope.params.stage == "5"){
+                $scope.paginationConf1.queryObj.stage = "5";
+                $scope.paginationConf1.queryObj.vote_status = "0";
+                $scope.paginationConf1.queryObj.decision_result = "0";
+                $scope.paginationConf1.queryObj.wf_state = "2";
+            } else if($scope.params.stage == "6"){
+                // 6 :查询已审批，无需上会
+                $scope.paginationConf1.queryObj.stage = "9";
+                $scope.paginationConf1.queryObj.wf_state = "2";
+            } else if($scope.params.stage == "7"){
+                // 7 :查询已终止的项目
+                $scope.paginationConf1.queryObj.stage = null;
+                $scope.paginationConf1.queryObj.wf_state = "3";
             } else {
                 $scope.paginationConf1.queryObj.wf_state = $scope.params.wf_state;
             }
@@ -90,18 +114,39 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf2.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf2.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf2.queryObj.pertainareaName = $scope.params.pertainareaName;
+            // 1:查询正在申请阶段的项目
             if($scope.params.stage == "1") {
+                $scope.paginationConf2.queryObj.stage = "1";
                 $scope.paginationConf2.queryObj.wf_state = "1";
-            } else if($scope.params.stage == "'2', '3'"){
-                $scope.paginationConf2.queryObj.wf_state = "('1', '2')";
-            } else if($scope.params.stage == "'6', '7'"){
+                // 2 :查询正在风控部门的项目
+            } else if($scope.params.stage == "2"){
+                $scope.paginationConf2.queryObj.stage = "'2', '3'";
+                $scope.paginationConf2.queryObj.wf_state = "'1', '2'";
+                // 3 :查询正在处于上会阶段的项目
+            } else if($scope.params.stage == "3"){
+                $scope.paginationConf2.queryObj.stage = "4";
                 $scope.paginationConf2.queryObj.wf_state = "2";
-            } else if($scope.params.stage == "9"){
+                // 4 :查询已上会，已表决的项目
+            } else if($scope.params.stage == "4"){
+                $scope.paginationConf2.queryObj.stage = "'6', '7'";
                 $scope.paginationConf2.queryObj.wf_state = "2";
+                // 5 :查询已上会，未表决的项目
+            } else if($scope.params.stage == "5"){
+                $scope.paginationConf2.queryObj.stage = "5";
+                $scope.paginationConf2.queryObj.vote_status = "0";
+                $scope.paginationConf2.queryObj.decision_result = "0";
+                $scope.paginationConf2.queryObj.wf_state = "2";
+            } else if($scope.params.stage == "6"){
+                // 6 :查询已审批，无需上会
+                $scope.paginationConf2.queryObj.stage = "9";
+                $scope.paginationConf2.queryObj.wf_state = "2";
+            } else if($scope.params.stage == "7"){
+                // 7 :查询已终止的项目
+                $scope.paginationConf2.queryObj.stage = null;
+                $scope.paginationConf2.queryObj.wf_state = "3";
             } else {
                 $scope.paginationConf2.queryObj.wf_state = $scope.params.wf_state;
             }
-            $scope.paginationConf2.queryObj.stage = $scope.params.stage;
             $scope.paginationConf2.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf2.queryObj.applyDateEnd = $scope.params.applyDateEnd;
             $scope.paginationConf2.queryObj.meetingTimeEnd = $scope.params.meetingTimeEnd;
@@ -128,15 +173,36 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf3.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf3.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             $scope.paginationConf3.queryObj.pertainareaName = $scope.params.pertainareaName;
-            $scope.paginationConf3.queryObj.stage = $scope.params.stage;
+            // 1:查询正在申请阶段的项目
             if($scope.params.stage == "1") {
+                $scope.paginationConf3.queryObj.stage = "1";
                 $scope.paginationConf3.queryObj.wf_state = "1";
-            } else if($scope.params.stage == "'2', '3'"){
-                $scope.paginationConf3.queryObj.wf_state = "('1', '2')";
-            } else if($scope.params.stage == "'6', '7'"){
+                // 2 :查询正在风控部门的项目
+            } else if($scope.params.stage == "2"){
+                $scope.paginationConf3.queryObj.stage = "'2', '3'";
+                $scope.paginationConf3.queryObj.wf_state = "'1', '2'";
+                // 3 :查询正在处于上会阶段的项目
+            } else if($scope.params.stage == "3"){
+                $scope.paginationConf3.queryObj.stage = "4";
                 $scope.paginationConf3.queryObj.wf_state = "2";
-            } else if($scope.params.stage == "9"){
+                // 4 :查询已上会，已表决的项目
+            } else if($scope.params.stage == "4"){
+                $scope.paginationConf3.queryObj.stage = "'6', '7'";
                 $scope.paginationConf3.queryObj.wf_state = "2";
+                // 5 :查询已上会，未表决的项目
+            } else if($scope.params.stage == "5"){
+                $scope.paginationConf3.queryObj.stage = "5";
+                $scope.paginationConf3.queryObj.vote_status = "0";
+                $scope.paginationConf3.queryObj.decision_result = "0";
+                $scope.paginationConf3.queryObj.wf_state = "2";
+            } else if($scope.params.stage == "6"){
+                // 6 :查询已审批，无需上会
+                $scope.paginationConf3.queryObj.stage = "9";
+                $scope.paginationConf3.queryObj.wf_state = "2";
+            } else if($scope.params.stage == "7"){
+                // 7 :查询已终止的项目
+                $scope.paginationConf3.queryObj.stage = null;
+                $scope.paginationConf3.queryObj.wf_state = "3";
             } else {
                 $scope.paginationConf3.queryObj.wf_state = $scope.params.wf_state;
             }

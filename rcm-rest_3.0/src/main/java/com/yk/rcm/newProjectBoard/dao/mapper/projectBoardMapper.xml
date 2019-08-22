@@ -1,1422 +1,1937 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yk.rcm.newProjectBoard.dao.IProjectBoardMapper">
+<mapper
+	namespace="com.yk.rcm.newProjectBoard.dao.IProjectBoardMapper">
 	<!-- 查询项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
-	<select id="getRoleProjectList" resultType="map"  parameterType="map">
-	  SELECT *
-        FROM (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-               WHERE FI.BUSINESSID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'
+	<select id="getRoleProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM (SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		FI.STAGE
+		FROM RCM_FORMALASSESSMENT_INFO FI
+		WHERE
+		FI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pfr'
 
-                              UNION ALL
+		UNION ALL
 
-                              SELECT FL.BUSINESSID BUSINESS_ID
-                                FROM RCM_FORMALASSESSMENT_LOG FL
-                               WHERE FL.AUDITUSERID = #{userId}))
-                               
-        UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'))
+		SELECT FL.BUSINESSID BUSINESS_ID
+		FROM RCM_FORMALASSESSMENT_LOG FL
+		WHERE FL.AUDITUSERID = #{userId}))
 
-        UNION ALL
+		UNION ALL
 
-        SELECT PI.ID,
-               PI.BUSINESSID,
-               PI.PROJECTNAME,
-               'pre' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-               PI.CREATE_DATE,
-               PI.WF_STATE,
-               PI.OLDDATA,
-               PI.APPLY_DATE,
-               PI.STAGE
-          FROM RCM_PRE_INFO PI
-         WHERE PI.BUSINESSID IN
-                  (SELECT DISTINCT (BUSINESS_ID)
-                     FROM (SELECT PR.BUSINESS_ID
-                             FROM SYS_PROJECT_ROLE PR
-                            WHERE 1 = 1
-                              AND PR.ROLE_ID IN
-                                 (SELECT UR.ROLE_ID
-                                    FROM SYS_USER_ROLE UR
-                                   WHERE UR.USER_ID = #{userId})
-                                     AND PR.PROJECT_TYPE = 'pre'
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY
+		PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON
+		REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
+		AND
+		RHD.BUSINESS_ID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pfr'))
 
-                                  UNION ALL
-                          
-                                  SELECT PL.BUSINESSID BUSINESS_ID
-                                    FROM RCM_PRE_LOG PL
-                                   WHERE PL.AUDITUSERID = #{userId}))
-                                   
-        UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pre'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pre'))
+		UNION ALL
 
-        UNION ALL
+		SELECT PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE
+		O.ORGPKVALUE = PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		PI.STAGE
+		FROM RCM_PRE_INFO PI
+		WHERE PI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM
+		SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM
+		SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE =
+		'pre'
 
-        SELECT BI.ID,
-               BI.BUSINESSID,
-               BI.BULLETINNAME PROJECTNAME,
-               'bulletin' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-               BI.CREATETIME CREATE_DATE,
-               BI.AUDITSTATUS WF_STATE,
-               '0' OLDDATA,
-               BI.APPLYTIME APPLY_DATE,
-               DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-          FROM RCM_BULLETIN_INFO BI
-         WHERE BI.BUSINESSID IN
-              (SELECT DISTINCT (BUSINESS_ID)
-                 FROM (SELECT PR.BUSINESS_ID
-                         FROM SYS_PROJECT_ROLE PR
-                        WHERE 1 = 1
-                          AND PR.ROLE_ID IN
-                             (SELECT UR.ROLE_ID
-                                FROM SYS_USER_ROLE UR
-                               WHERE UR.USER_ID = #{userId})
-                                 AND PR.PROJECT_TYPE = 'bulletin'
-                             
-                              UNION ALL
-                             
-                              SELECT BL.BUSINESSID BUSINESS_ID
-                                FROM RCM_BULLETIN_LOG BL
-                               WHERE BL.AUDITUSERID = #{userId}))) T
-      WHERE 1 = 1
-        AND T.WF_STATE <![CDATA[ <> ]]> '0'
-    	<if test="wf_state_n != null and wf_state_n != ''"> and	T.WF_STATE <![CDATA[ <> ]]> '${wf_state_n}'</if>
-    	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	<if test="projectType != null and projectType != ''"> and	T.PROJECT_TYPE like '%${projectType}%' </if>
-    	<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	<if test="stageList != null"> and T.STAGE in
-	       <foreach collection="stageList" item="stage" open="(" close=")" separator=",">
-			 　#{stage}
-		   </foreach>
+		UNION ALL
+
+		SELECT PL.BUSINESSID BUSINESS_ID
+		FROM RCM_PRE_LOG PL
+		WHERE PL.AUDITUSERID = #{userId}))
+
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY
+		INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM
+		RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pre'
+		AND RHD.BUSINESS_ID
+		IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM
+		SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM
+		SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE =
+		'pre'))
+
+		UNION ALL
+
+		SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME
+		PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O
+		WHERE O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+		(SELECT
+		U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME CREATE_DATE,
+		BI.AUDITSTATUS WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME APPLY_DATE,
+		DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' , '4', '6','5' ,'7')
+		STAGE
+		FROM RCM_BULLETIN_INFO BI
+		WHERE BI.BUSINESSID IN
+		(SELECT DISTINCT
+		(BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE
+		1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE
+		UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'bulletin'
+
+		UNION ALL
+
+		SELECT BL.BUSINESSID BUSINESS_ID
+		FROM RCM_BULLETIN_LOG BL
+		WHERE
+		BL.AUDITUSERID = #{userId}))) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="wf_state_n != null and wf_state_n != ''">
+			and T.WF_STATE <![CDATA[ <> ]]>
+			'${wf_state_n}'
+		</if>
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="projectType != null and projectType != ''"> and T.PROJECT_TYPE like '%${projectType}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stageList != null">
+			and T.STAGE in
+			<foreach collection="stageList" item="stage" open="("
+				close=")" separator=",">
+				#{stage}
+			</foreach>
 		</if>
 		<if test="applyDateStart != null and applyDateStart != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-        </if>
-        <if test="applyDateEnd != null and applyDateEnd != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-        </if>
-      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询项目列表, 查询角色绑定的项目以及本人参与审批的项目数量 -->
-	<select id="getRoleProjectListCount" resultType="int"  parameterType="map">
-	  SELECT COUNT(*)
-        FROM (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-               WHERE FI.BUSINESSID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'
+	<select id="getRoleProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM (SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		FI.STAGE
+		FROM RCM_FORMALASSESSMENT_INFO FI
+		WHERE
+		FI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pfr'
 
-                              UNION ALL
+		UNION ALL
 
-                              SELECT FL.BUSINESSID BUSINESS_ID
-                                FROM RCM_FORMALASSESSMENT_LOG FL
-                               WHERE FL.AUDITUSERID = #{userId}))
-                               
-        UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'))
+		SELECT FL.BUSINESSID BUSINESS_ID
+		FROM RCM_FORMALASSESSMENT_LOG FL
+		WHERE FL.AUDITUSERID = #{userId}))
 
-        UNION ALL
+		UNION ALL
 
-        SELECT PI.ID,
-               PI.BUSINESSID,
-               PI.PROJECTNAME,
-               'pre' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-               PI.CREATE_DATE,
-               PI.WF_STATE,
-               PI.OLDDATA,
-               PI.APPLY_DATE,
-               PI.STAGE
-          FROM RCM_PRE_INFO PI
-         WHERE PI.BUSINESSID IN
-                  (SELECT DISTINCT (BUSINESS_ID)
-                     FROM (SELECT PR.BUSINESS_ID
-                             FROM SYS_PROJECT_ROLE PR
-                            WHERE 1 = 1
-                              AND PR.ROLE_ID IN
-                                 (SELECT UR.ROLE_ID
-                                    FROM SYS_USER_ROLE UR
-                                   WHERE UR.USER_ID = #{userId})
-                                     AND PR.PROJECT_TYPE = 'pre'
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY
+		PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON
+		REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
+		AND
+		RHD.BUSINESS_ID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pfr'))
 
-                                  UNION ALL
-                          
-                                  SELECT PL.BUSINESSID BUSINESS_ID
-                                    FROM RCM_PRE_LOG PL
-                                   WHERE PL.AUDITUSERID = #{userId}))
-                                   
-        UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pre'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pre'))
+		UNION ALL
 
-        UNION ALL
+		SELECT PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE
+		O.ORGPKVALUE = PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		PI.STAGE
+		FROM RCM_PRE_INFO PI
+		WHERE PI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM
+		SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM
+		SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE =
+		'pre'
 
-        SELECT BI.ID,
-               BI.BUSINESSID,
-               BI.BULLETINNAME PROJECTNAME,
-               'bulletin' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-               BI.CREATETIME CREATE_DATE,
-               BI.AUDITSTATUS WF_STATE,
-               '0' OLDDATA,
-               BI.APPLYTIME APPLY_DATE,
-               DECODE(BI.STAGE, '1.5', '3' , '2', '3', '3', '5' , '4', '6', '5' ,'7') STAGE
-          FROM RCM_BULLETIN_INFO BI
-         WHERE BI.BUSINESSID IN
-              (SELECT DISTINCT (BUSINESS_ID)
-                 FROM (SELECT PR.BUSINESS_ID
-                         FROM SYS_PROJECT_ROLE PR
-                        WHERE 1 = 1
-                          AND PR.ROLE_ID IN
-                             (SELECT UR.ROLE_ID
-                                FROM SYS_USER_ROLE UR
-                               WHERE UR.USER_ID = #{userId})
-                                 AND PR.PROJECT_TYPE = 'bulletin'
-                             
-                              UNION ALL
-                             
-                              SELECT BL.BUSINESSID BUSINESS_ID
-                                FROM RCM_BULLETIN_LOG BL
-                               WHERE BL.AUDITUSERID = #{userId}))) T
-      WHERE 1 = 1
-        AND T.WF_STATE <![CDATA[ <> ]]> '0'
-    	<if test="wf_state_n != null and wf_state_n != ''"> and	T.WF_STATE <![CDATA[ <> ]]> '${wf_state_n}'</if>
-    	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	<if test="projectType != null and projectType != ''"> and	T.PROJECT_TYPE like '%${projectType}%' </if>
-    	<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	<if test="stageList != null"> and T.STAGE in
-	       <foreach collection="stageList" item="stage" open="(" close=")" separator=",">
-			 　#{stage}
-		   </foreach>
+		UNION ALL
+
+		SELECT PL.BUSINESSID BUSINESS_ID
+		FROM RCM_PRE_LOG PL
+		WHERE PL.AUDITUSERID = #{userId}))
+
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY
+		INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM
+		RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pre'
+		AND RHD.BUSINESS_ID
+		IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM
+		SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM
+		SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE =
+		'pre'))
+
+		UNION ALL
+
+		SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME
+		PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O
+		WHERE O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+		(SELECT
+		U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME CREATE_DATE,
+		BI.AUDITSTATUS WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME APPLY_DATE,
+		DECODE(BI.STAGE, '1.5', '3' , '2', '3', '3', '5' , '4', '6', '5' ,'7')
+		STAGE
+		FROM RCM_BULLETIN_INFO BI
+		WHERE BI.BUSINESSID IN
+		(SELECT DISTINCT
+		(BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE
+		1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE
+		UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'bulletin'
+
+		UNION ALL
+
+		SELECT BL.BUSINESSID BUSINESS_ID
+		FROM RCM_BULLETIN_LOG BL
+		WHERE
+		BL.AUDITUSERID = #{userId}))) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="wf_state_n != null and wf_state_n != ''">
+			and T.WF_STATE <![CDATA[ <> ]]>
+			'${wf_state_n}'
+		</if>
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="projectType != null and projectType != ''"> and T.PROJECT_TYPE like '%${projectType}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stageList != null">
+			and T.STAGE in
+			<foreach collection="stageList" item="stage" open="("
+				close=")" separator=",">
+				#{stage}
+			</foreach>
 		</if>
 		<if test="applyDateStart != null and applyDateStart != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-        </if>
-        <if test="applyDateEnd != null and applyDateEnd != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-        </if>
-      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询项目列表, 查询所有项目 -->
-	<select id="getALLProjectList" resultType="map"  parameterType="map">
-	  SELECT *
-        FROM (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-                
-        UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-          FROM RCM_HISTORY_DATA RHD
-         WHERE RHD.PROJECT_TYPE = 'pfr'
+	<select id="getALLProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM (SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		FI.STAGE
+		FROM RCM_FORMALASSESSMENT_INFO FI
 
-        UNION ALL
+		UNION ALL
 
-        SELECT PI.ID,
-               PI.BUSINESSID,
-               PI.PROJECTNAME,
-               'pre' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-               PI.CREATE_DATE,
-               PI.WF_STATE,
-               PI.OLDDATA,
-               PI.APPLY_DATE,
-               PI.STAGE
-          FROM RCM_PRE_INFO PI
-          
-       UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-          FROM RCM_HISTORY_DATA RHD
-         WHERE RHD.PROJECT_TYPE = 'pre'
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME
+		PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM
+		RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
 
-        UNION ALL
+		UNION ALL
 
-        SELECT BI.ID,
-               BI.BUSINESSID,
-               BI.BULLETINNAME PROJECTNAME,
-               'bulletin' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-               BI.CREATETIME CREATE_DATE,
-               BI.AUDITSTATUS WF_STATE,
-               '0' OLDDATA,
-               BI.APPLYTIME APPLY_DATE,
-               DECODE(BI.STAGE, '1.5', '3', '2', '3', '3', '5' , '4', '6','5' ,'7') STAGE
-          FROM RCM_BULLETIN_INFO BI) T
-      WHERE 1 = 1
-        AND T.WF_STATE <![CDATA[ <> ]]> '0'
-    	<if test="wf_state_n != null and wf_state_n != ''"> and	T.WF_STATE <![CDATA[ <> ]]> '${wf_state_n}'</if>
-    	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	<if test="projectType != null and projectType != ''"> and	T.PROJECT_TYPE like '%${projectType}%' </if>
-    	<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	<if test="pertainareaNameList != null"> and T.PERTAINAREANAME in
-	       <foreach collection="pertainareaNameList" item="pertainareaName" open="(" close=")" separator=",">
-			 　#{pertainareaName}
-		   </foreach>
+		SELECT
+		PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre' PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY)
+		INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		PI.STAGE
+		FROM
+		RCM_PRE_INFO PI
+
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID
+		BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON
+		LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		''
+		OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE
+		RHD.PROJECT_TYPE = 'pre'
+
+		UNION ALL
+
+		SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY)
+		INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME
+		CREATE_DATE,
+		BI.AUDITSTATUS WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME
+		APPLY_DATE,
+		DECODE(BI.STAGE, '1.5', '3', '2', '3', '3', '5' , '4',
+		'6','5' ,'7') STAGE
+		FROM RCM_BULLETIN_INFO BI) T
+		WHERE 1 = 1
+		AND
+		T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="wf_state_n != null and wf_state_n != ''">
+			and T.WF_STATE <![CDATA[ <> ]]>
+			'${wf_state_n}'
 		</if>
-    	<if test="stageList != null"> and T.STAGE in
-	       <foreach collection="stageList" item="stage" open="(" close=")" separator=",">
-			 　#{stage}
-		   </foreach>
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="projectType != null and projectType != ''"> and T.PROJECT_TYPE like '%${projectType}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="pertainareaNameList != null">
+			and T.PERTAINAREANAME in
+			<foreach collection="pertainareaNameList"
+				item="pertainareaName" open="(" close=")" separator=",">
+				#{pertainareaName}
+			</foreach>
+		</if>
+		<if test="stageList != null">
+			and T.STAGE in
+			<foreach collection="stageList" item="stage" open="("
+				close=")" separator=",">
+				#{stage}
+			</foreach>
 		</if>
 
-        <if test="applyDateStart != null and applyDateStart != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-        </if>
-        <if test="applyDateEnd != null and applyDateEnd != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-        </if>
-      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询项目列表, 查询所有项目 -->
-	<select id="getALLProjectListCount" resultType="int"  parameterType="map">
-	  SELECT COUNT(*)
-        FROM (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-                
-        UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-          FROM RCM_HISTORY_DATA RHD
-         WHERE RHD.PROJECT_TYPE = 'pfr'
+	<select id="getALLProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM (SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		FI.STAGE
+		FROM RCM_FORMALASSESSMENT_INFO FI
 
-        UNION ALL
+		UNION ALL
 
-        SELECT PI.ID,
-               PI.BUSINESSID,
-               PI.PROJECTNAME,
-               'pre' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-               PI.CREATE_DATE,
-               PI.WF_STATE,
-               PI.OLDDATA,
-               PI.APPLY_DATE,
-               PI.STAGE
-          FROM RCM_PRE_INFO PI
-          
-       UNION ALL
-        
-        SELECT to_char(RHD.ID) ID,
-	           RHD.BUSINESS_ID BUSINESSID,
-	           RHD.PROJECT_NAME PROJECTNAME,
-	           RHD.PROJECT_TYPE,
-	           RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	           RHD.CREATE_BY INVESTMENTNAME,
-	           RHD.REVIEW_PERSON REVIEWPERSONNAME,
-               RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-               RHD.CREATE_TIME CREATE_DATE,
-	           '5' WF_STATE,
-	           '' OLDDATA,
-	           NULL APPLY_DATE,
-	           '' STAGE 
-          FROM RCM_HISTORY_DATA RHD
-         WHERE RHD.PROJECT_TYPE = 'pre'
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME
+		PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM
+		RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
 
-        UNION ALL
+		UNION ALL
 
-        SELECT BI.ID,
-               BI.BUSINESSID,
-               BI.BULLETINNAME PROJECTNAME,
-               'bulletin' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-               BI.CREATETIME CREATE_DATE,
-               BI.AUDITSTATUS WF_STATE,
-               '0' OLDDATA,
-               BI.APPLYTIME APPLY_DATE,
-               DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-          FROM RCM_BULLETIN_INFO BI) T
-      WHERE 1 = 1
-        AND T.WF_STATE <![CDATA[ <> ]]> '0'
-    	<if test="wf_state_n != null and wf_state_n != ''"> and	T.WF_STATE <![CDATA[ <> ]]> '${wf_state_n}'</if>
-    	<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	<if test="projectType != null and projectType != ''"> and	T.PROJECT_TYPE like '%${projectType}%' </if>
-    	<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	<if test="stageList != null"> and T.STAGE in
-	       <foreach collection="stageList" item="stage" open="(" close=")" separator=",">
-			 　#{stage}
-		   </foreach>
+		SELECT
+		PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre' PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY)
+		INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		PI.STAGE
+		FROM
+		RCM_PRE_INFO PI
+
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID
+		BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON
+		LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		''
+		OLDDATA,
+		NULL APPLY_DATE,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE
+		RHD.PROJECT_TYPE = 'pre'
+
+		UNION ALL
+
+		SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY)
+		INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME
+		CREATE_DATE,
+		BI.AUDITSTATUS WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME
+		APPLY_DATE,
+		DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' , '4',
+		'6','5' ,'7') STAGE
+		FROM RCM_BULLETIN_INFO BI) T
+		WHERE 1 = 1
+		AND
+		T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="wf_state_n != null and wf_state_n != ''">
+			and T.WF_STATE <![CDATA[ <> ]]>
+			'${wf_state_n}'
 		</if>
-		<if test="pertainareaNameList != null"> and T.PERTAINAREANAME in
-	       <foreach collection="pertainareaNameList" item="pertainareaName" open="(" close=")" separator=",">
-			 　#{pertainareaName}
-		   </foreach>
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="projectType != null and projectType != ''"> and T.PROJECT_TYPE like '%${projectType}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
 		</if>
-        <if test="applyDateStart != null and applyDateStart != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-        </if>
-        <if test="applyDateEnd != null and applyDateEnd != ''">
-            and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-        </if>
-      ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		<if test="stageList != null">
+			and T.STAGE in
+			<foreach collection="stageList" item="stage" open="("
+				close=")" separator=",">
+				#{stage}
+			</foreach>
+		</if>
+		<if test="pertainareaNameList != null">
+			and T.PERTAINAREANAME in
+			<foreach collection="pertainareaNameList"
+				item="pertainareaName" open="(" close=")" separator=",">
+				#{pertainareaName}
+			</foreach>
+		</if>
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
-	
+
+
 	<!-- 20190611改版后 -->
 	<!-- 查询全部正式评审项目 -->
-	<select id="getAllPfrProjectList" resultType="map"  parameterType="map">
-	       SELECT *
-	         FROM
-	          (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-	            left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-                UNION ALL
-        
-               SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 NULL MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr') T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-    	       <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
+	<select id="getAllPfrProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM
+		(SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		FI.STAGE,
+		RDR.VOTE_STATUS,
+		RDR.DECISION_RESULT
+		FROM RCM_FORMALASSESSMENT_INFO FI
+		left join
+		RCM_PFR_REPORT_DATA RPRD on RPRD.BUSINESSID = FI.BUSINESSID
+		left join
+		RCM_DECISION_RESOLUTION RDR on RDR.FORMAL_ID = FI.BUSINESSID
+		left join
+		RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID = RMI.ID
+		UNION ALL
 
-               <if test="applyDateStart != null and applyDateStart != ''">
-                  and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-               </if>
-               <if test="applyDateEnd != null and applyDateEnd != ''">
-                  and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-               </if>
-                <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		SELECT
+		to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME
+		PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		NULL MEETING_TIME,
+		'' STAGE,
+		NULL VOTE_STATUS,
+		NULL DECISION_RESULT
+		FROM RCM_HISTORY_DATA
+		RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr') T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="vote_status != null and vote_status != ''"> and T.VOTE_STATUS in (${vote_status}) </if>
+		<if test="decision_result != null and decision_result != ''"> and T.DECISION_RESULT in (${decision_result}) </if>
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询全部正式评审项目数量 -->
-	<select id="getAllPfrProjectListCount" resultType="int"  parameterType="map">
-	       SELECT COUNT(*)
-	         FROM
-	          (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-                left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-                UNION ALL
-        
-               SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 NULL MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr') T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
+	<select id="getAllPfrProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		FI.STAGE,
+		RDR.VOTE_STATUS,
+		RDR.DECISION_RESULT
+		FROM RCM_FORMALASSESSMENT_INFO FI
+		left join
+		RCM_PFR_REPORT_DATA RPRD on
+		RPRD.BUSINESSID = FI.BUSINESSID
+		left join
+		RCM_DECISION_RESOLUTION RDR
+		on RPRD.BUSINESSID = RDR.FORMAL_ID
+		left join
+		RCM_MEETING_ISSUE RMI on
+		RDR.MEETING_ISSUE_ID = RMI.ID
+		UNION ALL
 
-                <if test="applyDateStart != null and applyDateStart != ''">
-                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-                </if>
-                <if test="applyDateEnd != null and applyDateEnd != ''">
-                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-                </if>
-                 <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		SELECT
+		to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME
+		PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY
+		INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		NULL MEETING_TIME,
+		'' STAGE,
+		NULL VOTE_STATUS,
+		NULL DECISION_RESULT
+		FROM RCM_HISTORY_DATA
+		RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr') T
+		WHERE 1 = 1
+		AND
+		T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="vote_status != null and vote_status != ''"> and T.VOTE_STATUS in (${vote_status}) </if>
+		<if test="decision_result != null and decision_result != ''"> and T.DECISION_RESULT in (${decision_result}) </if>
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询全部投标评审项目 -->
-	<select id="getAllPreProjectList" resultType="map"  parameterType="map">
-	       SELECT *
-	         FROM
-	          (SELECT PI.ID,
-                     PI.BUSINESSID,
-                     PI.PROJECTNAME,
-                     'pre' PROJECT_TYPE,
-                    (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-                    (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-                    (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-                    (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     PI.CREATE_DATE,
-                     PI.WF_STATE,
-                     PI.OLDDATA,
-                     PI.APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     PI.STAGE
-                FROM RCM_PRE_INFO PI
-	            left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-				WHERE 1=1
-                
-                UNION ALL
-        
-               SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 NULL MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pre') T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
+	<select id="getAllPreProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM
+		(SELECT PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre'
+		PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE =
+		PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = PI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		PI.STAGE
+		FROM RCM_PRE_INFO PI
+		left join
+		RCM_PRE_REPORT_DATA RPRD on RPRD.BUSINESSID = PI.BUSINESSID
+		left join
+		RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+		left
+		join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID = RMI.ID
+		WHERE 1=1
 
-               <if test="applyDateStart != null and applyDateStart != ''">
-                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-               </if>
-               <if test="applyDateEnd != null and applyDateEnd != ''">
-                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY
+		PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON
+		REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		NULL MEETING_TIME,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE
+		RHD.PROJECT_TYPE = 'pre') T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询全部投标评审项目数量 -->
-	<select id="getAllPreProjectListCount" resultType="int"  parameterType="map">
-	       SELECT COUNT(*)
-	         FROM
-	          (SELECT PI.ID,
-                     PI.BUSINESSID,
-                     PI.PROJECTNAME,
-                     'pre' PROJECT_TYPE,
-                    (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-                    (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-                    (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-                    (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     PI.CREATE_DATE,
-                     PI.WF_STATE,
-                     PI.OLDDATA,
-                     PI.APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     PI.STAGE
-                FROM RCM_PRE_INFO PI 
-                left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-				WHERE 1=1
-                
-                UNION ALL
-                
-                SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 NULL MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pre') T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
+	<select id="getAllPreProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(SELECT PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre'
+		PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE =
+		PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = PI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		PI.STAGE
+		FROM RCM_PRE_INFO PI
+		left join
+		RCM_PRE_REPORT_DATA RPRD on RPRD.BUSINESSID = PI.BUSINESSID
+		left join
+		RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+		left
+		join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID = RMI.ID
+		WHERE 1=1
 
-                <if test="applyDateStart != null and applyDateStart != ''">
-                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-                </if>
-                <if test="applyDateEnd != null and applyDateEnd != ''">
-                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-                </if>
-                <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY
+		PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON
+		REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		NULL MEETING_TIME,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE
+		RHD.PROJECT_TYPE = 'pre') T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询全部其他评审项目 -->
-	<select id="getAllBulletinProjectList" resultType="map"  parameterType="map">
-	       SELECT *
-	         FROM
-	          (SELECT BI.ID,
-                     BI.BUSINESSID,
-                     BI.BULLETINNAME PROJECTNAME,
-                     'bulletin' PROJECT_TYPE,
-                     (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-                     BI.CREATETIME CREATE_DATE,
-                     BI.AUDITSTATUS WF_STATE,
-                     '0' OLDDATA,
-                     BI.APPLYTIME APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-                FROM RCM_BULLETIN_INFO BI
-                left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
+	<select id="getAllBulletinProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM
+		(SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE
+		O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME CREATE_DATE,
+		BI.AUDITSTATUS
+		WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME APPLY_DATE,
+		RMI.MEETING_TIME,
+		DECODE(BI.STAGE, 
+		'1', '1', 
+		'1.5', '3' ,
+		 '2', '4', 
+		 '3', '5' ,
+		  '4', '6',
+		  '5', '7',
+		  '9' ,'9')
+		STAGE
+		FROM RCM_BULLETIN_INFO BI
+		left join
+		RCM_BULLETIN_REPORT_DATA RPRD
+		on RPRD.BUSINESSID = BI.BUSINESSID
+		left
+		join RCM_DECISION_RESOLUTION
+		RDR on RPRD.BUSINESSID =
+		RDR.FORMAL_ID
+		left
+		join RCM_MEETING_ISSUE RMI
+		on RDR.MEETING_ISSUE_ID = RMI.ID) T
+		WHERE 1 =
+		1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
 
-               <if test="applyDateStart != null and applyDateStart != ''">
-                  and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-               </if>
-               <if test="applyDateEnd != null and applyDateEnd != ''">
-                  and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询全部其他评审项目数量 -->
-	<select id="getAllBulletinProjectListCount" resultType="int"  parameterType="map">
-	       SELECT COUNT(*)
-	         FROM
-	          (SELECT BI.ID,
-                     BI.BUSINESSID,
-                     BI.BULLETINNAME PROJECTNAME,
-                     'bulletin' PROJECT_TYPE,
-                     (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-                     BI.CREATETIME CREATE_DATE,
-                     BI.AUDITSTATUS WF_STATE,
-                     '0' OLDDATA,
-                     BI.APPLYTIME APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-                FROM RCM_BULLETIN_INFO BI
-                left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
+	<select id="getAllBulletinProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME
+		PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O
+		WHERE O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+		(SELECT
+		U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME CREATE_DATE,
+		BI.AUDITSTATUS WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME APPLY_DATE,
+		RMI.MEETING_TIME,
+		DECODE(BI.STAGE, 
+		'1', '1', 
+		'1.5', '3' ,
+		 '2', '4', 
+		 '3', '5' ,
+		  '4', '6',
+		  '5', '7',
+		  '9' ,'9') STAGE
+		FROM RCM_BULLETIN_INFO BI
+		left join
+		RCM_BULLETIN_REPORT_DATA RPRD on RPRD.BUSINESSID = BI.BUSINESSID
+		left
+		join RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID =
+		RDR.FORMAL_ID
+		left join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID = RMI.ID) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
 
-                <if test="applyDateStart != null and applyDateStart != ''">
-                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
-                </if>
-                <if test="applyDateEnd != null and applyDateEnd != ''">
-                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
-                </if>
-                <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-        ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询正式项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
-	<select id="getRolePfrProjectList" resultType="map"  parameterType="map">
-	       SELECT *
-	         FROM
-	          (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-                left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-               WHERE FI.BUSINESSID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'
+	<select id="getRolePfrProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM
+		(SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		FI.STAGE
+		FROM RCM_FORMALASSESSMENT_INFO
+		FI
+		left join RCM_PFR_REPORT_DATA RPRD on RPRD.BUSINESSID =
+		FI.BUSINESSID
+		left join RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID
+		= RDR.FORMAL_ID
+		left join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID
+		= RMI.ID
+		WHERE FI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM
+		(SELECT PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND
+		PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID =
+		#{userId})
+		AND PR.PROJECT_TYPE = 'pfr'
 
-                              UNION ALL
+		UNION ALL
 
-                              SELECT FL.BUSINESSID BUSINESS_ID
-                                FROM RCM_FORMALASSESSMENT_LOG FL
-                               WHERE FL.AUDITUSERID = #{userId}))
-              UNION ALL
-        
-              SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 NULL MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'))) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
-    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		SELECT FL.BUSINESSID
+		BUSINESS_ID
+		FROM RCM_FORMALASSESSMENT_LOG FL
+		WHERE FL.AUDITUSERID =
+		#{userId}))
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID
+		BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON
+		LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		''
+		OLDDATA,
+		NULL APPLY_DATE,
+		NULL MEETING_TIME,
+		'' STAGE
+		FROM
+		RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
+		AND RHD.BUSINESS_ID
+		IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM
+		SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM
+		SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE =
+		'pfr'))) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询正式项目列表数量, 查询角色绑定的项目以及本人参与审批的项目 -->
-	<select id="getRolePfrProjectListCount" resultType="int"  parameterType="map">
-	       SELECT COUNT(*)
-	         FROM
-	          (SELECT FI.ID,
-                     FI.BUSINESSID,
-                     FI.PROJECTNAME,
-                     'pfr' PROJECT_TYPE,
-                     (SELECT O.NAME
-                     FROM SYS_ORG O
-                     WHERE O.ORGPKVALUE = FI.PERTAINAREAID) PERTAINAREANAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.CREATEBY) INVESTMENTNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.REVIEWPERSONID) REVIEWPERSONNAME,
-                     (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-                     FI.CREATE_DATE,
-                     FI.WF_STATE,
-                     FI.OLDDATA,
-                     FI.APPLY_DATE,
-                     RMI.MEETING_TIME,
-                     FI.STAGE
-                FROM RCM_FORMALASSESSMENT_INFO FI
-                left join RCM_PFR_REPORT_DATA RPRD on  RPRD.BUSINESSID = FI.BUSINESSID
-	            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-	            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-               WHERE FI.BUSINESSID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'
+	<select id="getRolePfrProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(SELECT FI.ID,
+		FI.BUSINESSID,
+		FI.PROJECTNAME,
+		'pfr'
+		PROJECT_TYPE,
+		(SELECT O.NAME
+		FROM SYS_ORG O
+		WHERE O.ORGPKVALUE =
+		FI.PERTAINAREAID) PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = FI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = FI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = FI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		FI.CREATE_DATE,
+		FI.WF_STATE,
+		FI.OLDDATA,
+		FI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		FI.STAGE
+		FROM RCM_FORMALASSESSMENT_INFO
+		FI
+		left join RCM_PFR_REPORT_DATA RPRD on RPRD.BUSINESSID =
+		FI.BUSINESSID
+		left join RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID
+		= RDR.FORMAL_ID
+		left join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID
+		= RMI.ID
+		WHERE FI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM
+		(SELECT PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND
+		PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID =
+		#{userId})
+		AND PR.PROJECT_TYPE = 'pfr'
 
-                              UNION ALL
+		UNION ALL
 
-                              SELECT FL.BUSINESSID BUSINESS_ID
-                                FROM RCM_FORMALASSESSMENT_LOG FL
-                               WHERE FL.AUDITUSERID = #{userId}))
-              UNION ALL
-        
-              SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 NULL MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pfr'))) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
-    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		SELECT FL.BUSINESSID
+		BUSINESS_ID
+		FROM RCM_FORMALASSESSMENT_LOG FL
+		WHERE FL.AUDITUSERID =
+		#{userId}))
+		UNION ALL
+
+		SELECT to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID
+		BUSINESSID,
+		RHD.PROJECT_NAME PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON
+		LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME CREATE_DATE,
+		'5' WF_STATE,
+		''
+		OLDDATA,
+		NULL APPLY_DATE,
+		NULL MEETING_TIME,
+		'' STAGE
+		FROM
+		RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
+		AND RHD.BUSINESS_ID
+		IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM
+		SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM
+		SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE =
+		'pfr'))) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询投标项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
-	<select id="getRolePreProjectList" resultType="map"  parameterType="map">
-	        SELECT *
-	         FROM
-	          (SELECT PI.ID,
-               PI.BUSINESSID,
-               PI.PROJECTNAME,
-               'pre' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-               PI.CREATE_DATE,
-               PI.WF_STATE,
-               PI.OLDDATA,
-               PI.APPLY_DATE,
-               RMI.MEETING_TIME,
-               PI.STAGE
-            FROM RCM_PRE_INFO PI
-            left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
-            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-			WHERE  PI.BUSINESSID IN
-                  (SELECT DISTINCT (BUSINESS_ID)
-                     FROM (SELECT PR.BUSINESS_ID
-                             FROM SYS_PROJECT_ROLE PR
-                            WHERE 1 = 1
-                              AND PR.ROLE_ID IN
-                                 (SELECT UR.ROLE_ID
-                                    FROM SYS_USER_ROLE UR
-                                   WHERE UR.USER_ID = #{userId})
-                                     AND PR.PROJECT_TYPE = 'pre'
+	<select id="getRolePreProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM
+		(SELECT PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre'
+		PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE =
+		PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = PI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		PI.STAGE
+		FROM RCM_PRE_INFO PI
+		left join
+		RCM_PRE_REPORT_DATA RPRD on RPRD.BUSINESSID = PI.BUSINESSID
+		left join
+		RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+		left
+		join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID = RMI.ID
+		WHERE
+		PI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pre'
 
-                                  UNION ALL
-                          
-                                  SELECT PL.BUSINESSID BUSINESS_ID
-                                    FROM RCM_PRE_LOG PL
-                                   WHERE PL.AUDITUSERID = #{userId}))
-              UNION ALL
-        
-              SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 NULL MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pre'))) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
-    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		UNION ALL
+
+		SELECT PL.BUSINESSID BUSINESS_ID
+		FROM RCM_PRE_LOG PL
+		WHERE PL.AUDITUSERID = #{userId}))
+		UNION ALL
+
+		SELECT
+		to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME
+		PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		NULL MEETING_TIME,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
+		AND
+		RHD.BUSINESS_ID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pre'))) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询投标项目列表数量, 查询角色绑定的项目以及本人参与审批的项目 -->
-	<select id="getRolePreProjectListCount" resultType="int"  parameterType="map">
-	       SELECT COUNT(*)
-	         FROM
-	          (SELECT PI.ID,
-               PI.BUSINESSID,
-               PI.PROJECTNAME,
-               'pre' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = PI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.REVIEWPERSONID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID) LEGALREVIEWPERSONNAME,
-               PI.CREATE_DATE,
-               PI.WF_STATE,
-               PI.OLDDATA,
-               PI.APPLY_DATE,
-               RMI.MEETING_TIME,
-               PI.STAGE
-            FROM RCM_PRE_INFO PI
-            left join RCM_PRE_REPORT_DATA RPRD on  RPRD.BUSINESSID = PI.BUSINESSID
-            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-         WHERE PI.BUSINESSID IN
-                  (SELECT DISTINCT (BUSINESS_ID)
-                     FROM (SELECT PR.BUSINESS_ID
-                             FROM SYS_PROJECT_ROLE PR
-                            WHERE 1 = 1
-                              AND PR.ROLE_ID IN
-                                 (SELECT UR.ROLE_ID
-                                    FROM SYS_USER_ROLE UR
-                                   WHERE UR.USER_ID = #{userId})
-                                     AND PR.PROJECT_TYPE = 'pre'
+	<select id="getRolePreProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(SELECT PI.ID,
+		PI.BUSINESSID,
+		PI.PROJECTNAME,
+		'pre'
+		PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE =
+		PI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE
+		U.UUID = PI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME FROM SYS_USER U
+		WHERE U.UUID = PI.REVIEWPERSONID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = PI.LEGALREVIEWPERSONID)
+		LEGALREVIEWPERSONNAME,
+		PI.CREATE_DATE,
+		PI.WF_STATE,
+		PI.OLDDATA,
+		PI.APPLY_DATE,
+		RMI.MEETING_TIME,
+		PI.STAGE
+		FROM RCM_PRE_INFO PI
+		left join
+		RCM_PRE_REPORT_DATA RPRD on RPRD.BUSINESSID = PI.BUSINESSID
+		left join
+		RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
+		left
+		join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID = RMI.ID
+		WHERE
+		PI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pre'
 
-                                  UNION ALL
-                          
-                                  SELECT PL.BUSINESSID BUSINESS_ID
-                                    FROM RCM_PRE_LOG PL
-                                   WHERE PL.AUDITUSERID = #{userId}))
-              UNION ALL
-        
-              SELECT to_char(RHD.ID) ID,
-	                 RHD.BUSINESS_ID BUSINESSID,
-	                 RHD.PROJECT_NAME PROJECTNAME,
-	                 RHD.PROJECT_TYPE,
-	                 RHD.REGIONAL_COMPANY PERTAINAREANAME,
-	                 RHD.CREATE_BY INVESTMENTNAME,
-	                 RHD.REVIEW_PERSON REVIEWPERSONNAME,
-	                 RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
-	                 RHD.CREATE_TIME CREATE_DATE,
-	                 '5' WF_STATE,
-	                 '' OLDDATA,
-	                 NULL APPLY_DATE,
-	                 null MEETING_TIME,
-	                 '' STAGE 
-                FROM RCM_HISTORY_DATA RHD
-               WHERE RHD.PROJECT_TYPE = 'pfr'
-                 AND RHD.BUSINESS_ID IN
-                    (SELECT DISTINCT (BUSINESS_ID)
-                       FROM (SELECT PR.BUSINESS_ID
-                               FROM SYS_PROJECT_ROLE PR
-                              WHERE 1 = 1
-                                AND PR.ROLE_ID IN
-                                   (SELECT UR.ROLE_ID
-                                      FROM SYS_USER_ROLE UR
-                                     WHERE UR.USER_ID = #{userId})
-                                       AND PR.PROJECT_TYPE = 'pre'))) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
-    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+		UNION ALL
+
+		SELECT PL.BUSINESSID BUSINESS_ID
+		FROM RCM_PRE_LOG PL
+		WHERE PL.AUDITUSERID = #{userId}))
+		UNION ALL
+
+		SELECT
+		to_char(RHD.ID) ID,
+		RHD.BUSINESS_ID BUSINESSID,
+		RHD.PROJECT_NAME
+		PROJECTNAME,
+		RHD.PROJECT_TYPE,
+		RHD.REGIONAL_COMPANY PERTAINAREANAME,
+		RHD.CREATE_BY INVESTMENTNAME,
+		RHD.REVIEW_PERSON REVIEWPERSONNAME,
+		RHD.LEGAL_REVIEW_PERSON LEGALREVIEWPERSONNAME,
+		RHD.CREATE_TIME
+		CREATE_DATE,
+		'5' WF_STATE,
+		'' OLDDATA,
+		NULL APPLY_DATE,
+		null MEETING_TIME,
+		'' STAGE
+		FROM RCM_HISTORY_DATA RHD
+		WHERE RHD.PROJECT_TYPE = 'pfr'
+		AND
+		RHD.BUSINESS_ID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'pre'))) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询其他项目列表, 查询角色绑定的项目以及本人参与审批的项目 -->
-	<select id="getRoleBulletinProjectList" resultType="map"  parameterType="map">
-	       SELECT *
-	         FROM
-	          (SELECT BI.ID,
-               BI.BUSINESSID,
-               BI.BULLETINNAME PROJECTNAME,
-               'bulletin' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-               BI.CREATETIME CREATE_DATE,
-               BI.AUDITSTATUS WF_STATE,
-               '0' OLDDATA,
-               BI.APPLYTIME APPLY_DATE,
-               RMI.MEETING_TIME,
-               DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-            FROM RCM_BULLETIN_INFO BI
-            left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
-            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-         WHERE BI.BUSINESSID IN
-              (SELECT DISTINCT (BUSINESS_ID)
-                 FROM (SELECT PR.BUSINESS_ID
-                         FROM SYS_PROJECT_ROLE PR
-                        WHERE 1 = 1
-                          AND PR.ROLE_ID IN
-                             (SELECT UR.ROLE_ID
-                                FROM SYS_USER_ROLE UR
-                               WHERE UR.USER_ID = #{userId})
-                                 AND PR.PROJECT_TYPE = 'bulletin'
-                             
-                              UNION ALL
-                             
-                              SELECT BL.BUSINESSID BUSINESS_ID
-                                FROM RCM_BULLETIN_LOG BL
-                               WHERE BL.AUDITUSERID = #{userId}))) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
-    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+	<select id="getRoleBulletinProjectList" resultType="map"
+		parameterType="map">
+		SELECT *
+		FROM
+		(SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O WHERE
+		O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME FROM
+		SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME CREATE_DATE,
+		BI.AUDITSTATUS
+		WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME APPLY_DATE,
+		RMI.MEETING_TIME,
+		DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' , '4', '6','5' ,'7')
+		STAGE
+		FROM RCM_BULLETIN_INFO BI
+		left join RCM_BULLETIN_REPORT_DATA RPRD
+		on RPRD.BUSINESSID = BI.BUSINESSID
+		left join RCM_DECISION_RESOLUTION
+		RDR on RPRD.BUSINESSID =
+		RDR.FORMAL_ID
+		left join RCM_MEETING_ISSUE RMI
+		on RDR.MEETING_ISSUE_ID = RMI.ID
+		WHERE BI.BUSINESSID IN
+		(SELECT DISTINCT
+		(BUSINESS_ID)
+		FROM (SELECT PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE
+		1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE
+		UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'bulletin'
+
+		UNION ALL
+
+		SELECT BL.BUSINESSID BUSINESS_ID
+		FROM RCM_BULLETIN_LOG BL
+		WHERE
+		BL.AUDITUSERID = #{userId}))) T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 查询其他项目列表数量, 查询角色绑定的项目以及本人参与审批的项目 -->
-	<select id="getRoleBulletinProjectListCount" resultType="int"  parameterType="map">
-	       SELECT COUNT(*)
-	         FROM
-	          (SELECT BI.ID,
-               BI.BUSINESSID,
-               BI.BULLETINNAME PROJECTNAME,
-               'bulletin' PROJECT_TYPE,
-               (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = BI.PERTAINAREAID) PERTAINAREANAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID) REVIEWPERSONNAME,
-               (SELECT U.NAME FROM SYS_USER U WHERE U.UUID = BI.LEGALLEADERID) LEGALREVIEWPERSONNAME,
-               BI.CREATETIME CREATE_DATE,
-               BI.AUDITSTATUS WF_STATE,
-               '0' OLDDATA,
-               BI.APPLYTIME APPLY_DATE,
-               RMI.MEETING_TIME,
-               DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,  '4', '6','5' ,'7') STAGE
-            FROM RCM_BULLETIN_INFO BI
-            left join RCM_BULLETIN_REPORT_DATA RPRD on  RPRD.BUSINESSID = BI.BUSINESSID
-            left join  RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID = RDR.FORMAL_ID
-            left join RCM_MEETING_ISSUE RMI on  RDR.MEETING_ISSUE_ID = RMI.ID
-         WHERE BI.BUSINESSID IN
-              (SELECT DISTINCT (BUSINESS_ID)
-                 FROM (SELECT PR.BUSINESS_ID
-                         FROM SYS_PROJECT_ROLE PR
-                        WHERE 1 = 1
-                          AND PR.ROLE_ID IN
-                             (SELECT UR.ROLE_ID
-                                FROM SYS_USER_ROLE UR
-                               WHERE UR.USER_ID = #{userId})
-                                 AND PR.PROJECT_TYPE = 'bulletin'
-                             
-                              UNION ALL
-                             
-                              SELECT BL.BUSINESSID BUSINESS_ID
-                                FROM RCM_BULLETIN_LOG BL
-                               WHERE BL.AUDITUSERID = #{userId}))) T
-             WHERE 1 = 1
-               AND T.WF_STATE <![CDATA[ <> ]]> '0'
-               <if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
-    	       <if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
-    	       <if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
-    	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
-    	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
-    	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
-    	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
-               </if>
-               <if test="meetingTimeEnd != null and meetingTimeEnd != ''">
-                   and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${meetingTimeEnd}','yyyy-MM-dd')
-               </if>
-          ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE	DESC
+	<select id="getRoleBulletinProjectListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(SELECT BI.ID,
+		BI.BUSINESSID,
+		BI.BULLETINNAME
+		PROJECTNAME,
+		'bulletin' PROJECT_TYPE,
+		(SELECT O.NAME FROM SYS_ORG O
+		WHERE O.ORGPKVALUE = BI.PERTAINAREAID)
+		PERTAINAREANAME,
+		(SELECT U.NAME
+		FROM SYS_USER U WHERE U.UUID = BI.CREATEBY) INVESTMENTNAME,
+		(SELECT
+		U.NAME FROM SYS_USER U WHERE U.UUID = BI.REVIEWLEADERID)
+		REVIEWPERSONNAME,
+		(SELECT U.NAME FROM SYS_USER U WHERE U.UUID =
+		BI.LEGALLEADERID)
+		LEGALREVIEWPERSONNAME,
+		BI.CREATETIME CREATE_DATE,
+		BI.AUDITSTATUS WF_STATE,
+		'0' OLDDATA,
+		BI.APPLYTIME APPLY_DATE,
+		RMI.MEETING_TIME,
+		DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,
+		'4', '6','5' ,'7') STAGE
+		FROM RCM_BULLETIN_INFO BI
+		left join
+		RCM_BULLETIN_REPORT_DATA RPRD on RPRD.BUSINESSID = BI.BUSINESSID
+		left
+		join RCM_DECISION_RESOLUTION RDR on RPRD.BUSINESSID =
+		RDR.FORMAL_ID
+		left join RCM_MEETING_ISSUE RMI on RDR.MEETING_ISSUE_ID = RMI.ID
+		WHERE
+		BI.BUSINESSID IN
+		(SELECT DISTINCT (BUSINESS_ID)
+		FROM (SELECT
+		PR.BUSINESS_ID
+		FROM SYS_PROJECT_ROLE PR
+		WHERE 1 = 1
+		AND PR.ROLE_ID IN
+		(SELECT UR.ROLE_ID
+		FROM SYS_USER_ROLE UR
+		WHERE UR.USER_ID = #{userId})
+		AND PR.PROJECT_TYPE = 'bulletin'
+
+		UNION ALL
+
+		SELECT BL.BUSINESSID
+		BUSINESS_ID
+		FROM RCM_BULLETIN_LOG BL
+		WHERE BL.AUDITUSERID = #{userId})))
+		T
+		WHERE 1 = 1
+		AND T.WF_STATE <![CDATA[ <> ]]>
+		'0'
+		<if test="projectName != null and projectName != ''"> and T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if
+			test="legalReviewPersonName != null and legalReviewPersonName != ''"> and T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%'
+		</if>
+		<if test="stage != null and stage != ''"> and T.STAGE in (${stage}) </if>
+		<if test="meetingTimeStart != null and meetingTimeStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]>
+			to_date('${meetingTimeStart}','yyyy-MM-dd')
+		</if>
+		<if test="meetingTimeEnd != null and meetingTimeEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
+			to_date('${meetingTimeEnd}','yyyy-MM-dd')
+		</if>
+		ORDER BY T.WF_STATE ASC, T.STAGE ASC, T.CREATE_DATE DESC
 	</select>
-	<select id="queryByCompanyHeaderId" resultType="map" parameterType="map">
-		 select * from SYS_GROUP_USER_REPORTINGUNIT where COMPANYHEADER_ID = #{id}
+	<select id="queryByCompanyHeaderId" resultType="map"
+		parameterType="map">
+		select * from SYS_GROUP_USER_REPORTINGUNIT where
+		COMPANYHEADER_ID = #{id}
 	</select>
 </mapper>
