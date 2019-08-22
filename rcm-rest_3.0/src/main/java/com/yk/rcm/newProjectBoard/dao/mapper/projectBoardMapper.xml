@@ -653,7 +653,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
 
                <if test="applyDateStart != null and applyDateStart != ''">
                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
@@ -720,7 +720,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
 
                 <if test="applyDateStart != null and applyDateStart != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
@@ -787,7 +787,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
 
                <if test="applyDateStart != null and applyDateStart != ''">
                    and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
@@ -854,7 +854,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
 
                 <if test="applyDateStart != null and applyDateStart != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
@@ -901,7 +901,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
 
                <if test="applyDateStart != null and applyDateStart != ''">
                   and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
@@ -948,7 +948,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
 
                 <if test="applyDateStart != null and applyDateStart != ''">
                     and to_date(to_char(T.CREATE_DATE,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
@@ -1041,7 +1041,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
     	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
                    and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
                </if>
@@ -1127,7 +1127,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
     	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
                    and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
                </if>
@@ -1211,7 +1211,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
     	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
                    and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
                </if>
@@ -1295,7 +1295,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
     	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
                    and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
                </if>
@@ -1351,7 +1351,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
     	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
                    and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
                </if>
@@ -1407,7 +1407,7 @@
     	       <if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
     	       <if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
     	       <if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
-    	       <if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+    	       <if test="stage != null and stage != ''"> and T.STAGE in ${stage} </if>
     	       <if test="meetingTimeStart != null and meetingTimeStart != ''">
                    and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${meetingTimeStart}','yyyy-MM-dd')
                </if>

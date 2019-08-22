@@ -40,13 +40,11 @@
                     <option value="">请选择...</option>
                     <!--<option value="0">起草中</option>-->
                     <option value="1">申请阶段</option>
-                    <option value="2">任务分配</option>
-                    <option value="3">风控处理</option>
-                    <option value="4">准备上会</option>
-                    <option value="5">已安排上会</option>
-                    <option value="6">已决策</option>
-                    <option value="7">已确认通知书/填写会议纪要</option>
-                    <option value="9">无需上会</option>
+                    <option value="('2', '3')">风控处理</option>
+                    <option value="('4', '5')">准备上会</option>
+                    <option value="('6', '7')">已上会，已决策</option>
+                    <option value="('6', '7')">已上会，未表决</option>
+                    <option value="('9')">已审批，无需上会</option>
                 </select>
             </div>
         </div>
@@ -157,13 +155,13 @@
                                 <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                 <td>
                                     <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
-                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">风控处理</a>
                                     <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
                                     <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
-                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">准备上会</a>
                                     <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
-                                    <a style="color: black" ng-if="'7'== p.STAGE">已确认通知书</a>
-                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">已审批，无需上会</a>
                                 </td>
                                 <!--<td>-->
                                     <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
@@ -240,13 +238,13 @@
                                 <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                 <td>
                                     <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
-                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">风控处理</a>
                                     <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
                                     <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
-                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">准备上会</a>
                                     <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
-                                    <a style="color: black" ng-if="'7'== p.STAGE">已确认通知书</a>
-                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">已审批，无需上会</a>
                                 </td>
                                 <!--<td>-->
                                     <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
@@ -323,13 +321,13 @@
                                 <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                 <td>
                                     <a style="color: black" ng-if="'1'== p.STAGE">申请阶段</a>
-                                    <a style="color: black" ng-if="'2'== p.STAGE">任务分配</a>
+                                    <a style="color: black" ng-if="'2'== p.STAGE">风控处理</a>
                                     <a style="color: black" ng-if="'3'== p.STAGE">风控处理</a>
                                     <a style="color: black" ng-if="'4'== p.STAGE">准备上会</a>
-                                    <a style="color: black" ng-if="'5'== p.STAGE">已安排上会</a>
+                                    <a style="color: black" ng-if="'5'== p.STAGE">准备上会</a>
                                     <a style="color: black" ng-if="'6'== p.STAGE">已决策</a>
-                                    <a style="color: black" ng-if="'7'== p.STAGE">已填写会议纪要</a>
-                                    <a style="color: black" ng-if="'9'== p.STAGE">无需上会</a>
+                                    <a style="color: black" ng-if="'7'== p.STAGE">已决策</a>
+                                    <a style="color: black" ng-if="'9'== p.STAGE">已审批，无需上会</a>
                                 </td>
                                 <!--<td>-->
                                     <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
