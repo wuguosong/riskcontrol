@@ -41,7 +41,9 @@
 			FROM
 			RCM_FORMALASSESSMENT_INFO RFI
 			WHERE
-			RFI.STAGE IN ( 3 )
+			RFI.STAGE IN ( 3 ) 
+			AND 
+			RFI.WF_STATE IN ( 1, 2 )
 			AND
 			RFI.REVIEWPERSONID = '${userId}'
 			UNION ALL
@@ -74,7 +76,9 @@
 			FROM
 			RCM_PRE_INFO RPI
 			WHERE
-			RPI.STAGE IN ( 3 )
+			RPI.STAGE IN ( 3 ) 
+			AND 
+			RPI.WF_STATE IN ( 1, 2 )
 			AND
 			RPI.REVIEWPERSONID = '${userId}'
 		</if>
@@ -109,7 +113,7 @@
 			FROM
 			RCM_BULLETIN_INFO RBI
 			WHERE
-			RBI.STAGE IN ( 4 )
+			RBI.STAGE IN ( 4 ) 
 		</if>
 		) T
 		WHERE
@@ -150,7 +154,9 @@
 			FROM
 			RCM_FORMALASSESSMENT_INFO RFI
 			WHERE
-			RFI.STAGE IN ( 4, 5, 6, 7 )
+			RFI.STAGE IN ( 4, 5, 6, 7 ) 
+			AND 
+			RFI.WF_STATE IN ( 2 )
 			AND
 			RFI.REVIEWPERSONID = '${userId}'
 			UNION ALL
@@ -177,7 +183,9 @@
 			FROM
 			RCM_PRE_INFO RPI
 			WHERE
-			RPI.STAGE IN ( 4, 5, 6, 7, 9 )
+			RPI.STAGE IN ( 4, 5, 6, 7, 9 ) 
+			AND 
+			RPI.WF_STATE IN ( 2 )
 			AND
 			RPI.REVIEWPERSONID = '${userId}'
 		</if>
@@ -203,7 +211,7 @@
 			FROM
 			RCM_BULLETIN_INFO RBI
 			WHERE
-			RBI.STAGE IN ( 5 )
+			RBI.STAGE IN ( 5 ) 
 		</if>
 		) T
 		WHERE

@@ -6,8 +6,8 @@
 	<select id="queryCanArrangeProjectListByPage" parameterType="map" resultType="hashmap">
 		 select *
 		  from rcm_v_project_info p
-		 where ((p.project_type = 'bulletin' and p.stage = 2)
-		    or (p.project_type != 'bulletin' and p.stage = 4))
+		 where ((p.project_type = 'bulletin' and p.stage = 2 AND WF_STATE = '2')
+		    or (p.project_type != 'bulletin' and p.stage = 4 AND WF_STATE = '2'))
 		 and p.business_id not in
 		       (select dr.FORMAL_ID from rcm_decision_resolution dr)
 		<if test="projectName!=null and projectName!=''"> 

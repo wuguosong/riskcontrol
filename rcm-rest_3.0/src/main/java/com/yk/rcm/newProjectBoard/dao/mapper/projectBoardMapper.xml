@@ -591,8 +591,14 @@
 		'0' OLDDATA,
 		BI.APPLYTIME
 		APPLY_DATE,
-		DECODE(BI.STAGE, '1.5', '3', '2', '3', '3', '5' , '4',
-		'6','5' ,'7') STAGE
+		DECODE(BI.STAGE, 
+		'1', '1',
+		'1.5', '3' ,
+		'2', '4',
+		'3', '5' ,
+		'4', '6',
+		'5', '7',
+		'9' ,'9') STAGE
 		FROM RCM_BULLETIN_INFO BI) T
 		WHERE 1 = 1
 		AND
@@ -757,8 +763,14 @@
 		'0' OLDDATA,
 		BI.APPLYTIME
 		APPLY_DATE,
-		DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' , '4',
-		'6','5' ,'7') STAGE
+		DECODE(BI.STAGE, 
+		'1', '1',
+		'1.5', '3' ,
+		'2', '4',
+		'3', '5' ,
+		'4', '6',
+		'5', '7',
+		'9' ,'9')  STAGE
 		FROM RCM_BULLETIN_INFO BI) T
 		WHERE 1 = 1
 		AND
@@ -1200,18 +1212,19 @@
 		'0' OLDDATA,
 		BI.APPLYTIME APPLY_DATE,
 		RMI.MEETING_TIME,
-		DECODE(BI.STAGE, 
-		'1', '1', 
+		DECODE(BI.STAGE,
+		'1', '1',
 		'1.5', '3' ,
-		 '2', '4', 
-		 '3', '5' ,
-		  '4', '6',
-		  '5', '7',
-		  '9' ,'9')
+		'2', '4',
+		'3', '5' ,
+		'4', '6',
+		'5', '7',
+		'9' ,'9')
 		STAGE
 		FROM RCM_BULLETIN_INFO BI
 		left join
-		RCM_BULLETIN_REPORT_DATA RPRD
+		RCM_BULLETIN_REPORT_DATA
+		RPRD
 		on RPRD.BUSINESSID = BI.BUSINESSID
 		left
 		join RCM_DECISION_RESOLUTION
@@ -1219,7 +1232,8 @@
 		RDR.FORMAL_ID
 		left
 		join RCM_MEETING_ISSUE RMI
-		on RDR.MEETING_ISSUE_ID = RMI.ID) T
+		on
+		RDR.MEETING_ISSUE_ID = RMI.ID) T
 		WHERE 1 =
 		1
 		AND T.WF_STATE <![CDATA[ <> ]]>
@@ -1279,14 +1293,14 @@
 		'0' OLDDATA,
 		BI.APPLYTIME APPLY_DATE,
 		RMI.MEETING_TIME,
-		DECODE(BI.STAGE, 
-		'1', '1', 
+		DECODE(BI.STAGE,
+		'1', '1',
 		'1.5', '3' ,
-		 '2', '4', 
-		 '3', '5' ,
-		  '4', '6',
-		  '5', '7',
-		  '9' ,'9') STAGE
+		'2', '4',
+		'3', '5' ,
+		'4', '6',
+		'5', '7',
+		'9' ,'9') STAGE
 		FROM RCM_BULLETIN_INFO BI
 		left join
 		RCM_BULLETIN_REPORT_DATA RPRD on RPRD.BUSINESSID = BI.BUSINESSID
@@ -1799,20 +1813,31 @@
 		'0' OLDDATA,
 		BI.APPLYTIME APPLY_DATE,
 		RMI.MEETING_TIME,
-		DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' , '4', '6','5' ,'7')
+		DECODE(BI.STAGE, '1', '1',
+		'1.5', '3' ,
+		'2', '4',
+		'3', '5' ,
+		'4', '6',
+		'5', '7',
+		'9' ,'9')
 		STAGE
 		FROM RCM_BULLETIN_INFO BI
-		left join RCM_BULLETIN_REPORT_DATA RPRD
+		left join RCM_BULLETIN_REPORT_DATA
+		RPRD
 		on RPRD.BUSINESSID = BI.BUSINESSID
-		left join RCM_DECISION_RESOLUTION
+		left join
+		RCM_DECISION_RESOLUTION
 		RDR on RPRD.BUSINESSID =
 		RDR.FORMAL_ID
-		left join RCM_MEETING_ISSUE RMI
+		left join
+		RCM_MEETING_ISSUE RMI
 		on RDR.MEETING_ISSUE_ID = RMI.ID
-		WHERE BI.BUSINESSID IN
+		WHERE
+		BI.BUSINESSID IN
 		(SELECT DISTINCT
 		(BUSINESS_ID)
-		FROM (SELECT PR.BUSINESS_ID
+		FROM (SELECT
+		PR.BUSINESS_ID
 		FROM SYS_PROJECT_ROLE PR
 		WHERE
 		1 = 1
@@ -1825,10 +1850,12 @@
 
 		UNION ALL
 
-		SELECT BL.BUSINESSID BUSINESS_ID
+		SELECT BL.BUSINESSID
+		BUSINESS_ID
 		FROM RCM_BULLETIN_LOG BL
 		WHERE
-		BL.AUDITUSERID = #{userId}))) T
+		BL.AUDITUSERID = #{userId})))
+		T
 		WHERE 1 = 1
 		AND T.WF_STATE <![CDATA[ <> ]]>
 		'0'
@@ -1878,8 +1905,13 @@
 		'0' OLDDATA,
 		BI.APPLYTIME APPLY_DATE,
 		RMI.MEETING_TIME,
-		DECODE(BI.STAGE, '1.5', '3' ,'2', '3', '3', '5' ,
-		'4', '6','5' ,'7') STAGE
+		DECODE(BI.STAGE, '1', '1',
+		'1.5', '3' ,
+		'2', '4',
+		'3', '5' ,
+		'4', '6',
+		'5', '7',
+		'9' ,'9') STAGE
 		FROM RCM_BULLETIN_INFO BI
 		left join
 		RCM_BULLETIN_REPORT_DATA RPRD on RPRD.BUSINESSID = BI.BUSINESSID

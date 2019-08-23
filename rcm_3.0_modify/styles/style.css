@@ -2040,7 +2040,7 @@ td btn-scale:first-child {
     padding-bottom: 0;
     background-color: #ffffff;
     color: #262626;
-    width: 50%;
+    /*width: 50%;*/
 }
 
 .breadcrumb > li + li:before {

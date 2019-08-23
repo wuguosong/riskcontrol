@@ -353,7 +353,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.getProjectList1 = function(){
         $scope.paginationConf1.queryObj.userId = $scope.credentials.UUID;
         $scope.paginationConf1.queryObj.stageList = ['1'];
-        $scope.paginationConf1.queryObj.wf_state_n = '3';
+        $scope.paginationConf1.queryObj.wf_state = '1';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf1.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
@@ -376,11 +376,11 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf1.totalItems = result.result_data.totalItems;
         });
     };
-    // 查询项目看板 - 风控任务
+    // 查询项目看板 - 风控评审
     $scope.getProjectList2 = function(){
         $scope.paginationConf2.queryObj.userId = $scope.credentials.UUID;
         $scope.paginationConf2.queryObj.stageList = ['2', '3'];
-        $scope.paginationConf2.queryObj.wf_state_n = '3';
+        $scope.paginationConf2.queryObj.wf_state = "'1', '2'";
         if (!isEmpty($scope.params)) {
             $scope.paginationConf2.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf2.queryObj.investmentName = $scope.params.investmentName;
@@ -403,17 +403,19 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
             $scope.paginationConf2.totalItems = result.result_data.totalItems;
         });
     };
-    // 查询项目看板 - 已完成
+    // 查询项目看板 - 准备上会
     $scope.getProjectList3 = function(){
         $scope.paginationConf3.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf3.queryObj.stageList = ['4', '5'];
-        $scope.paginationConf3.queryObj.wf_state_n = '2';
+        $scope.paginationConf3.queryObj.stageList = ['4'];
+        $scope.paginationConf3.queryObj.wf_state = '2';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf3.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf3.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf3.queryObj.reviewPersonName = $scope.params.reviewPersonName;
             $scope.paginationConf3.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             //$scope.paginationConf3.queryObj.pertainareaName = $scope.params.pertainareaName;
+            $scope.paginationConf3.queryObj.vote_status = "0";
+            $scope.paginationConf3.queryObj.decision_result = "0";
             $scope.paginationConf3.queryObj.projectType = $scope.params.projectType;
             $scope.paginationConf3.queryObj.applyDateStart = $scope.params.applyDateStart;
             $scope.paginationConf3.queryObj.applyDateEnd = $scope.params.applyDateEnd;
@@ -431,10 +433,10 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
         });
     };
 
-    // 查询项目看板 - 已终止
+    // 查询项目看板 - 已决策
     $scope.getProjectList4 = function(){
         $scope.paginationConf4.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf4.queryObj.stageList = ['6','7'];
+        $scope.paginationConf4.queryObj.stageList = ['6', '7'];
         $scope.paginationConf4.queryObj.wf_state = '2';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf4.queryObj.projectName = $scope.params.projectName;

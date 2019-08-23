@@ -50,6 +50,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
             $scope.paginationConf1.queryObj.vote_status = null;
             $scope.paginationConf1.queryObj.decision_result = null;
             $scope.paginationConf1.queryObj.wf_state = null;
+            $scope.paginationConf1.queryObj.stage = null;
             $scope.paginationConf1.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf1.queryObj.reviewPersonName = $scope.params.reviewPersonName;
@@ -61,7 +62,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
                 $scope.paginationConf1.queryObj.wf_state = "1";
                 // 2 :查询正在风控部门的项目
             } else if($scope.params.stage == "2"){
-                $scope.paginationConf1.queryObj.stage = "'2', '3'";
+                $scope.paginationConf1.queryObj.stage = "'2', '3', '3.7'";
                 $scope.paginationConf1.queryObj.wf_state = "'1', '2'";
                 // 3 :查询正在处于上会阶段的项目
             } else if($scope.params.stage == "3"){
@@ -109,6 +110,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.getPreProjectList = function(){
         $scope.paginationConf2.queryObj.userId = $scope.credentials.UUID;
         if (!isEmpty($scope.params)) {
+            $scope.paginationConf2.queryObj.stage = null;
             $scope.paginationConf2.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf2.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf2.queryObj.reviewPersonName = $scope.params.reviewPersonName;
@@ -168,6 +170,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.getBulletinProjectList = function(){
         $scope.paginationConf3.queryObj.userId = $scope.credentials.UUID;
         if (!isEmpty($scope.params)) {
+            $scope.paginationConf3.queryObj.stage = null;
             $scope.paginationConf3.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf3.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf3.queryObj.reviewPersonName = $scope.params.reviewPersonName;
