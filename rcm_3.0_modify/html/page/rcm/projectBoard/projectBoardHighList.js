@@ -67,8 +67,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
     // 查询项目看 - 分配前
     $scope.getProjectList1 = function(){
         $scope.paginationConf1.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf1.queryObj.stageList = ['1', '2'];
-        $scope.paginationConf1.queryObj.wf_state_n = '3';
+        $scope.paginationConf1.queryObj.stageList = ['1'];
+        $scope.paginationConf1.queryObj.wf_state = '1';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf1.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
@@ -87,6 +87,7 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
                 "json":JSON.stringify($scope.paginationConf1.queryObj)
             })
         }).success(function(result){
+            debugger;
             $scope.projectList1 = result.result_data.list;
             $scope.paginationConf1.totalItems = result.result_data.totalItems;
         });
@@ -94,8 +95,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
     // 查询项目看板 - 风控任务
     $scope.getProjectList2 = function(){
         $scope.paginationConf2.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf2.queryObj.stageList = ['3','4','5'];
-        $scope.paginationConf2.queryObj.wf_state_n = '3';
+        $scope.paginationConf2.queryObj.stageList = ['2', '3'];
+        $scope.paginationConf2.queryObj.wf_state = "'1', '2'";
         if (!isEmpty($scope.params)) {
             $scope.paginationConf2.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf2.queryObj.investmentName = $scope.params.investmentName;
@@ -121,8 +122,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
     // 查询项目看板 - 已完成
     $scope.getProjectList3 = function(){
         $scope.paginationConf3.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf3.queryObj.stageList = ['6','7','9'];
-        $scope.paginationConf3.queryObj.wf_state_n = '3';
+        $scope.paginationConf3.queryObj.stageList = ['4'];
+        $scope.paginationConf3.queryObj.wf_state = '2';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf3.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf3.queryObj.investmentName = $scope.params.investmentName;
@@ -149,7 +150,8 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
     // 查询项目看板 - 已终止
     $scope.getProjectList4 = function(){
         $scope.paginationConf4.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf4.queryObj.wf_state = '3';
+        $scope.paginationConf4.queryObj.stageList = ['6', '7'];
+        $scope.paginationConf4.queryObj.wf_state = '2';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf4.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf4.queryObj.investmentName = $scope.params.investmentName;
@@ -200,7 +202,7 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
         });
     };
 
-    $scope.getProjectList = function (){
+    $scope.getProjectHighList = function (){
         $scope.getProjectList1();
         $scope.getProjectList2();
         $scope.getProjectList3();
@@ -209,7 +211,7 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
         $("#publicProjectName").val('');
     };
 
-    $scope.cancel = function () {
+    $scope.cancelHighList = function () {
         if (!isEmpty($scope.params)) {
             $scope.params.projectName = '';
             $scope.params.investmentName = '';
@@ -219,7 +221,7 @@ ctmApp.register.controller('projectBoardHighList', ['$routeParams','$http','$sco
             $scope.params.projectType = '';
             $scope.params.applyDateEnd = '';
             $scope.params.applyDateStart = '';
-            $scope.getProjectList();
+            $scope.getProjectHighList();
         }
     };
 

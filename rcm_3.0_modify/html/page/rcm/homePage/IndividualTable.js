@@ -509,7 +509,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.getProjectHighList6 = function(){
         $scope.paginationConf6.queryObj.userId = $scope.credentials.UUID;
         $scope.paginationConf6.queryObj.stageList = ['1'];
-        $scope.paginationConf6.queryObj.wf_state_n = '3';
+        $scope.paginationConf6.queryObj.wf_state = '1';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf6.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf6.queryObj.investmentName = $scope.params.investmentName;
@@ -537,7 +537,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     $scope.getProjectHighList7 = function(){
         $scope.paginationConf7.queryObj.userId = $scope.credentials.UUID;
         $scope.paginationConf7.queryObj.stageList = ['2', '3'];
-        $scope.paginationConf7.queryObj.wf_state_n = '3';
+        $scope.paginationConf7.queryObj.wf_state = "'1', '2'";
         if (!isEmpty($scope.params)) {
             $scope.paginationConf7.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf7.queryObj.investmentName = $scope.params.investmentName;
@@ -563,8 +563,8 @@ ctmApp.register.controller('IndividualTable', ['$routeParams','$http', '$scope',
     // 查询项目看板 - 已完成
     $scope.getProjectHighList8 = function(){
         $scope.paginationConf8.queryObj.userId = $scope.credentials.UUID;
-        $scope.paginationConf8.queryObj.stageList = ['4', '5'];
-        $scope.paginationConf8.queryObj.wf_state_n = '3';
+        $scope.paginationConf8.queryObj.stageList = ['4'];
+        $scope.paginationConf8.queryObj.wf_state = '2';
         if (!isEmpty($scope.params)) {
             $scope.paginationConf8.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf8.queryObj.investmentName = $scope.params.investmentName;

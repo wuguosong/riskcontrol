@@ -414,7 +414,7 @@
 
         <ul class="nav nav-tabs bs-tabdrop-example">
             <li class="{{tabIndex=='0'?'active':''}}">
-                <a href="/#bs-tabdrop-tab1" data-toggle="tab">申请中 <span
+                <a href="/#bs-tabdrop-tab1" data-toggle="tab">申请阶段 <span
                         class="uibadge ">{{paginationConf6.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='1'?'active':''}}">
@@ -452,7 +452,7 @@
                                         <!--<th>评审负责人</th>
                                         <th>法律负责人</th>-->
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -483,12 +483,12 @@
                                         <td>{{p.PERTAINAREANAME}}</td>
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -518,7 +518,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -551,12 +551,12 @@
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
                                         <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -585,7 +585,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -618,12 +618,12 @@
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
                                         <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -652,7 +652,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -685,12 +685,12 @@
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
                                         <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -719,7 +719,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -2129,7 +2129,7 @@
 
         <ul class="nav nav-tabs bs-tabdrop-example">
             <li class="{{tabIndex=='0'?'active':''}}">
-                <a href="/#bs-tabdrop-tab1" data-toggle="tab">申请中 <span
+                <a href="/#bs-tabdrop-tab1" data-toggle="tab">申请阶段 <span
                         class="uibadge ">{{paginationConf1.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='1'?'active':''}}">
@@ -2137,7 +2137,7 @@
                         class="uibadge ">{{paginationConf2.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='2'?'active':''}}">
-                <a href="/#bs-tabdrop-tab3" data-toggle="tab">待上会 <span
+                <a href="/#bs-tabdrop-tab3" data-toggle="tab">准备上会 <span
                         class="uibadge ">{{paginationConf3.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='3'?'active':''}}">
@@ -2167,7 +2167,7 @@
                                         <!--<th>评审负责人</th>
                                         <th>法律负责人</th>-->
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -2208,12 +2208,12 @@
                                         <!--<td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>-->
                                         <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -2243,7 +2243,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -2284,12 +2284,12 @@
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
                                         <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -2318,7 +2318,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -2359,12 +2359,12 @@
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
                                         <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -2393,7 +2393,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -2434,12 +2434,12 @@
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
                                         <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                                        <td>
-                                            <div ng-if="'0'== p.WF_STATE">起草中</div>
-                                            <div ng-if="'1'== p.WF_STATE">审批中</div>
-                                            <div ng-if="'2'== p.WF_STATE">已审批</div>
-                                            <div ng-if="'3'== p.WF_STATE">已终止</div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
+                                            <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
+                                            <!--<div ng-if="'2'== p.WF_STATE">已审批</div>-->
+                                            <!--<div ng-if="'3'== p.WF_STATE">已终止</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -2468,7 +2468,7 @@
                                         <th>评审负责人</th>
                                         <th>法律负责人</th>
                                         <th>申请时间</th>
-                                        <th>评审状态</th>
+                                        <!--<th>评审状态</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
