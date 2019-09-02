@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.formalAssessment.dao.IFormalMarkMapper">
+	<select id="queryMarks" parameterType="string" resultType="map">
+		select * from rcm_formalAssessment_marks f where f.businessid = #{businessId}
+	</select>
+	<update id="update">
+		update rcm_formalAssessment_marks m  
+		 <trim prefix="set" suffixOverrides=",">
+			<if test="flowMark != null and flowMark != ''"> flowMark = #{flowMark,jdbcType=INTEGER} ,</if>
+			<if test="flowMarkDetail != null and flowMarkDetail != ''">flowMarkDetail = #{flowMarkDetail,jdbcType=VARCHAR} ,</if>
+			<if test="flowMarkReason != null and flowMarkReason != ''">flowMarkReason = #{flowMarkReason,jdbcType=VARCHAR} ,</if>
+			
+			<if test="fileCopy != null and fileCopy != ''"> fileCopy = #{fileCopy,jdbcType=INTEGER} ,</if>
+			<if test="fileCopyDetail != null and fileCopyDetail != ''">fileCopyDetail = #{fileCopyDetail,jdbcType=VARCHAR} ,</if>
+			<if test="fileCopyReason != null and fileCopyReason != ''">fileCopyReason = #{fileCopyReason,jdbcType=VARCHAR} ,</if>
+			
+			<if test="fileTime != null and fileTime != ''"> fileTime = #{fileTime,jdbcType=INTEGER} ,</if>
+			<if test="fileTimeDetail != null and fileTimeDetail != ''">fileTimeDetail = #{fileTimeDetail,jdbcType=VARCHAR} ,</if>
+			<if test="fileTimeReason != null and fileTimeReason != ''">fileTimeReason = #{fileTimeReason,jdbcType=VARCHAR} ,</if>
+		 
+			<if test="fileContent != null and fileContent != ''"> fileContent = #{fileContent,jdbcType=INTEGER},</if>
+			<if test="fileContentDetail != null and fileContentDetail != ''">fileContentDetail = #{fileContentDetail,jdbcType=VARCHAR} ,</if>
+			<if test="fileContentReason != null and fileContentReason != ''">fileContentReason = #{fileContentReason,jdbcType=VARCHAR} ,</if>
+		 
+			<if test="moneyCalculate != null and moneyCalculate != ''"> moneyCalculate = #{moneyCalculate,jdbcType=INTEGER},</if>
+			<if test="moneyCalculateDetail != null and moneyCalculateDetail != ''">moneyCalculateDetail = #{moneyCalculateDetail,jdbcType=VARCHAR} ,</if>
+			<if test="moneyCalculateReason != null and moneyCalculateReason != ''">moneyCalculateReason = #{moneyCalculateReason,jdbcType=VARCHAR} ,</if>
+		 
+			<if test="reviewFileAccuracy != null and reviewFileAccuracy != ''"> reviewFileAccuracy = #{reviewFileAccuracy,jdbcType=INTEGER},</if>
+			<if test="reviewFileAccuracyDetail != null and reviewFileAccuracyDetail != ''">reviewFileAccuracyDetail = #{reviewFileAccuracyDetail,jdbcType=VARCHAR} ,</if>
+			<if test="reviewFileAccuracyReason != null and reviewFileAccuracyReason != ''">reviewFileAccuracyReason = #{reviewFileAccuracyReason,jdbcType=VARCHAR} ,</if>
+		 
+			<if test="riskControl != null and riskControl != ''"> riskControl = #{riskControl,jdbcType=INTEGER},</if>
+			<if test="riskControlDetail != null and riskControlDetail != ''">riskControlDetail = #{riskControlDetail,jdbcType=VARCHAR} ,</if>
+			<if test="riskControlReason != null and riskControlReason != ''">riskControlReason = #{riskControlReason,jdbcType=VARCHAR} ,</if>
+		 
+			<if test="planDesign != null and planDesign != ''"> planDesign = #{planDesign,jdbcType=INTEGER},</if>
+			<if test="planDesignDetail != null and planDesignDetail != ''">planDesignDetail = #{planDesignDetail,jdbcType=VARCHAR} ,</if>
+			<if test="planDesignReason != null and planDesignReason != ''">planDesignReason = #{planDesignReason,jdbcType=VARCHAR} ,</if>
+		 
+			<if test="legalFileAccuracy != null and legalFileAccuracy != ''"> legalFileAccuracy = #{legalFileAccuracy,jdbcType=INTEGER},</if>
+			<if test="legalFileAccuracyDetail != null and legalFileAccuracyDetail != ''">legalFileAccuracyDetail = #{legalFileAccuracyDetail,jdbcType=VARCHAR} ,</if>
+			<if test="legalFileAccuracyReason != null and legalFileAccuracyReason != ''">legalFileAccuracyReason = #{legalFileAccuracyReason,jdbcType=VARCHAR} ,</if>
+		 
+			<if test="talks != null and talks != ''"> talks = #{talks,jdbcType=INTEGER},</if>
+			<if test="talksDetail != null and talksDetail != ''">talksDetail = #{talksDetail,jdbcType=VARCHAR} ,</if>
+			<if test="talksReason != null and talksReason != ''">talksReason = #{talksReason,jdbcType=VARCHAR} ,</if>
+		 
+		 	
+		 	<if test="heGuiTotalMark != null and heGuiTotalMark != ''"> heGuiTotalMark = #{heGuiTotalMark,jdbcType=INTEGER},</if>
+			<if test="fileTotalMark != null and fileTotalMark != ''">fileTotalMark = #{fileTotalMark,jdbcType=INTEGER} ,</if>
+			<if test="heXinTotalMark != null and heXinTotalMark != ''">heXinTotalMark = #{heXinTotalMark,jdbcType=INTEGER} ,</if>
+			<if test="allTotalMark != null and allTotalMark != ''">allTotalMark = #{allTotalMark,jdbcType=DOUBLE} ,</if>
+		 </trim>
+		where m.businessid = #{businessId} 
+	</update>
+	
+	<insert id="save">
+		insert into rcm_formalAssessment_marks 
+		(
+			businessId,
+			flowMark,
+			flowMarkDetail,
+			flowMarkReason,
+			fileCopy,
+			fileCopyDetail,
+			fileCopyReason,
+			fileTime,
+			fileTimeDetail,
+			fileTimeReason,
+			fileContent,
+			fileContentDetail,
+			fileContentReason,
+			moneyCalculate,
+			moneyCalculateDetail,
+			moneyCalculateReason,
+			reviewFileAccuracy,
+			reviewFileAccuracyDetail,
+			reviewFileAccuracyReason,
+			riskControl,
+			riskControlDetail,
+			riskControlReason,
+			planDesign,
+			planDesignDetail,
+			planDesignReason,
+			legalFileAccuracy,
+			legalFileAccuracyDetail,
+			legalFileAccuracyReason,
+			talks,
+			talksDetail,
+			talksReason
+		)
+		values (
+			#{businessId},
+			#{flowMark,jdbcType=INTEGER},
+			#{flowMarkDetail,jdbcType=VARCHAR},
+			#{flowMarkReason,jdbcType=VARCHAR},
+			
+			#{fileCopy,jdbcType=INTEGER},
+			#{fileCopyDetail,jdbcType=VARCHAR},
+			#{fileCopyReason,jdbcType=VARCHAR},
+			
+			#{fileTime,jdbcType=INTEGER},
+			#{fileTimeDetail,jdbcType=VARCHAR},
+			#{fileTimeReason,jdbcType=VARCHAR},
+			
+			#{fileContent,jdbcType=INTEGER},
+			#{fileContentDetail,jdbcType=VARCHAR},
+			#{fileContentReason,jdbcType=VARCHAR},
+			
+			#{moneyCalculate,jdbcType=INTEGER},
+			#{moneyCalculateDetail,jdbcType=VARCHAR},
+			#{moneyCalculateReason,jdbcType=VARCHAR},
+			
+			#{reviewFileAccuracy,jdbcType=INTEGER},
+			#{reviewFileAccuracyDetail,jdbcType=VARCHAR},
+			#{reviewFileAccuracyReason,jdbcType=VARCHAR},
+			
+			#{riskControl,jdbcType=INTEGER},
+			#{riskControlDetail,jdbcType=VARCHAR},
+			#{riskControlReason,jdbcType=VARCHAR},
+			
+			#{planDesign,jdbcType=INTEGER},
+			#{planDesignDetail,jdbcType=VARCHAR},
+			#{planDesignReason,jdbcType=VARCHAR},
+			
+			#{legalFileAccuracy,jdbcType=INTEGER},
+			#{legalFileAccuracyDetail,jdbcType=VARCHAR},
+			#{legalFileAccuracyReason,jdbcType=VARCHAR},
+			
+			#{talks,jdbcType=INTEGER},
+			#{talksDetail,jdbcType=VARCHAR},
+			#{talksReason,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+</mapper>

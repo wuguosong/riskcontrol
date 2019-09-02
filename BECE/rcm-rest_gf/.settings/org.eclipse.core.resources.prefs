@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//bin/src/main/resources/dev_db.properties=UTF-8
+encoding//bin/src/main/resources/test_db.properties=UTF-8
+encoding//src/main/resources/dev_db.properties=UTF-8
+encoding//src/test/java=utf8

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.power.dao.IOrgMapper">
+	
+	<select id="queryAllOrg"  parameterType="hashmap" resultType="hashmap">
+		select o.ORGPKVALUE,o.name name,p.name pname from sys_org o left join sys_org p on o.PARENTPKVALUE=p.ORGPKVALUE
+		where 1 = 1
+		<if test="ORGNAME != null and ORGNAME != ''">
+			and o.name like '%${ORGNAME}%'
+		</if>
+	</select>
+	
+	<select id="queryByPkvalue" parameterType="string" resultType="hashmap">
+		select * from sys_org where orgpkvalue=#{orgpkvalue,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryPertainAreaByPkvalue" parameterType="map" resultType="hashmap">
+		select o.* from sys_org o where code in
+		<foreach collection="areaCodes" item="code" open="(" close=")" separator=",">
+			#{code}
+		</foreach>
+ 		start with orgpkvalue = #{reportUnitId}
+		connect by o.orgpkvalue = prior o.PARENTPKVALUE
+	</select>
+	
+	<!-- <select id="queryGroupUserInfo" parameterType="map" resultType="hashmap">
+		select * from sys_group_user_reportingunit g where g.reportingunit_id=
+		(select orgpkvalue from sys_org o where o.PARENTPKVALUE=(
+		select orgpkvalue from sys_org where code=#{rootCode})
+		 start with o.CATEGORYCODE = 'Dept' and o.orgpkvalue=(
+		 select decode(orgcode,#{rootCode}, deptpkvalue, orgpkvalue) from sys_user u where u.UUID=#{userId})
+		connect by orgpkvalue=prior parentpkvalue
+		union
+		select orgpkvalue from sys_org so where so.CATEGORYCODE='Org' and so.ORGPKVALUE=(
+		 select decode(orgcode,#{rootCode}, deptpkvalue, orgpkvalue) from sys_user u where u.UUID=#{userId}))
+	</select> -->
+	<select id="queryGroupUserInfo" parameterType="map" resultType="hashmap">
+		select * from sys_group_user_reportingunit g where g.reportingunit_id=
+	    (select orgpkvalue from sys_org o where o.PARENTPKVALUE=(
+	    select orgpkvalue from sys_org where code=#{rootCode})
+	     start with o.CATEGORYCODE = 'Dept' and o.orgpkvalue=(
+	     select decode(orgcode,#{rootCode}, deptpkvalue, orgpkvalue) from sys_user u where u.UUID=#{userId})
+	    connect by orgpkvalue=prior parentpkvalue
+	    union
+	    select orgpkvalue from sys_org so where exists
+	    (select 1 from sys_group_user_reportingunit gr where gr.reportingunit_id=so.ORGPKVALUE )
+	     start with so.CATEGORYCODE='Org' and so.ORGPKVALUE=(
+	     select decode(orgcode,#{rootCode}, deptpkvalue, orgpkvalue) from sys_user u where u.UUID=#{userId})
+	    connect by orgpkvalue=prior parentpkvalue)
+	</select>
+	
+	<select id="queryReportOrg" parameterType="map" resultType="hashmap">
+		select reportingunit_name orgname, reportingunit_id orgid,companyheader_name fzrname,
+		companyheader_id fzrid from sys_group_user_reportingunit g where 1=1  
+		<if test="orgname!=null and orgname!=''"> and reportingunit_name like '%${orgname}%'</if>
+	</select>
+	
+	<select id="queryCommonOrg" resultType="map" useCache="false">
+		select o.ORGPKVALUE as id, o.PARENTPKVALUE as pid, o.NAME, o.ISPARENT, o.CATEGORYCODE from sys_org_ext o 
+		where o.CATEGORYCODE='Org' 
+		<choose>
+			<when test="parentId!=null and parentId != ''">
+				and o.PARENTPKVALUE = #{parentId} 
+			</when>
+			<otherwise>
+				and o.PARENTPKVALUE is null
+			</otherwise>
+		</choose>
+			order by o.CATEGORYCODE, o.CODE
+	</select>
+	
+	<select id="queryPertainArea" parameterType="map" resultType="hashmap">
+		select o.* from sys_org o 
+		where o.PARENTPKVALUE = (select orgpkvalue from sys_org obj where obj.CODE = #{code})
+ 		start with o.orgpkvalue = #{reportUnitId}
+		connect by o.orgpkvalue = prior o.PARENTPKVALUE
+	</select>
+</mapper>

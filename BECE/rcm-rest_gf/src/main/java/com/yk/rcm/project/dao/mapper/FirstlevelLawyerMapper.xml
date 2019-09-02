@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.project.dao.IFirstlevelLawyerMapper">
+
+	<insert id="save" parameterType="map">
+		insert into rcm_firstlevel_lawyer(id, serviceTypeKey, lawyerId) values
+		(#{id},#{serviceTypeKey},#{lawyerId})
+	</insert>
+	
+	<select id="queryAll" resultType="hashmap">
+		select id,serviceTypeKey,lawyerId,
+		(select value from sync_business_model where key=f.servicetypekey and dic_type='0' and parent_id is null)  as serviceTypeValue,
+		(select name from sys_user where uuid=f.lawyerid) as lawyerName 
+		from rcm_firstlevel_lawyer f
+	</select>
+	
+	<select id="queryByServiceTypes" parameterType="map" resultType="hashmap">
+		select distinct lawyerId,
+       (select name from sys_user where uuid = f.lawyerid) as lawyerName 
+		from rcm_firstlevel_lawyer f where f.servicetypekey in 
+		<foreach collection="serviceTypes" item="serviceType" open="(" close=")" separator=",">
+			#{serviceType}
+		</foreach>
+	</select>
+    
+    <update id="updateById" parameterType="map">
+    	update rcm_firstlevel_lawyer set serviceTypeKey=#{serviceTypeKey}, lawyerId=#{lawyerId} where id=#{id}
+    </update>
+</mapper>

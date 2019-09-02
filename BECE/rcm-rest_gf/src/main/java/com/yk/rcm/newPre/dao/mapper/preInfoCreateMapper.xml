@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.newPre.dao.IPreInfoCreateMapper">
+	<!-- 新增数据到Oracle -->
+	<insert id="insert" parameterType="map">
+	    insert into rcm_pre_info 
+		(
+			BUSINESSID, 
+			PROJECTNAME, 
+			PROJECTNUM, 
+			SERVICETYPE_ID, 
+			INVESTMENT_MODEL, 
+			PROJECT_MODEL_IDS, 
+			NEED_MEETING, 
+			MEETING_DATE, 
+			IS_SUPPLEMENT_REVIEW, 
+			EMERGENCYLEVEL, 
+			ISURGENT, 
+			PERTAINAREAID, 
+			ISTZ, 
+			WF_STATE, 
+			CREATE_DATE, 
+			APPLY_DATE, 
+			COMPLETE_DATE, 
+			LAST_UPDATE_DATE, 
+			OLDDATA, 
+			CREATEBY, 
+			STAGE, 
+			LARGEAREAPERSONID, 
+			SERVICETYPEPERSONID, 
+			TASKPERSONID, 
+			REVIEWPERSONID, 
+			majorMemberIds,
+			fixedgrouppersonids,
+			REPORTINGUNIT_ID,
+			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+			GRASSROOTSLEGALPERSONID
+			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+		)
+		values (
+			#{businessId,jdbcType=VARCHAR}, 
+			#{projectName,jdbcType=VARCHAR}, 
+			#{projectNum,jdbcType=VARCHAR}, 
+			#{serviceType_id,jdbcType=VARCHAR}, 
+			#{investmentModel,jdbcType=VARCHAR}, 
+			#{project_model_ids,jdbcType=VARCHAR}, 
+			#{need_meeting,jdbcType=VARCHAR}, 
+			to_date(#{meeting_date,jdbcType=VARCHAR},'yyyy-mm-dd'), 
+			#{is_supplement_review,jdbcType=VARCHAR}, 
+			#{emergencyLevel,jdbcType=VARCHAR}, 
+			#{isUrgent,jdbcType=VARCHAR}, 
+			#{pertainAreaId,jdbcType=VARCHAR}, 
+			#{isTZ,jdbcType=VARCHAR}, 
+			#{wf_state,jdbcType=VARCHAR}, 
+			to_date(#{create_date,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss'), 
+			to_date(#{apply_date,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss'), 
+			to_date(#{complete_date,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss'), 
+			to_date(#{last_update_date,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss'), 
+			#{oldData,jdbcType=VARCHAR}, 
+			#{createBy,jdbcType=VARCHAR}, 
+			#{stage,jdbcType=VARCHAR}, 
+			#{largeAreaPersonId,jdbcType=VARCHAR}, 
+			#{serviceTypePersonId,jdbcType=VARCHAR}, 
+			#{taskPersonId,jdbcType=VARCHAR}, 
+			#{reviewPersonId,jdbcType=VARCHAR}, 
+			#{majorMemberIds,jdbcType=VARCHAR},
+			#{fixedGroupPersonIds,jdbcType=VARCHAR},
+			#{reportingUnitId,jdbcType=VARCHAR},
+			/*start添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+			#{grassrootslegalpersonId,jdbcType=VARCHAR}
+			/*ene添加了法律评审选择和审批节点 Add by LiPan 2019-05-24*/
+		)
+	</insert>
+	
+	<!-- 通过ID修改数据库中的数据 -->
+	<update id="update" parameterType="map">
+		update rcm_pre_info f 
+		   set f.projectName = #{projectName},
+		       f.projectNum = #{projectNum},
+		       f.serviceType_id = #{serviceType_id},
+		       f.investment_model = #{investment_model},
+		       f.project_model_ids = #{project_model_ids,jdbcType=VARCHAR},
+		       f.need_meeting = #{need_meeting},
+		       f.meeting_date = to_date(#{meeting_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.is_supplement_review = #{is_supplement_review},
+		       f.emergencyLevel = #{emergencyLevel,jdbcType=VARCHAR},
+		       f.isurgent = #{isurgent},
+		       f.REPORTINGUNIT_ID = #{reportingUnitId,jdbcType=VARCHAR},
+		       f.pertainAreaId = #{pertainAreaId,jdbcType=VARCHAR},
+		       f.isTZ = #{isTZ,jdbcType=VARCHAR},
+		       f.wf_state = #{wf_state},
+		       f.create_date = to_date(#{create_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.apply_date = to_date(#{apply_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.complete_date = to_date(#{complete_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.stage = #{stage,jdbcType=VARCHAR},
+		       f.oldData = #{oldData,jdbcType=VARCHAR},
+		       f.createby = #{createBy},
+		       f.last_update_date = to_date(#{last_update_date,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss'),
+		       f.GRASSROOTSLEGALPERSONID = #{grassrootslegalpersonId,jdbcType=VARCHAR}  
+		 where f.BUSINESSID = #{businessId}
+	</update>
+	
+	<!-- 通过业务ID删除项目数据 -->
+	<delete id="delete" parameterType="string">
+		delete from rcm_pre_info i where i.businessid = #{id}
+	</delete>
+	
+	<!-- 查询新增项目列表 -->
+	<select id="getNewProjectList" resultType="map"  parameterType="map">
+		select * from (
+			select 
+			(
+              '/'||i.businessid||'@'||
+              (select a.proc_def_id_ from act_hi_procinst a where a.proc_inst_id_ = hp.procinstid)||'@'||hp.procinstid||'@@'
+			) oldUrl,
+			i.*,
+	      	(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName ,
+	      	(select o.NAME from sys_org o where o.ORGPKVALUE = i.reportingunit_id) reportingunitName ,
+	      	(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName 
+	    	from rcm_pre_info i ,(select p.business_key_,MAX(p.proc_inst_id_) procinstid from act_hi_procinst p where p.proc_def_id_ in (
+			       select id_ from act_re_procdef pf where pf.key_ in ('preAssessment','preReview')
+			) group by p.business_key_ ) hp where i.businessid = hp.business_key_ (+)
+	    ) ta
+    	where 1 = 1 
+    	  and ta.isTZ = '0'
+    	  and ta.wf_state = '0'
+    	<if test="createBy != null and createBy != ''"> and	ta.createby = #{createBy}</if>
+    	<if test="projectUnitName != null and projectUnitName != ''"> and	ta.pertainareaName like '%${projectUnitName}%'</if>
+    	<if test="projectName != null and projectName != ''"> and	ta.projectName like '%${projectName}%' </if>
+    	<if test="wf_state != null and wf_state != ''"> and	ta.wf_state in (${wf_state})</if>
+    	<if test="areaId != null and areaId != ''">  and ta.pertainAreaId = #{areaId}</if>
+    	<if test="serviceTypeId != null and serviceTypeId != ''"> and	ta.servicetype_id = #{serviceTypeId}</if>
+    	<if test="stages != null and stages != ''"> and	ta.stage in (${stages})</if>
+    	order by ta.create_date desc
+	</select>
+	
+	<!-- 通过业务ID获取项目数据 -->
+	<select id="getProjectByID" parameterType="string" resultType="map">
+		select * from RCM_PRE_INFO i  
+		where i.businessid = #{businessId}
+	</select>
+	
+	<!-- 修改投资经理是否提交参会信息标识 -->
+	<update id="updateManagerSubmitState" parameterType="hashmap">
+		update RCM_PRE_INFO 
+		   set is_investmentmanager_submit=#{is_investmentmanager_submit},
+		       need_meeting=#{need_meeting},
+		       metting_commit_time=to_date(#{metting_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss')  
+		 where businessid in (#{businessId,jdbcType=VARCHAR})
+	</update>
+</mapper>

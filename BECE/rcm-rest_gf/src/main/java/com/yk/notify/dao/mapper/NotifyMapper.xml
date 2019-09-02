@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.notify.dao.INotifyMapper">
+    <resultMap id="notifyMap" type="com.yk.notify.entity.Notify">
+        <id column="notify_id" property="notifyId" javaType="java.lang.Long"/>
+        <result column="notify_type" property="notifyType" javaType="java.lang.String"/>
+        <result column="business_module" property="businessModule" javaType="java.lang.String"/>
+        <result column="business_id" property="businessId" javaType="java.lang.String"/>
+        <result column="associate_id" property="associateId" javaType="java.lang.String"/>
+        <result column="notify_user" property="notifyUser" javaType="java.lang.String"/>
+        <result column="notify_user_name" property="notifyUserName" javaType="java.lang.String"/>
+        <result column="notify_comments" property="notifyComments" javaType="java.lang.String"/>
+        <result column="notify_date" property="notifyDate" javaType="java.sql.Timestamp"/>
+        <result column="portal_status" property="portalStatus" javaType="java.lang.String"/>
+        <result column="message_status" property="messageStatus" javaType="java.lang.String"/>
+        <result column="notify_url" property="notifyUrl" javaType="java.lang.String"/>
+        <result column="notify_status" property="notifyStatus" javaType="java.lang.String"/>
+        <result column="notify_created" property="notifyCreated" javaType="java.lang.String"/>
+        <result column="notify_created_name" property="notifyCreatedName" javaType="java.lang.String"/>
+    </resultMap>
+    <sql id="baseColumn">
+	   notify_id,
+	   notify_type,
+       business_module,
+       business_id,
+       associate_id,
+       notify_user,
+       notify_user_name,
+       notify_comments,
+       notify_date,
+       portal_status,
+       message_status,
+       notify_url,
+       notify_status,
+       notify_created,
+       notify_created_name
+	</sql>
+    <select id="selectNotifies" resultMap="notifyMap">
+        select
+        <include refid="baseColumn"/>
+        from sys_notify
+        where 1 = 1
+        <if test="business_module != null and business_module != ''">
+            and business_module = #{business_module}
+        </if>
+        <if test="business_id != null and business_id != ''">
+            and business_id = #{business_id}
+        </if>
+        <if test="notify_type != null and notify_type != ''">
+            and notify_type = #{notify_type}
+        </if>
+        order by notify_id, notify_date desc
+    </select>
+    <select id="selectNotifyById" resultMap="notifyMap">
+        select
+        <include refid="baseColumn"/>
+        from sys_notify
+        where 1 = 1
+        <if test="notify_id != null and notify_id != ''">
+            and notify_id = #{notify_id}
+        </if>
+        order by notify_id, notify_date desc
+    </select>
+    <select id="modifyNotify" parameterType="com.yk.notify.entity.Notify">
+        update sys_notify set
+		business_module = #{notify.businessModule},
+		notify_type = #{notify.notifyType},
+		business_id = #{notify.businessId},
+		associate_id = #{notify.associateId},
+		notify_user = #{notify.notifyUser},
+		notify_user_name = #{notify.notifyUserName},
+		notify_comments = #{notify.notifyComments},
+		notify_date = #{notify.notifyDate},
+		portal_status = #{notify.portalStatus},
+		message_status = #{notify.messageStatus},
+		notify_url = #{notify.notifyUrl},
+		notify_status = #{notify.notifyStatus},
+		notify_created = #{notify.notifyCreated},
+		notify_created_name = #{notify.notifyCreatedName}
+		where notify_id = #{notify.notifyId}
+    </select>
+    <insert id="insertNotify" parameterType="com.yk.notify.entity.Notify">
+		insert into sys_notify
+		values(
+        sys_notify_seq.nextval,
+        #{notify.notifyType},
+		#{notify.businessModule},
+		#{notify.businessId},
+		#{notify.associateId},
+		#{notify.notifyUser},
+		#{notify.notifyUserName},
+		#{notify.notifyComments},
+		#{notify.notifyDate},
+		#{notify.portalStatus},
+        #{notify.messageStatus},
+        #{notify.notifyUrl},
+        #{notify.notifyStatus},
+		#{notify.notifyCreated},
+		#{notify.notifyCreatedName}
+		)
+	</insert>
+    <delete id="removeNotify">
+      delete from sys_notify
+      where notify_id = #{notify_id}
+    </delete>
+    <delete id="removeNotifyMultipleParameters">
+        delete from sys_notify
+        where business_module = #{business_module}
+        and business_id = #{business_id}
+    </delete>
+    <select id="selectNotifyInfo" resultType="com.alibaba.fastjson.JSONObject">
+        select
+        t.*
+        from
+        (
+          select
+          tmp.*,
+          row_number()over(partition by tmp.business_key_,tmp.notify_user,tmp.notify_id order by tmp.order_by desc, tmp.task_time desc ) as idx
+          from
+          (
+            select
+            n.notify_id as "NOTIFY_ID",
+            n.associate_id as "ASSOCIATE_ID",
+            n.notify_user as "NOTIFY_USER",
+            n.notify_status as "NOTIFY_STATUS",
+            n.notify_type as "NOTIFY_TYPE",
+            i.projectname as "SUBJECT",
+            n.business_module as "FORM_KEY_",
+            n.business_id as "BUSINESS_KEY_",
+            '投标评审' as "TYPE_TEXT",
+            g.taskdesc as "NAME_",
+            i.create_date as "CREATE_TIME_",
+            case g.iswaiting
+            when '0'
+            then g.createtime
+            else sysdate
+            end
+            as "TASK_TIME",
+            g.orderby as "ORDER_BY"
+            from sys_notify n
+            left join rcm_pre_log g on n.business_id = g.businessid
+            left join rcm_pre_info i on i.businessid = g.businessid and i.businessid = n.business_id
+            where n.business_module = 'preReview'
+            and i.businessid = n.business_id
+            union
+            select
+            n.notify_id as "NOTIFY_ID",
+            n.associate_id as "ASSOCIATE_ID",
+            n.notify_user as "NOTIFY_USER",
+            n.notify_status as "NOTIFY_STATUS",
+            n.notify_type as "NOTIFY_TYPE",
+            i.projectname as "SUBJECT",
+            n.business_module as "FORM_KEY_",
+            n.business_id as "BUSINESS_KEY_",
+            '正式评审' as "TYPE_TEXT",
+            g.taskdesc as "NAME_",
+            i.create_date as "CREATE_TIME_",
+            case g.iswaiting
+            when '0'
+            then g.createtime
+            else sysdate
+            end
+            as "TASK_TIME",
+            g.orderby as "ORDER_BY"
+            from sys_notify n
+            left join rcm_formalassessment_log g on n.business_id = g.businessid
+            left join rcm_formalassessment_info i on i.businessid = g.businessid and i.businessid = n.business_id
+            where n.business_module = 'formalReview'
+            and i.businessid = n.business_id
+            union
+            select
+            n.notify_id as "NOTIFY_ID",
+            n.associate_id as "ASSOCIATE_ID",
+            n.notify_user as "NOTIFY_USER",
+            n.notify_status as "NOTIFY_STATUS",
+            n.notify_type as "NOTIFY_TYPE",
+            i.bulletinname as "SUBJECT",
+            n.business_module as "FORM_KEY_",
+            n.business_id as "BUSINESS_KEY_",
+            '其它评审' as "TYPE_TEXT",
+            g.taskdesc as "NAME_",
+            i.createtime as "CREATE_TIME_",
+            case g.iswaiting
+            when '0'
+            then g.createtime
+            else sysdate
+            end
+            as "TASK_TIME",
+            g.orderby as "ORDER_BY"
+            from sys_notify n
+            left join rcm_bulletin_log g on n.business_id = g.businessid
+            left join rcm_bulletin_info i on i.businessid = g.businessid
+            where n.business_module = 'bulletin'
+            and i.businessid = n.business_id
+          ) tmp
+        ) t
+        where t.idx = 1
+        and t.notify_user = #{curUserUuid}
+    </select>
+    <select id="selectNotifyInfoPage" resultType="map">
+        select
+        t.*
+        from
+        (
+        select
+        tmp.*,
+        row_number()over(partition by tmp.business_key_,tmp.notify_user,tmp.notify_id order by tmp.order_by desc, tmp.task_time desc ) as idx
+        from
+        (
+        select
+        n.notify_id as "NOTIFY_ID",
+        n.associate_id as "ASSOCIATE_ID",
+        n.notify_user as "NOTIFY_USER",
+        n.notify_status as "NOTIFY_STATUS",
+        n.notify_type as "NOTIFY_TYPE",
+        i.projectname as "SUBJECT",
+        n.business_module as "FORM_KEY_",
+        n.business_id as "BUSINESS_KEY_",
+        '投标评审' as "TYPE_TEXT",
+        g.taskdesc as "NAME_",
+        i.create_date as "CREATE_TIME_",
+        case g.iswaiting
+        when '0'
+        then g.createtime
+        else sysdate
+        end
+        as "TASK_TIME",
+        g.orderby as "ORDER_BY"
+        from sys_notify n
+        left join rcm_pre_log g on n.business_id = g.businessid
+        left join rcm_pre_info i on i.businessid = g.businessid and i.businessid = n.business_id
+        where n.business_module = 'preReview'
+        and i.businessid = n.business_id
+        union
+        select
+        n.notify_id as "NOTIFY_ID",
+        n.associate_id as "ASSOCIATE_ID",
+        n.notify_user as "NOTIFY_USER",
+        n.notify_status as "NOTIFY_STATUS",
+        n.notify_type as "NOTIFY_TYPE",
+        i.projectname as "SUBJECT",
+        n.business_module as "FORM_KEY_",
+        n.business_id as "BUSINESS_KEY_",
+        '正式评审' as "TYPE_TEXT",
+        g.taskdesc as "NAME_",
+        i.create_date as "CREATE_TIME_",
+        case g.iswaiting
+        when '0'
+        then g.createtime
+        else sysdate
+        end
+        as "TASK_TIME",
+        g.orderby as "ORDER_BY"
+        from sys_notify n
+        left join rcm_formalassessment_log g on n.business_id = g.businessid
+        left join rcm_formalassessment_info i on i.businessid = g.businessid and i.businessid = n.business_id
+        where n.business_module = 'formalReview'
+        and i.businessid = n.business_id
+        union
+        select
+        n.notify_id as "NOTIFY_ID",
+        n.associate_id as "ASSOCIATE_ID",
+        n.notify_user as "NOTIFY_USER",
+        n.notify_status as "NOTIFY_STATUS",
+        n.notify_type as "NOTIFY_TYPE",
+        i.bulletinname as "SUBJECT",
+        n.business_module as "FORM_KEY_",
+        n.business_id as "BUSINESS_KEY_",
+        '其它评审' as "TYPE_TEXT",
+        g.taskdesc as "NAME_",
+        i.createtime as "CREATE_TIME_",
+        case g.iswaiting
+        when '0'
+        then g.createtime
+        else sysdate
+        end
+        as "TASK_TIME",
+        g.orderby as "ORDER_BY"
+        from sys_notify n
+        left join rcm_bulletin_log g on n.business_id = g.businessid
+        left join rcm_bulletin_info i on i.businessid = g.businessid
+        where n.business_module = 'bulletin'
+        and i.businessid = n.business_id
+        ) tmp
+        ) t
+        where t.idx = 1
+        and t.notify_user = #{curUserUuid}
+        <if test="subject != null and subject != ''">
+            and t.subject like '%${subject}%'
+        </if>
+        <if test="notifyStatus != null and notifyStatus != ''">
+            and t.NOTIFY_STATUS = '${notifyStatus}'
+        </if>
+        <if test="processKey != null and processKey != ''">
+            and t.FORM_KEY_ = '${processKey}'
+        </if>
+        <if test="createTime != null and createTime != ''">
+            and to_char(t.CREATE_TIME_, 'yyyy-MM-dd') = '${createTime}'
+        </if>
+        order by t.CREATE_TIME_ desc
+    </select>
+    <delete id="removeNotifyByJson">
+        delete from sys_notify
+        where business_module = #{business_module}
+        and business_id = #{business_id}
+        and notify_user = #{notify_user}
+        and notify_created = #{notify_created}
+        <if test="notify_type != null and notify_type != ''">
+            and notify_type = #{notify_type}
+        </if>
+    </delete>
+</mapper>

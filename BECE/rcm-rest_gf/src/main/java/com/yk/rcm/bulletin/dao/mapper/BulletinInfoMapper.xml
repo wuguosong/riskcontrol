@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.bulletin.dao.IBulletinInfoMapper">
+	<select id="queryListByPage" parameterType="map" resultType="hashmap">
+		select * from (
+			select i.*,
+          (select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName ,
+          (select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+          (select d.item_name from sys_dictionary_item d where d.uuid = i.bulletintypeid) serviceType
+        from rcm_bulletin_info i 
+      ) ta
+    	where  1 = 1 
+    	<if test="createBy != null and createBy != ''"> and	ta.createby = #{createBy}</if>
+    	<if test="projectUnitName != null and projectUnitName != ''"> and	ta.pertainareaName like '%${projectUnitName}%'</if>
+    	<if test="projectName != null and projectName != ''"> and	ta.bulletinName like '%${projectName}%' </if>
+    	<if test="wf_state != null and wf_state != ''"> and	ta.auditstatus in (${wf_state})</if>
+    	<if test="wf_state == null or wf_state == ''"> and ta.auditstatus = '0'</if>
+    	<if test="areaId != null and areaId != ''">  and ta.pertainAreaId = #{areaId}</if>
+    	<if test="serviceTypeId != null and serviceTypeId != ''"> and	ta.bulletintypeid = #{serviceTypeId}</if>
+    	<if test="stages != null and stages != ''"> and	ta.stage in (${stages})</if>
+    	order by ta.createtime desc
+	</select>
+	<select id="queryByStageAndstate" parameterType="map" resultType="hashmap">
+		select * from rcm_bulletin_info where 1 = 1
+		<if test="stage != null and stage != ''">  and stage in (${stage})</if>
+		<if test="state != null and state != ''"> and auditstatus in  (${state}) </if>
+	</select>
+	<update id="updatePerson" parameterType="map">
+			update rcm_bulletin_info  
+		 <trim prefix="set" suffixOverrides=",">
+			<if test="legalLeaderId != null and legalLeaderId != ''"> legalLeaderId = #{legalLeaderId},</if>
+			<if test="reviewLeaderId != null and reviewLeaderId != ''">reviewLeaderId = #{reviewLeaderId} ,</if>
+		 </trim>
+		where businessid=#{businessId}
+	</update>
+	<insert id="save" parameterType="map">
+		insert into rcm_bulletin_info(bulletinname,bulletintypeid,businessid,applyunitid,
+		unitpersonid,createby,auditstatus,status,stage,PERTAINAREAID,projectname,projectnum)values(#{bulletinName},#{bulletinTypeId},
+		#{businessId},#{applyUnitId},#{unitPersonId},#{createBy},#{auditStatus},#{status},#{stage},#{pertainareaId},#{projectName},#{projectNum})
+	</insert>
+
+	<delete id="deleteByBusinessId" parameterType="string">
+		update rcm_bulletin_info set status='2' where businessid=#{businessId}
+	</delete>
+
+	<select id="queryApplyByPage" parameterType="map" resultType="hashmap">
+		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName,
+		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName,
+		 (select name from sys_user where uuid=t.createby) applyUserName,
+		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName 
+		from rcm_bulletin_info t where status='0' and auditstatus in('0', '3')
+		<if test="createBy!=null and createBy!=''"> and createby=#{createBy} </if> 
+		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%'||#{bulletinName}||'%'</if> 
+		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid = #{tbsxType}</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	
+	<select id="queryApplyedByPage" parameterType="map" resultType="hashmap">
+		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName,
+		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName,
+		 (select name from sys_user where uuid=t.createby) applyUserName,
+		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName 
+		 from rcm_bulletin_info t where status='0' and auditstatus in('1', '2')
+		<if test="createBy!=null and createBy!=''">and createby=#{createBy} </if> 
+		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%'||#{bulletinName}||'%' </if> 
+		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	
+	<select id="queryTbsxUserRelations" resultType="hashmap">
+		select ur.*,(select name from sys_user where uuid=ur.user_id) as username
+		from sys_user_role ur where ur.code like 'TBSX_BUSINESS%' AND UR.STATE = '1'
+	</select>
+	
+	<update id="updateByBusinessId" parameterType="map">
+		update rcm_bulletin_info set bulletinname=#{bulletinName},bulletintypeid=#{bulletinTypeId},
+		applyunitid=#{applyUnitId},unitpersonid=#{unitPersonId},PERTAINAREAID=#{pertainareaId} where businessid=#{businessId}
+	</update>
+	
+	<update id="deleteByIds" parameterType="map">
+		delete from rcm_bulletin_info  where businessid in
+		<foreach collection="ids" item="businessId" open="(" close=")" separator=",">
+			#{businessId}
+		</foreach>
+	</update>
+	
+	<select id="queryByBusinessId" parameterType="string" resultType="hashmap">
+		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName,
+		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName,
+		 (select name from sys_user where uuid=t.createby) applyUserName,
+		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName,
+		 (select item_code from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeCode  
+		 from rcm_bulletin_info t where businessid=#{businessId}
+	</select>
+	
+	<update id="updateAuditStatusByBusinessId" parameterType="map">
+		update rcm_bulletin_info set auditstatus=#{auditStatus} where businessid=#{businessId}
+	</update>
+	
+	<update id="updateAfterStartflow" parameterType="map">
+		update rcm_bulletin_info set auditstatus=#{auditStatus},applytime=#{applyTime}
+		 where businessid=#{businessId}
+	</update>
+	
+	<update id="updateAuditStageByBusinessId" parameterType="map">
+		update rcm_bulletin_info set stage=#{stage} where businessid=#{businessId}
+	</update>
+<!-- ============================================会议纪要============================================== -->
+	<!-- 未出会议纪要 -->
+	<select id="quaryMettingSummary" parameterType="map" resultType="hashmap">
+		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName,
+		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName,
+		 (select name from sys_user where uuid=t.createby) applyUserName,
+		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName 
+		from rcm_bulletin_info t where status='0' and stage in ('3','4')
+		<if test="createBy!=null and createBy!=''"> and createby=#{createBy} </if> 
+		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%'||#{bulletinName}||'%' </if> 
+		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	<!-- 已出会议纪要 -->
+	<select id="queryMettingSummaryed" parameterType="map" resultType="hashmap">
+		select t.*,(select name from sys_org where orgpkvalue=t.applyunitid) applyUnitName,
+		 (select name from sys_user where uuid=t.unitpersonid) unitPersonName,
+		 (select name from sys_user where uuid=t.createby) applyUserName,
+		 (select item_name from sys_dictionary_item where uuid=t.bulletintypeid) bulletinTypeName 
+		from rcm_bulletin_info t where status='0' and stage='5'
+		<if test="createBy!=null and createBy!=''"> and createby=#{createBy} </if> 
+		<if test="bulletinName!=null and bulletinName!=''"> and bulletinname like '%'||#{bulletinName}||'%' </if> 
+		<if test="tbsxType!=null and tbsxType!=''"> and bulletintypeid=#{tbsxType}</if> 
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	<!-- 保存之后修改stage状态为"5" -->
+	<update id="updateStage" parameterType="hashmap">
+		update rcm_bulletin_info set stage=#{stage},mettingSummaryTime=#{mettingSummaryTime}
+		 where businessid=#{businessId}
+	</update>
+	   <!-- 查询rcm_bulletin_info数据信息 -->
+	<select id="queryBulletin" parameterType="map" resultType="hashmap">
+    	select rcm.*,
+    	 to_char(rcm.APPLYTIME,'yyyy-mm-dd hh24:mi:ss') as APPLY_DATES,
+    	 to_char(rcm.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as CREATE_DATES
+    	 from rcm_bulletin_info rcm 
+    </select>
+    
+    <!-- 根据id修改事项类型的id -->
+	<update id="updateByBusinessIdWithBulletinypeId" parameterType="hashmap">
+		update rcm_bulletin_info set bulletintypeid=#{bulletinTypeId}
+		 where businessid=#{businessId}
+	</update>
+	
+	<!-- 统计所有的其他事项数量 -->
+	<select id="countAll" resultType="int" parameterType="map">
+		select count(1) from rcm_bulletin_info
+	</select>
+	
+	<update id="startPigeonholeByBusinessId" parameterType="map">
+		update rcm_bulletin_info set pigeonhole_Time = #{pigeonholeTime,jdbcType=TIMESTAMP},pigeonhole_Status = #{pigeonholeStatus} where businessId = #{businessId}
+	</update>
+	<update id="updatePigeStatByBusiId" parameterType="map">
+		update rcm_bulletin_info set pigeonhole_Status = #{pigeonholeStatus} where businessId = #{businessId}
+	</update>
+	<update id="cancelPigeonholeByBusinessId" parameterType="map">
+		update rcm_bulletin_info set pigeonhole_Time = #{pigeonholeTime,jdbcType=TIMESTAMP},pigeonhole_Status = #{pigeonholeStatus} where businessId = #{businessId}
+	</update>
+	
+	<update id="updatePertainAreaId" parameterType="map">
+		update rcm_bulletin_info set PERTAINAREAID = #{pertainAreaId} where ID = #{id}
+	</update>
+	
+	<select id="queryBulletinCount" resultType="map" parameterType="map">
+		select value , (select name from sys_org o where o.ORGPKVALUE = t.name ) name from (select count(*) value, pertainareaid name 
+		from rcm_bulletin_info where 1 = 1 and stage is not null
+		<if test="wf_state != null and wf_state != ''"> and AUDITSTATUS in (${wf_state})</if>
+		<if test="stage != null and stage != ''"> and stage in (${stage})</if>
+		<if test="stage == null or stage == ''"> and stage in ('1','1.5','2','3','4','5')</if>
+		<if test="pertainAreaId != null and pertainAreaId != ''"> and pertainareaid in (${pertainAreaId})</if>
+		<if test="serviceTypeId != null and serviceTypeId != ''"> and bulletintypeid in (${serviceTypeId}) </if>
+		<if test="year != null and year != ''"> 
+			and applytime between to_date('${year}/01/01 00:00:00','YYYY/MM/dd hh24:mi:ss') 
+			and to_date('${year}/12/31 23:59:59','YYYY/MM/dd hh24:mi:ss')
+		</if>
+			 group by pertainareaid
+		) t
+	</select>
+	
+	<select id="queryAllInfoByPage" resultType="map"  parameterType="map">
+		select *  from (
+      select t.*,
+            (select o.name from sys_org o where o.ORGPKVALUE = t.pertainareaid) pertainareaName,
+            (select u.NAME from sys_user u where u.uuid = t.createby) investmentName,
+            (select u.NAME from sys_user u where u.uuid = t.reviewpersonid) reviewpersonName,
+
+            ('ProjectPreReviewView/' || t.businessid || '@' ||  (select a.proc_def_id_ from act_hi_procinst a  where a.proc_inst_id_ = hp.procinstid) || '@' || hp.procinstid || '@@') oldUrl 
+            from (
+        select * from (
+          select f.* from rcm_pre_info f 
+        ) tt  
+      ) t, 
+      (
+        select p.business_key_, MAX(p.proc_inst_id_) procinstid 
+        from act_hi_procinst p  where p.proc_def_id_ in
+                  (select id_ from act_re_procdef pf where pf.key_ in ('preAssessment',  'preReview'))
+                   group by p.business_key_) hp where t.businessid = hp.business_key_(+)) ta
+                 where 1 = 1 
+<!--                   order by create_date desc -->
+    	<if test="project_name != null and project_name != ''">
+    		and ta.PROJECTNAME like '%${project_name}%'
+    	</if>
+    	<if test="reporting_unit_name != null and reporting_unit_name != ''">
+    		and ta.pertainareaName  like '%${reporting_unit_name}%' 
+    	</if>
+    	<if test="investment_manager_name != null and investment_manager_name != ''">
+    		and ta.investmentName  like '%${investment_manager_name}%' 
+    	</if>
+    	<if test="reviewpersonName != null and reviewpersonName != ''">
+    		and ta.reviewpersonName  like '%${reviewpersonName}%' 
+    	</if>
+    	<if test="is_supplement_review != null and is_supplement_review != ''">
+    		and ta.IS_SUPPLEMENT_REVIEW =  ${is_supplement_review}
+    	</if>
+    	<if test="apply_date != null and apply_date != ''">
+    		and to_char(ta.apply_date,'yyyy-mm-dd')  =  #{apply_date}
+    	</if>
+    	<if test="wf_state != null and wf_state != ''">
+    		and ta.AUDITSTATUS =  ${wf_state}
+    	</if>
+    	order by
+    	<if test="orderby_apptime == null and orderby_state == null">
+    		ta.APPLY_DATE desc,ta.WF_STATE desc
+    	</if>
+    	<if test="orderby_apptime != null">
+    		ta.APPLY_DATE ${orderby_apptime}
+    	</if>
+    	<if test="orderby_state != null">
+    		ta.AUDITSTATUS ${orderby_state}
+    	</if>
+	</select>
+	<select id="queryAllByDaxt" resultType="map" parameterType="map">
+		select p.* 
+		  from rcm_bulletin_info p 
+	   where (p.pigeonhole_status is null or p.pigeonhole_status = '1') 
+	     and (p.auditstatus in ('3') or p.stage in('4','5','9'))
+	</select>
+</mapper>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="workflow">
+	<!-- 查询待办 -->
+	<select id="selectToDoTask" resultType="map" >
+		select * from (
+	      select t.id_,
+		   t.proc_def_id_,
+		   t.proc_inst_id_,
+		   t.name_,
+		   t.create_time_,
+		   to_char(t.create_time_, 'yyyy-mm-dd hh24:mi:ss') as createTime,
+		   to_char(t.form_key_) form_key_,
+		   to_char(p.business_key_) business_key_,
+		   to_char(a.name_) as type_text,
+		   (select to_char(v.text_)
+		      from act_hi_varinst v
+		     where v.name_ = 'subject'
+		       and v.proc_inst_id_ = t.proc_inst_id_) as subject,
+		   (select to_char(v.text_)
+		      from act_hi_varinst v
+		     where v.name_ = 'submitBy'
+		       and v.task_id_ = t.id_) as submitby,
+		   (select to_char(emergencyLevel)
+		      from rcm_project_info ri
+		     where ri.business_id = p.business_key_) as emergencyLevel
+		  from act_ru_task     t,
+		       act_hi_procinst p,
+		       act_re_procdef  a
+		 where t.proc_inst_id_ = p.proc_inst_id_
+		   and p.proc_def_id_ = a.id_
+		   and t.assignee_ = #{assignee}
+		   and a.key_ not in ('bulletin','noticeDecision','formalReview')
+		union
+		  select 
+		   t.id_,
+		   t.proc_def_id_,
+		   t.proc_inst_id_,
+		   t.name_,
+		   t.create_time_,
+		   to_char(t.create_time_, 'yyyy-mm-dd hh24:mi:ss') as createTime,
+		   to_char('bulletin') form_key_,
+		   to_char(p.businessid) business_key_,
+		   to_char('其它需决策事项') type_text,
+		   (select bulletinname from rcm_bulletin_info where businessid=p.businessid) subject,
+		   (select name from sys_user where uuid=(
+		   select audituserid from rcm_bulletin_log where orderby=(
+		   select max(orderby) from rcm_bulletin_log where iswaiting='0' and executionid=p.executionid)
+		    and businessid=p.businessid)) submitby,
+		   '' emergencyLevel
+		   from act_ru_task t, rcm_bulletin_log p
+		   where p.taskid=t.id_
+		   and p.auditstatus='9'
+		   and p.audituserid=#{assignee}
+	union	
+		select t.id_,
+	       t.proc_def_id_,
+	       t.proc_inst_id_,
+         t.name_,
+         t.create_time_,
+         to_char(t.create_time_, 'yyyy-mm-dd hh24:mi:ss') as createTime,
+         to_char('formalReview') form_key_,
+         to_char(g.businessid) business_key_,
+         to_char('正式评审') type_text,
+         (select projectname
+            from rcm_formalassessment_info
+           where businessid = g.businessid) subject,
+           (select name from sys_user  where uuid = g.lastuserid) submitby,
+         decode((select emergencylevel
+            from rcm_formalassessment_info
+           where businessid = g.businessid),null,'') emergencylevel
+         from act_ru_task t,rcm_formalassessment_log g  
+    where g.taskid = t.id_ and t.proc_def_id_ like 'formalReview%' and g.auditstatus='9'
+		and g.audituserid=#{assignee}
+	union
+			select t.id_,
+		       t.proc_def_id_,
+		       t.proc_inst_id_,
+		       t.name_,
+		       t.create_time_,
+		       to_char(t.create_time_, 'yyyy-mm-dd hh24:mi:ss') as createTime,
+		       to_char('noticeDecision') form_key_,
+		       to_char(p.businessid) business_key_,
+		       to_char('决策通知书') type_text,
+		       (select project_name
+		          from rcm_project_info
+		         where business_id = (select projectformalid from rcm_noticedecision_info where businessid=p.businessid)) subject,
+		       (select name
+		          from sys_user
+		         where uuid = (select audituserid
+		                         from rcm_noticedecision_log
+		                        where orderby =
+		                              (select max(orderby)
+		                                 from rcm_noticedecision_log
+		                                where iswaiting = '0'
+		                                  and executionid = p.executionid)
+		                          and businessid = p.businessid)) submitby,
+		       '' emergencyLevel
+		  from act_ru_task t, rcm_noticedecision_log p
+		 where p.taskid = t.id_
+		   and p.auditstatus = '9'
+		   and p.audituserid = #{assignee}
+	    ) ta where 1=1
+		<if test="taskId != null and taskId != ''"> and ta.id_='${taskId}'</if>
+		<if test="createTime != null and createTime !=''"> and to_char(ta.create_time_,'yyyy-mm-dd')='${createTime}'</if>
+		<if test="emergencyLevel != null and emergencyLevel != ''"> and ta.emergencyLevel = '${emergencyLevel}'</if>
+		<if test="processKey != null and processKey != ''"> and ta.proc_def_id_ like '${processKey}%'</if>
+		order by ta.create_time_ desc
+	</select>
+	
+	<!-- 查询已办 -->
+	<select id="selectMyCompleteTask" resultType="map" >
+		select ta.* from (
+	      select p.business_key_,
+	             to_char(p.start_time_, 'yyyy-mm-dd hh24:mi:ss') as start_time_,
+	             to_char(p.end_time_, 'yyyy-mm-dd hh24:mi:ss') as end_time_,
+	             a.key_ as type_,
+	             a.name_ as type_text,
+	             a.category_ as form_key,
+	             p.proc_def_id_, 
+	             p.proc_inst_id_,
+	             decode(p.end_time_,
+	                    null,
+	                    (select regexp_replace(listagg(to_char(t.name_), ',') within group(order by t.proc_inst_id_)
+                        , '([^,]+)(,\1)+', '\1')
+	                       from act_ru_task t
+	                      where t.proc_inst_id_ = p.proc_inst_id_),
+	                    '结束') as phase,
+	             (select v.text_
+	                from act_hi_varinst v
+	               where v.name_ = 'subject'
+	                 and v.proc_inst_id_ = p.proc_inst_id_) as subject
+	        from act_hi_procinst p, act_re_procdef a
+	       where p.proc_def_id_=a.id_ 
+	             and exists (select *
+	                from act_hi_taskinst t
+	               where t.assignee_ = '${assignee}' and t.proc_inst_id_=p.proc_inst_id_
+	               		 and t.end_time_ is not null)
+	         and p.business_key_ is not null and a.name_ !='bulletin'
+	         order by p.start_time_ desc
+	    ) ta where 1=1	
+		<if test="subject != null and subject != ''">and ta.subject like '%${subject}%'</if>
+		<if test="processKey != null and processKey != ''">and ta.type_ = '${processKey}'</if>
+		<if test="isOver=='true'">and phase='结束'</if>
+		<if test="isOver!='true'">and phase!='结束'</if>
+	</select>
+	
+	<!-- 查询流程审批历史 -->
+	<select id="selectProcessInstanceApproveHistory" resultType="map" >
+		select u.NAME as userName,
+		       t.name_ as taskName,
+		       (select v.text_
+		                  from act_hi_varinst v
+		                 where v.name_ = 'opinion'
+		                   and v.task_id_ = t.id_) as opinion,
+		       to_char(t.start_time_, 'yyyy-mm-dd hh24:mi:ss') as startTime,
+		       to_char(t.end_time_, 'yyyy-mm-dd hh24:mi:ss') as endTime,
+		       (select v.text_
+		                  from act_hi_varinst v
+		                 where v.name_ = 'emergencyLevel'
+		                   and v.task_id_ = t.id_) as emergencyLevel
+		  from act_hi_taskinst t, sys_user u
+		 where t.proc_inst_id_ = #{processInstanceId}
+		   and t.assignee_ = u.UUID
+		   order by t.start_time_
+	</select>
+	
+	<!-- 流程审批的时候查询已办和待办，同步给门户 -->
+	<select id="selectForPortal" resultType="map" >
+		select uniid, title, sender, depart,url,created, owner, type, status, record_status, priority from (
+          select ta.*,
+                 (decode(ta.status,'1',ta.form_key_,a.category_) || '/' || p.business_key_ ||
+                  '@' || p.proc_def_id_ || '@' ||p.proc_inst_id_ || '@' || ta.uniid) as url,
+                 to_char(ta.created_, 'yyyy-mm-dd hh24:mi:ss') as created,
+                 nvl(decode(pri.text_, '一般', '1', '紧急', '2', '特急', '3', ''),1) as priority,
+                 subject.text_ as title,
+                 cu.NAME as sender,
+                 cu.depart
+            from (select t.proc_def_id_,
+                         t.proc_inst_id_,
+                         t.id_ as uniid,
+                         t.end_time_ as created_,
+                         t.assignee_ as owner,
+                         '1' as type,
+                         '2' as status,
+                         '2' as record_status,
+                         '' as form_key_
+                    from act_hi_taskinst t
+                   where t.id_ = '${preTaskId}'
+                  union
+                  select t.proc_def_id_,
+                         t.proc_inst_id_,
+                         t.id_ as uniid,
+                         t.create_time_ as created_,
+                         t.assignee_ as owner,
+                         '1' as type,
+                         '1' as status,
+                         '1' as record_status,
+                         to_char(t.form_key_) as form_key_
+                    from act_ru_task t
+                   where t.id_ in (${currentTaskIds})) ta,
+                 (select v.text_, v.task_id_
+                    from act_hi_varinst v
+                   where v.name_ = 'emergencyLevel') pri,
+                 (select v.text_, v.proc_inst_id_
+                    from act_hi_varinst v
+                   where v.name_ = 'subject') subject,
+                 act_re_procdef a,
+                 act_hi_procinst p,
+                 view_user_dep cu
+           where ta.proc_def_id_ = a.id_
+             and ta.proc_inst_id_ = p.proc_inst_id_
+             and ta.uniid = pri.task_id_(+)
+             and ta.proc_inst_id_ = subject.proc_inst_id_
+             and p.start_user_id_ = cu.UUID
+        )
+	</select>
+</mapper>

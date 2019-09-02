@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="common">
+
+	<!--公共方法使用 查询附件前查询功能类型  根据字典编码查询对应子字典 -->
+	 <select id="selecFunctionType" resultType="map"  useCache="false">
+	       select i.item_name,i.item_code  from sys_dictionary t ,sys_dictionary_item i where 1 = 1 and t.dictionary_code = #{code} and i.fk_dictionary_uuid = t.uuid order by i.cust_number01 ,i.item_code
+	</select> 
+	<!-- 公共方法使用 -->
+	<select id="selectRoleUserByRoleID" resultType="map" useCache="false">
+		select u.uuid as value,u.name from sys_user u,sys_user_role ur where 1=1 and ur.user_id=u.uuid and ur.role_id= #{roleId} and u.state='2'
+	</select>
+	<!-- 根据role code查询角色用户 -->
+	<select id="selectRoleUserByRoleCode" resultType="map">
+		select u.uuid as value,u.name from sys_user u,sys_user_role ur where 1=1 and ur.user_id=u.uuid and ur.code= #{code} and u.state='2'
+	</select>
+	<!-- 公共方法使用 根据子编码查询对应name -->
+	<select id="selectSubDataDictionaryByCode" resultType="String" useCache="false">
+		select item_name from sys_dictionary_item where 1=1  and item_code= #{code}
+	</select>
+	
+	<!-- 公共方法使用 -->
+<!-- 	<select id="selectsyncbusinessmodel" resultType="map" useCache="false">
+		select key,value from sync_business_model where 1=1 and state='1' and parent_id is null
+		<if test="dic_type!=null and dic_type!='' "> and dic_type = #{dic_type} </if>
+	</select> -->
+	<select id="selectsyncbusinessmodel" resultType="map" useCache="false">
+		SELECT ${key}  KEY, VALUE FROM SYNC_BUSINESS_MODEL WHERE DIC_TYPE = '3' ORDER BY to_number(ID)
+	</select>
+	<select id="selectsyncbusinessmodelBykey" resultType="map" useCache="false">
+		select key,value from sync_business_model where 1=1 and state='1'
+		<if test="parent_id!=null and parent_id!='' "> and parent_id in (${parent_id}) </if>
+	</select>
+	<!-- 查询投资单位 -->
+	<select id="selectsCommonOrg" resultType="map" useCache="false">
+		select o.ORGPKVALUE as id, o.PARENTPKVALUE as pid, o.NAME, o.ISPARENT, o.CATEGORYCODE from sys_org_ext o where 1=1 and o.CATEGORYCODE='Org' 
+		<choose>
+			<when test="parentId!=null and parentId != ''">
+				and o.PARENTPKVALUE = #{parentId} 
+			</when>
+			<otherwise>
+				and o.PARENTPKVALUE is null
+			</otherwise>
+		</choose>
+			order by o.CATEGORYCODE, o.CODE
+	</select>
+	
+	<select id="selectCompanyList" resultType="map" useCache="false">
+SELECT T.*
+FROM(
+SELECT MA.PROJECTID,
+       MA.PROJECTNAME, /*项目名称*/
+       MA.PROJECTCODE, /*存储用编码*/
+       MA.PROJECTCODENEW, /*显示用编码*/
+       SO.ORGPKVALUE REPORTINGUNITCODE, /*申报单位编码*/
+       SO.NAME AS REPORTINGUNITNAME, /*申报单位组织名称*/
+       SO.ORGPKVALUE ORGCODE, /*所属大区编码*/
+       SO.NAME AS ORGNAME, /*所属大区名称*/
+	   SO.ID,
+       SGUR.COMPANYHEADER_NAME ORGHEADERNAME, /*项目归属单位负责人*/
+	   SGUR.COMPANYHEADER_ID ORGHEADERID, /*项目归属单位负责人ID*/
+	   (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = MP.RESPONSIBLEUSERKEY) RESPONSIBLEUSER, /*投资经理*/
+	   (SELECT SU.UUID FROM SYS_USER SU WHERE SU.UUID = MP.RESPONSIBLEUSERKEY) RESPONSIBLEUSERID, /*投资经理ID*/
+       (SELECT MAR.ENUMNAME FROM ZSJ.MDM_AREA MAR WHERE MAR.PK_ENUM = MA.PROVINCE_NAME) ||
+	   (SELECT MAR.ENUMNAME FROM ZSJ.MDM_AREA MAR WHERE MAR.PK_ENUM = MA.CITY_NAME) ||
+	   (SELECT MAR.ENUMNAME FROM ZSJ.MDM_AREA MAR WHERE MAR.PK_ENUM = MA.COUNTY_NAME) ADDRESS, /*项目所在地*/
+       CASE
+         WHEN MA.BIZTYPEENUMCODE LIKE '101%' THEN
+          '1401'
+         WHEN MA.BIZTYPEENUMCODE LIKE '104%' THEN
+          '1403'
+         WHEN MA.BIZTYPEENUMCODE LIKE '102%' THEN
+          '1402'
+         WHEN MA.BIZTYPEENUMCODE LIKE '106%' THEN
+          '1403'
+         WHEN MA.BIZTYPEENUMCODE LIKE '105%' THEN
+          '1404'
+         WHEN MA.BIZTYPEENUMCODE LIKE '107%' THEN
+          '1405'
+         WHEN MA.BIZTYPEENUMCODE LIKE '108%' THEN
+          '1406'
+         WHEN MA.BIZTYPEENUMCODE LIKE '109%' THEN
+          '1407'
+         ELSE
+          ''
+       END SERVICETYPE, /*业务类型*/
+       MA.BIZTYPEENUMCODE,
+       MA.PROVINCE_NAME,
+       MA.CITY_NAME,
+       MA.COUNTY_NAME,
+       MA.CREATEDATETIME,
+       MP.VERSIONTIME,
+       MP.PROJECTSTAGEENUMCODE,
+       MP.RESPONSIBLEUSERKEY,
+       ROW_NUMBER()over(partition by Ma.PROJECTCODENEW order by mp.VERSIONTIME desc) as idx
+  FROM ZSJ.MDM_APRO MA, 
+	     ZSJ.MDM_PROINFOHIS MP,
+			 SYS_ORG so,
+			 SYS_GROUP_USER_REPORTINGUNIT SGUR
+ WHERE 1 = 1
+   AND MA.PROJECTID = MP.PROJECTID
+	 AND SGUR.REPORTINGUNIT_ID(+) = MP.STAGEBELONGTODEPTKEY
+	 AND SO.ORGPKVALUE(+) = MP.STAGEBELONGTODEPTKEY
+   AND MA.PROJECTTYPEENUMCODE = '10'
+	 AND MP.PROJECTSTAGEENUMCODE = '10'
+	 AND MP.RESPONSIBLEUSERKEY = '${USERID}'
+ ) T 
+ WHERE 1 = 1
+ <if test="projectname!=null and projectname!='' "> and T.PROJECTNAME like '%${projectname}%' </if>
+ <if test="serviceTypeId !=null and serviceTypeId !='' "> and T.SERVICETYPE in (${serviceTypeId}) </if>
+ AND T.idx = 1
+ ORDER BY T.PROJECTCODE, T.CREATEDATETIME DESC
+	</select>
+	<!-- 查询菜单使用 -->
+	<select id="selectSysFunction" resultType="map" useCache="false">
+		select sf.* from sys_func sf where sf.func_pid=#{func_pid, jdbcType=VARCHAR} and sf.state='1' 
+		and sf.func_id in
+		(select srf.func_id from sys_role_func srf where srf.role_id in(
+		select role_id from sys_user_role where user_id=#{user_id}
+		)) order by to_number(sf.sort) asc
+	</select>
+	
+	<select id="findAttachmentList" resultType="map">
+           select i.uuid, i.item_name from sys_dictionary_item i where i.item_code like '03%' and i.is_enabled = '1'
+			   and exists(
+			       select * from sys_business_attachment r where i.uuid = r.attachment_uuid and r.state='1'
+			              and r.fuctiontype='${fuctionType}' and exists(
+			                  select * from sync_business_model b where r.business_id=b.id
+			                        and b.key in (${projectTypes}) and b.dic_type='${dicTypes}' and b.state='1'
+			              )
+			   )
+	</select>
+	
+	<!-- 查询所有的二级业务类型 -->
+	<select id="queryAllProjectTypes" resultType="map" useCache="false">
+		select * from sync_business_model b where state='1' and parent_id in
+		(select id from sync_business_model where type_id='1')
+	</select>
+	<!-- 查询附件类型 -->
+	<select id="getAttachmentList" resultType="map" useCache="false">
+		SELECT ATTACHMENT_CODE ITEM_CODE, 
+		       ATTACHMENT_NAME ITEM_NAME 
+		  FROM SYS_BUSINESS_ATTACHMENT SBA 
+		 WHERE STATE = 1 
+		   AND SBA.BUSINESS_NAME = '${projectModelName}' 
+		   AND SBA.FUCTIONTYPE = '${functionType}' 
+		   AND SBA.SERVICECODE = '${serviceCode}'
+		ORDER BY ATTACHMENT_CODE ASC
+	</select>
+	
+	<!-- 查询所属大区 -->
+	<select id="gePertainArea" resultType="map" useCache="false">	
+	       SELECT SO.NAME,
+                  SO.CODE,
+                  SO.ORGPKVALUE,
+                  SO.PARENTCODE,
+                  LEVEL, 
+                  SGUR.COMPANYHEADER_NAME ORGHEADERNAME, 
+	              SGUR.COMPANYHEADER_ID ORGHEADERID
+             FROM SYS_ORG SO, SYS_GROUP_USER_REPORTINGUNIT SGUR
+            WHERE SO.PARENTCODE = '${CODE}'
+              AND SGUR.REPORTINGUNIT_ID(+) = SO.ORGPKVALUE
+       START WITH SO.ORGPKVALUE = '${ORGCODE}'
+ CONNECT BY PRIOR SO.PARENTCODE =  SO.CODE	
+	</select>
+	
+	<!-- 查询会议列表 -->
+	<select id="getMeetingInfoList" resultType="map" useCache="false">	
+	       SELECT RMPI."id",
+			      RMPI."appointment_meeting_id",
+			      RMPI."type_code",
+			      RMPI."meeting_theme",
+			      RMPI."meeting_content",
+			      RMPI."chairman",
+			      RMPI."committee_member",
+			      to_char(RMPI."meeting_begin_time", 'yyyy-mm-dd,hh24:mi:ss') "meeting_begin_time",
+			      to_char(RMPI."meeting_end_time", 'yyyy-mm-dd,hh24:mi:ss') "meeting_end_time",
+			      RMPI."flag"
+             FROM RCM_MEETING_PREP_INFO RMPI
+            WHERE RMPI."flag" = '0'
+              AND RMPI."meeting_begin_time" > sysdate
+            ORDER BY RMPI."id" DESC
+	</select>
+	
+	<!-- 根据UUID查询相关人员 -->
+	<select id="getUserInfoList" resultType="map" useCache="false">	
+	       SELECT SU.UUID VALUE,
+	              SU.NAME NAME
+             FROM SYS_USER SU
+            WHERE SU.UUID IN
+		   <foreach collection="userList" item="USERID" open="(" close=")" separator=",">
+			      #{USERID}
+		   </foreach>
+	</select>
+	
+	<!-- 根据ENUMNAME查询地理信息 -->
+	<select id="getAreaInfoByEnumName" resultType="map" useCache="false">	
+	       SELECT MAR.*
+             FROM ZSJ.MDM_AREA MAR
+            WHERE MAR.ENUMNAME LIKE '%${enumName}%'
+	</select>
+</mapper>

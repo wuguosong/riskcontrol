@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.project.dao.IProjectMapper">
+
+	<delete id="deleteByBusinessId" parameterType="string">
+		delete from rcm_v_project_info where business_id=#{businessId}
+	</delete>
+	
+	<select id="queryById" parameterType="string" resultType="hashmap">
+		select * from rcm_v_project_info where business_id=#{businessId}
+	</select>
+    
+    <update id="updateOracleById"  parameterType="map">
+	 	update rcm_v_project_info set last_update_date=sysdate
+	 	<if test="wfState != null and wfState != '' "> , wf_state=#{wfState}</if>
+	 	<if test="applyDate != null"> , apply_date=#{applyDate}</if>
+	 	<if test="completeDate != null"> , complete_date=#{completeDate}</if>
+	 	<if test="reportCreateDate != null">, report_create_date=#{reportCreateDate}</if>
+	 	<if test="controllerVal != null and controllerVal != '' ">, controller_val=#{controllerVal}</if>
+	 	<if test="reportId != null and reportId != '' ">, report_id=#{reportId}</if>
+	 	<if test="needMeeting != null ">, need_meeting=#{needMeeting}</if>
+	 	<if test="meetingDate != null">, meeting_date=#{meetingDate}</if>
+	 	<if test="emergencyLevel != null">, emergencyLevel=#{emergencyLevel}</if>
+	 	<if test="isUrgent != null and isUrgent != ''">, isurgent=#{isUrgent}</if>
+	 	<if test="pertainArea != null and pertainArea != ''">, pertainAreaId=#{pertainArea}</if>
+	 	 where business_id=#{businessId}
+    </update>
+    
+    <!-- 新增 -->
+	<insert id="insert" parameterType="map">
+		insert into rcm_v_project_info (id, business_id, project_name, project_no, reporting_unit_name, reporting_unit_id,
+		service_type_id, service_type_name, project_type_ids, project_type_names, investment_model, project_model_ids, project_model_names,
+		create_date,type, is_supplement_review,wf_state,istz,pertainareaid) values (#{id}, #{businessId}, #{projectName}, #{projectNo}, 
+		#{reportingUnitName}, #{reportingUnitId}, #{serviceTypeId}, #{serviceTypeName}, #{projectTypeIds}, #{projectTypNames},
+		#{investmentModel}, #{projectModelIds}, #{projectModelNames}, sysdate,#{type}, #{is_supplement_review},#{wfState},#{istz},#{pertainareaId,jdbcType=VARCHAR})
+	</insert>
+</mapper>

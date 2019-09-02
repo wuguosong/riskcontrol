@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.formalAssessment.dao.IFormalReportMapper">
+	
+	<select id="queryPfrNoticeFileList" resultType="hashmap">
+		
+select * from (select f.*,decode(f.project_type,'pfr','正式评审','pre','投标评审','bulletin','其他评审') PROJECTTYPE,(
+               select u.NAME from sys_user u where u.UUID = f.createby
+              ) CREATEBYNAME,
+              (
+                 select u.NAME from sys_user u where u.UUID = f.REVIEWPERSON_ID
+              ) REVIEWPERSONNAME,
+              (
+                select o.NAME from sys_org o where o.ORGPKVALUE = f.pertainarea_id
+               ) PERTAINAREANAME 
+    from
+(
+select pp.*,pp.project_name pname from rcm_v_project_info pp 
+ where pp.project_type in ('pfr','pre') and pp.stage in (3,3.5,3.7,3.9,4,5,6,7,9) and pp.wf_state in ('1','2')
+ 
+ union 
+select b.*,b.project_name  pname from rcm_v_project_info b 
+where b.project_type in ('bulletin') and b.stage in (1.5,2,3,4,5,6) and b.wf_state in ('1','2') 
+) f) ta 
+		where 1 = 1 
+		<if test="projectName != null and projectName !=''"> and ta.project_name like '%${projectName}%'</if>
+		<if test="type != null and type !=''"> and ta.project_type = #{type} </if>
+		<if test="pfrStage != null and pfrStage !=''"> and ( ta.project_type in ('pfr','pre') and ta.stage in (${pfrStage}) 
+		or ta.project_type in ('bulletin') and ta.stage in (${bulletinStage})
+		 ) 
+		 <![CDATA[ and ta.meeting_time >= to_date(#{now},'yyyy-MM-dd') ]]>     
+		 </if>
+	</select>
+	
+	<!-- 未提交正式评审报告列表 -->
+	<select id="queryUncommittedReportByPage" parameterType="map"
+		resultType="hashmap">
+			select * from ( 
+			SELECT RFI.ID, 
+	       RFI.BUSINESSID, 
+	       RFI.PROJECTNAME, 
+	       RFI.PROJECTNUM, 
+	       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY, 
+	       RFI.PROJECT_MODEL_IDS, 
+	       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME, 
+	       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RFI.REVIEWPERSONID) REVIEWPERSONNAME, 
+	       RFI.ISURGENT, 
+	       RFR.CREATE_DATE, 
+	       RFR.CONTROLLER_VAL 
+		  FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 WHERE RFI.STAGE = 3 
+		   AND RFI.WF_STATE IN ('1', '2') 
+		   AND RFI.BUSINESSID = RFR.BUSINESSID 
+		   AND RFR.CREATE_DATE IS NOT NULL 
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if> 
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.PROJECTNAME like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+
+	<!-- 已提交正式评审报告列表 -->
+	<select id="querySubmittedReportByPage" parameterType="map"
+		resultType="hashmap">
+		select t.* from (SELECT RFI.ID,
+	       RFI.BUSINESSID,
+	       RFI.PROJECTNAME,
+	       RFI.PROJECTNUM,
+	       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+	       (SELECT su.NAME FROM Sys_User su WHERE su.uuid = rfi.reviewpersonid) reviewpersonname,
+	       RFI.PROJECT_MODEL_IDS,
+	       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+	       RFI.WF_STATE,
+	       RFR.CREATE_DATE ,
+	       RFR.CONTROLLER_VAL 
+		  	FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 	WHERE RFI.STAGE in ('3.7','3.5','3.9','4','5','6','7','9') 
+		 	AND RFI.wf_state = '2' 
+		   AND  RFR.BUSINESSID = RFI.BUSINESSID  
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if>
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.PROJECTNAME like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	
+	<!-- 检查正式评审报告是否已保存 -->
+	<select id="isReportExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM RCM_FORMALASSESSMENT_REPORT RFR, RCM_FORMALASSESSMENT_INFO RFI 
+		WHERE RFI.BUSINESSID = RFR.BUSINESSID 
+	   AND RFR.BUSINESSID = #{businessid}
+   </select>
+	
+	<!-- 删除已新增但未提交正式评审报告的信息 -->
+	<delete id="batchDeleteFormalReport" parameterType="java.lang.String" >
+		delete from rcm_formalassessment_report r where r.businessid in 
+		 <foreach item="businessid" collection="array" open="(" separator="," close=")">
+            #{businessid}
+        </foreach>
+	</delete>
+	
+	<!-- 查询未新增正式评审报告的项目 -->
+	<select id="queryNotNewlyBuiltProject" resultType="hashmap">
+		select rfi.businessid,rfi.projectname from rcm_formalassessment_info rfi where 1 = 1 
+		and rfi.stage = '3' AND rfi.REVIEWPERSONID = #{userId} and (select rfr.create_date from rcm_formalassessment_report rfr where 
+		 rfr.businessid = rfi.businessid) is null  ORDER BY rfi.CREATE_date DESC
+     </select>
+     
+     <!-- 检查正式评审报告是否符合提交的条件 -->
+     <select id="isPossible2Submit" parameterType="map" resultType="hashmap">
+     	<!-- select r.wf_state,r.stage from rcm_formalassessment_info r where r.businessid = #{businessid} -->
+     	select r.wf_state from rcm_formalassessment_info r where r.businessid = #{businessid}
+     </select>
+     
+     <!-- 提交正式报告(3.7)——填写参会信息(3.5)——提交决策通知书(3.9)——提交决策委员会(4) -->
+     <update id="changeState" parameterType="map">
+     	update 
+     	rcm_formalassessment_info r 
+     	set 
+     	<if test="stage != null"> r.stage = #{stage}, </if>
+     	r.decision_commit_time = to_date(#{decision_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss') 
+     	where 
+     	r.businessid = #{businessid}
+     </update>
+     
+     <select id="selectPrjReviewView" resultType="hashmap" parameterType="java.lang.String">
+		SELECT AC.PROC_INST_ID_,
+       AC.PROC_DEF_ID_,
+       AC.BUSINESS_KEY_,
+       TASK.TASK_NAME,
+       TASK.TASK_ID,
+       TASK.PROC_INST_ID_,
+       RFI.BUSINESSID
+  FROM (SELECT A.PROC_INST_ID_, A.PROC_DEF_ID_, A.BUSINESS_KEY_ 
+          FROM ACT_HI_PROCINST A) AC,
+       (SELECT LISTAGG(TO_CHAR(T.NAME_), ',') WITHIN GROUP(ORDER BY T.PROC_INST_ID_) AS TASK_NAME,
+               LISTAGG(TO_CHAR(T.ID_), ',') WITHIN GROUP(ORDER BY T.ID_) AS TASK_ID,
+               T.PROC_INST_ID_ 
+          FROM ACT_RU_TASK T 
+         GROUP BY T.PROC_INST_ID_) TASK,
+       RCM_FORMALASSESSMENT_INFO RFI 
+ WHERE RFI.BUSINESSID = AC.BUSINESS_KEY_(+) 
+   AND AC.PROC_INST_ID_ = TASK.PROC_INST_ID_(+) 
+   AND RFI.BUSINESSID = #{businessId}
+	</select>
+	
+	
+	<!-- 未提交决策会材料 -->
+	<select id="queryUncommittedDecisionMaterialByPage" parameterType="map"
+		resultType="hashmap">
+		select * from (
+				SELECT RFI.ID,
+		       RFI.BUSINESSID,
+		       RFI.PROJECTNAME,
+		       RFI.PROJECTNUM,
+		       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+		       RFI.PROJECT_MODEL_IDS,
+		       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+		       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RFI.REVIEWPERSONID) REVIEWPERSONNAME,
+		       RFI.ISURGENT,
+		       RFR.CREATE_DATE, 
+		       RFR.CONTROLLER_VAL 
+		  FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 WHERE RFI.STAGE = '3.9' 
+		   AND RFI.WF_STATE = '2' 
+		   AND RFI.BUSINESSID = RFR.BUSINESSID 
+		   AND RFR.CREATE_DATE IS NOT NULL 
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if> 
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.projectName like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if>
+		<!-- select i.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName,
+			(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+       		(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName ,
+       		(select u.NAME from sys_user u where u.uuid=i.legalreviewpersonid) legalreviewpersonName   
+		from rcm_formalassessment_info i 
+		where stage='3.7'
+		<if test="userId!=null and userId!=''"> and i.reviewpersonid = #{userId} </if>
+		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+    	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>
+    	<if test="wfState != null and wfState != ''"> and	i.wf_state = #{wfState}</if>
+    	union all
+    	select i.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName,
+			(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+       		(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName ,
+       		(select u.NAME from sys_user u where u.uuid=i.legalreviewpersonid) legalreviewpersonName   
+		from rcm_formalassessment_info i 
+		where stage='3.9'
+		AND WF_STATE = '2' 
+		<if test="projectName!=null and projectName!=''"> and projectName like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and pertainareaName like '%${pertainareaname}%'</if> -->
+		<!-- <if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> -->
+    	<!-- select * from (
+				SELECT RFI.ID,
+		       RFI.BUSINESSID,
+		       RFI.PROJECTNAME,
+		       RFI.PROJECTNUM,
+		       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+		       RFI.PROJECT_MODEL_IDS,
+		       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+		       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RFI.REVIEWPERSONID) REVIEWPERSONNAME,
+		       RFI.ISURGENT,
+		       RFR.CREATE_DATE, 
+		       RFR.CONTROLLER_VAL 
+		  FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 WHERE RFI.STAGE = '3.7' 
+		   AND RFI.BUSINESSID = RFR.BUSINESSID 
+		) t where 1 = 1 
+		<if test="userId!=null and userId!=''"> and i.reviewpersonid = #{userId} </if>
+		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+    	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>
+    	<if test="wfState != null and wfState != ''"> and	i.wf_state = #{wfState}</if>
+		union all
+		select * from (
+				SELECT RFI.ID,
+		       RFI.BUSINESSID,
+		       RFI.PROJECTNAME,
+		       RFI.PROJECTNUM,
+		       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+		       RFI.PROJECT_MODEL_IDS,
+		       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+		       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RFI.REVIEWPERSONID) REVIEWPERSONNAME,
+		       RFI.ISURGENT,
+		       RFR.CREATE_DATE, 
+		       RFR.CONTROLLER_VAL 
+		  FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 WHERE RFI.STAGE = '3.9' 
+		   AND RFI.WF_STATE = '2' 
+		   AND RFI.BUSINESSID = RFR.BUSINESSID 
+		   AND RFR.CREATE_DATE IS NOT NULL 
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if> 
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.projectName like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> -->
+	</select>
+	
+	<!-- 已提交决策会材料列表 -->
+	<select id="querySubmittedDecisionMaterialByPage" parameterType="map"
+		resultType="hashmap">
+		select t.* from (SELECT RFI.ID,
+	       RFI.BUSINESSID,
+	       RFI.PROJECTNAME,
+	       RFI.PROJECTNUM,
+	       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+	       (SELECT su.NAME FROM Sys_User su WHERE su.uuid = rfi.reviewpersonid) reviewpersonname,
+	       RFI.PROJECT_MODEL_IDS,
+	       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+	       RFI.WF_STATE,
+	       RFI.DECISION_COMMIT_TIME,
+	       RFR.CREATE_DATE ,
+	       RFR.CONTROLLER_VAL 
+		  	FROM RCM_FORMALASSESSMENT_INFO RFI, RCM_FORMALASSESSMENT_REPORT RFR 
+		 	WHERE RFI.STAGE in ('4','5','6','7') AND RFI.wf_state = '2' 
+		   AND  RFR.BUSINESSID = RFI.BUSINESSID  
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if> 
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.projectName like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	
+	<!-- 获取提交申请时间 -->
+	<select id="queryApplDate" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT TO_CHAR(R.APPLY_DATE, 'YYYY-MM-DD HH24:MI:SS') FROM RCM_FORMALASSESSMENT_INFO R WHERE R.BUSINESSID = #{businessId}
+	</select>
+	
+	<select id="getByBusinessId" parameterType="java.lang.String" resultType="map">
+		select * from rcm_formalassessment_report f where f.businessid = #{businessId}
+	</select>
+</mapper>

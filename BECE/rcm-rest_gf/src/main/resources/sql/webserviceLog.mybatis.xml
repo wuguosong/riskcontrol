@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 模块名 -->
+<mapper namespace="wsLog">	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="map">
+		insert into RCM_WEBSERVICE_LOG (ID, SYS_NAME, MESSAGE_SEND, MESSAGE_RECEIVED, SUCCESS_FLAG, CREATE_TIME, USE_TIME, ERROR_MESSAGE)
+			values(#{id},#{sysName}, #{messageSend}, #{messageReceived}, #{successFlag}, sysdate, #{useTime}, #{errorMessage})
+	</insert>
+	
+	<!-- 接口日志列表 -->
+	<select id="list"  resultType="map">
+		select l.id, l.sys_name, l.success_flag, to_char(l.create_time, 'yyyy-mm-dd hh24:mi:ss') as create_time,l.use_time
+		 from rcm_webservice_log l where 1=1
+		<if test="successFlag != null and successFlag!='' "> and l.success_flag = '${successFlag}'</if>
+		<if test="sysName != null and sysName!='' "> and l.sys_name = '${sysName}'</if>
+		order by l.create_time desc
+	</select>
+	
+	<select id="selectById"  resultType="map">
+		select * from rcm_webservice_log where 1=1 and id=#{id}
+	</select>
+</mapper>

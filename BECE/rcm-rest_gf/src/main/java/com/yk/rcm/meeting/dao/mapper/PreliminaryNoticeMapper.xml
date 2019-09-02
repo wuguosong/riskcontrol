@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.meeting.dao.IPreliminaryNoticeMapper">
+	
+	<select id="queryByPage" parameterType="map" resultType="hashmap">
+		select n.* from rcm_notice n 
+		where 1=1
+		<if test="title != null and title !=''"> 
+		 and n.title like '%${title}%' 
+		</if>
+		<if test="content != null and content !=''"> 
+		 and n.content like '%${content}%' 
+		</if>
+		order by n.RELEASE_TIME desc
+	</select>
+	
+	<select id="queryById" parameterType="java.lang.String" resultType="map">
+		select n.* from rcm_notice n where n.id = #{id,javaType = java.lang.String,jdbcType = VARCHAR}
+	</select>
+	
+	<select id="queryUserByNoticeIdAndType" parameterType="java.lang.String" resultType="map">
+		select nu.*,u.NAME NAME,nu.user_id VALUE,u.NAME ITEM_NAME,nu.user_id ITEM_CODE from rcm_notice_user nu 
+		left join sys_user u on nu.user_id = u.UUID 
+		where nu.RELATION_ID = #{noticeId,javaType = java.lang.String,jdbcType = VARCHAR}
+		and nu.type = #{type,javaType = java.lang.String,jdbcType = VARCHAR}
+	</select>
+	
+	<select id="queryTop" parameterType="map" resultType="hashmap">
+		select *
+		from (
+		    select d_.*,rownum rn from(
+				select n.* 
+				from rcm_notice n,rcm_notice_user nu 
+				where n.id = nu.relation_id 
+				and nu.user_id = '${userId}' 
+				and n.status = 1 
+				order by to_number(nu.review_status) ,n.RELEASE_TIME desc
+			) d_
+		) t_
+		<![CDATA[
+		where t_.rn <= 3
+  		]]>
+	</select>
+	
+	<select id="queryReviewByPage" parameterType="map" resultType="hashmap">
+		select n.* 
+		from rcm_notice n,rcm_notice_user nu 
+		where n.id = nu.relation_id
+		<if test="title != null and title !=''"> 
+		 and n.title like '%${title}%' 
+		</if>
+		<if test="content != null and content !=''"> 
+		 and n.content like '%${content}%' 
+		</if>
+		and nu.user_id = '${userId}' 
+		and n.status = 1 
+		order by to_number(nu.review_status) ,n.RELEASE_TIME desc
+	</select>
+	
+	<select id="queryReviewById" parameterType="map" resultType="map">
+		select n.*,nu.REVIEW_STATUS from rcm_notice n 
+		left join rcm_notice_user nu on n.id = nu.relation_id 
+		where n.id = #{id,javaType = java.lang.String,jdbcType = VARCHAR} and nu.user_id = #{userId,javaType = java.lang.String,jdbcType = VARCHAR}
+	</select>
+	
+	<update id="updateUsreReviewStatus" parameterType="map">
+		update RCM_NOTICE_USER 
+		set REVIEW_STATUS = #{reviewStatus,javaType = java.lang.String,jdbcType = VARCHAR}
+		where RELATION_ID = #{noticeId,javaType = java.lang.String,jdbcType = VARCHAR} 
+		and USER_ID = #{userId,javaType = java.lang.String,jdbcType = VARCHAR} 
+	</update>
+	
+	<insert id="create" parameterType="map">
+		insert into RCM_NOTICE
+		(ID,
+		TITLE,
+		CONTENT,
+		RELEASE_TIME,
+		EXPIRATION_TIME,
+		RELATION_ID,
+		TYPE,
+		ATTACHMENT,
+		ATTACHMENT_NAME,
+		CREATE_TIME,
+		CREATE_BY,
+		STATUS)
+		values
+		(#{ID,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{TITLE,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{CONTENT,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{RELEASE_TIME,javaType = java.util.Date,jdbcType= TIMESTAMP},
+		#{EXPIRATION_TIME,javaType = java.util.Date,jdbcType= TIMESTAMP},
+		#{RELATION_ID,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{TYPE,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{ATTACHMENT,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{ATTACHMENT_NAME,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{CREATE_TIME,javaType = java.util.Date,jdbcType=TIMESTAMP},
+		#{CREATE_BY,javaType = java.lang.String,jdbcType = VARCHAR},
+		#{STATUS,javaType = java.lang.String,jdbcType = VARCHAR})
+	</insert>
+	
+	<insert id="addNoticeUser" parameterType="map">
+		insert all
+		<foreach collection="noticeUsers" item="n">
+			into RCM_NOTICE_USER
+			(ID,
+			RELATION_ID,
+			USER_ID,
+			TYPE,
+			REVIEW_STATUS) 
+			values
+			(#{n.ID,javaType = java.lang.String,jdbcType = VARCHAR},
+			#{n.RELATION_ID,javaType = java.lang.String,jdbcType = VARCHAR},
+			#{n.USER_ID,javaType = java.lang.String,jdbcType = VARCHAR},
+			#{n.TYPE,javaType = java.lang.String,jdbcType = VARCHAR},
+			#{n.REVIEW_STATUS,javaType = java.lang.String,jdbcType = VARCHAR})
+		</foreach>
+		select 1 from dual
+	</insert>
+	
+	<update id="updateStatusById" parameterType="java.lang.String">
+		update RCM_NOTICE
+		set STATUS = #{status,javaType = java.lang.String,jdbcType = VARCHAR}
+		where ID = #{id,javaType = java.lang.String,jdbcType = VARCHAR}
+	</update>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from RCM_NOTICE
+		where ID = #{id,javaType = java.lang.String,jdbcType = VARCHAR}
+	</delete>
+	
+	<delete id="deleteUserByNoticeId" parameterType="java.lang.String">
+		delete from RCM_NOTICE_USER
+		where RELATION_ID = #{noticeId,javaType = java.lang.String,jdbcType = VARCHAR}
+	</delete>
+</mapper>

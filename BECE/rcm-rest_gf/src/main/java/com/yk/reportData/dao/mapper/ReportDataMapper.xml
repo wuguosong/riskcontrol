@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.reportData.dao.IReportDataMapper">
+	<insert id="insertPfr" parameterType="map">
+	    INSERT INTO RCM_PFR_REPORT_DATA (
+	        ID,
+	        BUSINESSID,
+	        PROJECT_ADDRESS,
+	        SINGLE_ITEMS_NUM,
+	        CHANGE_OPTION,
+	        CONTRACT_SCALE,
+	        EVALUATION_SCALE,
+	        REVIEW_OF_TOTAL_INVESTMENT,
+	        CONSENT_TO_INVESTMENT,
+	        IMPLEMENTATION_MATTERS,
+	        SUBJECT_OF_IMPLEMENTATION,
+	        REGISTER,
+	        RESPONSIBILITYUNIT_VALUE,
+	        IMPLEMENTATION_REQUIREMENTS,
+	        PROJECT_RATE,
+	        RATE_REASON,
+	        INVESTMENT_TYPE,
+	        RATEOFRETURN,
+	        FK_PS_RESULT,
+	        FK_RISK_TIP,
+	        SPECIAL_NOTICE,
+	        INVESTMENT_GLOBAL,
+	        INVESTMENT_INTERNAL,
+	        INVESTMENT_STATIC,
+	        FINANCIAL_ROE,
+	        FINANCIAL_ROI,
+	        INDICATOR_CASH,
+	        MEETING_LEADERS,
+	        VOTING_RESULTS,
+	        OPEN_MEETING_PERSON,
+	        MEETING_LEADERS_NAME
+	    ) VALUES (
+	        RCM_PFR_REPORT_DATA_SEQ.NEXTVAL,
+	        #{BUSINESSID},
+	        #{PROJECT_ADDRESS},
+	        #{SINGLE_ITEMS_NUM},
+	        #{CHANGE_OPTION},
+	        #{CONTRACT_SCALE},
+	        #{EVALUATION_SCALE},
+	        #{REVIEW_OF_TOTAL_INVESTMENT},
+	        #{CONSENT_TO_INVESTMENT},
+	        #{IMPLEMENTATION_MATTERS},
+	        #{SUBJECT_OF_IMPLEMENTATION},
+	        #{REGISTER},
+	        #{RESPONSIBILITYUNIT_VALUE},
+	        #{IMPLEMENTATION_REQUIREMENTS},
+	        #{PROJECT_RATE},
+	        #{RATE_REASON},
+	        #{INVESTMENT_TYPE},
+	        #{RATEOFRETURN},
+	        #{FK_PS_RESULT},
+	        #{FK_RISK_TIP},
+	        #{SPECIAL_NOTICE},
+	        #{INVESTMENT_GLOBAL},
+	        #{INVESTMENT_INTERNAL},
+	        #{INVESTMENT_STATIC},
+	        #{FINANCIAL_ROE},
+	        #{FINANCIAL_ROI},
+	        #{INDICATOR_CASH},
+	        #{MEETING_LEADERS},
+	        #{VOTING_RESULTS},
+	        #{OPEN_MEETING_PERSON},
+	        #{MEETING_LEADERS_NAME}
+	    )
+	</insert>
+	
+	<update id="updatePfr" parameterType="map">
+	    UPDATE RCM_PFR_REPORT_DATA SET 
+	           BUSINESSID = #{BUSINESSID},
+	           PROJECT_ADDRESS = #{PROJECT_ADDRESS},
+	           SINGLE_ITEMS_NUM = #{SINGLE_ITEMS_NUM},
+	           CHANGE_OPTION = #{CHANGE_OPTION},
+	           CONTRACT_SCALE = #{CONTRACT_SCALE},
+	           EVALUATION_SCALE = #{EVALUATION_SCALE},
+	           REVIEW_OF_TOTAL_INVESTMENT = #{REVIEW_OF_TOTAL_INVESTMENT},
+	           CONSENT_TO_INVESTMENT = #{CONSENT_TO_INVESTMENT},
+	           IMPLEMENTATION_MATTERS = #{IMPLEMENTATION_MATTERS},
+    	       SUBJECT_OF_IMPLEMENTATION = #{SUBJECT_OF_IMPLEMENTATION},
+	           REGISTER = #{REGISTER},
+	           RESPONSIBILITYUNIT_VALUE = #{RESPONSIBILITYUNIT_VALUE},
+	           IMPLEMENTATION_REQUIREMENTS = #{IMPLEMENTATION_REQUIREMENTS},
+	           PROJECT_RATE = #{PROJECT_RATE},
+	           RATE_REASON = #{RATE_REASON},
+	           INVESTMENT_TYPE = #{INVESTMENT_TYPE},
+	           RATEOFRETURN = #{RATEOFRETURN},
+	           FK_PS_RESULT = #{FK_PS_RESULT},
+	           FK_RISK_TIP = #{FK_RISK_TIP},
+	           SPECIAL_NOTICE = #{SPECIAL_NOTICE},
+	           INVESTMENT_GLOBAL = #{INVESTMENT_GLOBAL},
+	           INVESTMENT_INTERNAL = #{INVESTMENT_INTERNAL},
+	           INVESTMENT_STATIC = #{INVESTMENT_STATIC},
+	           FINANCIAL_ROE = #{FINANCIAL_ROE},
+	           FINANCIAL_ROI = #{FINANCIAL_ROI},
+	           INDICATOR_CASH = #{INDICATOR_CASH},
+	           MEETING_LEADERS = #{MEETING_LEADERS},
+	           VOTING_RESULTS = #{VOTING_RESULTS},
+	           OPEN_MEETING_PERSON = #{OPEN_MEETING_PERSON},
+	           MEETING_LEADERS_NAME = #{MEETING_LEADERS_NAME}
+	     WHERE ID = #{ID}
+	</update>
+	
+	<insert id="insertPre" parameterType="map">
+	    INSERT INTO RCM_PRE_REPORT_DATA (
+	        ID,
+	        BUSINESSID,
+	        PROJECT_ADDRESS,
+	        SINGLE_ITEMS_NUM,
+	        PROJECT_RATE,
+	        RATE_REASON,
+	        INVESTMENT_TYPE,
+	        FK_PS_RESULT,
+	        FK_RISK_TIP,
+	        SPECIAL_NOTICE,
+	        MEETING_LEADERS,
+	        VOTING_RESULTS,
+	        OPEN_MEETING_PERSON,
+	        MEETING_LEADERS_NAME
+	    ) VALUES (
+	        RCM_PRE_REPORT_DATA_SEQ.NEXTVAL,
+	        #{BUSINESSID},
+	        #{PROJECT_ADDRESS},
+	        #{SINGLE_ITEMS_NUM},
+	        #{PROJECT_RATE},
+	        #{RATE_REASON},
+	        #{INVESTMENT_TYPE},
+	        #{FK_PS_RESULT},
+	        #{FK_RISK_TIP},
+	        #{SPECIAL_NOTICE},
+	        #{MEETING_LEADERS},
+	        #{VOTING_RESULTS},
+	        #{OPEN_MEETING_PERSON},
+	        #{MEETING_LEADERS_NAME}
+	    )
+	</insert>
+	
+	<update id="updatePre" parameterType="map">
+	    UPDATE RCM_PRE_REPORT_DATA SET 
+	           BUSINESSID = #{BUSINESSID},
+	           PROJECT_ADDRESS = #{PROJECT_ADDRESS},
+	           SINGLE_ITEMS_NUM = #{SINGLE_ITEMS_NUM},
+	           PROJECT_RATE = #{PROJECT_RATE},
+	           RATE_REASON = #{RATE_REASON},
+	           INVESTMENT_TYPE = #{INVESTMENT_TYPE},
+	           FK_PS_RESULT = #{FK_PS_RESULT},
+	           FK_RISK_TIP = #{FK_RISK_TIP},
+	           SPECIAL_NOTICE = #{SPECIAL_NOTICE},
+	           MEETING_LEADERS = #{MEETING_LEADERS},
+	           VOTING_RESULTS = #{VOTING_RESULTS},
+	           OPEN_MEETING_PERSON = #{OPEN_MEETING_PERSON},
+	           MEETING_LEADERS_NAME = #{MEETING_LEADERS_NAME}
+	     WHERE ID = #{ID}
+	</update>
+	
+	<insert id="insertBulletin" parameterType="map">
+	    INSERT INTO RCM_BULLETIN_REPORT_DATA (
+	        ID,
+	        BUSINESSID,
+	        REVIEWPERSONID,
+	        LEGALREVIEWPERSONID,
+	        MEETING_LEADERS,
+	        VOTING_RESULTS,
+	        OPEN_MEETING_PERSON,
+	        MEETING_LEADERS_NAME
+	    ) VALUES (
+	        RCM_BULLETIN_REPORT_DATA_SEQ.NEXTVAL,
+	        #{BUSINESSID},
+	        #{REVIEWPERSONID},
+	        #{LEGALREVIEWPERSONID},
+	        #{MEETING_LEADERS},
+	        #{VOTING_RESULTS},
+	        #{OPEN_MEETING_PERSON},
+	        #{MEETING_LEADERS_NAME}
+	    )
+	</insert>
+	
+	<update id="updateBulletin" parameterType="map">
+	    UPDATE RCM_BULLETIN_REPORT_DATA SET 
+	           BUSINESSID = #{BUSINESSID},
+	           REVIEWPERSONID = #{REVIEWPERSONID},
+	           LEGALREVIEWPERSONID = #{LEGALREVIEWPERSONID},
+	           MEETING_LEADERS = #{MEETING_LEADERS},
+	           VOTING_RESULTS = #{VOTING_RESULTS},
+	           OPEN_MEETING_PERSON = #{OPEN_MEETING_PERSON},
+	           MEETING_LEADERS_NAME = #{MEETING_LEADERS_NAME}
+	     WHERE ID = #{ID}
+	</update>
+	
+	<select id="getPfrProjectByBusinessID" parameterType="map" resultType="map">
+	    SELECT * 
+	      FROM RCM_PFR_REPORT_DATA
+	     WHERE BUSINESSID = #{BUSINESSID}
+	</select>
+	
+	<select id="getPreProjectByBusinessID" parameterType="map" resultType="map">
+	    SELECT * 
+	      FROM RCM_PRE_REPORT_DATA
+	     WHERE BUSINESSID = #{BUSINESSID}
+	</select>
+	
+	<select id="getBulletinProjectByBusinessID" parameterType="map" resultType="map">
+	    SELECT * 
+	      FROM RCM_BULLETIN_REPORT_DATA
+	     WHERE BUSINESSID = #{BUSINESSID}
+	</select>
+	
+	<select id="getPfrProjectList" parameterType="map" resultType="map">
+	    SELECT * 
+	      FROM RCM_FORMALASSESSMENT_INFO RFI 
+	     WHERE 1=1
+	     <if test="createDate != null and createDate != ''">
+	       AND RFI.CREATE_DATE BETWEEN to_date('${createDate} 00:00:00','YYYY/MM/dd hh24:mi:ss') 
+		   AND to_date('${createDate} 23:59:59','YYYY/MM/dd hh24:mi:ss')
+	     </if>
+	     <if test="projectName != null and projectName != ''">
+	       AND RFI.PROJECTNAME LIKE '%${projectName}%'
+	     </if>
+	     <if test="businessId != null and businessId != ''">
+	       AND RFI.BUSINESSID LIKE '%${businessId}%'
+	     </if>
+	</select>
+	
+	<select id="getPreProjectList" parameterType="map" resultType="map">
+	    SELECT * 
+	      FROM RCM_PRE_INFO RPI 
+	     WHERE 1=1
+	     <if test="createDate != null and createDate != ''">
+	       AND RPI.CREATE_DATE BETWEEN to_date('${createDate} 00:00:00','YYYY/MM/dd hh24:mi:ss') 
+		   AND to_date('${createDate} 23:59:59','YYYY/MM/dd hh24:mi:ss')
+	     </if>
+	     <if test="projectName != null and projectName != ''">
+	       AND RPI.PROJECTNAME LIKE '%${projectName}%'
+	     </if>
+	     <if test="businessId != null and businessId != ''">
+	       AND RPI.BUSINESSID LIKE '%${businessId}%'
+	     </if>
+	</select>
+	
+	<select id="getBulletinProjectList" parameterType="map" resultType="map">
+	    SELECT * 
+	      FROM RCM_BULLETIN_INFO RBI 
+	     WHERE 1=1
+	     <if test="createDate != null and createDate != ''">
+	       AND RBI.CREATETIME BETWEEN to_date('${createDate} 00:00:00','YYYY/MM/dd hh24:mi:ss') 
+		   AND to_date('${createDate} 23:59:59','YYYY/MM/dd hh24:mi:ss')
+	     </if>
+	     <if test="projectName != null and projectName != ''">
+	       AND RBI.PROJECTNAME LIKE '%${projectName}%'
+	     </if>
+	     <if test="businessId != null and businessId != ''">
+	       AND RBI.BUSINESSID LIKE '%${businessId}%'
+	     </if>
+	</select>
+
+
+	<!-- 查询全部项目列表 -->
+	<select id="getProjectList" resultType="map"  parameterType="map">
+		SELECT *
+		FROM
+		(
+		SELECT
+		FI.BUSINESS_ID as "BUSINESSID",
+		nvl(FI.PROJECT_NAME, fi.BULLETINNAME) as "PROJECTNAME",
+		fi.PROJECT_TYPE as "PROJECT_TYPE",
+		fi.PERTAINAREA_NAME as "PERTAINAREANAME",
+		fi.INVESTMENT_MANAGER_NAME as "INVESTMENTNAME",
+		fi.REVIEW_PERSON as "REVIEWPERSONNAME",
+		fi.LEGAL_REVIEW_PERSON as "LEGALREVIEWPERSONNAME",
+		FI.MEETING_TIME as "MEETING_TIME",
+		FI.WF_STATE,
+		FI.STAGE,
+		fi.MEETING_LEADERS as "MEETING_LEADERS",
+		fi.MEETINGLEADERS as "MEETING_LEADERS_C",
+		fi.DECISIONRESULT as "DECISION_RESULT",
+		fi.VOTING_RESULTS as "VOTING_RESULTS"
+		FROM rcm_v_report_data FI
+		) T
+		WHERE 1 = 1
+		and t.DECISION_RESULT is not null
+		AND T.WF_STATE <![CDATA[ <> ]]> '0'
+		<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
+		<if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+
+		<if test="meetingLeader != null and meetingLeader != ''">
+			and instr(T.MEETING_LEADERS, '${meetingLeader}') > 0
+		</if>
+		ORDER BY T.MEETING_TIME DESC
+	</select>
+
+	<!-- 查询全部项目数量 -->
+	<select id="getProjectListCount" resultType="int"  parameterType="map">
+		SELECT COUNT(*)
+		FROM
+		(
+		SELECT
+		FI.BUSINESS_ID as "BUSINESSID",
+		nvl(FI.PROJECT_NAME, fi.BULLETINNAME) as "PROJECTNAME",
+		fi.PROJECT_TYPE as "PROJECT_TYPE",
+		fi.PERTAINAREA_NAME as "PERTAINAREANAME",
+		fi.INVESTMENT_MANAGER_NAME as "INVESTMENTNAME",
+		fi.REVIEW_PERSON as "REVIEWPERSONNAME",
+		fi.LEGAL_REVIEW_PERSON as "LEGALREVIEWPERSONNAME",
+		FI.MEETING_TIME as "MEETING_TIME",
+		FI.WF_STATE,
+		FI.STAGE,
+		fi.MEETING_LEADERS as "MEETING_LEADERS",
+		fi.MEETINGLEADERS as "MEETING_LEADERS_C",
+		fi.DECISIONRESULT as "DECISION_RESULT",
+		fi.VOTING_RESULTS as "VOTING_RESULTS"
+		FROM rcm_v_report_data FI
+		) T
+		WHERE 1 = 1
+		and t.DECISION_RESULT is not null
+		AND T.WF_STATE <![CDATA[ <> ]]> '0'
+		<if test="projectName != null and projectName != ''"> and	T.PROJECTNAME like '%${projectName}%' </if>
+		<if test="pertainareaName != null and pertainareaName != ''"> and	T.PERTAINAREANAME like '%${pertainareaName}%' </if>
+		<if test="wf_state != null and wf_state != ''"> and	T.WF_STATE in (${wf_state})</if>
+		<if test="investmentName != null and investmentName != ''"> and	T.INVESTMENTNAME like '%${investmentName}%' </if>
+		<if test="reviewPersonName != null and reviewPersonName != ''"> and	T.REVIEWPERSONNAME like '%${reviewPersonName}%' </if>
+		<if test="legalReviewPersonName != null and legalReviewPersonName != ''"> and	T.LEGALREVIEWPERSONNAME like '%${legalReviewPersonName}%' </if>
+		<if test="stage != null and stage != ''"> and T.STAGE = '${stage}' </if>
+
+		<if test="applyDateStart != null and applyDateStart != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ >= ]]> to_date('${applyDateStart}','yyyy-MM-dd')
+		</if>
+		<if test="applyDateEnd != null and applyDateEnd != ''">
+			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]> to_date('${applyDateEnd}','yyyy-MM-dd')
+		</if>
+		<if test="meetingLeader != null and meetingLeader != ''">
+			and instr(T.MEETING_LEADERS, '${meetingLeader}') > 0
+		</if>
+		ORDER BY T.MEETING_TIME DESC
+	</select>
+	<!--获取领导和秘书的映射关系-->
+	<select id="getLeaderSecretaryMappingList" resultType="map">
+		select
+        st.item_name as "leader",
+        st.item_code as "secretary"
+        from sys_dictionary sd, sys_dictionary_item st
+        where sd.dictionary_code = 'LEADER_SECRETARY_MAPPING'
+        and sd.uuid = st.fk_dictionary_uuid
+        and st.is_enabled = '1'
+	</select>
+</mapper>
+

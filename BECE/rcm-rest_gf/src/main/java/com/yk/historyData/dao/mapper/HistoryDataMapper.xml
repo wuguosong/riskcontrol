@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.historyData.dao.IHistoryDataMapper">
+	<insert id="insert" parameterType="map">
+	    INSERT INTO RCM_HISTORY_DATA (
+	        ID,
+	        BUSINESS_ID,
+	        PROJECT_NUM,
+	        PROJECT_NAME,
+	        PROJECT_TYPE,
+	        IS_WIN_BID,
+	        SERVICE_TYPE_ID,
+	        SERVICE_TYPE,
+	        BUSINESS_MODEL_IDS,
+	        BUSINESS_MODEL,
+	        FRANCHISE_PERIOD,
+	        REVIEW_SCALE,
+	        INVESTMENT_TOTAL,
+	        GROUP_SHAREHOLDING_RATIO,
+	        SELF_FUNDS_RATIO,
+	        REVIEW_PRICE,
+	        EXPECTED_RATE_OF_RETURN,
+	        INVESTMENT_DEPT_ID,
+	        INVESTMENT_DEPT,
+	        CREATE_BY,
+	        REVIEW_PERSON,
+	        LEGAL_REVIEW_PERSON,
+	        REVIEW_TIME,
+	        FOLLOW_SIGN_AGREEMENT_NAME,
+	        REGIONAL_COMPANY_ID,
+	        REGIONAL_COMPANY,
+	        PROVINCE_ID,
+	        PROVINCE,
+	        CITY_ID,
+	        CITY,
+	        CREATE_TIME,
+	        CONTRACT_TITLE,
+	        SIGNING_TIME,
+	        OUR_CONTRACTING_ENTITY_ID,
+	        OUR_CONTRACTING_ENTITY,
+	        CONTRACT_AMOUNT,
+	        CONTRACT_SCALE,
+	        REMARKS,
+	        CUSTOM_FIELD1,
+	        CUSTOM_FIELD2,
+	        CUSTOM_FIELD3,
+	        CUSTOM_FIELD4,
+	        CUSTOM_FIELD5
+	    ) VALUES (
+	        #{ID},
+	        #{BUSINESS_ID},
+	        #{PROJECT_NUM},
+	        #{PROJECT_NAME},
+	        #{PROJECT_TYPE},
+	        #{IS_WIN_BID},
+	        #{SERVICE_TYPE_ID},
+	        #{SERVICE_TYPE},
+	        #{BUSINESS_MODEL_IDS},
+	        #{BUSINESS_MODEL},
+	        #{FRANCHISE_PERIOD},
+	        #{REVIEW_SCALE},
+	        #{INVESTMENT_TOTAL},
+	        #{GROUP_SHAREHOLDING_RATIO},
+	        #{SELF_FUNDS_RATIO},
+	        #{REVIEW_PRICE},
+	        #{EXPECTED_RATE_OF_RETURN},
+	        #{INVESTMENT_DEPT_ID},
+	        #{INVESTMENT_DEPT},
+	        #{CREATE_BY},
+	        #{REVIEW_PERSON},
+	        #{LEGAL_REVIEW_PERSON},
+	        to_date(#{REVIEW_TIME,jdbcType=VARCHAR},'yyyy-mm-dd'),
+	        #{FOLLOW_SIGN_AGREEMENT_NAME},
+	        #{REGIONAL_COMPANY_ID},
+	        #{REGIONAL_COMPANY},
+	        #{PROVINCE_ID},
+	        #{PROVINCE},
+	        #{CITY_ID},
+	        #{CITY},
+	        to_date(#{CREATE_TIME,jdbcType=VARCHAR},'yyyy-mm-dd'),
+	        #{CONTRACT_TITLE},
+	        to_date(#{SIGNING_TIME,jdbcType=VARCHAR},'yyyy-mm-dd'),
+	        #{OUR_CONTRACTING_ENTITY_ID},
+	        #{OUR_CONTRACTING_ENTITY},
+	        #{CONTRACT_AMOUNT},
+	        #{CONTRACT_SCALE},
+	        #{REMARKS},
+	        #{CUSTOM_FIELD1},
+	        #{CUSTOM_FIELD2},
+	        #{CUSTOM_FIELD3},
+	        #{CUSTOM_FIELD4},
+	        #{CUSTOM_FIELD5}
+	    )
+	</insert>
+	
+	<update id="update" parameterType="map">
+	    UPDATE RCM_HISTORY_DATA SET 
+	           BUSINESS_ID = #{BUSINESS_ID},
+	           PROJECT_NUM = #{PROJECT_NUM},
+	           PROJECT_NAME = #{PROJECT_NAME},
+	           PROJECT_TYPE = #{PROJECT_TYPE},
+	           IS_WIN_BID = #{IS_WIN_BID},
+	           SERVICE_TYPE_ID = #{SERVICE_TYPE_ID},
+	           SERVICE_TYPE = #{SERVICE_TYPE},
+	           BUSINESS_MODEL_IDS = #{BUSINESS_MODEL_IDS},
+	           BUSINESS_MODEL = #{BUSINESS_MODEL},
+	           FRANCHISE_PERIOD = #{FRANCHISE_PERIOD},
+    	       REVIEW_SCALE = #{REVIEW_SCALE},
+	           INVESTMENT_TOTAL = #{INVESTMENT_TOTAL},
+	           GROUP_SHAREHOLDING_RATIO = #{GROUP_SHAREHOLDING_RATIO},
+	           SELF_FUNDS_RATIO = #{SELF_FUNDS_RATIO},
+	           REVIEW_PRICE = #{REVIEW_PRICE},
+	           EXPECTED_RATE_OF_RETURN = #{EXPECTED_RATE_OF_RETURN},
+	           INVESTMENT_DEPT_ID = #{INVESTMENT_DEPT_ID},
+	           INVESTMENT_DEPT = #{INVESTMENT_DEPT},
+	           CREATE_BY_ID = #{CREATE_BY_ID},
+	           REVIEW_PERSON_ID = #{REVIEW_PERSON_ID},
+	           LEGAL_REVIEW_PERSON_ID = #{LEGAL_REVIEW_PERSON_ID},
+	           CREATE_BY = #{CREATE_BY},
+	           REVIEW_PERSON = #{REVIEW_PERSON},
+	           LEGAL_REVIEW_PERSON = #{LEGAL_REVIEW_PERSON},
+	           REVIEW_TIME = to_date(#{REVIEW_TIME,jdbcType=VARCHAR},'yyyy-mm-dd'),
+	           FOLLOW_SIGN_AGREEMENT_NAME = #{FOLLOW_SIGN_AGREEMENT_NAME},
+	           REGIONAL_COMPANY_ID = #{REGIONAL_COMPANY_ID},
+	           REGIONAL_COMPANY = #{REGIONAL_COMPANY},
+	           PROVINCE_ID = #{PROVINCE_ID},
+	           PROVINCE = #{PROVINCE},
+	           CITY_ID = #{CITY_ID},
+	           CITY = #{CITY},
+	           CREATE_TIME = to_date(#{CREATE_TIME,jdbcType=VARCHAR},'yyyy-mm-dd'),
+	           CONTRACT_TITLE = #{CONTRACT_TITLE},
+	           SIGNING_TIME = to_date(#{SIGNING_TIME,jdbcType=VARCHAR},'yyyy-mm-dd'),
+	           OUR_CONTRACTING_ENTITY_ID = #{OUR_CONTRACTING_ENTITY_ID},
+	           OUR_CONTRACTING_ENTITY = #{OUR_CONTRACTING_ENTITY},
+	           CONTRACT_AMOUNT = #{CONTRACT_AMOUNT},
+	           CONTRACT_SCALE = #{CONTRACT_SCALE},
+	           REMARKS = #{REMARKS},
+	           CUSTOM_FIELD1 = #{CUSTOM_FIELD1},
+	           CUSTOM_FIELD2 = #{CUSTOM_FIELD2},
+	           CUSTOM_FIELD3 = #{CUSTOM_FIELD3},
+	           CUSTOM_FIELD4 = #{CUSTOM_FIELD4},
+	           CUSTOM_FIELD5 = #{CUSTOM_FIELD5}
+	     WHERE ID = #{ID}
+	</update>
+	
+	<select id="getHistoryAlterList" parameterType="map" resultType="map">
+	    SELECT RHDA.*
+	      FROM RCM_HISTORY_DATA_ALTERNATE RHDA 
+	     WHERE 1=1
+	     <if test="reviewTime != null and reviewTime != ''">
+	       AND TO_CHAR(RHDA.REVIEW_TIME, 'YYYY') = '${reviewTime}'
+	     </if>
+	     ORDER BY RHDA.ID ASC
+	</select>
+	
+	<select id="getHistoryListByPage" parameterType="map" resultType="map">
+	    SELECT RHD.*
+	      FROM RCM_HISTORY_DATA RHD 
+	     WHERE 1=1
+	     <if test="projectName != null and projectName != ''">
+	       AND RHD.PROJECT_NAME LIKE '%${projectName}%'
+	     </if>
+	     <if test="projectType != null and projectType != ''">
+	       AND RHD.PROJECT_TYPE = '${projectType}'
+	     </if>
+	     ORDER BY RHD.ID ASC
+	</select>
+	
+	<!-- 通过ID获取项目数据 -->
+	<select id="getHistoryById" parameterType="string" resultType="map">
+		select * from RCM_HISTORY_DATA i  
+		where i.ID = #{id}
+	</select>
+	
+	<!-- 通过业务ID获取项目数据 -->
+	<select id="getHistoryByBusinessId" parameterType="string" resultType="map">
+		select * from RCM_HISTORY_DATA i  
+		where i.BUSINESS_ID = #{id}
+	</select>
+	
+</mapper>
+

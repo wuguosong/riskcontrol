@@ -10,7 +10,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.paginationConf1 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 5,
+        itemsPerPage: 20,
         pagesLength: 5,
         perPageOptions: [5, 10, 20, 30, 40, 50],
         queryObj: {}
@@ -18,7 +18,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.paginationConf2 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 5,
+        itemsPerPage: 20,
         pagesLength: 5,
         perPageOptions: [5, 10, 20, 30, 40, 50],
         queryObj: {},
@@ -28,7 +28,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.paginationConf3 = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 5,
+        itemsPerPage: 20,
         pagesLength: 5,
         perPageOptions: [5, 10, 20, 30, 40, 50],
         queryObj: {},
@@ -62,7 +62,7 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
                 $scope.paginationConf1.queryObj.wf_state = "1";
                 // 2 :查询正在风控部门的项目
             } else if($scope.params.stage == "2"){
-                $scope.paginationConf1.queryObj.stage = "'2', '3', '3.7'";
+                $scope.paginationConf1.queryObj.stage = "'2', '3'";
                 $scope.paginationConf1.queryObj.wf_state = "'1', '2'";
                 // 3 :查询正在处于上会阶段的项目
             } else if($scope.params.stage == "3"){

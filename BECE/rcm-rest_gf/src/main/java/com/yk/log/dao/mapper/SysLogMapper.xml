@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.log.dao.ISysLogMapper">
+    <!-- 字段与属性映射 -->
+    <resultMap id="sysLogMap" type="com.yk.log.entity.SysLogDto">
+        <id column="id" property="id" javaType="java.lang.Long"/>
+        <result column="user" property="user" javaType="java.lang.String"/>
+        <result column="user_name" property="userName" javaType="java.lang.String"/>
+        <result column="module" property="module" javaType="java.lang.String"/>
+        <result column="code" property="code" javaType="java.lang.String"/>
+        <result column="operation" property="operation" javaType="java.lang.String"/>
+        <result column="description" property="description" javaType="java.lang.String"/>
+        <result column="success" property="success" javaType="java.lang.String"/>
+        <result column="method" property="method" javaType="java.lang.String"/>
+        <result column="params" property="params" javaType="java.lang.String"/>
+        <result column="time" property="time" javaType="java.lang.Long"/>
+        <result column="ip" property="ip" javaType="java.sql.Timestamp"/>
+        <result column="create_date" property="createDate" javaType="java.sql.Timestamp"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.yk.log.entity.SysLogDto">
+		insert into sys_log
+		values(
+		sys_log_seq.nextval,
+		#{sysLog.user},
+		#{sysLog.userName},
+		#{sysLog.module},
+		#{sysLog.code},
+		#{sysLog.operation},
+		#{sysLog.description},
+		#{sysLog.success},
+		#{sysLog.method},
+		#{sysLog.params},
+		#{sysLog.time},
+		#{sysLog.ip},
+		#{sysLog.createDate}
+		)
+	</insert>
+	
+	<select id="getReplaceFile" parameterType="map" resultType="hashmap">
+SELECT
+	SL."user_name",
+	SL."description",
+	TO_CHAR(SL."create_date", 'YYYY-MM-DD HH:MI:SS') "create_date",
+	FD.FILEID,
+	FD.FILENAME,
+	FD.FULLPATH,
+	FD.LAST_MEMBER_NAME,
+	FD.FILEID,
+	FD.DOCTYPE,
+	FD.DOCCODE,
+	FD.PAGELOCATION,
+	FD.LOGICOPT 
+FROM
+	SYS_LOG SL,
+	FILE_DTO FD 
+WHERE
+	DBMS_LOB.substr(SL."params") = FD.FILEID
+   AND SL."module" = #{module} 
+   AND SL."operation" = #{operation} 
+   AND SL."code" = #{id}
+	<if test="businessType != null and businessType != ''">
+		AND FD.docType = #{businessType}
+	</if>
+	<if test="pageLocation != null and pageLocation != ''">
+		AND FD.pageLocation = #{pageLocation}
+	</if>
+	
+ UNION ALL
+
+SELECT
+	'' AS "user_name",
+	'' AS "description",
+	TO_CHAR ( FD.CREATE_DATELINE / ( 1000 * 60 * 60 * 24 ) + TO_DATE ( '1970-01-01 08:00:00', 'YYYY-MM-DD HH:MI:SS' ), 'YYYY-MM-DD HH:MI:SS' ) "create_date",
+	FD.FILEID,
+	FD.FILENAME,
+	FD.FULLPATH,
+	FD.LAST_MEMBER_NAME,
+	FD.FILEID,
+	FD.DOCTYPE,
+	FD.DOCCODE,
+	FD.PAGELOCATION,
+	FD.LOGICOPT 
+FROM
+	FILE_DTO FD 
+WHERE
+	FD.DOCCODE = #{id}  
+	AND nvl ( FD.LOGICOPT, 'UPLOAD' ) <![CDATA[ <> ]]> 'DELETE' 
+	AND nvl ( FD.LOGICOPT, 'UPLOAD' ) <![CDATA[ <> ]]> 'REPLACE' 
+   <if test="businessType != null and businessType != ''">
+		AND FD.docType = #{businessType}
+	</if>
+	<if test="pageLocation != null and pageLocation != ''">
+		AND FD.pageLocation = #{pageLocation}
+	</if>
+	</select>
+</mapper>

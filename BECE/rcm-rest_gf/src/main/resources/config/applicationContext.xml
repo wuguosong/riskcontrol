@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://cxf.apache.org/jaxws
+      	http://cxf.apache.org/schemas/jaxws.xsd"
+	default-lazy-init="true">
+
+<!-- 	<import resource="classpath:config/spring-cxf.xml"/> -->
+
+	<bean id="propertiesUtil" class="util.PropertiesUtil">
+		<!-- 开发 -->
+		<!-- <property name="location" value="classpath:dev_db.properties" /> -->
+		<!--
+
+		 -->
+		<!-- 测试  -->
+ 		<!-- <property name="location" value="classpath:test_db.properties" /> -->
+		<!-- 生产 -->
+		<property name="location" value="classpath:db.properties" />
+	</bean> 
+	
+	<bean class="com.yk.common.SpringUtil" lazy-init="false"></bean>
+	
+	<bean id="mongoClient" class="com.mongodb.MongoClient">
+		<constructor-arg name="host" value="${mongodb.host}"/>
+		<constructor-arg name="port" value="${mongodb.port}"/>
+		<!--
+		-->
+		<!-- <constructor-arg name="uri" value="mongodb://${mongodb.username}:${mongodb.password}@${mongodb.host}:${mongodb.port}/${mongodb.database}"/> -->
+	</bean>
+	
+	<context:component-scan base-package="com.yk,com.daxt,newInterface.appointment" use-default-filters="true">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	<aop:aspectj-autoproxy />
+	
+	<!-- datasource 配置 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="${jdbc.maxPoolSize}"></property>
+	</bean>
+	
+	<!-- myBatis的配置项  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations">
+        	<list>
+	            <value>classpath:sql/*.xml</value>
+	            <value>classpath*:com/yk/**/*Mapper.xml</value>
+				<value>classpath*:newInterface/appointment/**/*Mapper.xml</value>
+	        </list>
+        </property>
+        <property name="configLocation" value="classpath:config/mybatis.xml" />
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+	  	<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.yk,newInterface.appointment" />
+        <property name="markerInterface" value="com.yk.common.BaseMapper"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+	
+	<!-- 配置activiti -->
+	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+		<property name="dataSource" ref="dataSource" />
+	    <property name="transactionManager" ref="txManager" />
+	    <property name="databaseSchemaUpdate" value="false" />
+	    <property name="jobExecutorActivate" value="false" />
+	    <property name="dbIdentityUsed" value="false" />
+<!-- 	    <property name="databaseSchema" value="rcm"/> -->
+	    <!-- 不检测历史表是否存在,应对Activiti database problem: Tables missing for component(s) history, identity -->
+<!-- 	    <property name="history" value="none" /> -->
+<!-- 		<property name="dbIdentityUsed" value="false" /> -->
+<!-- 		<property name="dbHistoryUsed" value="false" /> -->
+	    <property name="processDefinitionCacheLimit" value="0" />
+	</bean>
+	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+		<property name="processEngineConfiguration" ref="processEngineConfiguration" />
+	</bean>
+	<bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />
+	<bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />
+	<bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
+	<bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
+	<bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />
+	<bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" />
+	
+	
+	<!-- 事务配置 -->
+	<tx:annotation-driven transaction-manager="txManager"/>
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="tzClient" class="ws.client.TzClient" name="TZPS" scope="prototype"/>
+	
+	<bean id="contractClient" class="ws.client.contract.SendProjectThread" name="HTTS" scope="prototype"/>
+	
+	<bean id="ptClient" class="ws.client.Portal2Client" name="PTTS" scope="prototype"/>
+	
+	<bean id="hpgClient" class="ws.client.HpgClient" name="HPGTS" scope="prototype"/>
+	
+	<bean id="tzAfterPreReviewClient" class="ws.client.TzAfterPreReviewClient" name="TZPTS" scope="prototype"/>
+	
+	<bean id="tzAfterNoticeClient" class="ws.client.TzAfterNoticeClient" name="TZFTS" scope="prototype"/>
+	
+	<bean id="msgClient" class="ws.client.message.client.SendMessageUtil" name="MSG" scope="prototype"/>
+	
+<!-- 	<bean class="com.yk.util.InstantiationTracingBeanPostProcessor"/> -->
+
+	<bean id="projectTzFilterChain" class="com.yk.ext.filter.ProjectTzFilterChain">
+		<property name="filters">
+			<list>
+<!-- 			接口日志记录-->	
+				<bean class="com.yk.rcm.project.filter.PfrTzLogFilter"></bean>
+<!-- 				判断是否可以做处理 -->
+				<bean class="com.yk.rcm.project.filter.PfrTzAllowDealFilter"></bean>
+<!-- 				执行验证 -->
+				<bean class="com.yk.rcm.project.filter.PfrTzValidFilter"></bean>
+<!-- 				业务类型转换 -->
+				<bean class="com.yk.rcm.project.filter.PfrTzDealServiceTypeFilter"></bean>
+<!-- 				大区处理 -->
+				<bean class="com.yk.rcm.project.filter.PfrTzDealPertainAreaFilter"></bean>
+<!-- 				附件处理 -->
+				<bean class="com.yk.rcm.project.filter.PfrTzDownloadFileFilter"></bean>
+<!-- 				数据转换(示例:name to KEY,value to VALUE,) -->
+				<bean class="com.yk.rcm.project.filter.PfrTzDataConversionFilter"></bean>
+<!-- 				执行保存或更新 -->
+				<bean class="com.yk.rcm.project.filter.PfrTzSaveOrUpdateFilter"></bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="projectTzPreFilterChain" class="com.yk.ext.filter.ProjectTzFilterChain">
+		<property name="filters">
+			<list>
+<!-- 			接口日志记录-->	
+				<bean class="com.yk.rcm.project.filter.PreTzLogFilter"></bean>
+<!-- 				判断是否可以做处理 -->
+				<bean class="com.yk.rcm.project.filter.PreTzAllowDealFilter"></bean>
+<!-- 				执行验证 -->
+				<bean class="com.yk.rcm.project.filter.PreTzValidFilter"></bean>
+<!-- 				业务类型转换 -->
+				<bean class="com.yk.rcm.project.filter.PreTzDealServiceTypeFilter"></bean>
+<!-- 				大区处理 -->
+				<bean class="com.yk.rcm.project.filter.PreTzDealPertainAreaFilter"></bean>
+<!-- 				附件处理 -->
+				<bean class="com.yk.rcm.project.filter.PreTzDownloadFileFilter"></bean>
+<!-- 				数据转换(示例:name to KEY,value to VALUE,) -->
+				<bean class="com.yk.rcm.project.filter.PreTzDataConversionFilter"></bean>
+<!-- 				执行保存或更新 -->
+				<bean class="com.yk.rcm.project.filter.PreTzSaveOrUpdateFilter"></bean>
+			</list>
+		</property>
+	</bean>
+	<import resource="classpath:config/daxt-dataSource.xml"/>
+	<import resource="classpath:config/quartz-config.xml"/>
+	<!--<import resource="classpath:config/redis-conf.xml"/>-->
+	<jaxws:endpoint id="getService" implementor="ws.msg.service.GetServiceImpl"
+					address="/getService" />
+</beans>

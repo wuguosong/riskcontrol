@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.pre.dao.IPreBiddingMapper">
+	
+	<!-- 未提交决策会材料 -->
+	<select id="queryUncommittedByPage" parameterType="map"
+		resultType="hashmap">
+		select * from (
+				SELECT RFI.ID,
+		       RFI.BUSINESSID,
+		       RFI.PROJECTNAME,
+		       RFI.PROJECTNUM,
+		       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+		       RFI.PROJECT_MODEL_IDS,
+		       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+		       (SELECT SU.NAME FROM SYS_USER SU WHERE SU.UUID = RFI.REVIEWPERSONID) REVIEWPERSONNAME,
+		       RFI.ISURGENT,
+		       RFR.CREATE_DATE, 
+		       RFR.CONTROLLER_VAL 
+		  FROM RCM_PRE_INFO RFI, RCM_PRE_REPORT RFR 
+		 WHERE RFI.STAGE = '3.5' 
+		   AND RFI.WF_STATE = '2' 
+		   AND RFI.BUSINESSID = RFR.BUSINESSID 
+		   AND RFR.CREATE_DATE IS NOT NULL 
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if> 
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.projectName like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+
+	<!-- 已提交决策会材料列表 -->
+	<select id="querySubmittedByPage" parameterType="map"
+		resultType="hashmap">
+		select t.* from (SELECT RFI.ID,
+	       RFI.BUSINESSID,
+	       RFI.PROJECTNAME,
+	       RFI.PROJECTNUM,
+	       (SELECT S.NAME FROM SYS_USER S WHERE S.UUID = RFI.CREATEBY) AS CREATEBY,
+	       (SELECT su.NAME FROM Sys_User su WHERE su.uuid = rfi.reviewpersonid) reviewpersonname,
+	       RFI.PROJECT_MODEL_IDS,
+	       (SELECT O.NAME FROM SYS_ORG O WHERE O.ORGPKVALUE = RFI.PERTAINAREAID) AS PERTAINAREANAME,
+	       RFI.WF_STATE,
+	       RFI.DECISION_COMMIT_TIME,
+	       RFR.CREATE_DATE ,
+	       RFR.CONTROLLER_VAL 
+		  	FROM RCM_PRE_INFO RFI, RCM_PRE_REPORT RFR 
+		 	WHERE RFI.STAGE in ('4','5','6','7') AND RFI.wf_state = '2' 
+		   AND  RFR.BUSINESSID = RFI.BUSINESSID  
+		   <if test="psfzr!=null and psfzr!=''"> and RFI.REVIEWPERSONID=#{psfzr}</if> 
+		) t where 1 = 1 
+		<if test="projectName!=null and projectName!=''"> and t.projectName like '%${projectName}%'</if>
+		<if test="createBy!=null and createBy!=''"> and t.createby like '%${createBy}%'</if>
+		<if test="pertainareaname!=null and pertainareaname!=''"> and t.pertainareaName like '%${pertainareaname}%'</if>
+		<if test="orderBy!=null and orderBy!=''"> order by ${orderBy}</if> 
+	</select>
+	
+	  <!-- 提交正式报告(3.7)——填写参会信息(3.5)——提交决策通知书(3.9)——提交决策委员会(4) -->
+     <update id="changeState">
+     	update rcm_pre_info r set r.stage = #{stage}, r.decision_commit_time = #{decision_commit_time,jdbcType=DATE} where r.businessid = #{businessid}
+     </update>
+	
+	<!-- 获取提交申请时间 -->
+	<select id="queryApplDate" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT TO_CHAR(R.APPLY_DATE, 'YYYY-MM-DD HH24:MI:SS') FROM RCM_PRE_INFO R WHERE R.BUSINESSID = #{businessId}
+	</select>
+</mapper>

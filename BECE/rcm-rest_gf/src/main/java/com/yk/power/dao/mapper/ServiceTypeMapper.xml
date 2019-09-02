@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.power.dao.IServiceTypeMapper">
+
+	<select id="getRcmServiceTypeByTzServiceType" resultType="map" parameterType="map">
+		select * from rcm_tz_servicetype s where s.tzservicetypeid = #{tzServiceType}
+	</select>
+	
+	<select id="getDictServiceTypeByCode" resultType="map" parameterType="map">
+		select * from sys_dictionary_item d where d.item_code = #{code}
+	</select>
+	
+	
+</mapper>

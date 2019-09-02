@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.common.dao.ICommonMapper">
+    <!--查询审批中的项目-->
+    <select id="selectApprovalProjects" resultType="java.util.HashMap">
+        /*正式评审审批*/
+        <if test="type != null and type != '' and type == 'formalReview'">
+            select
+            lg.*,
+            lg.projectname as "projectName"
+            from  rcm_formalassessment_info lg
+            where lg.WF_STATE = '1'
+            and lg.PROJECTNUM = #{id}
+        </if>
+        /*投标评审审批*/
+        <if test="type != null and type != '' and type == 'preReview'">
+            select
+            lg.*,
+            lg.projectname as "projectName"
+            from  rcm_pre_info lg
+            where lg.WF_STATE = '1'
+            and lg.PROJECTNUM = #{id}
+        </if>
+        /*其它评审审批*/
+        <if test="type != null and type != '' and type == 'bulletin'">
+            select
+            lg.*,
+            lg.bulletinname as "projectName"
+            from  rcm_bulletin_info lg
+            where lg.AUDITSTATUS = '1'
+            and lg.PROJECTNUM = #{id}
+        </if>
+    </select>
+    <!--查询评审中的项目-->
+    <select id="selectReviewProjects" resultType="java.util.HashMap">
+        /*正式评审审批*/
+        <if test="type != null and type != '' and type == 'formalReview'">
+            select
+            lg.*,
+            lg.projectname as "projectName"
+            from rcm_formalassessment_info lg
+            where lg.stage = '6'
+            and lg.businessid = #{id}
+        </if>
+        /*投标评审审批*/
+        <if test="type != null and type != '' and type == 'preReview'">
+            select
+            lg.*,
+            lg.projectname as "projectName"
+            from rcm_pre_info lg
+            where lg.stage = '6'
+            and lg.businessid = #{id}
+        </if>
+        /*其它评审审批*/
+        <if test="type != null and type != '' and type == 'bulletin'">
+            select
+            lg.*,
+            lg.bulletinname as "projectName"
+            from rcm_bulletin_info lg
+            where lg.stage = '6'
+            and lg.businessid = #{id}
+        </if>
+    </select>
+</mapper>

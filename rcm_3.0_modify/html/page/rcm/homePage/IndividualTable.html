@@ -404,8 +404,8 @@
                         <i class="fa fa-calendar form-control-feedback"></i>
                     </div>
                     <div class="col-sm-4 col-md-4 sm-col has-feedback" style="text-align: right">
-                        <button class="btn btn-info" ng-click="getProjectHighList(params)">查询</button>
-                        <button class="btn btn-info" ng-click="cancelHighList()">清除</button>
+                        <button class="btn btn-info" ng-click="getProjectList(params)">查询</button>
+                        <button class="btn btn-info" ng-click="cancel()">清除</button>
                     </div>
                 </div>
             </div>
@@ -415,23 +415,23 @@
         <ul class="nav nav-tabs bs-tabdrop-example">
             <li class="{{tabIndex=='0'?'active':''}}">
                 <a href="/#bs-tabdrop-tab1" data-toggle="tab">申请阶段 <span
-                        class="uibadge ">{{paginationConf6.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf1.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='1'?'active':''}}">
                 <a href="/#bs-tabdrop-tab2" data-toggle="tab">风控评审 <span
-                        class="uibadge ">{{paginationConf7.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf2.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='2'?'active':''}}">
                 <a href="/#bs-tabdrop-tab3" data-toggle="tab">准备上会 <span
-                        class="uibadge ">{{paginationConf8.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf3.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='3'?'active':''}}">
                 <a href="/#bs-tabdrop-tab4" data-toggle="tab">已决策<span
-                        class="uibadge ">{{paginationConf9.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf4.totalItems}}</span></a>
             </li>
             <li class="{{tabIndex=='4'?'active':''}}">
                 <a href="/#bs-tabdrop-tab5" data-toggle="tab" ng-if="paginationConf10.totalItems > 0">历史数据 <span
-                        class="uibadge ">{{paginationConf10.totalItems}}</span></a>
+                        class="uibadge ">{{paginationConf5.totalItems}}</span></a>
             </li>
         </ul>
         <div class="tab-content">
@@ -456,7 +456,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="p in projectList6" on-finish-render-filters>
+                                    <tr ng-repeat="p in projectList1" on-finish-render-filters>
                                         <td>{{$index+1}}</td>
                                         <td>
                                             <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"
@@ -495,7 +495,7 @@
                             </div>
                         </div>
                         <div class="table-footer clearfix">
-                            <tm-pagination conf="paginationConf6"></tm-pagination>
+                            <tm-pagination conf="paginationConf1"></tm-pagination>
                         </div>
                     </div>
                 </form>
@@ -522,7 +522,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="p in projectList7" on-finish-render-filters>
+                                    <tr ng-repeat="p in projectList2" on-finish-render-filters>
                                         <td>{{$index+1}}</td>
                                         <td>
                                             <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"
@@ -550,7 +550,7 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                         <!--<td>-->
                                             <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
                                             <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
@@ -563,7 +563,7 @@
                             </div>
                         </div>
                         <div class="table-footer clearfix">
-                            <tm-pagination conf="paginationConf7"></tm-pagination>
+                            <tm-pagination conf="paginationConf2"></tm-pagination>
                         </div>
                     </div>
                 </form>
@@ -589,7 +589,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="p in projectList8" on-finish-render-filters>
+                                    <tr ng-repeat="p in projectList3" on-finish-render-filters>
                                         <td>{{$index+1}}</td>
                                         <td>
                                             <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"
@@ -617,7 +617,7 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                         <!--<td>-->
                                             <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
                                             <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
@@ -630,7 +630,7 @@
                             </div>
                         </div>
                         <div class="table-footer clearfix">
-                            <tm-pagination conf="paginationConf8"></tm-pagination>
+                            <tm-pagination conf="paginationConf3"></tm-pagination>
                         </div>
                     </div>
                 </form>
@@ -656,7 +656,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="p in projectList9" on-finish-render-filters>
+                                    <tr ng-repeat="p in projectList4" on-finish-render-filters>
                                         <td>{{$index+1}}</td>
                                         <td>
                                             <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"
@@ -684,7 +684,7 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                         <!--<td>-->
                                             <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
                                             <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
@@ -697,7 +697,7 @@
                             </div>
                         </div>
                         <div class="table-footer clearfix">
-                            <tm-pagination conf="paginationConf9"></tm-pagination>
+                            <tm-pagination conf="paginationConf4"></tm-pagination>
                         </div>
                     </div>
                 </form>
@@ -723,7 +723,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="p in projectList10" on-finish-render-filters>
+                                    <tr ng-repeat="p in projectList5" on-finish-render-filters>
                                         <td>{{$index+1}}</td>
                                         <td>
                                             <a ng-if="'pfr'==p.PROJECT_TYPE &&'5' != p.WF_STATE"
@@ -751,14 +751,14 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="table-footer clearfix">
-                            <tm-pagination conf="paginationConf10"></tm-pagination>
+                            <tm-pagination conf="paginationConf5"></tm-pagination>
                         </div>
                     </div>
                 </form>
@@ -2283,7 +2283,7 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                         <!--<td>-->
                                             <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
                                             <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
@@ -2358,7 +2358,7 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                         <!--<td>-->
                                             <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
                                             <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
@@ -2433,7 +2433,7 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                         <!--<td>-->
                                             <!--<div ng-if="'0'== p.WF_STATE">起草中</div>-->
                                             <!--<div ng-if="'1'== p.WF_STATE">审批中</div>-->
@@ -2508,7 +2508,7 @@
                                         <td>{{p.INVESTMENTNAME}}</td>
                                         <td>{{p.REVIEWPERSONNAME}}</td>
                                         <td>{{p.LEGALREVIEWPERSONNAME}}</td>
-                                        <td>{{p.CREATE_DATE |date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                        <td>{{p.CREATE_DATE |projectTimeFilter: 10}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

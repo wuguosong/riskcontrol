@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.rcm.pre.dao.IPreMeetingInfoMapper">
+	<!-- 查询会议信息列表(未处理) -->
+	<select id="queryInformationList" resultType="map"  parameterType="hashmap">
+		select i.*,
+			(select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName ,
+	      	(select o.NAME from sys_org o where o.ORGPKVALUE = i.reportingunit_id) reportingunitName ,
+	      	(select o.ITEM_NAME from sys_dictionary_item o where o.ITEM_CODE = i.servicetype_id) servicetypeName ,
+	      	(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName
+	    	from rcm_pre_info i  
+		where stage IN ('3','3.7','3.5','3.9')
+		<if test="createBy!=null and createBy!=''"> and i.reviewpersonid = #{createBy} </if>
+		<if test="projectUnitName != null and projectUnitName != ''"> and i.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+    	<if test="projectName != null and projectName != ''"> and	i.projectName like '%${projectName}%' </if>
+    	<if test="wfState != null and wfState != ''"> and	i.wf_state = #{wfState}</if>
+	</select>
+	<!-- 查询会议信息列表(已处理) -->
+	<select id="queryInformationListed" resultType="map"  parameterType="hashmap">
+	select fi.* from(
+		select i.*,
+      	    (select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName ,
+	      	(select o.NAME from sys_org o where o.ORGPKVALUE = i.reportingunit_id) reportingunitName ,
+	      	(select o.ITEM_NAME from sys_dictionary_item o where o.ITEM_CODE = i.servicetype_id) servicetypeName ,
+	      	(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName 
+	    	from rcm_pre_info i 
+    where need_meeting='1' and stage in('3.5','3.9','4','5','6','7')
+    ) fi where 1=1
+    <if test="createBy!=null and createBy!=''"> and fi.reviewpersonid = #{createBy} </if>
+    <if test="projectUnitName != null and projectUnitName != ''"> and fi.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+    <if test="projectName != null and projectName != ''"> and fi.projectName like '%${projectName}%' </if>
+    <if test="wfState != null and wfState != ''"> and fi.wf_state = #{wfState}</if>
+    order by METTING_COMMIT_TIME desc
+	</select>
+	<!-- 无需上会信息列表-->
+	<select id="queryNotMeetingList" resultType="map"  parameterType="hashmap">
+	select fi.* from(
+		select i.*,
+      	    (select o.name from sys_org o where o.ORGPKVALUE=i.pertainareaid) pertainareaName ,
+	      	(select o.NAME from sys_org o where o.ORGPKVALUE = i.reportingunit_id) reportingunitName ,
+	      	(select o.ITEM_NAME from sys_dictionary_item o where o.ITEM_CODE = i.servicetype_id) servicetypeName ,
+	      	(select u.NAME from sys_user u where u.uuid=i.createby) investmentName,
+	       	(select u.NAME from sys_user u where u.uuid=i.reviewpersonid) reviewpersonName 
+	    	from rcm_pre_info i 
+    where need_meeting='0' and stage='9'
+    ) fi where 1=1
+    <if test="createBy!=null and createBy!=''"> and fi.reviewpersonid = #{createBy} </if>
+    <if test="projectUnitName != null and projectUnitName != ''"> and fi.PERTAINAREAID in(select o.ORGPKVALUE from sys_org o where o.name like '%${projectUnitName}%')</if>
+    <if test="projectName != null and projectName != ''"> and fi.projectName like '%${projectName}%' </if>
+    <if test="wfState != null and wfState != ''"> and fi.wf_state = #{wfState}</if>
+    order by METTING_COMMIT_TIME desc
+	</select>
+	<!-- 保存之后修改stage状态 -->
+	<update id="updateStage" parameterType="hashmap">
+		update rcm_pre_info set stage=#{stage},need_meeting=#{need_meeting},metting_commit_time=to_date(#{metting_commit_time,jdbcType=VARCHAR},'yyyy-mm-dd,hh24:mi:ss') 
+		where businessid in (#{businessId,jdbcType=VARCHAR})
+	</update>
+</mapper>
