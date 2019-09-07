@@ -157,7 +157,7 @@
 	<select id="getHistoryListByPage" parameterType="map" resultType="map">
 	    SELECT RHD.*
 	      FROM RCM_HISTORY_DATA RHD 
-	     WHERE 1=1
+	     WHERE 1=1 AND ID  > 10330
 	     <if test="projectName != null and projectName != ''">
 	       AND RHD.PROJECT_NAME LIKE '%${projectName}%'
 	     </if>

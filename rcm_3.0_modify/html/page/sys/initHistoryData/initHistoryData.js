@@ -13,6 +13,8 @@ function ($http,$scope,$location,$routeParams) {
 			if(data.result_code == 'S'){
 				$scope.historyList = data.result_data.list;
                 $scope.paginationConf.totalItems = data.result_data.totalItems;
+                $scope.paginationConf.totalItems = 311;
+                console.log($scope.paginationConf.totalItems);
 			}else{
 				$.alert(data.result_name);
 			}
