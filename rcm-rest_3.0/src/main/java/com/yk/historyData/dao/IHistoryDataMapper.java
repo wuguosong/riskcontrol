@@ -6,6 +6,9 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yk.common.BaseMapper;
+
+import common.PageAssistant;
+
 import org.springframework.stereotype.Repository;
 
 
@@ -45,4 +48,6 @@ public interface IHistoryDataMapper extends BaseMapper {
 	 * 根据条件获取单个历史数据
 	 * */
 	public Map<String, Object> getHistoryByBusinessId(String id);
+
+	public List<Map<String, Object>> getNewData();
 }

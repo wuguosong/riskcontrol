@@ -4,6 +4,14 @@
 ctmApp.register.controller('projectHistoryInfoAllBoardView', ['$http','$scope','$location', '$routeParams', '$filter','Upload',
  function ($http,$scope,$location, $routeParams, $filter, Upload) {
 
+     var currentUserRoles = $scope.credentials.roles;
+     $scope.showCesuan = false;
+     for (var i = 0; i < currentUserRoles.length; i++) {
+         if (currentUserRoles[i].CODE == 'RISK_CESUAN') {
+             $scope.showCesuan = true;
+         }
+     }
+
 	$scope.id = $routeParams.id;
 	$scope.oldUrl = $routeParams.url;
 
@@ -16,13 +24,24 @@ ctmApp.register.controller('projectHistoryInfoAllBoardView', ['$http','$scope','
          $scope.newAttachment = attach_list("historyData", id, "pfrHistoryInfo").result_data;
          for(var i in attachment){
              var file = attachment[i];
+             console.log(file.fileId);
              for (var j in $scope.newAttachment){
-                 if (file.fileId == $scope.newAttachment[j].fileid){
-                     $scope.newAttachment[j].newFile = '0';
-                     $scope.newAttachment[j].fileName = file.fileName;
-                     $scope.newAttachment[j].type = file.type;
-                     $scope.newAttachment[j].last_date = timestampToTime($scope.newAttachment[j].last_dateline);
-                     break;
+                 if($scope.newAttachment[j].fileid % 10000 == 0) {
+                     if ((file.fileId * 10000) == $scope.newAttachment[j].fileid){
+                         $scope.newAttachment[j].newFile = '0';
+                         $scope.newAttachment[j].fileName = file.fileName;
+                         $scope.newAttachment[j].type = file.type;
+                         $scope.newAttachment[j].last_date = timestampToTime($scope.newAttachment[j].last_dateline);
+                         break;
+                     }
+                 } else {
+                     if (file.fileId== $scope.newAttachment[j].fileid){
+                         $scope.newAttachment[j].newFile = '0';
+                         $scope.newAttachment[j].fileName = file.fileName;
+                         $scope.newAttachment[j].type = file.type;
+                         $scope.newAttachment[j].last_date = timestampToTime($scope.newAttachment[j].last_dateline);
+                         break;
+                     }
                  }
              }
 
@@ -83,7 +102,15 @@ ctmApp.register.controller('projectHistoryInfoAllBoardView', ['$http','$scope','
 
 ctmApp.register.controller('projectPreHistoryInfoAllBoardView', ['$http','$scope','$location', '$routeParams', '$filter',
  function ($http,$scope,$location, $routeParams, $filter) {
-    debugger
+
+     var currentUserRoles = $scope.credentials.roles;
+     $scope.showCesuan = false;
+     for (var i = 0; i < currentUserRoles.length; i++) {
+         if (currentUserRoles[i].CODE == 'RISK_CESUAN') {
+             $scope.showCesuan = true;
+         }
+     }
+
      $scope.id = $routeParams.id;
      $scope.oldUrl = $routeParams.url;
 
@@ -97,15 +124,24 @@ ctmApp.register.controller('projectPreHistoryInfoAllBoardView', ['$http','$scope
          for(var i in attachment){
              var file = attachment[i];
              for (var j in $scope.newAttachment){
-                 if (file.fileId == $scope.newAttachment[j].fileid){
-                     $scope.newAttachment[j].newFile = '0';
-                     $scope.newAttachment[j].fileName = file.fileName;
-                     $scope.newAttachment[j].type = file.type;
-                     $scope.newAttachment[j].last_date = timestampToTime($scope.newAttachment[j].last_dateline);
-                     break;
+                 if($scope.newAttachment[j].fileid % 10000 == 0) {
+                     if ((file.fileId * 10000) == $scope.newAttachment[j].fileid){
+                         $scope.newAttachment[j].newFile = '0';
+                         $scope.newAttachment[j].fileName = file.fileName;
+                         $scope.newAttachment[j].type = file.type;
+                         $scope.newAttachment[j].last_date = timestampToTime($scope.newAttachment[j].last_dateline);
+                         break;
+                     }
+                 } else {
+                     if (file.fileId== $scope.newAttachment[j].fileid){
+                         $scope.newAttachment[j].newFile = '0';
+                         $scope.newAttachment[j].fileName = file.fileName;
+                         $scope.newAttachment[j].type = file.type;
+                         $scope.newAttachment[j].last_date = timestampToTime($scope.newAttachment[j].last_dateline);
+                         break;
+                     }
                  }
              }
-
          }
      };
 

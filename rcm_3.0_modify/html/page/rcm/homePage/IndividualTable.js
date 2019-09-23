@@ -348,6 +348,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
             $scope.paginationConf1.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf1.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf1.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf1.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf1.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             console.log($scope.credentials.userName);
             if ($scope.credentials.userName == '于良法' || $scope.credentials.userName == '崔杰' || $scope.credentials.userName == '牟洪礼') {
@@ -358,7 +359,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
                 $scope.paginationConf1.queryObj.pertainareaName = '南部';
             } else if ($scope.credentials.userName == '杨小全' || $scope.credentials.userName == '刘盛宏') {
                 $scope.paginationConf1.queryObj.pertainareaName = '西部';
-            } else if ($scope.credentials.userName == '王助贫' || $scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
+            } else if ($scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
                 $scope.paginationConf1.queryObj.pertainareaName = '北部';
             } else {
                 $scope.paginationConf10.queryObj.pertainareaName = $scope.params.pertainareaName;
@@ -389,6 +390,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
             $scope.paginationConf2.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf2.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf2.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf2.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf2.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             if ($scope.credentials.userName == '于良法' || $scope.credentials.userName == '崔杰' || $scope.credentials.userName == '牟洪礼') {
                 $scope.paginationConf2.queryObj.pertainareaName = '东部';
@@ -398,7 +400,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
                 $scope.paginationConf2.queryObj.pertainareaName = '南部';
             } else if ($scope.credentials.userName == '杨小全' || $scope.credentials.userName == '刘盛宏') {
                 $scope.paginationConf2.queryObj.pertainareaName = '西部';
-            } else if ($scope.credentials.userName == '王助贫' || $scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
+            } else if ($scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
                 $scope.paginationConf2.queryObj.pertainareaName = '北部';
             } else {
                 $scope.paginationConf10.queryObj.pertainareaName = $scope.params.pertainareaName;
@@ -429,6 +431,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
             $scope.paginationConf3.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf3.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf3.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf3.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf3.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             if ($scope.credentials.userName == '于良法' || $scope.credentials.userName == '崔杰' || $scope.credentials.userName == '牟洪礼') {
                 $scope.paginationConf3.queryObj.pertainareaName = '东部';
@@ -438,7 +441,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
                 $scope.paginationConf3.queryObj.pertainareaName = '南部';
             } else if ($scope.credentials.userName == '杨小全' || $scope.credentials.userName == '刘盛宏') {
                 $scope.paginationConf3.queryObj.pertainareaName = '西部';
-            } else if ($scope.credentials.userName == '王助贫' || $scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
+            } else if ($scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
                 $scope.paginationConf3.queryObj.pertainareaName = '北部';
             } else {
                 $scope.paginationConf10.queryObj.pertainareaName = $scope.params.pertainareaName;
@@ -472,6 +475,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
             $scope.paginationConf4.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf4.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf4.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf4.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf4.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             if ($scope.credentials.userName == '于良法' || $scope.credentials.userName == '崔杰' || $scope.credentials.userName == '牟洪礼') {
                 $scope.paginationConf4.queryObj.pertainareaName = '东部';
@@ -481,7 +485,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
                 $scope.paginationConf4.queryObj.pertainareaName = '南部';
             } else if ($scope.credentials.userName == '杨小全' || $scope.credentials.userName == '刘盛宏') {
                 $scope.paginationConf4.queryObj.pertainareaName = '西部';
-            } else if ($scope.credentials.userName == '王助贫' || $scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
+            } else if ($scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
                 $scope.paginationConf4.queryObj.pertainareaName = '北部';
             } else {
                 $scope.paginationConf10.queryObj.pertainareaName = $scope.params.pertainareaName;
@@ -512,6 +516,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
             $scope.paginationConf5.queryObj.projectName = $scope.params.projectName;
             $scope.paginationConf5.queryObj.investmentName = $scope.params.investmentName;
             $scope.paginationConf5.queryObj.reviewPersonName = $scope.params.reviewPersonName;
+            $scope.paginationConf5.queryObj.pertainareaName = $scope.params.pertainareaName;
             $scope.paginationConf5.queryObj.legalReviewPersonName = $scope.params.legalReviewPersonName;
             if ($scope.credentials.userName == '于良法' || $scope.credentials.userName == '崔杰' || $scope.credentials.userName == '牟洪礼') {
                 $scope.paginationConf5.queryObj.pertainareaName = '东部';
@@ -521,7 +526,7 @@ ctmApp.register.controller('IndividualTable', ['$routeParams', '$http', '$scope'
                 $scope.paginationConf5.queryObj.pertainareaName = '南部';
             } else if ($scope.credentials.userName == '杨小全' || $scope.credentials.userName == '刘盛宏') {
                 $scope.paginationConf5.queryObj.pertainareaName = '西部';
-            } else if ($scope.credentials.userName == '王助贫' || $scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
+            } else if ($scope.credentials.userName == '黎定高' || $scope.credentials.userName == '安莹玉' || $scope.credentials.userName == '罗德波') {
                 $scope.paginationConf5.queryObj.pertainareaName = '北部';
             } else {
                 $scope.paginationConf10.queryObj.pertainareaName = $scope.params.pertainareaName;

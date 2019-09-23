@@ -859,7 +859,11 @@
 		RMI.MEETING_TIME,
 		FI.STAGE,
 		RDR.VOTE_STATUS,
-		RDR.DECISION_RESULT
+		RDR.DECISION_RESULT,
+		case fi.WF_STATE
+		when '5' then 1
+		else 0 end 
+		as order_ 
 		FROM RCM_FORMALASSESSMENT_INFO FI
 		left join
 		RCM_PFR_REPORT_DATA RPRD on RPRD.BUSINESSID = FI.BUSINESSID
@@ -887,7 +891,8 @@
 		NULL MEETING_TIME,
 		'' STAGE,
 		NULL VOTE_STATUS,
-		NULL DECISION_RESULT
+		NULL DECISION_RESULT,
+		1 as order_ 
 		FROM RCM_HISTORY_DATA
 		RHD
 		WHERE RHD.PROJECT_TYPE = 'pfr') T
@@ -921,7 +926,7 @@
 			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
 			to_date('${meetingTimeEnd}','yyyy-MM-dd')
 		</if>
-		ORDER BY T.CREATE_DATE DESC
+		ORDER BY T.order_, t.CREATE_DATE desc
 	</select>
 
 	<!-- 查询全部正式评审项目数量 -->
@@ -1049,7 +1054,11 @@
 		PI.OLDDATA,
 		PI.APPLY_DATE,
 		RMI.MEETING_TIME,
-		PI.STAGE
+		PI.STAGE,
+		case PI.WF_STATE
+		when '5' then 1
+		else 0 end
+		as order_ 
 		FROM RCM_PRE_INFO PI
 		left join
 		RCM_PRE_REPORT_DATA RPRD on RPRD.BUSINESSID = PI.BUSINESSID
@@ -1076,7 +1085,8 @@
 		'' OLDDATA,
 		NULL APPLY_DATE,
 		NULL MEETING_TIME,
-		'' STAGE
+		'' STAGE,
+		1 as order_ 
 		FROM RCM_HISTORY_DATA RHD
 		WHERE
 		RHD.PROJECT_TYPE = 'pre') T
@@ -1109,7 +1119,7 @@
 			and to_date(to_char(T.MEETING_TIME,'yyyy-MM-dd'), 'yyyy-MM-dd') <![CDATA[ <= ]]>
 			to_date('${meetingTimeEnd}','yyyy-MM-dd')
 		</if>
-		ORDER BY T.CREATE_DATE DESC
+		ORDER BY T.order_, t.CREATE_DATE desc
 	</select>
 
 	<!-- 查询全部投标评审项目数量 -->
