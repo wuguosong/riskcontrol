@@ -36,6 +36,7 @@ public final class Path {
 	public static String FORMAL_ASSESSMENT_REPORT_EntrustedManagement = TEMPLATE_FILE + "EntrustedManagement.docx";
 	public static String FORMAL_APPLICATION = TEMPLATE_FILE + "FormalApplication.docx";
 	public static String SUPPLEMENT_FORMAL_APPLICATION = TEMPLATE_FILE + "FormalApplication_supplement.docx";
+	public static String FORMAL_ASSESSMENT_REPORT_WaterEnvironmentSelfBuilt = TEMPLATE_FILE + "WaterEnvironmentSelfBuiltReport.docx";
 	/**
 	 * 决策通知书报告模板路径
 	 * see NoticeOfDecision_XML,NoticeOfDecision_DOCX

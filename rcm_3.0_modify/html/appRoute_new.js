@@ -1835,6 +1835,23 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                 }
             })
 
+            // 水环境自建正式评审报告
+            .when('/WaterEnvironmentSelfBuilt/:tabIndex/:action/:id/:url', {
+                controller: 'WaterEnvironmentSelfBuilt',
+                templateUrl: 'page/rcm/formalAssessment/forAssesmentReport/WaterEnvironmentSelfBuilt.html',
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/rcm/formalAssessment/forAssesmentReport/WaterEnvironmentSelfBuilt.js?_v=' + _version, '../javascripts/util/common.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
             // 技改项目正式评审报告
             .when('/TecTransformReport/:tabIndex/:action/:id/:url', {
                 controller: 'TecTransformReport',

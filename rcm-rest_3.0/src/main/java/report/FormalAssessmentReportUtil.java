@@ -14,6 +14,7 @@ public class FormalAssessmentReportUtil{
 		reportTypeMap.put("HazardousWasteReport", 3);
 		reportTypeMap.put("EquityAcquisitionReport", 4);
 		reportTypeMap.put("SupplementReport", 5);
+		reportTypeMap.put("WaterEnvironmentSelfBuilt", 6);//对应
 	}
 
 	/**
@@ -42,6 +43,8 @@ public class FormalAssessmentReportUtil{
 		case 5:
 			formalAssessmentReport = new SupplementReport(ObjectId);
 			break;
+		case 6:
+			formalAssessmentReport = new WaterEnvironmentSelfBuiltReport(ObjectId);
 		}
 		
 		outputPath = formalAssessmentReport.generateReport(ObjectId);

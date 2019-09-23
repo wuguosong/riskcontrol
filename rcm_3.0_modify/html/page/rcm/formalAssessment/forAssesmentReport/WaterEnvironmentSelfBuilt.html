@@ -1,0 +1,1593 @@
+<div class="xh-content container-fluid padding0">
+    <form id="FormalReviewReport" name="FormalReviewReport" novalidate class="row">
+        <div class="visa-menu">
+            <div class="col-md-9">
+                <ol class="breadcrumb breadcrumb-menu">
+                    <li>
+                        <a class="breadcrumb-text breadcrumb-text-menu">
+                            资料填写
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="breadcrumb-text breadcrumb-text-menu">
+                            {{title}}
+                        </a>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-md-3 padding0" align="right">
+                <directive-return-btn-menu url="{{oldUrl}}"></directive-return-btn-menu>
+            </div>
+        </div>
+
+        <div class="main-content col-md-10 col-sm-10 col-xs-12 padding0">
+            <div class="mcontent content1" id="flag1-c">
+                <input type="hidden" ng-model="formalReport.controllerVal">
+                <input type="hidden" ng-model="formalReport.projectFormalId">
+                <input type="hidden" ng-model="formalReport.projectName">
+                <input type="hidden" ng-model="formalReport.reportingUnit">
+                <h3 class="text-blue">项目边界条件</h3>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <textarea name="" ng-model="formalReport.projectOverview" rows="1" cols="1"
+                                      class="form-control"
+                                      placeholder="例如：项目由XX事业部通过XX途径获得，本项目的盈利模式为XX。"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="text-blue">项目基础信息</span>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">项目模式</span>
+                            <span class="col-md-10 slim">
+                                <input type="text" ng-model="formalReport.projectType" class="form-control" placeholder="BOT/TOT等"
+                                       id="projectType" name="projectType"/>
+							</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">区域背景</span>
+                            <span class="col-md-10 slim">
+								<textarea name="regionalBackground" id="regionalBackground"
+                                          ng-model="formalReport.regionalBackground" rows="" cols=""
+                                          class="form-control" placeholder="财政情况，常住人口，行政区划等以及我方是否在当地已有项目，如有项目运营状况"></textarea>
+							</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">项目合规性</span>
+                            <span class="col-md-4 slim">
+								<label class="checkbox-inline local num-box">
+                                    <span class="lbl">政府采购（招投标手续）</span>
+                                    <span class="lbl">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</span>
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.governmentProcurement" id="governmentProcurement" name="projectCompliance" value="0"/>
+                                    <span class="lbl">&ensp;</span>
+                                </label>
+							</span>
+                            <span class="col-md-6 slim ">
+                                <input type="text" ng-readonly="formalReport.governmentProcurement==1"  ng-model="formalReport.unFillReasonOne" class="form-control" placeholder="（若未获取，请说明原因及困难）"
+                                       id="unFillReasonOne" name="unFillReasonOne"/>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding"></span>
+                            <span class="col-md-4 slim">
+								<label class="checkbox-inline local num-box">
+                                    <span class="lbl">项目前期手续（立项、可研及批复等）</span>
+                                    <span class="lbl">&ensp;&ensp;&ensp;</span>
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.projectProcedure" id="projectProcedure" name="projectCompliance" value="0"/>
+                                    <span class="lbl">&ensp;</span>
+                                </label>
+							</span>
+                            <span class="col-md-6 slim ">
+                                <input type="text" ng-readonly="formalReport.projectProcedure==1"  ng-model="formalReport.unFillReasonTwo" class="form-control" placeholder="（若未获取，请说明原因及困难）"
+                                       id="unFillReasonTwo" name="unFillReasonTwo"/>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding"></span>
+                            <span class="col-md-4 slim">
+                                <label class="checkbox-inline local num-box">
+                                    <span class="lbl">项目入库信息</span>
+                                    <span class="lbl">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</span>
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.projectWarehouse" id="projectWarehouse" name="projectCompliance" value="0"/>
+                                    <span class="lbl">&ensp;</span>
+                                </label>
+							</span>
+                            <span class="col-md-6 slim ">
+                                <input type="text" ng-readonly="formalReport.projectWarehouse==1"  ng-model="formalReport.unFillReasonThree" class="form-control" placeholder="（若未获取，请说明原因及困难）"
+                                       id="unFillReasonThree" name="unFillReasonThree"/>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding"></span>
+                            <span class="col-md-4 slim">
+                                <label class="checkbox-inline local num-box">
+                                    <span class="lbl">签约主体及授权手续</span>
+                                    <span class="lbl">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</span>
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.signSubject" id="signSubject" name="projectCompliance" value="0"/>
+                                    <span class="lbl">&ensp;</span>
+                                </label>
+							</span>
+                            <span class="col-md-6 slim ">
+                                <input type="text" ng-readonly="formalReport.signSubject==1"  ng-model="formalReport.unFillReasonFour" class="form-control" placeholder="（若未获取，请说明原因及困难）"
+                                       id="unFillReasonFour" name="unFillReasonFour"/>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">服务范围</span>
+                            <span class="col-md-6 slim">
+								<textarea name="serviceScope" id="serviceScope"
+                                          ng-model="formalReport.serviceScope" rows="" cols="" class="form-control"
+                                          placeholder="如实填写。请填写管网建设信息"></textarea>
+							</span>
+
+                             <span class="col-md-2 slim">
+                                <label class="checkbox-inline local num-box">
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.whetherConstructionIsCompleted"  name="whetherConstructionIsCompleted" />
+                                    <span class="lbl">是否建设完成</span>
+                                </label>
+                            </span>
+                                <span class="col-md-2 slim">
+                                <label class="checkbox-inline local num-box">
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.whetherWeNeedToBuild"  name="whetherWeNeedToBuild" />
+                                    <span class="lbl">是否需要我方建设</span>
+                                </label>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span ng-if="actionparm!='View'" class="required">*</span><span class="col-md-2 noPadding">项目工艺</span>
+                            <span class="col-md-10 slim">
+								<textarea name="projectProcess" id="projectProcess"
+                                          ng-model="formalReport.projectProcess" rows="" cols="" class="form-control"
+                                          placeholder="据实填写"></textarea>
+							</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">特许经营期</span>
+                            <span class="col-md-4 slim">
+                                <input type="text" name="" ng-model="formalReport.franchisePeriod"
+                                       class="form-control"/>
+                                    <span class="unit-n">年</span>
+                            </span>
+                            <span class="col-md-4 slim">
+                                    <label class="checkbox-inline local num-box">
+                                        <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.isContainsConstruction" id="isContainsConstruction" name="isContainsConstruction" />
+                                        <span class="lbl">是否含建设期</span>
+                                    </label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">质量目标</span>
+                            <span class="col-md-6 slim">
+                                <input ng-disabled="actionparm== 'View'" type="text" placeholder="建管提供" class="form-control" ng-model="formalReport.qualityTarget" id="qualityTarget" name="qualityTarget" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">出水标准</span>
+                            <span class="col-md-6 slim">
+                                 <select ng-model="formalReport.waterStandard"
+                                         ng-options="ot.ITEM_NAME for  ot in csTypeList track by ot.ITEM_CODE"
+                                         class="form-control">
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">合同规模</span>
+                            <span class="col-md-6 slim">
+                                <input ng-disabled="actionparm== 'View'" type="text"  class="form-control" ng-model="formalReport.projectScale" id="projectScale" name="projectScale" />
+                                <span class="unit-s">万吨/日</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">评审规模</span>
+                            <span class="col-md-6 slim">
+                                <input ng-disabled="actionparm== 'View'"  type="text" name="reviewScale" class="form-control"g-model="formalReport.reviewScale"/>
+                                <span class="unit-s">万吨/日</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">说明</span>
+                            <span class="col-md-10 slim">
+                                <textarea ng-disabled="actionparm== 'View'" name="basicInformationDescription" ng-model="formalReport.basicInformationDescription" rows="1" cols="1"
+                                          class="form-control" placeholder="如有"></textarea>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mcontent content1" id="flag1-2-c">
+                <h3 class="text-blue">项目投资信息</h3>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <span class="text-blue" style="color: #0d0d0e">投资主体</span>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">公司名称</span>
+                            <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'"
+                                       ng-click="setDirectiveParam('tenderCompany','formalReport',$index)"
+                                       name="tenderCompany" ng-model="formalReport.tenderCompany.name"
+                                       data-toggle="modal" data-target="#companyUnit-modal"
+                                       class="form-control"/>
+                                <input type="hidden" class="form-control"
+                                       ng-model="formalReport.tenderCompany.value"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding"
+                                  style="font-weight: normal">北控水务集团持股</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" name="shareholding" ng-model="formalReport.shareholding"
+                                      class="form-control"/><span class="unit-n">%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <span class="text-blue" style="color: #0d0d0e">资金来源</span>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">自有资金</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" name="oweMoney" class="form-control"
+                                      ng-model="formalReport.oweMoney"/><span class="unit-n">%</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">银行贷款</span>
+                            <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" name="bankLoan" class="form-control"
+                                       ng-model="formalReport.bankLoan"/><span class="unit-n">%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">意向银行</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" name="" class="form-control"
+                                      ng-model="formalReport.intentionBank"/><span class="unit-my">银行</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">意向贷款利率</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" name="" class="form-control"
+                                      ng-model="formalReport.annualInterestRate"/><span class="unit-n">%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">贷款期限</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" name="" class="form-control"
+                                      ng-model="formalReport.loanTimeLimit"/><span class="unit-my">年</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                             <span class="col-md-4 slim">
+                                <label class="checkbox-inline local num-box">
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.whetherToObtainLoanTermSheet"  name="whetherToObtainLoanTermSheet" />
+                                    <span class="lbl">是否取得贷款意向书</span>
+                                </label>
+                            </span>
+                            <span class="col-md-4 slim">
+                                <label class="checkbox-inline local num-box">
+                                    <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.whetherNeedAddLetter"  name="whetherNeedAddLetter" />
+                                    <span class="lbl">是否需要增信</span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <span class="text-blue" style="color: #0d0d0e">项目总投资</span>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">投资总额</span>
+                            <span class="col-md-6 slim">
+                            <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.totalInvestment" name=""
+                                   class="form-control"/>
+                                    <span class="unit-my">万元</span>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">一类费用</span>
+                            <span class="col-md-6 slim">
+                            <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.oneKindOfCost" name=""
+                                   class="form-control"/>
+                                    <span class="unit-my">万元</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">二类费用</span>
+                            <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.twoKindOfCost" name=""
+                                       class="form-control"/>
+                                <span class="unit-my">万元</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding"
+                                  style="font-weight: normal">预备费</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.reserveFund"
+                                      name="" class="form-control"/>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding"
+                                  style="font-weight: normal">补充调试费</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.supplementaryCommissioningFee"
+                                      name="" class="form-control"/>
+                                <span class="unit-my">万元</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding"
+                                  style="font-weight: normal">辅底流动资金</span>
+                            <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.secondaryFloorLiquidity" name="consultingServiceFee"
+                                       class="form-control"/>
+                                    <span class="unit-my">万元</span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">咨询服务费（如有）</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.consultingServiceFee" name="consultingServiceFee"
+                                      class="form-control"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding" style="font-weight: normal">其他</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.other" name=""
+                                      class="form-control"/>
+                                    <span class="unit-my">万元</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">吨水经营成本</span>
+                            <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.operatingCostOfWater" name=""
+                                       class="form-control"/>
+                                <span class="unit-yd">元/吨</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">吨水总成本</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.totalWaterCost" name=""
+                                      class="form-control"/>
+                                <span class="unit-yd">元/吨</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">吨水管理费用</span>
+                            <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.waterManagementFee" name=""
+                                       class="form-control"/>
+                                <span class="unit-yd">元/吨</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">吨水利润</span>
+                            <span class="col-md-6 slim">
+                               <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.profitOfWater" name=""
+                                      class="form-control"/>
+                                <span class="unit-yd">元/吨</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">吨水人工成本</span>
+                            <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.waterLaborCost" name=""
+                                       class="form-control"/>
+                                <span class="unit-yd">元/吨</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-4 noPadding">年度人均创利</span>
+                            <span class="col-md-6 slim">
+                              <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.theAverageProfit" name=""
+                                     class="form-control"/>
+                                <span class="unit-mpy">万元/人/年</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">说明</span>
+                            <span class="col-md-10 slim">
+                                <textarea ng-disabled="actionparm== 'View'" name="projectInvestmentDescription" ng-model="formalReport.projectInvestmentDescription" rows="1" cols="1"
+                                          class="form-control" placeholder="如有"></textarea>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mcontent content1" id="flag1-3-c">
+                <h3 class="text-blue">项目收入预测</h3>
+                <!--给定水价、保底水量-->
+                <div class="mcontent content1" id="Forecast1">
+                    <div class="row normalline">
+                        <div class="col-md-12 col-sm-12  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-2 noPadding">收入预测逻辑</span>
+                                <span class="col-md-10 slim">
+                                    <textarea ng-disabled="actionparm== 'View'" name="revenueForecastsLogicOne" ng-model="formalReport.revenueForecastsLogicOne" rows="1" cols="1"
+                                              class="form-control" placeholder="年收入=协议水价×保底水量×360日"></textarea>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <span class="col-md-2 noPadding">调试期收费</span>
+                                <span class="col-md-1 slim">
+                                    <label class="checkbox-inline local num-box">
+                                        <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.wetherCommissioningCharge"  name="wetherCommissioningCharge" value="0"/>
+                                        <span class="lbl">是/否</span>
+                                    </label>
+                                </span>
+                                <span class="col-md-9 slim">
+                                    <textarea ng-disabled="actionparm== 'View'" ng-readonly="formalReport.wetherCommissioningCharge==0" name="commissioningCharge" ng-model="formalReport.commissioningCharge" rows="" cols=""
+                                              class="form-control" placeholder="如果收费，请写明收费的约定"></textarea>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">协议水价</span>
+                                <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.agreedWaterPrice" name="agreedWaterPrice"
+                                       class="form-control"/>
+                                <span class="unit-yd">元/吨</span>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">保底水量</span>
+                                <span class="col-md-6 slim">
+                                  <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.bottomWater" name="bottomWater"
+                                         class="form-control"/>
+                                    <span class="unit-mpy">万吨/日</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--可用性服务费+绩效服务费的传统水和水环境项目-->
+                <div class="mcontent content1" id="Forecast2">
+                    <div class="row normalline">
+                        <div class="col-md-12 col-sm-12  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-2 noPadding">收入预测逻辑</span>
+                                <span class="col-md-10 slim">
+                                    <textarea ng-disabled="actionparm== 'View'" name="revenueForecastsLogicTwo" ng-model="formalReport.revenueForecastsLogicTwo" rows="" cols=""
+                                              class="form-control" placeholder="年收入=年可用性服务费+年绩效服务费&#13;&#10;年可用性服务费= (P×i×(1+i)^n)/((1+i)^n-1)（P为计费基数，i为投资收益率，n为支付年限）&#13;&#10;年绩效服务费=年运营维护成本×（1+运维利润率）"></textarea>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <span class="col-md-2 noPadding">调试期收费</span>
+                                <span class="col-md-1 slim">
+                                    <label class="checkbox-inline local num-box">
+                                        <input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.wetherCommissioningChargeTwo"  name="wetherCommissioningChargeTwo" value="0"/>
+                                        <span class="lbl">是/否</span>
+                                    </label>
+                                </span>
+                                <span class="col-md-9 slim">
+                                    <textarea ng-disabled="actionparm== 'View'" ng-readonly="formalReport.wetherCommissioningChargeTwo==0" name="commissioningChargeTwo" ng-model="formalReport.commissioningChargeTwo" rows="" cols=""
+                                              class="form-control" placeholder="如果收费，请写明收费的约定"></textarea>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">协议水价</span>
+                                <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.agreedWaterPrice" name="agreedWaterPrice"
+                                       class="form-control"/>
+                                <span class="unit-yd">元/吨</span>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">保底水量</span>
+                                <span class="col-md-6 slim">
+                                  <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.bottomWater" name="bottomWater"
+                                         class="form-control"/>
+                                    <span class="unit-mpy">万吨/日</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding" >计费基数</span>
+                                <span class="col-md-6 slim">
+                                    <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.billingBase" name="billingBase"
+                                           class="form-control"/>
+                                            <span class="unit-my">万元</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding" style="font-weight: normal">包括</span>
+                                <span class="col-md-6 slim">
+                                    <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.billingBaseContent" name="billingBaseContent"
+                                           class="form-control"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">支付年限</span>
+                                <span class="col-md-6 slim">
+                                    <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.yearsOfPayment" name="yearsOfPayment"
+                                           class="form-control"/>
+                                            <span class="unit-my">年</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding" >投资收益率</span>
+                                <span class="col-md-6 slim">
+                                    <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.returnOnInvestment" name="returnOnInvestment"
+                                            class="form-control"/>
+                                        <span class="unit-n">%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">运维利润率</span>
+                                <span class="col-md-6 slim">
+                                    <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.operationalProfitMargins" name="operationalProfitMargins"
+                                           class="form-control"/>
+                                            <span class="unit-n">%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--自来水项目-->
+                <div class="mcontent content1" id="Forecast3">
+                    <div class="row normalline">
+                        <div class="col-md-12 col-sm-12  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-2 noPadding">收入预测逻辑</span>
+                                <span class="col-md-10 slim">
+                                    <textarea ng-disabled="actionparm== 'View'" name="revenueForecastsLogicThree" ng-model="formalReport.revenueForecastsLogicThree" rows="" cols=""
+                                              class="form-control" placeholder="年收入=年自来水水费收入+年安装业务收入+……&#13;&#10;年自来水水费收入=综合水价×年实际售水量×水费回收率&#13;&#10;年安装业务收入=……（据实填写）&#13;&#10;……"></textarea>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row normalline">-->
+                        <!--<div class="col-md-12 col-sm-12 col-xs-12">-->
+                            <!--<div class="row">-->
+                                <!--<span class="col-md-2 noPadding">调试期收费</span>-->
+                                <!--<span class="col-md-1 slim">-->
+                                    <!--<label class="checkbox-inline local num-box">-->
+                                        <!--<input ng-disabled="actionparm== 'View'" type="checkbox" class="px" ng-model="formalReport.wetherCommissioningThree"  name="wetherCommissioningThree" value="0"/>-->
+                                        <!--<span class="lbl">是/否</span>-->
+                                    <!--</label>-->
+                                <!--</span>-->
+                                <!--<span class="col-md-9 slim">-->
+                                    <!--<textarea ng-disabled="actionparm== 'View'" ng-readonly="formalReport.wetherCommissioningThree==0" name="commissioningChargeThree" ng-model="formalReport.commissioningChargeThree" rows="" cols=""-->
+                                              <!--class="form-control" placeholder="如果收费，请写明收费的约定"></textarea>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="row normalline">
+                        <div class="col-md-12 col-sm-12  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-2 noPadding">自来水水价</span>
+                                <span class="col-md-10 slim">
+                                    <textarea ng-disabled="actionparm== 'View'" name="tapWaterPrice" ng-model="formalReport.tapWaterPrice" rows="1" cols="1"
+                                              class="form-control" placeholder="具体的水价构成，如居民用水、工业用水、行政用水……"></textarea>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row normalline">
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">产销差率</span>
+                                <span class="col-md-6 slim">
+                                <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.productionAndMarketingRate" name="productionAndMarketingRate"
+                                       class="form-control"/>
+                                <span class="unit-my">%</span>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6  col-xs-12">
+                            <div class="row">
+                                <span class="col-md-4 noPadding">水费回收率</span>
+                                <span class="col-md-6 slim">
+                                  <input type="text" ng-disabled="actionparm== 'View'" ng-model="formalReport.waterRecovery" name="waterRecovery"
+                                         class="form-control"/>
+                                    <span class="unit-my">%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">说明</span>
+                            <!---项目收入预测说明-->
+                            <span class="col-md-10 slim">
+                                <textarea ng-disabled="actionparm== 'View'" name="projectRevenueForecastStatement" ng-model="formalReport.projectRevenueForecastStatement" rows="1" cols="1"
+                                          class="form-control" placeholder="如有"></textarea>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mcontent content1" id="flag1-4-c">
+                <h3 class="text-blue">资金使用计划表</h3>
+                <div class="mytable" id="fundUsetable">
+                    <table  class="table table-bordered" style="table-layout: fixed">
+                        <thead>
+                            <tr class="info">
+                                <th rowspan="2" colspan="2" style="width: 20%;">时间</th>
+                                <th rowspan="2">资金需求</th>
+                                <th rowspan="2" colspan="2">资金用途及支付条件</th>
+                                <th rowspan="2">资金来源</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr name="mainPoint1">
+                            <td ng-if ="true" colspan="2" style="width: 20%;" >建设阶段<i class="fa fa-plus add"  ng-click="addtableRow(5)" ng-if="actionparm!='View'"></i></td>
+                            <td  ng-if ="true" colspan="4" class="tr-max">
+                                <textarea ng-disabled="actionparm== 'View'" name="constructionPhase" ng-model="formalReport.constructionPhase" rows="1" cols="1"
+                                          class="form-control" placeholder="计划XXXX年XX月开工，工期XX月"></textarea>
+                            </td>
+                            <td ng-if ="false" colspan="2" style="width: 20%;">移交阶段<i class="fa fa-plus add"  ng-click="" ng-if="actionparm!='View'"></i></td>
+                            <td ng-if ="false" colspan="4" class="tr-max">
+                                <textarea ng-disabled="actionparm== 'View'" name="transitionPhase" ng-model="formalReport.transitionPhase" rows="1" cols="1"
+                                          class="form-control" placeholder="计划XXXX年XX月完成移交"></textarea>
+                            </td>
+                        </tr>
+                        <tr ng-if="formalReport.projectConcernsIssues.fundUsetableOneConditions!=undefined&&formalReport.projectConcernsIssues.fundUsetableOneConditions.length>0" name="mainPoint2">
+                            <td class="txc" colspan="6" style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">
+                                <table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+                                    <tr ng-repeat="m in formalReport.projectConcernsIssues.fundUsetableOneConditions track by $index" repeat-formal-report-finish>
+                                        <td style="border-top: 0px;width: 18%;" colspan="1">
+                                            <textarea ng-model="m.fundsUseTime" name="" rows="1" cols="1" placeholder="XXXX年XX月" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+                                        </td>
+                                        <td style="border-top: 0px;width: 0.7%;" colspan="1">
+                                            <i class="fa fa-times del" ng-click="delrow($index,5)" ng-if="actionparm!='View'"></i>
+                                        </td>
+                                        <td style="border-top: 0;"><textarea name="" ng-model="m.capitalRequirement" placeholder="XX万元"  rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                        <td  style="border-top: 0px;"><textarea name="" ng-model="m.fundUse" rows="1" placeholder="用途：工程款/TOT转让款" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                        <td  style="border-top: 0px;"><textarea name="" ng-model="m.paymentTerms"  placeholder="支付条件：XX" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                        <td style="border-right: 0;border-top: 0;"><textarea name="" ng-model="m.sourceOfFunds" placeholder="注册资本金（集团/基金/小股东）/银行贷款" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr name="mainPoint3">
+                            <td ng-if ="true" colspan="2" style="width: 20%;" >运营阶段<i class="fa fa-plus add"  ng-click="addtableRow(6)" ng-if="actionparm!='View'"></i></td>
+                            <td  ng-if ="true" colspan="4" class="tr-max">
+                                <textarea ng-disabled="actionparm== 'View'" name="operationStage" ng-model="formalReport.operationStage" rows="1" cols="1"
+                                          class="form-control" placeholder="计划XXXX年XX月完成转商运，调试期XX月"></textarea>
+                            </td>
+                        </tr>
+                        <tr ng-if="formalReport.projectConcernsIssues.fundUsetableTwoConditions!=undefined&&formalReport.projectConcernsIssues.fundUsetableTwoConditions.length>0" name="mainPoint2">
+                            <td class="txc" colspan="6" style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">
+                                <table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
+                                    <tr ng-repeat="m in formalReport.projectConcernsIssues.fundUsetableTwoConditions track by $index" repeat-formal-report-finish>
+                                        <td style="border-top: 0px;width: 18%;" colspan="1">
+                                            <textarea ng-model="m.fundsUseTime" name="" rows="1" cols="1" placeholder="XXXX年XX月" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+                                        </td>
+                                        <td style="border-top: 0px;width: 0.7%;" colspan="1">
+                                            <i class="fa fa-times del" ng-click="delrow($index,6)" ng-if="actionparm!='View'"></i>
+                                        </td>
+                                        <td style="border-top: 0;"><textarea name="" ng-model="m.capitalRequirement" placeholder="XX万元"  rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                        <td  style="border-top: 0px;"><textarea name="" ng-model="m.fundUse" rows="1" placeholder="用途：工程款/TOT转让款" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                        <td  style="border-top: 0px;"><textarea name="" ng-model="m.paymentTerms"  placeholder="支付条件：XX" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                        <td style="border-right: 0;border-top: 0;"><textarea name="" ng-model="m.sourceOfFunds" placeholder="注册资本金（集团/基金/小股东）/银行贷款" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr name="mainPoint3">
+                            <td  colspan="2" style="width: 20%;" >合计</td>
+                            <td  class="tr-max">
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.sumCapitalRequirement"
+                                           class="form-control" name=""/>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                            </td>
+                            <td colspan="1">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mcontent content1" id="flag2-c">
+                <h3 class="text-blue">项目收益评估</h3>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <textarea name="" ng-model="formalReport.incomeEvaluation" rows="1" cols="1" placeholder="在总投资额XX.XX万元（应明确是否为内控价，以及工程利润信息），协议水价XX.XX元/吨，本项目各项关键财务如下:"
+                                      class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <div class="table-caption">项目各项关键财务指标表</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mytable">
+                    <table class="table table-bordered" style="table-layout: fixed">
+                        <thead>
+                        <tr>
+                            <th>指标分类</th>
+                            <th>指标名称</th>
+                            <th>本项目指标</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td rowspan="3">投资指标</td>
+                            <td>全投资内部收益率IRR</td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.allInternalRateOfReturn"
+                                           name="" class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>自有资金内部收益率IRR</td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.haveInternalRateOfReturn"
+                                           name="" class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>全投资静态回收期</td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.staticPaybackPeriod" name=""
+                                           class="form-control"/>
+                                    <span class="percent">年</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">财务指标</td>
+                            <td>运营期平均ROE</td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.averageROE" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运营期平均ROI</td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.averageROI" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>现金流指标</td>
+                            <td>自有资金前五年现金净流量</td>
+                            <td><input type="text" ng-model="formalReport.netCashFlow" name=""
+                                       class="form-control"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <div class="table-caption">项目运营前5年关键财务指标汇总表（单位：人民币万元）</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mytable">
+                    <table class="table table-bordered" style="table-layout: fixed">
+                        <thead>
+                        <tr>
+                            <th>分类</th>
+                            <th>财务指标</th>
+                            <th>投资期</th>
+                            <th>第一年</th>
+                            <th>第二年</th>
+                            <th>第三年</th>
+                            <th>第四年</th>
+                            <th>第五年</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td rowspan="4">全投资</td>
+                            <td>净利润</td>
+                            <td><input type="text" ng-model="formalReport.netProfitAll" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitAllOne" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitAllTwo" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitAllThree" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitAllFour" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitAllFive" name=""
+                                       class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>ROI</td>
+                            <td><input type="text" ng-model="formalReport.ROI" name=""
+                                       class="form-control"/></td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROIOne" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROITwo" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROIThree" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROIFour" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROIFive" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>投资活动现金流</td>
+                            <td><input type="text" ng-model="formalReport.activeCashFlow" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.activeCashFlowOne" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.activeCashFlowTwo" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.activeCashFlowThree" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.activeCashFlowFour" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.activeCashFlowFive" name=""
+                                       class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>经营活动现金净流</td>
+                            <td><input type="text" ng-model="formalReport.operatingCashFlow" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.operatingCashFlowOne" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.operatingCashFlowTwo" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.operatingCashFlowThree" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.operatingCashFlowFour" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.operatingCashFlowFive" name=""
+                                       class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4">自有资金</td>
+                            <td colspan="7" class="tr-max"><textarea name=""
+                                                                     ng-model="formalReport.ownFunds"
+                                                                     rows="1" cols="1"
+                                                                     class="form-control">融资边界条件：XX万元贷款，利率为XX%（当前人行基准利率上浮5%）</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>净利润</td>
+                            <td><input type="text" ng-model="formalReport.netProfit" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitOne" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitTwo" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitThree" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitFour" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.netProfitFive" name=""
+                                       class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td><input type="text" ng-model="formalReport.ROE" name=""
+                                       class="form-control"/></td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROEOne" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROETwo" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROEThree" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROEFour" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="has-feedback">
+                                    <input type="text" ng-model="formalReport.ROEFive" name=""
+                                           class="form-control"/>
+                                    <span class="percent">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>自有资金现金净流</td>
+                            <td><input type="text" ng-model="formalReport.itsNetCashFlow" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.itsNetCashFlowOne" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.itsNetCashFlowTwo" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.itsNetCashFlowThree" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.itsNetCashFlowFour" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.itsNetCashFlowFive" name=""
+                                       class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">北控水务分红现金流</td>
+                            <td><input type="text" ng-model="formalReport.dividendCashFlow" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.dividendCashFlowOne" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.dividendCashFlowTwo" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.dividendCashFlowThree" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.dividendCashFlowFour" name=""
+                                       class="form-control"/></td>
+                            <td><input type="text" ng-model="formalReport.dividendCashFlowFive" name=""
+                                       class="form-control"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <span class="col-md-2 noPadding">备注</span>
+                            <span class="col-md-10 slim">
+								                <textarea class="form-control" ng-model="formalReport.content" cols="" rows=""
+                                                          name=""></textarea>
+											</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row" style="font-weight: normal">
+                            注：1）如果不适用项目借款，自有资金部分划横线，并在表下加注说明；<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2）表2 数据应统一保留两位小数，并将负数标注红色；<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3）若前三年自有现金流为负，提示项目初期财务生存能力差，可能需集团提供流动资金。<br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+                            <div class="table-caption">建设期对集团会计利润贡献情况表（利润率为XX%）（单位：人民币万元）</div>
+                        </div>
+                    </div>
+                    <div class="mytable" id="profitContributionTable">
+                        <table  class="table table-bordered" style="table-layout: fixed">
+                            <thead>
+                            <tr class="info">
+                                <th rowspan="2">年度</th>
+                                <th rowspan="2">预计完工比例</th>
+                                <th rowspan="2">预计完成产值</th>
+                                <th rowspan="2">毛利润</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.year" name="" class="form-control"/>
+                                        <span class="percent">年</span>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.expectedCompletionRatio" name="" class="form-control"/>
+                                        <span class="percent">%</span>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.expectedOutputValue" name="" class="form-control"/>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.grossProfit" name="" class="form-control"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.yearTwo" name="" class="form-control"/>
+                                        <span class="percent">年</span>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.expectedCompletionRatioTwo" name="" class="form-control"/>
+                                        <span class="percent">%</span>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.expectedOutputValueTwo" name="" class="form-control"/>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.grossProfitTwo" name="" class="form-control"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--<tr ng-if="formalReport.projectConcernsIssues.profitContributionTableConditions!=undefined&&formalReport.projectConcernsIssues.profitContributionTableConditions.length>0" name="mainPoint2">-->
+                                <!--<td class="txc" colspan="4" style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">-->
+                                    <!--<table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">-->
+                                        <!--<tr ng-repeat="m in formalReport.projectConcernsIssues.profitContributionTableConditions track by $index" repeat-formal-report-finish>-->
+                                            <!--<td style="border-top: 0px;width: 18%;" colspan="1">-->
+                                                <!--<textarea ng-model="m.year" name="" rows="1" cols="1" placeholder="XXXX年" class="form-control ng-pristine ng-valid ng-touched"></textarea>-->
+                                            <!--</td>-->
+                                            <!--<td style="border-top: 0;"><textarea name="" ng-model="m.expectedCompletionRatio" placeholder="XX%"  rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
+                                            <!--<td  style="border-top: 0px;"><textarea name="" ng-model="m.expectedOutputValue"   rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
+                                            <!--<td style="border-right: 0;border-top: 0;"><textarea name="" ng-model="m.grossProfit" rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
+                                        <!--</tr>-->
+                                    <!--</table>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <tr name="mainPoint3">
+                                <td  >合计</td>
+                                <td  class="tr-max">
+                                    <div class="has-feedback">
+                                        <input type="text" ng-model="formalReport.sumExpectedCompletionRatio" readonly
+                                               class="form-control" name=""/>
+                                        <span class="percent">%</span>
+                                    </div>
+                                </td>
+                                <td >
+                                    <input type="text" ng-model="formalReport.sumExpectedOutputValue" readonly
+                                           class="form-control" name=""/>
+                                </td>
+                                <td >
+                                    <input type="text" ng-model="formalReport.sumGrossProfit" readonly
+                                           class="form-control" name=""/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row" style="font-weight: normal">
+                            注：预计完成产值按本项目投资额（内控价，不含补充调试费、铺底流动资金及建设期利息）计，预计完工比例按建管中心审核确认的产值完成计划，毛利润按预计完成产值的31%计。<br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--项目收入预测-->
+            <div class="mcontent content1" id="flag3-c">
+                <h3 class="text-blue">风险及问题总结</h3>
+                <directive-formal-report-fxjwtzj-new></directive-formal-report-fxjwtzj-new>
+            </div>
+
+            <div class="mcontent content1" id="flag4-c">
+                <h3 class="text-blue">挖潜空间</h3>
+                <div class="row normalline">
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="row">
+								<span class="col-md-12 slim">
+								<textarea name="" ng-model="formalReport.potentialSpace" rows="" cols=""
+                                          class="form-control" placeholder="内容说明：此处应填写可量化的挖潜空间"></textarea>
+							</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="mcontent content1" id="flag5-c">
+                <h3 class="text-blue">结论与建议</h3>
+                <directive-formal-report-jlyjy-new></directive-formal-report-jlyjy-new>
+            </div>
+
+            <div class="mcontent content1" id="flag6-c">
+                <h3 class="text-blue">后续执行要求</h3>
+                <directive-formal-report-hxzxyq-new></directive-formal-report-hxzxyq-new>
+            </div>
+            <div class="mcontent content1" id="flag8-c">
+                <h3 class="text-blue">附件1：专业评审意见</h3>
+                <directive-formal-report-zypsyj-new></directive-formal-report-zypsyj-new>
+            </div>
+
+            <div class="mcontent content1" id="flag9-c">
+                <h3 class="text-blue">附件2：评审用成本及费用</h3>
+                <directive-formal-report-cbfy-new></directive-formal-report-cbfy-new>
+            </div>
+        </div>
+
+
+        <div class="left-content col-md-2 col-sm-2 hidden-xs new-box">
+            <div class="linkline mcontent">
+                <div class="stage">
+                    <div class="row" align="center">
+                        <button type="button" id="wordbtn" ng-click="createWord(formalReport._id)"
+                                class="btn btn-primary"><i class="fa fa-file-o"></i>生成Word文档
+                        </button>
+                    </div>
+                    <button type="button" ng-click="saveReport()" class="btn btn-primary" id="savebtn"><i
+                            class="fa fa-save"></i>保存
+                    </button>
+                    <div class="inline-div">
+                        <button type="button" ng-if="tabIndex=='0'" class="btn btn-primary" id="submitbnt"
+                                ng-click="showSubmitModal()"><i class="fa fa-cloud-upload"></i>提交
+                        </button>
+                        <div id="passModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+                            <directive-need-meeting></directive-need-meeting>
+                        </div>
+                    </div>
+                </div>
+                <div class="line new-line"></div>
+                <a id="flag1" class="catalog-list catalog-list-formal chose" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    项目边界条件
+                </a>
+                <a id="flag1-2" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    项目投资信息
+                </a>
+                <a id="flag3" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    风险及问题总结
+                </a>
+                <a id="flag4" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    挖潜空间
+                </a>
+                <a id="flag5" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    结论与建议
+                </a>
+                <a id="flag6" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    后续执行要求
+                </a>
+                <!--<a id="flag7" class="catalog-list catalog-list-formal" href="javascript:void(0);">-->
+							<!--<span class="fcir">-->
+								<!--<span class="scir"></span>-->
+							<!--</span>-->
+                    <!--附件1：售水量预测-->
+                <!--</a>-->
+                <a id="flag8" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    附件1：专业评审意见
+                </a>
+                <a id="flag9" class="catalog-list catalog-list-formal" href="javascript:void(0);">
+							<span class="fcir">
+								<span class="scir"></span>
+							</span>
+                    附件2：评审用成本及费用
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<directive-org-list></directive-org-list>
+
+<script type="text/javascript">
+    $().ready(function () {
+        // validate signup form on keyup and submit
+        $("#FormalReviewReport").validate({
+            rules: {
+                //	personLiable:"required",
+                ownerSituation: "required",
+                regionalBackground: "required",
+                projectSource: "required",
+                invertmentUnitName: "required",
+                operationsUnitName: "required"
+            },
+            messages: {
+                //	personLiable:"此项必填",
+                ownerSituation: "此项必填",
+                regionalBackground: "此项必填",
+                projectSource: "此项必填",
+                invertmentUnitName: "此项必填",
+                operationsUnitName: "此项必填"
+            }
+        });
+    });
+
+    angular.element(document).ready(function () {
+        var date = new Date();
+        date.setDate(date.getDate());
+        var curDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var options = {
+            todayBtn: "linked",
+            orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto',
+            startDate: curDate
+        }
+        $('#bs-datepicker-edit').datepicker();
+        $('#buyBackDate').datepicker(options);
+    });
+
+    //dom监听resize事件
+    (function ($, h, c) {
+        var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j
+            + "-special-event", b = "delay", f = "throttleWindow";
+        e[b] = 350;
+        e[f] = true;
+        $.event.special[j] = {
+            setup: function () {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.add(l);
+                $.data(this, d, {
+                    w: l.width(),
+                    h: l.height()
+                });
+                if (a.length === 1) {
+                    g()
+                }
+            },
+            teardown: function () {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var l = $(this);
+                a = a.not(l);
+                l.removeData(d);
+                if (!a.length) {
+                    clearTimeout(i)
+                }
+            },
+            add: function (l) {
+                if (!e[f] && this[k]) {
+                    return false
+                }
+                var n;
+
+                function m(s, o, p) {
+                    var q = $(this), r = $.data(this, d);
+                    r.w = o !== c ? o : q.width();
+                    r.h = p !== c ? p : q.height();
+                    n.apply(this, arguments)
+                }
+
+                if ($.isFunction(l)) {
+                    n = l;
+                    return m
+                } else {
+                    n = l.handler;
+                    l.handler = m
+                }
+            }
+        };
+
+        function g() {
+            i = h[k](function () {
+                a.each(function () {
+                    var n = $(this), m = n.width(), l = n.height(), o = $
+                        .data(this, d);
+                    if (m !== o.w || l !== o.h) {
+                        n.trigger(j, [o.w = m, o.h = l])
+                    }
+                });
+                g()
+            }, e[b])
+        }
+    })(jQuery, this);
+</script>
+<script>
+    $(function () {
+        //侧边目录
+        $(".side-catalog").css("display", "block");
+        //显示隐藏侧边目录
+        $(".toggle-span").click(function () {
+            $(".side-catalog").toggleClass("collapse");
+        });
+
+        //点击目录跳到相应模块
+        $(".catalog-list-formal").click(function () {
+            //alert(123)
+            $(this).addClass("chose").siblings("a").removeClass("chose");
+            var _id = $(this).attr("id");
+            if (typeof $('#' + _id + '-c').offset() !== 'undefined') {
+                var _idTop = $("#" + _id + "-c").offset().top - 10;
+                $("html,body").animate({"scrollTop": _idTop}, 300);
+            }
+        });
+        //滚动响应
+        if (typeof(SideCatalog) == "undefined" || !SideCatalog) {
+            var SideCatalog = {};
+        }
+        ;
+
+        SideCatalog.catalogDetail = (function () {
+            // scroll to tab content
+            var _gotoTab = function () {
+                window.onscroll = function () {
+                    SideCatalog.ids = [];
+                    $('.catalog-list-formal').each(function () {
+                        var id = $(this).attr('id');
+                        if (typeof $('#' + id + '-c').offset() !== 'undefined') {
+                            SideCatalog[id] = $('#' + id + '-c').offset().top - 11;
+                        }
+                        SideCatalog.ids.push(id);
+                    });
+                    var _top = $(document).scrollTop();
+                    //循环ID处理屏幕滚动情况
+                    $.each(SideCatalog.ids, function (key, id) {
+                        var next_id = key + 1;
+                        var next_tab = SideCatalog.ids[next_id];
+                        if ((_top >= SideCatalog[id] && _top <= SideCatalog[next_tab]) || _top >= SideCatalog[id]) {
+                            $('#' + id).addClass('chose').siblings("a").removeClass("chose");
+                        }
+                    });
+                };
+            };
+
+            function _init() {
+                _gotoTab();
+            }
+
+            return {
+                init: _init
+            }
+        })();
+        $(document).ready(function () {
+            SideCatalog.catalogDetail.init();
+        });
+        //查看页面不可编辑
+        var href = window.location.href;
+        if (href.indexOf("/View/") > 0) {
+            $('#content-wrapper input').attr("readonly", "readonly");
+            $('textarea').attr("readonly", "readonly");
+            $('select').attr("disabled", "disabled");
+        }
+        // 监听主题区域宽度变化
+        $('.xh-content').resize(function () {
+            $('.left-content').width($(this).width() * .16);
+            $('.btn-scale').each(function () {
+                $(this).css('padding-bottom', $(this).innerWidth() * 0.467);
+
+                if ($(this).css('padding-bottom').slice(0, -2) > '35') {
+                    $(this).css('padding-bottom', '35px')
+
+                }
+            })
+        })
+
+    });
+</script>
