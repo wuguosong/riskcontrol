@@ -324,4 +324,35 @@ public interface IDeptworkMapper extends BaseMapper{
 	 * @return
 	 */
 	public List<Map<String, Object>> queryNoticedCount(Map<String, Object> map);
+	/**
+	 * 查询所有的评审人员
+	 * @return
+	 */
+	public List<Map<String, Object>> getAllStaffWork(Map<String, Object> map);
+	
+	/**
+	 * 查询所有的评审人员
+	 * @return
+	 */
+	public Map<String, Object> getNowStaffWork(Map<String, Object> map);
+
+	public Map<String, Object> getProjectMessageInformation(Map<String, Object> oneWorkQuery);
+
+	public Map<String, Object> getProjectMessageCount(Map<String, Object> oneWorkQuery);
+
+	public List<Map<String, Object>> getOneStaffWork(Map<String, Object> nowStaffWorkQuery);
+
+	public Map<String, Object> getProjectMessageLast(Map<String, Object> oneWorkQuery);
+
+	public List<Map<String, Object>> getProjectMessagePercent(Map<String, Object> oneWorkQuery);
+	
+	public Map<String, Object> getMessageCount(Map<String, Object> oneWorkQuery);
+
+	public Map<String, Object> getProjectLast(@Param("processKey") String processKey, @Param("businessId")String businessId);
+	
+	
+	
+	
+	
+	
 }

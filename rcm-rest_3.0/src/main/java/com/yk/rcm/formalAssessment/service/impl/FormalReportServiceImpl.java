@@ -197,6 +197,7 @@ public class FormalReportServiceImpl implements IFormalReportService {
 		Date now = Util.now();
 		doc.append("create_date", Util.format(now));
 		doc.append("currentTimeStamp", Util.format(now, "yyyyMMddHHmmssSSS"));
+		doc.put("_id", new ObjectId(doc.getString("projectFormalId")));
 		this.baseMongo.save(doc, Constants.RCM_FORMALREPORT_INFO);
 		String id = doc.get("_id").toString();
 		doc.put("id", id);

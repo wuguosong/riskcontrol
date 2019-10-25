@@ -3533,14 +3533,14 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
             })
 
             // 工作量统计
-            .when('/workloadStatisticsListNew', {
-                controller: 'workloadStatisticsListNew',
-                templateUrl: 'page/rcm/homePage/workloadStatisticsListNew.html?_v=' + _version,
+            .when('/workloadStatisticsNewList', {
+                controller: 'workloadStatisticsNewList',
+                templateUrl: 'page/rcm/homePage/workloadStatisticsNewList.html?_v=' + _version,
                 controllerAs: 'model',
                 resolve: {
                     resolver: ['$q', '$rootScope', function ($q, $rootScope) {
                         var deferred = $q.defer();
-                        require(['page/rcm/homePage/workloadStatisticsListNew.js?_v=' + _version], function () {
+                        require(['page/rcm/homePage/workloadStatisticsNewList.js?_v=' + _version], function () {
                             $rootScope.$apply(function () {
                                 deferred.resolve();
                             });

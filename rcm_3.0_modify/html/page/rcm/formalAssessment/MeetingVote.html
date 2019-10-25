@@ -62,8 +62,7 @@
     <div class="reel row" ng-if="historyDecisions == null && decision != null">
         <div class="content">
             <!--四个按钮 start-->
-            <div class="items row">
-
+            <div class="items row" ng-show="isZhuXi != '1'">
                 <div>
                     <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
                        data-target="#submitModal">
@@ -98,6 +97,50 @@
                 <span class="items-line"></span>
 
             </div>
+            <div class="items row itemZhuxi" ng-show="isZhuXi == '1'">
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">同意</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="1"/>
+                </div>
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">不同意</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="2"/>
+                </div>
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">有条件同意</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="3"/>
+                </div>
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">择期决议</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="4"/>
+                </div>
+
+                <div>
+                    <a href="javascript:void(0);" onclick="decisionOpinion(this)" title="" class="" data-toggle="modal"
+                       data-target="#submitModal">
+                        <span class="text" style="display: none">一票否决</span>
+                    </a>
+                    <input type="hidden" name="" class="opinion-content" value="5"/>
+                </div>
+
+                <span class="items-line"></span>
+
+            </div>
             <div  id="submitModal"  class="modal" tabindex="-1" role="dialog" style="display: none;">
                 <input type="hidden" name="aagreeOrDisagree">
                 <div class="tp-cover">
@@ -119,15 +162,15 @@
         </div>
     </div>
     <!--卷轴end-->
-    <div class="onevote" ng-show="isZhuXi == '1'">
-        <span class="mo"></span>
-        是否行使主席&lt;一票否决&gt;权
-        <a class="btn-vote chose-no" ng-click="changeZhuxi()">
-            <span class="cir"></span>
-            <span class="no">否</span>
-            <span class="yes">是</span>
-        </a>
-    </div>
+<!--    <div class="onevote" ng-show="isZhuXi == '1'">-->
+<!--        <span class="mo"></span>-->
+<!--        是否行使主席&lt;一票否决&gt;权-->
+<!--        <a class="btn-vote chose-no" ng-click="changeZhuxi()">-->
+<!--            <span class="cir"></span>-->
+<!--            <span class="no">否</span>-->
+<!--            <span class="yes">是</span>-->
+<!--        </a>-->
+<!--    </div>-->
 </div>
 
 <script type="text/javascript">

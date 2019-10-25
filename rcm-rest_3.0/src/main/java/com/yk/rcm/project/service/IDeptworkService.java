@@ -299,4 +299,9 @@ public interface IDeptworkService {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryNoticedCount(String result,String pertainAreaId, String serviceTypeId, String year);
+
+	public Map<String, Object> getAllStaffWork();
+	
+	public List<Map<String, Object>> getOneStaffWork(String TEAM_MEMBER_ID);
+	
 }

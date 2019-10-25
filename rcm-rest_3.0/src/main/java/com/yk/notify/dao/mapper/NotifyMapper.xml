@@ -196,7 +196,8 @@
           ) tmp
         ) t
         where t.idx = 1
-        and t.notify_user = #{curUserUuid}
+        and t.notify_user = #{curUserUuid} 
+        order by t.CREATE_TIME_ desc
     </select>
     <select id="selectNotifyInfoPage" resultType="map">
         select

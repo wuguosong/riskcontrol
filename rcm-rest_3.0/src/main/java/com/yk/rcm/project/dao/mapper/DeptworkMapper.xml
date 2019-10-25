@@ -734,4 +734,407 @@
 	       ) na
 	     group by pertainareaName
 	</select>
+	
+	<select id="getAllStaffWork" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			ti.TEAM_MEMBER_NAME,
+			ti.TEAM_MEMBER_ID 
+		FROM
+			team_item ti,
+			team t 
+		where 1 = 1 
+			AND ti.TEAM_ID = t.UUID 
+		<if test="type != null and type !=''"> 
+		     AND t.TEAM_NAME LIKE '%${type}%'
+		</if>	
+	</select>
+	<select id="getNowStaffWork" resultType="hashmap" parameterType="hashmap">
+		SELECT 
+			count( CASE WHEN tmp.ROLE = 'A' AND tmp.PROJECT_TYPE = 'pfr' THEN 1 ELSE NULL END ) PFRACOUNT,
+			count( CASE WHEN tmp.ROLE = 'B' AND tmp.PROJECT_TYPE = 'pfr' THEN 1 ELSE NULL END ) PFRBCOUNT,
+			count( CASE WHEN tmp.ROLE = 'A' AND tmp.PROJECT_TYPE = 'pre' THEN 1 ELSE NULL END ) PREACOUNT,
+			count( CASE WHEN tmp.ROLE = 'B' AND tmp.PROJECT_TYPE = 'pre' THEN 1 ELSE NULL END ) PREBCOUNT,
+			count( CASE WHEN tmp.ROLE = 'A' AND tmp.PROJECT_TYPE = 'bulletin' THEN 1 ELSE NULL END ) BULLETINCOUNT,
+			count(1) ALLCOUNT
+		FROM
+			(
+			SELECT
+				RFI.BUSINESSID,
+				RFI.PROJECTNAME,
+				'pfr' PROJECT_TYPE,
+				'A' ROLE 
+			FROM
+				RCM_FORMALASSESSMENT_INFO RFI 
+			WHERE
+				RFI.STAGE IN ( 2, 3 ) 
+				AND RFI.WF_STATE IN ( 1, 2 ) 
+				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
+					AND RFI.REVIEWPERSONID = '${REVIEWPERSONID}'
+				</if>
+			UNION ALL
+			SELECT
+				RPI.BUSINESSID,
+				RPI.PROJECTNAME,
+				'pre' PROJECT_TYPE,
+				'A' ROLE 
+			FROM
+				RCM_PRE_INFO RPI 
+			WHERE
+				RPI.STAGE IN ( 2, 3 ) 
+				AND RPI.WF_STATE IN ( 1, 2 ) 
+				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
+					AND RPI.REVIEWPERSONID = '${REVIEWPERSONID}'
+				</if>
+				
+			UNION ALL
+			SELECT
+				RBI.BUSINESSID,
+				RBI.BULLETINNAME PROJECTNAME,
+				'bulletin' PROJECT_TYPE,
+				'A' ROLE 
+			FROM
+				RCM_BULLETIN_INFO RBI 
+			WHERE
+				RBI.STAGE IN ( 1.5 ) 
+				AND RBI.AUDITSTATUS IN ( 1, 2 ) 
+				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
+					AND RBI.REVIEWLEADERID = '${REVIEWPERSONID}'
+				</if>
+				
+			UNION ALL
+			SELECT
+				tmp1.BUSINESS_ID,
+				tmp1.PROJECTNAME,
+				tmp1.PROJECT_TYPE,
+				tmp1.ROLE 
+			FROM
+				(
+				SELECT
+					SN.BUSINESS_ID,
+					( SELECT RFI.PROJECTNAME FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) PROJECTNAME,
+					( SELECT RFI.STAGE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) STAGE,
+					( SELECT RFI.WF_STATE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) WF_STATE,
+					'pfr' PROJECT_TYPE,
+					'B' ROLE 
+				FROM
+					SYS_NOTIFY SN 
+				WHERE
+					SN.NOTIFY_CREATED_NAME = '关楠楠' 
+					AND SN.BUSINESS_MODULE = 'formalReview' 
+					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
+						AND SN.NOTIFY_USER = '${REVIEWPERSONID}'
+					</if>
+				) tmp1 
+			WHERE
+				tmp1.STAGE IN ( 2, 3 ) 
+				AND tmp1.WF_STATE IN (
+					1,
+				2 
+				)
+				
+			UNION ALL
+			SELECT
+				tmp2.BUSINESS_ID,
+				tmp2.PROJECTNAME,
+				tmp2.PROJECT_TYPE,
+				tmp2.ROLE 
+			FROM
+				(
+				SELECT
+					SN.BUSINESS_ID,
+					( SELECT RPI.PROJECTNAME FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) PROJECTNAME,
+					( SELECT RPI.STAGE FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) STAGE,
+					( SELECT RPI.WF_STATE FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) WF_STATE,
+					'pre' PROJECT_TYPE,
+					'B' ROLE 
+				FROM
+					SYS_NOTIFY SN 
+				WHERE
+					SN.NOTIFY_CREATED_NAME = '关楠楠' 
+					AND SN.BUSINESS_MODULE = 'preReview' 
+					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
+						AND SN.NOTIFY_USER = '${REVIEWPERSONID}'
+					</if>
+				) tmp2 
+			WHERE
+				tmp2.STAGE IN ( 2, 3  ) 
+				AND tmp2.WF_STATE IN (
+					1,
+				2 
+				)
+		) tmp
+		
+	</select>
+	<select id="getProjectMessageInformation" resultType="hashmap" parameterType="hashmap">
+		SELECT 
+			tmp3.*, 
+			tmp3.hour_data / mess_data AS avg_data  
+		FROM
+			( 
+			SELECT  
+				tmp2.proc_inst_id, 
+				sum( tmp2.hour_data ) AS hour_data, 
+				count( tmp2.message_id ) AS mess_data  
+			FROM  
+				( 
+				SELECT 
+					tmp.proc_inst_id, 
+					tmp.hour_data, 
+					tmp.idx, 
+					tmp.message_id  
+				FROM 
+					( 
+					SELECT 
+						s1.proc_inst_id, 
+						s1.message_id, 
+						round( 
+							TO_NUMBER((
+									TO_DATE( to_char( s2.message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ) - TO_DATE( to_char( s1.message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' )) * 24
+							)) AS hour_data, 
+						row_number () over ( partition BY s2.PARENT_ID ORDER BY s2.MESSAGE_DATE ASC ) AS idx  
+					FROM 
+						SYS_MESSAGE s1 
+						JOIN SYS_MESSAGE s2 ON s1.MESSAGE_ID = s2.PARENT_ID  
+					WHERE 
+						1 = 1  
+						AND s1.PARENT_ID = 0  
+						<if test="BUSINESSID != null and BUSINESSID !=''"> 
+						     AND s1.PROC_INST_ID =  '${BUSINESSID}'
+						</if>	
+					ORDER BY 
+						s1.MESSAGE_DATE ASC 
+					) tmp 
+					
+				WHERE 
+				rownum=1 AND
+					tmp.idx = 1  
+				) tmp2  
+				
+			GROUP BY 
+			tmp2.proc_inst_id  
+			) tmp3
+		
+	</select>
+	
+	<select id="getProjectMessageCount" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			COUNT( 1 )  AS MessageCount 
+		FROM
+			SYS_MESSAGE 
+		WHERE 1 = 1 
+		<if test="BUSINESSID != null and BUSINESSID !=''"> 
+		     AND PROC_INST_ID =  '${BUSINESSID}'
+		</if>	
+	</select>
+	
+	<select id="getOneStaffWork" resultType="hashmap" parameterType="hashmap">
+		SELECT 
+				RFI.BUSINESSID, 
+				RFI.PROJECTNAME, 
+				'pfr' PROJECT_TYPE, 
+				'A' ROLE  
+			FROM 
+				RCM_FORMALASSESSMENT_INFO RFI  
+			WHERE 
+				RFI.STAGE IN ( 2, 3  )  
+				AND RFI.WF_STATE IN ( 1, 2 )  
+				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
+					AND RFI.REVIEWPERSONID = '${REVIEWPERSONID}' 
+				</if>
+			UNION ALL 
+			SELECT 
+				RPI.BUSINESSID, 
+				RPI.PROJECTNAME, 
+				'pre' PROJECT_TYPE, 
+				'A' ROLE  
+			FROM 
+				RCM_PRE_INFO RPI  
+			WHERE 
+				RPI.STAGE IN ( 2, 3  )  
+				AND RPI.WF_STATE IN ( 1, 2 )  
+				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''">  
+					AND RPI.REVIEWPERSONID = '${REVIEWPERSONID}' 
+				</if> 
+				
+			UNION ALL 
+			SELECT 
+				RBI.BUSINESSID, 
+				RBI.BULLETINNAME PROJECTNAME, 
+				'bulletin' PROJECT_TYPE, 
+				'A' ROLE  
+			FROM 
+				RCM_BULLETIN_INFO RBI  
+			WHERE 
+				RBI.STAGE IN ( 1.5 ) 
+				AND RBI.AUDITSTATUS IN ( 1, 2 ) 
+				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
+					AND RBI.REVIEWLEADERID = '${REVIEWPERSONID}' 
+				</if>
+				
+			UNION ALL 
+			SELECT 
+				tmp1.BUSINESS_ID, 
+				tmp1.PROJECTNAME, 
+				tmp1.PROJECT_TYPE, 
+				tmp1.ROLE  
+			FROM 
+				( 
+				SELECT 
+					SN.BUSINESS_ID, 
+					( SELECT RFI.PROJECTNAME FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) PROJECTNAME, 
+					( SELECT RFI.STAGE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) STAGE, 
+					( SELECT RFI.WF_STATE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) WF_STATE, 
+					'pfr' PROJECT_TYPE, 
+					'B' ROLE  
+				FROM 
+					SYS_NOTIFY SN  
+				WHERE 
+					SN.NOTIFY_CREATED_NAME = '关楠楠'  
+					AND SN.BUSINESS_MODULE = 'formalReview'  
+					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''">  
+						AND SN.NOTIFY_USER = '${REVIEWPERSONID}' 
+					</if> 
+				) tmp1  
+			WHERE 
+				tmp1.STAGE IN ( 2, 3  )  
+				AND tmp1.WF_STATE IN ( 
+					1, 
+				2  
+				) 
+				
+			UNION ALL 
+			SELECT 
+				tmp2.BUSINESS_ID, 
+				tmp2.PROJECTNAME, 
+				tmp2.PROJECT_TYPE, 
+				tmp2.ROLE 
+			FROM 
+				( 
+				SELECT 
+					SN.BUSINESS_ID, 
+					( SELECT RPI.PROJECTNAME FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) PROJECTNAME, 
+					( SELECT RPI.STAGE FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) STAGE, 
+					( SELECT RPI.WF_STATE FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) WF_STATE, 
+					'pre' PROJECT_TYPE, 
+					'B' ROLE 
+				FROM 
+					SYS_NOTIFY SN  
+				WHERE 
+					SN.NOTIFY_CREATED_NAME = '关楠楠'  
+					AND SN.BUSINESS_MODULE = 'preReview'  
+					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''">  
+						AND SN.NOTIFY_USER = '${REVIEWPERSONID}' 
+					</if> 
+				) tmp2  
+			WHERE 
+				tmp2.STAGE IN ( 2, 3  )  
+				AND tmp2.WF_STATE IN ( 
+					1,
+				2 )
+		
+	</select>
+	
+	<select id="getProjectMessageLast" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			floor(
+				to_number(
+				SYSDATE - to_date( to_char( MESSAGE_DATE, 'yyyy-mm-dd hh24:mi:ss' ), 'yyyy-mm-dd hh24:mi:ss' )))  AS NOWDATE
+		FROM
+			SYS_MESSAGE 
+		WHERE
+			ROWNUM = 1 
+			<if test="BUSINESSID != null and BUSINESSID !=''"> 
+			     AND PROC_INST_ID =  '${BUSINESSID}'
+			</if>	
+		ORDER BY
+			MESSAGE_DATE DESC
+		
+	</select>
+	
+	<select id="getProjectMessagePercent" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			MESSAGE_ID 
+		FROM
+			SYS_MESSAGE 
+		WHERE
+			PARENT_ID = '0'
+			<if test="BUSINESSID != null and BUSINESSID !=''"> 
+			     AND PROC_INST_ID =  '${BUSINESSID}'
+			</if>	
+		
+	</select>
+	
+	<select id="getMessageCount" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			COUNT( 1 ) AS ACOUNT 
+		FROM
+			SYS_MESSAGE 
+		WHERE
+			<if test="MESSAGE_ID != null and MESSAGE_ID !=''"> 
+			     PARENT_ID =  '${MESSAGE_ID}'
+			</if>	
+	</select>
+	
+	<select id="getProjectLast" parameterType="string" resultType="map">
+		SELECT 
+			round( 
+				TO_NUMBER(( 
+						TO_DATE( to_char( tmp.first_message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ) - TO_DATE( to_char( tmp.STARTTIME, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' )) 
+				)) AS LEADER_DIFFERENCE, 
+			round( 
+				TO_NUMBER(( 
+						TO_DATE( to_char( tmp.ENDTIME, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ) - TO_DATE( to_char( tmp.STARTTIME, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' )) 
+				)) AS DIFFERENCE, 
+			floor( 
+				to_number( 
+				SYSDATE - to_date( to_char( tmp.STARTTIME, 'yyyy-mm-dd hh24:mi:ss' ), 'yyyy-mm-dd hh24:mi:ss' ))) AS TODATE  
+		FROM 
+			( 
+			SELECT 
+				t1.AUDITTIME STARTTIME, 
+				( 
+				SELECT 
+					max( S1.MESSAGE_DATE ) 
+				FROM 
+					SYS_MESSAGE S1 
+				WHERE 
+					ROWNUM = 1  
+					AND S1.proc_inst_id = #{businessId} 
+					AND S1.PARENT_ID = 0  
+				) AS first_message_date, 
+			 /*正式评审审批*/
+	        <if test="processKey != null and processKey != '' and processKey == 'pfr'">
+		        ( SELECT max( t1.AUDITTIME ) FROM RCM_FORMALASSESSMENT_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '评审负责人审批' ) AS ENDTIME  
+					FROM 
+						RCM_FORMALASSESSMENT_LOG t1  
+					WHERE 
+						ROWNUM = 1  
+						AND t1.BUSINESSID = #{businessId}  
+						AND t1.TASKDESC = '分配评审任务' 
+			</if>
+			 /*投标评审审批*/
+	        <if test="processKey != null and processKey != '' and processKey == 'pre'">
+		         ( SELECT max( t1.AUDITTIME ) FROM RCM_PRE_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '风控评审负责人确认' ) AS ENDTIME  
+						FROM 
+							RCM_PRE_LOG t1  
+						WHERE  
+							ROWNUM = 1   
+							AND t1.BUSINESSID = #{businessId}  
+							AND t1.TASKDESC = '分配任务' 
+			</if>
+			 /*其它评审审批*/
+	        <if test="processKey != null and processKey != '' and processKey == 'bulletin'">
+	         ( SELECT max( t1.AUDITTIME ) FROM RCM_BULLETIN_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '评审负责人审批' ) AS ENDTIME  
+						FROM
+							RCM_BULLETIN_LOG t1  
+						WHERE 
+							ROWNUM = 1  
+							AND t1.BUSINESSID = #{businessId}  
+							AND t1.TASKDESC = '分配任务' 
+			</if>
+		ORDER BY 
+		t1.AUDITTIME DESC 
+		) tmp
+	</select>
+	
 </mapper>

@@ -56,6 +56,18 @@ ctmApp.register.controller('MeetingVote', ['$http','$scope','$location','$routeP
     //确认意见
     $scope.enterDecisionOpinion= function () {
     	var aagreeOrDisagree = $("#submitModal input[name='aagreeOrDisagree']").val();
+    	console.log(aagreeOrDisagree);
+		console.log($scope.zhuxiStatus);
+		if($scope.isZhuXi == 1) {
+			if (aagreeOrDisagree == 5) {
+				$scope.zhuxiStatus = 1;
+				aagreeOrDisagree = 2;
+			} else if(aagreeOrDisagree == 3) {
+				$scope.zhuxiStatus = 1;
+			} else if(aagreeOrDisagree == 4) {
+				$scope.zhuxiStatus = 1;
+			}
+		}
     	$http({
 			method:'post',
 		    url:srvUrl+"decision/addDecisionOpinionNew.do",
