@@ -1364,6 +1364,13 @@ td btn-scale:first-child {
     margin: 0 3%;
 }
 
+.tp-container .reel .content .itemZhuxi > div {
+    display: inline-block;
+    vertical-align: middle;
+    width: 10%;
+    margin: 0 3%;
+}
+
 .tp-container .reel .content .items .items-line {
     display: inline-block;
     vertical-align: middle;
@@ -1400,6 +1407,14 @@ td btn-scale:first-child {
     width: 100%;
     padding-bottom: 121.8%;
     background: url(../mystatic/img/btn-discuss.png) no-repeat;
+    background-size: cover;
+}
+
+
+.tp-container .reel .itemZhuxi > div:nth-of-type(5) a {
+    width: 100%;
+    padding-bottom: 121.8%;
+    background: url(../mystatic/img/btn-yipiao.png) no-repeat;
     background-size: cover;
 }
 
