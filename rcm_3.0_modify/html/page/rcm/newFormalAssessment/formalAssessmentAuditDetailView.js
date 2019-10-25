@@ -2680,9 +2680,12 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
          $scope._notifyCheckedUsers = [];
          $scope._notifyTempCheckedUsers = [];
          $scope._notifyTempCheckedUsersDisabled = [];
+		 $scope._notifyAllPeople = [];
      	 var init_notifyTempCheckedUsers = notify_notifiesCheckedTranslate(_business_module, _business_id);
+		 console.log(init_notifyTempCheckedUsers);
          $scope._notifyCheckedUsers.splice(0, $scope._notifyCheckedUsers.length);
          for (var i = 0; i < init_notifyTempCheckedUsers.length; i++) {
+			 $scope._notifyAllPeople.push(init_notifyTempCheckedUsers[i]);
              if(init_notifyTempCheckedUsers[i].AUTH != $scope.credentials.UUID){
                  $scope._notifyTempCheckedUsersDisabled.push(init_notifyTempCheckedUsers[i]);
 			 }else{
@@ -2694,6 +2697,7 @@ ctmApp.register.controller('FormalAssessmentAuditDetailView',['$http','$scope','
                  delete user.$$hashKey;
 			 }
          }
+		 console.log($scope._notifyAllPeople);
      };
      // 保存知会人信息
      $scope._notifySaveNotifiesUser = function(_business_module, _business_id, _notifyTempCheckedUsers){
