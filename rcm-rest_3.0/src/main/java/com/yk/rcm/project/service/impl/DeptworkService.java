@@ -5,10 +5,13 @@ package com.yk.rcm.project.service.impl;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -814,35 +817,28 @@ public class DeptworkService implements IDeptworkService {
 		for (Map<String, Object> staff : allStaff) {
 			Map<String, Object> nowStaffWorkQuery = new HashMap<String, Object>();
 			nowStaffWorkQuery.put("REVIEWPERSONID", staff.get("TEAM_MEMBER_ID").toString());
-			// 该员工目前下面所有项目
+			nowStaffWorkQuery.put("NOTIFY_CREATED_NAME", "关楠楠");
+			// 该员工目前下面所有项目(评审组)
 			Map<String, Object> nowStaffWork = this.deptworkMapper.getNowStaffWork(nowStaffWorkQuery);
 			if (Integer.parseInt(nowStaffWork.get("ALLCOUNT").toString()) > 0) {
-//				// 遍历得到每一个项目然后在加入各种时间
-//				for (Map<String, Object> oneWork : nowStaffWork) {
-//					if (oneWork.get("PROJECT_TYPE").equals("pfr")) {
-//						pfrCount++;
-//					} else if (oneWork.get("PROJECT_TYPE").equals("pre")) {
-//						preCount++;
-//					} else {
-//						pbiCount++;
-//					}
-//					Map<String, Object> oneWorkQuery = new HashMap<String, Object>();
-//					oneWorkQuery.put("BUSINESSID", oneWork.get("BUSINESSID").toString());
-//					// 查询项目的等待信息
-//					Map<String, Object> projectMessageInformation = this.deptworkMapper
-//							.getProjectMessageInformation(oneWorkQuery);
-//					oneWork.put("projectMessageInformation", projectMessageInformation);
-//					// 查询项目的所有消息量
-//					Map<String, Object> projectMessageCount = this.deptworkMapper
-//							.getProjectMessageCount(oneWorkQuery);
-//					oneWork.put("projectMessageCount", projectMessageCount);
-//				}
 				staff.put("PFRACOUNT", nowStaffWork.get("PFRACOUNT"));
 				staff.put("PFRBCOUNT", nowStaffWork.get("PFRBCOUNT"));
 				staff.put("PREACOUNT", nowStaffWork.get("PREACOUNT"));
 				staff.put("PREBCOUNT", nowStaffWork.get("PREBCOUNT"));
 				staff.put("BULLETINCOUNT", nowStaffWork.get("BULLETINCOUNT"));
 				staff.put("ALLCOUNT", nowStaffWork.get("ALLCOUNT"));
+				staff.put("AALLCOUNT", nowStaffWork.get("AALLCOUNT"));
+				staff.put("BALLCOUNT", nowStaffWork.get("BALLCOUNT"));
+				allYesWorkStaff.add(staff);
+			} else {
+				staff.put("PFRACOUNT", "0");
+				staff.put("PFRBCOUNT", "0");
+				staff.put("PREACOUNT", "0");
+				staff.put("PREBCOUNT", "0");
+				staff.put("BULLETINCOUNT", "0");
+				staff.put("ALLCOUNT", "0");
+				staff.put("AALLCOUNT", "0");
+				staff.put("BALLCOUNT", "0");
 				allYesWorkStaff.add(staff);
 			}
 		}
@@ -868,47 +864,167 @@ public class DeptworkService implements IDeptworkService {
 	public List<Map<String, Object>> getOneStaffWork(String TEAM_MEMBER_ID) {
 		Map<String, Object> nowStaffWorkQuery = new HashMap<String, Object>();
 		nowStaffWorkQuery.put("REVIEWPERSONID", TEAM_MEMBER_ID);
+		nowStaffWorkQuery.put("NOTIFY_CREATED_NAME", "关楠楠");
 		// 该员工目前下面所有项目
 		List<Map<String, Object>> oneStaffWork = this.deptworkMapper.getOneStaffWork(nowStaffWorkQuery);
 		for (Map<String, Object> oneWork : oneStaffWork) {
-			Map<String, Object> oneWorkQuery = new HashMap<String, Object>();
-			oneWorkQuery.put("BUSINESSID", oneWork.get("BUSINESSID").toString());
-			// 查询项目的等待信息
-			Map<String, Object> projectMessageInformation = this.deptworkMapper
-					.getProjectMessageInformation(oneWorkQuery);
-			oneWork.put("projectMessageInformation", projectMessageInformation);
-			// 查询项目的所有消息量
-			Map<String, Object> projectMessageCount = this.deptworkMapper.getProjectMessageCount(oneWorkQuery);
-			oneWork.put("projectMessageCount", projectMessageCount.get("MESSAGECOUNT"));
-			// 查询最后一条留言距现在时间
-			Map<String, Object> projectMessageLast = this.deptworkMapper.getProjectMessageLast(oneWorkQuery);
-			if (!Util.isEmpty(projectMessageLast)) {
-				oneWork.put("NOWDATE", projectMessageLast.get("NOWDATE"));
-			}
-
-			// 查询所有留言回复率
-			List<Map<String, Object>> projectMessagePercent = this.deptworkMapper
-					.getProjectMessagePercent(oneWorkQuery);
-			int count = 0;
-			if (!Util.isEmpty(projectMessagePercent)) {
-				for (Map<String, Object> messagePercent : projectMessagePercent) {
-					Map<String, Object> messagePercentQuery = new HashMap<String, Object>();
-					messagePercentQuery.put("MESSAGE_ID", messagePercent.get("MESSAGE_ID").toString());
-					Map<String, Object> messageCount = this.deptworkMapper.getMessageCount(messagePercentQuery);
-					if (Integer.parseInt(messageCount.get("ACOUNT").toString()) > 0) {
-						count++;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				Date projectTime = format.parse(oneWork.get("APPLY_DATE").toString().substring(0, 10));
+				Date startTime = format.parse("2019-01-31");
+				if (projectTime.compareTo(startTime) > 0) {
+					Map<String, Object> oneWorkQuery = new HashMap<String, Object>();
+					oneWorkQuery.put("BUSINESSID", oneWork.get("BUSINESSID").toString());
+					oneWorkQuery.put("TEAM_MEMBER_ID", TEAM_MEMBER_ID);
+					oneWorkQuery.put("MESSAGE_SCREEN_TYPE", "review");
+					// 查询项目的等待信息
+					Map<String, Object> projectMessageInformation = this.deptworkMapper
+							.getProjectMessageInformation(oneWorkQuery);
+					oneWork.put("projectMessageInformation", projectMessageInformation);
+					// 查询项目的所有消息量
+					Map<String, Object> projectMessageCount = this.deptworkMapper.getProjectMessageCount(oneWorkQuery);
+					oneWork.put("projectMessageCount", projectMessageCount.get("MESSAGECOUNT"));
+					// 查询最后一条留言距现在时间
+					Map<String, Object> projectMessageLast = this.deptworkMapper.getProjectMessageLast(oneWorkQuery);
+					if (!Util.isEmpty(projectMessageLast)) {
+						oneWork.put("NOWDATE", projectMessageLast.get("NOWDATE"));
 					}
-				}
-				NumberFormat numberFormat = NumberFormat.getInstance();
-				numberFormat.setMaximumFractionDigits(0);
-				String messagePercent = numberFormat.format((float) count / (float) projectMessagePercent.size() * 100) + '%';
-				oneWork.put("messagePercent", messagePercent);
-			}
-			
-			// 查询该项目分配任务后的时间区间;评审负责人首次反馈的时间;评审时常
-			Map<String,Object> projectLast= this.deptworkMapper.getProjectLast(oneWork.get("PROJECT_TYPE").toString(), oneWork.get("BUSINESSID").toString());
-			oneWork.put("projectLast", projectLast);
 
+					// 查询所有留言回复率
+					List<Map<String, Object>> projectMessagePercent = this.deptworkMapper
+							.getProjectMessagePercent(oneWorkQuery);
+					int count = 0;
+					if (!Util.isEmpty(projectMessagePercent)) {
+						for (Map<String, Object> messagePercent : projectMessagePercent) {
+							Map<String, Object> messagePercentQuery = new HashMap<String, Object>();
+							messagePercentQuery.put("MESSAGE_ID", messagePercent.get("MESSAGE_ID").toString());
+							Map<String, Object> messageCount = this.deptworkMapper.getMessageCount(messagePercentQuery);
+							if (Integer.parseInt(messageCount.get("ACOUNT").toString()) > 0) {
+								count++;
+							}
+						}
+						NumberFormat numberFormat = NumberFormat.getInstance();
+						numberFormat.setMaximumFractionDigits(0);
+						String messagePercent = numberFormat
+								.format((float) count / (float) projectMessagePercent.size() * 100) + '%';
+						oneWork.put("messagePercent", messagePercent);
+					}
+
+					// 查询该项目分配任务后的时间区间;评审负责人首次反馈的时间;评审时常
+					Map<String, Object> projectLast = this.deptworkMapper.getProjectLast(
+							oneWork.get("PROJECT_TYPE").toString(), oneWork.get("BUSINESSID").toString(), TEAM_MEMBER_ID, "review");
+					oneWork.put("projectLast", projectLast);
+				}
+
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return oneStaffWork;
+	}
+
+	@Override
+	public Map<String, Object> getAllLegalStaffWork() {
+		Map<String, Object> allStaffWork = new HashMap<String, Object>();
+		Map<String, Object> allStaffQuery = new HashMap<String, Object>();
+		allStaffQuery.put("type", "法律");
+		// 所有人员的id
+		List<Map<String, Object>> allStaff = this.deptworkMapper.getAllStaffWork(allStaffQuery);
+		List<Map<String, Object>> allYesWorkStaff = new ArrayList<Map<String, Object>>();
+		for (Map<String, Object> staff : allStaff) {
+			Map<String, Object> nowStaffWorkQuery = new HashMap<String, Object>();
+			nowStaffWorkQuery.put("LEGALREVIEWPERSONID", staff.get("TEAM_MEMBER_ID").toString());
+			// 该员工目前下面所有项目(评审组)
+			Map<String, Object> nowStaffWork = this.deptworkMapper.getNowLegalStaffWork(nowStaffWorkQuery);
+			if (Integer.parseInt(nowStaffWork.get("ALLCOUNT").toString()) > 0) {
+				staff.put("PFRCOUNT", nowStaffWork.get("PFRCOUNT"));
+				staff.put("PRECOUNT", nowStaffWork.get("PRECOUNT"));
+				staff.put("BULLETINCOUNT", nowStaffWork.get("BULLETINCOUNT"));
+				staff.put("ALLCOUNT", nowStaffWork.get("ALLCOUNT"));
+				allYesWorkStaff.add(staff);
+			} else {
+				staff.put("PFRCOUNT", "0");
+				staff.put("PRECOUNT", "0");
+				staff.put("BULLETINCOUNT", "0");
+				staff.put("ALLCOUNT", "0");
+				allYesWorkStaff.add(staff);
+			}
+		}
+
+		Collections.sort(allYesWorkStaff, new Comparator<Map<String, Object>>() {
+			@Override
+			public int compare(Map<String, Object> arg0, Map<String, Object> arg1) {
+				int diff = Integer.parseInt(arg0.get("ALLCOUNT").toString())
+						- Integer.parseInt(arg1.get("ALLCOUNT").toString());
+				if (diff > 0) {
+					return -1;
+				} else if (diff < 0) {
+					return 1;
+				}
+				return 0;
+			}
+		});
+		allStaffWork.put("allStaffWork", allYesWorkStaff);
+		return allStaffWork;
+	}
+
+	@Override
+	public List<Map<String, Object>> getOneLegalStaffWork(String TEAM_MEMBER_ID) {
+		Map<String, Object> nowStaffWorkQuery = new HashMap<String, Object>();
+		nowStaffWorkQuery.put("LEGALREVIEWPERSONID", TEAM_MEMBER_ID);
+		// 该员工目前下面所有项目
+		List<Map<String, Object>> oneStaffWork = this.deptworkMapper.getOneLegalStaffWork(nowStaffWorkQuery);
+		for (Map<String, Object> oneWork : oneStaffWork) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				Date projectTime = format.parse(oneWork.get("APPLY_DATE").toString().substring(0, 10));
+				Date startTime = format.parse("2019-01-31");
+				if (projectTime.compareTo(startTime) > 0) {
+					Map<String, Object> oneWorkQuery = new HashMap<String, Object>();
+					oneWorkQuery.put("BUSINESSID", oneWork.get("BUSINESSID").toString());
+					oneWorkQuery.put("TEAM_MEMBER_ID", TEAM_MEMBER_ID);
+					oneWorkQuery.put("MESSAGE_SCREEN_TYPE", "legal");
+					// 查询项目的等待信息
+					Map<String, Object> projectMessageInformation = this.deptworkMapper
+							.getProjectMessageInformation(oneWorkQuery);
+					oneWork.put("projectMessageInformation", projectMessageInformation);
+					
+					// 查询最后一条留言距现在时间
+					Map<String, Object> projectMessageLast = this.deptworkMapper.getProjectMessageLast(oneWorkQuery);
+					if (!Util.isEmpty(projectMessageLast)) {
+						oneWork.put("NOWDATE", projectMessageLast.get("NOWDATE"));
+					}
+
+					// 查询所有留言回复率
+					List<Map<String, Object>> projectMessagePercent = this.deptworkMapper
+							.getProjectMessagePercent(oneWorkQuery);
+					int count = 0;
+					if (!Util.isEmpty(projectMessagePercent)) {
+						for (Map<String, Object> messagePercent : projectMessagePercent) {
+							Map<String, Object> messagePercentQuery = new HashMap<String, Object>();
+							messagePercentQuery.put("MESSAGE_ID", messagePercent.get("MESSAGE_ID").toString());
+							Map<String, Object> messageCount = this.deptworkMapper.getMessageCount(messagePercentQuery);
+							if (Integer.parseInt(messageCount.get("ACOUNT").toString()) > 0) {
+								count++;
+							}
+						}
+						NumberFormat numberFormat = NumberFormat.getInstance();
+						numberFormat.setMaximumFractionDigits(0);
+						String messagePercent = numberFormat
+								.format((float) count / (float) projectMessagePercent.size() * 100) + '%';
+						oneWork.put("messagePercent", messagePercent);
+					}
+
+					// 查询该项目分配任务后的时间区间;评审负责人首次反馈的时间;评审时常
+					Map<String, Object> projectLast = this.deptworkMapper.getProjectLegalLast(
+							oneWork.get("PROJECT_TYPE").toString(), oneWork.get("BUSINESSID").toString(), TEAM_MEMBER_ID, "legal");
+					oneWork.put("projectLast", projectLast);
+				}
+
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		return oneStaffWork;
 	}

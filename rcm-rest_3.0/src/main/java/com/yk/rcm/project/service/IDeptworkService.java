@@ -303,5 +303,9 @@ public interface IDeptworkService {
 	public Map<String, Object> getAllStaffWork();
 	
 	public List<Map<String, Object>> getOneStaffWork(String TEAM_MEMBER_ID);
+
+	public Map<String, Object> getAllLegalStaffWork();
+
+	public List<Map<String, Object>> getOneLegalStaffWork(String tEAM_MEMBER_ID);
 	
 }

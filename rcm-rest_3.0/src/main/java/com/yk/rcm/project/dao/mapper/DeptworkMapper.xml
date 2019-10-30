@@ -755,6 +755,8 @@
 			count( CASE WHEN tmp.ROLE = 'A' AND tmp.PROJECT_TYPE = 'pre' THEN 1 ELSE NULL END ) PREACOUNT,
 			count( CASE WHEN tmp.ROLE = 'B' AND tmp.PROJECT_TYPE = 'pre' THEN 1 ELSE NULL END ) PREBCOUNT,
 			count( CASE WHEN tmp.ROLE = 'A' AND tmp.PROJECT_TYPE = 'bulletin' THEN 1 ELSE NULL END ) BULLETINCOUNT,
+			count( CASE WHEN tmp.ROLE = 'A' THEN 1 ELSE NULL END ) AALLCOUNT,
+			count( CASE WHEN tmp.ROLE = 'B' THEN 1 ELSE NULL END ) BALLCOUNT,
 			count(1) ALLCOUNT
 		FROM
 			(
@@ -762,11 +764,12 @@
 				RFI.BUSINESSID,
 				RFI.PROJECTNAME,
 				'pfr' PROJECT_TYPE,
+				RFI.STAGE, 
 				'A' ROLE 
 			FROM
 				RCM_FORMALASSESSMENT_INFO RFI 
 			WHERE
-				RFI.STAGE IN ( 2, 3 ) 
+				RFI.STAGE IN ( 2, 3, 4 ) 
 				AND RFI.WF_STATE IN ( 1, 2 ) 
 				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
 					AND RFI.REVIEWPERSONID = '${REVIEWPERSONID}'
@@ -776,11 +779,12 @@
 				RPI.BUSINESSID,
 				RPI.PROJECTNAME,
 				'pre' PROJECT_TYPE,
+				RPI.STAGE, 
 				'A' ROLE 
 			FROM
 				RCM_PRE_INFO RPI 
 			WHERE
-				RPI.STAGE IN ( 2, 3 ) 
+				RPI.STAGE IN ( 2, 3, 4 ) 
 				AND RPI.WF_STATE IN ( 1, 2 ) 
 				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
 					AND RPI.REVIEWPERSONID = '${REVIEWPERSONID}'
@@ -791,11 +795,20 @@
 				RBI.BUSINESSID,
 				RBI.BULLETINNAME PROJECTNAME,
 				'bulletin' PROJECT_TYPE,
+				DECODE(RBI.STAGE,
+					'1', '1',
+					'1.5', '3' ,
+					'2', '4',
+					'3', '5' ,
+					'4', '6',
+					'5', '7',
+					'9' ,'9')
+				STAGE, 
 				'A' ROLE 
 			FROM
 				RCM_BULLETIN_INFO RBI 
 			WHERE
-				RBI.STAGE IN ( 1.5 ) 
+				RBI.STAGE IN ( 1.5, 2 ) 
 				AND RBI.AUDITSTATUS IN ( 1, 2 ) 
 				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
 					AND RBI.REVIEWLEADERID = '${REVIEWPERSONID}'
@@ -806,6 +819,7 @@
 				tmp1.BUSINESS_ID,
 				tmp1.PROJECTNAME,
 				tmp1.PROJECT_TYPE,
+				tmp1.STAGE,
 				tmp1.ROLE 
 			FROM
 				(
@@ -819,14 +833,14 @@
 				FROM
 					SYS_NOTIFY SN 
 				WHERE
-					SN.NOTIFY_CREATED_NAME = '关楠楠' 
+					SN.NOTIFY_CREATED_NAME = '${NOTIFY_CREATED_NAME}' 
 					AND SN.BUSINESS_MODULE = 'formalReview' 
 					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
 						AND SN.NOTIFY_USER = '${REVIEWPERSONID}'
 					</if>
 				) tmp1 
 			WHERE
-				tmp1.STAGE IN ( 2, 3 ) 
+				tmp1.STAGE IN ( 2, 3, 4 ) 
 				AND tmp1.WF_STATE IN (
 					1,
 				2 
@@ -837,6 +851,7 @@
 				tmp2.BUSINESS_ID,
 				tmp2.PROJECTNAME,
 				tmp2.PROJECT_TYPE,
+				tmp2.STAGE,
 				tmp2.ROLE 
 			FROM
 				(
@@ -850,14 +865,14 @@
 				FROM
 					SYS_NOTIFY SN 
 				WHERE
-					SN.NOTIFY_CREATED_NAME = '关楠楠' 
+					SN.NOTIFY_CREATED_NAME = '${NOTIFY_CREATED_NAME}' 
 					AND SN.BUSINESS_MODULE = 'preReview' 
 					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
 						AND SN.NOTIFY_USER = '${REVIEWPERSONID}'
 					</if>
 				) tmp2 
 			WHERE
-				tmp2.STAGE IN ( 2, 3  ) 
+				tmp2.STAGE IN ( 2, 3, 4 ) 
 				AND tmp2.WF_STATE IN (
 					1,
 				2 
@@ -889,7 +904,7 @@
 						s1.message_id, 
 						round( 
 							TO_NUMBER((
-									TO_DATE( to_char( s2.message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ) - TO_DATE( to_char( s1.message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' )) * 24
+									TO_DATE( to_char( s2.message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ) - TO_DATE( to_char( s1.message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ))
 							)) AS hour_data, 
 						row_number () over ( partition BY s2.PARENT_ID ORDER BY s2.MESSAGE_DATE ASC ) AS idx  
 					FROM 
@@ -897,7 +912,8 @@
 						JOIN SYS_MESSAGE s2 ON s1.MESSAGE_ID = s2.PARENT_ID  
 					WHERE 
 						1 = 1  
-						AND s1.PARENT_ID = 0  
+						AND s1.PARENT_ID = 0 
+						AND s1.MESSAGE_SCREEN_TYPE = #{MESSAGE_SCREEN_TYPE} AND s1.CREATED_BY = '${TEAM_MEMBER_ID}'
 						<if test="BUSINESSID != null and BUSINESSID !=''"> 
 						     AND s1.PROC_INST_ID =  '${BUSINESSID}'
 						</if>	
@@ -932,11 +948,14 @@
 				RFI.BUSINESSID, 
 				RFI.PROJECTNAME, 
 				'pfr' PROJECT_TYPE, 
+				RFI.STAGE, 
+				RFI.WF_STATE WF_STATE, 
+				RFI.APPLY_DATE APPLY_DATE,
 				'A' ROLE  
 			FROM 
 				RCM_FORMALASSESSMENT_INFO RFI  
 			WHERE 
-				RFI.STAGE IN ( 2, 3  )  
+				RFI.STAGE IN ( 2, 3, 4 )  
 				AND RFI.WF_STATE IN ( 1, 2 )  
 				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
 					AND RFI.REVIEWPERSONID = '${REVIEWPERSONID}' 
@@ -946,11 +965,14 @@
 				RPI.BUSINESSID, 
 				RPI.PROJECTNAME, 
 				'pre' PROJECT_TYPE, 
+				RPI.STAGE, 
+				RPI.WF_STATE WF_STATE, 
+				RPI.APPLY_DATE APPLY_DATE,
 				'A' ROLE  
 			FROM 
 				RCM_PRE_INFO RPI  
 			WHERE 
-				RPI.STAGE IN ( 2, 3  )  
+				RPI.STAGE IN ( 2, 3, 4 )  
 				AND RPI.WF_STATE IN ( 1, 2 )  
 				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''">  
 					AND RPI.REVIEWPERSONID = '${REVIEWPERSONID}' 
@@ -961,11 +983,22 @@
 				RBI.BUSINESSID, 
 				RBI.BULLETINNAME PROJECTNAME, 
 				'bulletin' PROJECT_TYPE, 
+				DECODE(RBI.STAGE,
+					'1', '1',
+					'1.5', '3' ,
+					'2', '4',
+					'3', '5' ,
+					'4', '6',
+					'5', '7',
+					'9' ,'9')
+				STAGE, 
+				RBI.AUDITSTATUS WF_STATE, 
+				RBI.APPLYTIME APPLY_DATE,
 				'A' ROLE  
 			FROM 
 				RCM_BULLETIN_INFO RBI  
 			WHERE 
-				RBI.STAGE IN ( 1.5 ) 
+				RBI.STAGE IN ( 1.5, 2) 
 				AND RBI.AUDITSTATUS IN ( 1, 2 ) 
 				<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''"> 
 					AND RBI.REVIEWLEADERID = '${REVIEWPERSONID}' 
@@ -976,6 +1009,9 @@
 				tmp1.BUSINESS_ID, 
 				tmp1.PROJECTNAME, 
 				tmp1.PROJECT_TYPE, 
+				tmp1.STAGE, 
+				tmp1.WF_STATE, 
+				tmp1.APPLY_DATE,
 				tmp1.ROLE  
 			FROM 
 				( 
@@ -984,19 +1020,20 @@
 					( SELECT RFI.PROJECTNAME FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) PROJECTNAME, 
 					( SELECT RFI.STAGE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) STAGE, 
 					( SELECT RFI.WF_STATE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) WF_STATE, 
+					( SELECT RFI.APPLY_DATE FROM RCM_FORMALASSESSMENT_INFO RFI WHERE SN.BUSINESS_ID = RFI.BUSINESSID ) APPLY_DATE, 
 					'pfr' PROJECT_TYPE, 
 					'B' ROLE  
 				FROM 
 					SYS_NOTIFY SN  
 				WHERE 
-					SN.NOTIFY_CREATED_NAME = '关楠楠'  
+					SN.NOTIFY_CREATED_NAME = '${NOTIFY_CREATED_NAME}'  
 					AND SN.BUSINESS_MODULE = 'formalReview'  
 					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''">  
 						AND SN.NOTIFY_USER = '${REVIEWPERSONID}' 
 					</if> 
 				) tmp1  
 			WHERE 
-				tmp1.STAGE IN ( 2, 3  )  
+				tmp1.STAGE IN ( 2, 3, 4  )  
 				AND tmp1.WF_STATE IN ( 
 					1, 
 				2  
@@ -1007,6 +1044,9 @@
 				tmp2.BUSINESS_ID, 
 				tmp2.PROJECTNAME, 
 				tmp2.PROJECT_TYPE, 
+				tmp2.STAGE, 
+				tmp2.WF_STATE, 
+				tmp2.APPLY_DATE,
 				tmp2.ROLE 
 			FROM 
 				( 
@@ -1015,19 +1055,20 @@
 					( SELECT RPI.PROJECTNAME FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) PROJECTNAME, 
 					( SELECT RPI.STAGE FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) STAGE, 
 					( SELECT RPI.WF_STATE FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) WF_STATE, 
+					( SELECT RPI.APPLY_DATE FROM RCM_PRE_INFO RPI WHERE SN.BUSINESS_ID = RPI.BUSINESSID ) APPLY_DATE, 
 					'pre' PROJECT_TYPE, 
 					'B' ROLE 
 				FROM 
 					SYS_NOTIFY SN  
 				WHERE 
-					SN.NOTIFY_CREATED_NAME = '关楠楠'  
+					SN.NOTIFY_CREATED_NAME = '${NOTIFY_CREATED_NAME}'  
 					AND SN.BUSINESS_MODULE = 'preReview'  
 					<if test="REVIEWPERSONID != null and REVIEWPERSONID !=''">  
 						AND SN.NOTIFY_USER = '${REVIEWPERSONID}' 
 					</if> 
 				) tmp2  
 			WHERE 
-				tmp2.STAGE IN ( 2, 3  )  
+				tmp2.STAGE IN ( 2, 3, 4 )  
 				AND tmp2.WF_STATE IN ( 
 					1,
 				2 )
@@ -1038,16 +1079,13 @@
 		SELECT
 			floor(
 				to_number(
-				SYSDATE - to_date( to_char( MESSAGE_DATE, 'yyyy-mm-dd hh24:mi:ss' ), 'yyyy-mm-dd hh24:mi:ss' )))  AS NOWDATE
+				SYSDATE - to_date( to_char( MAX(MESSAGE_DATE), 'yyyy-mm-dd hh24:mi:ss' ), 'yyyy-mm-dd hh24:mi:ss' )))  AS NOWDATE
 		FROM
 			SYS_MESSAGE 
-		WHERE
-			ROWNUM = 1 
+		WHERE 
 			<if test="BUSINESSID != null and BUSINESSID !=''"> 
-			     AND PROC_INST_ID =  '${BUSINESSID}'
+			     PROC_INST_ID =  '${BUSINESSID}'
 			</if>	
-		ORDER BY
-			MESSAGE_DATE DESC
 		
 	</select>
 	
@@ -1057,9 +1095,9 @@
 		FROM
 			SYS_MESSAGE 
 		WHERE
-			PARENT_ID = '0'
+			PARENT_ID = '0' AND MESSAGE_SCREEN_TYPE = #{MESSAGE_SCREEN_TYPE} 
 			<if test="BUSINESSID != null and BUSINESSID !=''"> 
-			     AND PROC_INST_ID =  '${BUSINESSID}'
+			     AND PROC_INST_ID =  '${BUSINESSID}' AND CREATED_BY = #{TEAM_MEMBER_ID} 
 			</if>	
 		
 	</select>
@@ -1094,17 +1132,15 @@
 				t1.AUDITTIME STARTTIME, 
 				( 
 				SELECT 
-					max( S1.MESSAGE_DATE ) 
+					MIN( S1.MESSAGE_DATE ) 
 				FROM 
 					SYS_MESSAGE S1 
-				WHERE 
-					ROWNUM = 1  
-					AND S1.proc_inst_id = #{businessId} 
-					AND S1.PARENT_ID = 0  
+				WHERE S1.proc_inst_id = #{businessId} 
+					AND S1.PARENT_ID = 0  AND MESSAGE_SCREEN_TYPE = #{MESSAGE_SCREEN_TYPE} AND CREATED_BY = #{TEAM_MEMBER_ID} 
 				) AS first_message_date, 
 			 /*正式评审审批*/
 	        <if test="processKey != null and processKey != '' and processKey == 'pfr'">
-		        ( SELECT max( t1.AUDITTIME ) FROM RCM_FORMALASSESSMENT_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '评审负责人审批' ) AS ENDTIME  
+		        ( SELECT max( t1.AUDITTIME ) FROM RCM_FORMALASSESSMENT_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '通过结束'  AND t1.ISWAITING = '1' ) AS ENDTIME  
 					FROM 
 						RCM_FORMALASSESSMENT_LOG t1  
 					WHERE 
@@ -1114,7 +1150,7 @@
 			</if>
 			 /*投标评审审批*/
 	        <if test="processKey != null and processKey != '' and processKey == 'pre'">
-		         ( SELECT max( t1.AUDITTIME ) FROM RCM_PRE_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '风控评审负责人确认' ) AS ENDTIME  
+		         ( SELECT max( t1.AUDITTIME ) FROM RCM_PRE_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '通过结束'  AND t1.ISWAITING = '1') AS ENDTIME  
 						FROM 
 							RCM_PRE_LOG t1  
 						WHERE  
@@ -1124,13 +1160,189 @@
 			</if>
 			 /*其它评审审批*/
 	        <if test="processKey != null and processKey != '' and processKey == 'bulletin'">
-	         ( SELECT max( t1.AUDITTIME ) FROM RCM_BULLETIN_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '评审负责人审批' ) AS ENDTIME  
+	         ( SELECT max( t1.AUDITTIME ) FROM RCM_BULLETIN_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '通过结束'  AND t1.ISWAITING = '1') AS ENDTIME  
 						FROM
 							RCM_BULLETIN_LOG t1  
 						WHERE 
 							ROWNUM = 1  
-							AND t1.BUSINESSID = #{businessId}  
+							AND t1.BUSINESSID = #{businessId} 
 							AND t1.TASKDESC = '分配任务' 
+			</if>
+		ORDER BY 
+		t1.AUDITTIME DESC 
+		) tmp
+	</select>
+	
+	<select id="getNowLegalStaffWork" resultType="hashmap" parameterType="hashmap">
+		SELECT 
+			count( CASE WHEN tmp.PROJECT_TYPE = 'pfr' THEN 1 ELSE NULL END ) PFRCOUNT,
+			count( CASE WHEN tmp.PROJECT_TYPE = 'pre' THEN 1 ELSE NULL END ) PRECOUNT,
+			count( CASE WHEN tmp.PROJECT_TYPE = 'bulletin' THEN 1 ELSE NULL END ) BULLETINCOUNT,
+			count(1) ALLCOUNT
+		FROM
+			(
+			SELECT
+				RFI.BUSINESSID,
+				RFI.PROJECTNAME,
+				'pfr' PROJECT_TYPE,
+				RFI.STAGE 
+			FROM
+				RCM_FORMALASSESSMENT_INFO RFI 
+			WHERE
+				RFI.STAGE IN ( 2, 3, 4 ) 
+				AND RFI.WF_STATE IN ( 1, 2 ) 
+				<if test="LEGALREVIEWPERSONID != null and LEGALREVIEWPERSONID !=''"> 
+					AND RFI.LEGALREVIEWPERSONID = '${LEGALREVIEWPERSONID}'
+				</if>
+			UNION ALL
+			SELECT
+				RPI.BUSINESSID,
+				RPI.PROJECTNAME,
+				'pre' PROJECT_TYPE,
+				RPI.STAGE 
+			FROM
+				RCM_PRE_INFO RPI 
+			WHERE
+				RPI.STAGE IN ( 2, 3, 4 ) 
+				AND RPI.WF_STATE IN ( 1, 2 ) 
+				<if test="LEGALREVIEWPERSONID != null and LEGALREVIEWPERSONID !=''"> 
+					AND RPI.LEGALREVIEWPERSONID = '${LEGALREVIEWPERSONID}'
+				</if>
+				
+			UNION ALL
+			SELECT
+				RBI.BUSINESSID,
+				RBI.BULLETINNAME PROJECTNAME,
+				'bulletin' PROJECT_TYPE,
+				DECODE(RBI.STAGE,
+					'1', '1',
+					'1.5', '3' ,
+					'2', '4',
+					'3', '5' ,
+					'4', '6',
+					'5', '7',
+					'9' ,'9')
+				STAGE 
+			FROM
+				RCM_BULLETIN_INFO RBI 
+			WHERE
+				RBI.STAGE IN ( 1.5, 2 ) 
+				AND RBI.AUDITSTATUS IN ( 1, 2 ) 
+				<if test="LEGALREVIEWPERSONID != null and LEGALREVIEWPERSONID !=''"> 
+					AND RBI.LEGALLEADERID = '${LEGALREVIEWPERSONID}'
+				</if>
+		) tmp
+		
+	</select>
+	<select id="getOneLegalStaffWork" resultType="hashmap" parameterType="hashmap">
+		SELECT
+				RFI.BUSINESSID,
+				RFI.PROJECTNAME,
+				'pfr' PROJECT_TYPE,
+				RFI.APPLY_DATE APPLY_DATE,
+				RFI.STAGE 
+			FROM
+				RCM_FORMALASSESSMENT_INFO RFI 
+			WHERE
+				RFI.STAGE IN ( 2, 3, 4 ) 
+				AND RFI.WF_STATE IN ( 1, 2 ) 
+				<if test="LEGALREVIEWPERSONID != null and LEGALREVIEWPERSONID !=''"> 
+					AND RFI.LEGALREVIEWPERSONID = '${LEGALREVIEWPERSONID}'
+				</if>
+			UNION ALL
+			SELECT
+				RPI.BUSINESSID,
+				RPI.PROJECTNAME,
+				'pre' PROJECT_TYPE,
+				RPI.APPLY_DATE APPLY_DATE,
+				RPI.STAGE 
+			FROM
+				RCM_PRE_INFO RPI 
+			WHERE
+				RPI.STAGE IN ( 2, 3, 4 ) 
+				AND RPI.WF_STATE IN ( 1, 2 ) 
+				<if test="LEGALREVIEWPERSONID != null and LEGALREVIEWPERSONID !=''"> 
+					AND RPI.LEGALREVIEWPERSONID = '${LEGALREVIEWPERSONID}'
+				</if>
+				
+			UNION ALL
+			SELECT
+				RBI.BUSINESSID,
+				RBI.BULLETINNAME PROJECTNAME,
+				'bulletin' PROJECT_TYPE,
+				RBI.APPLYTIME APPLY_DATE,
+				DECODE(RBI.STAGE,
+					'1', '1',
+					'1.5', '3' ,
+					'2', '4',
+					'3', '5' ,
+					'4', '6',
+					'5', '7',
+					'9' ,'9')
+				STAGE 
+			FROM
+				RCM_BULLETIN_INFO RBI 
+			WHERE
+				RBI.STAGE IN ( 1.5, 2 ) 
+				AND RBI.AUDITSTATUS IN ( 1, 2 ) 
+				<if test="LEGALREVIEWPERSONID != null and LEGALREVIEWPERSONID !=''"> 
+					AND RBI.LEGALLEADERID = '${LEGALREVIEWPERSONID}'
+				</if>
+	</select>
+	<select id="getProjectLegalLast" parameterType="string" resultType="map">
+		SELECT 
+			round( 
+				TO_NUMBER(( 
+						TO_DATE( to_char( tmp.first_message_date, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ) - TO_DATE( to_char( tmp.STARTTIME, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' )) 
+				)) AS LEADER_DIFFERENCE, 
+			round( 
+				TO_NUMBER(( 
+						TO_DATE( to_char( tmp.ENDTIME, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' ) - TO_DATE( to_char( tmp.STARTTIME, 'yyyy-MM-dd HH24:mm:ss' ), 'yyyy-mm-dd hh24:mi:ss' )) 
+				)) AS DIFFERENCE, 
+			floor( 
+				to_number( 
+				SYSDATE - to_date( to_char( tmp.STARTTIME, 'yyyy-mm-dd hh24:mi:ss' ), 'yyyy-mm-dd hh24:mi:ss' ))) AS TODATE  
+		FROM 
+			( 
+			SELECT 
+				t1.AUDITTIME STARTTIME, 
+				( 
+				SELECT 
+					MIN( S1.MESSAGE_DATE ) 
+				FROM 
+					SYS_MESSAGE S1 
+				WHERE S1.proc_inst_id = #{businessId} 
+					AND S1.PARENT_ID = 0  AND MESSAGE_SCREEN_TYPE = #{MESSAGE_SCREEN_TYPE} AND CREATED_BY = #{TEAM_MEMBER_ID} 
+				) AS first_message_date, 
+			 /*正式评审审批*/
+	        <if test="processKey != null and processKey != '' and processKey == 'pfr'">
+		        ( SELECT max( t1.AUDITTIME ) FROM RCM_FORMALASSESSMENT_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '通过结束'  AND t1.ISWAITING = '1' ) AS ENDTIME  
+					FROM 
+						RCM_FORMALASSESSMENT_LOG t1  
+					WHERE 
+						ROWNUM = 1  
+						AND t1.BUSINESSID = #{businessId}  
+						AND t1.TASKDESC = '法律分配' 
+			</if>
+			 /*投标评审审批*/
+	        <if test="processKey != null and processKey != '' and processKey == 'pre'">
+		         ( SELECT max( t1.AUDITTIME ) FROM RCM_PRE_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '通过结束'  AND t1.ISWAITING = '1') AS ENDTIME  
+						FROM 
+							RCM_PRE_LOG t1  
+						WHERE  
+							ROWNUM = 1   
+							AND t1.BUSINESSID = #{businessId}  
+							AND t1.TASKDESC = '法律分配' 
+			</if>
+			 /*其它评审审批*/
+	        <if test="processKey != null and processKey != '' and processKey == 'bulletin'">
+	         ( SELECT max( t1.AUDITTIME ) FROM RCM_BULLETIN_LOG t1 WHERE t1.BUSINESSID = #{businessId} AND t1.TASKDESC = '通过结束'  AND t1.ISWAITING = '1') AS ENDTIME  
+						FROM
+							RCM_BULLETIN_LOG t1  
+						WHERE 
+							ROWNUM = 1  
+							AND t1.BUSINESSID = #{businessId} 
+							AND t1.TASKDESC = '法律分配' 
 			</if>
 		ORDER BY 
 		t1.AUDITTIME DESC 

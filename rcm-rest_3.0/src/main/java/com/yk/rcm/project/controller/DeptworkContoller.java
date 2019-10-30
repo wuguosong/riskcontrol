@@ -1714,12 +1714,41 @@ public class DeptworkContoller {
 	 * 
 	 * @return
 	 */
+	@RequestMapping("/getAllLegalStaffWork")
+	@ResponseBody
+	public Result getAllLegalStaffWork() {
+		Result result = new Result();
+		Map<String, Object> allStaffWork = this.deptworkService.getAllLegalStaffWork();
+		result.setResult_data(allStaffWork);
+		return result;
+	}
+	
+	/**
+	 * 获取所有员工当前工作量
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/getOneStaffWork")
 	@ResponseBody
 	public Result getOneStaffWork(HttpServletRequest request) {
 		Result result = new Result();
 		String TEAM_MEMBER_ID = request.getParameter("TEAM_MEMBER_ID");
 		List<Map<String, Object>> oneStaffWork = this.deptworkService.getOneStaffWork(TEAM_MEMBER_ID);
+		result.setResult_data(oneStaffWork);
+		return result;
+	}
+	
+	/**
+	 * 获取所有员工当前工作量
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/getOneLegalStaffWork")
+	@ResponseBody
+	public Result getOneLegalStaffWork(HttpServletRequest request) {
+		Result result = new Result();
+		String TEAM_MEMBER_ID = request.getParameter("TEAM_MEMBER_ID");
+		List<Map<String, Object>> oneStaffWork = this.deptworkService.getOneLegalStaffWork(TEAM_MEMBER_ID);
 		result.setResult_data(oneStaffWork);
 		return result;
 	}
