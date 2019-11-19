@@ -3,28 +3,26 @@ package com.yk.rcm.ws.client.evaluation;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Aft_Hand complex type�� Java �ࡣ
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>����ģʽƬ��ָ�������ڴ����е�Ԥ�����ݡ�
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="Aft_Hand">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="in0" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in1" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in2" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in3" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in4" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in5" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in6" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="arg2" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="arg3" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="arg4" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="arg5" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="arg6" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,198 +33,190 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "in0",
-    "in1",
-    "in2",
-    "in3",
-    "in4",
-    "in5",
-    "in6"
+    "arg0",
+    "arg1",
+    "arg2",
+    "arg3",
+    "arg4",
+    "arg5",
+    "arg6"
 })
-@XmlRootElement(name = "Aft_Hand")
 public class AftHand {
 
-    @XmlElement(required = true, nillable = true)
-    protected String in0;
-    @XmlElement(required = true, nillable = true)
-    protected String in1;
-    @XmlElement(required = true, nillable = true)
-    protected String in2;
-    @XmlElement(required = true, nillable = true)
-    protected String in3;
-    @XmlElement(required = true, nillable = true)
-    protected String in4;
-    @XmlElement(required = true, nillable = true)
-    protected String in5;
-    @XmlElement(required = true, nillable = true)
-    protected String in6;
+    protected String arg0;
+    protected String arg1;
+    protected String arg2;
+    protected String arg3;
+    protected String arg4;
+    protected String arg5;
+    protected String arg6;
 
     /**
-     * Gets the value of the in0 property.
+     * ��ȡarg0���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn0() {
-        return in0;
+    public String getArg0() {
+        return arg0;
     }
 
     /**
-     * Sets the value of the in0 property.
+     * ����arg0���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn0(String value) {
-        this.in0 = value;
+    public void setArg0(String value) {
+        this.arg0 = value;
     }
 
     /**
-     * Gets the value of the in1 property.
+     * ��ȡarg1���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn1() {
-        return in1;
+    public String getArg1() {
+        return arg1;
     }
 
     /**
-     * Sets the value of the in1 property.
+     * ����arg1���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn1(String value) {
-        this.in1 = value;
+    public void setArg1(String value) {
+        this.arg1 = value;
     }
 
     /**
-     * Gets the value of the in2 property.
+     * ��ȡarg2���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn2() {
-        return in2;
+    public String getArg2() {
+        return arg2;
     }
 
     /**
-     * Sets the value of the in2 property.
+     * ����arg2���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn2(String value) {
-        this.in2 = value;
+    public void setArg2(String value) {
+        this.arg2 = value;
     }
 
     /**
-     * Gets the value of the in3 property.
+     * ��ȡarg3���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn3() {
-        return in3;
+    public String getArg3() {
+        return arg3;
     }
 
     /**
-     * Sets the value of the in3 property.
+     * ����arg3���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn3(String value) {
-        this.in3 = value;
+    public void setArg3(String value) {
+        this.arg3 = value;
     }
 
     /**
-     * Gets the value of the in4 property.
+     * ��ȡarg4���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn4() {
-        return in4;
+    public String getArg4() {
+        return arg4;
     }
 
     /**
-     * Sets the value of the in4 property.
+     * ����arg4���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn4(String value) {
-        this.in4 = value;
+    public void setArg4(String value) {
+        this.arg4 = value;
     }
 
     /**
-     * Gets the value of the in5 property.
+     * ��ȡarg5���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn5() {
-        return in5;
+    public String getArg5() {
+        return arg5;
     }
 
     /**
-     * Sets the value of the in5 property.
+     * ����arg5���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn5(String value) {
-        this.in5 = value;
+    public void setArg5(String value) {
+        this.arg5 = value;
     }
 
     /**
-     * Gets the value of the in6 property.
+     * ��ȡarg6���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn6() {
-        return in6;
+    public String getArg6() {
+        return arg6;
     }
 
     /**
-     * Sets the value of the in6 property.
+     * ����arg6���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn6(String value) {
-        this.in6 = value;
+    public void setArg6(String value) {
+        this.arg6 = value;
     }
 
 }

@@ -20,7 +20,7 @@ import util.PropertiesUtil;
  * Generated source version: 2.1
  * 
  */
-@WebServiceClient(name = "TaskManger", targetNamespace = "http://tempuri.org/", wsdlLocation = "http://10.10.20.86:8899/HeTaskMangerWeb/services/TaskManger?wsdl")
+@WebServiceClient(name = "TaskManger", targetNamespace = "http://tempuri.org/", wsdlLocation = "http://10.10.20.86:8898/HeTaskMangerWeb/services/TaskManger?wsdl")
 public class TaskManger
     extends Service
 {

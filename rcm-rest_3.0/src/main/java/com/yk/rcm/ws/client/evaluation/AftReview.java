@@ -4,23 +4,21 @@ package com.yk.rcm.ws.client.evaluation;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Aft_Review complex type�� Java �ࡣ
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>����ģʽƬ��ָ�������ڴ����е�Ԥ�����ݡ�
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="Aft_Review">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="in0" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in1" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="in2" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="main_data_pro_code" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="review" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -31,90 +29,61 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "in0",
-    "in1",
-    "in2"
+    "mainDataProCode",
+    "review"
 })
-@XmlRootElement(name = "Aft_Review")
 public class AftReview {
 
-    @XmlElement(required = true, nillable = true)
-    protected String in0;
-    @XmlElement(required = true, nillable = true)
-    protected String in1;
-    @XmlElement(required = true, nillable = true)
-    protected String in2;
+    @XmlElement(name = "main_data_pro_code")
+    protected String mainDataProCode;
+    protected String review;
 
     /**
-     * Gets the value of the in0 property.
+     * ��ȡmainDataProCode���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn0() {
-        return in0;
+    public String getMainDataProCode() {
+        return mainDataProCode;
     }
 
     /**
-     * Sets the value of the in0 property.
+     * ����mainDataProCode���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn0(String value) {
-        this.in0 = value;
+    public void setMainDataProCode(String value) {
+        this.mainDataProCode = value;
     }
 
     /**
-     * Gets the value of the in1 property.
+     * ��ȡreview���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn1() {
-        return in1;
+    public String getReview() {
+        return review;
     }
 
     /**
-     * Sets the value of the in1 property.
+     * ����review���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn1(String value) {
-        this.in1 = value;
-    }
-
-    /**
-     * Gets the value of the in2 property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getIn2() {
-        return in2;
-    }
-
-    /**
-     * Sets the value of the in2 property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setIn2(String value) {
-        this.in2 = value;
+    public void setReview(String value) {
+        this.review = value;
     }
 
 }

@@ -1,0 +1,439 @@
+<div class="visa-menu">
+    <div class="col-md-12">
+        <ol class="breadcrumb breadcrumb-menu">
+            <li>
+                <i class="icon-nav" style="font-size: 14px;">&#xe628;</i>
+                <a class="breadcrumb-text breadcrumb-text-menu">
+                    工作量统计
+                </a>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="panel-body">
+    <ul class="nav nav-tabs bs-tabdrop-example" ng-if="showWork != 'legal'">
+        <li class="active">
+            <a href="/#review" data-toggle="tab">评审工作量</a>
+        </li>
+        <li>
+            <a href="/#legal" data-toggle="tab">法务工作量</a>
+        </li>
+    </ul>
+    <ul class="nav nav-tabs bs-tabdrop-example" ng-if="showWork == 'legal'">
+        <li class="active">
+            <a href="/#legal" data-toggle="tab">法务工作量</a>
+        </li>
+        <li>
+            <a href="/#review" data-toggle="tab">评审工作量</a>
+        </li>
+    </ul>
+    <div class="panel">
+        <div class="panel">
+            <div class="tab-content" ng-if="showWork != 'legal'">
+                <div class="tab-pane in active" id="review">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center;" width="5%">
+                                序号
+                            </th>
+                            <th style="text-align: center;" width="15%">姓名</th>
+                            <th style="text-align: center;" width="20%">正式评审</th>
+                            <th style="text-align: center;" width="20%">投标评审</th>
+                            <th style="text-align: center;" width="20%">其他评审</th>
+                            <th style="text-align: center;" width="20%">合计</th>
+                        </tr>
+                        </thead>
+                        <tbody class="valign-middle">
+                        <tr colspan="2" ng-repeat="reviewStaffWork in allReviewStaffWork">
+                            <td align="center">
+                                {{ $index + 1 }}
+                            </td>
+                            <td align="center">
+                                <a ng-click="queryFindReview(reviewStaffWork)"
+                                   class="btn btn-sm btn-grey btn-center"
+                                   data-toggle="modal"
+                                   data-target="#openModal"
+                                   title="">
+                                    {{ reviewStaffWork.TEAM_MEMBER_NAME }}
+                                </a>
+                            </td>
+                            <td>
+                                A角色：{{ reviewStaffWork.PFRACOUNT }}： B角色：{{ reviewStaffWork.PFRBCOUNT }}
+                            </td>
+                            <td>
+                                A角色：{{ reviewStaffWork.PREACOUNT }} B角色：{{ reviewStaffWork.PREBCOUNT }}
+                            </td>
+                            <td>
+                                {{ reviewStaffWork.BULLETINCOUNT }}
+                            </td>
+                            <td>
+                                A角色：{{ reviewStaffWork.AALLCOUNT }}：
+                                B角色：{{ reviewStaffWork.BALLCOUNT }} ：
+                                合计： {{ reviewStaffWork.ALLCOUNT }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="legal">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center;" width="5%">
+                                序号
+                            </th>
+                            <th style="text-align: center;" width="15%">姓名</th>
+                            <th style="text-align: center;" width="20%">正式评审</th>
+                            <th style="text-align: center;" width="20%">投标评审</th>
+                            <th style="text-align: center;" width="20%">其他评审</th>
+                            <th style="text-align: center;" width="20%">合计</th>
+                        </tr>
+                        </thead>
+                        <tbody class="valign-middle">
+                        <tr colspan="2" ng-repeat="legalStaffWork in allLegalStaffWork">
+                            <td align="center">
+                                {{ $index + 1 }}
+                            </td>
+                            <td align="center">
+                                <a ng-click="queryFindLegal(legalStaffWork)"
+                                   class="btn btn-sm btn-grey btn-center"
+                                   data-toggle="modal"
+                                   data-target="#openModal1"
+                                   title="">
+                                    {{ legalStaffWork.TEAM_MEMBER_NAME }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ legalStaffWork.PFRCOUNT }}
+                            </td>
+                            <td>
+                                {{ legalStaffWork.PRECOUNT }}
+                            </td>
+                            <td>
+                                {{ legalStaffWork.BULLETINCOUNT }}
+                            </td>
+                            <td>
+                                {{ legalStaffWork.ALLCOUNT }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-content" ng-if="showWork == 'legal'">
+                <div class="tab-pane" id="review">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center;" width="5%">
+                                序号
+                            </th>
+                            <th style="text-align: center;" width="15%">姓名</th>
+                            <th style="text-align: center;" width="20%">正式评审</th>
+                            <th style="text-align: center;" width="20%">投标评审</th>
+                            <th style="text-align: center;" width="20%">其他评审</th>
+                            <th style="text-align: center;" width="20%">合计</th>
+                        </tr>
+                        </thead>
+                        <tbody class="valign-middle">
+                        <tr colspan="2" ng-repeat="reviewStaffWork in allReviewStaffWork">
+                            <td align="center">
+                                {{ $index + 1 }}
+                            </td>
+                            <td align="center">
+                                <a ng-click="queryFindReview(reviewStaffWork)"
+                                   class="btn btn-sm btn-grey btn-center"
+                                   data-toggle="modal"
+                                   data-target="#openModal"
+                                   title="">
+                                    {{ reviewStaffWork.TEAM_MEMBER_NAME }}
+                                </a>
+                            </td>
+                            <td>
+                                A角色：{{ reviewStaffWork.PFRACOUNT }}： B角色：{{ reviewStaffWork.PFRBCOUNT }}
+                            </td>
+                            <td>
+                                A角色：{{ reviewStaffWork.PREACOUNT }} B角色：{{ reviewStaffWork.PREBCOUNT }}
+                            </td>
+                            <td>
+                                {{ reviewStaffWork.BULLETINCOUNT }}
+                            </td>
+                            <td>
+                                A角色：{{ reviewStaffWork.AALLCOUNT }}：
+                                B角色：{{ reviewStaffWork.BALLCOUNT }} ：
+                                合计： {{ reviewStaffWork.ALLCOUNT }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane in active" id="legal">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center;" width="5%">
+                                序号
+                            </th>
+                            <th style="text-align: center;" width="15%">姓名</th>
+                            <th style="text-align: center;" width="20%">正式评审</th>
+                            <th style="text-align: center;" width="20%">投标评审</th>
+                            <th style="text-align: center;" width="20%">其他评审</th>
+                            <th style="text-align: center;" width="20%">合计</th>
+                        </tr>
+                        </thead>
+                        <tbody class="valign-middle">
+                        <tr colspan="2" ng-repeat="legalStaffWork in allLegalStaffWork">
+                            <td align="center">
+                                {{ $index + 1 }}
+                            </td>
+                            <td align="center">
+                                <a ng-click="queryFindLegal(legalStaffWork)"
+                                   class="btn btn-sm btn-grey btn-center"
+                                   data-toggle="modal"
+                                   data-target="#openModal1"
+                                   title="">
+                                    {{ legalStaffWork.TEAM_MEMBER_NAME }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ legalStaffWork.PFRCOUNT }}
+                            </td>
+                            <td>
+                                {{ legalStaffWork.PRECOUNT }}
+                            </td>
+                            <td>
+                                {{ legalStaffWork.BULLETINCOUNT }}
+                            </td>
+                            <td>
+                                {{ legalStaffWork.ALLCOUNT }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="button-group">
+        <div class="row">
+            <div class="option">
+                <a class="btn btn-info" href="#/"><i class="fa fa-reply"></i>返回</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="openModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" style="width: 1400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabe3">{{ staff.TEAM_MEMBER_NAME }} 工作量统计</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                        <th style="text-align: center;" width="4%">
+                            序号
+                        </th>
+                        <th style="text-align: center;" width="30%">
+                            评审名称
+                        </th>
+                        <th style="text-align: center;" width="8%">
+                            评审类型
+                        </th>
+                        <th style="text-align: center;" width="8%">
+                            评审状态
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            评审负责人首次<br>
+                            反馈时长（天）
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            投资经理首次<br>
+                            反馈时长（天）
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            投资经理反馈率
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            最后更新时间<br>
+                            （天）
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            项目评审时长<br>
+                            （天）
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="project in projects">
+                            <td align="center">
+                                {{ $index + 1 }}
+                            </td>
+                            <td>
+                                <a ng-if="'pfr'==project.PROJECT_TYPE" target="_blank"
+                                   href="#/projectInfoAllBoardView/{{project.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                                   title="{{project.PROJECTNAME}}"> {{ project.ROLE }} &nbsp;
+                                    {{project.PROJECTNAME|projectNameFilter:25}}</a>
+                                <a ng-if="'pre'==project.PROJECT_TYPE" target="_blank"
+                                   href="#/projectPreInfoAllBoardView/{{project.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                                   title="{{project.PROJECTNAME}}"> {{ project.ROLE }} &nbsp;
+                                    {{project.PROJECTNAME|projectNameFilter:25}}</a>
+                                <a ng-if="'bulletin'==project.PROJECT_TYPE" target="_blank"
+                                   href="#/projectBulletinInfoAllBoardView/{{project.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                                   title="{{project.PROJECTNAME}}"> {{ project.ROLE }} &nbsp;
+                                    {{project.PROJECTNAME|projectNameFilter:25}}</a>
+                            </td>
+                            <td>
+                                <div ng-if="'pfr'==project.PROJECT_TYPE">正式评审</div>
+                                <div ng-if="'pre'==project.PROJECT_TYPE">投标评审</div>
+                                <div ng-if="'bulletin'==project.PROJECT_TYPE">其他评审</div>
+                            </td>
+                            <td>
+                                <a style="color: black" ng-if="'1'== project.STAGE && '3'!= project.WF_STATE">申请阶段</a>
+                                <a style="color: black" ng-if="'2'== project.STAGE && '3'!= project.WF_STATE">风控评审</a>
+                                <a style="color: black" ng-if="'3'== project.STAGE && '3'!= project.WF_STATE">风控评审</a>
+                                <a style="color: black" ng-if="'4'== project.STAGE && '3'!= project.WF_STATE">准备上会</a>
+                                <a style="color: black"
+                                   ng-if="'5'== project.STAGE && '3'!= project.WF_STATE">已上会，未表决</a>
+                                <a style="color: black"
+                                   ng-if="'6'== project.STAGE && '3'!= project.WF_STATE">已上会，已决策</a>
+                                <a style="color: black"
+                                   ng-if="'7'== project.STAGE && '3'!= project.WF_STATE">已上会，已决策</a>
+                                <a style="color: black"
+                                   ng-if="'9'== project.STAGE && '3'!= project.WF_STATE">已审批，无需上会</a>
+                            </td>
+                            <td align="center">
+                                {{ project.projectLast.LEADER_DIFFERENCE }}
+                            </td>
+                            <td align="center">
+                                {{ project.projectMessageInformation.AVG_DATA }}
+                            </td>
+                            <td align="center">
+                                {{ project.messagePercent }}
+                            </td>
+                            <td align="center">
+                                {{ project.NOWDATE }}
+                            </td>
+                            <td align="center">
+                                {{ project.projectLast.DIFFERENCE }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div id="openModal1" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" style="width: 1400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabe3">{{ staff.TEAM_MEMBER_NAME }} 工作量统计</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                        <th style="text-align: center;" width="4%">
+                            序号
+                        </th>
+                        <th style="text-align: center;" width="30%">
+                            评审名称
+                        </th>
+                        <th style="text-align: center;" width="8%">
+                            评审类型
+                        </th>
+                        <th style="text-align: center;" width="8%">
+                            评审状态
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            法务负责人首次<br>
+                            反馈时长（天）
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            基层法务首次<br>
+                            反馈时长（天）
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            基层法务反馈率
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            最后更新时间<br>
+                            （天）
+                        </th>
+                        <th style="text-align: center;" width="10%">
+                            项目评审时长<br>
+                            （天）
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="project in projects">
+                            <td align="center">
+                                {{ $index + 1 }}
+                            </td>
+                            <td>
+                                <a ng-if="'pfr'==project.PROJECT_TYPE" target="_blank"
+                                   href="#/projectInfoAllBoardView/{{project.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                                   title="{{project.PROJECTNAME}}"> {{ project.ROLE }} &nbsp;
+                                    {{project.PROJECTNAME|projectNameFilter:25}}</a>
+                                <a ng-if="'pre'==project.PROJECT_TYPE" target="_blank"
+                                   href="#/projectPreInfoAllBoardView/{{project.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                                   title="{{project.PROJECTNAME}}"> {{ project.ROLE }} &nbsp;
+                                    {{project.PROJECTNAME|projectNameFilter:25}}</a>
+                                <a ng-if="'bulletin'==project.PROJECT_TYPE" target="_blank"
+                                   href="#/projectBulletinInfoAllBoardView/{{project.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                                   title="{{project.PROJECTNAME}}"> {{ project.ROLE }} &nbsp;
+                                    {{project.PROJECTNAME|projectNameFilter:25}}</a>
+                            </td>
+                            <td>
+                                <div ng-if="'pfr'==project.PROJECT_TYPE">正式评审</div>
+                                <div ng-if="'pre'==project.PROJECT_TYPE">投标评审</div>
+                                <div ng-if="'bulletin'==project.PROJECT_TYPE">其他评审</div>
+                            </td>
+                            <td>
+                                <a style="color: black" ng-if="'1'== project.STAGE && '3'!= project.WF_STATE">申请阶段</a>
+                                <a style="color: black" ng-if="'2'== project.STAGE && '3'!= project.WF_STATE">风控评审</a>
+                                <a style="color: black" ng-if="'3'== project.STAGE && '3'!= project.WF_STATE">风控评审</a>
+                                <a style="color: black" ng-if="'4'== project.STAGE && '3'!= project.WF_STATE">准备上会</a>
+                                <a style="color: black"
+                                   ng-if="'5'== project.STAGE && '3'!= project.WF_STATE">已上会，未表决</a>
+                                <a style="color: black"
+                                   ng-if="'6'== project.STAGE && '3'!= project.WF_STATE">已上会，已决策</a>
+                                <a style="color: black"
+                                   ng-if="'7'== project.STAGE && '3'!= project.WF_STATE">已上会，已决策</a>
+                                <a style="color: black"
+                                   ng-if="'9'== project.STAGE && '3'!= project.WF_STATE">已审批，无需上会</a>
+                            </td>
+                            <td align="center">
+                                {{ project.projectLast.LEADER_DIFFERENCE }}
+                            </td>
+                            <td align="center">
+                                {{ project.projectMessageInformation.AVG_DATA }}
+                            </td>
+                            <td align="center">
+                                {{ project.messagePercent }}
+                            </td>
+                            <td align="center">
+                                {{ project.NOWDATE }}
+                            </td>
+                            <td align="center">
+                                {{ project.projectLast.DIFFERENCE }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

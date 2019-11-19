@@ -4,21 +4,20 @@ package com.yk.rcm.ws.client.evaluation;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Aft_HandResponse complex type�� Java �ࡣ
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>����ģʽƬ��ָ�������ڴ����е�Ԥ�����ݡ�
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="Aft_HandResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="out" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,36 +28,35 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "out"
+    "_return"
 })
-@XmlRootElement(name = "Aft_HandResponse")
 public class AftHandResponse {
 
-    @XmlElement(required = true, nillable = true)
-    protected String out;
+    @XmlElement(name = "return")
+    protected String _return;
 
     /**
-     * Gets the value of the out property.
+     * ��ȡreturn���Ե�ֵ��
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getOut() {
-        return out;
+    public String getReturn() {
+        return _return;
     }
 
     /**
-     * Sets the value of the out property.
+     * ����return���Ե�ֵ��
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setOut(String value) {
-        this.out = value;
+    public void setReturn(String value) {
+        this._return = value;
     }
 
 }

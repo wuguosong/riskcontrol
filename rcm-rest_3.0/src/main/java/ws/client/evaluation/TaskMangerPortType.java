@@ -72,8 +72,6 @@ public interface TaskMangerPortType {
     public String aftReview(
         @WebParam(name = "in0", targetNamespace = "http://tempuri.org/")
         String in0,
-        @WebParam(name = "in1", targetNamespace = "http://tempuri.org/")
-        String in1,
         @WebParam(name = "in2", targetNamespace = "http://tempuri.org/")
         String in2);
 
