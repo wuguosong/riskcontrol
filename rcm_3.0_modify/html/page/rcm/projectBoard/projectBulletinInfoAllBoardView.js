@@ -43,7 +43,18 @@ ctmApp.register.controller('projectBulletinInfoAllBoardView', ['$http','$scope',
 
             // 处理附件
             $scope.reduceAttachment(data.bulletinMongo.attachmentList, id);
-
+			if(result.result_data.bulletinOracle.PROJECTNUM != null) {
+				$http({
+					method: 'post',
+					url: srvUrl + "projectBoard/getProjectCodeSame.do",
+					data: $.param({
+						"PROJECTCODE": result.result_data.bulletinOracle.PROJECTNUM,
+						"BUSINESSID": id
+					})
+				}).success(function (data) {
+					$scope.projectCodeSameList = data.result_data;
+				})
+			}
 			$scope.initPage();
 		});
 	};

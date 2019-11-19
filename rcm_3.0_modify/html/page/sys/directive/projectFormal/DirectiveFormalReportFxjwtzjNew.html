@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="table-caption">项目关键风险及问题总结分析表</div>
                 </div>
-                <!--<textarea name="" ng-model="formalReport.risksProblems" rows="" cols="" class="form-control" placeholder="根据法律专业评审意见（XX条）以及技术专业评审意见（具体详见附件1），现就本项目提出XX条风险及问题，其中第1条至第XX条是需要决策机构重点关注，其余为通报列示供决策参考。"></textarea>-->
+                <!--<textarea name="" ng-model="risksView3.risksProblems" rows="" cols="" class="form-control" placeholder="根据法律专业评审意见（XX条）以及技术专业评审意见（具体详见附件1），现就本项目提出XX条风险及问题，其中第1条至第XX条是需要决策机构重点关注，其余为通报列示供决策参考。"></textarea>-->
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
                 <td >需要领导决策<i class="fa fa-plus add"  ng-click="addtableRow(1)" ng-if="actionparm!='View'"></i></td>
                 <td class="txc" colspan="4" style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">
                     <table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-text-mid table-light table-hd-center">
-                        <tr ng-repeat="m in formalReport.projectConcernsIssues.leadershipDecision track by $index" repeat-formal-report-finish>
+                        <tr ng-repeat="m in risksView3.projectConcernsIssues.leadershipDecision track by $index" repeat-formal-report-finish>
                             <td class="txc" style="width: 5.95%;border-left: 0;border-top: 0;">{{$index+1}}<i class="fa fa-times del" ng-click="delrow($index,1)" ng-if="actionparm!='View'"></i></td>
                             <td style=" width:22.9%; border-top: 0px;"><textarea name="" ng-model="m.riskPoint" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
                             <td style="width:23.55%; border-top: 0;"><textarea name="" ng-model="m.riskContent"  rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
@@ -41,39 +41,11 @@
                     </table>
                 </td>
             </tr>
-            <!--<tr name="mainPoint2">-->
-                <!--<td>作为投资前提条件<i class="fa fa-plus add" ng-click="addtableRow(2)" ng-if="actionparm!='View'"></i></td>-->
-                <!--<td class="txc" colspan="5" style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">-->
-                    <!--<table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">-->
-                        <!--<tr ng-repeat="m in formalReport.projectConcernsIssues.investmentConditions track by $index" repeat-formal-report-finish>-->
-                            <!--<td class="txc" style="width: 5.95%;border-left: 0;border-top: 0;">{{$index+1}}<i class="fa fa-times del" ng-click="delrow($index,2)" ng-if="actionparm!='View'"></i></td>-->
-                            <!--<td style=" width:22.9%; border-top: 0px;"><textarea ng-model="m.riskPoint" name="" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                            <!--<td style="width:23.55%; border-top: 0;"><textarea name="" ng-model="m.riskContent"  rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                            <!--<td style=" width:23.8%; border-top: 0px;"><textarea name="" ng-model="m.pointsAndProblems" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                            <!--<td style=" width:24%; border-right: 0;border-top: 0;"><textarea name="" ng-model="m.opinionAndCommitment"  rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                        <!--</tr>-->
-                    <!--</table>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr name="mainPoint3">-->
-                <!--<td >纳入后续执行要求<i class="fa fa-plus add" ng-click="addtableRow(3)" ng-if="actionparm!='View'"></i></td>-->
-                <!--<td class="txc" colspan="5" style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">-->
-                    <!--<table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">-->
-                        <!--<tr ng-repeat="m in formalReport.projectConcernsIssues.implementationRequirements track by $index" repeat-formal-report-finish>-->
-                            <!--<td class="txc" style="width: 5.95%;border-left: 0;border-top: 0;">{{$index+1}}<i class="fa fa-times del" ng-click="delrow($index,3)" ng-if="actionparm!='View'"></i></td>-->
-                            <!--<td style=" width:22.9%; border-top: 0px;"><textarea ng-model="m.riskPoint" name="" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                            <!--<td style="width:23.55%; border-top: 0;"><textarea name="" ng-model="m.riskContent"  rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                            <!--<td style=" width:23.8%; border-top: 0px;"><textarea name="" ng-model="m.pointsAndProblems" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                            <!--<td style=" width:24%; border-right: 0;border-top: 0;"><textarea name="" ng-model="m.opinionAndCommitment"  rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>-->
-                        <!--</tr>-->
-                    <!--</table>-->
-                <!--</td>-->
-            <!--</tr>-->
             <tr name="mainPoint4">
                 <td>一般性提示<i class="fa fa-plus add" ng-click="addtableRow(4)" ng-if="actionparm!='View'"></i></td>
                 <td class="txc" colspan="4" style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">
                     <table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0" cellspacing="0" cellpadding="0" class="table table-bordered  table-text-mid table-light table-hd-center">
-                        <tr ng-repeat="m in formalReport.projectConcernsIssues.prompt track by $index" repeat-formal-report-finish>
+                        <tr ng-repeat="m in risksView3.projectConcernsIssues.prompt track by $index" repeat-formal-report-finish>
                             <td class="txc" style="width: 5.95%;border-left: 0;border-top: 0;">{{$index+1}}<i class="fa fa-times del" ng-click="delrow($index,4)" ng-if="actionparm!='View'"></i></td>
                             <td style=" width:22.9%; border-top: 0px;"><textarea ng-model="m.riskPoint" name="" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
                             <td style="width:23.55%; border-top: 0;"><textarea name="" ng-model="m.riskContent"  rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
@@ -93,7 +65,7 @@
                 <div class="row">
                     <div class="table-caption">项目常规标准化风险分析表</div>
                 </div>
-                <!--<textarea name="" ng-model="formalReport.risksProblems" rows="" cols="" class="form-control" placeholder="根据法律专业评审意见（XX条）以及技术专业评审意见（具体详见附件1），现就本项目提出XX条风险及问题，其中第1条至第XX条是需要决策机构重点关注，其余为通报列示供决策参考。"></textarea>-->
+                <!--<textarea name="" ng-model="risksView3.risksProblems" rows="" cols="" class="form-control" placeholder="根据法律专业评审意见（XX条）以及技术专业评审意见（具体详见附件1），现就本项目提出XX条风险及问题，其中第1条至第XX条是需要决策机构重点关注，其余为通报列示供决策参考。"></textarea>-->
             </div>
         </div>
     </div>
@@ -117,13 +89,13 @@
                 <td>管网建设滞后</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskOfTransshipmentOne" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.riskOfTransshipmentOne" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
                 <td rowspan="6">
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskLevelOne"
+                        <input type="text" ng-model="risksView3.riskLevelOne"
                                name="" placeholder="A/B/C" class="form-control"/>
                     </div>
                 </td>
@@ -132,7 +104,7 @@
                 <td>需要征地拆迁</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskOfTransshipmentTwo" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.riskOfTransshipmentTwo" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -141,7 +113,7 @@
                 <td>前期审批手续不全</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskOfTransshipmentThree" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.riskOfTransshipmentThree" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -150,7 +122,7 @@
                 <td>存在设计变更风险</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskOfTransshipmentFour" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.riskOfTransshipmentFour" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -159,7 +131,7 @@
                 <td>存在超协议投资风险</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskOfTransshipmentFive" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.riskOfTransshipmentFive" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -168,7 +140,7 @@
                 <td>未签合同先建设</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskOfTransshipmentSix" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.riskOfTransshipmentSix" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -178,13 +150,13 @@
                 <td>财政收入水平低</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.paymentRiskOne" name="" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.paymentRiskOne" name="" placeholder="是/否，具体描述（如有）"
                                class="form-control"/>
                     </div>
                 </td>
                 <td rowspan="3">
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskLevelTwo"
+                        <input type="text" ng-model="risksView3.riskLevelTwo"
                                name="" placeholder="A/B/C" class="form-control"/>
                     </div>
                 </td>
@@ -193,7 +165,7 @@
                 <td>区域内是否有欠费项目</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.paymentRiskTwo" name="" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.paymentRiskTwo" name="" placeholder="是/否，具体描述（如有）"
                                class="form-control"/>
                     </div>
                 </td>
@@ -202,7 +174,7 @@
                 <td>是否入库</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.paymentRiskThree" name="" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.paymentRiskThree" name="" placeholder="是/否，具体描述（如有）"
                                class="form-control"/>
                     </div>
                 </td>
@@ -212,13 +184,13 @@
                 <td>金融环境</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.financingRiskOne" name="" placeholder="是否在东北等金融环境较差区域"
+                        <input type="text" ng-model="risksView3.financingRiskOne" name="" placeholder="是否在东北等金融环境较差区域"
                                class="form-control"/>
                     </div>
                 </td>
                 <td rowspan="5">
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.riskLevelThree"
+                        <input type="text" ng-model="risksView3.riskLevelThree"
                                name="" placeholder="A/B/C" class="form-control"/>
                     </div>
                 </td>
@@ -227,7 +199,7 @@
                 <td>是否为PPP，是否入库</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.financingRiskTwo" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.financingRiskTwo" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -236,7 +208,7 @@
                 <td>合规性手续是否齐全</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.financingRiskThree" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.financingRiskThree" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -245,7 +217,7 @@
                 <td>财政收入水平低</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.financingRiskFour" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.financingRiskFour" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>
@@ -254,7 +226,7 @@
                 <td>四证是否齐全</td>
                 <td>
                     <div class="has-feedback">
-                        <input type="text" ng-model="formalReport.financingRiskFive" placeholder="是/否，具体描述（如有）"
+                        <input type="text" ng-model="risksView3.financingRiskFive" placeholder="是/否，具体描述（如有）"
                                name="" class="form-control"/>
                     </div>
                 </td>

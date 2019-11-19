@@ -139,4 +139,88 @@
              <textarea class="form-control"  ng-model="pfr.apply.supplementaryItem" readonly></textarea>
          </div>
      </div>
+     <div class="row" ng-if="projectCodeSameList != null">
+         <label class="col-sm-2 control-label">相关项目</label>
+         <table class="table table-bordered">
+             <thead>
+             <th style="text-align: center;" width="4%">
+                 序号
+             </th>
+             <th style="text-align: center;" width="30%">
+                 评审名称
+             </th>
+             <th style="text-align: center;" width="8%">
+                 评审类型
+             </th>
+             <th style="text-align: center;" width="8%">
+                 评审状态
+             </th>
+             <th style="text-align: center;" width="10%">
+                 投资经理
+             </th>
+             <th style="text-align: center;" width="10%">
+                 评审负责人
+             </th>
+             <th style="text-align: center;" width="10%">
+                 法务负责人
+             </th>
+             <th style="text-align: center;" width="10%">
+                 申请时间
+             </th>
+             </thead>
+             <tbody>
+             <tr ng-repeat="projectCodeSame in projectCodeSameList">
+                 <td align="center">
+                     {{ $index + 1 }}
+                 </td>
+                 <td>
+                     <a ng-if="'pfr'==projectCodeSame.PROJECT_TYPE" target="_blank"
+                        href="#/projectInfoAllBoardView/{{projectCodeSame.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                        title="{{projectCodeSame.PROJECTNAME}}">
+                         {{projectCodeSame.PROJECTNAME|projectNameFilter:25}}</a>
+                     <a ng-if="'pre'==projectCodeSame.PROJECT_TYPE" target="_blank"
+                        href="#/projectPreInfoAllBoardView/{{projectCodeSame.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                        title="{{projectCodeSame.PROJECTNAME}}">
+                         {{projectCodeSame.PROJECTNAME|projectNameFilter:25}}</a>
+                     <a ng-if="'bulletin'==projectCodeSame.PROJECT_TYPE" target="_blank"
+                        href="#/projectBulletinInfoAllBoardView/{{projectCodeSame.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
+                        title="{{projectCodeSame.PROJECTNAME}}">
+                         {{project.projectCodeSame|projectNameFilter:25}}</a>
+                 </td>
+                 <td>
+                     <div ng-if="'pfr'==projectCodeSame.PROJECT_TYPE">正式评审</div>
+                     <div ng-if="'pre'==projectCodeSame.PROJECT_TYPE">投标评审</div>
+                     <div ng-if="'bulletin'==projectCodeSame.PROJECT_TYPE">其他评审</div>
+                 </td>
+                 <td>
+                     <a style="color: black" ng-if="'1'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">申请阶段</a>
+                     <a style="color: black" ng-if="'2'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">风控评审</a>
+                     <a style="color: black" ng-if="'3'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">风控评审</a>
+                     <a style="color: black" ng-if="'4'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">准备上会</a>
+                     <a style="color: black"
+                        ng-if="'5'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">已上会，未表决</a>
+                     <a style="color: black"
+                        ng-if="'6'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">已上会，已决策</a>
+                     <a style="color: black"
+                        ng-if="'7'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">已上会，已决策</a>
+                     <a style="color: black"
+                        ng-if="'9'== projectCodeSame.STAGE && '3'!= projectCodeSame.WF_STATE">已审批，无需上会</a>
+                 </td>
+                 <td align="center">
+                     {{ projectCodeSame.INVESTMENTNAME }}
+                 </td>
+                 <td align="center">
+                     {{ projectCodeSame.REVIEWPERSONNAME }}
+                 </td>
+                 <td align="center">
+                     {{ projectCodeSame.LEGALREVIEWPERSONNAME }}
+                 </td>
+                 <td align="center">
+                     {{ projectCodeSame.APPLY_DATE|projectTimeFilter: 10 }}
+                 </td>
+
+             </tr>
+             </tbody>
+         </table>
+     </div>
 </div>

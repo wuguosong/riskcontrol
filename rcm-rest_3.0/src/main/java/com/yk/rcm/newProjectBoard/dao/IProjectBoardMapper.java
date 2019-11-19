@@ -99,4 +99,7 @@ public interface IProjectBoardMapper extends BaseMapper {
 	 * 根据单位负责人id获取所在大区
 	 * */
 	public List<Map<String, Object>> queryByCompanyHeaderId(Map<String, Object> params);
+
+
+	public List<Map<String, Object>> getProjectCodeSame(Map<String, Object> params);
 }

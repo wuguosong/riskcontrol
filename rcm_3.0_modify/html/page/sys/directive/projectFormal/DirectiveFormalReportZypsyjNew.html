@@ -7,7 +7,8 @@
     <div class="row normalline">
         <div class="col-md-12 col-sm-12  col-xs-12">
             <div class="row">
-                <textarea name="" ng-model="formalReport.lawContent" rows="1" cols="1" class="form-control">法律共提出XX条意见，其中认为可以修订但未与对方确认的XX条，对方明确表示不同意修改的XX条。</textarea>
+                <textarea name="" ng-model="attchView7.lawContent" rows="1" cols="1" class="form-control"
+                          placeholder="法律共提出XX条意见，其中认为可以修订但未与对方确认的XX条，对方明确表示不同意修改的XX条。"></textarea>
             </div>
         </div>
     </div>
@@ -21,13 +22,17 @@
     <div class="row normalline">
         <div class="col-md-12 col-sm-12  col-xs-12">
             <div class="row">
-                <button  type="button" class="btn btn-info" ng-click="addLaw()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
-                <button  type="button" class="btn btn-info" ng-click="commonDdelete(2)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                <button type="button" class="btn btn-info" ng-click="addLaw()" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-plus"></i>新增
+                </button>
+                <button type="button" class="btn btn-info" ng-click="commonDdelete(2)" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-trash"></i>删除
+                </button>
             </div>
         </div>
     </div>
     <div class="mytable">
-        <table  class="table table-bordered" style="table-layout: fixed">
+        <table class="table table-bordered" style="table-layout: fixed">
             <thead>
             <tr class="info">
                 <th width="5%">选择</th>
@@ -38,7 +43,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="m in formalReport.lawList track by $index" repeat-formal-report-finish>
+            <tr ng-repeat="m in attchView7.lawList track by $index" repeat-formal-report-finish>
                 <td>
                     <label class="checkbox-inline zchoose">
                         <input type="checkbox" class="px" ng-model="m.selected">
@@ -48,10 +53,10 @@
                 <td>{{ $index + 1 }}</td>
                 <td><textarea name="" ng-model="m.lawOpinion" rows="" cols="" class="form-control"></textarea></td>
                 <td class="switcher-left">
-                    <input type="checkbox" ng-model="m.pendingConfirmation"  name="switcher">
+                    <input type="checkbox" ng-model="m.pendingConfirmation" name="switcher">
                 </td>
                 <td class="switcher-right">
-                    <input type="checkbox" ng-model="m.canNotBeModified"  name="switcher">
+                    <input type="checkbox" ng-model="m.canNotBeModified" name="switcher">
                 </td>
             </tr>
             </tbody>
@@ -66,20 +71,25 @@
     <div class="row normalline">
         <div class="col-md-12 col-sm-12  col-xs-12">
             <div class="row">
-                <textarea name="" ng-model="formalReport.technicalReviewOpinions" rows="1" cols="1" class="form-control" placeholder="技术中心共提出XX条意见，主要围绕XX问题，具体如下："> </textarea>
+                <textarea name="" ng-model="attchView7.technicalReviewOpinions" rows="1" cols="1" class="form-control"
+                          placeholder="技术中心共提出XX条意见，主要围绕XX问题，具体如下："> </textarea>
             </div>
         </div>
     </div>
     <div class="row normalline">
         <div class="col-md-12 col-sm-12  col-xs-12">
             <div class="row">
-                <button  type="button" class="btn btn-info" ng-click="addTechnology()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
-                <button  type="button" class="btn btn-info" ng-click="commonDdelete(3)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                <button type="button" class="btn btn-info" ng-click="addTechnology()" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-plus"></i>新增
+                </button>
+                <button type="button" class="btn btn-info" ng-click="commonDdelete(3)" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-trash"></i>删除
+                </button>
             </div>
         </div>
     </div>
     <div class="mytable">
-        <table  class="table table-bordered" style="table-layout: fixed">
+        <table class="table table-bordered" style="table-layout: fixed">
             <thead>
             <tr class="info">
                 <th width="5%">选择</th>
@@ -88,7 +98,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="m in formalReport.technologyList track by $index"  repeat-formal-report-finish>
+            <tr ng-repeat="m in attchView7.technologyList track by $index" repeat-formal-report-finish>
                 <td>
                     <label class="checkbox-inline zchoose">
                         <input type="checkbox" class="px" ng-model="m.selected">
@@ -96,7 +106,58 @@
                     </label>
                 </td>
                 <td>{{ $index + 1 }}</td>
-                <td class="tr-max"><textarea name="" ng-model="m.technology_opinion" value="{{m.technology_opinion}}" rows="" cols="" class="form-control"></textarea></td>
+                <td class="tr-max"><textarea name="" ng-model="m.technology_opinion" value="{{m.technology_opinion}}"
+                                             rows="" cols="" class="form-control"></textarea></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <span class="text-blue">建管专业评审意见：</span>
+        </div>
+    </div>
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
+                <textarea name="" ng-model="attchView7.drainageOpinion" rows="1" cols="1" class="form-control"
+                          placeholder="建管中心共提出XX条意见，主要围绕XX问题，具体如下："></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row normalline">
+        <div class="col-md-12 col-sm-12  col-xs-12">
+            <div class="row">
+                <button type="button" class="btn btn-info" ng-click="addDrainage()" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-plus"></i>新增
+                </button>
+                <button type="button" class="btn btn-info" ng-click="commonDdelete(5)" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-trash"></i>删除
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="mytable">
+        <table class="table table-bordered" style="table-layout: fixed">
+            <thead>
+            <tr class="info">
+                <th width="5%">选择</th>
+                <th width="5%">序号</th>
+                <th>建管评审意见及要求</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="m in attchView7.drainageList track by $index" repeat-formal-report-finish>
+                <td>
+                    <label class="checkbox-inline zchoose">
+                        <input type="checkbox" class="px" ng-model="m.selected">
+                        <span class="lbl">&nbsp;</span>
+                    </label>
+                </td>
+                <td>{{ $index + 1 }}</td>
+                <td class="tr-max"><textarea name="" ng-model="m.drainage_opinion" value="{{m.drainage_opinion}}"
+                                             rows="" cols="" class="form-control"></textarea></td>
             </tr>
             </tbody>
         </table>
@@ -111,20 +172,25 @@
     <div class="row normalline">
         <div class="col-md-12 col-sm-12  col-xs-12">
             <div class="row">
-                <textarea name="" ng-model="formalReport.financialProfessionalReviewOpinion" rows="1" cols="1" class="form-control" placeholder="财金资源中心共提出XX条意见，主要围绕XX问题，具体如下："></textarea>
+                <textarea name="" ng-model="attchView7.financialProfessionalReviewOpinion" rows="1" cols="1"
+                          class="form-control" placeholder="财金资源中心共提出XX条意见，主要围绕XX问题，具体如下："></textarea>
             </div>
         </div>
     </div>
     <div class="row normalline">
         <div class="col-md-12 col-sm-12  col-xs-12">
             <div class="row">
-                <button  type="button" class="btn btn-info" ng-click="addFinance()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
-                <button  type="button" class="btn btn-info" ng-click="commonDdelete(4)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                <button type="button" class="btn btn-info" ng-click="addFinance()" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-plus"></i>新增
+                </button>
+                <button type="button" class="btn btn-info" ng-click="commonDdelete(4)" ng-if="actionparm!='View'"><i
+                        class="glyphicon glyphicon-trash"></i>删除
+                </button>
             </div>
         </div>
     </div>
     <div class="mytable">
-        <table  class="table table-bordered" style="table-layout: fixed">
+        <table class="table table-bordered" style="table-layout: fixed">
             <thead>
             <tr class="info">
                 <th width="5%">选择</th>
@@ -133,7 +199,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="m in formalReport.financeList track by $index"  repeat-formal-report-finish>
+            <tr ng-repeat="m in attchView7.financeList track by $index" repeat-formal-report-finish>
                 <td>
                     <label class="checkbox-inline zchoose">
                         <input type="checkbox" class="px" ng-model="m.selected">
@@ -141,54 +207,12 @@
                     </label>
                 </td>
                 <td>{{ $index + 1 }}</td>
-                <td class="tr-max"><textarea name="" ng-model="m.finance_opinion" value="{{m.finance_opinion}}" rows="" cols="" class="form-control"></textarea></td>
+                <td class="tr-max"><textarea name="" ng-model="m.finance_opinion" value="{{m.finance_opinion}}" rows=""
+                                             cols="" class="form-control"></textarea></td>
             </tr>
             </tbody>
         </table>
     </div>
 
-        <div class="row normalline">
-            <div class="col-md-12 col-sm-12  col-xs-12">
-                <span class="text-blue">人力资源专业评审意见：</span>
-            </div>
-        </div>
-        <div class="row normalline">
-            <div class="col-md-12 col-sm-12  col-xs-12">
-                <div class="row">
-                    <textarea name="" ng-model="formalReport.humanResourceOpinion" rows="1" cols="1" class="form-control" placeholder="人力资源尽调共提出XX条意见，主要围绕XX问题，具体如下："></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="row normalline">
-            <div class="col-md-12 col-sm-12  col-xs-12">
-                <div class="row">
-                    <button  type="button" class="btn btn-info" ng-click="addFinance()" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-plus"></i>新增</button>
-                    <button  type="button" class="btn btn-info" ng-click="commonDdelete(5)" ng-if="actionparm!='View'"><i class="glyphicon glyphicon-trash"></i>删除</button>
-                </div>
-            </div>
-        </div>
-    <div class="mytable">
-        <table  class="table table-bordered" style="table-layout: fixed">
-            <thead>
-            <tr class="info">
-                <th width="5%">选择</th>
-                <th width="5%">序号</th>
-                <th>人力资源评审意见及要求</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="m in formalReport.hrResourceList track by $index"  repeat-formal-report-finish>
-                <td>
-                    <label class="checkbox-inline zchoose">
-                        <input type="checkbox" class="px" ng-model="m.selected">
-                        <span class="lbl">&nbsp;</span>
-                    </label>
-                </td>
-                <td>{{ $index + 1 }}</td>
-                <td class="tr-max"><textarea name="" ng-model="m.hrResource_opinion" value="{{m.hrResource_opinion}}" rows="" cols="" class="form-control"></textarea></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 
 </div>

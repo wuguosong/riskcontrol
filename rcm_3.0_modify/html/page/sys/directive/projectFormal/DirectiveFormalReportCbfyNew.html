@@ -1,12 +1,14 @@
 <div>
     <div class="row normalline">
         <div class="col-md-12 col-sm-12  col-xs-12">
-            <textarea name="" ng-model="formalReport.costCostReview"rows="1" cols="1" class="form-control ng-pristine ng-valid ng-touched" placeholder="基于技术中心给定的成本费用意见，本报告测算所用成本费用如下："></textarea>
+            <textarea name="" ng-model="attchView8.costCostReview" rows="1" cols="1"
+                      class="form-control ng-pristine ng-valid ng-touched"
+                      placeholder="基于技术中心给定的成本费用意见，本报告测算所用成本费用如下："></textarea>
 
         </div>
     </div>
     <div class="mytable">
-        <table  class="table table-bordered" style="table-layout: fixed">
+        <table class="table table-bordered" style="table-layout: fixed">
             <thead>
             <tr class="info">
                 <th rowspan="2">序号</th>
@@ -24,120 +26,204 @@
             <tr>
                 <td>1</td>
                 <td>电度电费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.electricityTariffYear" name="" class="form-control ng-pristine ng-valid ng-touched"  repeat-formal-report-finish /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.electricityTariffTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.electricityTariffRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.electricityTariffExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.electricityTariffYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched" repeat-formal-report-finish/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.electricityTariffTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.electricityTariffRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.electricityTariffExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>基本电费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.basicElectricityYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.basicElectricityTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.basicElectricityRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.basicElectricityExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.basicElectricityYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.basicElectricityTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.basicElectricityRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.basicElectricityExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
-                <td>3</td>
-                <td>药剂费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.reagentCostYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.reagentCostTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.reagentCostRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.reagentCostExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td>3<i class="fa fa-plus add" ng-click="addtableRow(8)" ng-if="actionparm!='View'"></i></td>
+                <td class="txc" colspan="5"
+                    style="vertical-align:text-top;padding:0px;border:1px solid #e4e4e4;margin:0px;">
+                    <table style="width: 100%;height: 100%;padding:0px;border:0px;margin:0px;" border="0"
+                           cellspacing="0" cellpadding="0"
+                           class="table table-bordered table-text-mid table-light table-hd-center">
+                        <tr ng-repeat="m in attchView8.costEstimate.drugList track by $index"
+                            repeat-formal-report-finish>
+                            <td width="20%">
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <input type="text" ng-model="m.reagentCostName" name=""
+                                               class="form-control ng-pristine ng-valid ng-touched"/>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        药剂费
+                                        <i class="fa fa-times del" ng-click="delrow($index,8)"
+                                           ng-if="actionparm!='View'"></i>
+                                    </div>
+                                </div>
+                            </td>
+                            <td width="20%"><input type="text" ng-model="m.reagentCostYear" name=""
+                                                   class="form-control ng-pristine ng-valid ng-touched"/></td>
+                            <td width="20%"><input type="text" ng-model="m.reagentCostTonsWater" name=""
+                                                   class="form-control ng-pristine ng-valid ng-touched"/></td>
+                            <td width="20%"><textarea cols="" rows="" ng-model="m.reagentCostRemarks" name=""
+                                                      class="form-control ng-pristine ng-valid ng-touched"></textarea>
+                            </td>
+                            <td width="20%"><textarea cols="" rows="" ng-model="m.reagentCostExplain" name=""
+                                                      class="form-control ng-pristine ng-valid ng-touched"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
             <tr>
                 <td>4</td>
                 <td>污泥运输/处置费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.disposalFeeYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.disposalFeeTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.disposalFeeRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.disposalFeeExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.disposalFeeYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.disposalFeeTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.disposalFeeRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.disposalFeeExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>5</td>
                 <td>自来水费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.waterRatesYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.waterRatesTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.waterRatesRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.waterRatesExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.waterRatesYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.waterRatesTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.waterRatesRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.waterRatesExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>6</td>
                 <td>人工成本费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.laborCostYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.laborCostTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.laborCostRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.laborCostExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.laborCostYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.laborCostTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.laborCostRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.laborCostExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>7</td>
                 <td>维修及大修费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.maintenanceCostYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.maintenanceCostTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.maintenanceCostRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.maintenanceCostExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.maintenanceCostYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.maintenanceCostTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.maintenanceCostRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.maintenanceCostExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>8</td>
                 <td>化验检测费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.laboratoryTestingFeeYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.laboratoryTestingFeeTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.laboratoryTestingFeeRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.laboratoryTestingFeeExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.laboratoryTestingFeeYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.laboratoryTestingFeeTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.laboratoryTestingFeeRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.laboratoryTestingFeeExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>9</td>
                 <td>财产保险费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.propertyInsurancePremiumYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.propertyInsurancePremiumTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.propertyInsurancePremiumRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.propertyInsurancePremiumExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.propertyInsurancePremiumYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.propertyInsurancePremiumTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.propertyInsurancePremiumRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.propertyInsurancePremiumExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>10</td>
                 <td>土地使用税与房产税</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.taxationYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.taxationTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.taxationRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.taxationExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.taxationYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.taxationTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.taxationRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.taxationExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>11</td>
                 <td>取暖费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.heatingFeeYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.heatingFeeTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.heatingFeeRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.heatingFeeExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.heatingFeeYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.heatingFeeTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.heatingFeeRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.heatingFeeExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr><!-- Year TonsWater Remarks  Explain-->
                 <td>12</td>
                 <td>管理费</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.managementExpenseYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.managementExpenseTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.managementExpenseRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.managementExpenseExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.managementExpenseYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.managementExpenseTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.managementExpenseRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.managementExpenseExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
+            `
             <tr>
                 <td>13</td>
                 <td>增值税</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.valueAddedTaxYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.valueAddedTaxTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.valueAddedTaxRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.valueAddedTaxExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.valueAddedTaxYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.valueAddedTaxTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.valueAddedTaxRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched" placeholder="是否能够享受优惠政策"></textarea>
+                </td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.valueAddedTaxExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             <tr>
                 <td>14</td>
                 <td>所得税</td>
-                <td><input type="text" ng-model="formalReport.costEstimate.incomeTaxYear" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><input type="text" ng-model="formalReport.costEstimate.incomeTaxTonsWater" name="" class="form-control ng-pristine ng-valid ng-touched" /></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.incomeTaxRemarks" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
-                <td><textarea cols="" rows="" ng-model="formalReport.costEstimate.incomeTaxExplain" name="" class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.incomeTaxYear" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><input type="text" ng-model="attchView8.costEstimate.incomeTaxTonsWater" name=""
+                           class="form-control ng-pristine ng-valid ng-touched"/></td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.incomeTaxRemarks" name=""
+                              class="form-control ng-pristine ng-valid ng-touched" placeholder="是否能够享受优惠政策"></textarea>
+                </td>
+                <td><textarea cols="" rows="" ng-model="attchView8.costEstimate.incomeTaxExplain" name=""
+                              class="form-control ng-pristine ng-valid ng-touched"></textarea></td>
             </tr>
             </tbody>
         </table>
         <div>说明</div>
         <div>
-            <textarea name=""  ng-model="formalReport.explain" rows="" cols="" class="form-control ng-pristine ng-valid ng-touched"></textarea>
+            <textarea name="" ng-model="attchView8.explain" rows="" cols=""
+                      class="form-control ng-pristine ng-valid ng-touched"></textarea>
         </div>
     </div>
 </div>

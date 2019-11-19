@@ -589,6 +589,11 @@ form .left-content {
   right: 15px;
 }
 
+.unit-my, .unit-l {
+  left: 25px;
+}
+
+
 /** 会议安排中上会时间样式调整 **/
 .meeting-time-input {
   margin-top: 7px;

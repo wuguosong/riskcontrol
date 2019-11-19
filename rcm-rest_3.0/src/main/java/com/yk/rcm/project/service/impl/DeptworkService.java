@@ -810,14 +810,14 @@ public class DeptworkService implements IDeptworkService {
 	public Map<String, Object> getAllStaffWork() {
 		Map<String, Object> allStaffWork = new HashMap<String, Object>();
 		Map<String, Object> allStaffQuery = new HashMap<String, Object>();
-		allStaffQuery.put("type", "评审");
+		allStaffQuery.put("type", "评审小组第");
 		// 所有人员的id
 		List<Map<String, Object>> allStaff = this.deptworkMapper.getAllStaffWork(allStaffQuery);
 		List<Map<String, Object>> allYesWorkStaff = new ArrayList<Map<String, Object>>();
 		for (Map<String, Object> staff : allStaff) {
 			Map<String, Object> nowStaffWorkQuery = new HashMap<String, Object>();
 			nowStaffWorkQuery.put("REVIEWPERSONID", staff.get("TEAM_MEMBER_ID").toString());
-			nowStaffWorkQuery.put("NOTIFY_CREATED_NAME", "关楠楠");
+			nowStaffWorkQuery.put("NOTIFY_CREATED_NAME", "魏伟");
 			// 该员工目前下面所有项目(评审组)
 			Map<String, Object> nowStaffWork = this.deptworkMapper.getNowStaffWork(nowStaffWorkQuery);
 			if (Integer.parseInt(nowStaffWork.get("ALLCOUNT").toString()) > 0) {
@@ -864,7 +864,7 @@ public class DeptworkService implements IDeptworkService {
 	public List<Map<String, Object>> getOneStaffWork(String TEAM_MEMBER_ID) {
 		Map<String, Object> nowStaffWorkQuery = new HashMap<String, Object>();
 		nowStaffWorkQuery.put("REVIEWPERSONID", TEAM_MEMBER_ID);
-		nowStaffWorkQuery.put("NOTIFY_CREATED_NAME", "关楠楠");
+		nowStaffWorkQuery.put("NOTIFY_CREATED_NAME", "魏伟");
 		// 该员工目前下面所有项目
 		List<Map<String, Object>> oneStaffWork = this.deptworkMapper.getOneStaffWork(nowStaffWorkQuery);
 		for (Map<String, Object> oneWork : oneStaffWork) {
@@ -928,7 +928,7 @@ public class DeptworkService implements IDeptworkService {
 	public Map<String, Object> getAllLegalStaffWork() {
 		Map<String, Object> allStaffWork = new HashMap<String, Object>();
 		Map<String, Object> allStaffQuery = new HashMap<String, Object>();
-		allStaffQuery.put("type", "法律");
+		allStaffQuery.put("type", "法律评审小组");
 		// 所有人员的id
 		List<Map<String, Object>> allStaff = this.deptworkMapper.getAllStaffWork(allStaffQuery);
 		List<Map<String, Object>> allYesWorkStaff = new ArrayList<Map<String, Object>>();

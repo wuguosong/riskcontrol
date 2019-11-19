@@ -5,13 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.yk.rcm.ws.client.tz.RiskService;
 import com.yk.rcm.ws.client.tz.RiskServiceSoap;
 
-import org.bson.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import ws.client.HpgClient;
 import ws.tz.client.ProjectServiceForTz;
 import ws.tz.client.ProjectServiceForTzSoap;
 
@@ -199,6 +199,14 @@ public class TzTest {
 		json.put("Remark", "这是我通过接口传递的数据");
 		String result = rs.getPreDecisionInfo(JSON.toJSONString(json));
 		System.out.println(result);
+	}
+	
+	@Test
+	public void hpg() {
+		System.out.println("sssssssss");
+		HpgClient hpgClient = new HpgClient("5db0488105ffbb319cc8f825", "sssssssssss");
+		Thread thread = new Thread(hpgClient);
+		thread.start();
 	}
 
 }

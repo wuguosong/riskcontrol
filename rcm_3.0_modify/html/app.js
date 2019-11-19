@@ -1902,9 +1902,9 @@ function htmlTagReg(text) {
     text = text.replace(/<\/code>/gi, '</span>');
     // 颜色
     var colorReg = /color="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
-    text = text.replace(colorReg, 'color="color:black;" $1');
+    text = text.replace(colorReg, 'color="black" $1');
     colorReg = /color='[^=>]*'([(\s+\w+=)|>])/g;// 单引号
-    text = text.replace(colorReg, 'color="color:black;" $1');
+    text = text.replace(colorReg, 'color="black" $1');
     // 样式
     var styleReg = /style="[^=>]*"([(\s+\w+=)|>])/g;// 双引号
     text = text.replace(styleReg, 'style="color:black;font-size:16px;" $1');

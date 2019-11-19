@@ -60,6 +60,7 @@ public class HpgClient implements Runnable, IWebClient {
 	
 	@Override
 	public void run() {
+		System.out.println("aaaaaaaaaa");
 		Map<String, Object> content = new HashMap<String, Object>();
 		if("".equals(projectNo)){
 			return;

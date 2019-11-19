@@ -1,5 +1,8 @@
 package com.yk.rcm.newProjectBoard.service;
 
+import java.util.List;
+import java.util.Map;
+
 import common.PageAssistant;
 
 /**
@@ -32,4 +35,6 @@ public interface IProjectBoardService {
 	 * 大区负责人首页查询项目方法
 	 * */
 	public PageAssistant getProjectListForCompanyHead(PageAssistant page, String json);
+
+	public List<Map<String, Object>> getProjectCodeSame(String PROJECTCODE, String BUSINESSID);
 }

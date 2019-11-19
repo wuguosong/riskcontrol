@@ -19,7 +19,6 @@ import util.Util;
 import com.yk.common.IBaseMongo;
 
 import common.Constants;
-import ws.client.HpgClient;
 
 /**
  * @author yaphet

@@ -215,4 +215,13 @@ public class projectBoardServiceImpl implements IProjectBoardService {
 		return page;
 	}
 
+	@Override
+	public List<Map<String, Object>> getProjectCodeSame(String PROJECTCODE, String BUSINESSID) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("PROJECTCODE", PROJECTCODE);
+		params.put("BUSINESSID", BUSINESSID);
+		List<Map<String, Object>> projectCodeSameList = this.projectBoardMapper.getProjectCodeSame(params);
+		return projectCodeSameList;
+	}
+
 }

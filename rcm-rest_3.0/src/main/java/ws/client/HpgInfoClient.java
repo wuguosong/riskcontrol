@@ -9,22 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import util.Util;
 import ws.client.evaluation.TaskManger;
 import ws.client.evaluation.TaskMangerPortType;
-import ws.client.tz.RiskService;
-import ws.client.tz.RiskServiceSoap;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.yk.common.IBaseMongo;
 import com.yk.common.SpringUtil;

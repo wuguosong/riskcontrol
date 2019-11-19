@@ -237,6 +237,7 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                     url: srvUrl + "formalReport/findFormalAndReport.do",
                     data: $.param({"projectFormalId": projectFormalId})
                 }).success(function (data) {
+                    console.log(data)
                     $scope.formalReport = data.result_data.Report;
                     $scope.meetInfo = data.result_data.MeetInfo;
                     $scope.applyDate = data.result_data.applyDate;
@@ -260,6 +261,18 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                                 data.fileCode = data.code + index + '_' + $scope.projectSummary.summaryType;
                             });
                         }
+                    }
+                    if(data.result_data.Formal.apply.projectNo != null) {
+                        $http({
+                            method: 'post',
+                            url: srvUrl + "projectBoard/getProjectCodeSame.do",
+                            data: $.param({
+                                "PROJECTCODE": data.result_data.Formal.apply.projectNo,
+                                "BUSINESSID": $scope.businessId
+                            })
+                        }).success(function (data) {
+                            $scope.projectCodeSameList = data.result_data;
+                        })
                     }
                     console.log($scope.projectSummary)
                 }).error(function (data, status, header, config) {

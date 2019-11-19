@@ -335,6 +335,19 @@ ctmApp.register.controller('ProjectPreInfoAllBoardView',
                             });
                         },5);
 
+                        if(data.result_data.projectInfo.apply.projectNo != null) {
+                            $http({
+                                method: 'post',
+                                url: srvUrl + "projectBoard/getProjectCodeSame.do",
+                                data: $.param({
+                                    "PROJECTCODE": data.result_data.projectInfo.apply.projectNo,
+                                    "BUSINESSID": $scope.businessId
+                                })
+                            }).success(function (data) {
+                                $scope.projectCodeSameList = data.result_data;
+                            })
+                        }
+
                     }else{
                         $.alert(data.result_name);
                     }

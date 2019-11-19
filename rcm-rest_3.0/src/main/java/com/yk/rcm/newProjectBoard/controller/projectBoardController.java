@@ -1,5 +1,8 @@
 package com.yk.rcm.newProjectBoard.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -82,6 +85,17 @@ public class projectBoardController {
 		this.projectBoardService.getProjectListForCompanyHead(page, json);
 		page.setParamMap(null);
 		result.setResult_data(page);
+		return result;
+	}
+	
+	@RequestMapping("/getProjectCodeSame")
+	@ResponseBody
+	public Result getProjectCodeSame(HttpServletRequest request){
+		Result result = new Result();
+		String PROJECTCODE = request.getParameter("PROJECTCODE");
+		String BUSINESSID = request.getParameter("BUSINESSID");
+		List<Map<String, Object>> projectCodeSame = this.projectBoardService.getProjectCodeSame(PROJECTCODE, BUSINESSID);
+		result.setResult_data(projectCodeSame);
 		return result;
 	}
 }
