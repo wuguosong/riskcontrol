@@ -347,9 +347,11 @@ ctmApp.register.controller('ProjectInfoAllBoardView',
                         //3、风控意见
                         $scope.fengkongOpinion = data.result_data.fengkongOpinion;
                         if(!isEmpty($scope.fengkongOpinion)){
-                            console.log($scope.fengkongOpinion.approveAttachment.commentsList[0].commentConent)
-                            if($scope.fengkongOpinion.approveAttachment.commentsList[0].commentConent == '') {
-                                $scope.fengkongOpinion = null
+                            console.log($scope.fengkongOpinion.approveAttachment.commentsList.length);
+                            if($scope.fengkongOpinion.approveAttachment.commentsList.length > 0) {
+                                if($scope.fengkongOpinion.approveAttachment.commentsList[0].commentConent == '') {
+                                    $scope.fengkongOpinion = null
+                                }
                             }
                         }
                         $scope.fileName=[];
