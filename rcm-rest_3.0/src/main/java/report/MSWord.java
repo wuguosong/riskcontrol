@@ -1,29 +1,17 @@
 package report;
 
+import org.apache.poi.POIXMLDocument;
+import org.apache.poi.xwpf.usermodel.*;
+import org.apache.xmlbeans.XmlCursor;
+import org.bson.Document;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
-
-import org.apache.poi.POIXMLDocument;
-import org.apache.poi.xwpf.usermodel.BodyElementType;
-import org.apache.poi.xwpf.usermodel.IBodyElement;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFHeader;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.poi.xwpf.usermodel.XWPFTableCell;
-import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-import org.apache.xmlbeans.XmlCursor;
-import org.bson.Document;
 
 /**
  * use POI to operate WORD
@@ -304,8 +292,10 @@ class MSWord {
 				for(XWPFTableCell cell : cells){
 					List<XWPFParagraph> paragraphs = cell.getParagraphs();
 					for(XWPFParagraph paragraph : paragraphs){
+						System.out.println("fffffffffffffffff:" + paragraph.getText());
 						for(Entry<String,String> e : markMap.entrySet()){
 							if(paragraph.getText().contains(e.getKey())){
+								System.out.println(e.getKey());
 								logger.info("paragraph: "+paragraph.getText()+" VS e: "+e.getKey());
 								cell.replaceParagraphText(paragraphs.indexOf(paragraph), e);
 							}

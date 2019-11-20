@@ -26,5 +26,6 @@ final class MongoKeys {
 	public static String FormalAssessment_LawList = "lawList";
 	public static String FormalAssessment_TechnologyList = "technologyList";
 	public static String FormalAssessment_FinanceList = "financeList";
-	public static String FormalAssessment_HrResourceList = "hrResourceList";
+	public static String FormalAssessment_DrainageList = "drainageList";
+	public static String FormalAssessment_DrugList = "drugList";
 }

@@ -1,11 +1,10 @@
 package report;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import formalAssessment.FormalReport;
 import org.bson.Document;
 
-import formalAssessment.FormalReport;
+import java.util.ArrayList;
+import java.util.List;
 
 class FormalAssessmentReport extends BaseReport{
 
@@ -14,11 +13,13 @@ class FormalAssessmentReport extends BaseReport{
 	}
 	
 	//==ProjectConcernsIssues==
+	// 风险及问题总结-需要领导重点关注
 	private static final String[] Table_leadershipDecision = {
 			"Table_projectConcernsIssues","2",
 		"rowIdAA", "riskPointAA", "riskContentAA", "pointsAndProblemsAA", "opinionAndCommitmentAA",
 		"rowIdAB", "riskPointAB", "riskContentAB", "pointsAndProblemsAB", "opinionAndCommitmentAB"
 	};
+	// 风险及问题总结-一般性提示
 	private static final String[] Table_investmentConditions = {
 			"Table_projectConcernsIssues","4",
 		"rowIdBA", "riskPointBA", "riskContentBA", "pointsAndProblemsBA", "opinionAndCommitmentBA",
@@ -59,13 +60,22 @@ class FormalAssessmentReport extends BaseReport{
 			"Table_financeList","1",
 		"rowId","finance_opinion"
 	};
-	private static final String[] Table_hrResourceList = {
-			"Table_hrResourceList","1",
-		"rowId","hrResource_opinion"
+	private static final String[] Table_drainageList = {
+			"Table_drainageList","1",
+		"rowId","drainage_opinion"
+	};
+
+	private static final String[] Table_drugList = {
+			"Table_costEstimate", "4",
+			"reagentCostName",
+			"reagentCostYear",
+			"reagentCostTonsWater",
+			"reagentCostRemarks",
+			"reagentCostExplain"
 	};
 	//============================
-	
-	private static final String[] Table_costEstimate = {
+
+	protected static final String[] Table_costEstimate = {
 			"Table_costEstimate",
 			"electricityTariffYear","electricityTariffTonsWater","electricityTariffRemarks","electricityTariffExplain",
 			"basicElectricityYear","basicElectricityTonsWater","basicElectricityRemarks","basicElectricityExplain",
@@ -141,6 +151,12 @@ class FormalAssessmentReport extends BaseReport{
 		addRowId(data);
 		wordFile.fillTableByRow(Table_optionList, data, false);
 	}
+
+	protected  void insertDrugList(){
+		List<Document> data = (List<Document>)reportData.get(MongoKeys.FormalAssessment_DrugList);
+		wordFile.fillTableByRow(Table_drugList, data, false);
+		// replaceTableTexts_haveStableColumn(Table_implementationRequirements, data);
+	}
 	
 	@SuppressWarnings("unchecked")
 	protected void insertRequireList(){
@@ -182,9 +198,9 @@ class FormalAssessmentReport extends BaseReport{
 	@SuppressWarnings("unchecked")
 	protected void insertProfessionalOpinionsAll(){
 		insertProfessionalOpinions();
-		List<Document> hrList = (List<Document>)reportData.get(MongoKeys.FormalAssessment_HrResourceList);
+		List<Document> hrList = (List<Document>)reportData.get(MongoKeys.FormalAssessment_DrainageList);
 		addRowId(hrList);
-		wordFile.fillTableByRow(Table_hrResourceList, hrList, false);
+		wordFile.fillTableByRow(Table_drainageList, hrList, false);
 	}
 	
 	protected void insertCostEstimate(){
