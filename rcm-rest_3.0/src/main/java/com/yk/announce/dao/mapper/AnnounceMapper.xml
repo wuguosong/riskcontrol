@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.announce.dao.IAnnounceMapper">
+    <!-- 字段与属性映射 -->
+    <resultMap id="entityMap" type="com.yk.announce.entity.Announce">
+        <id column="announce_id" property="announceId" javaType="java.lang.Long"/>
+        <result column="title" property="title" javaType="java.lang.String"/>
+        <result column="comments" property="comments" javaType="java.lang.String"/>
+        <result column="status" property="status" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" javaType="java.lang.String"/>
+        <result column="update_by" property="updateBy" javaType="java.lang.String"/>
+        <result column="create_time" property="createTime" javaType="java.sql.Timestamp"/>
+        <result column="update_time" property="updateTime" javaType="java.sql.Timestamp"/>
+    </resultMap>
+    <!--获取列表-->
+    <select id="findList" resultMap="entityMap" parameterType="long">
+        select sa.*  from sys_announce sa
+    </select>
+    <!--获取单个-->
+    <select id="findOne" resultMap="entityMap" parameterType="long">
+        select sa.*  from sys_announce sa
+        where sa.announce_id = #{id}
+    </select>
+    <!--保存-->
+    <insert id="save" parameterType="com.yk.announce.entity.Announce">
+        <selectKey order="BEFORE" resultType="java.lang.Long"
+                   keyProperty="announceId">
+            select sys_announce_seq.nextval from dual
+        </selectKey>
+        insert into sys_announce values(#{announceId},#{title},#{comments},#{status},#{createBy},#{createTime},#{updateBy},#{updateTime})
+    </insert>
+    <!--更新-->
+    <update id="update" parameterType="com.yk.announce.entity.Announce">
+		update sys_announce set
+		title = #{title},
+		comments = #{comments},
+		status = #{status},
+		create_by = #{createBy},
+		update_by = #{updateBy},
+		create_time = #{createTime},
+		update_time = #{updateTime}
+		where announce_id = #{announceId}
+	</update>
+    <!--删除-->
+    <delete id="delete" parameterType="long">
+		delete from sys_announce sa
+		where sa.announce_id = #{id}
+	</delete>
+</mapper>
