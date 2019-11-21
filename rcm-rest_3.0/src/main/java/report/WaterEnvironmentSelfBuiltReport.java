@@ -80,14 +80,14 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
             "constructionPhase", "transitionPhase", "operationStage", "sumCapitalRequirement"
     };
     //建设阶段或移交阶段
-    private static final String[] Table_fundUsetableOneConditions = {
+    private static final String[] Table_fundUseTableOneConditions = {
             "Table_fundUse", "2",
             "fundsUseTimeAA", "capitalRequirementAA", "fundUseAA", "paymentTermsAA", "sourceOfFundsAA",
             "fundsUseTimeAB", "capitalRequirementAB", "fundUseAB", "paymentTermsAB", "sourceOfFundsAB"
 
     };
     //运营阶段表格信息
-    private static final String[] Table_fundUsetableTwoConditions = {
+    private static final String[] Table_fundUseTableTwoConditions = {
             "Table_fundUse", "5",
             "fundsUseTimeBA", "capitalRequirementBA", "fundUseBA", "paymentTermsBA", "sourceOfFundsBA",
             "fundsUseTimeBB", "capitalRequirementBB", "fundUseBB", "paymentTermsBB", "sourceOfFundsBB"
@@ -118,9 +118,16 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
     //建设期对集团会计利润贡献情况表
     private static final String[] Table7_profitContribution = {
             "Table7_profitContribution",
-            "year", "expectedCompletionRatio", "expectedOutputValue", "grossProfit",
-            "yearTwo", "expectedCompletionRatioTwo", "expectedOutputValueTwo", "grossProfitTwo",
-            "sumExpectedCompletionRatio"
+            /*"year", "expectedCompletionRatio", "expectedOutputValue", "grossProfit",
+            "yearTwo", "expectedCompletionRatioTwo", "expectedOutputValueTwo", "grossProfitTwo",*/
+            "sumExpectedCompletionRatio",
+            "sumExpectedOutputValue",
+            "sumGrossProfit"
+    };
+    private static final String[] Table7_profitContribution2 = {
+            "Table7_profitContribution", "1",
+            "yearAA", "expectedCompletionRatioAA", "expectedOutputValueAA", "grossProfitAA",
+            "yearAB", "expectedCompletionRatioAB", "expectedOutputValueAB", "grossProfitAB"
     };
     //风险及问题总结
     private static final String[] Table_leadershipDecision_new = {
@@ -150,6 +157,19 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
             "financingRiskFour",
             "financingRiskFive",
     };
+    private static final String[] Table10_drugList = {
+            "Table_costEstimate", "4",
+            "reagentCostNameAA",
+            "reagentCostYearAA",
+            "reagentCostTonsWaterAA",
+            "reagentCostRemarksAA",
+            "reagentCostExplainAA",
+            "reagentCostNameAB",
+            "reagentCostYearAB",
+            "reagentCostTonsWaterAB",
+            "reagentCostRemarksAB",
+            "reagentCostExplainAB"
+    };
     private static final String bookmarkNameOfInsertPosition = "insertMark";
     private int insertCursor[] = {-1, -1};
 
@@ -178,21 +198,23 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
         wordFile.replaceTableTexts(Table_ProjectRevenueForecast, reportData);
         //资金使用计划表内容写入
         wordFile.replaceTableTexts(Table_fundUse, reportData);
-        Document projectConcernsIssues = (Document) reportData.get(MongoKeys.ProjectConcernsIssues);
-        List<Document> fundUsetableOneConditions = (List<Document>) projectConcernsIssues.get("fundUsetableOneConditions");
-        List<Document> fundUsetableTwoConditions = (List<Document>) projectConcernsIssues.get("fundUsetableTwoConditions");
-        this.replaceTableTexts_haveStableColumn_new(Table_fundUsetableOneConditions, fundUsetableOneConditions);
-        this.replaceTableTexts_haveStableColumn_new(Table_fundUsetableTwoConditions, fundUsetableTwoConditions);
+        // Document projectConcernsIssues = (Document) reportData.get(MongoKeys.ProjectConcernsIssues);
+        List<Document> fundUsetableOneConditions = (List<Document>) /*projectConcernsIssues*/reportData.get("fundUsetableOneConditions");
+        List<Document> fundUsetableTwoConditions = (List<Document>) /*projectConcernsIssues*/reportData.get("fundUsetableTwoConditions");
+        this.replaceTableTexts_haveStableColumn_new(Table_fundUseTableOneConditions, fundUsetableOneConditions);
+        this.replaceTableTexts_haveStableColumn_new(Table_fundUseTableTwoConditions, fundUsetableTwoConditions);
         //项目收益内容写入
         //storeLowercaseKey(reportData, "ROI");
         //storeLowercaseKey(reportData, "ROE");
-        //if(reportData.containsKey("dividendCashFlow")){
-        //reportData.put("dividendCashFlo", reportData.get("dividendCashFlow"));
+        //if (reportData.containsKey("dividendCashFlow")) {
+            //reportData.put("dividendCashFlo", reportData.get("dividendCashFlow"));
         //}
         wordFile.replaceTableTexts(Table5_IncomeEvaluation, reportData);
         wordFile.replaceTableTexts(Table6_IncomeEvaluation, reportData);
 
         //建设期对集团会计利润贡献情况表内容写入
+        List<Document> yearList = (List<Document>) reportData.get("yearList");
+        this.replaceTableTexts_haveStableColumn_new(Table7_profitContribution2, yearList);
         wordFile.replaceTableTexts(Table7_profitContribution, reportData);
 
         insertProjectConcernsIssuesAllNew();
@@ -201,7 +223,8 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
         insertRequireList();
         insertProfessionalOpinionsAll();
         insertCostEstimate();
-        // insertDrugList();
+        List<Document> drugList = (List<Document>) reportData.get(MongoKeys.FormalAssessment_DrugList);
+        this.replaceTableTexts_haveStableColumn_new(Table10_drugList, drugList);
         String outputPath = Path.formalAssessmentReportPath() + "WaterEnvironmentSelfBuilt" + ObjectId + System.currentTimeMillis() + ".docx";
         wordFile.saveAs(outputPath);
         return outputPath;
@@ -397,6 +420,7 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
     private Document resetDocumentProperty(Document doc) {
         Document newDoc = new Document();
         newDoc.putAll(doc);
+        newDoc.remove("projectConcernsIssues");
         // boundary1
         Document boundary1 = (Document) newDoc.get("boundary1");
         if (boundary1 != null) {
@@ -425,7 +449,10 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
             }
             newDoc.put("tenderCompany", tenderCompany);
             Document projectConcernsIssuesDoc = (Document) boundary1.get("projectConcernsIssues");
-            newDoc.put("projectConcernsIssues", projectConcernsIssuesDoc);
+            if (projectConcernsIssuesDoc != null) {
+                newDoc.put("fundUsetableOneConditions", projectConcernsIssuesDoc.get("fundUsetableOneConditions"));
+                newDoc.put("fundUsetableTwoConditions", projectConcernsIssuesDoc.get("fundUsetableTwoConditions"));
+            }
             String basicInformationDescription = boundary1.getString("basicInformationDescription");
             if (StringUtils.isBlank(basicInformationDescription)) {
                 basicInformationDescription = "";
@@ -473,6 +500,35 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
             // 单独设置roi和roe
             newDoc.put("roi", earnings2.get("ROI"));
             newDoc.put("roe", earnings2.get("ROE"));
+            // 设置建设期对集团会计利润贡献情况表及统计其值
+            Float sumExpectedCompletionRatio = 0F;
+            Float sumExpectedOutputValue = 0F;
+            Float sumGrossProfit = 0F;
+            List<Document> yearList = (List<Document>) earnings2.get("yearList");
+            List<Document> newYearList = new ArrayList();
+            if (CollectionUtils.isNotEmpty(yearList)) {
+                for (Document year : yearList) {
+                    String expectedCompletionRatio = year.getString("expectedCompletionRatio");
+                    Float expectedCompletionRatioFloat = Float.parseFloat(expectedCompletionRatio);
+                    String expectedOutputValue = year.getString("expectedOutputValue");
+                    Float expectedOutputValueFloat = Float.parseFloat(expectedOutputValue);
+                    String grossProfit = year.getString("grossProfit");
+                    Float grossProfitFloat = Float.parseFloat(grossProfit);
+                    sumExpectedCompletionRatio += expectedCompletionRatioFloat;
+                    sumExpectedOutputValue += expectedOutputValueFloat;
+                    sumGrossProfit += grossProfitFloat;
+                    Document newYear = new Document();
+                    newYear.put("year", year.get("year"));
+                    newYear.put("expectedCompletionRatio", expectedCompletionRatio);
+                    newYear.put("expectedOutputValue", expectedOutputValue);
+                    newYear.put("grossProfit", grossProfit);
+                    newYearList.add(newYear);
+                }
+                newDoc.put("yearList", newYearList);
+            }
+            newDoc.put("sumExpectedCompletionRatio", String.valueOf(sumExpectedCompletionRatio));
+            newDoc.put("sumExpectedOutputValue", String.valueOf(sumExpectedOutputValue));
+            newDoc.put("sumGrossProfit", String.valueOf(sumGrossProfit));
         }
         // risk3
         Document risk3 = (Document) newDoc.get("risks3");
@@ -550,8 +606,16 @@ public class WaterEnvironmentSelfBuiltReport extends FormalAssessmentReport {
             // 评审用成本及费用
             Document costEstimateDoc = (Document) attch8.get("costEstimate");
             newDoc.put("costEstimate", costEstimateDoc);
-            if(costEstimateDoc != null){
-                newDoc.put("drugList", costEstimateDoc.get("drugList"));
+            if (costEstimateDoc != null) {
+                // 处理XX药剂
+                List<Document> drugList = (List<Document>) costEstimateDoc.get("drugList");
+                if (CollectionUtils.isNotEmpty(drugList)) {
+                    for (Document drug : drugList) {
+                        String name = drug.getString("reagentCostName");
+                        drug.put("reagentCostName", name + "药剂费");
+                    }
+                }
+                newDoc.put("drugList", drugList);
             }
         }
         return newDoc;

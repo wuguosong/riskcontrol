@@ -66,12 +66,17 @@ class FormalAssessmentReport extends BaseReport{
 	};
 
 	private static final String[] Table_drugList = {
-			"Table_costEstimate", "4",
-			"reagentCostName",
-			"reagentCostYear",
-			"reagentCostTonsWater",
-			"reagentCostRemarks",
-			"reagentCostExplain"
+			"Table_costEstimate", "5",
+			"reagentCostNameAA",
+			"reagentCostYearAA",
+			"reagentCostTonsWaterAA",
+			"reagentCostRemarksAA",
+			"reagentCostExplainAA",
+			"reagentCostNameAB",
+			"reagentCostYearAB",
+			"reagentCostTonsWaterAB",
+			"reagentCostRemarksAB",
+			"reagentCostExplainAB"
 	};
 	//============================
 
@@ -154,8 +159,7 @@ class FormalAssessmentReport extends BaseReport{
 
 	protected  void insertDrugList(){
 		List<Document> data = (List<Document>)reportData.get(MongoKeys.FormalAssessment_DrugList);
-		wordFile.fillTableByRow(Table_drugList, data, false);
-		// replaceTableTexts_haveStableColumn(Table_implementationRequirements, data);
+		replaceTableTexts_haveStableColumn(Table_drugList, data);
 	}
 	
 	@SuppressWarnings("unchecked")

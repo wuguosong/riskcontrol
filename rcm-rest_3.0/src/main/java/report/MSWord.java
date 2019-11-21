@@ -292,12 +292,11 @@ class MSWord {
 				for(XWPFTableCell cell : cells){
 					List<XWPFParagraph> paragraphs = cell.getParagraphs();
 					for(XWPFParagraph paragraph : paragraphs){
-						System.out.println("fffffffffffffffff:" + paragraph.getText());
 						for(Entry<String,String> e : markMap.entrySet()){
 							if(paragraph.getText().contains(e.getKey())){
-								System.out.println(e.getKey());
-								logger.info("paragraph: "+paragraph.getText()+" VS e: "+e.getKey());
+								// logger.info("paragraph: "+paragraph.getText()+" VS e: "+e.getKey());
 								cell.replaceParagraphText(paragraphs.indexOf(paragraph), e);
+								System.out.println(e.getKey() + "<>" +  paragraph.getText());
 							}
 						}
 					}
