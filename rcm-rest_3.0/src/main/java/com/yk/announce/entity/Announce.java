@@ -16,10 +16,12 @@ public class Announce {
     private String title;// 标题
     private String comments;// 内容
     private String status;// 状态
-    private String createBy;// 创建人
-    private String updateBy;// 更新人
+    private String createBy;// 创建人UUID
+    private String updateBy;// 更新人UUID
     private Timestamp createTime;// 创建时间
     private Timestamp updateTime;// 更新时间
+    private String createName;// 创建人姓名
+    private String updateName;// 更新人姓名
 
     public Long getAnnounceId() {
         return announceId;
@@ -83,6 +85,22 @@ public class Announce {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
+    }
+
+    public String getUpdateName() {
+        return updateName;
+    }
+
+    public void setUpdateName(String updateName) {
+        this.updateName = updateName;
     }
 
     @Override

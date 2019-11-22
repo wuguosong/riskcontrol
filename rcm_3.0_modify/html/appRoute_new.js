@@ -533,22 +533,22 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
             })
 
             /*// 组织管理
-            .when('/GroupList/:orgId', {
-                controller: 'GroupList',
-                templateUrl: 'page/fnd/group/GroupList.html?_v='+_version,
-                controllerAs: 'model',
-                resolve: {
-                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
-                        var deferred = $q.defer();
-                        require(['page/fnd/group/GroupList.js?_v='+_version,'../javascripts/util/common.js?_v='+_version], function () {
-                            $rootScope.$apply(function () {
-                                deferred.resolve();
-                            });
-                        });
-                        return deferred.promise;
-                    }]
-                }
-            })*/
+             .when('/GroupList/:orgId', {
+             controller: 'GroupList',
+             templateUrl: 'page/fnd/group/GroupList.html?_v='+_version,
+             controllerAs: 'model',
+             resolve: {
+             resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+             var deferred = $q.defer();
+             require(['page/fnd/group/GroupList.js?_v='+_version,'../javascripts/util/common.js?_v='+_version], function () {
+             $rootScope.$apply(function () {
+             deferred.resolve();
+             });
+             });
+             return deferred.promise;
+             }]
+             }
+             })*/
 
             // 结束流程菜单
             .when('/endFlow', {
@@ -825,89 +825,89 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
 
             /* // 商业模式添加附件列表
              .when('/BusinessModelList', {
-                 controller: 'BusinessModelList',
-                 templateUrl: 'page/rcm/BasicSetting/BusinessModelList.html?_v='+_version,
-                 controllerAs: 'model',
-                 resolve: {
-                     resolver: ['$q', '$rootScope', function ($q, $rootScope) {
-                         var deferred = $q.defer();
-                         require(['page/rcm/BasicSetting/BusinessModelList.js?_v='+_version], function () {
-                             $rootScope.$apply(function () {
-                                 deferred.resolve();
-                             });
-                         });
-                         return deferred.promise;
-                     }]
-                 }
+             controller: 'BusinessModelList',
+             templateUrl: 'page/rcm/BasicSetting/BusinessModelList.html?_v='+_version,
+             controllerAs: 'model',
+             resolve: {
+             resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+             var deferred = $q.defer();
+             require(['page/rcm/BasicSetting/BusinessModelList.js?_v='+_version], function () {
+             $rootScope.$apply(function () {
+             deferred.resolve();
+             });
+             });
+             return deferred.promise;
+             }]
+             }
              })
              // 商业模式列表
              .when('/ListBusiness/:UUID/:BUSINESS_NAME/:BUSINESS_TYPE', {
-                 controller: 'ListBusiness',
-                 templateUrl: 'page/rcm/BasicSetting/ListBusiness.html?_v='+_version,
-                 controllerAs: 'model',
-                 resolve: {
-                     resolver: ['$q', '$rootScope', function ($q, $rootScope) {
-                         var deferred = $q.defer();
-                         require(['page/rcm/BasicSetting/ListBusiness.js?_v='+_version], function () {
-                             $rootScope.$apply(function () {
-                                 deferred.resolve();
-                             });
-                         });
-                         return deferred.promise;
-                     }]
-                 }
+             controller: 'ListBusiness',
+             templateUrl: 'page/rcm/BasicSetting/ListBusiness.html?_v='+_version,
+             controllerAs: 'model',
+             resolve: {
+             resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+             var deferred = $q.defer();
+             require(['page/rcm/BasicSetting/ListBusiness.js?_v='+_version], function () {
+             $rootScope.$apply(function () {
+             deferred.resolve();
+             });
+             });
+             return deferred.promise;
+             }]
+             }
              })
              // 管理商业模式附件列表
              .when('/ManageAttachmentList/:yuuid/:ybusiness_name/:business_type', {
-                 controller: 'ManageAttachmentList',
-                 templateUrl: 'page/rcm/BasicSetting/ManageAttachmentList.html?_v='+_version,
-                 controllerAs: 'model',
-                 resolve: {
-                     resolver: ['$q', '$rootScope', function ($q, $rootScope) {
-                         var deferred = $q.defer();
-                         require(['page/rcm/BasicSetting/ManageAttachmentList.js?_v='+_version], function () {
-                             $rootScope.$apply(function () {
-                                 deferred.resolve();
-                             });
-                         });
-                         return deferred.promise;
-                     }]
-                 }
+             controller: 'ManageAttachmentList',
+             templateUrl: 'page/rcm/BasicSetting/ManageAttachmentList.html?_v='+_version,
+             controllerAs: 'model',
+             resolve: {
+             resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+             var deferred = $q.defer();
+             require(['page/rcm/BasicSetting/ManageAttachmentList.js?_v='+_version], function () {
+             $rootScope.$apply(function () {
+             deferred.resolve();
+             });
+             });
+             return deferred.promise;
+             }]
+             }
              })
              //预评审时间预警设置列表
              .when('/PreWarningTimeList',{
-                 controller:'PreWarningTimeList',
-                 templateUrl:'page/rcm/BasicSetting/PreWarningTimeList.html?_v='+_version,
-                 controllerAs:'model',
-                 resolve:{
-                     resolver:['$q','$rootScope',function($q,$rootScope){
-                         var deferred = $q.defer();
-                         require(['page/rcm/BasicSetting/PreWarningTimeList.js?_v='+_version],function(){
-                             $rootScope.$apply(function(){
-                                 deferred.resolve();
-                             });
-                         });
-                         return deferred.promise;
-                     }]
-                 }
+             controller:'PreWarningTimeList',
+             templateUrl:'page/rcm/BasicSetting/PreWarningTimeList.html?_v='+_version,
+             controllerAs:'model',
+             resolve:{
+             resolver:['$q','$rootScope',function($q,$rootScope){
+             var deferred = $q.defer();
+             require(['page/rcm/BasicSetting/PreWarningTimeList.js?_v='+_version],function(){
+             $rootScope.$apply(function(){
+             deferred.resolve();
+             });
+             });
+             return deferred.promise;
+             }]
+             }
              })
 
              //预评审时间预警设置新增
              .when('/PreWarningTimeEdit/:action/:uuid',{
-                 controller:'PreWarningTimeEdit',
-                 templateUrl:'page/rcm/BasicSetting/PreWarningTimeEdit.html?_v='+_version,
-                 controllerAs:'model',
-                 resolve:{
-                     resolver:['$q','$rootScope',function($q,$rootScope){
-                         var deferred = $q.defer();
-                         require(['page/rcm/BasicSetting/PreWarningTimeEdit.js?_v='+_version],function(){
-                             $rootScope.$apply(function(){
-                                 deferred.resolve();
-                             });
-                         });
-                         return deferred.promise;
-                     }]
-                 }
+             controller:'PreWarningTimeEdit',
+             templateUrl:'page/rcm/BasicSetting/PreWarningTimeEdit.html?_v='+_version,
+             controllerAs:'model',
+             resolve:{
+             resolver:['$q','$rootScope',function($q,$rootScope){
+             var deferred = $q.defer();
+             require(['page/rcm/BasicSetting/PreWarningTimeEdit.js?_v='+_version],function(){
+             $rootScope.$apply(function(){
+             deferred.resolve();
+             });
+             });
+             return deferred.promise;
+             }]
+             }
              })*/
 
             // 风险指引管理列表
@@ -2104,20 +2104,20 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
 
             /* // 正式评审决策委员会材料预览旧版新页面
              .when('/FormalBiddingInfoPreviewOld/:id/:url/:flag', {
-                 controller: 'FormalBiddingInfoPreviewOld',
-                 templateUrl: 'page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.html?_v='+_version,
-                 controllerAs: 'model',
-                 resolve: {
-                     resolver: ['$q', '$rootScope', function($q, $rootScope) {
-                         var deferred = $q.defer();
-                         require(['page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.js?_v=' + _version], function() {
-                             $rootScope.$apply(function() {
-                                 deferred.resolve();
-                                 });
-                             });
-                         return deferred.promise;
-                         }]
-                 }
+             controller: 'FormalBiddingInfoPreviewOld',
+             templateUrl: 'page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.html?_v='+_version,
+             controllerAs: 'model',
+             resolve: {
+             resolver: ['$q', '$rootScope', function($q, $rootScope) {
+             var deferred = $q.defer();
+             require(['page/rcm/formalAssessment/forAssesmentPreviewOld/FormalBiddingInfoPreviewOld.js?_v=' + _version], function() {
+             $rootScope.$apply(function() {
+             deferred.resolve();
+             });
+             });
+             return deferred.promise;
+             }]
+             }
              })*/
 
             // 正式评审附件替换页面
@@ -3871,6 +3871,55 @@ ctmApp.run(['$route', '$http', '$rootScope', '$location', '$interval',
                     resolver: ['$q', '$rootScope', function ($q, $rootScope) {
                         var deferred = $q.defer();
                         require(['page/sys/projectReport/projectReport.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            // 公告
+            .when('/announceList', {
+                controller: 'announceListCtrl',
+                templateUrl: 'page/sys/announce/announceList.html?_v=' + _version,
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/sys/announce/announce.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .when('/announceView', {
+                controller: 'announceViewCtrl',
+                templateUrl: 'page/sys/announce/announceView.html?_v=' + _version,
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/sys/announce/announce.js?_v=' + _version], function () {
+                            $rootScope.$apply(function () {
+                                deferred.resolve();
+                            });
+                        });
+                        return deferred.promise;
+                    }]
+                }
+            })
+            .when('/announceEdit/:id', {
+                controller: 'announceEditCtrl',
+                templateUrl: 'page/sys/announce/announceEdit.html?_v=' + _version,
+                controllerAs: 'model',
+                resolve: {
+                    resolver: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require(['page/sys/announce/announce.js?_v=' + _version], function () {
                             $rootScope.$apply(function () {
                                 deferred.resolve();
                             });

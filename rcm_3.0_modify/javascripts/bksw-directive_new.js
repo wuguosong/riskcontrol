@@ -1393,7 +1393,8 @@ ctmApp.directive('commonAttachments', function () {
             showDownload: "@",// 是否展示下载按钮，默认false
             showDelete: "@",// 是否展示删除按钮，默认false
             editAuth: "@",// 是否可编辑，默认true
-            showCheck:"@"// 是否展示复选框，默认true
+            showCheck:"@",// 是否展示复选框，默认true
+            showAttContentTitle:"@"// 是否展附件内容TH，默认true
         },
         link: function (scope, element, attr) {
         },
@@ -1404,6 +1405,7 @@ ctmApp.directive('commonAttachments', function () {
             $scope.showDelete = isEmpty($scope.showDelete) ? 'false' : $scope.showDelete;
             $scope.editAuth = isEmpty($scope.editAuth) ? 'true' : $scope.editAuth;
             $scope.showCheck = isEmpty($scope.showCheck) ? 'true' : $scope.showCheck;
+            $scope.showAttContentTitle = isEmpty($scope.showAttContentTitle) ? 'true' : $scope.showAttContentTitle;
             // 初始化
             $scope._init = function () {
                 console.log("commonAttachments:" + $scope.docType + "," + $scope.docCode + "," + $scope.pageLocation);

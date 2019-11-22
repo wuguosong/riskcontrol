@@ -15,7 +15,7 @@
                 <thead>
                 <tr>
                     <th width="5%" ng-if="showCheck=='true'">选择</th>
-                    <th>附件内容</th>
+                    <th ng-if="showAttContentTitle=='true'">附件内容</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,7 +34,7 @@
                         <div class="col-sm-4 noleft-pad noright-pad">
                             <span id="{{id}}{{$index}}"></span>
                         </div>
-                        <div class="col-sm-4 noright-pad txr">
+                        <div class="col-sm-4 noright-pad txc">
                             <button type="button" class="btn btn-info"
                                     ngf-max-size="1000MB"
                                     ngf-select="_uploadThat($file, $index)"

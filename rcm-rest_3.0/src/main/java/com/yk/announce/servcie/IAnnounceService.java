@@ -1,6 +1,7 @@
 package com.yk.announce.servcie;
 
 import com.yk.announce.entity.Announce;
+import common.PageAssistant;
 
 import java.util.List;
 
@@ -54,4 +55,21 @@ public interface IAnnounceService {
      * @date 2019/11/21 0021 14:53
      **/
     Announce update(Announce announce);
+
+    /**
+     * @param pageAssistant
+     * @author lipan92
+     * @description 分页查询
+     * @date 2019/11/21 0021 18:03
+     **/
+    void pageList(PageAssistant pageAssistant);
+
+    /**
+     * @param announce
+     * @return Announce
+     * @author lipan92
+     * @description 信息初始化
+     * @date 2019/11/22 0022 12:14
+     **/
+    Announce initAnnounce(Announce announce);
 }

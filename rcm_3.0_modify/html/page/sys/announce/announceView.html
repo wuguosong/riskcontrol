@@ -1,0 +1,89 @@
+<div>
+    <div class="panel-body">
+        <div class="panel">
+            <!--<div class="panel-heading">-->
+            <!--<div class="panel-hd-cont"><span class="panel-title">公告<i class="i-triangle"></i></span></div>-->
+            <!--</div>-->
+            <div ng-repeat="announce in announceList">
+                <div>
+                    <div style="background-color: white;height: 45px;">
+                        <div><h3 class="myCenter">{{announce.title}}</h3></div>
+                        <div class="myUl" id="myDiv">
+                            <ul>
+                                <li>
+                                    发布时间：{{announce.updateTime}}
+                                </li>
+                                <li>
+                                    发布人：{{announce.updateName}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <pre style="background-color:white;border: 1px solid #ccc;">{{announce.comments}}</pre>
+                    </div>
+                    <div>
+                        <common-attachments
+                                id="announceAttachments"
+                                doc-type="announce"
+                                doc-code="{{announce.announceId}}"
+                                page-location="announceAttachments"
+                                show-upload="false"
+                                show-review="false"
+                                show-download="false"
+                                show-delete="false"
+                                edit-auth="false"
+                                show-check="false"
+                                show-att-content-title="false"
+                        ></common-attachments>
+                    </div>
+                </div>
+            </div>
+            <div class="table-footer clearfix">
+                <tm-pagination conf="announceManagerConfiguration"></tm-pagination>
+            </div>
+            <div class="form-group row last-group">
+                <div class="txc">
+                    <a class="btn btn-primary" href="#/"><i
+                            class="fa fa-reply"></i>返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .myCenter {
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        .myUl {
+            background-color: #FFF3E8;
+            margin-top: 10px;
+        }
+
+        #myDiv ul {
+            list-style: none;
+            overflow: hidden;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        #myDiv ul li {
+            float: left;
+            text-align: center;
+            margin-right: 20px;
+            font-size: 12px;
+        }
+
+        .myUl {
+            position: relative;
+        }
+
+        .myUl ul {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</div>

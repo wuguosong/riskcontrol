@@ -12,14 +12,42 @@
         <result column="update_by" property="updateBy" javaType="java.lang.String"/>
         <result column="create_time" property="createTime" javaType="java.sql.Timestamp"/>
         <result column="update_time" property="updateTime" javaType="java.sql.Timestamp"/>
+        <result column="create_name" property="createName" javaType="java.lang.String"/>
+        <result column="update_name" property="updateName" javaType="java.lang.String"/>
     </resultMap>
     <!--获取列表-->
     <select id="findList" resultMap="entityMap" parameterType="long">
-        select sa.*  from sys_announce sa
+        select
+        sa.announce_id,
+        sa.title,
+        sa.status,
+        sa.comments,
+        sa.create_by,
+        sa.update_by,
+        sa.create_time,
+        sa.update_time,
+        s1.NAME as create_name,
+        s2.NAME as update_name
+        from sys_announce sa
+        join sys_user s1 on sa.create_by = s1.UUID
+        join sys_user s2 on sa.update_by = s2.UUID
     </select>
     <!--获取单个-->
     <select id="findOne" resultMap="entityMap" parameterType="long">
-        select sa.*  from sys_announce sa
+        select
+        sa.announce_id,
+        sa.title,
+        sa.status,
+        sa.comments,
+        sa.create_by,
+        sa.update_by,
+        sa.create_time,
+        sa.update_time,
+        s1.NAME as create_name,
+        s2.NAME as update_name
+        from sys_announce sa
+        join sys_user s1 on sa.create_by = s1.UUID
+        join sys_user s2 on sa.update_by = s2.UUID
         where sa.announce_id = #{id}
     </select>
     <!--保存-->
@@ -28,7 +56,8 @@
                    keyProperty="announceId">
             select sys_announce_seq.nextval from dual
         </selectKey>
-        insert into sys_announce values(#{announceId},#{title},#{comments},#{status},#{createBy},#{createTime},#{updateBy},#{updateTime})
+        insert into sys_announce
+        values(#{announceId},#{title},#{comments},#{status},#{createBy},#{createTime},#{updateBy},#{updateTime})
     </insert>
     <!--更新-->
     <update id="update" parameterType="com.yk.announce.entity.Announce">
@@ -47,4 +76,35 @@
 		delete from sys_announce sa
 		where sa.announce_id = #{id}
 	</delete>
+    <!--更新附件,将逻辑字段标记为:DELETE-->
+    <update id="updateFile" parameterType="string">
+        update file_dto f set f.logicopt = 'DELETE'
+        where f.doctype = 'announce'
+        and f.doccode = #{id}
+    </update>
+    <!--分页查询-->
+    <select id="pageList" resultType="com.alibaba.fastjson.JSONObject" parameterType="map">
+        select
+        allRec.*
+        from
+        (
+        select
+        sa.announce_id as "announceId",
+        sa.title as "title",
+        sa.status as "status",
+        sa.comments as "comments",
+        sa.create_by as "createBy",
+        sa.update_by as "updateBy",
+        sa.create_time as "createTime",
+        sa.update_time as "updateTime",
+        s1.NAME as "createName",
+        s2.NAME as "updateName"
+        from sys_announce sa
+        join sys_user s1 on sa.create_by = s1.UUID
+        join sys_user s2 on sa.update_by = s2.UUID
+        order by sa.update_time desc
+        ) allRec
+        where 1 = 1
+        <if test="status != null and status != ''">and allRec."status" = #{status}</if>
+    </select>
 </mapper>

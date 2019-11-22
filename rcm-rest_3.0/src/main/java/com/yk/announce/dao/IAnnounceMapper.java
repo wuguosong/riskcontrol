@@ -1,11 +1,13 @@
 package com.yk.announce.dao;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yk.announce.entity.Announce;
 import com.yk.common.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -59,4 +61,21 @@ public interface IAnnounceMapper extends BaseMapper {
      * @date 2019/11/21 0021 14:53
      **/
     int update(Announce announce);
+
+    /**
+     * @param queryParams
+     * @author lipan92
+     * @description 分页查询
+     * @date 2019/11/21 0021 18:06
+     **/
+    List<JSONObject> pageList(Map<String, Object> queryParams);
+
+    /**
+     * @param id
+     * @return int
+     * @author lipan92
+     * @description 更新附件
+     * @date 2019/11/22 0022 14:30
+     **/
+    int updateFile(@Param("id")String id);
 }

@@ -2,13 +2,18 @@ package com.yk.announce.controller;
 
 import com.yk.announce.entity.Announce;
 import com.yk.announce.servcie.IAnnounceService;
+import com.yk.rcm.file.service.IFileService;
 import common.Constants;
+import common.PageAssistant;
 import common.Result;
+import fnd.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import util.DateUtil;
+import util.UserUtil;
 
 /**
  * @author lipan92
@@ -22,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AnnounceController {
     @Autowired
     private IAnnounceService announceService;
+    @Autowired
+    private IFileService fileService;
 
     /**
      * @param announce
@@ -35,6 +42,7 @@ public class AnnounceController {
     public Result saveOrUpdate(Announce announce) {
         Result result = new Result();
         try {
+            announce = announceService.initAnnounce(announce);
             if (announce.getAnnounceId() == null) {
                 announce = announceService.save(announce);
             } else {
@@ -64,6 +72,37 @@ public class AnnounceController {
         Result result = new Result();
         try {
             Announce announce = announceService.findOne(id);
+            announce = announceService.initAnnounce(announce);
+            result.setSuccess(true);
+            result.setResult_code(Constants.S);
+            result.setResult_data(announce);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setResult_code(Constants.E);
+            result.setResult_name(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param status
+     * @return Result
+     * @author lipan92
+     * @description 更新状态
+     * @date 2019/11/22 0022 13:44
+     **/
+    @RequestMapping(value = "updateStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateStatus(Long id, String status) {
+        Result result = new Result();
+        try {
+            Announce announce = announceService.findOne(id);
+            announce.setStatus(status);
+            UserDto user = UserUtil.getCurrentUser();
+            announce.setUpdateBy(user.getUuid());
+            announce.setUpdateTime(DateUtil.getCurrentDate());
+            announce = announceService.update(announce);
             result.setSuccess(true);
             result.setResult_code(Constants.S);
             result.setResult_data(announce);
@@ -88,6 +127,31 @@ public class AnnounceController {
         Result result = new Result();
         try {
             announceService.delete(id);
+            result.setSuccess(true);
+            result.setResult_code(Constants.S);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setResult_code(Constants.E);
+            result.setResult_name(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * @param page
+     * @return Result
+     * @author lipan92
+     * @description 分页查询
+     * @date 2019/11/21 0021 18:29
+     **/
+    @RequestMapping(value = "pageList", method = RequestMethod.POST)
+    @ResponseBody
+    public Result pageList(String page) {
+        Result result = new Result();
+        try {
+            PageAssistant pageAssistant = new PageAssistant(page);
+            announceService.pageList(pageAssistant);
+            result.setResult_data(pageAssistant);
             result.setSuccess(true);
             result.setResult_code(Constants.S);
         } catch (Exception e) {
