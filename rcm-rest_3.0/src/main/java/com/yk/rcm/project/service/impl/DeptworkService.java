@@ -810,7 +810,7 @@ public class DeptworkService implements IDeptworkService {
 	public Map<String, Object> getAllStaffWork() {
 		Map<String, Object> allStaffWork = new HashMap<String, Object>();
 		Map<String, Object> allStaffQuery = new HashMap<String, Object>();
-		allStaffQuery.put("type", "评审小组第");
+		allStaffQuery.put("type", "'评审小组第一组', '评审小组第二组', '评审小组第三组'");
 		// 所有人员的id
 		List<Map<String, Object>> allStaff = this.deptworkMapper.getAllStaffWork(allStaffQuery);
 		List<Map<String, Object>> allYesWorkStaff = new ArrayList<Map<String, Object>>();
@@ -928,7 +928,7 @@ public class DeptworkService implements IDeptworkService {
 	public Map<String, Object> getAllLegalStaffWork() {
 		Map<String, Object> allStaffWork = new HashMap<String, Object>();
 		Map<String, Object> allStaffQuery = new HashMap<String, Object>();
-		allStaffQuery.put("type", "法律评审小组");
+		allStaffQuery.put("type", "'法律评审小组'");
 		// 所有人员的id
 		List<Map<String, Object>> allStaff = this.deptworkMapper.getAllStaffWork(allStaffQuery);
 		List<Map<String, Object>> allYesWorkStaff = new ArrayList<Map<String, Object>>();

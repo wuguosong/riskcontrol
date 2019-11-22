@@ -745,7 +745,7 @@
 		where 1 = 1 
 			AND ti.TEAM_ID = t.UUID 
 		<if test="type != null and type !=''"> 
-		     AND t.TEAM_NAME LIKE '%${type}%'
+		     AND t.TEAM_NAME in (${type})
 		</if>	
 	</select>
 	<select id="getNowStaffWork" resultType="hashmap" parameterType="hashmap">
