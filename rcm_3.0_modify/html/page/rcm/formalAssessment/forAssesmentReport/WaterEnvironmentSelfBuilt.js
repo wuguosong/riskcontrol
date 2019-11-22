@@ -725,9 +725,10 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
         $scope.dic = [];
         //保存评审报告(草稿)
         $scope.saveReport = function (callBack) {
+            var url_post;
             if (typeof callBack == 'function') {
+                url_post = 'formalReport/updateReport.do';
             } else {
-                var url_post;
                 if (typeof ($scope.formalReport._id) != "undefined") {
                     url_post = 'formalReport/updateReport.do';
                 } else {
@@ -738,24 +739,43 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
                     }
                     url_post = 'formalReport/createNewReport.do';
                 }
-                $scope.formalReportCopy = $scope.serialize($scope.formalReport);
-                $scope.formalReportCopy.newReport = '1';
-                $http({
-                    method: 'post',
-                    url: srvUrl + url_post,
-                    data: $.param({"json": JSON.stringify($scope.formalReportCopy)})
-                }).success(function (data) {
-                    if (data.success) {
-                        $scope.formalReport._id = data.result_data;
-                        $.alert("保存成功!");
-                        $("#wordbtn").show();
-                    } else {
-                        $.alert(data.result_name);
-                    }
-                }).error(function (data, status, headers, config) {
-                    $.alert(status);
-                });
             }
+            $scope.formalReportCopy = $scope.serialize($scope.formalReport);
+            $http({
+                method: 'post',
+                url: srvUrl + url_post,
+                data: $.param({"json": JSON.stringify($scope.formalReportCopy)})
+            }).success(function (data) {
+                if (data.success) {
+                    $scope.formalReport._id = data.result_data;
+                    $.alert("保存成功!");
+                    $("#wordbtn").show();
+                    if (typeof callBack == 'function') {
+                        console.log("sssssssss");
+                        $http({
+                            method: 'post',
+                            url: srvUrl + 'formalReport/submitAndupdate.do',
+                            data: $.param({
+                                "id": $scope.formalReport._id,
+                                "projectFormalId": $scope.formalReport.projectFormalId
+                            })
+                        }).success(function (data) {
+                            if (data.success) {
+                                hide_Mask();
+                                $.alert("提交成功!");
+                            }
+                        }).error(function (data, status, headers, config) {
+                            hide_Mask();
+                            $.alert(status);
+                            return false;
+                        });
+                    }
+                } else {
+                    $.alert(data.result_name);
+                }
+            }).error(function (data, status, headers, config) {
+                $.alert(status);
+            });
         }
 
         $scope.isReportExist = function () {
@@ -796,47 +816,8 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
         //提交报告并更改状态
         $scope.showSubmitModal = function () {
             show_Mask();
-            var flag = $scope.isPossible2Submit();
-            if (flag) {
-                $scope.saveReport(function () {
-                    console.log("sssssssss");
-                    // $http({
-                    //     method: 'post',
-                    //     url: srvUrl + 'formalReport/submitAndupdate.do',
-                    //     data: $.param({
-                    //         "id": $scope.formalReport._id,
-                    //         "projectFormalId": $scope.formalReport.projectFormalId
-                    //     })
-                    // }).success(function (data) {
-                    //     if (data.success) {
-                    //         var istrue = $scope.createwords();
-                    //         if (istrue) {
-                    //             hide_Mask();
-                    //             $.alert("提交成功!");
-                    //             $('input').attr("readonly", "readonly");
-                    //             $('textarea').attr("readonly", "readonly");
-                    //             $('button').attr("disabled", "disabled");
-                    //             $("#savebtn").hide();
-                    //             $("#submitbnt").hide();
-                    //             $('#wordbtn').attr("disabled", false);
-                    //             $(".modal-footer button").attr({"disabled": false});
-                    //         } else {
-                    //             hide_Mask();
-                    //             $.alert("提交失败，请检查是否填写完整后重新提交或联系管理员!");
-                    //             return false;
-                    //         }
-                    //     }
-                    // }).error(function (data, status, headers, config) {
-                    //     hide_Mask();
-                    //     $.alert(status);
-                    //     return false;
-                    // });
-                });
-                // }else{
-                // 	hide_Mask();
-                // 	$.alert("请确保流程已结束!");
-                // 	return false;
-            }
+            $scope.saveReport(function () {
+            });
         }
 
 
@@ -1285,6 +1266,5 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
             $scope.content.content2 = "";
             attchNew.contents.push($scope.content);
         }
-
 
     }]);
