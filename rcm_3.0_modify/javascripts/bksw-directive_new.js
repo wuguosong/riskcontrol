@@ -6584,7 +6584,7 @@ ctmApp.directive('unFillMaterial', ['$filter', function ($filter) {
             //新建评审报告
             $scope.openRFIReport = function (noSubmit) {
                 $scope.toCreateReport = noSubmit;
-                $scope.r.pmodel = "FormalReviewReport/Create";
+                $scope.r.pmodel = "WaterEnvironmentSelfBuilt/Create";
             };
             $scope.y = {};
             $scope.openRFIBiddingInfo = function (noSubmit) {

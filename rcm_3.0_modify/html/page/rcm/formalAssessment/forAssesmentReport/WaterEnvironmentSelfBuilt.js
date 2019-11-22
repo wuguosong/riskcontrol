@@ -728,18 +728,18 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
             if (typeof callBack == 'function') {
             } else {
                 var url_post;
-                if(typeof ($scope.formalReport._id) != "undefined"){
+                if (typeof ($scope.formalReport._id) != "undefined") {
                     url_post = 'formalReport/updateReport.do';
-                }else{
+                } else {
                     var boolean = $scope.isReportExist();
-                    if(boolean){
+                    if (boolean) {
                         $.alert("请勿重复保存数据!");
                         return false;
                     }
                     url_post = 'formalReport/createNewReport.do';
                 }
                 $scope.formalReportCopy = $scope.serialize($scope.formalReport);
-
+                $scope.formalReportCopy.newReport = '1';
                 $http({
                     method: 'post',
                     url: srvUrl + url_post,
@@ -749,7 +749,6 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
                         $scope.formalReport._id = data.result_data;
                         $.alert("保存成功!");
                         $("#wordbtn").show();
-                        console.log($scope.boundaryView1)
                     } else {
                         $.alert(data.result_name);
                     }
@@ -797,46 +796,47 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
         //提交报告并更改状态
         $scope.showSubmitModal = function () {
             show_Mask();
-            // var flag = $scope.isPossible2Submit();
-            // if(flag){
-            $scope.saveReport(function () {
-                $http({
-                    method: 'post',
-                    url: srvUrl + 'formalReport/submitAndupdate.do',
-                    data: $.param({
-                        "id": $scope.formalReport._id,
-                        "projectFormalId": $scope.formalReport.projectFormalId
-                    })
-                }).success(function (data) {
-                    if (data.success) {
-                        var istrue = $scope.createwords();
-                        if (istrue) {
-                            hide_Mask();
-                            $.alert("提交成功!");
-                            $('input').attr("readonly", "readonly");
-                            $('textarea').attr("readonly", "readonly");
-                            $('button').attr("disabled", "disabled");
-                            $("#savebtn").hide();
-                            $("#submitbnt").hide();
-                            $('#wordbtn').attr("disabled", false);
-                            $(".modal-footer button").attr({"disabled": false});
-                        } else {
-                            hide_Mask();
-                            $.alert("提交失败，请检查是否填写完整后重新提交或联系管理员!");
-                            return false;
-                        }
-                    }
-                }).error(function (data, status, headers, config) {
-                    hide_Mask();
-                    $.alert(status);
-                    return false;
+            var flag = $scope.isPossible2Submit();
+            if (flag) {
+                $scope.saveReport(function () {
+                    console.log("sssssssss");
+                    // $http({
+                    //     method: 'post',
+                    //     url: srvUrl + 'formalReport/submitAndupdate.do',
+                    //     data: $.param({
+                    //         "id": $scope.formalReport._id,
+                    //         "projectFormalId": $scope.formalReport.projectFormalId
+                    //     })
+                    // }).success(function (data) {
+                    //     if (data.success) {
+                    //         var istrue = $scope.createwords();
+                    //         if (istrue) {
+                    //             hide_Mask();
+                    //             $.alert("提交成功!");
+                    //             $('input').attr("readonly", "readonly");
+                    //             $('textarea').attr("readonly", "readonly");
+                    //             $('button').attr("disabled", "disabled");
+                    //             $("#savebtn").hide();
+                    //             $("#submitbnt").hide();
+                    //             $('#wordbtn').attr("disabled", false);
+                    //             $(".modal-footer button").attr({"disabled": false});
+                    //         } else {
+                    //             hide_Mask();
+                    //             $.alert("提交失败，请检查是否填写完整后重新提交或联系管理员!");
+                    //             return false;
+                    //         }
+                    //     }
+                    // }).error(function (data, status, headers, config) {
+                    //     hide_Mask();
+                    //     $.alert(status);
+                    //     return false;
+                    // });
                 });
-            });
-            // }else{
-            // 	hide_Mask();
-            // 	$.alert("请确保流程已结束!");
-            // 	return false;
-            // }
+                // }else{
+                // 	hide_Mask();
+                // 	$.alert("请确保流程已结束!");
+                // 	return false;
+            }
         }
 
 
@@ -1191,65 +1191,65 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
             console.log($scope.formalReport);
             // 数据回显
             $scope.boundaryView1 = $scope.formalReport.boundary1;
-            if($scope.boundaryView1.governmentProcurement == 1) {
+            if ($scope.boundaryView1.governmentProcurement == 1) {
                 $scope.boundaryView1.governmentProcurement = true;
             } else {
                 $scope.boundaryView1.governmentProcurement = false;
             }
-            if($scope.boundaryView1.projectProcedure == 1) {
+            if ($scope.boundaryView1.projectProcedure == 1) {
                 $scope.boundaryView1.projectProcedure = true;
             } else {
                 $scope.boundaryView1.projectProcedure = false;
             }
-            if($scope.boundaryView1.projectWarehouse == 1) {
+            if ($scope.boundaryView1.projectWarehouse == 1) {
                 $scope.boundaryView1.projectWarehouse = true;
             } else {
                 $scope.boundaryView1.projectWarehouse = false;
             }
-            if($scope.boundaryView1.signSubject == 1) {
+            if ($scope.boundaryView1.signSubject == 1) {
                 $scope.boundaryView1.signSubject = true;
             } else {
                 $scope.boundaryView1.signSubject = false;
             }
-            if($scope.boundaryView1.whetherConstructionIsCompleted == 1) {
+            if ($scope.boundaryView1.whetherConstructionIsCompleted == 1) {
                 $scope.boundaryView1.whetherConstructionIsCompleted = true;
             } else {
                 $scope.boundaryView1.whetherConstructionIsCompleted = false;
             }
-            if($scope.boundaryView1.whetherWeNeedToBuild == 1) {
+            if ($scope.boundaryView1.whetherWeNeedToBuild == 1) {
                 $scope.boundaryView1.whetherWeNeedToBuild = true;
             } else {
                 $scope.boundaryView1.whetherWeNeedToBuild = false;
             }
-            if($scope.boundaryView1.isContainsConstruction == 1) {
+            if ($scope.boundaryView1.isContainsConstruction == 1) {
                 $scope.boundaryView1.isContainsConstruction = true;
             } else {
                 $scope.boundaryView1.isContainsConstruction = false;
             }
-            if($scope.boundaryView1.whetherToObtainLoanTermSheet == 1) {
+            if ($scope.boundaryView1.whetherToObtainLoanTermSheet == 1) {
                 $scope.boundaryView1.whetherToObtainLoanTermSheet = true;
             } else {
                 $scope.boundaryView1.whetherToObtainLoanTermSheet = false;
             }
-            if($scope.boundaryView1.whetherNeedAddLetter == 1) {
+            if ($scope.boundaryView1.whetherNeedAddLetter == 1) {
                 $scope.boundaryView1.whetherNeedAddLetter = true;
             } else {
                 $scope.boundaryView1.whetherNeedAddLetter = false;
             }
-            if($scope.boundaryView1.wetherCommissioningCharge == 1) {
+            if ($scope.boundaryView1.wetherCommissioningCharge == 1) {
                 $scope.boundaryView1.wetherCommissioningCharge = true;
             } else {
                 $scope.boundaryView1.wetherCommissioningCharge = false;
             }
-            if($scope.boundaryView1.wetherCommissioningChargeTwo == 1) {
+            if ($scope.boundaryView1.wetherCommissioningChargeTwo == 1) {
                 $scope.boundaryView1.wetherCommissioningChargeTwo = true;
             } else {
                 $scope.boundaryView1.wetherCommissioningChargeTwo = false;
             }
 
-            if($scope.boundaryView1.projectModel != undefined && $scope.boundaryView1.projectModel != null && $scope.boundaryView1.projectModel != {} ){
+            if ($scope.boundaryView1.projectModel != undefined && $scope.boundaryView1.projectModel != null && $scope.boundaryView1.projectModel != {}) {
                 $("#projectmodeboxName").select2("val", " ");
-                commonModelValue2('projectmodebox',$scope.boundaryView1.projectModel);
+                commonModelValue2('projectmodebox', $scope.boundaryView1.projectModel);
             }
 
             $scope.earningsView2 = $scope.formalReport.earnings2;
@@ -1273,8 +1273,8 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
             $scope.content.content1 = "";
             $scope.attchNew.contents.push($scope.content);
             console.log($scope.attchNew);
-            if(!$scope.attchView9) {
-                $scope.attchView9  = [];
+            if (!$scope.attchView9) {
+                $scope.attchView9 = [];
             }
             $scope.attchView9.push($scope.attchNew);
         }
@@ -1285,9 +1285,6 @@ ctmApp.register.controller('WaterEnvironmentSelfBuilt', ['$http', '$scope', '$lo
             $scope.content.content2 = "";
             attchNew.contents.push($scope.content);
         }
-
-
-
 
 
     }]);
