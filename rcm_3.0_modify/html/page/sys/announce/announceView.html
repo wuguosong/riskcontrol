@@ -1,6 +1,6 @@
 <div>
     <div class="panel-body">
-        <div class="panel">
+        <div class="panel" id="myPanelDiv">
             <!--<div class="panel-heading">-->
             <!--<div class="panel-hd-cont"><span class="panel-title">公告<i class="i-triangle"></i></span></div>-->
             <!--</div>-->
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div>
-                        <pre style="background-color:white;border: 1px solid #ccc;">{{announce.comments}}</pre>
+                        <pre style="background-color:white;border: 1px solid #ccc;white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: pre-wrap;white-space: -o-pre-wrap; word-wrap: break-word;">{{announce.comments}}</pre>
                     </div>
                     <div>
                         <common-attachments
@@ -34,14 +34,13 @@
                                 show-delete="false"
                                 edit-auth="false"
                                 show-check="false"
-                                show-att-content-title="false"
                         ></common-attachments>
                     </div>
                 </div>
             </div>
-            <div class="table-footer clearfix">
-                <tm-pagination conf="announceManagerConfiguration"></tm-pagination>
-            </div>
+            <!--<div class="table-footer clearfix">-->
+            <!--<tm-pagination conf="announceManagerConfiguration"></tm-pagination>-->
+            <!--</div>-->
             <div class="form-group row last-group">
                 <div class="txc">
                     <a class="btn btn-primary" href="#/"><i
@@ -84,6 +83,10 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        #myPanelDiv table {
+            table-layout: fixed;
         }
     </style>
 </div>

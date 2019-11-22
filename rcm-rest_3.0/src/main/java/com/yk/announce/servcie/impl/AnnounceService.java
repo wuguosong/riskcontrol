@@ -33,8 +33,8 @@ public class AnnounceService implements IAnnounceService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public List<Announce> findList() {
-        List<Announce> list = announceMapper.findList();
+    public List<Announce> findList(Map<String, Object> params) {
+        List<Announce> list = announceMapper.findList(params);
         return list;
     }
 

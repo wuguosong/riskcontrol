@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import util.DateUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class AnnounceServiceTest {
 
     @Test
     public void testList() {
-        List<Announce> list1 = announceService.findList();
+        List<Announce> list1 = announceService.findList(new HashMap());
         for (Announce announce : list1) {
             System.out.println(announce);
         }

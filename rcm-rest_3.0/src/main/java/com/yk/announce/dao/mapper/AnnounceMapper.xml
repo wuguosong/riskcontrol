@@ -16,7 +16,7 @@
         <result column="update_name" property="updateName" javaType="java.lang.String"/>
     </resultMap>
     <!--获取列表-->
-    <select id="findList" resultMap="entityMap" parameterType="long">
+    <select id="findList" resultMap="entityMap" parameterType="map">
         select
         sa.announce_id,
         sa.title,
@@ -31,6 +31,9 @@
         from sys_announce sa
         join sys_user s1 on sa.create_by = s1.UUID
         join sys_user s2 on sa.update_by = s2.UUID
+        where 1 = 1
+        <if test="status != null and status != ''">and sa.status = #{status}</if>
+        order by sa.update_time desc
     </select>
     <!--获取单个-->
     <select id="findOne" resultMap="entityMap" parameterType="long">

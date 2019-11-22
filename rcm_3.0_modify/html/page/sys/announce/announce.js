@@ -90,43 +90,63 @@ ctmApp.register.controller('announceListCtrl', ['$http', '$scope', '$location', 
 ctmApp.register.controller('announceViewCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter', '$window',
     function ($http, $scope, $location, $routeParams, Upload, $timeout, $filter, $window) {
         $scope.announceList = {};
-        //清空查询条件
-        $scope.clearQueryObj = function () {
-            $scope.pageList();
-        };
-        // 创建查询条件
-        $scope.crateQueryObj = function () {
-            $scope.announceManagerConfiguration.queryObj.status = '1';
-        };
-        // 分页查询
-        $scope.pageList = function () {
-            $scope.crateQueryObj();
-            $http({
-                method: 'post',
-                url: srvUrl + "announce/pageList.do",
-                data: $.param({
-                    "page": JSON.stringify($scope.announceManagerConfiguration)
-                })
-                , async: false
-            }).success(function (data) {
-                if (!isEmpty(data)) {
-                    if ('S' == data['result_code']) {
-                        $scope.announceManagerConfiguration.totalItems = data['result_data'].totalItems;
-                        $scope.announceList = data['result_data'].list;
-                    } else {
-                        $.alert(data['result_name']);
+        // //清空查询条件
+        // $scope.clearQueryObj = function () {
+        //     $scope.pageList();
+        // };
+        // // 创建查询条件
+        // $scope.crateQueryObj = function () {
+        //     $scope.announceManagerConfiguration.queryObj.status = '1';
+        // };
+        // // 分页查询
+        // $scope.pageList = function () {
+        //     $scope.crateQueryObj();
+        //     $http({
+        //         method: 'post',
+        //         url: srvUrl + "announce/pageList.do",
+        //         data: $.param({
+        //             "page": JSON.stringify($scope.announceManagerConfiguration)
+        //         })
+        //         , async: false
+        //     }).success(function (data) {
+        //         if (!isEmpty(data)) {
+        //             if ('S' == data['result_code']) {
+        //                 $scope.announceManagerConfiguration.totalItems = data['result_data'].totalItems;
+        //                 $scope.announceList = data['result_data'].list;
+        //             } else {
+        //                 $.alert(data['result_name']);
+        //             }
+        //         }
+        //     });
+        // };
+        // // 初始化分页条件
+        // $scope.announceManagerConfiguration = {};
+        // $scope.announceManagerConfiguration.queryObj = {};
+        // $scope.announceManagerConfiguration.itemsPerPage = 1;
+        // $scope.announceManagerConfiguration.perPageOptions = [1, 2, 3, 4, 5];
+        // // 分页监听
+        // $scope.$watch('announceManagerConfiguration.currentPage + announceManagerConfiguration.itemsPerPage', $scope.pageList);
+        // $scope.pageList();
+        // 列表查询
+        $scope.findList = function () {
+            $.ajax({
+                url: srvUrl + 'announce/findList.do',
+                type: "POST",
+                dataType: "json",
+                data: {params: JSON.stringify({status: '1'})},
+                async: false,
+                success: function (data) {
+                    if (!isEmpty(data)) {
+                        if ('S' == data['result_code']) {
+                            $scope.announceList = data['result_data'];
+                        } else {
+                            $.alert(data['result_name']);
+                        }
                     }
                 }
             });
         };
-        // 初始化分页条件
-        $scope.announceManagerConfiguration = {};
-        $scope.announceManagerConfiguration.queryObj = {};
-        $scope.announceManagerConfiguration.itemsPerPage = 1;
-        $scope.announceManagerConfiguration.perPageOptions = [1, 2, 3, 4, 5];
-        // 分页监听
-        $scope.$watch('announceManagerConfiguration.currentPage + announceManagerConfiguration.itemsPerPage', $scope.pageList);
-        $scope.pageList();
+        $scope.findList();
     }]);
 // 新增或者编辑页面
 ctmApp.register.controller('announceEditCtrl', ['$http', '$scope', '$location', '$routeParams', 'Upload', '$timeout', '$filter', '$window',

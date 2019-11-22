@@ -1,5 +1,6 @@
 package com.yk.announce.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yk.announce.entity.Announce;
 import com.yk.announce.servcie.IAnnounceService;
 import com.yk.rcm.file.service.IFileService;
@@ -7,6 +8,7 @@ import common.Constants;
 import common.PageAssistant;
 import common.Result;
 import fnd.UserDto;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import util.DateUtil;
 import util.UserUtil;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lipan92
@@ -152,6 +158,35 @@ public class AnnounceController {
             PageAssistant pageAssistant = new PageAssistant(page);
             announceService.pageList(pageAssistant);
             result.setResult_data(pageAssistant);
+            result.setSuccess(true);
+            result.setResult_code(Constants.S);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setResult_code(Constants.E);
+            result.setResult_name(e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * @param params 查询参数
+     * @return Result
+     * @author lipan92
+     * @description 列表查询
+     * @date 2019/11/22 0022 17:27
+     **/
+    @RequestMapping(value = "findList", method = RequestMethod.POST)
+    @ResponseBody
+    public Result findList(String params) {
+        Result result = new Result();
+        try {
+            Map<String, Object> map = new HashMap();
+            if (StringUtils.isNotBlank(params)) {
+                map = JSON.parseObject(params, HashMap.class);
+            }
+            List<Announce> list = announceService.findList(map);
+            result.setResult_data(list);
             result.setSuccess(true);
             result.setResult_code(Constants.S);
         } catch (Exception e) {

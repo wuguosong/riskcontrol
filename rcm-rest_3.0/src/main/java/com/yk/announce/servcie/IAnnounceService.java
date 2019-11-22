@@ -4,6 +4,7 @@ import com.yk.announce.entity.Announce;
 import common.PageAssistant;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lipan92
@@ -14,12 +15,13 @@ import java.util.List;
  **/
 public interface IAnnounceService {
     /**
+     * @param params 查询参数
      * @return List<Announce>
      * @author lipan92
      * @description 获取列表
      * @date 2019/11/21 0021 14:47
      **/
-    List<Announce> findList();
+    List<Announce> findList(Map<String, Object> params);
 
     /**
      * @param id 主键Id

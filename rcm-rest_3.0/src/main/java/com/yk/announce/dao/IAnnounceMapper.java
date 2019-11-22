@@ -20,12 +20,13 @@ import java.util.Map;
 @Repository
 public interface IAnnounceMapper extends BaseMapper {
     /**
+     * @param params 查询参数
      * @return List<Announce>
      * @author lipan92
      * @description 获取列表
      * @date 2019/11/21 0021 14:47
      **/
-    List<Announce> findList();
+    List<Announce> findList(Map<String, Object> params);
 
     /**
      * @param id 主键Id
@@ -77,5 +78,5 @@ public interface IAnnounceMapper extends BaseMapper {
      * @description 更新附件
      * @date 2019/11/22 0022 14:30
      **/
-    int updateFile(@Param("id")String id);
+    int updateFile(@Param("id") String id);
 }
