@@ -1,14 +1,11 @@
 package com.yk.rcm.file.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.goukuai.dto.FileDto;
 import com.goukuai.dto.LinkDto;
-
 import ws.msg.client.MessageBack;
 
-import org.apache.ibatis.annotations.Param;
+import java.util.List;
+import java.util.Map;
 
 public interface IFileService {
 	/**
@@ -90,6 +87,8 @@ public interface IFileService {
 	 * @throws Exception
 	 */
 	LinkDto filePreviewLink(String fullPath) throws Exception;
+
+	LinkDto filePreviewLink(String fullPath, String orgFullPath) throws Exception;
 
 	/**
 	 * @description 从远程服务器获取文件下载链接

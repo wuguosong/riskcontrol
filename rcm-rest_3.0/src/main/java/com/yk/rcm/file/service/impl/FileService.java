@@ -128,6 +128,11 @@ public class FileService implements IFileService {
     }
 
     @Override
+    public LinkDto filePreviewLink(String fullPath, String orgPath) throws Exception {
+        return yunkuFileSrv.getDownloadWindow(fullPath, orgPath);
+    }
+
+    @Override
     public LinkDto fileDownloadLink(String fullPath, String docType, String docCode, String optName) throws Exception {
         LinkDto linkDto = yunkuFileSrv.getDownloadWindow(fullPath);
         if (linkDto != null) {

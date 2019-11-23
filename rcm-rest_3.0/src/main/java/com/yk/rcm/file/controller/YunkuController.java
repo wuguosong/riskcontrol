@@ -5,6 +5,7 @@ import com.goukuai.constant.YunkuConf;
 import com.goukuai.dto.FileDto;
 import com.goukuai.dto.LinkDto;
 import com.goukuai.kit.PathKit;
+import com.goukuai.srv.YunkuFileSrv;
 import com.yk.log.utils.IPUtils;
 import com.yk.rcm.file.constant.FileOpt;
 import com.yk.rcm.file.service.IFileService;
@@ -66,8 +67,8 @@ public class YunkuController {
                     if (multipartFile != null) {
                         String originalFilename = multipartFile.getOriginalFilename();
                         String extName = "";
-                        if(originalFilename.contains(".")){
-                            extName  = originalFilename.substring(originalFilename.lastIndexOf("."));
+                        if (originalFilename.contains(".")) {
+                            extName = originalFilename.substring(originalFilename.lastIndexOf("."));
                         }
                         String rootDisk = PathKit.getWebRootDisk();
                         System.out.println(rootDisk);
@@ -85,9 +86,9 @@ public class YunkuController {
                         List<FileDto> newFiles = fileService.createFileList(docType, docCode, pageLocation);
                         result.setSuccess(true);
                         result.setResult_code(Constants.S);
-                        if(CollectionUtils.isEmpty(newFiles)){
+                        if (CollectionUtils.isEmpty(newFiles)) {
                             result.setResult_data(fileDto);
-                        }else{
+                        } else {
                             result.setResult_data(newFiles.get(0));
                         }
                         result.setResult_name("上传文件成功!");
@@ -177,7 +178,7 @@ public class YunkuController {
         try {
             FileDto fileDto = fileService.getFile(oldFileId);
             if (fileDto != null) {
-            	fileDto.setLogicopt(FileOpt.REPLACE);
+                fileDto.setLogicopt(FileOpt.REPLACE);
                 fileService.updateFile(fileDto);
             }
             Integer optId = new Integer(UserUtil.getCurrentUserId());
@@ -197,8 +198,8 @@ public class YunkuController {
                         if (multipartFile != null) {
                             String originalFilename = multipartFile.getOriginalFilename();
                             String extName = "";
-                            if(originalFilename.contains(".")){
-                                extName  = originalFilename.substring(originalFilename.lastIndexOf("."));
+                            if (originalFilename.contains(".")) {
+                                extName = originalFilename.substring(originalFilename.lastIndexOf("."));
                             }
                             String rootDisk = PathKit.getWebRootDisk();
                             System.out.println(rootDisk);
@@ -216,9 +217,9 @@ public class YunkuController {
                             List<FileDto> newFiles = fileService.createFileList(docType, docCode, pageLocation);
                             result.setSuccess(true);
                             result.setResult_code(Constants.S);
-                            if(CollectionUtils.isEmpty(newFiles)){
+                            if (CollectionUtils.isEmpty(newFiles)) {
                                 result.setResult_data(newFile);
-                            }else{
+                            } else {
                                 result.setResult_data(newFiles.get(0));
                             }
                             result.setResult_name("替换文件成功!");
@@ -238,47 +239,48 @@ public class YunkuController {
             result.setResult_data(e);
             result.setResult_name("替换文件失败!" + e.getMessage());
         }
-        
+
         // 保存系统日志
         fileService.saveSysLog(docCode, reason, result.getResult_code(), IPUtils.getIpAddr(request), oldFileId);
-        
+
         return result;
     }
 
     /**
      * 上传替换提醒功能
+     *
      * @param message
      * @param shareUsers
      * @param type
      * @return
      */
-	@RequestMapping(value = "remind", method = RequestMethod.POST)
-	@ResponseBody
-	public Result share(String message, String shareUsers, String type) {
-		Result result = new Result();
-		try {
-			MessageBack messageBack = fileService.remindPerson(message, shareUsers, type);
-			if(messageBack != null){
-				result.setSuccess(true);
-				result.setResult_data(messageBack);
-				result.setResult_code(Constants.S);
-				result.setResult_name(messageBack.getMessage());
-			}else{
-				result.setSuccess(false);
-				result.setResult_code(Constants.R);
-				result.setResult_name(messageBack.getMessage());
-			}
-			result.setResult_data(messageBack);
-		} catch (Exception e) {
-			result.setResult_code(Constants.R);
-			result.setSuccess(false);
-			result.setResult_data(e);
-			result.setResult_name("信息推送失败!" + e.getMessage());
-			logger.error("信息推送失败!" + e.getMessage());
-			e.printStackTrace();
-		}
-		return result;
-	}
+    @RequestMapping(value = "remind", method = RequestMethod.POST)
+    @ResponseBody
+    public Result share(String message, String shareUsers, String type) {
+        Result result = new Result();
+        try {
+            MessageBack messageBack = fileService.remindPerson(message, shareUsers, type);
+            if (messageBack != null) {
+                result.setSuccess(true);
+                result.setResult_data(messageBack);
+                result.setResult_code(Constants.S);
+                result.setResult_name(messageBack.getMessage());
+            } else {
+                result.setSuccess(false);
+                result.setResult_code(Constants.R);
+                result.setResult_name(messageBack.getMessage());
+            }
+            result.setResult_data(messageBack);
+        } catch (Exception e) {
+            result.setResult_code(Constants.R);
+            result.setSuccess(false);
+            result.setResult_data(e);
+            result.setResult_name("信息推送失败!" + e.getMessage());
+            logger.error("信息推送失败!" + e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     @RequestMapping("/test")
     @ResponseBody
@@ -295,6 +297,7 @@ public class YunkuController {
 
     /**
      * 获取连接:下载和预览
+     *
      * @param type
      * @param path
      * @return
@@ -302,22 +305,22 @@ public class YunkuController {
     @RequestMapping("/getUrl")
     @ResponseBody
     public String getUrl(String type, String path) {
-	    String url = null;
-	    try{
-            String fullPath = path.replaceFirst(YunkuConf.UPLOAD_ROOT, "");
-            if("preview".equals(type)){// 预览
-                LinkDto preview = fileService.filePreviewLink(fullPath);
-                if(preview != null){
+        String url = null;
+        try {
+            String fullPath = path.replaceFirst(YunkuFileSrv.getActRootPath(path), "");
+            if ("preview".equals(type)) {// 预览
+                LinkDto preview = fileService.filePreviewLink(fullPath, path);
+                if (preview != null) {
                     url = preview.getLink();
                 }
             }
-            if("download".equals(type)){// 下载
-                LinkDto download = fileService.filePreviewLink(fullPath);
-                if(download != null){
+            if ("download".equals(type)) {// 下载
+                LinkDto download = fileService.filePreviewLink(fullPath, path);
+                if (download != null) {
                     url = download.getLink();
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return url;

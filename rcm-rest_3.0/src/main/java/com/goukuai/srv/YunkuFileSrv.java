@@ -80,16 +80,16 @@ public class YunkuFileSrv {
                 // 设置原始文件名
                 String rcmFileName = null;
                 int index = fullPath.lastIndexOf("\\");
-                if(index > 0){
+                if (index > 0) {
                     rcmFileName = fullPath.substring(index + 1, fullPath.length());
-                }else{
+                } else {
                     index = fullPath.lastIndexOf("/");
-                    if(index > 0){
+                    if (index > 0) {
                         rcmFileName = fullPath.substring(index + 1, fullPath.length());
                     }
                 }
                 fileDto.setRcmfilename(rcmFileName);
-                if(StringUtils.isNotBlank(file.filename)){
+                if (StringUtils.isNotBlank(file.filename)) {
                     fileDto.setFilename(file.filename.replace("\\", "").replace("/", ""));
                 }
                 fileDto.setFullpath(file.fullpath);
@@ -106,13 +106,13 @@ public class YunkuFileSrv {
             if (result != null) {
                 this.parseError(result);
             }
-        }finally {
-            try{
+        } finally {
+            try {
                 File local = new File(localFile);
-                if(local.exists()){
+                if (local.exists()) {
                     // local.delete();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 LoggerFactory.getLogger(YunkuFileSrv.class).error(e.getMessage());
             }
         }
@@ -285,6 +285,23 @@ public class YunkuFileSrv {
         return linkDto;
     }
 
+    private LinkDto getLink(String fullPath, String orgPath, AuthType authType) throws Exception {
+        LinkDto linkDto = null;
+        DebugConfig.DEBUG = true;
+        ReturnResult result = EntFileManagerHelper.getInstance().link(getActRootPath(orgPath) + fullPath, 0, authType, null);
+        if (result.isOK()) {
+            // 成功的结果
+            String body = result.getBody();
+            if (StringUtils.isNotBlank(body)) {
+                linkDto = JSON.parseObject(body, LinkDto.class);
+            }
+        } else {
+            log.error("Get link[" + fullPath + "] failed!");
+            this.parseError(result);
+        }
+        return linkDto;
+    }
+
     /**
      * @param fullPath 文件在云库上的全路径
      * @return LinkDto
@@ -303,6 +320,10 @@ public class YunkuFileSrv {
      */
     public LinkDto getDownloadWindow(String fullPath) throws Exception {
         return this.getLink(fullPath, AuthType.DOWNLOAD);
+    }
+
+    public LinkDto getDownloadWindow(String fullPath, String orgPath) throws Exception {
+        return this.getLink(fullPath, orgPath, AuthType.DOWNLOAD);
     }
 
     /**
@@ -462,5 +483,15 @@ public class YunkuFileSrv {
             log.error(data.getErrorCode() + ":" + data.getErrorMsg());
             throw new RuntimeException(data.getErrorCode() + ":" + data.getErrorMsg());
         }
+    }
+
+    // 获取更路径，兼容之前根路径
+    public static String getActRootPath(String orgPath) {
+        String ret = YunkuConf.UPLOAD_ROOT;
+        int idx = orgPath.indexOf(YunkuConf.UPLOAD_ROOT);
+        if (idx != 0) {
+            ret = "rcm";
+        }
+        return ret;
     }
 }
