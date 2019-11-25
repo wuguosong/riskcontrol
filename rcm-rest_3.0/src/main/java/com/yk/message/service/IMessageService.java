@@ -238,4 +238,6 @@ public interface IMessageService {
      * @return
      */
     List<JSONObject> listViaUsers();
+
+    List<Map<String, Object>> findDictItemByDictCode(String dictCode);
 }

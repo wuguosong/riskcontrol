@@ -111,11 +111,11 @@ public class MessageController {
             message = messageService.save(message);
             String users = messageService.getNotifyUsers(message);// 同一个主题下的所有用户，同时作为已经发送过的集合校验容器
             // 推送钉钉消息：向同一个主题的其他人发送钉钉
-            this.executeMessage(message, users);
+            //this.executeMessage(message, users);
             // 推送待阅消息：向同一个主题的其他人发送待阅
-            this.executePortal(message, users);
+            //this.executePortal(message, users);
             // 向特定的业务人员推送钉钉和待阅，如果特定人员已经包含在前面的推送中，则不再推送。
-            this.executeBusinessMessageAndPortal(message, users);// 向特定的业务人员发送待阅（同时包含钉钉消息）
+            //this.executeBusinessMessageAndPortal(message, users);// 向特定的业务人员发送待阅（同时包含钉钉消息）
             result.setSuccess(true);
             result.setResult_code(Constants.S);
             result.setResult_data(message);
@@ -448,6 +448,23 @@ public class MessageController {
             LoggerFactory.getLogger(MessageController.class).error(e.getMessage());
         }
         return map;
+    }
+
+
+    /**
+     * @param dictCode
+     * @return
+     */
+    @RequestMapping("/findDictItemByDictCode")
+    @ResponseBody
+    public List<Map<String, Object>> findDictItemByDictCode(String dictCode) {
+        List<Map<String, Object>> list = null;
+        try {
+            list = messageService.findDictItemByDictCode(dictCode);
+        } catch (Exception e) {
+            LoggerFactory.getLogger(MessageController.class).error(e.getMessage());
+        }
+        return list;
     }
 
     /**

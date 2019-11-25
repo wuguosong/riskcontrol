@@ -475,4 +475,11 @@
         and sd.uuid = st.fk_dictionary_uuid
         and st.is_enabled = '1'
     </select>
+    <select id="findDictItemByDictCode" resultType="java.util.HashMap">
+        select
+        d.dictionary_code, d.dictionary_code, i.item_code, i.item_name
+        from sys_dictionary d
+        join sys_dictionary_item i on d.uuid = i.fk_dictionary_uuid
+        where d.dictionary_code = #{dictCode}
+    </select>
 </mapper>

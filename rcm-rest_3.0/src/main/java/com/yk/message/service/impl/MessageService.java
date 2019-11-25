@@ -752,4 +752,9 @@ public class MessageService implements IMessageService {
     public List<JSONObject> listViaUsers() {
         return messageMapper.selectViaUsers();
     }
+
+    @Override
+    public List<Map<String, Object>> findDictItemByDictCode(String dictCode) {
+        return messageMapper.findDictItemByDictCode(dictCode);
+    }
 }

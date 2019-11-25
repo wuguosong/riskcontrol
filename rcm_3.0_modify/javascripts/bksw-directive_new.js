@@ -1836,6 +1836,9 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv', function (DirPipeSrv) {
             if (!$scope._is_show_attach_type_) {
                 $scope._is_validate_attach_type_ = false;
             }
+            // 定义消息类型
+            $scope.bbsMessageTypeList = [];
+            $scope.bbsMessageTypeMap = {};
             // 定义附件类型
             $scope._attach_types_ = [];
             // 定义查询参数
@@ -1943,6 +1946,28 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv', function (DirPipeSrv) {
             $scope._message_first.procInstId = $scope.businessId;
             $scope._message_first.repliedBy = '';
             $scope._message_first.repliedName = '';
+            $scope._message_first.attriText01 = '';
+            // 查询消息类型
+            $scope.findDictItemByDictCode = function () {
+                $http({
+                    method: 'post',
+                    url: srvUrl + 'message/findDictItemByDictCode.do',
+                    data: $.param({
+                        'dictCode': 'BBS_MESSAGE_TYPE'
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (data) {
+                    $scope.bbsMessageTypeList = data;
+                    if(!isEmpty(data)){
+                        for(var i = 0; i < data.length; i++){
+                            var type = data[i];
+                            $scope.bbsMessageTypeMap[type.ITEM_CODE] = type.ITEM_NAME;
+                        }
+                    }
+                    console.log($scope.bbsMessageTypeMap);
+                });
+            };
+            $scope.findDictItemByDictCode();
             // 查询附件类型
             $scope._query_attach_types_ = function () {
                 $http({
@@ -2004,6 +2029,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv', function (DirPipeSrv) {
                 $scope._message_first.messageTitle = '';
                 $scope._message_first.messagePriority = 0;
                 $scope._message_first.messageFile = '';
+                $scope._message_first.attriText01 = '';
                 $scope._clear_via_users_();
                 $scope._clear_share_users_();
             };

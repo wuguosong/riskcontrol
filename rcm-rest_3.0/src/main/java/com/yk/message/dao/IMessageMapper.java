@@ -99,4 +99,6 @@ public interface IMessageMapper extends BaseMapper {
      * @return
      */
     List<JSONObject> selectViaUsers();
+
+    List<Map<String, Object>> findDictItemByDictCode(@Param("dictCode")String dictCode);
 }

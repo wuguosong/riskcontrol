@@ -16,6 +16,10 @@
                 <div style="font-weight: bolder;">主题：</div>
                 <div contenteditable="true" class="form-control" style="background: #fff;min-height: 30px;" id="_message_first_title_0{{_screen_type_}}"></div>
             </div>
+            <div>
+                <div style="font-weight: bolder;">类型：</div>
+                <select class="form-control" ng-model="_message_first.attriText01" ng-options="bbsMessageType.ITEM_CODE as bbsMessageType.ITEM_NAME for bbsMessageType in bbsMessageTypeList"></select>
+            </div>
             <!--下拉框-->
             <div ng-if="_is_show_priority_ && _priority_type_ == 'select'">
                 <div style="font-weight: bolder;">优先级：</div>
@@ -85,6 +89,7 @@
                 <span class="text" ng-if="!_is_pagination_">{{$index + 1}}楼
                     <i class="i-triangle"></i>
                 </span>-->
+                <span style="font-weight: bolder;" ng-if="_messages_[0].attriText01 != null && _messages_[0].attriText01 != ''">【{{bbsMessageTypeMap[_messages_[0].attriText01]}}】</span>
                 <span class="text" style="">{{_messages_[0].messageTitle}}
                     <i class="i-triangle" style=""></i>
                 </span>
