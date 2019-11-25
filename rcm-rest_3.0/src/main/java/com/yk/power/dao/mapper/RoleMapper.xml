@@ -467,6 +467,7 @@
              WHERE PR.BUSINESS_ID = BI.BUSINESSID
                AND PR.PROJECT_TYPE = 'bulletin'
                AND PR.ROLE_ID = #{roleId}) T
+		where 1 = 1
     
     <if test="name != null and '' != name">
         and T.PROJECTNAME like '%${name}%'
