@@ -39,6 +39,9 @@ ctmApp.register.controller('projectBoardList', ['$routeParams','$http','$scope',
     $scope.initData = function (){
         if (!isEmpty($scope.projectName)){
             projectName = $filter('decodeURI')($scope.projectName,"VALUE");
+            if('undefined' == projectName){
+                projectName = '';
+            }
             $scope.params.projectName = projectName;
         }
     };
