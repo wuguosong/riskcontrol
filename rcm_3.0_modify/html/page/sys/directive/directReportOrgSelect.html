@@ -5,11 +5,11 @@
 				<div id="s2id_2_{{id}}" class="select2-container select2-container-multi form-control ng-untouched ng-valid ng-dirty ng-valid-parse">
 					<ul class="select2-choices" style="{{isEditable=='false'?'background: rgb(238, 238, 238);':''}}">
 						<li class="select2-search-choice" ng-if="null != checkedOrg[mappedKeyValue.nameField]">
-							<div>{{checkedOrg[mappedKeyValue.nameField]}}</div>
+							<div style="height: 22px;">{{checkedOrg[mappedKeyValue.nameField]}}</div>
 							<a  ng-if="isEditable=='true'" class="select2-search-choice-close" tabindex="-1" ng-click="removeSelectedOrg()"></a>
 							<div  ng-if="isEditable=='true'" class="full-drop"></div>
 						</li>
-						<li style="height:29px;"></li>
+						<li style="height: 24px;"></li>
 					</ul>
 				</div>
 			</div>
