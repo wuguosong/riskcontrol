@@ -89,8 +89,7 @@
                 <span class="text" ng-if="!_is_pagination_">{{$index + 1}}楼
                     <i class="i-triangle"></i>
                 </span>-->
-                <span style="font-weight: bolder;" ng-if="_messages_[0].attriText01 != null && _messages_[0].attriText01 != ''">【{{bbsMessageTypeMap[_messages_[0].attriText01]}}】</span>
-                <span class="text" style="">{{_messages_[0].messageTitle}}
+                <span class="text" style="">{{bbsMessageTypeMap[_messages_[0].attriText01]}}&nbsp;{{_messages_[0].messageTitle}}
                     <i class="i-triangle" style=""></i>
                 </span>
                 <span id="_span_hide_content_{{$index}}" style="margin-left: 35px;">
