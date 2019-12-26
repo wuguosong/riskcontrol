@@ -134,6 +134,8 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
             // 处理附件需要的数据
             $scope.serviceType = angular.copy($scope.pre.apply.serviceType);
             $scope.projectModel = angular.copy($scope.pre.apply.projectModel);
+            $scope.preType = angular.copy($scope.pre.apply.pre_type);
+            console.log($scope.preType);
 
             // 初始化项目规则需要使用的变量
             $scope.service = angular.copy($scope.pre.apply.serviceType[0]);
@@ -465,7 +467,7 @@ ctmApp.register.controller('preInfo', ['$http','$scope','$location','$routeParam
         $http({
             method:'post',
             url: srvUrl + 'preInfoCreate/checkAttachment.do',
-            data: $.param({"json":JSON.stringify({"businessId":$scope.id,"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType})})
+            data: $.param({"json":JSON.stringify({"businessId":$scope.id,"serviceCode":serviceCode, "projectModelName": projectModelName, "functionType": functionType, "preType": $scope.preType})})
         }).success(function(result){
             if (result.success) {
                 if(!isEmpty(result.result_data)){

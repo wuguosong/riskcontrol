@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -316,6 +317,16 @@ public class commonMethod extends BaseService{
 		public List<Map> getAttachmentType(String json){
 			System.out.println(json);
 			Map<String, Object> paramMap = Util.parseJson2Map(json);
+			if(Util.isNotEmpty(paramMap.get("preType")) && "1".equals(paramMap.get("preType"))){
+				Iterator<String> iter = paramMap.keySet().iterator();
+			    while(iter.hasNext()){
+			        String key = iter.next();
+			        if("pre_type".equals(key)){
+			            iter.remove();
+			        }
+			    }
+			    paramMap.put("projectModelName", "TTT");
+			}
 			List<Map> list =DbUtil.openSession().selectList("common.getAttachmentList", paramMap);
 			DbUtil.close();
 			return list;

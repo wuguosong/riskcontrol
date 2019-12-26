@@ -79,7 +79,7 @@
         <if test="messageScreenType != null">
             and message_screen_type = #{messageScreenType}
         </if>
-        order by message_priority desc,message_date asc
+        order by message_priority desc,to_number(attri_text01) asc,message_date asc 
     </select>
     <!-- 查询一个留言下的所有叶子留言 -->
     <select id="selectMessageChildren" resultMap="messageMap" parameterType="long">

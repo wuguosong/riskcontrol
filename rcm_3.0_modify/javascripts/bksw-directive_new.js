@@ -2006,6 +2006,7 @@ ctmApp.directive('bbsChatNew', ['DirPipeSrv', function (DirPipeSrv) {
                         async: false
                     }
                 }).success(function (data) {
+                    console.log(data);
                     $scope._messages_array_ = data;
                     // $scope._init_collapse($scope._messages_array_);
                     $scope._notifySetting();
@@ -3393,6 +3394,8 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function (DirPipeSrv) 
             toSend: "=",
             // 附件列表
             fileList: "=",
+            // 投标评审类型
+            preType: "=",
             // 设置属性
             isEdite: "@",
             isAddDisable: "@",
@@ -3491,7 +3494,8 @@ ctmApp.directive('directiveAccachmentNew', ['DirPipeSrv', function (DirPipeSrv) 
                 $scope.$parent.httpData(url, {
                     "serviceCode": serviceCode,
                     "projectModelName": projectModelName,
-                    "functionType": functionType
+                    "functionType": functionType,
+                    "preType": $scope.preType
                 }).success(function (data) {
                     if (data.result_code === 'S') {
                         $scope.attachmentType = data.result_data;

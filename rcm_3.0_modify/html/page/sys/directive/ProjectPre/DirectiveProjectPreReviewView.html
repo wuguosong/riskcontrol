@@ -122,6 +122,11 @@
             </div>
         </div>
         <div class="row">
+            <label class="col-sm-2 control-label">风控介入类型</label>
+            <div class="col-sm-4 has-feedback">
+                <input type="text" readonly  ng-if="pre.apply.pre_type == 1" class="form-control"  placeholder="深入介入投标"/>
+                <input type="text" readonly  ng-if="pre.apply.pre_type != 1" class="form-control"  placeholder="轻度介入投标"/>
+            </div>
             <label class="col-sm-2 control-label">申请填写日期</label>
             <div class="col-sm-4 has-feedback">
                 <input type="text" readonly class="form-control"  id="showCreateDate" name="showCreateDate" ng-model="pre.showCreateDate" />

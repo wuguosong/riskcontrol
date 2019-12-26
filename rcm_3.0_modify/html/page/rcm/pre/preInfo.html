@@ -247,6 +247,17 @@
                                     <i class="fa fa-calendar form-control-feedback"></i>
                                 </div>
                             </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">风控介入类型</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <select name="preType" id="preType" class="form-control"
+                                            ng-model="pre.apply.pre_type">
+                                        <option value="">请选择...</option>
+                                        <option value="1">深入介入投标</option>
+                                        <option value="2">轻度介入投标</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="button-group">
                                 <div class="row">
                                     <div class="option txl">
@@ -281,6 +292,7 @@
                                                       business-id="preOracle.BUSINESSID"
                                                       wf-state="preOracle.WF_STATE" file-list="newAttachment"
                                                       init-update="initUpdate(id)" service-type="serviceType"
+                                                      pre-type="preType"
                                                       project-model="projectModel"></directive-accachment-new>
                         </div>
                     </div>
@@ -307,7 +319,8 @@
                 projectNameTZ: "required",
                 investmentPersonName: "required",
                 directPersonName: "required",
-                projectmodeboxName: "required"
+                projectmodeboxName: "required",
+                preType: "required"
             },
             messages: {
                 //	personLiable:"此项必填",
@@ -317,7 +330,8 @@
                 projectNameTZ: "此项必填",
                 investmentPersonName: "此项必填",
                 directPersonName: "此项必填",
-                projectmodeboxName: "此项必填"
+                projectmodeboxName: "此项必填",
+                preType: "此项必填"
             }
         });
     });
