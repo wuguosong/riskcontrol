@@ -185,7 +185,7 @@
                      <a ng-if="'bulletin'==projectCodeSame.PROJECT_TYPE" target="_blank"
                         href="#/projectBulletinInfoAllBoardView/{{projectCodeSame.BUSINESSID}}/{{'#/projectBoardList/JTI1MjMlMkY='|encodeURI}}"
                         title="{{projectCodeSame.PROJECTNAME}}">
-                         {{project.projectCodeSame|projectNameFilter:25}}</a>
+                         {{projectCodeSame.PROJECTNAME|projectNameFilter:25}}</a>
                  </td>
                  <td>
                      <div ng-if="'pfr'==projectCodeSame.PROJECT_TYPE">正式评审</div>

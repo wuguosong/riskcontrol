@@ -37,7 +37,7 @@ public class TzTest {
 		investmentManager.put("value", "0001N61000000000O93V");
 		apply.put("investmentManager", investmentManager);
 
-		apply.put("projectNo", "CTSW20160321188");
+		apply.put("projectNo", "GF2016120811");
 		apply.put("investmentModel", true);
 
 		List<JSONObject> projectModelList = new ArrayList<JSONObject>();
