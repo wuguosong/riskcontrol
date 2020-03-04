@@ -39,7 +39,7 @@ public class HpgClient implements Runnable, IWebClient {
 		IBaseMongo baseMongo = (IBaseMongo) SpringUtil.getBean("baseMongo");
 		Map<String, Object> queryById = baseMongo.queryById(businessId, Constants.RCM_FORMALASSESSMENT_INFO);
 		Map<String, Object> apply = (Map<String, Object>) queryById.get("apply");
-		this.projectNo = (String) apply.get("projectNoNew");
+		this.projectNo = (String) apply.get("projectNo");
 		this.reviewLeaderId = reviewLeaderId;
 	}
 	public boolean resend(String json){
