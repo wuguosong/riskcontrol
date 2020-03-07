@@ -90,9 +90,9 @@
                     <!--节点下的文字-->
                     <div class="nodeName" style="top:30px;left:-94px" ><p>评审负责人审批</p></div>
                     <div class="nodeInfo" style="top: 55px;left: -95px">
-                        <p class="operator">{{_approvalNode_._formalApproval._reviewChargeApproval._approvalUser}}</p>
+                        <p class="operator">A&nbsp&nbsp{{_approvalNode_._formalApproval._reviewChargeApproval._approvalUser}}</p>
+                        <p class="operator" ng-if="_approvalNode_._formalApproval._reviewChargeApproval.roleBName">B&nbsp&nbsp{{_approvalNode_._formalApproval._reviewChargeApproval.roleBName}}</p>
                         <p class="opetimeYMD">{{_approvalNode_._formalApproval._reviewChargeApproval._approvalDate}}</p>
-
                     </div>
                 </div>
                 <div class="{{_approvalNode_._formalApproval._reviewChargeConfirm._approvalState}}" nodeNum = "6"  style="top: 200px;left: 979px">
@@ -209,7 +209,8 @@
                     <!--节点下的文字-->
                     <div class="nodeName" style="top:30px;left:-94px" ><p>评审负责人审批</p></div>
                     <div class="nodeInfo" style="top: 55px;left: -95px">
-                        <p class="operator">{{_approvalNode_._reviewApproval._reviewChargeApproval._approvalUser}}</p>
+                        <p class="operator">A&nbsp&nbsp{{_approvalNode_._reviewApproval._reviewChargeApproval._approvalUser}}</p>
+                        <p class="operator" ng-if="_approvalNode_._reviewApproval._reviewChargeApproval.roleBName">B&nbsp&nbsp{{_approvalNode_._reviewApproval._reviewChargeApproval.roleBName}}</p>
                         <p class="opetimeYMD">{{_approvalNode_._reviewApproval._reviewChargeApproval._approvalDate}}</p>
 
                     </div>

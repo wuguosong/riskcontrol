@@ -263,4 +263,7 @@
             and lg.taskid = #{taskId}
         </if>
     </delete>
+    <select id="getRoleBStaff" parameterType="hashmap" resultType="hashmap">
+        SELECT NOTIFY_USER_NAME FROM SYS_NOTIFY SN WHERE SN.BUSINESS_ID = '${processId}' AND SN.NOTIFY_CREATED = '0001N61000000002YV9A'
+    </select>
 </mapper>

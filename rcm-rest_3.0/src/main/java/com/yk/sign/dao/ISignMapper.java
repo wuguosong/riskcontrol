@@ -63,4 +63,6 @@ public interface ISignMapper extends BaseMapper {
      * @param updateParams
      */
     void deleteLogsNotInRunTask(Map<String, Object> updateParams);
+
+	Map<String, Object> getRoleBStaff(Map<String, Object> params);
 }
