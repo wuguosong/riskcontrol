@@ -68,9 +68,9 @@
                                     <li ng-repeat="fs in f.subFunc" ng-if="fs.URL!='##'" id="func{{fs.FUNC_ID}}"
                                         ng-click="GoPage($event)" ng-class="{true: 'cur', false: ''}[f.isDFuncTF]">
                                         <a ng-if="fs.FUNC_ID != '10314'" tabindex="-1" href="#/{{fs.URL}}"
-                                            style="padding: 15px 15px">{{fs.FUNC_NAME}}</a>
+                                            style="">{{fs.FUNC_NAME}}</a>
                                         <a ng-if="fs.FUNC_ID == '10314'" tabindex="-1" href="{{fs.URL}}" target="_blank"
-                                            style="padding: 15px 15px">{{fs.FUNC_NAME}}</a>
+                                            style="">{{fs.FUNC_NAME}}</a>
                                     </li>
                                     <li class="dropdown-submenu pull-left" ng-repeat="fs in f.subFunc"
                                         ng-if="fs.URL=='##'" id="func1{{fs.FUNC_ID}}"

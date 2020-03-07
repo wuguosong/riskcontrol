@@ -483,11 +483,11 @@ form .left-content {
 .dropdown-submenu>a:after {
   position: absolute;
   right: 23px;
-  top: 18px;
+  top: 10px;
 }
 
 .dropdown-menu>li:hover>a {
-  background: #2b679d;
+  background: #38ACFE;
   color: #fff;
 }
 
@@ -515,6 +515,7 @@ form .left-content {
   margin-left: -2px;
   border-radius: 10px;
   left: calc(-100% - 2px);
+  width: 205px;
 }
 
 /** 覆盖日期控件颜色 **/

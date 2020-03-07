@@ -925,14 +925,20 @@ a.btn-sm.btn-grey:active {
     font-size: 18px;
 }
 
-.navbar .collapse.navbar-collapse .navbar-right>.nav-menu>ul a {
-    padding: 10px 15px;
+.navbar .collapse.navbar-collapse .navbar-right>.nav-menu>ul a:hover,
+.navbar .collapse.navbar-collapse .navbar-right>.nav-menu>ul a:visited
+ {
+    /* padding: 10px 15px; */
+    background-color: #38ACFE;
 }
 
 .navbar .collapse.navbar-collapse .navbar-right  a  {
     line-height: 54px;
 }
-
+.navbar .collapse.navbar-collapse .navbar-right .dropdown-menu  a  {
+    font-size: 14px;
+    line-height: 40px;
+}
 .navbar .collapse.navbar-collapse .navbar-right .uname a {
     margin-left: 26px;
     padding-right: 0;
@@ -962,7 +968,7 @@ a.btn-sm.btn-grey:active {
     font-size: 12px;
     font-weight: 400;
     color: rgba(51, 51, 51, 1);
-    line-height: 54px;
+    line-height: 60px;
 }
 
 .navbar .collapse.navbar-collapse .navbar-right .quit-btn a i {
