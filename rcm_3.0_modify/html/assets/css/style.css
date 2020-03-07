@@ -1,24 +1,23 @@
 @charset "UTF-8";
 /* 页面整体样式 */
-html,
-body {
+
+html, body {
   width: 100%;
   height: 100%;
 }
 
 #content-wrapper {
-  padding: 20px 20px;
-  background-color: #e5e5e5;
+  padding: 10px 26px;
+  background-color: #eee;
 }
 
-#content-wrapper .panel,
-#content-wrapper .panel-default {
+#content-wrapper .panel, #content-wrapper .panel-default {
   box-shadow: none;
   margin-bottom: 0;
 }
 
 #content-wrapper .panel-body.panel-index1 {
-  width: 84%;
+  width: 81.14%;
 }
 
 #content-wrapper .panel-body.panel-index1.panel-index2 {
@@ -43,21 +42,24 @@ body {
 }
 
 /* 下拉框颜色 */
+
 .select2-results .select2-highlighted {
   color: #666;
 }
 
 /* 单选框颜色 */
-.gt-ie8 input[type=radio].px + .lbl:after {
+
+.gt-ie8 input[type=radio].px+.lbl:after {
   background-color: #333;
 }
 
 /* 页签部分 */
+
 a.tab {
   margin: 5px 5px 5px 0 !important;
 }
 
-.nav-tabs > li > a > .badge {
+.nav-tabs>li>a>.badge {
   position: static;
   margin: -1px 0 0 4px;
 }
@@ -67,88 +69,103 @@ a.tab {
 }
 
 /* 表格部分 */
-.panel,
-.panel-default {
+
+.panel, .panel-default {
   border: none;
 }
 
 .tab-content {
   padding: 0;
+  position: relative;
 }
 
-.table-list > table {
+.table-list>table {
   border: 1px solid #ebebeb;
 }
 
 /* thead */
-.table > thead {
+
+.table>thead {
   background-color: #ebebeb;
 }
 
-.table > thead > tr > th {
+.table>thead>tr>th {
   border: none;
   border-top: 1px solid #ebebeb;
   font-weight: normal;
-  height: 44px;
-  line-height: 44px;
+  height: 40px;
+  line-height: 40px;
   color: #000;
   font-size: 14px;
 }
 
-.table > thead > tr > th,
-.table > tbody > tr > td {
+.table>thead>tr>th, .table>tbody>tr>td {
   padding: 0 0 0 6px;
-  height: 44px;
-  line-height: 44px;
+  height: 40px;
+  line-height: 40px;
   font-size: 14px;
+  font-weight: 400;
 }
 
-.table > tbody > tr:hover {
+.table>tbody>tr:hover {
   color: #2b679d;
   background-color: #eff2f7;
 }
 
-.table > tbody > tr:hover td {
+.table>tbody>tr:hover td {
   color: #2b679d;
 }
 
-.table > tbody > tr > td {
+.table>tbody>tr>td {
   color: #333;
 }
 
-.table > tbody > tr > td > a {
+.table>tbody>tr>td>a {
   color: #2b679d;
 }
 
-.table > tbody > tr > td > a:hover {
+.table>tbody>tr>td>a:hover {
   color: #1c4c77;
 }
 
 .tab-pane .more {
+  color: #007CD3;
+  font-size: 14px;
+  font-weight: 400;
   border-top: none;
+  position: absolute;
+  top: -40px;
+  right: 0px
 }
 
 /* 首页快捷菜单 */
+
 .short-menu {
   position: fixed;
-  top: 82px;
+  top: 64px;
   right: 20px;
   background-color: #fff;
-  width: 15%;
+  width: 17.21%;
   box-sizing: border-box;
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 
 .short-menu h1 {
-  font-size: 16px;
-  line-height: 2;
-  width: 140px;
-  margin: 0 auto;
+  width: 57px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(255, 255, 255, 1);
+  line-height: 34px;
+  width: 84px;
+  height: 34px;
+  margin: 0 10px;
+  background: linear-gradient(270deg, rgba(56, 172, 254, 1) 0%, rgba(101, 204, 255, 1) 100%);
 }
 
 .short-menu a.shortcut-index {
-  margin: 20px auto;
+  margin: 16px auto;
 }
 
 .short-menu a.more {
@@ -167,6 +184,7 @@ a.tab {
 }
 
 /* 左右分布页面 */
+
 form .mcontent {
   padding: 20px;
 }
@@ -177,6 +195,7 @@ form .left-content {
 }
 
 /* 标题样式 */
+
 .panel-hd-cont {
   border-top: 2px solid #2b679d;
 }
@@ -185,8 +204,7 @@ form .left-content {
   background-color: #2b679d;
 }
 
-.panel-title .i-triangle,
-.accordion-toggle .i-triangle {
+.panel-title .i-triangle, .accordion-toggle .i-triangle {
   border-color: #2b679d transparent transparent #2b679d;
 }
 
@@ -199,28 +217,23 @@ form .left-content {
 }
 
 /* 分页符 */
-.pagination > .active > a,
-.pagination > .active > a:focus,
-.pagination > .active > a:hover,
-.pagination > .active > span,
-.pagination > .active > span:focus,
-.pagination > .active > span:hover {
-  background-color: #2b679d;
-  border-color: #2b679d;
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+  background-color: #38ACFE;
+  border-color: #38ACFE;
 }
 
 /* 表格样式 */
-.table > thead > tr > th {
+
+.table>thead>tr>th {
   border: 1px solid #e4e4e4;
 }
 
-.table > thead > tr > th,
-.table > tbody > tr > td {
+.table>thead>tr>th, .table>tbody>tr>td {
   /*white-space: nowrap;*/
 }
 
-.table > thead > tr > th > div > input,
-.table > tbody > tr > td > div > input {
+.table>thead>tr>th>div>input, .table>tbody>tr>td>div>input {
   background-color: #fff;
   border: 1px solid #d6d6d6;
   box-sizing: border-box;
@@ -229,6 +242,7 @@ form .left-content {
 }
 
 /* 留言样式 */
+
 ._message {
   width: 100%;
 }
@@ -250,7 +264,7 @@ form .left-content {
   padding-left: 15px;
 }
 
-._message .select2-success ul.select2-choices li > span {
+._message .select2-success ul.select2-choices li>span {
   line-height: 30px;
   font-weight: 600;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
@@ -386,45 +400,35 @@ form .left-content {
   margin: 15px 0px 0px -13px !important;
 }*/
 
-
 /* 必填项颜色设置*/
+
 .help-block {
   color: red;
 }
-.gt-ie8 .radio-inline.local input.px+.lbl:before,
-.gt-ie8 .radio-inline.local input.px+.lbl:after,
-.gt-ie8 .checkbox-inline.local input.px+.lbl:before,
-.gt-ie8 .checkbox-inline.local input.px+.lbl:after{
+
+.gt-ie8 .radio-inline.local input.px+.lbl:before, .gt-ie8 .radio-inline.local input.px+.lbl:after, .gt-ie8 .checkbox-inline.local input.px+.lbl:before, .gt-ie8 .checkbox-inline.local input.px+.lbl:after {
   margin: 10px 3px -4px -20px!important
 }
 
-.gt-ie8 .radio-inline.xlocal input.px+.lbl:before,
-.gt-ie8 .radio-inline.xlocal input.px+.lbl:after,
-.gt-ie8 .checkbox-inline.xlocal input.px+.lbl:before,
-.gt-ie8 .checkbox-inline.xlocal input.px+.lbl:after{
+.gt-ie8 .radio-inline.xlocal input.px+.lbl:before, .gt-ie8 .radio-inline.xlocal input.px+.lbl:after, .gt-ie8 .checkbox-inline.xlocal input.px+.lbl:before, .gt-ie8 .checkbox-inline.xlocal input.px+.lbl:after {
   margin: 14px 3px -4px -20px!important;
 }
 
-.gt-ie8 .radio-inline.choose input.px+.lbl:before,
-.gt-ie8 .radio-inline.choose input.px+.lbl:after{
+.gt-ie8 .radio-inline.choose input.px+.lbl:before, .gt-ie8 .radio-inline.choose input.px+.lbl:after {
   margin: 13px 0px 0px -31px!important
 }
 
-.gt-ie8 .checkbox-inline.choose input.px+.lbl:before,
-.gt-ie8 .checkbox-inline.choose input.px+.lbl:after{
+.gt-ie8 .checkbox-inline.choose input.px+.lbl:before, .gt-ie8 .checkbox-inline.choose input.px+.lbl:after {
   margin: 15px 3px -4px -20px!important;
 }
 
-.gt-ie8 .checkbox-inline.zchoose input.px+.lbl:before,
-.gt-ie8 .checkbox-inline.zchoose input.px+.lbl:after{
+.gt-ie8 .checkbox-inline.zchoose input.px+.lbl:before, .gt-ie8 .checkbox-inline.zchoose input.px+.lbl:after {
   margin: 15px 3px -4px 2px!important
 }
 
-.gt-ie8 .checkbox-inline.xchoose input.px+.lbl:before,
-.gt-ie8 .checkbox-inline.xchoose input.px+.lbl:after{
+.gt-ie8 .checkbox-inline.xchoose input.px+.lbl:before, .gt-ie8 .checkbox-inline.xchoose input.px+.lbl:after {
   margin: 15px 3px -3px -10px!important
 }
-
 
 .fa {
   line-height: 32px;
@@ -437,77 +441,85 @@ form .left-content {
 }
 
 /* 修改菜单样式 */
+
 .dropdown-menu {
-  -moz-box-shadow:0px 2px 10px #333333;
-  -webkit-box-shadow:0px 2px 10px #333333;
-  box-shadow:0px 2px 10px #cccccc;
-  border-radius:10px;
-  -moz-border-radius:10px;
+  -moz-box-shadow: 0px 2px 10px #333333;
+  -webkit-box-shadow: 0px 2px 10px #333333;
+  box-shadow: 0px 2px 10px #cccccc;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
 }
 
-.navbar-nav>li>.dropdown-menu{
-    border: 0;
-    position: absolute;
-    left: -68px;
-    top: 74px;
-    padding: 0;
-    border-radius: 5px;
-}
-.navbar-nav .dropdown-menu>li:first-child>a{
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-.navbar-nav .dropdown-menu>li:last-child>a{
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+.navbar-nav>li>.dropdown-menu {
+  border: 0;
+  position: absolute;
+  left: -68px;
+  top: 74px;
+  padding: 0;
+  border-radius: 5px;
 }
 
-.navbar-nav>li>.dropdown-menu:after{
-    content: '';
-    display: block;
-    position: absolute;
-    border: 10px solid transparent;
-    border-bottom: 10px solid #fff;
-    left: 50%;
-    margin-left: -5px;
-    top: -19px;
-}
-.dropdown-submenu > a:after{
-    position: absolute;
-    right: 23px;
-    top: 18px;
+.navbar-nav .dropdown-menu>li:first-child>a {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
-.dropdown-menu>li:hover>a{
-    background: #2b679d;
-    color: #fff;
+.navbar-nav .dropdown-menu>li:last-child>a {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-.dropdown-menu .dropdown-menu{
-    box-shadow: none;
-    padding: 0;
+
+.navbar-nav>li>.dropdown-menu:after {
+  content: '';
+  display: block;
+  position: absolute;
+  border: 10px solid transparent;
+  border-bottom: 10px solid #fff;
+  left: 50%;
+  margin-left: -5px;
+  top: -19px;
 }
-.dropdown-menu>li>a>i{
-    margin-right: 10px;
+
+.dropdown-submenu>a:after {
+  position: absolute;
+  right: 23px;
+  top: 18px;
 }
-.dropdown-menu a{
-    border: 0px!important;
-    border-bottom: 1px solid #ccc!important;
+
+.dropdown-menu>li:hover>a {
+  background: #2b679d;
+  color: #fff;
 }
-.dropdown-menu>li:last-child>a{
-    border-bottom: 0!important;
+
+.dropdown-menu .dropdown-menu {
+  box-shadow: none;
+  padding: 0;
 }
-.dropdown-submenu.pull-left > .dropdown-menu {
-    top: 5px;
-    /*margin-left: 0;*/
-    margin-left: -2px;
-    border-radius: 10px;
-    left: calc(-100% - 2px);
+
+.dropdown-menu>li>a>i {
+  margin-right: 10px;
+}
+
+.dropdown-menu a {
+  border: 0px!important;
+  border-bottom: 1px solid #ccc!important;
+}
+
+.dropdown-menu>li:last-child>a {
+  border-bottom: 0!important;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+  top: 5px;
+  /*margin-left: 0;*/
+  margin-left: -2px;
+  border-radius: 10px;
+  left: calc(-100% - 2px);
 }
 
 /** 覆盖日期控件颜色 **/
-.datepicker table tr td.active, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover,
-.datepicker table tr td.active:hover, .datepicker table tr td.selected, .datepicker table tr td.selected.disabled,
-.datepicker table tr td.selected.disabled:hover, .datepicker table tr td.selected:hover {
+
+.datepicker table tr td.active, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:hover, .datepicker table tr td.selected, .datepicker table tr td.selected.disabled, .datepicker table tr td.selected.disabled:hover, .datepicker table tr td.selected:hover {
   color: #66b1ff !important;
 }
 
@@ -515,13 +527,12 @@ form .left-content {
   color: #333333;
 }
 
-.datepicker thead th.next:after,
-.datepicker thead th.prev:after{
+.datepicker thead th.next:after, .datepicker thead th.prev:after {
   color: #333333;
 }
 
-
 /** 弹出框查询图片 **/
+
 .search-p {
   background-color: transparent;
   border: 0;
@@ -532,17 +543,18 @@ form .left-content {
   top: -34px;
 }
 
-.form-horizontal .search-input .fa-search{
+.form-horizontal .search-input .fa-search {
   right: -95%;
   width: 5%;
   top: -26px;
 }
 
-.form-control{
+.form-control {
   background-color: white;
 }
 
 /** 整行提示样式 **/
+
 .titleText {
   width: 5%;
   position: relative;
@@ -551,17 +563,25 @@ form .left-content {
 }
 
 /** 笼罩层样式 **/
-.mask_{
-  position: absolute; top: 0px; filter: alpha(opacity=60); background-color: #777;
-  z-index: 99999; left: 0px;
-  opacity:0.5; -moz-opacity:0.5;
-  display:none;
+
+.mask_ {
+  position: absolute;
+  top: 0px;
+  filter: alpha(opacity=60);
+  background-color: #777;
+  z-index: 99999;
+  left: 0px;
+  opacity: 0.5;
+  -moz-opacity: 0.5;
+  display: none;
 }
 
 /** 调整新日期控件样式 **/
+
 .wui-date.small .wui-date-picker .wui-date-picker_panel {
   width: 270px;
 }
+
 .wui-input {
   border: 1px solid #cfcfcf;
   height: 30px;
@@ -571,18 +591,23 @@ form .left-content {
   font-size: 15px;
 }
 
-.wui-date-editor .wui-date-input{
+.wui-date-editor .wui-date-input {
   padding-left: 15px;
 }
 
-
 /** 页面整体样式调整 **/
+
 .nav {
-  margin-bottom: 15px;
+  margin-bottom: 0px;
+}
+
+.panel-body {
+  padding: 20px;
 }
 
 .button-group {
   margin-top: 25px;
+  clear: both;
 }
 
 .unit-my, .unit-n {
@@ -593,13 +618,14 @@ form .left-content {
   left: 25px;
 }
 
-
 /** 会议安排中上会时间样式调整 **/
+
 .meeting-time-input {
   margin-top: 7px;
 }
 
 /** 工作量统计样式 **/
+
 .panel-work-link {
   width: 28%;
 }
