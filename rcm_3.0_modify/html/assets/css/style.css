@@ -515,7 +515,8 @@ form .left-content {
   margin-left: -2px;
   border-radius: 10px;
   left: calc(-100% - 2px);
-  width: 205px;
+  /* width: 205px; */
+  right: 210px
 }
 
 /** 覆盖日期控件颜色 **/
